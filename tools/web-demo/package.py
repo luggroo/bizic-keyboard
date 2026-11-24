@@ -47,7 +47,7 @@ name='shange-demo.zip'; tmp=art/(name+'.tmp')
 with ZipFile(tmp,'w',ZIP_DEFLATED,compresslevel=7) as out:
     out.writestr('index.html',main)
     for f in ('android.html','orthography.html','homophones.html','shizi-tiaozao.html','syllables.html'):out.writestr(f,page(f))
-    for f in ('shizi-tiaozao.docx','north-syllables.xlsx','orthography-defaults.tsv','orthography.xlsx','four-candidates.png','large-type.png','keyboard-font-100.png','keyboard-font-160.png','keyboard-sense-go.png','joined-han.png','noon-corrected.png'):out.writestr(f,appendix(f))
+    for f in ('shizi-tiaozao.docx','north-syllables.xlsx','orthography-defaults.tsv','orthography.xlsx','four-candidates.png','large-type.png','keyboard-font-100.png','keyboard-font-160.png','keyboard-sense-go.png','keyboard-reading-ga.png','keyboard-reading-jia.png','joined-han.png','noon-corrected.png'):out.writestr(f,appendix(f))
     for f in sorted((root/'shared/bundle/Assets/licenses').iterdir()):out.write(f,'licenses/'+f.name)
     for f in sorted((root/'tools/web-demo/licenses').glob('*.txt')):out.write(f,'licenses/wasm/'+f.name)
     for f in ('ARPHICPL.TXT','NOTICE.txt'):out.write(root/'shared/bundle/Assets/handwriting'/f,'licenses/handwriting/'+f)

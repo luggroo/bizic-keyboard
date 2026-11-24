@@ -31,3 +31,5 @@ python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3 --re
 键盘字体随浏览器默认字号变化。默认字号为 16 像素时，字母和候选为 19 像素，汉义为 14 像素。窄屏三字词会依照实际候选格宽适配。浏览器回归会检查 320 和 390 像素宽视口、85% 到 200% 的根字号、Chromium 字体偏好与页面缩放。
 
 汉字记音把相同的写入形式合为一张卡。输入 go，可以看到「¹他 ²讨／过」；长按可查“过错（借词本字）”。点击只写入一个「过」，词义不确定时不记入某个词条。如果同一张卡有不同消耗长度，默认使用最长拼写，长按可保留尾串。浏览器回归同时检查同形不同音的「萌」、明确调号、手写多义和三种山歌回放。
+
+拼写比较调用共用引擎的前缀接口。回归会实际试打 an/ang 的成词与连打、对应的文白读字（如 jiazi/gazi 与 xie/hai），并在长按时核对实际读音是否有土家语释义。可另录专项操作，命令为 `python3 tools/web-demo/film-prediction.py build/artifacts/shange-demo.zip reading-input-demo.mp4 --readings`。

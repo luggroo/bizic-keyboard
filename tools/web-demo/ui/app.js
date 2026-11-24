@@ -227,11 +227,6 @@ function unitsFromRanges(text,ranges){
   }
   return [...units,...Array.from(text.slice(from))];
 }
-function matchesInput(input,ye,marked){
-  const normalize=s=>(s||'').toLowerCase().replace(/ /g,'').normalize('NFC');
-  const key=normalize(input);
-  return [normalize(ye),normalize(marked),normalize(marked).normalize('NFD').replace(/\p{M}/gu,'')].some(s=>s.startsWith(key));
-}
 const cardsPerPage=4;
 let candidateItems=[],candidatePage=0;
 const reading=$('candidateReading');
@@ -243,9 +238,12 @@ function openReading(item){
   const meanings=item.readerLines||[item.fullGloss].filter(Boolean);
   $('readMeaning').replaceChildren(...meanings.map(text=>node('p',text)));
   $('readMeaning').hidden=!meanings.length;
-  $('readEdits').replaceChildren(...(item.otherEdits||[]).map(edit=>
-    button('用 '+edit.prefix+'，保留 '+edit.remainder,()=>{reading.close();edit.commit()})));
-
+  $('readEdits').replaceChildren(...(item.otherEdits||[]).map(edit=>{
+    const section=node('div');
+    section.append(button('用 '+edit.prefix+'，保留 '+edit.remainder,()=>{reading.close();edit.commit()}));
+    if(edit.readerLines.length)section.append(node('p',edit.readerLines.join('、')));
+    return section;
+  }));
   reading.showModal();
 }
 $('readBack').onclick=()=>reading.close();
@@ -300,8 +298,9 @@ function showCandidatePage(page){
     }
     const description=item.shortParts?.length===2?item.shortParts.join('、'):item.short?(item.meaning||item.short):item.kind===1?'汉语':'';
     el.setAttribute('aria-label',description?description+'，'+item.form:item.form);
-    el.title=item.fullGloss||description;
-    if(item.fullGloss && item.fullGloss!==description)el.setAttribute('aria-description','汉义　'+item.fullGloss);
+    const explanation=item.readerLines?.join('；')??item.fullGloss;
+    el.title=explanation||'';
+    if(explanation && explanation!==description)el.setAttribute('aria-description','汉义　'+explanation);
     allowReading(el,item);
     if(item.id)el.dataset.wordId=item.id;
     if(item.source)el.dataset.source=item.source;el.dataset.consumed=String(item.consumed);
@@ -332,31 +331,37 @@ function groupHanCards(items,raw){
   }
   return Array.from(groups.values(),members=>{
     if(members.length===1)return members[0];
-    const primary=members[0],real=new Map(),loans=new Set();
-    for(const item of members){
-      if(!item.fullGloss)continue;
-      if(item.loan)loans.add(item.fullGloss);
-      else if(!real.has(item.fullGloss))real.set(item.fullGloss,item.short||item.fullGloss);
+    const boundaries=new Map();
+    for(const member of members){
+      if(!boundaries.has(member.consumed))boundaries.set(member.consumed,[]);
+      boundaries.get(member.consumed).push(member);
     }
-    const meaningParts=[...real.keys()];
-    const labels=[...new Set(real.values())];
-    const shortParts=labels.length===1 && labels[0]===primary.form?[]:labels.slice(0,2);
-    const readerLines=[...meaningParts,...Array.from(loans,meaning=>meaning+'（借词本字）')];
-    const edits=new Map();
-    for(const item of members)if(!edits.has(item.consumed))edits.set(item.consumed,item);
-    const ordered=[...edits.values()].sort((a,b)=>b.consumed-a.consumed);
-    const known=members.filter(item=>item.kind===0);
-    const sounds=new Set(known.map(item=>item.sound));
-    const ambiguous=new Set(known.map(item=>item.id).filter(Boolean)).size>1 || sounds.size>1 ||
-      new Set([...meaningParts,...loans]).size>1;
-    const context={kind:0,ids:'',sound:sounds.size===1?[...sounds][0]:''};
-    const commitEdit=item=>ambiguous?item.commitWith(context):item.commit();
-    return {...primary,id:ambiguous?'':ordered[0].id,meaning:meaningParts.join('；'),fullGloss:readerLines.join('；'),
-      short:shortParts.length===2?'¹'+shortParts[0]+' ²'+shortParts[1]:shortParts[0]||'',
-      shortParts,meaningParts,readerLines,members,consumed:ordered[0].consumed,
-      commit:()=>commitEdit(ordered[0]),otherEdits:ordered.slice(1).map(item=>({
-        consumed:item.consumed,prefix:raw.slice(0,item.consumed),remainder:core.suffix(raw,item.consumed),commit:()=>commitEdit(item)
-      }))};
+    const edits=Array.from(boundaries,([consumed,variants])=>{
+      const dialect=variants.filter(item=>item.kind===0);
+      const candidate=dialect.find(item=>!item.syllable)||dialect[0]||variants[0];
+      const meanings=new Map(),loans=new Set();
+      for(const item of dialect){
+        if(!item.fullGloss)continue;
+        if(item.loan)loans.add(item.fullGloss);
+        else if(item.hasMeaning&&!meanings.has(item.fullGloss))meanings.set(item.fullGloss,item.short||item.fullGloss);
+      }
+      const meaningParts=[...meanings.keys()];
+      const labels=[...new Set(meanings.values())];
+      const shortParts=labels.length===1&&labels[0]===candidate.form?[]:labels.slice(0,2);
+      const readerLines=shortParts.length?[...meaningParts,...Array.from(loans,v=>v+'（借词本字）')]:[];
+      // A Mandarin fallback does not supply evidence about a Tujia reading.
+      const wordIds=new Set(dialect.filter(item=>!item.syllable||item.hasMeaning).map(item=>item.id));
+      const sounds=new Set(dialect.map(item=>item.sound));
+      const context={kind:candidate.kind,ids:wordIds.size===1?[...wordIds][0]:'',sound:sounds.size===1?[...sounds][0]:''};
+      return {...candidate,id:context.ids,meaning:meaningParts.join('；'),fullGloss:readerLines.join('；'),
+        short:shortParts.length===2?'¹'+shortParts[0]+' ²'+shortParts[1]:shortParts[0]||'',
+        shortParts,meaningParts,readerLines,consumed,commit:()=>candidate.commitWith(context)};
+    }).sort((a,b)=>b.consumed-a.consumed);
+    const [primary,...alternates]=edits;
+    return {...primary,members,otherEdits:alternates.map(edit=>({
+      consumed:edit.consumed,prefix:raw.slice(0,edit.consumed),remainder:core.suffix(raw,edit.consumed),
+      readerLines:edit.readerLines,commit:edit.commit
+    }))};
   });
 }
 function candidates(){
@@ -396,8 +401,9 @@ function candidates(){
       if(replacing)output.setSelectionRange(hand.start,hand.at);
       submit(c.form,source==='exact'?core.suffix(value,c.length):'',units,context,before);
     }
-    candidateItems.push({form:c.form,meaning:c.meaning,short,fullGloss,id:c.ids,units,source,consumed,kind:c.kind,
-      sound:c.sound,loan:c.loan,commitWith,commit:()=>commitWith(c)});
+    const readerLines=outputMode===1 && (c.kind!==0 || c.loan || fullGloss===c.form)?[]:undefined;
+    candidateItems.push({form:c.form,meaning:c.meaning,short,fullGloss,readerLines,id:c.ids,units,source,consumed,kind:c.kind,
+      sound:c.sound,loan:c.loan,syllable:c.syllable,hasMeaning:!!gloss,commitWith,commit:()=>commitWith(c)});
 
   }
   const {ids,sound}=editorContext();
@@ -423,8 +429,8 @@ function candidates(){
     const markedWords=prefix?new Map(core.nextWords(ids,0,1).map(c=>[c.ids,c.form])):null;
     const yeWords=prefix?new Map(core.nextWords(ids,0,0).map(c=>[c.ids,c.form])):null;
     const markedSounds=prefix?new Map(core.nextSounds(sound,0,1).map(c=>[c.sound,c.form])):null;
-    for(const c of words)if(!prefix||matchesInput(prefix,yeWords.get(c.ids),markedWords.get(c.ids)))offer(c,'word');
-    for(const c of sounds)if(!prefix||matchesInput(prefix,c.sound,markedSounds.get(c.sound)))offer(c,'sound');
+    for(const c of words)if(!prefix||core.matchesPrefix(prefix,yeWords.get(c.ids),markedWords.get(c.ids)))offer(c,'word');
+    for(const c of sounds)if(!prefix||core.matchesPrefix(prefix,c.sound,markedSounds.get(c.sound)))offer(c,'sound');
   }
   if(mode===1)candidateItems=groupHanCards(candidateItems,value);
   $('moreForms').disabled=!/^\p{Script=Han}+$/u.test(val);

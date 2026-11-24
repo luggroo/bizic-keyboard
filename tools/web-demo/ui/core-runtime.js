@@ -83,6 +83,8 @@ function openTujiaCore(data){
   return {lookup:(...p)=>words('tji_lookup_with_orthography',...p),
     nextWords:(...p)=>words('tji_next_words',...p),
     nextSounds:(...p)=>words('tji_next_syllables_for_mode',...p),
+    matchesPrefix:(input,ye,marked)=>withBuffers([input,ye||'',marked||''],([key,a,b])=>
+      !!api.tji_matches_spelling_prefix(key.addr,a.addr,b.addr)),
     spellingCompletions:(prefix,history,mode,style)=>withBuffers([prefix,history],([s,h])=>
       choices(api.tji_spelling_completions(dict,s.addr,h.addr,mode,style))),
     handPrefix:raw=>withBuffers([raw],([s])=>api.tji_score_handwriting_prefix(dict,s.addr)),

@@ -2,6 +2,7 @@
 """Exercise the downloadable HTML with a real browser, with all network requests blocked."""
 import argparse
 import csv
+import re
 from pathlib import Path
 from zipfile import ZipFile
 from playwright.sync_api import sync_playwright
@@ -48,8 +49,16 @@ with sync_playwright() as pw:
             page.locator('#closeSettings').click()
     def text():return page.locator('#result').evaluate('e=>e.value')
     def choose(text,attr=''):
-        card=page.locator('#candidates button'+attr).filter(has=page.get_by_text(text,exact=True)).first
+        card=page.locator('#candidates button'+attr).filter(has=page.locator('strong').filter(has_text=re.compile('^'+re.escape(text)+'$'))).first
         card.click()
+    def visible_form(form):
+        match=page.locator('#candidates .word').filter(has=page.locator('strong').filter(has_text=re.compile('^'+re.escape(form)+'$')))
+        for _ in range(100):
+            if match.count():return match.first
+            following=page.locator('#nextCandidates')
+            if not following.is_enabled():break
+            following.click()
+        raise AssertionError('Missing candidate '+form)
     def expected_sound(output_mode):
         keyboard(output_mode,True)
         page.locator('#draft').fill('bizika')
@@ -212,8 +221,56 @@ with sync_playwright() as pw:
     before=text()
     box=horse.bounding_box();page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2)
     page.mouse.down();page.locator('#candidateReading').wait_for(state='visible',timeout=2500);page.mouse.up()
-    assert page.locator('#candidateReading').is_visible() and page.locator('#readMeaning').text_content().strip().endswith('马')
+    assert page.locator('#candidateReading').is_visible() and not page.locator('#readMeaning').is_visible()
     page.locator('#readBack').click();assert text()==before and page.locator('#draft').input_value()=='mav'
+    for raw in ['ga','jia','gaf']:
+        page.locator('#draft').fill(raw)
+        frame=visible_form('架')
+        assert frame.locator('small').text_content()==('' if raw=='jia' else '吃'),raw
+        snap(page,'matched-'+raw)
+        frame.focus();page.keyboard.press('F2')
+        if raw=='jia':
+            assert not page.locator('#readMeaning').is_visible()
+            snap(page,'reader-jia')
+        else:assert '吃、咬' in page.locator('#readMeaning').inner_text()
+        page.locator('#readChoose').click()
+        assert text().endswith('架') and page.locator('#draft').input_value()==''
+        if raw=='jia':assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
+        else:assert page.evaluate("editorContext().ids.split(' ').at(-1)==='w684' && editorContext().sound==='gaf'")
+    keyboard(1)
+    for raw,form in [('jiazi','夹子'),('gazi','夹子'),('xie','鞋'),('hai','鞋')]:
+        page.locator('#draft').fill(raw)
+        common=visible_form(form)
+        assert common.locator('small').text_content()==''
+        common.focus();page.keyboard.press('F2')
+        assert not page.locator('#readMeaning').is_visible()
+        page.locator('#readChoose').click();assert text().endswith(form) and not page.locator('#draft').input_value()
+    keyboard(1)
+    for raw in ['sanggo','gogo']:
+        page.locator('#draft').fill(raw)
+        loan=visible_form('山歌' if raw=='sanggo' else '哥哥')
+        assert loan.locator('small').text_content()==''
+        loan.focus();page.keyboard.press('F2')
+        assert not page.locator('#readMeaning').is_visible()
+        page.locator('#readBack').click()
+    for raw in ['bangricai','banricai','bánrīcāi','banfrixcaix']:
+        page.locator('#draft').fill(raw)
+        noon=visible_form('半日猜')
+        assert noon.locator('small').text_content()=='中午' and noon.get_attribute('data-consumed')==str(len(raw))
+        if raw=='banricai':snap(page,'an-ang-noon')
+        noon.click();assert page.locator('#draft').input_value()==''
+    assert page.evaluate("core.matchesPrefix('áng','anf','án') && core.matchesPrefix('sān','sangx','sāng')")
+    assert page.evaluate("""core.matchesPrefix('jiangga','jianfgax',"jián'gā")""")
+    assert not page.evaluate("core.matchesPrefix('tangie','taxniex','tāniē')")
+    page.locator('#draft').fill('banricaiyergaf')
+    meal=visible_form('半日猜叶架');meal.click()
+    assert text().endswith('半日猜叶架') and not page.locator('#draft').input_value()
+    page.locator('#draft').fill('banricaigaf')
+    visible_form('半日猜').click();assert page.locator('#draft').input_value()=='gaf'
+    visible_form('架').click()
+    page.locator('#draft').fill('tangie')
+    assert not page.evaluate("candidateItems.some(c=>(c.members||[c]).some(i=>i.id==='w2213' && i.consumed===6))")
+    keyboard(1)
     page.locator('#draft').fill('sanggo');loan=page.get_by_role('button',name='山歌',exact=True).first
     assert loan.locator('small').inner_text()=='';loan.click()
     assert text()=='山歌'
@@ -233,7 +290,9 @@ with sync_playwright() as pw:
         assert card.count()==1 and card.get_attribute('data-consumed')=='3'
         if keep_suffix:
             card.focus();page.keyboard.press('F2')
-            assert len(page.locator('#readMeaning p').all_text_contents())>=3
+            assert not page.locator('#readMeaning').is_visible()
+            other=page.locator('#readEdits p').all_text_contents()
+            assert any('做' in s and '多' in s for s in other),other
             page.get_by_role('button',name='用 ri，保留 f',exact=True).click()
         else:card.click()
         assert page.locator('#draft').input_value()==('f' if keep_suffix else '')
