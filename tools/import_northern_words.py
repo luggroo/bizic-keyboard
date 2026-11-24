@@ -13,14 +13,6 @@ from han_orthography import Orthography
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
-# Chinese gloss lookup keys for source transcriptions without a complete site spelling.
-GLOSS_KEYS = {
-    "224883": "song", "431565": "kao", "288459": "bing", "386736": "shisi",
-    "355437": "xiazi", "372742": "huoba", "289347": "yingmu", "431232": "yangji",
-    "288513": "sanyue", "228249": "diba", "346488": "dong", "288554": "lang",
-    "373783": "gang", "197496": "zhizi", "288762": "bangtui", "127243": "jiaozhijia",
-    "414569": "hui", "352839": "niao",
-}
 
 
 def han_units(word, orthography):
@@ -68,23 +60,18 @@ def build(site):
             ye, accent = forms["ye"], forms["accent"]
             if len(ye) != len(accent):
                 raise ValueError(f"Unpaired spellings for {ident}")
-            fallback = not ye
-            if fallback:
-                ipa = w["notations"]["ipa"][0]["text"]
-                ye = accent = [ipa]
             base = existing.get(ident)
             for i, (word, marked) in enumerate(zip(ye, accent)):
                 compact = re.sub(r"[\s’'-]", "", word.lower())
                 if base and compact == re.sub(r"[\s’'-]", "", base["word"].lower()):
                     continue
-                units = [] if fallback else han_units(compact, orthography)
+                units = han_units(compact, orthography)
                 gloss = " ".join((w.get("zh") or w.get("en") or "").split())
                 plain = unicodedata.normalize("NFC", "".join(c for c in unicodedata.normalize("NFD", marked.lower())
                                                             if c not in "\u0304\u0301\u030c\u0300"))
-                alias = GLOSS_KEYS[ident.split("-")[-1]] if fallback else ""
                 writer.writerow(dict(id=ident if i == 0 and not base else f"{ident}@{i+1}", word=word.lower(),
                                      plain=plain, diacritic=marked.lower(), meaning=gloss, shortGloss=gloss,
-                                     kind="tujia" if units else "phonetic", frequency=0, romanAliases=alias,
+                                     kind="tujia" if units else "phonetic", frequency=0,
                                      recommended="".join(units), hanUnits="|".join(units)))
 
 
