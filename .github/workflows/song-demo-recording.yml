@@ -30,6 +30,8 @@ jobs:
         run: |
           ./gradlew --no-daemon :app:assembleDebug
           mkdir -p build/song-demo
+          mkdir -p "$HOME/.android"
+          test -f "$HOME/.android/debug.keystore" || keytool -genkeypair -keystore "$HOME/.android/debug.keystore" -storepass android -keypass android -alias androiddebugkey -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -keysize 2048 -validity 10000 -noprompt
           ./tools/story-demo/build-notes.sh build/song-demo/notes.apk
           sha256sum app/build/outputs/apk/debug/app-debug.apk > build/song-demo/keyboard-sha256.txt
           git rev-parse HEAD > build/song-demo/source-commit.txt
