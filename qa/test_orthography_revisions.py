@@ -41,15 +41,27 @@ def main():
             actual = by_id['ortho-' + base + suffix]
             assert actual['recommended'] == actual['hanUnits'] == row['t' + str(i)], (base, suffix)
     count = 0
+    with (ROOT / 'tools/data/northern-han-loans.tsv').open() as f:
+        loans = {(r['id'], r['ye']): r for r in csv.DictReader(f, delimiter='\t')}
+    seen_loans = set()
     with (ROOT / 'shared/bundle/Assets/northern-words.tsv').open() as f:
         for record in csv.DictReader(f, delimiter='\t', fieldnames=fields):
             if record['kind'] != 'tujia':
                 continue
             compact = ''.join(c for c in record['word'] if c not in " -'’")
             expected = han_units(compact, table)
+            loan = loans.get((record['id'], record['word']))
+            if loan:
+                seen_loans.add((record['id'], record['word']))
+                assert loan['meaning'] == record['meaning'], record['id']
+                expected = list(loan['han'])
+                assert record['presentation'] == 'plainHanLoan', record['id']
             assert expected and record['hanUnits'] == '|'.join(expected), record['id']
             assert record['recommended'] == ''.join(expected), record['id']
             count += 1
+    assert seen_loans == set(loans), 'Supplementary loan forms must match existing entries'
+    for ident in ('w810', 'w3682', 'w3695', 'stedt-rn-288910', 'stedt-rn-206778'):
+        assert any(key[0] == ident and row['han'] == '国家' for key, row in loans.items()), ident
     print(f'PASS: 308 defaults, reviewed lexemes and {count} additional northern entries')
 
 
