@@ -651,12 +651,12 @@ public final class KeyboardTest extends Instrumentation {
         stage("An ambiguous written 过 did not teach the host that the user had chosen 他");
     }
 
-    private void assertNumberedCard(Card card, String compactLabel, String form) {
+    void assertNumberedCard(Card card, String compactLabel, String form) {
         if (card.lines.size() != 2 || !compactLabel.equals(card.lines.get(0).replace(" ", ""))
                 || !form.equals(outputLine(card))) throw new AssertionError("Unexpected meanings or form: " + card.lines);
     }
 
-    private Card visibleForm(String output) {
+    Card visibleForm(String output) {
         waitForNode(output, false);
         for (Card item : pageCards(output)) if (output.equals(outputLine(item))) return item;
         throw new AssertionError("Missing visible form " + output + ": " + visibleControls());

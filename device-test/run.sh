@@ -109,13 +109,13 @@ capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-go sense-marked-go typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second}; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-go sense-marked-go typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-go sense-marked-go typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second}; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-go sense-marked-go typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
         if "$adb_bin" shell test -f "$remote"; then
             "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"

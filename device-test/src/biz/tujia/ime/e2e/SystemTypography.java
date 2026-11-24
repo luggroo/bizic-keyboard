@@ -48,6 +48,7 @@ final class SystemTypography {
             measure("default-dense", 1f, narrow);
             measure("160-dense", 1.6f, narrow);
             measure("largest-dense", 2f, narrow);
+            checkNarrowNumberedWord();
             activeInputChanges(baseline, narrow);
             if (!geometryErrors.isEmpty()) throw new AssertionError("Typography requirements: " + geometryErrors);
         } finally {
@@ -129,6 +130,30 @@ final class SystemTypography {
             test.stage("Bottom-row 完成 reached the host with 正文架 at " + name);
         }
         return qInk;
+    }
+
+    private void checkNarrowNumberedWord() {
+        test.newPredictionEditor();
+        test.press("汉字记音");
+        test.type("go");
+        KeyboardTest.Card word = test.visibleForm("过");
+        test.assertNumberedCard(word, "¹他²讨", "过");
+        test.assertEditorAboveKeyboard(host.first, "打字");
+        test.awaitKeyboardAtRest();
+        test.captureFrame("typography-numbered-go.png");
+        Bitmap shot = test.getUiAutomation().takeScreenshot();
+        if (shot == null) throw new AssertionError("No numbered candidate screenshot");
+        try {
+            Rect label = word.lineBounds.get(0);
+            Rect right = new Rect(label);
+            right.left += Math.round(label.width() * .70f);
+            int whole = inkHeight(shot, label), last = inkHeight(shot, right);
+            test.stage("Two numbered meanings for 过: upper=" + label.toShortString() + " ink=" + whole
+                    + "px, 讨 sample=" + right.toShortString() + " rightInk=" + last + "px");
+            if (last < whole * .55f) geometryErrors.add("¹他²讨 ended in an ellipsis: " + last + "/" + whole);
+        } finally { shot.recycle(); }
+        test.tap(word.bounds.centerX(), word.bounds.centerY());
+        test.expectText(host.first, "过");
     }
 
     private void activeInputChanges(int baseline, int narrow) throws Exception {
