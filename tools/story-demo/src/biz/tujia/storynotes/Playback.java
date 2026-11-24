@@ -296,9 +296,34 @@ public final class Playback extends Instrumentation {
                 trace("word-start",keys);
                 drawGlyph(keys);
                 trace("word-end",keys);
-                expectEditor(expected.toString()+keys);
+                // The model may initially commit a different glyph. Let the
+                // recording show the actual result and correct it through the
+                // same candidate row available to a person using the keyboard.
+                long until=SystemClock.uptimeMillis()+15000;
+                while (editorText().equals(expected.toString()) && SystemClock.uptimeMillis()<until)
+                    SystemClock.sleep(60);
                 shot("auto"+i);
-                stage("automatic", keys);
+                if (!editorText().equals(expected.toString()+keys)) {
+                    trace("recognition",editorText());
+                    stage("correcting", keys);
+                    boolean found=false;
+                    for (int group=0;group<3;group++) {
+                        Rect alternative=lookupKeyboard("手写字形 " + keys);
+                        if (alternative!=null) {
+                            SystemClock.sleep(700);
+                            tap(alternative,180);
+                            found=true;
+                            break;
+                        }
+                        Rect more=lookupKeyboard("更多手写字形");
+                        if (more==null) break;
+                        tap(more,180);
+                        SystemClock.sleep(300);
+                    }
+                    if (!found) throw new AssertionError("Handwriting candidates do not contain " + keys);
+                }
+                expectEditor(expected.toString()+keys);
+                stage("handwriting", keys);
                 if (keys.equals(step[1])) {
                     // An optional hint is observed, without pressing any candidate.
                     if (!step[2].isEmpty()) require(step[2]);
