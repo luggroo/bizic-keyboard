@@ -1,6 +1,6 @@
 # 北部土家语输入法 · 安卓键盘与 iOS 共用核心
 
-这是一个可在其他安卓应用里使用的系统键盘。键盘收录 528 个北部土家语词和词组，另有 35,916 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。语音入口已预留。
+这是一个可在其他安卓应用里使用的系统键盘。键盘收录 526 个北部土家语词和词组，另有 35,916 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。语音入口已预留。
 
 ## 安装与试打
 
@@ -23,9 +23,13 @@
 
 [互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [输入演示录像](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4)
 
-「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。先看一条常用汉义，长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
+「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
-无调输入 `go` 时，“他”只占一格，推荐「过」。“过错”是另一个意思，可以单独选。想指定声调，输入 `gǒ` 或 `gor` 就能选到“他”的另一种读法和写法「郭」。手写「郭」也能找到这个词。[安卓上输入 go](qa/results/api35-033-han-go.png) · [安卓上输入 gǒ](qa/results/api35-033-han-marked-go.png)
+无调输入 `go` 时，候选栏只出现一个「过」。上方写「¹他 ²讨」，空间紧时显示「¹他²讨」。点一下就写入「过」。长按可查看这两个义项，以及山歌里用本字「过」表示“过错”的借词用法。输入 `gǒ` 或 `gor` 可以选「郭」表示“他”。[安卓上输入 go](qa/results/api35-033-han-go.png) · [安卓上输入 gǒ](qa/results/api35-033-han-marked-go.png)
+
+「哥哥」和「山歌」这样的本字词在汉字候选中只占一行。词表把 `gōgō` 释为“哥哥”。故事里的汉译保留原句语气。呼语 `ǎkō’ǎ` 多一个音节，可以选出“哥哥啊”。[学堂“哥哥”词条](https://tujia.biz/?id=w809#dictionary) · [龙山故事原文](https://tujia.biz/?id=tlp-longshan-stories-02-01#corpus)
+
+`an`、`ang` 在音节末尾可以互用。输入 `banricai` 和 `bangricai` 都能选“中午”下的「半日猜」。打 `ga` 能看到“吃”下的「架」。打 `jia` 也能选「架」，字上方留白。吉首原表记录了「葡萄架」的白读，重庆字表收有另一读。[文白异读全表](https://github.com/luggroo/bizic-translator/blob/main/data/han-registers.xlsx) · [词库借词来源](qa/han-source-review.md)
 
 也可以直接打调号。长按 A、E、I、O、U 会出现四个带调元音，点一个即可输入。例如输入 `bízīkǎ` 可以查到“土家族”。输出仍按设置里选择的拼写方案。
 
@@ -43,7 +47,7 @@
 
 [看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/latest/download/one-tap.mp4) · [查看点按前](qa/results/web-033-free-suggestions.png) · [查看点按后](qa/results/web-033-direct-sound.png)
 
-后续词按跨篇出现的搭配、词类和使用频率推荐。键盘也会参考你在当前输入框里刚选过的搭配。换输入框就清空这段记录。可用的词先显示，余下位置再给常接的音节。训练时排除了演示用的两篇作品。19 组整篇留出测试中，有 1,945 个词位可以用无调全拼选到目标词。从 7,203 次点按降到 4,548 次，主要靠少打词尾。全部 10,401 个词位中，下一词直接命中正确词义的有 103 个。[评测方法和分组结果](qa/prediction.md) · [1,000 组相邻音节](tools/data/syllable-bigrams-ranked.txt)
+后续词按跨篇出现的搭配、词类和使用频率推荐。键盘也会参考你在当前输入框里刚选过的搭配。换输入框就清空这段记录。可用的词先显示，余下位置再给常接的音节。训练时排除了演示用的两篇作品。19 组整篇留出测试共 10,404 个词位，首屏下一词有 85 次命中目标词义。1,905 个词位能写出目标汉字，其中有 1,427 个可以点选到明确的词义。在这 1,427 个位置，利用下一词和前缀补全，可以把全拼的 5,481 次按键降到 3,252 次。[评测方法和分组结果](qa/prediction.md) · [1,000 组相邻音节](tools/data/syllable-bigrams-ranked.txt)
 
 ## 安卓和 iOS 如何共用
 
@@ -72,19 +76,21 @@ final class KeyboardController: UIInputViewController {
         dictionary = try? TujiaDictionary()
     }
 
-    func updateInput(_ value: String) -> [WordCandidate] {
+    func updateInput(_ value: String) -> [HanCandidateGroup] {
         draft = value
-        return dictionary?.candidates(for: draft, form: .recommendedHan) ?? []
+        return dictionary?.hanCandidates(for: draft) ?? []
     }
 
-    // 卡片显示 candidate.shortMeaning 和 candidate.text，完整汉义见 candidate.meaning。
-    func select(_ candidate: WordCandidate) -> [WordCandidate] {
+    // 显示 group.caption() 和 group.primary.text。窄格可用 group.caption(compact: true)。
+    func select(_ candidate: WordCandidate) -> [HanCandidateGroup] {
         guard let rest = dictionary?.commit(candidate, in: draft, to: textDocumentProxy)
         else { return [] }
         return updateInput(rest)
     }
 }
 ```
+
+点候选时传入 `group.primary`。长按时也可选择 `group.alternativeEdits` 里的较短拼写。例如输入 `rif`，点击「日」会用掉整个拼写，长按后选择 `ri` 会留下 `f`。多义卡只有在能确定词条时才提供词条 ID，多个读音共用同一个字时，音节上下文留空。
 
 `TujiaHandwriting.glyphs(for:)` 接收依书写顺序排列的笔画。把记音字交给 `dictionary.candidates(for:form:)`，使用 `.handwritingToSpelling` 取土家语拼写，或使用 `.recommendedHan` 取推荐汉字。`handwritingSuggestions(for:form:orthography:)` 根据已经写下的字补全词语，`spellingCompletions(_:after:form:orthography:)` 根据已打出的拼写补全词尾。
 
@@ -138,6 +144,7 @@ swift test
 ```sh
 python3 tools/apply_orthography.py /path/to/demo/dist
 python3 tools/story-demo/prepare_story.py /path/to/bizic-dictionary /path/to/bizic-translator /path/to/demo/dist
+python3 tools/prepare_han_readings.py /path/to/bizic-translator /path/to/pypinyin-0.55.0-py2.py3-none-any.whl
 python3 tools/import_words.py /path/to/demo/dist --dictionary-site /path/to/bizic-dictionary/site --web /path/to/demo/dist/ranking.js
 python3 tools/import_ngrams.py /path/to/bizic-dictionary/site
 python3 tools/import_syllable_senses.py /path/to/bizic-dictionary/site

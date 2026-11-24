@@ -202,6 +202,8 @@ def main():
     parser.add_argument("--out", type=Path, default=ROOT/"shared/bundle/Assets")
     parser.add_argument("--story", type=Path, default=ROOT/"tools/data/story-words.tsv")
     parser.add_argument("--mandarin", type=Path, default=ROOT/"tools/data/mandarin.tsv")
+    parser.add_argument("--mandarin-readings", type=Path, default=DATA/"mandarin-reading-aliases.tsv",
+                        help="Additional Chinese reading keys and attested syllable boundaries")
     parser.add_argument("--tujia-frequencies", type=Path, help="Optional tab-separated id/frequency counts replacing estimates for listed Tujia IDs")
     parser.add_argument("--web", type=Path, help="Generate the browser's ranking.js")
     args = parser.parse_args()
@@ -276,6 +278,8 @@ def main():
     for row in rows:
         row["frequency"] = overrides.get(row["id"], counts[row["id"]])
     mandarin = defaultdict(list)
+    with args.mandarin_readings.open(encoding="utf-8") as stream:
+        chinese_readings = {r["han"]: r["romanAliases"] for r in csv.DictReader(stream, delimiter="\t")}
     args.out.mkdir(parents=True, exist_ok=True)
     with (args.out/"words.tsv").open("w",encoding="utf-8",newline="") as out:
         writer = csv.DictWriter(out, FIELDS, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_NONE)
@@ -285,7 +289,8 @@ def main():
         with args.mandarin.open(encoding="utf-8") as stream:
             for line in stream:
                 key, han, zipf100 = line.rstrip("\n").split("\t")
-                writer.writerow(dict(id="zh-"+han, word=key, key=key, recommended=han, kind="zh", frequency=zipf100))
+                writer.writerow(dict(id="zh-"+han, word=key, key=key, recommended=han, kind="zh",
+                                     frequency=zipf100, romanAliases=chinese_readings.get(han, "")))
                 mandarin[key].append([han, int(zipf100)])
     copyfile(args.demo/"dialect-data-LICENSE.txt",args.out/"dialect-data-LICENSE.txt")
     if args.web:
@@ -300,7 +305,13 @@ def main():
         "method":"Count northern aligned word or word-group annotations with matching tone-marked spelling and Chinese sense; omit unresolved homophones. In the geographically identified northern Brassett transcripts, count exact numeric-tone word spans only when there is one dictionary ID for the spelling. Undetermined sense and unresolved token boundaries are omitted. Counts estimate collection usage; zero means no qualifying observation.",
         "sourcesSHA256":{f:hashlib.sha256((site/f).read_bytes()).hexdigest() for f in files},
         "inputSHA256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest()
-                       for p in (args.demo/"words.js", args.story, context_source, DATA/"story-spelling-aliases.tsv", args.mandarin) if p.exists()},
+                       for p in (args.demo/"words.js", args.story, context_source, DATA/"story-spelling-aliases.tsv",
+                                 DATA/"plain-han-loans.tsv", args.mandarin, args.mandarin_readings) if p.exists()},
+        "mandarinReadingSources": {
+            "local": ["https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/吉首.tsv",
+                      "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/重慶.tsv"],
+            "method": "Regional input aliases use translate-tujia's modern Jishou character readings, supplemented per missing reading by Chongqing. Regional phrase alternatives require an attested example. Pypinyin 0.55.0 supplies boundaries for the pre-existing standard Chinese fallback.",
+        },
         "stats":dict(stats), "tujiaRows":len(rows), "referenceRows":len(reference), "observedRows":observed_rows,
         "mandarinRows":sum(map(len, mandarin.values())),
     }

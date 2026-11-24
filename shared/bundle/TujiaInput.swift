@@ -28,7 +28,7 @@ public struct WordCandidate: Equatable {
     public let consumedUTF16: Int
     /// Flattened UTF-16 start/end-exclusive pairs for two-Han syllables in text.
     public let joinedHanRanges: [Int]
-    fileprivate let input: String
+    let input: String
 }
 
 public struct SelectedWord: Equatable {

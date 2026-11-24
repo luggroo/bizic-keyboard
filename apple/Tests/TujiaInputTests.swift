@@ -69,6 +69,35 @@ final class TujiaInputTests: XCTestCase {
         XCTAssertEqual(spelled.text, "sangxgox")
     }
 
+    func testOneHanCardShowsBothSensesAndPreservesEditBoundaries() throws {
+        let dictionary = try TujiaDictionary()
+        let groups = dictionary.hanCandidates(for: "go")
+        XCTAssertEqual(Set(groups.map { $0.primary.text }).count, groups.count)
+        let go = try XCTUnwrap(groups.first { $0.primary.text == "过" })
+        XCTAssertEqual(go.caption(), "¹他 ²讨")
+        XCTAssertEqual(go.caption(compact: true), "¹他²讨")
+        XCTAssertTrue(go.primary.meaning.contains("过错（借词本字）"))
+        XCTAssertEqual(go.primary.lexemeIds, "")
+        XCTAssertEqual(dictionary.selection(go.primary, in: "go")?.text, "过")
+        let ri = try XCTUnwrap(dictionary.hanCandidates(for: "rif").first { $0.primary.text == "日" })
+        XCTAssertEqual(dictionary.selection(ri.primary, in: "rif")?.remainingInput, "")
+        XCTAssertTrue(ri.alternativeEdits.contains { dictionary.selection($0, in: "rif")?.remainingInput == "f" })
+        let next = dictionary.nextSyllables(after: "kar", form: .recommendedHan)
+        let merged = try XCTUnwrap(dictionary.groupHanCandidates(next, in: "").first { $0.primary.text == "萌" })
+        XCTAssertEqual(merged.primary.lastSyllable, "")
+        let elder = try XCTUnwrap(dictionary.hanCandidates(for: "gogo").first { $0.primary.text == "哥哥" })
+        XCTAssertEqual(elder.caption(), "")
+        XCTAssertEqual(elder.primary.meaning, "")
+        let ga = try XCTUnwrap(dictionary.hanCandidates(for: "ga").first { $0.primary.text == "架" })
+        XCTAssertEqual(ga.caption(), "吃")
+        XCTAssertEqual(ga.primary.lexemeIds, "w684")
+        let jia = try XCTUnwrap(dictionary.hanCandidates(for: "jia").first { $0.primary.text == "架" })
+        XCTAssertEqual(jia.caption(), "")
+        XCTAssertEqual(jia.primary.lexemeIds, "")
+        let noon = try XCTUnwrap(dictionary.hanCandidates(for: "banricai").first { $0.primary.text == "半日猜" })
+        XCTAssertEqual(dictionary.selection(noon.primary, in: "banricai")?.remainingInput, "")
+    }
+
     func testContinuousSelectionAndDifferentOutputs() throws {
         let dic = try TujiaDictionary()
         let input = "marmardiexhxif"
