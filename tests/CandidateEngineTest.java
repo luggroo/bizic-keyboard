@@ -3,6 +3,7 @@ import biz.tujia.ime.CandidateEngine.Candidate;
 import biz.tujia.ime.CandidateEngine.Mode;
 import biz.tujia.ime.CandidateEngine.Orthography;
 import java.io.FileInputStream;
+import java.io.SequenceInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +39,17 @@ public final class CandidateEngineTest {
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
         checkHandwrittenSuffixes(asset);
+        try (CandidateEngine all = new CandidateEngine(new SequenceInputStream(new FileInputStream(asset.toFile()),
+                     new FileInputStream(asset.resolveSibling("northern-words.tsv").toFile())))) {
+            for (String input : new String[]{"guaijia", "guairjiax", "guaifjiax", "guijia"}) {
+                List<Candidate> found = all.lookup(input, Mode.HAN);
+                check(!found.isEmpty() && found.get(0).text.equals("国家") && found.get(0).plainHanLoan,
+                        "Use the Chinese donor for " + input);
+                check(found.stream().noneMatch(c -> c.consumed == input.length()
+                                && (c.text.equals("怪家") || c.text.equals("姑崴家"))),
+                        "Do not offer phonetic substitutes for 国家: " + input);
+            }
+        }
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_senses.tsv").toFile()));
