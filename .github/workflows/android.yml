@@ -26,7 +26,8 @@ jobs:
         run: ./tools/test-core.sh
       - name: Test offline handwriting model
         run: |
-          curl -fsSL -o "$RUNNER_TEMP/onnxruntime.jar" https://repo.maven.apache.org/maven2/com/microsoft/onnxruntime/onnxruntime/1.20.0/onnxruntime-1.20.0.jar
+          curl -fsSL --retry 4 --retry-all-errors --retry-delay 3 -o "$RUNNER_TEMP/onnxruntime.jar" https://repo.maven.apache.org/maven2/com/microsoft/onnxruntime/onnxruntime/1.20.0/onnxruntime-1.20.0.jar ||
+            curl -fsSL --retry 4 --retry-all-errors --retry-delay 3 -o "$RUNNER_TEMP/onnxruntime.jar" https://maven-central.storage-download.googleapis.com/maven2/com/microsoft/onnxruntime/onnxruntime/1.20.0/onnxruntime-1.20.0.jar
           ./tools/test-ochwpro.sh "$RUNNER_TEMP/onnxruntime.jar"
       - name: Check prediction training and reviewed syllable meanings
         run: |
