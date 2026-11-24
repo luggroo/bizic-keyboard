@@ -13,6 +13,7 @@ case "$(uname)" in Linux) platform=linux; extension=so; link=-shared;; Darwin) p
   app/src/main/cpp/jni.cpp shared/src/{lexicon,strokes,edit}.cpp -o "$work/libtujia_core.$extension"
 src=app/src/main/java/biz/tujia/ime
 javac -encoding UTF-8 -cp "$jar_file" -d "$work" "$src/NativeCore.java" "$src/CandidateEngine.java" \
-  "$src/StrokeRecognizer.java" "$src/OchwRecognizer.java" tests/OchwRecognizerTest.java
-java -Djava.library.path="$work" -cp "$work:$jar_file" biz.tujia.ime.OchwRecognizerTest \
-  app/src/main/assets/ochwpro/model.onnx app/src/main/assets/ochwpro/characters.txt shared/bundle/Assets/handwriting/medians.tsv
+  "$src/StrokeRecognizer.java" "$src/HandwritingImage.java" "$src/IsmanticRecognizer.java" tests/IsmanticRecognizerTest.java
+cat app/src/main/assets/ismantic/mobilenet-v2.onnx.{0,1} > "$work/model.onnx"
+java -Djava.library.path="$work" -cp "$work:$jar_file" biz.tujia.ime.IsmanticRecognizerTest \
+  "$work/model.onnx" app/src/main/assets/ismantic/characters.txt shared/bundle/Assets/handwriting/medians.tsv
