@@ -9,6 +9,8 @@ from zipfile import ZipFile
 def verify(apk):
     assets = Path(__file__).resolve().parents[1] / "shared/bundle/Assets"
     expected = {path.relative_to(assets).as_posix(): path for path in assets.rglob("*") if path.is_file()}
+    android_assets = Path(__file__).resolve().parents[1] / "app/src/main/assets"
+    expected.update({p.relative_to(android_assets).as_posix(): p for p in android_assets.rglob("*") if p.is_file()})
     packages = {"arm64-v8a", "armeabi-v7a", "x86", "x86_64"}
     with ZipFile(apk) as archive:
         names = archive.namelist()
@@ -21,7 +23,7 @@ def verify(apk):
             if archive.read("assets/" + name) != source.read_bytes():
                 raise ValueError(f"Packaged asset differs from source: {name}")
         native = {name for name in names if name.startswith("lib/") and name.endswith(".so")}
-        if native != {f"lib/{abi}/libtujia_core.so" for abi in packages}:
+        if native != {f"lib/{abi}/{name}" for abi in packages for name in ("libtujia_core.so", "libonnxruntime.so", "libonnxruntime4j_jni.so")}:
             raise ValueError(f"Unexpected set of native libraries: {sorted(native)}")
         for lib in native:
             if archive.read(lib)[:4] != b"\x7fELF":

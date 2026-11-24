@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId 'biz.tujia.ime'
-        minSdk 23
+        minSdk 24
         targetSdk 35
         versionCode 8
         versionName '0.3.3'
@@ -29,10 +29,14 @@ android {
         }
     }
     sourceSets {
-        main.assets.srcDirs = ['../shared/bundle/Assets']
+        main.assets.srcDirs = ['../shared/bundle/Assets', 'src/main/assets']
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+dependencies {
+    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
 }

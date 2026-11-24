@@ -34,7 +34,7 @@ public final class HandwritingPad extends View {
 
     private static final int NONE = -1;
     private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
-    private static StrokeRecognizer recognizer; // Accessed only on WORKER.
+    private static OchWRecognizer recognizer; // Accessed only on WORKER.
     private final AssetManager assets;
     private final Listener listener;
     private final Paint ink = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -267,7 +267,8 @@ public final class HandwritingPad extends View {
             if (generation != request) return;
             try {
                 if (recognizer == null)
-                    recognizer = new StrokeRecognizer(assets.open("handwriting/medians.tsv"));
+                    recognizer = new OchWRecognizer(assets.open("ochwpro/model.onnx"),
+                            assets.open("ochwpro/characters.txt"), assets.open("handwriting/medians.tsv"));
                 if (generation != request) return;
                 final List<String> results = recognizer.recognize(snapshot, 12);
                 main.post(() -> {

@@ -7,6 +7,19 @@ build_tools="$ANDROID_HOME/build-tools/35.0.0"
 platform_jar="$ANDROID_HOME/platforms/android-35/android.jar"
 if [[ -n "${JAVA_HOME:-}" ]]; then export PATH="$JAVA_HOME/bin:$PATH"; fi
 
+# The keyboard includes ONNX Runtime, which Gradle packages with its JNI libraries.
+# Keep the lightweight standalone path below for the two dependency-free test hosts.
+if [[ "${1:-}" != "--device-test" && "${1:-}" != "--performance-test" ]]; then
+  if (( $# > 1 )); then echo 'Usage: build-apk.sh [output.apk]' >&2; exit 1; fi
+  out="${1:-$root_dir/build/biz.tujia.ime.apk}"
+  case "$out" in /*) ;; *) out="$PWD/$out";; esac
+  (cd "$root_dir" && ./gradlew --no-daemon :app:assembleDebug)
+  mkdir -p "$(dirname "$out")"
+  cp "$root_dir/app/build/outputs/apk/debug/app-debug.apk" "$out"
+  echo "APK: $out"
+  exit 0
+fi
+
 source_root="$root_dir/app/src/main"
 java_dir="$source_root/java"
 assets_dir="$root_dir/shared/bundle/Assets"
