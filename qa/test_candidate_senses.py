@@ -41,7 +41,8 @@ class HanSenseTest(unittest.TestCase):
         self.assertTrue(any(item.kind == 1 and item.text == '台' for item in tai))
         go = [item for item in self.model.choices('go') if item.ids and item.consumed == 2]
         self.assertEqual([item.text for item in go if item.gloss == '他'], ['过'])
-        self.assertIn(('过', '过错'), {(item.text, item.gloss) for item in go})
+        senses = {(item.gloss, item.plain_han_loan) for item in go if item.text == '过'}
+        self.assertEqual(senses, {('他', False), ('讨', False), ('过错', True)})
         tanie = self.model.choices('tanie')
         self.assertIn(('他捏', '后面'), {(item.text, item.gloss) for item in tanie})
         self.assertIn(('他业', '后头'), {(item.text, item.gloss) for item in tanie})
@@ -69,6 +70,22 @@ class HanSenseTest(unittest.TestCase):
         boundaries = {(item.text, self.model.suffix('gore', item.consumed))
                       for item in choices if item.gloss == '他'}
         self.assertEqual(boundaries, {('过', 're'), ('郭', 'e')})
+
+    def test_longshan_brother_and_separately_written_particles(self):
+        for query in ('goxgox', 'goxgov', 'gogo'):
+            choices = self.model.choices(query)
+            nouns = [c for c in choices if c.consumed == utf16(query) and c.text == '哥哥']
+            self.assertEqual([c.gloss for c in nouns], ['哥哥'], query)
+            self.assertTrue(nouns[0].plain_han_loan)
+            self.assertEqual(nouns[0].short, '')
+        for query in ('arkox', 'arkov', 'arkoxar'):
+            self.assertTrue(any(c.consumed == utf16(query) and c.gloss.startswith('哥哥') and
+                                not c.plain_han_loan for c in self.model.choices(query)), query)
+        particles = self.model.choices('ar')
+        self.assertTrue(any(c.gloss == '啊' and c.consumed == 2 for c in particles))
+        self.assertFalse(any(c.gloss == '哥哥' and c.consumed == 2 for c in particles))
+        self.assertTrue(any(c.gloss == '哥哥啊' and c.consumed == 7
+                            for c in self.model.choices('arkoxar')))
 
 
 if __name__ == '__main__':
