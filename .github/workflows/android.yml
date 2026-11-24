@@ -34,6 +34,7 @@ jobs:
           python3 qa/test_prediction_training.py
           python3 qa/test_syllable_senses.py
           python3 qa/test_candidate_senses.py
+          python3 qa/test_orthography_revisions.py
       - name: Build APK
         run: ./gradlew --no-daemon :app:assembleDebug
       - name: Verify APK signature

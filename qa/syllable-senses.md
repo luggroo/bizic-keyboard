@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `kǎ` 后的 `mǒng`（`mongr`） | Brassett 的 **`kǎmǒng` 整词**释为「树」。`tōngmǒng` 是「呻吟」，`tòngmǒng` 是「线」。中国语保龙山第 2498 项单列 `/muŋ²¹/`，调查词「午」带有「属马」提示，前后调查项是「巳」「未」。[树](https://tujia.biz/?id=w1102) · [呻吟](https://tujia.biz/?id=w2302) · [线](https://tujia.biz/?id=w2303) · [龙山「午」](https://tujia.biz/?id=yubao-60757-v-2498) | 原始音节的汉义留空。「午」用于这一地支、生肖语境。「树」可显示在完整词条 `kǎmǒng` 上。 |
 | `kǎ` 后的 `mǔn`（`munr`） | 龙山 LS-43 的 `Jif gav kar munr ...` 谜面有「绿绿的树」；LS-48 的 `Kar munr jief ...` 谜面有「有树不见动」。两处都记 `/kʰa²¹ mũ²¹/`，都提供整句汉译。这两个文本没有逐词释义。此次完整北部词典检索未找到以 `munr` 单独立目的完整义项。[LS-43 辣椒谜](https://tujia.biz/?id=tlp-longshan-proverbs-28) · [LS-48 画谜](https://tujia.biz/?id=tlp-longshan-proverbs-33) | 音节的汉义留空。在手稿、词表和拼写输出里保留该调查材料的 `mǔn`。 |
-| 句首预测 `jìn`（`jinv`） | `w1051` 释为「紧」，英文 *to be urgent*，英语表 `w3991` 也作 *urgent*。两项都能核回这一读音，检查范围内未见其他独立汉义、黏着形式或含它的不同复音词记录。句首到 `jinv` 出现在原始 1,000 对音节排名第 554 位；该名次不表示词频。[北部词条「紧」](https://tujia.biz/?id=w1051) · [英语表对应项](https://tujia.biz/?id=w3991) · [原始排名表](../tools/data/syllable-bigrams-ranked.txt) | 拼写卡可显示「紧 / `jìn`」，叶氏拼写为 `jinv`。记音卡使用本字表 `jin` 第四调的「紧」。这里的义项是紧迫。[四调参考字](../tools/data/orthography-defaults.tsv) |
+| 句首预测 `jìn`（`jinv`） | `w1051` 释为「紧」，英文 *to be urgent*，英语表 `w3991` 也作 *urgent*。两项都能核回这一读音，检查范围内未见其他独立汉义、黏着形式或含它的不同复音词记录。句首到 `jinv` 出现在原始 1,000 对音节排名第 554 位；该名次不表示词频。[北部词条「紧」](https://tujia.biz/?id=w1051) · [英语表对应项](https://tujia.biz/?id=w3991) · [原始排名表](../tools/data/syllable-bigrams-ranked.txt) | 拼写卡可显示「紧 / `jìn`」，叶氏拼写为 `jinv`。记音卡使用默认表 `jin` 第四调的「经」，上方标注词义「紧」。这里的义项是紧迫。[四调参考字](../tools/data/orthography-defaults.tsv) |
 
 ## 查了哪些材料
 

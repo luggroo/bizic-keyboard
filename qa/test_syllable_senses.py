@@ -18,7 +18,7 @@ def main():
     runtime = indexed(ROOT / 'shared/bundle/Assets/syllable_senses.tsv')
     audit = indexed(ROOT / 'qa/results/syllable-sense-audit.tsv')
     assert set(runtime['jinv']) == {'syllable', 'shortGloss', 'lexemeId', 'han'}
-    assert runtime['jinv']['shortGloss'] == runtime['jinv']['han'] == '紧'
+    assert runtime['jinv']['shortGloss'] == '紧' and not runtime['jinv']['han']
     assert {'w1051', 'w3991'} <= set(audit['jinv']['independentEntries'].split())
     assert audit['jinv']['compoundWords'] == audit['jinv']['boundWords'] == '0'
     assert runtime['mangf'] == dict(syllable='mangf', shortGloss='慢', lexemeId='w1473', han='漫')

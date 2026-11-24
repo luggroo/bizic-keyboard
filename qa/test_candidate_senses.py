@@ -53,7 +53,7 @@ class HanSenseTest(unittest.TestCase):
         self.assertEqual(len(forms), 1, forms)
         # duyo and duwa are two different full readings after the same typed prefix.
         choices = self.model.choices('du', op='spelling_completions')
-        self.assertTrue({'堵药', '堵娃'}.issubset({item.text for item in choices if item.gloss == '赌啊'}))
+        self.assertTrue({'都药', '都娃'}.issubset({item.text for item in choices if item.gloss == '赌啊'}))
 
     def test_marked_pinyin_and_handwritten_variants_still_reach_their_words(self):
         for word in ('gǒ', 'gor'):

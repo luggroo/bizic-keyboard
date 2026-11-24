@@ -64,7 +64,7 @@ public final class CandidateEngineTest {
               && c.consumed == 0 && !c.lastSyllable.isEmpty()), "Direct Han sound commits contain only approved Han units");
         check(startSounds.get(0).text.equals("gó") && hanSounds.stream().anyMatch(c -> c.meaning.isEmpty()), "Spelling and unknown senses");
         Candidate tight = hanSounds.stream().filter(c -> c.lastSyllable.equals("jinv")).findFirst().get();
-        check(tight.text.equals("紧") && tight.shortMeaning.equals("紧") && tight.consumed == 0,
+        check(tight.text.equals("经") && tight.shortMeaning.equals("紧") && tight.consumed == 0,
               "Attested standalone sense on its commit-ready Han suggestion");
         List<Candidate> afterKa = engine.nextSyllables("kǎ", Mode.PINYIN, Orthography.DIACRITIC);
         List<Candidate> hanAfterKa = engine.nextSyllables("kar", Mode.HAN, Orthography.YE);

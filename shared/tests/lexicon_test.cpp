@@ -50,8 +50,8 @@ void checkNasalReadings(const Lexicon& model) {
         check(offers(model.lookup(q + "gaf", Mode::Han), "半日猜", "中午", editorLength(q)), "Original prefix boundary " + q);
     }
     for (const std::string q : {"manxmanx", "manxmangx", "mangxmanx", "mangxmangx"})
-        check(offers(model.lookup(q, Mode::Han), "慢慢", "饭", editorLength(q)), "Both nasal positions vary independently");
-    check(offers(model.lookup("angfnianxhux", Mode::Han), "阿岸拈呼", "我们两个", editorLength("angfnianxhux")), "Source an can be entered as ang");
+        check(offers(model.lookup(q, Mode::Han), "满满", "饭", editorLength(q)), "Both nasal positions vary independently");
+    check(offers(model.lookup("angfnianxhux", Mode::Han), "岸拈呼", "我们两个", editorLength("angfnianxhux")), "Source an can be entered as ang");
     const auto partial = model.spellingCompletions("banri", "", Mode::Han, Orthography::Ye);
     check(offers(partial, "半日猜", "中午", 5), "Nasal word completion");
     const auto mandarin = [&](const std::string& input, const std::string& form) {
@@ -66,6 +66,15 @@ void checkNasalReadings(const Lexicon& model) {
           "Coda variation cannot remove the onset of gan");
     check(offers(model.lookup("ga", Mode::Han), "架", "吃、咬", 2) &&
           !offers(model.lookup("jia", Mode::Han), "架", "吃、咬", 3), "Tujia meanings belong to their actual readings");
+    for (const std::string q : {"buoxlir", "buōlǐ"})
+        check(offers(model.lookup(q, Mode::Han), "波俐", "小孩、儿童", editorLength(q)), "buo preserves the word and consumed prefix");
+    check(offers(model.lookup("arkuox", Mode::Han), "吖可", "哥哥", 6), "kuo matches ko inside a word");
+    check(tujia::matchesSpellingPrefix("buo", "boxlir", "bōlǐ") &&
+          tujia::matchesSpellingPrefix("kuo", "kox", "kō") &&
+          !tujia::matchesSpellingPrefix("buo", "bux", "bū"), "Optional u stays inside bo and ko syllables");
+    check(offers(model.lookup("cir", Mode::Han), "尺", "梳通", 3) &&
+          offers(model.lookup("jix", Mode::Han), "挤", "打架", 3) &&
+          offers(model.lookup("liv", Mode::Han), "理", "穿成串", 3), "Reviewed homophone spellings");
     check(tujia::matchesSpellingPrefix("áng", "anf", "án") && tujia::matchesSpellingPrefix("banri", "bangfrixcaix", "bángrīcāi")
           && tujia::matchesSpellingPrefix("jiangga", "jianfgax", "jián'gā")
           && !tujia::matchesSpellingPrefix("tangie", "taxniex", "tāniē")
