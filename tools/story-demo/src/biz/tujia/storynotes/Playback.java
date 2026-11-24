@@ -222,8 +222,8 @@ public final class Playback extends Instrumentation {
     }
 
     private String modeLabel(String mode) {
-        if ("spell".equals(mode)) return "土家语拼写";
-        if ("han".equals(mode)) return "汉字记音";
+        if ("spell".equals(mode)) return "调号拼音";
+        if ("han".equals(mode)) return "谐音字";
         if ("hand".equals(mode)) return "手写";
         throw new IllegalArgumentException("Unknown recording mode " + mode);
     }
@@ -249,7 +249,7 @@ public final class Playback extends Instrumentation {
         long warmUntil=SystemClock.uptimeMillis()+90000;
         while (!editorText().equals("三") && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(110);
         expectEditor("三");
-        press("汉字记音",100);
+        press("谐音字",100);
         press("退格",100);
         expectEditor("");
     }
@@ -333,7 +333,7 @@ public final class Playback extends Instrumentation {
             spaceBefore=step[3].equals(" ");
             if (!spaceBefore && !step[3].isEmpty()) {
                 if (mode.equals("hand")) {
-                    press("汉字记音",200);
+                    press("谐音字",200);
                     current="han";
                     SystemClock.sleep(600);
                 }
@@ -875,7 +875,7 @@ public final class Playback extends Instrumentation {
     }
 
     private void press(String label,long duration) {
-        if ("汉字记音".equals(label) || "土家语拼写".equals(label)) {
+        if ("谐音字".equals(label) || "调号拼音".equals(label) || "叶氏拼音".equals(label)) {
             require("隐藏键盘");
             if (lookupKeyboard(label) == null && lookupKeyboard("更多") != null) {
                 // The handwriting More menu configures handwritten output.
