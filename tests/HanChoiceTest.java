@@ -52,6 +52,28 @@ public final class HanChoiceTest {
             HanChoice meng = group(sounds, "萌");
             expect("", meng.primary.ids());
             expect("", meng.primary.lastSyllable());
+            List<CandidateEngine.Candidate> gaChoices = engine.lookup("ga", CandidateEngine.Mode.HAN);
+            CandidateEngine.Candidate eating = gaChoices.stream().filter(c -> c.lexemeIds.equals("w684")).findFirst().get();
+            CandidateEngine.Candidate dialect = gaChoices.stream().filter(c -> c.kind == CandidateEngine.Kind.CHINESE
+                    && c.text.equals("架") && c.consumed == 2).findFirst().get();
+            // A normal Han fallback is not a competing Tujia reading, regardless of which source arrived first.
+            for (boolean wordFirst : new boolean[]{false, true}) {
+                HanChoice written = new HanChoice(wordFirst ? eating : dialect);
+                written.add(wordFirst ? eating : dialect, 2, wordFirst);
+                written.add(wordFirst ? dialect : eating, 2, !wordFirst);
+                expect("吃", HanChoice.gloss(written.primary.shortMeanings, false));
+                expect("w684", written.primary.ids());
+                expect("gaf", written.primary.lastSyllable());
+                if (engine.nextWords(written.primary.ids(), CandidateEngine.Mode.HAN, CandidateEngine.Orthography.YE).isEmpty())
+                    throw new AssertionError("Eating lost its word predictions");
+            }
+            CandidateEngine.Candidate regular = engine.lookup("jia", CandidateEngine.Mode.HAN).stream().filter(
+                    c -> c.text.equals("架") && c.consumed == 3 && c.kind == CandidateEngine.Kind.CHINESE).findFirst().get();
+            HanChoice jia = new HanChoice(regular);
+            jia.add(regular, 3, false);
+            expect("", jia.primary.ids());
+            expect("", jia.primary.lastSyllable());
+            expect("", jia.primary.fullMeanings());
         }
         System.out.println("Han form grouping, pronunciation consensus, short glosses and prefix boundaries passed");
     }

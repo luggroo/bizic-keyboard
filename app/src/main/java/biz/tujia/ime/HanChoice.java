@@ -9,7 +9,7 @@ import java.util.Set;
 final class HanChoice {
     static final class Action {
         final int consumed;
-        final CandidateEngine.Candidate candidate;
+        CandidateEngine.Candidate candidate;
         final Set<String> shortMeanings = new LinkedHashSet<>();
         final Set<String> meanings = new LinkedHashSet<>();
         final Set<String> loanMeanings = new LinkedHashSet<>();
@@ -21,6 +21,9 @@ final class HanChoice {
         }
 
         void add(CandidateEngine.Candidate c, boolean hasMeaning) {
+            if (c.kind != CandidateEngine.Kind.TUJIA) return;
+            if (candidate.kind != CandidateEngine.Kind.TUJIA || candidate.syllableOnly && !c.syllableOnly)
+                candidate = c;
             if (hasMeaning) {
                 shortMeanings.add(c.shortMeaning);
                 meanings.add(c.meaning);
@@ -42,13 +45,14 @@ final class HanChoice {
         }
     }
 
-    final CandidateEngine.Candidate first;
+    CandidateEngine.Candidate first;
     final List<Action> actions = new ArrayList<>();
     Action primary;
 
     HanChoice(CandidateEngine.Candidate first) { this.first = first; }
 
     void add(CandidateEngine.Candidate c, int consumed, boolean hasMeaning) {
+        if (first.kind != CandidateEngine.Kind.TUJIA && c.kind == CandidateEngine.Kind.TUJIA) first = c;
         for (Action action : actions) {
             if (action.consumed == consumed) {
                 action.add(c, hasMeaning);
