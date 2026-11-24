@@ -399,25 +399,27 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testJoinedForms() {
-        stage("Single-syllable Han pairs keep clean text and rich-editor spans");
+        stage("Single-syllable Han pairs retain brackets in editor text");
         runOnMainSync(() -> host.second.setText(""));
         tapField(host.second);
         press("谐音字");
-        type("engei");
-        pressCandidate("那里，阿蒽格锿", false);
-        expectText(host.second, "阿蒽格锿");
-        assertJoinedRanges(host.second, 0, 2, 2, 4);
+        type("kir");
+        pressCandidate("克移", false);
+        expectText(host.second, "˻克移˼");
+        assertJoinedRanges(host.second, 1, 3);
 
         // Each character of this normal two-syllable word represents a separate syllable.
         type("boxlir");
         pressCandidate("小孩、儿童，波俐", false);
-        expectText(host.second, "阿蒽格锿波俐");
-        assertJoinedRanges(host.second, 0, 2, 2, 4);
+        expectText(host.second, "˻克移˼波俐");
+        assertJoinedRanges(host.second, 1, 3);
 
         type("kir");
         pressCandidate("克移", false);
-        expectText(host.second, "阿蒽格锿波俐克移");
-        assertJoinedRanges(host.second, 0, 2, 2, 4, 6, 8);
+        expectText(host.second, "˻克移˼波俐˻克移˼");
+        assertJoinedRanges(host.second, 1, 3, 7, 9);
+        press("退格");
+        expectText(host.second, "˻克移˼波俐");
     }
 
     private void testApicalVowels() {

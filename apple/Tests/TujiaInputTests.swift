@@ -3,6 +3,13 @@ import XCTest
 import TujiaInput
 
 final class TujiaInputTests: XCTestCase {
+    func testTwoCharacterSyllableCommitsBrackets() throws {
+        let dictionary = try TujiaDictionary()
+        let candidate = try XCTUnwrap(dictionary.candidates(for: "kir", form: .recommendedHan)
+            .first { $0.text == "克移" && !$0.joinedHanRanges.isEmpty })
+        XCTAssertEqual(dictionary.selection(candidate, in: "kir")?.text, "˻克移˼")
+    }
+
     func testHandwritingCompletionAndContext() throws {
         let dictionary = try TujiaDictionary()
         let child = try XCTUnwrap(dictionary.handwritingSuggestions(for: "玻", form: .recommendedHan).first { $0.lexemeIds == "w309" })

@@ -24,11 +24,14 @@ final class HanUnitStyle {
     }
 
     private static CharSequence style(String text, int[] ranges, int offset, boolean editor) {
-        if (ranges == null || ranges.length == 0) return text;
+        HanUnitBrackets formatted = HanUnitBrackets.format(text, ranges, offset);
+        text = formatted.text;
+        ranges = formatted.ranges;
+        if (ranges.length == 0) return text;
         SpannableString styled = new SpannableString(text);
         for (int i = 0; i + 1 < ranges.length; i += 2) {
-            int first = ranges[i] + offset;
-            int last = ranges[i + 1] + offset;
+            int first = ranges[i];
+            int last = ranges[i + 1];
             if (first < 0 || last <= first || last > text.length()) continue;
             if (editor) {
                 // Only platform spans can be marshalled to an editor in another process.
