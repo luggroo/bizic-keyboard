@@ -13,6 +13,8 @@ from han_orthography import Orthography
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
+LOANS = ROOT / "tools/data/northern-han-loans.tsv"
+LEGACY = ROOT / "tools/data/northern-legacy-forms.tsv"
 
 
 def han_units(word, orthography):
@@ -34,6 +36,10 @@ def han_units(word, orthography):
 
 
 def build(site):
+    with LOANS.open(encoding="utf-8") as stream:
+        loans = {(r['id'], r['ye']): r for r in csv.DictReader(stream, delimiter='\t')}
+    with LEGACY.open(encoding="utf-8") as stream:
+        legacy = {(r['id'], r['ye']): r['aliases'].split() for r in csv.DictReader(stream, delimiter='\t')}
     with gzip.open(site / "dictionary.json.gz", "rt") as stream:
         words = [w for w in json.load(stream)["words"] if "北部" in w.get("dialects", [w.get("dialect")])]
     # Restrict mixed-dialect entries to attested northern readings.
@@ -69,10 +75,22 @@ def build(site):
                 gloss = " ".join((w.get("zh") or w.get("en") or "").split())
                 plain = unicodedata.normalize("NFC", "".join(c for c in unicodedata.normalize("NFD", marked.lower())
                                                             if c not in "\u0304\u0301\u030c\u0300"))
-                writer.writerow(dict(id=ident if i == 0 and not base else f"{ident}@{i+1}", word=word.lower(),
+                row_id = ident if i == 0 and not base else f"{ident}@{i+1}"
+                loan = loans.get((row_id, word.lower()))
+                if loan and loan['meaning'] != gloss:
+                    raise ValueError(f"Loan sense no longer aligns: {row_id}")
+                old = ''.join(units)
+                if loan:
+                    units = list(loan['han'])
+                aliases = legacy.get((row_id, word.lower()), [])[:]
+                if loan and old != ''.join(units):
+                    aliases.append(old)
+                writer.writerow(dict(id=row_id, word=word.lower(),
                                      plain=plain, diacritic=marked.lower(), meaning=gloss, shortGloss=gloss,
                                      kind="tujia" if units else "phonetic", frequency=0,
-                                     recommended="".join(units), hanUnits="|".join(units)))
+                                     recommended="".join(units), hanUnits="|".join(units),
+                                     aliases=' '.join(dict.fromkeys(aliases)),
+                                     presentation='plainHanLoan' if loan else ''))
 
 
 if __name__ == "__main__":

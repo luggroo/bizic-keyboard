@@ -12,6 +12,9 @@ const w=dom.window,d=w.document;const click=s=>d.querySelector(s).click();
 function input(s){let e=d.querySelector('#draft');e.value=s;e.dispatchEvent(new w.Event('input',{bubbles:true}));}
 console.log('errors',JSON.stringify(errors));if(errors.length)process.exit(1);
 click('#take');click('#menuHan');
+input('guaijia');
+const country=Array.from(d.querySelectorAll('#candidates button strong')).map(e=>e.textContent);
+if(country[0]!=='国家'||country.filter(x=>x==='国家').length!==1||country.includes('怪家'))throw Error('incorrect 国家 candidate: '+country);
 for(const [s,want] of [['haf','下'],['xiaf','夏'],['kir','˻克移˼']]){input(s);const visible=d.querySelector('#candidates').textContent;if(!visible.includes(want))throw Error('missing '+s+' / '+want);}
 const arr=Array.from(d.querySelectorAll('#candidates button'));const card=arr.find(x=>x.querySelector('strong')?.textContent==='˻克移˼');if(!card)throw Error('missing paired candidate');card.click();
 console.log('note',d.querySelector('#result').textContent,'group',d.querySelector('.joined-han')?.textContent);

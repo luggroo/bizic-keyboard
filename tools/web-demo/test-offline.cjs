@@ -9,6 +9,9 @@ vm.createContext(ctx);
 vm.runInContext(read(path.join(web,'engine-data.js'))+'\n'+read(path.join(root,'tools/web-demo/ui/core-runtime.js'))+'\nthis.core=openTujiaCore(tujiaCoreData)',ctx);
 const exact=(query,mode,style)=>ctx.core.lookup(query,mode,style).filter(c=>c.length===query.length).map(c=>c.form);
 assert(exact('haf',1,0).includes('下'));assert(exact('xiaf',1,0).includes('夏'));
+for(const input of ['guaijia','guairjiax','guaifjiax','guijia']){
+  const choices=exact(input,1,0);assert.equal(choices[0],'国家');assert(!choices.includes('怪家')&&!choices.includes('姑崴家'));
+}
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));
 assert(exact('bizika',0,1).includes('bízīkǎ'));assert(!exact('bifzixkar',0,1).includes('bízīkǎ'));
 assert(ctx.core.handwrittenWords('玻离',1,0).some(c=>c.form==='波俐' && c.length===2));
