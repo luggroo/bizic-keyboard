@@ -23,7 +23,7 @@ for (const w of records) {
         context.mode = mode;
         vm.runInContext('spellingDisplay=mode', context);
         display[w.id][mode] = context.completeSpellings(w)
-          .filter(v => !v.ambiguous && !/[□⟦⟧?]/u.test(v.text))
+          .filter(v => (request.includeAlternatives || !v.ambiguous) && !/[□⟦⟧?]/u.test(v.text))
           .map(v => v.text);
     }
 }

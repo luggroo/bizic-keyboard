@@ -365,7 +365,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void buildToolbar() {
         if (direct) {
             toolbar.addView(label(numeric ? "数字" : "英文直输", 17, MUTED), weighted(1));
-            stripKey("换键盘", "切换输入法", false, this::pickIme);
+            stripKey("🌐", "切换输入法", false, this::pickIme);
         } else {
             stripKey("打字", "打字", mode == SPELL || mode == HAN, () -> switchMode(typingMode));
             stripKey("手写", "手写", mode == HAND, () -> switchMode(HAND));
@@ -715,10 +715,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     && forms.contains(c.consumed + "\u0000" + c.text)) continue;
             if (c.kind != CandidateEngine.Kind.TUJIA) items.add(c);
         }
-        Set<String> seen = new HashSet<>(), visible = new HashSet<>();
+        Set<String> seen = new HashSet<>();
         for (CandidateEngine.Candidate c : items) {
             if (typed.isEmpty() || c.consumed == typed.length()) {
-                seen.add(lexicalKey(c)); visible.add(c.text);
+                seen.add(lexicalKey(c));
             }
         }
         if (engine == null) {
@@ -740,13 +740,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, yeWords.get(c.lexemeIds),
                     markedWords.get(c.lexemeIds))) continue;
             if ((hanSenses != null || seen.add(lexicalKey(c))) && takeHanSense(hanSenses, c, typed.length())) {
-                items.add(c); visible.add(c.text);
+                items.add(c);
             }
         }
         syllableHints = allSoundHints;
         for (CandidateEngine.Candidate c : syllableHints) {
             if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, c.lastSyllable, markedSounds.get(c.lastSyllable))) continue;
-            if ((hanSenses != null || visible.add(c.text)) && takeHanSense(hanSenses, c, typed.length())) items.add(c);
+            if (takeHanSense(hanSenses, c, typed.length())) items.add(c);
         }
         return items;
     }
@@ -758,13 +758,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private List<CandidateEngine.Candidate> groupTypingChoices(List<CandidateEngine.Candidate> ranked) {
         hanChoices.clear();
-        if (mode != HAN) return ranked;
         Map<String, HanChoice> byForm = new LinkedHashMap<>();
         for (CandidateEngine.Candidate c : ranked) {
-            HanChoice group = byForm.get(c.text);
+            String form = java.text.Normalizer.normalize(c.text, java.text.Normalizer.Form.NFC);
+            HanChoice group = byForm.get(form);
             if (group == null) {
                 group = new HanChoice(c);
-                byForm.put(c.text, group);
+                byForm.put(form, group);
             }
             boolean prediction = wordHints.contains(c) || syllableHints.contains(c);
             group.add(c, prediction ? draft.length() : c.consumed, hasMeaning(c));
@@ -889,6 +889,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void acceptGlyph(String glyph, boolean correction) {
+        CrashReports.event(getCurrentInputEditorInfo(), "手写字", glyph);
         if (toneCancel != null) toneCancel.setVisibility(View.GONE);
         HandAnchor cursor = handAnchor();
         if (cursor == null || (!correction && (strokeAnchor == null || !strokeAnchor.matches(cursor)))) {
@@ -935,6 +936,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void chooseHand(CandidateEngine.Candidate c) {
+        CrashReports.event(getCurrentInputEditorInfo(), "手写选词", c.text);
         boolean predicting = wordHints.contains(c) || syllableHints.contains(c);
         boolean completing = wordCompletions.contains(c);
         if (!candidates.contains(c)) return;
@@ -1039,7 +1041,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (selectingTone) updateCandidates();
             symbols = !symbols; shifted = false; buildKeys();
         });
-        key(r, "换", "切换输入法", .9f, false, this::pickIme);
+        key(r, "🌐", "切换输入法", .9f, false, this::pickIme);
         key(r, direct ? "," : "，", "逗号", .8f, KeyLook.PLAIN, false, () -> typeChar(direct ? ',' : '，'));
         key(r, "空格", "空格", 2.35f, KeyLook.SPACE, false, this::space);
         key(r, direct ? "." : "。", "句号", .8f, KeyLook.PLAIN, false, () -> typeChar(direct ? '.' : '。'));
@@ -1076,6 +1078,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void typeChar(char c) {
+        CrashReports.event(getCurrentInputEditorInfo(), "按键", String.valueOf(c));
         if (direct) commit(String.valueOf(c), false);
         else if (Character.isLetter(c) || !draft.isEmpty()) appendDraft(String.valueOf(c));
         else if (commit(String.valueOf(c), false)) {
@@ -1088,6 +1091,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void appendDraft(String text) {
         draft += text;
+        CrashReports.event(getCurrentInputEditorInfo(), "组字", draft);
         updateCandidates();
     }
 
@@ -1428,6 +1432,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int consumed = action != null ? action.consumed : prediction ? draft.length() : c.consumed;
         if (consumed > draft.length() || consumed < 0 || consumed == 0 && !draft.isEmpty()) return;
         CandidateEngine.Candidate selected = action == null ? c : action.candidate;
+        CrashReports.event(getCurrentInputEditorInfo(), "选词", selected.text);
         if (!commit(selected.text, true, selected.joinedHanRanges)) return;
         if (action == null) remember(recentWords, c);
         else remember(recentWords, selected, action.ids(), action.lastSyllable());
@@ -1509,6 +1514,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int offset = text.startsWith(original) ? 0 : 1;
         CharSequence output = HanUnitStyle.forEditor(text, joinedRanges, offset);
         if (!ic.commitText(output, 1)) return false;
+        CrashReports.event(getCurrentInputEditorInfo(), "上屏", text);
         if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + text.length());
         return true;
     }
@@ -1520,6 +1526,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void backspace() {
+        CrashReports.event(getCurrentInputEditorInfo(), "退格", "");
         if (mode == HAND && !direct) {
             if (pad != null && pad.hasInk()) { pad.undoStroke(); return; }
             discardHandWork();

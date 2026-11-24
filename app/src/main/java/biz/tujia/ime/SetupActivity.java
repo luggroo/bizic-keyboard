@@ -42,6 +42,7 @@ public final class SetupActivity extends Activity {
     private Button select;
     private Button spelling;
     private EditText trial;
+    private android.widget.CheckBox record;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -105,11 +106,48 @@ public final class SetupActivity extends Activity {
         trial.setBackground(shape(0xfff3f6f7, 0xff8c9ea7, 10));
         trial.setPadding(dp(12), dp(10), dp(12), dp(10));
         addSpaced(editor, trial, 12);
+        record = new android.widget.CheckBox(this);
+        record.setText("记录本次试打，供崩溃时排查");
+        record.setSaveEnabled(false);
+        record.setChecked(KeyboardSettings.trialRecording(this));
+        record.setOnCheckedChangeListener((button, checked) -> {
+            KeyboardSettings.setTrialRecording(this, checked);
+            CrashReports.recordTrial(checked);
+        });
+        addSpaced(editor, record, 8);
+        addSpaced(editor, label("仅记录此框内最近 64 次输入、选词等操作。崩溃时保存在本机，可在分享前查看。", 14, MUTED, false), 4);
+        addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
         spelling = action("", false, v -> chooseSpelling());
         addSpaced(body, spelling, 16);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        CrashReports.recordTrial(record.isChecked());
+    }
+
+    @Override protected void onStop() {
+        CrashReports.recordTrial(false);
+        super.onStop();
+    }
+
+    private void showCrash() {
+        String report = CrashReports.read(this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("上次崩溃报告")
+                .setMessage(report.isEmpty() ? "暂无崩溃报告。" : report)
+                .setNegativeButton("关闭", null);
+        if (!report.isEmpty()) {
+            dialog.setNeutralButton("删除", (d, w) -> CrashReports.clear(this));
+            dialog.setPositiveButton("分享", (d, w) -> {
+                Intent send = new Intent(Intent.ACTION_SEND).setType("text/plain")
+                        .putExtra(Intent.EXTRA_TEXT, report);
+                startActivity(Intent.createChooser(send, "分享崩溃报告"));
+            });
+        }
+        dialog.show();
     }
 
     private void refresh() {
@@ -153,7 +191,7 @@ public final class SetupActivity extends Activity {
 
     private void showSources() {
         new AlertDialog.Builder(this).setTitle("词库与手写字形")
-                .setMessage("北部土家语词条来自毕兹学堂试用词表。候选上方显示汉义，点选后写入选中的拼写或记音字。\n\n手写字形采用 Hanzi Writer Data 笔画资料；识别和候选匹配在设备上运行。")
+                .setMessage("北部土家语词条来自tujia.biz 北部词典及补充语料。候选上方显示汉义，点选后写入选中的拼写或记音字。\n\n手写字形采用 Hanzi Writer Data 笔画资料；识别和候选匹配在设备上运行。")
                 .setNeutralButton("字形授权", (p,b) -> showAsset("手写字形授权", "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"))
                 .setNegativeButton("方言字音授权", (p,b) -> showAsset("方言字音授权", "dialect-data-LICENSE.txt"))
                 .setPositiveButton("关闭", null).show();

@@ -536,7 +536,8 @@ struct Lexicon::Impl {
         std::unordered_map<std::string, size_t> hanSenseGroups;
         while (readLine(lines, line)) {
             readFields(line, fieldCount, fields);
-            if (fields[1].empty() || fields[4].empty()) {
+            const bool phoneticOnly = ranked && fields[8] == "phonetic";
+            if (fields[1].empty() || (fields[4].empty() && !phoneticOnly)) {
                 throw std::invalid_argument("Invalid dictionary row");
             }
             const uint64_t frequency = ranked ? frequencyOf(fields[7]) : 0;
@@ -561,8 +562,8 @@ struct Lexicon::Impl {
             const bool syllable = ranked && f[8] == "syllable";
             const bool grammar = ranked && f[8] == "grammar";
             const bool collectedUnits = hasUnits && !f[12].empty();
-            if ((ranked && !phrase && !syllable && !grammar && f[8] != "tujia") ||
-                (!collectedUnits && !phrase && !syllable && !grammar && f[6].empty()))
+            if ((ranked && !phoneticOnly && !phrase && !syllable && !grammar && f[8] != "tujia") ||
+                (!collectedUnits && !phoneticOnly && !phrase && !syllable && !grammar && f[6].empty()))
                 throw std::invalid_argument("Invalid Tujia entry");
             const size_t id = entries.size();
             Entry entry{f[0], f[1], f[3], f[4], !ranked || f[9].empty() ? f[3] : f[9],
@@ -619,6 +620,10 @@ struct Lexicon::Impl {
                 (bucket(spellings, f[2]).empty() || bucket(spellings, f[2]).back() != id)) {
                 index(shortKeys, f[2], id, maxKey);
                 nasalShortKeys.add(nasalPattern(dictionaryScalars(f[2]), parts), id, maxKey, false);
+            }
+            if (phoneticOnly) {
+                entries.push_back(std::move(entry));
+                continue;
             }
             index(hanWords, entry.han, id, maxKey);
             entry.writtenForms.push_back(entry.han);
@@ -956,6 +961,7 @@ struct Lexicon::Impl {
             auto matches = bucket(spellings, form);
             nasalWords.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
             if (mode == Mode::Han) {
+                matches.erase(std::remove_if(matches.begin(), matches.end(), [&](size_t id) { return entries[id].han.empty(); }), matches.end());
                 const auto& shorter = bucket(shortKeys, form);
                 for (size_t id : shorter) addUnique(matches, id);
                 nasalShortKeys.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
@@ -1239,6 +1245,7 @@ struct Lexicon::Impl {
         std::vector<Candidate> out;
         std::unordered_set<size_t> senses;
         for (auto id : predictedIds(context)) {
+            if (output == Mode::Han && entries[id].han.empty()) continue;
             if (output == Mode::Han && !senses.insert(entries[id].hanSenseGroup).second) continue;
             out.push_back(lexical(id, output, style, 0));
         }
@@ -1255,7 +1262,7 @@ struct Lexicon::Impl {
         auto exact = bucket(spellings, q.folded);
         nasalWords.find(q.scalars, exact);
         possible.erase(std::remove_if(possible.begin(), possible.end(), [&](size_t id) {
-            return std::find(exact.begin(), exact.end(), id) != exact.end();
+            return (output == Mode::Han && entries[id].han.empty()) || std::find(exact.begin(), exact.end(), id) != exact.end();
         }), possible.end());
         const auto predicted = predictedIds(context);
         const auto order = [&](size_t id) { return std::find(predicted.begin(), predicted.end(), id); };
