@@ -72,7 +72,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private final ArrayDeque<Integer> expectedSelections = new ArrayDeque<>();
     private LinearLayout surface, toolbar, composition, choices, body, glyphRow, morePanel;
     private FrameLayout keyboardFrame;
-    private int panelHeight, baselinePanelHeight, baselineBodyHeight;
+    private int panelHeight, baselinePanelHeight, baselineBodyHeight, panelCeiling;
     private LinearLayout readingPanel;
     private ReadingPage readingPage;
     private CandidateEngine.Candidate inspectedCandidate;
@@ -312,8 +312,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         surface.addView(strip, new LinearLayout.LayoutParams(-1, choicesHeight));
         surface.addView(body, new LinearLayout.LayoutParams(-1, bodyHeight));
         baselineBodyHeight = bodyHeight;
-        baselinePanelHeight = toolbarHeight + choicesHeight + bodyHeight
-                + surface.getPaddingTop() + surface.getPaddingBottom();
+        int verticalPadding = surface.getPaddingTop() + surface.getPaddingBottom();
+        baselinePanelHeight = toolbarHeight + choicesHeight + bodyHeight + verticalPadding;
+        panelCeiling = maximum + verticalPadding;
         panelHeight = baselinePanelHeight;
         if (surface.getParent() == keyboardFrame) {
             surface.setLayoutParams(new FrameLayout.LayoutParams(-1, panelHeight));
@@ -342,11 +343,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int right = Math.max(0, origin[0] + frame.getWidth() - (decor.getWidth() - bars.right));
         int bottom = Math.min(bars.bottom, Math.max(0,
                 origin[1] + frame.getHeight() - (decor.getHeight() - bars.bottom)));
-        int fittedBody = Math.max(dp(64), baselineBodyHeight - bottom);
+        // The gesture bar needs its own space below the keys. Borrow from the rows
+        // only when growing the window would cover the editor on a short display.
+        int overflow = Math.max(0, baselinePanelHeight + bottom - panelCeiling);
+        int fittedBody = Math.max(dp(64), baselineBodyHeight - overflow);
         int fittedPanel = baselinePanelHeight - baselineBodyHeight + fittedBody;
         if (frame.getPaddingLeft() != left || frame.getPaddingRight() != right || frame.getPaddingBottom() != bottom)
             frame.setPadding(left, 0, right, bottom);
-        // Keep the same total keyboard height whenever there is room for the keys.
         if (body.getLayoutParams().height != fittedBody) {
             body.setLayoutParams(new LinearLayout.LayoutParams(-1, fittedBody));
         }
