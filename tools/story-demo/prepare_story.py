@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
-from han_orthography import REVISIONS, Orthography
+from han_orthography import PLAIN_HAN_LOANS, REVISIONS, Orthography
 from xu_song import make_song
 from longshan_spelling import align, reviewed_glosses
 
@@ -125,6 +125,12 @@ for block_no, block in enumerate(source["blocks"], 1):
     assert cursor == len(letters)
 
 merged_aliases=align(keyed,base,dictionary/'site',ROOT,orthography,refs)
+for w in keyed.values():
+    original = PLAIN_HAN_LOANS.get(w['id'])
+    if original:
+        if w['recommended'] != original['han']:
+            w['aliases'] = list(dict.fromkeys([*w['aliases'], w['recommended']]))
+        w.update(recommended=original['han'], hanUnits=list(original['han']), presentation='plainHanLoan')
 with (ROOT/'tools/data/story-spelling-aliases.tsv').open('w',newline='') as f:
     table=csv.writer(f,delimiter='\t',lineterminator='\n');table.writerow(['id','romanAliases'])
     for i,alts in sorted(merged_aliases.items()):
