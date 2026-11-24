@@ -52,11 +52,14 @@ size_t tji_choices_count(const TJIChoices *choices);
 const char *tji_choice_text(const TJIChoices *choices, size_t index);
 const char *tji_choice_meaning(const TJIChoices *choices, size_t index);
 const char *tji_choice_short_meaning(const TJIChoices *choices, size_t index);
-/* Returns a TJI_ word kind, or -1 for an invalid choice. */
 const char *tji_choice_lexeme_ids(const TJIChoices *choices, size_t index);
+/* For typed Han strips, merge this nonempty ID only at the same edit boundary.
+   Keep the actual choice's lexeme IDs for context when committing. */
+const char *tji_choice_han_sense_id(const TJIChoices *choices, size_t index);
 const char *tji_choice_last_syllable(const TJIChoices *choices, size_t index);
 int32_t tji_choice_plain_han_loan(const TJIChoices *choices, size_t index);
 int32_t tji_choice_is_syllable(const TJIChoices *choices, size_t index);
+/* Returns a TJI_ word kind, or -1 for an invalid choice. */
 int32_t tji_choice_kind(const TJIChoices *choices, size_t index);
 int32_t tji_choice_consumed_utf16(const TJIChoices *choices, size_t index);
 /* Borrowed flat UTF-16 start/end-exclusive pairs, valid while choices is alive.

@@ -196,6 +196,7 @@ struct Entry {
     std::vector<std::string> writtenForms{};
     bool plainHanLoan = false;
     std::string lastSyllable{};
+    size_t hanSenseGroup = 0;
 
     void setUnits(const std::string& field) {
         std::string combined;
@@ -353,6 +354,7 @@ struct Lexicon::Impl {
         }
         const size_t fieldCount = hasPresentation ? 15 : hasRomanAliases ? 14 : hasUnits ? 13 : tones ? 12 : ranked ? 10 : 7;
         Fields fields{};
+        std::unordered_map<std::string, size_t> hanSenseGroups;
         while (readLine(lines, line)) {
             readFields(line, fieldCount, fields);
             if (fields[1].empty() || fields[4].empty()) {
@@ -407,6 +409,16 @@ struct Lexicon::Impl {
                 continue;
             }
             lexicalIds.emplace(entry.id, id);
+            entry.hanSenseGroup = id;
+            if (!entry.meaning.empty()) {
+                Query fullWord;
+                if (!fullWord.read(tones && !f[10].empty() ? f[10] : entry.word))
+                    throw std::invalid_argument("Invalid dictionary spelling: " + entry.id);
+                // Use the complete reading and definition. Unrelated homophones and
+                // longer completions can have identical one-character display glosses.
+                const auto group = hanSenseGroups.emplace(fullWord.folded + '\t' + entry.meaning, id);
+                entry.hanSenseGroup = group.first->second;
+            }
             if (hasRomanAliases && !f[13].empty()) {
                 for (const auto& alias : split(f[13], ' ')) addSpelling(alias, id);
             }
@@ -661,6 +673,10 @@ struct Lexicon::Impl {
             } else if (it != syllableSenses.end() && !it->second.han.empty()) {
                 const auto& sense = it->second;
                 c.text = sense.han;
+                if (!sense.lexemeId.empty()) {
+                    const auto& entry = entries[lexicalIds.at(sense.lexemeId)];
+                    c.hanSenseId = entries[entry.hanSenseGroup].id;
+                }
                 c.joinedHanRanges = sense.joinedRanges;
                 c.plainHanLoan = sense.plainHanLoan;
                 if (sense.plainHanLoan) c.shortMeaning.clear();
@@ -864,6 +880,8 @@ struct Lexicon::Impl {
 
         std::vector<Candidate> result;
         std::unordered_set<int> lexicalLengths;
+        const bool typedHan = mode == Mode::Han && !hanCharacter(q.scalars[start]);
+        const auto choiceId = [&](size_t id) { return typedHan ? entries[id].hanSenseGroup : id; };
         // When two spellings consume different lengths for the same lexeme, resolve
         // their boundary against the next word. ri|xi leaves a real word, rix|i does
         // not. A terminal tone letter in ngaf always stays with its own syllable.
@@ -873,15 +891,15 @@ struct Lexicon::Impl {
         for (size_t end = std::min(start + maxKey, q.scalars.size()); end > start; --end) {
             auto choices = match(q, start, end, mode);
             if (choices.empty()) continue;
-            for (auto id : choices) if (!seen.insert(id).second) repeated.insert(id);
+            for (auto id : choices) if (!seen.insert(choiceId(id)).second) repeated.insert(choiceId(id));
             prefixes.push_back({end, std::move(choices)});
         }
         for (auto& prefix : prefixes) {
-            if (std::none_of(prefix.choices.begin(), prefix.choices.end(), [&](size_t id) { return repeated.count(id); })) continue;
+            if (std::none_of(prefix.choices.begin(), prefix.choices.end(), [&](size_t id) { return repeated.count(choiceId(id)); })) continue;
             const size_t next = q.skipSpaces(prefix.end);
             prefix.validBoundary = next == q.scalars.size() || punctuation(q.scalars[next]) || startsAnotherWord(q, next, mode);
             if (prefix.validBoundary) {
-                for (auto id : prefix.choices) if (repeated.count(id)) withBoundary.insert(id);
+                for (auto id : prefix.choices) if (repeated.count(choiceId(id))) withBoundary.insert(choiceId(id));
             }
         }
         std::unordered_set<size_t> offered;
@@ -893,12 +911,14 @@ struct Lexicon::Impl {
                 return entries[a].frequency > entries[b].frequency;
             });
             for (size_t id : choices) {
-                if (withBoundary.count(id)) {
+                const size_t key = choiceId(id);
+                if (withBoundary.count(key)) {
                     if (!prefix.validBoundary) continue;
-                } else if (!offered.insert(id).second) continue;
+                } else if (!offered.insert(key).second) continue;
                 const auto& entry = entries[id];
                 const auto& text = entry.output(mode, orthography);
                 auto duplicate = std::find_if(result.begin() + batchStart, result.end(), [&](const Candidate& c) {
+                    if (typedHan && !c.hanSenseId.empty() && c.hanSenseId == entries[key].id) return true;
                     return c.text == text && c.meaning == entry.meaning && c.plainHanLoan == (mode == Mode::Han && entry.plainHanLoan);
                 });
                 if (duplicate == result.end()) {
@@ -930,7 +950,10 @@ struct Lexicon::Impl {
         c.lastSyllable = e.lastSyllable;
         c.plainHanLoan = output == Mode::Han && e.plainHanLoan;
         if (c.plainHanLoan) c.shortMeaning.clear();
-        if (output == Mode::Han) c.joinedHanRanges = e.joinedRanges;
+        if (output == Mode::Han) {
+            c.joinedHanRanges = e.joinedRanges;
+            if (!e.meaning.empty()) c.hanSenseId = entries[e.hanSenseGroup].id;
+        }
         return c;
     }
 
@@ -1007,7 +1030,11 @@ struct Lexicon::Impl {
 
     std::vector<Candidate> nextWords(const std::string& context, Mode output, Orthography style) const {
         std::vector<Candidate> out;
-        for (auto id : predictedIds(context)) out.push_back(lexical(id, output, style, 0));
+        std::unordered_set<size_t> senses;
+        for (auto id : predictedIds(context)) {
+            if (output == Mode::Han && !senses.insert(entries[id].hanSenseGroup).second) continue;
+            out.push_back(lexical(id, output, style, 0));
+        }
         return out;
     }
 
@@ -1035,6 +1062,7 @@ struct Lexicon::Impl {
         for (auto id : possible) {
             const auto& entry = entries[id];
             auto same = [&](const Candidate& c) {
+                if (output == Mode::Han && !c.hanSenseId.empty() && c.hanSenseId == entries[entry.hanSenseGroup].id) return true;
                 return c.text == entry.output(output, style) && c.meaning == entry.meaning;
             };
             if (std::none_of(out.begin(), out.end(), same))

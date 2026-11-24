@@ -100,7 +100,7 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
         if (!item) return nullptr;
-        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;Z)V");
+        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V");
         if (!init) return nullptr;
         jobjectArray result = env->NewObjectArray(lengthOf(found.size()), item, nullptr);
         if (!result) return nullptr;
@@ -124,15 +124,18 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             if (!ids) return nullptr;
             jstring syllable = stringToJava(env, candidate.lastSyllable);
             if (!syllable) return nullptr;
+            jstring sense = stringToJava(env, candidate.hanSenseId);
+            if (!sense) return nullptr;
             jobject value = env->NewObject(item, init, text, meaning, shortMeaning,
                                             static_cast<jint>(candidate.kind), static_cast<jint>(candidate.consumed),
                                             ranges, static_cast<jboolean>(candidate.syllableOnly), ids, syllable,
-                                            static_cast<jboolean>(candidate.plainHanLoan));
+                                            static_cast<jboolean>(candidate.plainHanLoan), sense);
             if (!value) return nullptr;
             env->SetObjectArrayElement(result, static_cast<jsize>(i), value);
             env->DeleteLocalRef(value);
             env->DeleteLocalRef(ids);
             env->DeleteLocalRef(syllable);
+            env->DeleteLocalRef(sense);
             env->DeleteLocalRef(ranges);
             if (shortMeaning != meaning) env->DeleteLocalRef(shortMeaning);
             env->DeleteLocalRef(meaning);

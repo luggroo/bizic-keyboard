@@ -22,6 +22,8 @@ public final class CandidateEngine implements AutoCloseable {
         public final boolean syllableOnly;
         /** Source IDs in commit order. Empty for punctuation, defaults and Chinese fallback. */
         public final String lexemeIds;
+        /** Groups typed Han variants of one complete reading and sense. */
+        public final String hanSenseId;
         /** Canonical Ye spelling of the last syllable, for the syllable-level context table. */
         public final String lastSyllable;
         /** The current Han candidate uses the original loan characters without a gloss line. */
@@ -30,7 +32,9 @@ public final class CandidateEngine implements AutoCloseable {
         public final int[] joinedHanRanges;
 
         private Candidate(String text, String meaning, String shortMeaning, int kind, int consumed,
-                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable, boolean plainHanLoan) {
+                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable,
+                          boolean plainHanLoan, String hanSenseId) {
+            this.hanSenseId = hanSenseId;
             this.plainHanLoan = plainHanLoan;
             this.lastSyllable = lastSyllable;
             this.lexemeIds = lexemeIds;

@@ -116,6 +116,9 @@ const char *tji_choice_short_meaning(const TJIChoices *r, size_t i) {
 const char *tji_choice_lexeme_ids(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() ? r->items[i].lexemeIds.c_str() : nullptr;
 }
+const char *tji_choice_han_sense_id(const TJIChoices *r, size_t i) {
+    return r && i < r->items.size() ? r->items[i].hanSenseId.c_str() : nullptr;
+}
 const char *tji_choice_last_syllable(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() ? r->items[i].lastSyllable.c_str() : nullptr;
 }

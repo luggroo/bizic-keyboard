@@ -20,6 +20,8 @@ public struct WordCandidate: Equatable {
     public let kind: CandidateKind
     /// Space-separated source IDs in commit order. Empty ends lexical context.
     public let lexemeIds: String
+    /// Shared by typed Han variants of one reading and sense at the same edit boundary.
+    public let hanSenseId: String
     public let lastSyllable: String
     public let syllableOnly: Bool
     public let plainHanLoan: Bool
@@ -136,6 +138,7 @@ public final class TujiaDictionary {
                           shortMeaning: String(cString: tji_choice_short_meaning(result, i)),
                           kind: CandidateKind(rawValue: tji_choice_kind(result, i)) ?? .tujia,
                           lexemeIds: String(cString: tji_choice_lexeme_ids(result, i)),
+                          hanSenseId: String(cString: tji_choice_han_sense_id(result, i)),
                           lastSyllable: String(cString: tji_choice_last_syllable(result, i)),
                           syllableOnly: tji_choice_is_syllable(result, i) != 0,
                           plainHanLoan: tji_choice_plain_han_loan(result, i) != 0,

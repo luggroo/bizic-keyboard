@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowInsets;
@@ -67,13 +68,13 @@ public final class SetupActivity extends Activity {
         scroll.addView(body);
         setContentView(scroll);
 
-        TextView title = label("土家语输入法", 34, INK, true);
+        TextView title = label("土家语输入法", 26, INK, true);
         body.addView(title);
-        addSpaced(body, label("北部土家语  ·  安卓键盘", 17, MUTED, false), 5);
+        addSpaced(body, label("北部土家语  ·  安卓键盘", 14, MUTED, false), 5);
         LinearLayout card = section(body, 24);
         card.setBackground(shape(0xfff8e5d8, Color.TRANSPARENT, 16));
         card.setPadding(dp(16), dp(18), dp(16), dp(12));
-        status = label("", 20, INK, true);
+        status = label("", 16, INK, true);
         status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
         card.addView(status);
         enable = action("在系统设置中启用", true, v -> {
@@ -88,11 +89,11 @@ public final class SetupActivity extends Activity {
         addSpaced(card, select, 8);
 
         LinearLayout editor = section(body, 24);
-        editor.addView(label("试打", 22, INK, true));
-        addSpaced(editor, label("在「记音」里输入 bizika，点“土家族”下面的「币兹咔」，就写出了《山歌两首》第一行里的一个词。", 17, MUTED, false), 6);
+        editor.addView(label("试打", 18, INK, true));
+        addSpaced(editor, label("点键盘上的「更多」，选「汉字记音」。输入 bizika，点“土家族”下面的「币兹咔」。", 14, MUTED, false), 6);
         trial = new EditText(this);
         trial.setId(R.id.trial_editor);
-        trial.setTextSize(24);
+        trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         trial.setTextColor(0xff223541);
         trial.setHintTextColor(0xff536671);
         trial.setHint("点这里，打开键盘");
@@ -108,7 +109,7 @@ public final class SetupActivity extends Activity {
         addSpaced(body, spelling, 16);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
-        body.requestFocus();
+        if (state == null) body.requestFocus();
     }
 
     private void refresh() {
@@ -190,7 +191,8 @@ public final class SetupActivity extends Activity {
     private Button action(String title, boolean primary, View.OnClickListener listener) {
         Button b = new Button(this);
         b.setText(title);
-        b.setTextSize(18);
+        b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        b.setSingleLine(false);
         b.setAllCaps(false);
         b.setMinHeight(dp(48));
         b.setTextColor(primary ? Color.WHITE : RED);
@@ -209,7 +211,7 @@ public final class SetupActivity extends Activity {
     private TextView label(String value, int size, int color, boolean bold) {
         TextView t = new TextView(this);
         t.setText(value);
-        t.setTextSize(size);
+        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
         t.setTextColor(color);
         if (bold) t.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         return t;

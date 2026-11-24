@@ -44,6 +44,27 @@ bool offers(const std::vector<Candidate>& choices, const std::string& text,
     });
 }
 
+void checkHanSenses(const Lexicon& lexicon) {
+    const auto untoned = lexicon.lookup("go", Mode::Han);
+    const auto toned = lexicon.lookup("gǒ", Mode::Han);
+    const auto other = lexicon.lookup("gor", Mode::Han);
+    check(offers(untoned, "过", "他", 2) && offers(untoned, "过", "过错", 2),
+          "Identical Han forms may carry two distinct senses");
+    check(std::count_if(untoned.begin(), untoned.end(), [](const Candidate& c) {
+        return c.meaning == "他";
+    }) == 1, "Unmarked go should offer a single Han form for he");
+    check(offers(toned, "郭", "他", 2) && offers(other, "郭", "他", 3),
+          "An explicit diacritic or Ye tone selects its own reading");
+    const auto explicitWord = std::find_if(toned.begin(), toned.end(), [](const Candidate& c) {
+        return c.meaning == "他";
+    });
+    check(!untoned.front().hanSenseId.empty() && untoned.front().hanSenseId == explicitWord->hanSenseId &&
+          untoned.front().lexemeIds != explicitWord->lexemeIds,
+          "Merge identity must not replace the selected word's actual history");
+    const auto written = lexicon.lookup("郭", Mode::Handwriting, Orthography::Diacritic);
+    check(offers(written, "gǒ", "他", 1), "Handwriting can still find the specific source reading");
+}
+
 Candidate first(const Lexicon& lexicon, const std::string& query, Mode mode) {
     auto choices = lexicon.lookup(query, mode);
     check(!choices.empty(), "No candidates for " + query);
@@ -102,7 +123,17 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
         };
         verify(Mode::Pinyin, word, word);
         verify(Mode::Han, word, han);
-        verify(Mode::Han, key, han);
+        const auto explicitReading = lexicon.lookup(word, Mode::Han);
+        const auto source = std::find_if(explicitReading.begin(), explicitReading.end(), [&](const Candidate& c) {
+            return c.text == han && c.meaning == meaning && c.consumed == editorLength(word);
+        });
+        const auto verifyHanSense = [&](const std::string& query) {
+            const auto choices = lexicon.lookup(query, Mode::Han);
+            check(!source->hanSenseId.empty() && std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
+                return c.hanSenseId == source->hanSenseId && c.meaning == meaning && c.consumed == editorLength(query);
+            }), id + ": recommended Han sense for " + query);
+        };
+        verifyHanSense(key);
         verify(Mode::Handwriting, han, word);
         if (fields.size() >= 14) {
             for (const auto& alias : split(fields[13], ' ')) {
@@ -116,7 +147,7 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
             const auto& marked = fields[11];
             check(!plain.empty() && !marked.empty(), "Incomplete Tujia spelling pair for " + id);
             verify(Mode::Pinyin, plain, word);
-            verify(Mode::Han, plain, han);
+            verifyHanSense(plain);
             verify(Mode::Pinyin, plain, marked, Orthography::Diacritic);
             verify(Mode::Pinyin, marked, word);
             verify(Mode::Handwriting, han, marked, Orthography::Diacritic);
@@ -503,6 +534,7 @@ int main(int argc, char** argv) {
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
         checkDirectSyllableCommit();
         checkMongContexts(lexicon);
+        checkHanSenses(lexicon);
         checkSyllableBigrams(lexicon, sounds.str());
         checkSyllableFixture(asset);
         checkContext(lexicon);

@@ -117,7 +117,13 @@ public final class CandidateEngineTest {
                       id + ": joined Han UTF-16 ranges");
             }
             check(offers(engine.lookup(spelled, Mode.HAN), han, meaning, spelled.length()), id + ": phonetic Han");
-            if (!key.isEmpty()) check(offers(engine.lookup(key, Mode.HAN), han, meaning, key.length()), id + ": short key");
+            if (!key.isEmpty()) {
+                Candidate source = engine.lookup(spelled, Mode.HAN).stream().filter(c ->
+                        c.text.equals(han) && c.meaning.equals(meaning) && c.consumed == spelled.length()).findFirst().get();
+                check(!source.hanSenseId.isEmpty() && engine.lookup(key, Mode.HAN).stream().anyMatch(c ->
+                        c.hanSenseId.equals(source.hanSenseId) && c.meaning.equals(meaning) && c.consumed == key.length()),
+                        id + ": short key reaches the same sense");
+            }
             check(offers(engine.lookup(han, Mode.HANDWRITING), spelled, meaning, han.length()), id + ": handwriting");
             for (String alias : f[5].split(" ")) {
                 if (!alias.isEmpty()) {

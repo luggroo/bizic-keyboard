@@ -27,6 +27,9 @@ struct Candidate {
     std::string lastSyllable{};
     // This Han choice uses the loanword’s original Chinese spelling without a compact gloss.
     bool plainHanLoan = false;
+    // Shared by lexical Han choices with the same full toneless reading and meaning.
+    // lexemeIds still identifies the actual selected reading for prediction.
+    std::string hanSenseId{};
 };
 
 class Lexicon {
