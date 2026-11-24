@@ -99,7 +99,7 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     exit 1
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
-case "$suite" in all|core|host|window|web|system|sounds|compact|long-word|typography|han-senses|regional|hand-words) ;; *) echo "Unknown TUJIA_E2E_SUITE: $suite" >&2; exit 2 ;; esac
+case "$suite" in all|core|host|window|web|system|sounds|compact|long-word|typography|han-senses|regional|hand-words|outputs) ;; *) echo "Unknown TUJIA_E2E_SUITE: $suite" >&2; exit 2 ;; esac
 if [[ "$suite" == typography ]]; then
     previous_density=$("$adb_bin" shell wm density | tr -d '\r' | sed -n 's/^Override density: //p')
     previous_font=$("$adb_bin" shell settings get system font_scale | tr -d '\r')
@@ -109,13 +109,13 @@ capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
+    for frame in failure three-output-menu three-output-commits prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
+    for frame in failure three-output-menu three-output-commits prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
         if "$adb_bin" shell test -f "$remote"; then
             "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"

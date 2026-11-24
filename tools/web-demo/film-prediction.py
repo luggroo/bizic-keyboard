@@ -22,9 +22,7 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     page=browser.new_page(viewport={'width':390,'height':844},offline=True,locale='zh-CN')
     page.set_content(html)
     page.locator('#take').click();page.locator('#result').click()
-    page.locator('#kbMore').click();page.locator('#menuSpell').click()
-    page.locator('#kbMore').click();page.locator('#kbSettings').click();page.locator('#orthography').select_option('diacritic')
-    page.locator('#closeSettings').click()
+    page.locator('#kbMore').click();page.locator('#menuMarked').click()
     def shot(seconds):
         p=work/f'{len(frames):03}.png';page.screenshot(path=p);frames.append((p,seconds))
     def press(el,seconds=.33):
@@ -75,8 +73,8 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
         choose('mǒng','sound');choose('gǎ','sound')
         assert body().splitlines()[-1]=='bízīkǎ mǒng gǎ'
         newline();press(page.locator('#kbMore'));shot(.6);press(page.locator('#menuHan'));shot(.6)
-        type_raw('bizika');choose('币兹咔','exact');choose('萌','sound');type_raw('ga');choose('夹','exact')
-        assert body().splitlines()[-1]=='币兹咔萌夹'
+        type_raw('bizika');choose('币子咔','exact');choose('萌','sound');type_raw('ga');choose('夹','exact')
+        assert body().splitlines()[-1]=='币子咔萌夹'
         newline();type_raw('go');choose('过','exact','他')
         newline();type_raw('gor');choose('郭','exact','他')
         assert body().splitlines()[-2:]==['过','郭']

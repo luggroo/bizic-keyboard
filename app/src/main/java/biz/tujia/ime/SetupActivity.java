@@ -167,20 +167,26 @@ public final class SetupActivity extends Activity {
         select.setEnabled(enabled);
         select.setAlpha(enabled ? 1f : .55f);
         select.setText(selected ? "切换系统键盘" : "选择土家语键盘");
-        boolean toneMarks = KeyboardSettings.spelling(this) == CandidateEngine.Orthography.DIACRITIC;
-        spelling.setText(toneMarks ? "拼写输出 · 带调号拼音" : "拼写输出 · 叶氏拼音");
+        spelling.setText("输出形式 · " + KeyboardSettings.typingOutput(this).name);
     }
 
     private void chooseSpelling() {
-        String[] names = {"带调号拼音", "叶氏拼音"};
-        int selected = KeyboardSettings.spelling(this) == CandidateEngine.Orthography.DIACRITIC ? 0 : 1;
-        new AlertDialog.Builder(this).setTitle("拼写输出")
-                .setSingleChoiceItems(names, selected, (dialog, index) -> {
-                    KeyboardSettings.setSpelling(this, index == 0
-                            ? CandidateEngine.Orthography.DIACRITIC : CandidateEngine.Orthography.YE);
-                    refresh();
-                    dialog.dismiss();
-                }).setNegativeButton("取消", null).show();
+        LinearLayout row = new LinearLayout(this);
+        row.setPadding(dp(10), dp(8), dp(10), dp(6));
+        int textHeight = (int)Math.ceil(android.util.TypedValue.applyDimension(
+                android.util.TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics()) * 2.8f);
+        row.setMinimumHeight(Math.max(dp(72), textHeight + dp(14)));
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("输出形式").setView(row)
+                .setNegativeButton("取消", null).create();
+        OutputForm selected = KeyboardSettings.typingOutput(this);
+        for (OutputForm form : OutputForm.values()) {
+            form.addButton(row, form == selected, false, () -> {
+                KeyboardSettings.setDefaultOutput(this, form);
+                refresh();
+                dialog.dismiss();
+            });
+        }
+        dialog.show();
     }
 
     @Override protected void onResume() { super.onResume(); refresh(); }

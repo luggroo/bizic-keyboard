@@ -172,7 +172,7 @@ final class SystemTypography {
         test.pressCandidate("补全 女人，麻麻爹", false);
         test.expectText(host.first, "正文麻麻爹");
         test.press("手写");
-        test.setHandwritingOutput(true);
+        test.setHandwritingOutput("汉字谐音");
         Rect pad = test.waitForNode("汉字手写区", false);
         test.drawThree(pad);
         // The last pen-up has occurred but the recognizer's idle timer has not elapsed.

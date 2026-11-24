@@ -11,7 +11,41 @@ const dom=new JSDOM(html,{url:'https://demo.invalid/',runScripts:'dangerously',p
 const w=dom.window,d=w.document;const click=s=>d.querySelector(s).click();
 function input(s){let e=d.querySelector('#draft');e.value=s;e.dispatchEvent(new w.Event('input',{bubbles:true}));}
 console.log('errors',JSON.stringify(errors));if(errors.length)process.exit(1);
-click('#take');click('#menuHan');
+const result=d.querySelector('#result');
+const outputs=[['ye','bifzixkar','用叶氏拼音'],['diacritic','bízīkǎ','用带调号拼音'],['han','币子咔','用汉字谐音']];
+function checkButtons(group){
+  const keys=Array.from(d.querySelector(group).children);
+  if(keys.length!==3)throw Error('missing output choices in '+group);
+  outputs.forEach(([form,sample,name],i)=>{
+    const key=keys[i];
+    if(key.dataset.form!==form || key.firstElementChild.textContent!==sample || key.lastElementChild.textContent!==name ||
+       key.getAttribute('aria-label')!==name+'，'+sample)throw Error('incorrect output key in '+group+': '+key.outerHTML);
+  });
+}
+function chooseForm(group,form){click(group+' [data-form="'+form+'"]')}
+function candidate(form){
+  const card=[...d.querySelectorAll('#candidates .word')].find(e=>e.querySelector('strong')?.textContent===form);
+  if(!card)throw Error('Missing visible candidate '+form+' in '+d.querySelector('#candidates').textContent);
+  return card;
+}
+checkButtons('#menuOutputs');checkButtons('#orthography');checkButtons('#typingOutputs');
+click('#tryForms');
+if(d.querySelector('#kbMorePanel').hidden || d.querySelector('#draft').value!=='bizika')throw Error('Missing example draft or picker');
+for(const [form,sample] of outputs){
+  if(d.querySelector('#kbMorePanel').hidden){input('bizika');click('#kbMore')}
+  const before=result.value;
+  chooseForm('#menuOutputs',form);
+  if(d.querySelector('#draft').value!=='bizika' || before!==result.value)throw Error('Switch lost input');
+  const card=candidate(sample);
+  if(!card.querySelector('small').textContent.includes('土家族'))throw Error('Missing meaning for '+sample);
+  card.click();
+  if(!result.value.endsWith(sample) || !result.value.startsWith(before))throw Error('Incorrect commit: '+result.value);
+}
+input('bizika');click('#openSettings');chooseForm('#orthography','diacritic');
+if(d.querySelector('#orthography [aria-pressed=true]').dataset.form!=='diacritic' ||
+   d.querySelector('#draft').value!=='bizika' || w.localStorage.getItem('tujia-orthography')!=='diacritic')throw Error('Settings selection failed');
+d.querySelector('#settingsPanel').close();candidate('bízīkǎ');
+click('#kbMore');click('#menuHan');input('');result.value='';result.setSelectionRange(0,0);
 input('guaijia');
 const country=Array.from(d.querySelectorAll('#candidates button strong')).map(e=>e.textContent);
 if(country[0]!=='国家'||country.filter(x=>x==='国家').length!==1||country.includes('怪家'))throw Error('incorrect 国家 candidate: '+country);
@@ -21,8 +55,9 @@ console.log('note',d.querySelector('#result').textContent,'group',d.querySelecto
 if(d.querySelector('#result').textContent!=='˻克移˼')throw Error('bracket commit failed');
 if(d.querySelector('#result .joined-han')?.textContent!=='克移')throw Error('missing style group');
 // Keep distinct tones and meanings visible while collapsing true duplicates.
-const result=d.querySelector('#result');result.value='树树';result.focus();result.setSelectionRange(2,2);
+result.value='树树';result.focus();result.setSelectionRange(2,2);
 click('#handMode');
+click('#kbMore');click('#menuHan');
 const cards=Array.from(d.querySelectorAll('#candidates button'));
 const matches=cards.filter(e=>e.querySelector('strong')?.textContent==='树树');
 if(matches.length!==3)throw Error('expected three distinct handwritten readings: '+matches.length);
@@ -32,8 +67,18 @@ if(!cards.some(e=>e.querySelector('strong')?.textContent==='树'))throw Error('m
 matches.find(e=>e.querySelector('small').textContent==='雪súsú').click();
 const details=d.querySelector('#readMeaning').textContent;
 if(!details.includes('súsú')||!details.includes('雪'))throw Error('missing reading details: '+details);
-click('#readChoose');
+click('#readBack');
 if(result.value!=='树树')throw Error('viewing a match modified the note');
+for(const [form,sample] of outputs){
+  result.value='前币子咔后';result.setSelectionRange(4,4);click('#handMode');
+  candidate('币子咔').click();checkButtons('#readOutputs');chooseForm('#readOutputs',form);
+  if(result.value!=='前'+sample+'后' || result.selectionStart!==1+sample.length)throw Error('Incorrect handwritten range: '+result.value);
+  if(d.querySelector('#handMode').getAttribute('aria-pressed')!=='true' ||
+     d.querySelector('#menuOutputs [aria-pressed=true]').dataset.form!=='han')throw Error('One-off conversion changed handwriting mode');
+}
+result.value='前波粒后';result.setSelectionRange(3,3);click('#handMode');
+candidate('波粒').click();chooseForm('#readOutputs','han');
+if(result.value!=='前波俐后')throw Error('Handwritten alias was not normalized');
 result.value='';result.setSelectionRange(0,0);
 w.eval("acceptGlyph('斯')");
 const handCards=w.eval('candidateItems.map(c=>({form:c.form, meaning:c.meaning, roman:c.roman, source:c.source}))');

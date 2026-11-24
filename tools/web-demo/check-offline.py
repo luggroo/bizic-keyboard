@@ -38,15 +38,13 @@ with sync_playwright() as pw:
         reset()
         page.locator('#take').click()
         page.locator('#result').click()
-        if mode==2:page.locator('#handMode').click()
+        if mode==2:
+            page.locator('#handMode').click()
         else:
             page.locator('#typeMode').click()
-            page.locator('#kbMore').click()
-            page.locator('#menuHan' if mode else '#menuSpell').click()
-        if marked:
-            page.locator('#kbMore').click();page.locator('#kbSettings').click()
-            page.locator('#orthography').select_option('diacritic')
-            page.locator('#closeSettings').click()
+        page.locator('#kbMore').click()
+        key = '#menuMarked' if marked and mode!=1 else '#menuSpell' if mode==0 else '#menuHan'
+        page.locator(key).click()
     def text():return page.locator('#result').evaluate('e=>e.value')
     def choose(text,attr=''):
         card=page.locator('#candidates button'+attr).filter(has=page.locator('strong').filter(has_text=re.compile('^'+re.escape(text)+'$'))).first
@@ -62,7 +60,7 @@ with sync_playwright() as pw:
     def expected_sound(output_mode):
         keyboard(output_mode,True)
         page.locator('#draft').fill('bizika')
-        choose('币兹咔' if output_mode else 'bízīkǎ','[data-source="exact"]')
+        choose('币子咔' if output_mode else 'bízīkǎ','[data-source="exact"]')
         snap(page,'after-word')
         card=page.locator('#candidates [data-source="sound"]').first
         form=card.locator('strong').inner_text();assert form==('萌' if output_mode else 'mǒng')
@@ -166,7 +164,7 @@ with sync_playwright() as pw:
     choose('萌','[data-source="sound"]')
     assert text()=='bízīkǎ萌'
     assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
-    page.locator('#kbMore').click();page.locator('#menuSpell').click()
+    page.locator('#kbMore').click();page.locator('#menuMarked').click()
     page.locator('#draft').fill('gǎ');choose('gǎ')
     assert text()=='bízīkǎ萌gǎ'
     page.get_by_role('button',name='。',exact=True).click()
