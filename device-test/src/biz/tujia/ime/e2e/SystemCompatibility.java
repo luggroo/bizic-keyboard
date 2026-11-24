@@ -3,6 +3,7 @@ package biz.tujia.ime.e2e;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -37,6 +38,7 @@ final class SystemCompatibility {
         launch(browser);
         Rect url = appNode(BROWSER, "editable", "");
         keys.tap(url.centerX(), url.centerY());
+        appNode(BROWSER, "select-address", "");
         keys.press("g");
         keys.press("a");
         appNode(BROWSER, "editable", "ga");
@@ -91,7 +93,15 @@ final class SystemCompatibility {
         String id = node.getViewIdResourceName() == null ? "" : node.getViewIdResourceName();
         boolean matches;
         if (type.equals("editable")) {
-            matches = node.isEditable() && (value.isEmpty() || text.endsWith(value));
+            matches = node.isEditable() && (value.isEmpty() || text.equals(value));
+        } else if (type.equals("select-address")) {
+            matches = node.isEditable() && node.isFocused() && node.isVisibleToUser();
+            if (matches) {
+                Bundle range = new Bundle();
+                range.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_START_INT, 0);
+                range.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_END_INT, text.length());
+                matches = node.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, range);
+            }
         } else if (type.equals("cancel")) {
             matches = (desc.equals("取消") || desc.equals("关闭") || desc.equals("向上导航")
                     || desc.equals("Navigate up") || desc.equals("Cancel") || id.endsWith("/menu_cancel"));

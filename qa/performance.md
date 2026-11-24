@@ -1,6 +1,12 @@
 # 输入响应、启动与内存
 
-## Android 9 模拟器结果
+## 0.3.1 连续点按和手势
+
+0.3.1（版本码 6，构建 `dbcf9f1c…`）在 Android 9、x86、SwiftShader 软件模拟器上连续点击同一个字母键 180 次，180 次都在外部邮箱输入框中收到并绘制了正确正文。抬指到正文更新的 P50 为 45.3 毫秒，P95 为 197.4 毫秒；到宿主绘制的 P50 为 99.5 毫秒，P95 为 295.6 毫秒。手指滑出、系统取消触摸均未误输入。连续退格、长按元音选调、长按候选查看全文、单击候选提交和搜索动作均通过。[180 次独立记录](results/api28-031-letters.log) · [手势及功能键记录](results/api28-031-gestures.log)
+
+0.3.0 正式包在 96 次快速同键点击中曾漏收 1 次。追踪版用同一节奏重现了 3 次。三次都是同一按钮收到按下和抬起，但抬起时按压状态已经清除，没有触发点击或向宿主提交文字。0.3.1 改为追踪每次触摸的起止和取消事件。[正式包失败样本](results/api28-x86-c9f35807-repeats.log) · [事件轨迹](results/api28-x86-tap-trace.txt)
+
+## 0.3.0 对照测量
 
 0.3.0 的 0d5ef60f 构建在 Android 9 / API 28 的 x86_64 软件模拟器上运行。窗口为 480 × 800 像素、160 dpi，字体比例 1.0。设备内独占测试，云宿主也运行另一台模拟器。测试前两种输入各预热 2 次，之后每组重复 32 次。
 
@@ -32,18 +38,18 @@
 
 ## 超长草稿
 
-Linux x86_64 主机使用 `-O2` 构建同一分词核心，每个长度启动一个新进程。载入完整词库与联想表后查询一次。表中给出识别得到词的 `gaf` 重复串，以及没有首词的 `q` 重复串。单位为毫秒，每格一次测量。
+Linux x86_64 主机使用 `-O2` 构建同一分词核心，每个长度启动一个新进程。载入完整词库、词级及音节联想表后查询一次。表中给出识别得到词的 `gaf` 重复串，以及没有首词的 `q` 重复串。单位为毫秒，每格一次测量。
 
 | 草稿字符数 | 可识别的拼写 | 无首词的拼写 |
 | ---: | ---: | ---: |
-| 32 | 0.085 | 0.038 |
-| 256 | 0.433 | 0.039 |
-| 1,024 | 0.990 | 0.047 |
-| 4,096 | 7.149 | 0.110 |
-| 16,384 | 16.321 | 0.430 |
-| 65,536 | 69.106 | 1.240 |
+| 32 | 0.144 | 0.031 |
+| 256 | 0.402 | 0.032 |
+| 1,024 | 1.161 | 0.059 |
+| 4,096 | 7.936 | 0.115 |
+| 16,384 | 19.210 | 0.310 |
+| 65,536 | 68.932 | 1.248 |
 
-65,536 个字符的可分词草稿使进程峰值 RSS 从载入词库后的 13.1 MiB 增至 16.7 MiB，完整返回 8 个候选。拼写键每次更新都会在输入法主线程查询当前整串草稿。极长草稿持续逐键输入会积累计算成本，这张表只测最后一次查询。手写区域每字最多保留 64 笔，每笔最多保留 2,048 个采样点。[原始读数](results/lookup-stress.csv)
+65,536 个字符的可分词草稿使进程峰值 RSS 从载入词库后的 13.6 MiB 增至 17.3 MiB，完整返回 8 个候选。拼写键每次更新都会在输入法主线程查询当前整串草稿。极长草稿持续逐键输入会积累计算成本，这张表只测最后一次查询。手写区域每字最多保留 64 笔，每笔最多保留 2,048 个采样点。[原始读数](results/lookup-stress.csv)
 
 ## 复现
 
@@ -54,13 +60,13 @@ Linux x86_64 主机使用 `-O2` 构建同一分词核心，每个长度启动一
 ./qa/measure-android.sh /tmp/tujia-perf.apk build/perf com.android.inputmethod.latin/.LatinIME
 ```
 
-结果目录保存受测 APK 摘要、设备信息、每次测量和原始 `dumpsys` 输出。通过 `ANDROID_SERIAL` 选择设备，`COLD_ROUNDS`、`WARM_ROUNDS`、`KEY_ROUNDS` 分别控制三种样本数。
+结果目录保存受测 APK 摘要、设备信息、每次测量和原始 `dumpsys` 输出。通过 `ANDROID_SERIAL` 选择设备，`COLD_ROUNDS`、`WARM_ROUNDS`、`KEY_ROUNDS` 分别控制三种样本数。设置 `PERF_PROFILE=letters KEY_ROUNDS=180` 可只测连续点按，`PERF_PROFILE=keys` 可只测两类输入，`PERF_PROFILE=gestures` 可运行取消、滑出、长按、候选和搜索动作。
 
 ```bash
 c++ -std=c++17 -O2 -Ishared/src qa/lookup-stress.cpp shared/src/lexicon.cpp -o /tmp/tujia-stress
 for n in 32 256 1024 4096 16384 65536; do
   for word in gaf qqq; do
-    /tmp/tujia-stress shared/bundle/Assets/words.tsv shared/bundle/Assets/ngrams.tsv "$n" "$word"
+    /tmp/tujia-stress shared/bundle/Assets/words.tsv shared/bundle/Assets/ngrams.tsv shared/bundle/Assets/syllable_bigrams.tsv "$n" "$word"
   done
 done
 ```

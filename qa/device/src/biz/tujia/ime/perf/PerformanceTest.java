@@ -12,7 +12,10 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+import android.view.inputmethod.EditorInfo;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityWindowInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -23,7 +26,11 @@ public final class PerformanceTest extends Instrumentation {
     private static final String PKG = "biz.tujia.ime";
     private UiAutomation ui;
     private PerfEditor host;
-    private int keys, cold, warm;
+    private int keys, cold, warm, pace, misses;
+    private boolean onlyLetters, checkGestures, freshKeys, keysOnly;
+    private volatile long clickEvents, lastClickTime;
+    private long sentDown, sentUp;
+    private volatile String lastClick = "";
     private String baseline;
     private AccessibilityNodeInfo root;
 
@@ -33,6 +40,11 @@ public final class PerformanceTest extends Instrumentation {
         cold = Integer.parseInt(args.getString("cold", "3"));
         warm = Integer.parseInt(args.getString("warm", "8"));
         baseline = args.getString("baseline");
+        onlyLetters = "letters".equals(args.getString("profile"));
+        checkGestures = "gestures".equals(args.getString("profile"));
+        keysOnly = "keys".equals(args.getString("profile"));
+        freshKeys = "true".equals(args.getString("fresh"));
+        pace = Integer.parseInt(args.getString("pace", "0"));
         start();
     }
 
@@ -47,17 +59,32 @@ public final class PerformanceTest extends Instrumentation {
             info.flags |= AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
                     | AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS;
             info.notificationTimeout = 0;
+            info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
             ui.setServiceInfo(info);
-            host = (PerfEditor) startActivitySync(new Intent(getTargetContext(), PerfEditor.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            runOnMainSync(() -> host.show(host.words));
-            for (int i = 0; i < cold; i++) coldRound(i);
-            for (int i = 0; i < warm; i++) warmRound(i);
+            ui.setOnAccessibilityEventListener(e -> {
+                if (e.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED && PKG.contentEquals(e.getPackageName())) {
+                    lastClick = String.valueOf(e.getContentDescription()) + " " + e.getText();
+                    lastClickTime = e.getEventTime();
+                    clickEvents++;
+                }
+            });
+            openHost();
+            if (onlyLetters || checkGestures || keysOnly) {
+                shell("ime set biz.tujia.ime/.TujiaIme");
+                if (keysOnly) { runOnMainSync(() -> host.show(host.words)); tap(await("汉字记音", true)); }
+            } else {
+                for (int i = 0; i < cold; i++) coldRound(i);
+                for (int i = 0; i < warm; i++) warmRound(i);
+            }
             shell("dumpsys gfxinfo " + PKG + " reset");
-            timeSelections();
-            timeDirectKeys();
+            if (checkGestures) verifyGestures();
+            else {
+                if (!onlyLetters) timeSelections();
+                timeDirectKeys();
+            }
             dump("gfx", shell("dumpsys gfxinfo " + PKG));
             dump("mem", shell("dumpsys meminfo " + PKG));
+            if (misses != 0) throw new AssertionError(misses + " input(s) missing from editor");
             result.putString("outcome", "PASS");
             code = Activity.RESULT_OK;
         } catch (Throwable error) {
@@ -69,8 +96,100 @@ public final class PerformanceTest extends Instrumentation {
         }
     }
 
+    private void verifyGestures() {
+        runOnMainSync(() -> host.show(host.direct));
+        await("英文直输", true);
+        Rect a = await("a", true);
+        tap(a);
+        expectText(host.direct, "a");
+        long down = SystemClock.uptimeMillis();
+        send(a, down, MotionEvent.ACTION_DOWN);
+        Rect outside = new Rect(a);
+        outside.offset(a.width() * 2, 0);
+        send(outside, down, MotionEvent.ACTION_MOVE);
+        send(outside, down, MotionEvent.ACTION_UP);
+        down = SystemClock.uptimeMillis();
+        send(a, down, MotionEvent.ACTION_DOWN);
+        send(a, down, MotionEvent.ACTION_CANCEL);
+        tap(a);
+        expectText(host.direct, "aa");
+        Rect erase = await("退格", true);
+        tap(erase); tap(erase);
+        expectText(host.direct, "");
+
+        runOnMainSync(() -> host.show(host.words));
+        tap(await("汉字记音", true));
+        hold(await("a", true));
+        tap(await("ā", true));
+        await("待选拼写 ā", true);
+        tap(await("退格", true));
+        tap(await("g", true));
+        tap(await("a", true));
+        hold(await("吃、咬，架", true));
+        await("返回候选", true);
+        expectText(host.words, "");
+        tap(await("返回候选", true));
+        tap(await("吃、咬，架", true));
+        expectText(host.words, "架");
+        tap(await("搜索", true));
+        long end = SystemClock.uptimeMillis() + 8000;
+        while (host.editorActions == 0 && SystemClock.uptimeMillis() < end) SystemClock.sleep(20);
+        if (host.editorActions != 1 || host.lastAction != EditorInfo.IME_ACTION_SEARCH)
+            throw new AssertionError("Search action calls=" + host.editorActions + " id=" + host.lastAction);
+        dump("gestures", "PASS slide-out, cancellation, repeated delete, held vowel, held candidate, candidate commit and search action");
+    }
+
+    private void hold(Rect r) {
+        long down = SystemClock.uptimeMillis();
+        send(r, down, MotionEvent.ACTION_DOWN);
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 250);
+        send(r, down, MotionEvent.ACTION_UP);
+    }
+
+    private void expectText(PerfEditor.MeasuredField field, String expected) {
+        long end = SystemClock.uptimeMillis() + 8000;
+        String[] actual = new String[1];
+        do {
+            runOnMainSync(() -> actual[0] = field.getText().toString());
+            if (expected.equals(actual[0])) return;
+            SystemClock.sleep(20);
+        } while (SystemClock.uptimeMillis() < end);
+        throw new AssertionError("Expected [" + expected + "] but editor contained [" + actual[0] + "]");
+    }
+
+    private void openHost() {
+        if (root != null) { root.recycle(); root = null; }
+        if (host != null) runOnMainSync(host::finish);
+        host = (PerfEditor) startActivitySync(new Intent(getTargetContext(), PerfEditor.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        waitForIdleSync();
+        runOnMainSync(() -> host.show(host.words));
+    }
+
+    private String imeWindowPackage() {
+        for (AccessibilityWindowInfo w : ui.getWindows()) {
+            try {
+                if (w.getType() != AccessibilityWindowInfo.TYPE_INPUT_METHOD) continue;
+                AccessibilityNodeInfo current = w.getRoot();
+                if (current != null) {
+                    try { return String.valueOf(current.getPackageName()); }
+                    finally { current.recycle(); }
+                }
+            } finally { w.recycle(); }
+        }
+        return "";
+    }
+
     private void coldRound(int i) throws Exception {
         String switched = shell("ime set " + baseline).trim();
+        openHost();
+        String basePackage = baseline.substring(0, baseline.indexOf('/'));
+        long end = SystemClock.uptimeMillis() + 15000;
+        while (!basePackage.equals(imeWindowPackage()) && SystemClock.uptimeMillis() < end) {
+            runOnMainSync(() -> host.show(host.words));
+            SystemClock.sleep(80);
+        }
+        if (!basePackage.equals(imeWindowPackage())) throw new AssertionError("Baseline keyboard not served: " + imeWindowPackage());
         String stopped = shell("am force-stop " + PKG).trim();
         String pid = "";
         for (int attempt = 0; attempt < 20; attempt++) {
@@ -121,32 +240,48 @@ public final class PerformanceTest extends Instrumentation {
         StringBuilder text = new StringBuilder();
         for (int i = -2; i < keys; i++) {
             text.append('a');
-            measure("letter", i, a, host.direct, text.toString());
+            if (pace > 0) SystemClock.sleep(pace);
+            String observed = measure("letter", i, freshKeys ? await("a", true) : a, host.direct, text.toString());
+            if (observed != null) { text.setLength(0); text.append(observed); }
         }
     }
 
-    private void measure(String name, int i, Rect key, PerfEditor.MeasuredField field, String expected) throws Exception {
+    private String measure(String name, int i, Rect key, PerfEditor.MeasuredField field, String expected) throws Exception {
         PerfEditor.Sample sample = new PerfEditor.Sample(expected);
-        runOnMainSync(() -> field.sample = sample);
+        int[] calls = new int[1];
+        long previousClicks = clickEvents;
+        runOnMainSync(() -> { field.sample = sample; calls[0] = field.commitCalls; });
         long start = tap(key);
-        if (!sample.drawn.await(15, TimeUnit.SECONDS)) {
-            String[] actual = new String[1];
-            runOnMainSync(() -> actual[0] = field.getText().toString());
-            throw new AssertionError(name + " not drawn within 15 s after touch " + i
-                    + ", editor changed=" + (sample.changedAt != 0) + ", expected=[" + expected + "], actual=[" + actual[0] + "]");
+        if (!sample.drawn.await(onlyLetters ? 3 : 15, TimeUnit.SECONDS)) {
+            String[] actual = new String[1], state = new String[1];
+            runOnMainSync(() -> {
+                actual[0] = field.getText().toString();
+                state[0] = "commitCalls=" + (field.commitCalls - calls[0]) + ", lastCommit=" + field.lastCommit
+                        + ", lastAccepted=" + field.lastAccepted + ", editorFocus=" + field.hasFocus()
+                        + ", windowFocus=" + field.hasWindowFocus() + ", selection=" + field.getSelectionStart() + "," + field.getSelectionEnd();
+            });
+            Rect liveKey = find(name.equals("letter") ? "a" : "吃、咬，架");
+            dump("missing", name + "," + i + ", changed=" + (sample.changedAt != 0) + ", expected=[" + expected + "], actual=[" + actual[0]
+                    + "], " + state[0] + ", sentAt=" + key + ", currentKey=" + liveKey
+                    + ", down=" + sentDown + ", up=" + sentUp + ", IMEclickEvents=" + (clickEvents - previousClicks) + ", lastClickTime=" + lastClickTime + ", lastClick=" + lastClick);
+            misses++;
+            if (!name.equals("letter")) throw new AssertionError("Expected selection was not drawn");
+            return actual[0];
         }
         if (i >= 0) {
             metric(name + "_text", i, sample.changedAt - start);
             metric(name + "_draw", i, sample.drawnAt - start);
         }
+        return null;
     }
 
     // Return the guest monotonic timestamp immediately before ACTION_UP enters Android's dispatcher.
     private long tap(Rect r) {
-        long down = SystemClock.uptimeMillis();
+        long down = sentDown = SystemClock.uptimeMillis();
         send(r, down, MotionEvent.ACTION_DOWN);
         SystemClock.sleep(18);
         long up = System.nanoTime();
+        sentUp = SystemClock.uptimeMillis();
         send(r, down, MotionEvent.ACTION_UP);
         return up;
     }
@@ -166,7 +301,7 @@ public final class PerformanceTest extends Instrumentation {
             if ((r != null) == present) return r;
             SystemClock.sleep(12);
         } while (SystemClock.uptimeMillis() < end);
-        throw new AssertionError("Timed out on " + label + " present=" + present);
+        throw new AssertionError("Timed out on " + label + " present=" + present + ", IME window package=" + imeWindowPackage());
     }
 
     private Rect find(String label) {

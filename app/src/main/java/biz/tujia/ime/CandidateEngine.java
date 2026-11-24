@@ -24,11 +24,14 @@ public final class CandidateEngine implements AutoCloseable {
         public final String lexemeIds;
         /** Canonical Ye spelling of the last syllable, for the syllable-level context table. */
         public final String lastSyllable;
+        /** The current Han candidate uses the original loan characters without a gloss line. */
+        public final boolean plainHanLoan;
         /** Flattened UTF-16 start/end-exclusive ranges of two-Han syllables in text. */
         public final int[] joinedHanRanges;
 
         private Candidate(String text, String meaning, String shortMeaning, int kind, int consumed,
-                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable) {
+                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable, boolean plainHanLoan) {
+            this.plainHanLoan = plainHanLoan;
             this.lastSyllable = lastSyllable;
             this.lexemeIds = lexemeIds;
             this.syllableOnly = syllableOnly;

@@ -149,7 +149,7 @@ song, song_note = make_song(dictionary, base + extras, orthography, ROOT, refs)
 with story_path.open("a", encoding="utf-8", newline="") as out:
     table=csv.writer(out, delimiter='\t', lineterminator='\n')
     for w in song:
-        table.writerow([w["id"],w["word"],w["key"],w["meaning"],w["recommended"],"", " ".join(w["variants"]),
+        table.writerow([w["id"],w["word"],w["key"],w["meaning"],w["recommended"]," ".join(w["aliases"]), " ".join(w["variants"]),
                         0, "tujia",w["shortGloss"],w["plain"],w["diacritic"],"|".join(w["hanUnits"])])
 sections=[dict(translation=b['zh'],rows=[dict(id=keyed[key]['id'],end=after) for num,key,after in occurrences if num==n])
           for n,b in enumerate(source['blocks'],1)]

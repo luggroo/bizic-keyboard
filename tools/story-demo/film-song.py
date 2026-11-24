@@ -25,6 +25,10 @@ parser.add_argument('--adb', default=os.environ.get('ADB','adb'))
 parser.add_argument('--render-only',action='store_true',help='Render a previously verified capture in this directory')
 a=parser.parse_args(); out=a.output.resolve();out.mkdir(parents=True,exist_ok=True)
 rows=load('shange-spelling.tsv'); aligned=load('shange.tsv'); assert len(rows)==len(aligned)
+dictionary=HERE.parents[1]/'shared/bundle/Assets/words.tsv'
+with dictionary.open(encoding='utf-8') as stream:
+    loan_ids={entry['id'] for entry in csv.DictReader(stream,delimiter='\t')
+              if entry.get('presentation')=='plainHanLoan'}
 script=out/'song-input.tsv'; syl=[]; line=0; source_lines=[]; words=[]; modes=[]
 with script.open('w',encoding='utf-8',newline='') as stream:
     w=csv.writer(stream,delimiter='\t',lineterminator='\n'); w.writerow(['keys','text','meaning','after'])
@@ -36,7 +40,8 @@ with script.open('w',encoding='utf-8',newline='') as stream:
         assert entry['han']==units['text'] and entry['gloss']==units['meaning']
         syl.append(len(units['hanUnits'].split('|')));source_lines.append(line);words.append(chosen+after.replace(r'\n','\n'))
         input_key=chosen if mode=='hand' else entry['plain']
-        meaning='' if mode=='hand' else entry['gloss']
+        meaning='@written' if mode=='han' and entry['id'] in loan_ids else entry['gloss']
+        if mode=='hand': meaning=''
         w.writerow([mode+':'+input_key,chosen,meaning,after]);
         if r'\n' in after:line+=1
 assert line==3 and words[-1].endswith('。')

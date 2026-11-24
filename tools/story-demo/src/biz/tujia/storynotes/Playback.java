@@ -792,7 +792,8 @@ public final class Playback extends Instrumentation {
     }
 
     private void choose(String text, String meaning, boolean slow) {
-        String description=(meaning.isEmpty() ? "汉语" : meaning) + "，" + text;
+        boolean bare=meaning.equals("@written");
+        String description=bare ? text : (meaning.isEmpty() ? "汉语" : meaning) + "，" + text;
         // Fetch the displayed cards as a single live query. Exact searching by a
         // card's combined accessibility label can return stale nodes on Android 9.
         for (int page=0; page<125; page++) {
@@ -800,7 +801,7 @@ public final class Playback extends Instrumentation {
             do {
                 if (keyboard==null) lookupKeyboard("隐藏键盘");
                 if (keyboard!=null) {
-                    for (AccessibilityNodeInfo node:keyboard.findAccessibilityNodeInfosByText("，")) {
+                    for (AccessibilityNodeInfo node:keyboard.findAccessibilityNodeInfosByText(bare ? text : "，")) {
                         try {
                             CharSequence value=node.getContentDescription();
                             if (value==null || !description.contentEquals(value)) continue;

@@ -292,13 +292,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
             selectedSound = "";
             mode = next;
-            if (previousSyllable.isEmpty()) readSentenceBoundary();
             if (mode != VOICE) {
                 getSharedPreferences("keyboard", MODE_PRIVATE).edit().putInt("mode", mode).apply();
             }
             symbols = false;
             shifted = false;
         }
+        if (draft.isEmpty()) readSentenceBoundary();
         layoutKeyboard();
     }
 
@@ -451,11 +451,26 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void readSentenceBoundary() {
-        if (!inputViewActive || direct || mode == VOICE || selStart != selEnd || selStart < 0) return;
-        if (selStart == 0) { previousSyllable = "<s>"; return; }
+        if (!inputViewActive || direct || mode == VOICE) return;
         InputConnection ic = getCurrentInputConnection();
-        CharSequence left = ic == null ? null : ic.getTextBeforeCursor(1, 0);
-        if (left != null && left.length() != 0 && sentenceEnd(left.charAt(left.length() - 1))) previousSyllable = "<s>";
+        if (ic == null) return;
+        CharSequence left = ic.getTextBeforeCursor(1, 0);
+        if (left == null) return;
+        if (left.length() == 0) {
+            // A host may clear its field before delivering the new selection callback.
+            // Confirm a stale/unknown offset rather than reading history from the last field.
+            if (selStart != 0 || selEnd != 0) {
+                ExtractedTextRequest req = new ExtractedTextRequest();
+                req.hintMaxChars = 1;
+                ExtractedText actual = ic.getExtractedText(req, 0);
+                if (actual == null || actual.startOffset != 0 || actual.selectionStart != 0
+                        || actual.selectionEnd != 0) return;
+            }
+        } else if (selStart != selEnd || !sentenceEnd(left.charAt(left.length() - 1))) {
+            return;
+        }
+        recentWords = "";
+        previousSyllable = "<s>";
     }
 
     private void remember(String history, CandidateEngine.Candidate c, String confirmedSound) {
@@ -976,7 +991,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (i > first) rest = marker(rest, RULE, 1, compact ? 19 : 26, Gravity.START | Gravity.CENTER_VERTICAL);
             card.setBackground(pressable(rest, 6));
             boolean tujia = c.kind == CandidateEngine.Kind.TUJIA;
-            boolean hasGloss = tujia && !c.syllableOnly && !c.shortMeaning.isEmpty();
+            boolean hasGloss = tujia && !c.syllableOnly && !c.plainHanLoan && !c.shortMeaning.isEmpty();
             boolean nextSound = syllableHints.contains(c);
             String hint = nextSound ? "下一音节 " : handCompletes.contains(c) ? "续写 " :
                     wordHints.contains(c) ? "联想 " : "";
@@ -999,7 +1014,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 openReading(c);
                 return true;
             });
-            card.setContentDescription(hint + (c.syllableOnly ? c.text : (tujia ? c.meaning : categoryName(c)) + "，" + c.text));
+            card.setContentDescription(hint + (c.syllableOnly || c.plainHanLoan ? c.text : (tujia ? c.meaning : categoryName(c)) + "，" + c.text));
             card.setFocusable(true);
             choices.addView(card, weighted(1));
         }
@@ -1057,7 +1072,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         String header;
         boolean soundHint = syllableHints.contains(candidate);
         if (soundHint) header = "可接的读音\n";
-        else if (candidate.syllableOnly) header = "待输入\n";
+        else if (candidate.syllableOnly || candidate.plainHanLoan) header = "待输入\n";
         else if (candidate.kind == CandidateEngine.Kind.TUJIA) header = "汉义\n" + candidate.meaning + "\n\n待输入\n";
         else header = categoryName(candidate) + "\n";
         CharSequence detail = new SpannableStringBuilder(header)

@@ -74,7 +74,7 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
     unsigned count = 0, ordinary = 0, syllables = 0;
     while (std::getline(rows, line)) {
         const auto fields = split(line, '\t');
-        check(fields.size() == 7 || fields.size() == 10 || fields.size() == 12 || fields.size() == 13 || fields.size() == 14,
+        check(fields.size() == 7 || fields.size() == 10 || fields.size() == 12 || fields.size() == 13 || fields.size() == 14 || fields.size() == 15,
               "Invalid test asset");
         const auto& id = fields[0];
         const auto& word = fields[1];
@@ -104,7 +104,7 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
         verify(Mode::Han, word, han);
         verify(Mode::Han, key, han);
         verify(Mode::Handwriting, han, word);
-        if (fields.size() == 14) {
+        if (fields.size() >= 14) {
             for (const auto& alias : split(fields[13], ' ')) {
                 if (alias.empty()) continue;
                 check(offers(lexicon.lookup(alias, Mode::Pinyin), word, meaning, editorLength(alias)),
@@ -324,6 +324,36 @@ void checkContext(const Lexicon& lex) {
     check(fixture.lookup("alf",Mode::Pinyin).front().lexemeIds == "one", "Source roman aliases retain canonical output");
 }
 
+void checkLoanPresentation(const Lexicon& lex) {
+    const std::string songId = "xu213-2-1";
+    const auto checkSong = [&](const std::vector<Candidate>& results, bool han) {
+        const auto c = std::find_if(results.begin(), results.end(), [&](const Candidate& item) { return item.lexemeIds == songId; });
+        check(c != results.end() && c->kind == CandidateKind::Tujia && c->meaning == "山歌" &&
+              c->plainHanLoan == han && c->shortMeaning == (han ? "" : "山歌") && !c->lastSyllable.empty(),
+              "Loanword sense, language, reading and compact gloss");
+        if (han) check(c->text == "山歌", "Use the original loan characters");
+    };
+    for (const auto& form : {"sanggo", "sangxgox", "sānggō", "伤哥", "山歌"}) checkSong(lex.lookup(form,Mode::Han),true);
+    checkSong(lex.lookup("伤哥",Mode::Handwriting),false);
+    checkSong(lex.lookup("sanggo",Mode::Pinyin),false);
+    checkSong(lex.handwritingSuggestions("伤",Mode::Han,Orthography::Ye),true);
+    checkSong(lex.nextWords("xu213-3-1",Mode::Han,Orthography::Ye),true);
+    checkSong(lex.nextWords("xu213-3-1",Mode::Pinyin,Orthography::Ye),false);
+    check(lex.scoreHandwritingPrefix("伤哥")==2, "Previous phonetic characters still identify the same lexeme");
+    Lexicon fixture(
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "loan\tl\tl\t山歌\t山歌\t伤哥\t山伤 歌哥\t7\ttujia\t山歌\tl\tl\t山|歌\t\tplainHanLoan\n"
+        "native\tn\tn\t人\t倮\t\t倮\t3\ttujia\t人\tn\tn\t倮\t\t\n"
+        "zh-song\tl\tl\t\t山歌\t\t\t999\tzh\t\t\t\t\t\t\n");
+    const auto candidates=fixture.lookup("l",Mode::Han);
+    check(candidates.size()==2 && candidates[0].plainHanLoan && candidates[0].kind==CandidateKind::Tujia &&
+          candidates[1].kind==CandidateKind::Chinese && !candidates[1].plainHanLoan, "Loan keeps native rank above Mandarin fallback");
+    const auto mixed=fixture.lookup("lln",Mode::Han).front();
+    check(mixed.meaning=="山歌 · 山歌 · 人" && mixed.shortMeaning=="人" && !mixed.plainHanLoan, "Mixed sentence keeps other word glosses");
+    const auto loans=fixture.lookup("lll",Mode::Han).front();
+    check(loans.plainHanLoan && loans.shortMeaning.empty() && loans.lexemeIds=="loan loan loan", "All-loan sentence retains word IDs");
+}
+
 void checkSyllableBigrams(const Lexicon& lex, const std::string& data) {
     struct Arc { int rank; std::string next, accent; };
     std::map<std::string, std::vector<Arc>> wanted;
@@ -392,6 +422,7 @@ int main(int argc, char** argv) {
         checkSyllableBigrams(lexicon, sounds.str());
         checkSyllableFixture(asset);
         checkContext(lexicon);
+        checkLoanPresentation(lexicon);
         checkCorpus(lexicon, asset);
         checkSentences(lexicon);
         checkApicalWords(lexicon);

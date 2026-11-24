@@ -49,6 +49,7 @@ const char *tji_choice_short_meaning(const TJIChoices *choices, size_t index);
 /* Returns a TJI_ word kind, or -1 for an invalid choice. */
 const char *tji_choice_lexeme_ids(const TJIChoices *choices, size_t index);
 const char *tji_choice_last_syllable(const TJIChoices *choices, size_t index);
+int32_t tji_choice_plain_han_loan(const TJIChoices *choices, size_t index);
 int32_t tji_choice_is_syllable(const TJIChoices *choices, size_t index);
 int32_t tji_choice_kind(const TJIChoices *choices, size_t index);
 int32_t tji_choice_consumed_utf16(const TJIChoices *choices, size_t index);

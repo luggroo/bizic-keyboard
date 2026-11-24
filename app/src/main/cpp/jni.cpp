@@ -99,7 +99,7 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
         if (!item) return nullptr;
-        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;)V");
+        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;Z)V");
         if (!init) return nullptr;
         jobjectArray result = env->NewObjectArray(lengthOf(found.size()), item, nullptr);
         if (!result) return nullptr;
@@ -125,7 +125,8 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             if (!syllable) return nullptr;
             jobject value = env->NewObject(item, init, text, meaning, shortMeaning,
                                             static_cast<jint>(candidate.kind), static_cast<jint>(candidate.consumed),
-                                            ranges, static_cast<jboolean>(candidate.syllableOnly), ids, syllable);
+                                            ranges, static_cast<jboolean>(candidate.syllableOnly), ids, syllable,
+                                            static_cast<jboolean>(candidate.plainHanLoan));
             if (!value) return nullptr;
             env->SetObjectArrayElement(result, static_cast<jsize>(i), value);
             env->DeleteLocalRef(value);

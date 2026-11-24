@@ -276,6 +276,22 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("待选拼写 āizū", false);
         pressCandidate("从前，āizū", false);
         expectText(host.first, prefix + "gá中国āizū");
+
+        stage("A Chinese loan shows its original Han form and keeps a gloss for romanized output");
+        press("汉字记音");
+        type("sanggo");
+        Card hanLoan = card("山歌");
+        if (!hanLoan.lines.equals(Collections.singletonList("山歌")))
+            throw new AssertionError("Unexpected Han loan display: " + hanLoan.lines);
+        pressCandidate("山歌", false);
+        expectText(host.first, prefix + "gá中国āizū山歌");
+        press("土家语拼写");
+        type("sanggo");
+        Card romanLoan = card("山歌，sānggō");
+        if (!romanLoan.lines.equals(Arrays.asList("山歌", "sānggō")))
+            throw new AssertionError("Unexpected romanized loan display: " + romanLoan.lines);
+        pressCandidate("山歌，sānggō", false);
+        expectText(host.first, prefix + "gá中国āizū山歌sānggō");
     }
 
     private void holdTone(String base, String marked) {
@@ -482,7 +498,8 @@ public final class KeyboardTest extends Instrumentation {
         stage("Predicted syllables open lexical choices before committing any host text");
         String oldStyle = setStyleFromLauncher("叶氏拼音");
         try {
-            runOnMainSync(() -> { host.first.setText(""); host.second.setText(""); });
+            runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
+                    android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
             tapField(host.first);
             press("汉字记音");
             pressCandidate("下一音节 gof", false);
@@ -504,6 +521,18 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.second, "叶");
             pressCandidate("吃、咬，架", false);
             expectText(host.second, "叶架");
+
+            stage("A focused host cleared externally returns to sentence-start predictions");
+            runOnMainSync(() -> host.second.setSelection(1));
+            setStyleFromLauncher("叶氏拼音");
+            runOnMainSync(() -> host.second.setText(""));
+            tapField(host.second);
+            press("汉字记音");
+            pressCandidate("下一音节 gof", false);
+            waitForNode("待选读音 gof", false);
+            expectText(host.second, "");
+            press("返回联想");
+            expectText(host.second, "");
         } finally {
             setStyleFromLauncher(oldStyle);
         }
@@ -638,6 +667,19 @@ public final class KeyboardTest extends Instrumentation {
     void press(String label) {
         Rect rect = waitForNode(label, false);
         tap(rect.centerX(), rect.centerY());
+        if (!"土家语拼写".equals(label) && !"汉字记音".equals(label) && !"手写".equals(label) && !"语音".equals(label)) return;
+        long until = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            if (findNode(label, false) != null) {
+                for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(label)) {
+                    try {
+                        if (node.refresh() && node.isSelected() && android.text.TextUtils.equals(label, node.getContentDescription())) return;
+                    } finally { node.recycle(); }
+                }
+            }
+            SystemClock.sleep(40);
+        } while (SystemClock.uptimeMillis() < until);
+        throw new AssertionError("Mode selection did not take effect: " + label);
     }
 
     @android.annotation.TargetApi(30)
@@ -690,6 +732,7 @@ public final class KeyboardTest extends Instrumentation {
                 tap(match.centerX(), match.centerY());
                 return;
             }
+            stage("Candidate " + label + " missing on page " + page + ": " + visibleControls());
             Rect next = pollNode("下一页候选", false, 250);
             if (next == null) break;
             tap(next.centerX(), next.centerY());
@@ -719,11 +762,15 @@ public final class KeyboardTest extends Instrumentation {
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
         do {
             final boolean[] focused = new boolean[1];
-            runOnMainSync(() -> focused[0] = field.hasFocus());
+            runOnMainSync(() -> {
+                android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager)
+                        host.getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                focused[0] = field.hasFocus() && imm.isActive(field);
+            });
             if (focused[0]) return;
             SystemClock.sleep(40);
         } while (SystemClock.uptimeMillis() < deadline);
-        throw new AssertionError("Editor did not receive input focus");
+        throw new AssertionError("Editor did not become the served input field");
     }
 
     void assertEditorAboveKeyboard(EditText field, String control) {

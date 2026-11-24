@@ -90,6 +90,7 @@ final class HostCompatibility {
         configure(InputType.TYPE_CLASS_TEXT, action, false);
         EditText active = action == EditorInfo.IME_ACTION_PREVIOUS ? host.second : host.first;
         keys.tapField(active);
+        keys.waitForNode(caption, false);
         commitEating();
         keys.expectText(active, "架");
         // The key must announce the same available action the host requested.
@@ -100,6 +101,7 @@ final class HostCompatibility {
         if (action == EditorInfo.IME_ACTION_NEXT || action == EditorInfo.IME_ACTION_PREVIOUS) {
             EditText destination = active == host.first ? host.second : host.first;
             await(caption + " focus", destination::hasFocus);
+            keys.waitForNode("完成", false);
             keys.type("hxif");
             keys.pressCandidate("走，诶", false);
             keys.expectText(destination, "诶");

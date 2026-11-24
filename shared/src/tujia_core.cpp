@@ -105,6 +105,9 @@ const char *tji_choice_lexeme_ids(const TJIChoices *r, size_t i) {
 const char *tji_choice_last_syllable(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() ? r->items[i].lastSyllable.c_str() : nullptr;
 }
+int32_t tji_choice_plain_han_loan(const TJIChoices *r, size_t i) {
+    return r && i < r->items.size() && r->items[i].plainHanLoan;
+}
 int32_t tji_choice_is_syllable(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() && r->items[i].syllableOnly;
 }

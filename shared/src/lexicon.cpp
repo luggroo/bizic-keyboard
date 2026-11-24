@@ -37,7 +37,7 @@ bool readLine(std::string_view& rest, std::string_view& line) {
     return true;
 }
 
-using Fields = std::array<std::string_view, 14>;
+using Fields = std::array<std::string_view, 15>;
 void readFields(std::string_view row, size_t count, Fields& fields) {
     size_t start = 0, column = 0;
     for (size_t i = 0; i < row.size(); ++i) {
@@ -194,6 +194,7 @@ struct Entry {
     std::vector<int> joinedRanges{};
     int hanLength = 0;
     std::vector<std::string> writtenForms{};
+    bool plainHanLoan = false;
     std::string lastSyllable{};
 
     void setUnits(const std::string& field) {
@@ -331,14 +332,16 @@ struct Lexicon::Impl {
         if (!readLine(lines, line)) throw std::invalid_argument("Empty dictionary");
         const auto rankedHeader = legacyHeader + "\tfrequency\tkind\tshortGloss";
         const auto toneHeader = rankedHeader + "\tplain\tdiacritic";
-        const bool hasRomanAliases = line == toneHeader + "\thanUnits\tromanAliases";
+        const auto romanHeader = toneHeader + "\thanUnits\tromanAliases";
+        const bool hasPresentation = line == romanHeader + "\tpresentation";
+        const bool hasRomanAliases = hasPresentation || line == romanHeader;
         const bool hasUnits = hasRomanAliases || line == toneHeader + "\thanUnits";
         const bool tones = hasUnits || line == toneHeader;
         const bool ranked = tones || line == rankedHeader;
         if (line != legacyHeader && !ranked) {
             throw std::invalid_argument("Unexpected dictionary header");
         }
-        const size_t fieldCount = hasRomanAliases ? 14 : hasUnits ? 13 : tones ? 12 : ranked ? 10 : 7;
+        const size_t fieldCount = hasPresentation ? 15 : hasRomanAliases ? 14 : hasUnits ? 13 : tones ? 12 : ranked ? 10 : 7;
         Fields fields{};
         while (readLine(lines, line)) {
             readFields(line, fieldCount, fields);
@@ -369,6 +372,11 @@ struct Lexicon::Impl {
             const size_t id = entries.size();
             Entry entry{f[0], f[1], f[3], f[4], !ranked || f[9].empty() ? f[3] : f[9],
                         tones && !f[11].empty() ? f[11] : f[1], frequency, {}};
+            if (hasPresentation && !f[14].empty()) {
+                if (f[14] != "plainHanLoan" || syllable || grammar)
+                    throw std::invalid_argument("Unknown lexical presentation: " + f[14]);
+                entry.plainHanLoan = true;
+            }
             dictionaryScalars(entry.meaning);
             dictionaryScalars(entry.shortMeaning);
             if (collectedUnits) entry.setUnits(f[12]);
@@ -671,14 +679,17 @@ struct Lexicon::Impl {
             }
             if (!out.text.empty() && mode != Mode::Han) out.text += ' ';
             if (!out.meaning.empty()) out.meaning += " · ";
-            if (!out.shortMeaning.empty()) out.shortMeaning += " · ";
             if (!out.lexemeIds.empty()) out.lexemeIds += ' ';
             out.lexemeIds += entries[id].id;
             out.lastSyllable = entries[id].lastSyllable;
             out.text += entries[id].output(mode, orthography);
             out.meaning += entries[id].meaning;
-            out.shortMeaning += entries[id].shortMeaning;
+            if (mode != Mode::Han || !entries[id].plainHanLoan) {
+                if (!out.shortMeaning.empty()) out.shortMeaning += " · ";
+                out.shortMeaning += entries[id].shortMeaning;
+            }
         }
+        out.plainHanLoan = mode == Mode::Han && !selected.empty() && out.shortMeaning.empty();
         out.text += tail;
         if (!tail.empty()) { out.lexemeIds.clear(); out.lastSyllable.clear(); }
         return out;
@@ -801,13 +812,10 @@ struct Lexicon::Impl {
                 const auto& entry = entries[id];
                 const auto& text = entry.output(mode, orthography);
                 auto duplicate = std::find_if(result.begin() + batchStart, result.end(), [&](const Candidate& c) {
-                    return c.text == text && c.meaning == entry.meaning;
+                    return c.text == text && c.meaning == entry.meaning && c.plainHanLoan == (mode == Mode::Han && entry.plainHanLoan);
                 });
                 if (duplicate == result.end()) {
-                    result.push_back({text, entry.meaning, q.utf16At[q.skipSpaces(end)], entry.shortMeaning});
-                    result.back().lexemeIds = entry.id;
-                    result.back().lastSyllable = entry.lastSyllable;
-                    if (mode == Mode::Han) result.back().joinedHanRanges = entry.joinedRanges;
+                    result.push_back(lexical(id, mode, orthography, q.utf16At[q.skipSpaces(end)]));
                 }
             }
         }
@@ -833,6 +841,8 @@ struct Lexicon::Impl {
         Candidate c{e.output(output, style), e.meaning, consumed, e.shortMeaning};
         c.lexemeIds = e.id;
         c.lastSyllable = e.lastSyllable;
+        c.plainHanLoan = output == Mode::Han && e.plainHanLoan;
+        if (c.plainHanLoan) c.shortMeaning.clear();
         if (output == Mode::Han) c.joinedHanRanges = e.joinedRanges;
         return c;
     }

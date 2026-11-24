@@ -25,6 +25,8 @@ struct Candidate {
     std::string lexemeIds{};
     // Canonical Ye tone-letter spelling of the selected final syllable.
     std::string lastSyllable{};
+    // This Han choice uses the loanword’s original Chinese spelling without a compact gloss.
+    bool plainHanLoan = false;
 };
 
 class Lexicon {

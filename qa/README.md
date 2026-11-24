@@ -1,6 +1,6 @@
-# Android 输入法 QA · 0.3.0
+# Android 输入法 QA · 0.3 系列
 
-本版验收覆盖拼写、记音、连续手写以及宿主收到的文字。安卓端用跨进程测试操作已启用的系统输入法，再从宿主读取正文、选区和编辑动作。词库评测直接调用安卓与 iOS 共用的候选引擎。
+0.3.1 修复了在设备负载较高时连续点同一个键偶尔漏字的问题。原始记录分别标注测量版本和安装包摘要。验收覆盖拼写、记音、连续手写以及宿主收到的文字。安卓端用跨进程测试操作已启用的系统输入法，再从宿主读取正文、选区和编辑动作。词库评测直接调用安卓与 iOS 共用的候选引擎。
 
 | 想了解的问题 | 测试依据 |
 | --- | --- |
@@ -22,8 +22,8 @@
 GitHub 构建的调试包与 Releases 供手机升级的包使用各自的签名。设备测试记录运行包的 SHA-256。可以在对应版本的仓库目录下核对安装包内的完整词表、笔画模板、联想数据和四套原生库。
 
 ```sh
-python3 qa/verify-apk.py tujia-keyboard-0.3.0.apk
-./device-test/run.sh tujia-keyboard-0.3.0.apk
+python3 qa/verify-apk.py tujia-keyboard-0.3.1.apk
+./device-test/run.sh tujia-keyboard-0.3.1.apk
 ```
 
 第二条命令需要已解锁的 Android 测试设备、JDK 和 Android SDK。也可以在 GitHub 运行 Android 15 设备工作流并下载测试证据。[构建与签名检查](../.github/workflows/android.yml) · [Android 15 设备测试](../.github/workflows/device-qa.yml)

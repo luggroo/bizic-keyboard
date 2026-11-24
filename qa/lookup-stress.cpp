@@ -20,15 +20,15 @@ static long peakKiB() {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 5) return 2;
-    int length = std::stoi(argv[3]);
+    if (argc != 6) return 2;
+    int length = std::stoi(argv[4]);
     if (length < 1 || length > 1000000) return 2;
-    std::string unit(argv[4]);
+    std::string unit(argv[5]);
     if (unit.empty()) return 2;
     std::string draft;
     while (draft.size() < static_cast<size_t>(length)) draft += unit;
     draft.resize(length);
-    tujia::Lexicon words(readFile(argv[1]), readFile(argv[2]));
+    tujia::Lexicon words(readFile(argv[1]), readFile(argv[2]), readFile(argv[3]));
     long baseline = peakKiB();
     auto start = std::chrono::steady_clock::now();
     auto found = words.lookup(draft, tujia::Mode::Han);

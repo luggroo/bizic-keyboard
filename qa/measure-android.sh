@@ -54,7 +54,8 @@ trap 'exit 143' TERM
   sha256sum "$fixture"
 } >"$out/device.txt"
 "$adb_bin" shell am instrument -w -r -e baseline "$base" -e cold "${COLD_ROUNDS:-3}" \
-  -e warm "${WARM_ROUNDS:-8}" -e keys "${KEY_ROUNDS:-32}" "$test_pkg/.PerformanceTest" | tee "$out/guest.log"
-grep -q 'INSTRUMENTATION_RESULT: outcome=PASS' "$out/guest.log"
+  -e warm "${WARM_ROUNDS:-8}" -e keys "${KEY_ROUNDS:-32}" -e profile "${PERF_PROFILE:-full}" \
+  -e pace "${KEY_PAUSE_MS:-0}" -e fresh "${REFRESH_KEY_BOUNDS:-false}" "$test_pkg/.PerformanceTest" | tee "$out/guest.log"
 python3 "$(dirname "$0")/summarize-performance.py" "$out/guest.log" >"$out/summary.txt"
 cat "$out/summary.txt"
+grep -q 'INSTRUMENTATION_RESULT: outcome=PASS' "$out/guest.log"

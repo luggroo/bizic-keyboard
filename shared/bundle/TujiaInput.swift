@@ -22,6 +22,7 @@ public struct WordCandidate: Equatable {
     public let lexemeIds: String
     public let lastSyllable: String
     public let syllableOnly: Bool
+    public let plainHanLoan: Bool
     public let consumedUTF16: Int
     /// Flattened UTF-16 start/end-exclusive pairs for two-Han syllables in text.
     public let joinedHanRanges: [Int]
@@ -119,6 +120,7 @@ public final class TujiaDictionary {
                           lexemeIds: String(cString: tji_choice_lexeme_ids(result, i)),
                           lastSyllable: String(cString: tji_choice_last_syllable(result, i)),
                           syllableOnly: tji_choice_is_syllable(result, i) != 0,
+                          plainHanLoan: tji_choice_plain_han_loan(result, i) != 0,
                           consumedUTF16: Int(tji_choice_consumed_utf16(result, i)), joinedHanRanges: ranges, input: input)
         }
     }

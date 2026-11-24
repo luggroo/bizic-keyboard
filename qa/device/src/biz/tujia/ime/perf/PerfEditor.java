@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputConnectionWrapper;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import java.util.concurrent.CountDownLatch;
@@ -14,6 +17,7 @@ import java.util.concurrent.CountDownLatch;
 /** A separate editor process. No benchmark hooks are compiled into the IME. */
 public final class PerfEditor extends Activity {
     MeasuredField words, direct;
+    volatile int editorActions, lastAction;
     static final class Sample {
         final CountDownLatch drawn = new CountDownLatch(1);
         final String expected;
@@ -23,6 +27,22 @@ public final class PerfEditor extends Activity {
 
     static final class MeasuredField extends EditText {
         Sample sample;
+        int commitCalls;
+        String lastCommit = "";
+        boolean lastAccepted;
+
+        @Override public InputConnection onCreateInputConnection(EditorInfo info) {
+            InputConnection target = super.onCreateInputConnection(info);
+            if (target == null) return null;
+            return new InputConnectionWrapper(target, false) {
+                @Override public boolean commitText(CharSequence text, int newPosition) {
+                    commitCalls++;
+                    lastCommit = String.valueOf(text);
+                    lastAccepted = super.commitText(text, newPosition);
+                    return lastAccepted;
+                }
+            };
+        }
         MeasuredField(Context context, int type) {
             super(context);
             setSingleLine(true);
@@ -50,6 +70,10 @@ public final class PerfEditor extends Activity {
         form.setOrientation(LinearLayout.VERTICAL);
         form.setFocusableInTouchMode(true);
         words = new MeasuredField(this, InputType.TYPE_CLASS_TEXT);
+        words.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        words.setOnEditorActionListener((field, action, event) -> {
+            editorActions++; lastAction = action; return true;
+        });
         direct = new MeasuredField(this, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         form.addView(words);
         form.addView(direct);

@@ -29,6 +29,20 @@ final class TujiaInputTests: XCTestCase {
         XCTAssertEqual(dictionary.candidates(for: "boxlir", form: .recommendedHan).first?.lastSyllable, "lir")
     }
 
+    func testLoanCharactersAndHandwritingAlias() throws {
+        let dictionary = try TujiaDictionary()
+        let loan = try XCTUnwrap(dictionary.candidates(for: "伤哥", form: .recommendedHan).first { $0.lexemeIds == "xu213-2-1" })
+        XCTAssertTrue(loan.plainHanLoan)
+        XCTAssertEqual(loan.kind, .tujia)
+        XCTAssertEqual(loan.text, "山歌")
+        XCTAssertEqual(loan.meaning, "山歌")
+        XCTAssertEqual(loan.shortMeaning, "")
+        let spelled = try XCTUnwrap(dictionary.candidates(for: "山歌", form: .handwritingToSpelling).first { $0.lexemeIds == loan.lexemeIds })
+        XCTAssertFalse(spelled.plainHanLoan)
+        XCTAssertEqual(spelled.shortMeaning, "山歌")
+        XCTAssertEqual(spelled.text, "sangxgox")
+    }
+
     func testContinuousSelectionAndDifferentOutputs() throws {
         let dic = try TujiaDictionary()
         let input = "marmardiexhxif"
@@ -67,7 +81,9 @@ final class TujiaInputTests: XCTestCase {
             let candidate = try XCTUnwrap(dic.candidates(for: spelling, form: .recommendedHan)
                 .first { $0.text == han && $0.meaning == gloss }, fields[0])
             let compact = fields.count >= 10 && !fields[9].isEmpty ? fields[9] : gloss
-            XCTAssertEqual(candidate.shortMeaning, compact, fields[0])
+            let loan = fields.count >= 15 && fields[14] == "plainHanLoan"
+            XCTAssertEqual(candidate.shortMeaning, loan ? "" : compact, fields[0])
+            XCTAssertEqual(candidate.plainHanLoan, loan, fields[0])
             XCTAssertEqual(candidate.kind, .tujia, fields[0])
             if fields.count >= 13 {
                 var expected: [Int] = []

@@ -1,0 +1,24 @@
+Android 9 x86 / emulator-5564 / SwiftShader, repeated taps on the a key
+Trace-only build of 0.3.0: def4d92f24e7714db2674de65948377486d17b04b826710ba1587c79323aa742
+Independent editor fixture: 1c3c2df508b8ad9c1371ae7cf156b4031d2b3064a32d644262be33befa50d117
+Measured trials: 180, plus two warmups. No production logging was added.
+Rows below align each failed touch with its IME events by the guest MotionEvent downTime.
+
+letter,85, changed=false, expected=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], actual=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], commitCalls=0, lastCommit=a, lastAccepted=true, editorFocus=true, windowFocus=true, selection=87,87, sentAt=Rect(4, 649 - 54, 697), currentKey=Rect(4, 649 - 54, 697), down=12600787, up=12600862, IMEclickEvents=1, lastClickTime=12600777, lastClick=a [A]
+11-24 09:12:26.639 14774 14774 I TuTouchProbe: touch n=88 key=130837336 action=0 down=12600787 event=12600787 now=12600822 pressed=true visible=true long=false
+11-24 09:12:26.695 14774 14774 I TuTouchProbe: touch n=88 key=130837336 action=1 down=12600787 event=12600862 now=12600878 pressed=false visible=true long=false
+
+letter,95, changed=false, expected=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], actual=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], commitCalls=0, lastCommit=a, lastAccepted=true, editorFocus=true, windowFocus=true, selection=96,96, sentAt=Rect(4, 649 - 54, 697), currentKey=Rect(4, 649 - 54, 697), down=12605912, up=12605956, IMEclickEvents=1, lastClickTime=12605827, lastClick=a [A]
+11-24 09:12:31.742 14774 14774 I TuTouchProbe: touch n=98 key=130837336 action=0 down=12605912 event=12605912 now=12605925 pressed=true visible=true long=false
+11-24 09:12:31.791 14774 14774 I TuTouchProbe: touch n=98 key=130837336 action=1 down=12605912 event=12605957 now=12605973 pressed=false visible=true long=false
+
+letter,170, changed=false, expected=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], actual=[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa], commitCalls=0, lastCommit=a, lastAccepted=true, editorFocus=true, windowFocus=true, selection=170,170, sentAt=Rect(4, 649 - 54, 697), currentKey=Rect(4, 649 - 54, 697), down=12624814, up=12624852, IMEclickEvents=1, lastClickTime=12624798, lastClick=a [A]
+11-24 09:12:50.649 14774 14774 I TuTouchProbe: touch n=173 key=130837336 action=0 down=12624814 event=12624814 now=12624831 pressed=true visible=true long=false
+11-24 09:12:50.676 14774 14774 I TuTouchProbe: touch n=173 key=130837336 action=1 down=12624814 event=12624852 now=12624859 pressed=false visible=true long=false
+
+Control: the next key lifecycle after the last failure.
+11-24 09:12:53.749 14774 14774 I TuTouchProbe: touch n=174 key=130837336 action=0 down=12627918 event=12627918 now=12627932 pressed=false visible=true long=false
+11-24 09:12:53.810 14774 14774 I TuTouchProbe: touch n=174 key=130837336 action=1 down=12627918 event=12627984 now=12627993 pressed=true visible=true long=false
+11-24 09:12:53.812 14774 14774 I TuTouchProbe: click n=174 key=130837336
+11-24 09:12:53.813 14774 14774 I TuTouchProbe: commit begin n=174 ic=155174971 live=true
+11-24 09:12:53.813 14774 14774 I TuTouchProbe: commit result n=174 ok=true

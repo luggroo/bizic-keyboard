@@ -39,6 +39,11 @@ public final class CandidateEngineTest {
         Path asset = Paths.get(args[0]);
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()));
+        Candidate song = engine.lookup("伤哥", Mode.HAN).stream().filter(c -> c.lexemeIds.equals("xu213-2-1")).findFirst().get();
+        check(song.text.equals("山歌") && song.plainHanLoan && song.shortMeaning.isEmpty() && song.meaning.equals("山歌") && song.kind == CandidateEngine.Kind.TUJIA,
+              "Handwritten loan uses Chinese original with native priority");
+        Candidate spokenSong = engine.lookup("伤哥", Mode.HANDWRITING).stream().filter(c -> c.lexemeIds.equals("xu213-2-1")).findFirst().get();
+        check(!spokenSong.plainHanLoan && spokenSong.text.equals("sangxgox") && spokenSong.shortMeaning.equals("山歌"), "Loanword spelling retains visible gloss");
         List<Candidate> startSounds = engine.nextSyllables("<s>", Orthography.DIACRITIC);
         check(startSounds.size() == 175 && startSounds.stream().allMatch(c -> c.syllableOnly && c.consumed == 0 && !c.lastSyllable.isEmpty()), "Attested sentence-start syllables");
         check(engine.nextSyllables("", Orthography.YE).isEmpty(), "Unknown context is not sentence start");

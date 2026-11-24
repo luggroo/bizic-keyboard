@@ -12,6 +12,8 @@ SENSES = {'1pl':'我们', 'INJ':'语气词', 'EMP':'强调', 'STRP':'状态助�
 # -xi is used in a status complement in line 4. Keep the reviewed unstressed grammar glyph.
 GRAMMAR = {('ɕi⁵⁵', 'STRP'): '兮'}
 
+from han_orthography import PLAIN_HAN_LOANS
+
 def plain(text):
     stripped = ''.join(c for c in unicodedata.normalize('NFD', text) if c not in '\u0304\u0301\u030c\u0300')
     return re.sub(r"[ ’'-]", '', unicodedata.normalize('NFC', stripped))
@@ -48,6 +50,11 @@ def make_song(dictionary, existing, orthography, project, references):
                                aliases=[],variants=[u if len(u)==1 else '' for u in units],inBase=False,
                                diacritic=accents[form],plain=plain(accents[form]),key=plain(accents[form]),
                                sourceGloss=g['zh'],sourceIpa=g['ipa'])
+                    loan = PLAIN_HAN_LOANS.get(entry['id'])
+                    if loan:
+                        old = entry['recommended']
+                        entry.update(recommended=loan['han'], hanUnits=list(loan['han']),
+                                     presentation='plainHanLoan', aliases=[old] if old != loan['han'] else [])
                     extras.append(entry)
                 by_source[key]=entry
             entry=by_source[key]

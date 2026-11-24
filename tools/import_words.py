@@ -12,12 +12,12 @@ import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 from shutil import copyfile
-from han_orthography import DATA, TONES, Orthography
+from han_orthography import DATA, TONES, Orthography, PLAIN_HAN_LOANS
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/"tools/story-demo"))
 from longshan_spelling import reviewed_glosses
-FIELDS = "id word key meaning recommended aliases variants frequency kind shortGloss plain diacritic hanUnits romanAliases".split()
+FIELDS = "id word key meaning recommended aliases variants frequency kind shortGloss plain diacritic hanUnits romanAliases presentation".split()
 DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
 # Use the concise reading that helps tell homophones apart; keep the original meaning intact.
 SHORT = {
@@ -220,6 +220,16 @@ def main():
             row.update(word=ye, diacritic=marked)
         row["romanAliases"] = " ".join(dict.fromkeys(aliases))
 
+    for r in rows:
+        if r["id"] not in PLAIN_HAN_LOANS:
+            continue
+        loan = PLAIN_HAN_LOANS[r["id"]]
+        if native_forms(r["word"]) != native_forms(loan["ye"]):
+            raise ValueError(f"Loan spelling mismatch for {r['id']}")
+        if r["recommended"] != loan["han"]:
+            r["aliases"] = " ".join(dict.fromkeys([*r["aliases"].split(), r["recommended"]]))
+        r.update(recommended=loan["han"], hanUnits="|".join(loan["han"]), presentation="plainHanLoan")
+
     for r in rows + reference:
         r["shortGloss"] = SHORT.get(r["id"], r.get("shortGloss") or r["meaning"])
         if not r.get("diacritic"):
@@ -264,7 +274,7 @@ def main():
     if args.web:
         meta = {r["id"]:[r["frequency"],r["shortGloss"],r["plain"],r["diacritic"],r["word"],r["romanAliases"].split()] for r in rows}
         refs = [[r["id"], r["word"], r["plain"], r["diacritic"], r["recommended"], r["shortGloss"], r["meaning"], r["hanUnits"]] for r in reference]
-        args.web.write_text("window.tujiaRanking="+json.dumps({"words":meta,"mandarin":mandarin,"reference":refs},
+        args.web.write_text("window.tujiaRanking="+json.dumps({"words":meta,"mandarin":mandarin,"reference":refs,"plainHanLoans":{r["id"]:r["recommended"] for r in rows if r.get("presentation")=="plainHanLoan"}},
             ensure_ascii=False,separators=(",",":"))+";\n",encoding="utf-8")
     files = ["annotated-books.json", "longshan-texts.json", "data.json.gz", "dictionary.json.gz",
              "longshan-texts.js", "notation-ui.js", "notation-profiles.js", "lexical-reviews.js", "spelling-boundaries.js"]

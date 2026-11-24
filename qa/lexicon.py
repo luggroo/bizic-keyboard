@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from import_ngrams import aligned_units, lexemes_by_sense
 from import_words import gloss_parts, load, native_forms, spellings
 
-Item = namedtuple('Item', 'ids text gloss short consumed kind last_syllable syllable_only')
+Item = namedtuple('Item', 'ids text gloss short consumed kind last_syllable syllable_only plain_han_loan')
 
 
 def tsv(path):
@@ -48,7 +48,7 @@ def library(target):
     declare('choices_count', [ptr], size)
     for field in ('text', 'meaning', 'short_meaning', 'lexeme_ids', 'last_syllable'):
         declare('choice_' + field, [ptr, size], string)
-    for field in ('consumed_utf16', 'kind', 'is_syllable'):
+    for field in ('consumed_utf16', 'kind', 'is_syllable', 'plain_han_loan'):
         declare('choice_' + field, [ptr, size], num)
     declare('choices_close', [ptr], None)
     declare('suffix_after_choice', [string, num], ptr)
@@ -77,7 +77,8 @@ class Model:
             items = [Item(d.tji_choice_lexeme_ids(choices, i).decode(), d.tji_choice_text(choices, i).decode(),
                           d.tji_choice_meaning(choices, i).decode(), d.tji_choice_short_meaning(choices, i).decode(),
                           d.tji_choice_consumed_utf16(choices, i), d.tji_choice_kind(choices, i),
-                          d.tji_choice_last_syllable(choices, i).decode(), bool(d.tji_choice_is_syllable(choices, i)))
+                          d.tji_choice_last_syllable(choices, i).decode(), bool(d.tji_choice_is_syllable(choices, i)),
+                          bool(d.tji_choice_plain_han_loan(choices, i)))
                      for i in range(d.tji_choices_count(choices))]
         finally:
             d.tji_choices_close(choices)
@@ -126,13 +127,15 @@ def rank(items, predicate):
     return next((i for i, item in enumerate(items, start=1) if predicate(item)), 0)
 
 
-def visible(item, row, text, consumed):
-    return (item.text == text and item.gloss == row['meaning'] and item.short == row['shortGloss']
+def visible(item, row, text, consumed, han=True):
+    loan = han and row.get('presentation') == 'plainHanLoan'
+    short = '' if loan else row['shortGloss'] or row['meaning']
+    return (item.text == text and item.gloss == row['meaning'] and item.short == short and item.plain_han_loan == loan
             and item.kind == 0 and item.consumed == consumed)
 
 
-def expect(item, row, text, consumed):
-    return item.ids == row['id'] and visible(item, row, text, consumed)
+def expect(item, row, text, consumed, han=True):
+    return item.ids == row['id'] and visible(item, row, text, consumed, han)
 
 
 def lexical(model, rows, scores):
@@ -144,7 +147,7 @@ def lexical(model, rows, scores):
     for r in rows:
         def measure(label, query, output='recommended', mode=1, style=0, op='lookup_with_orthography'):
             items = model.choices(query, mode, style, op)
-            found = rank(items, lambda x: expect(x, r, r[output], utf16(query)))
+            found = rank(items, lambda x: expect(x, r, r[output], utf16(query), han=mode == 1))
             scores.add(label, found, (query, r[output], r['shortGloss'], items[0].text if items else '', found))
         for form, label in zip(('plain','diacritic','word'), labels):
             measure(label, r[form])
@@ -334,6 +337,32 @@ def other_candidates(model, entries, scores):
             scores.add('普通话拼音→汉语后备词', rank(choices, lambda x: x.kind == 1 and x.text == row['recommended'] and not x.gloss and x.consumed == utf16(row['word'])))
 
 
+def loan_oracle(model, entries, gram_path):
+    loans = {row['id']:row for row in entries if row.get('presentation') == 'plainHanLoan'}
+    assert loans and 'xu213-2-1' in loans
+    han_checks = spelling_checks = prediction_checks = 0
+    for record in loans.values():
+        for key in {record['plain'], record['word'], record['diacritic'], record['recommended'], *record['aliases'].split()}:
+            choices = model.choices(key)
+            assert rank(choices, lambda c: visible(c, record, record['recommended'], utf16(key))), (record['id'], key)
+            han_checks += 1
+        for mode, key, target, style in ((0,record['word'],record['word'],0),
+                                         (2,record['recommended'],record['diacritic'],1)):
+            choices = model.choices(key,mode,style)
+            assert rank(choices,lambda c:expect(c,record,target,utf16(key),han=False)), record['id']
+            spelling_checks += 1
+    for edge in tsv(gram_path):
+        if edge['next'] not in loans:
+            continue
+        row = loans[edge['next']]
+        assert rank(model.choices(edge['context'],op='next_words'), lambda c:expect(c,row,row['recommended'],0))
+        prediction_checks += 1
+    return (f'{len(loans)} 个经过借源和本字核对的词义采用原汉字。键入拼写、手写本字或保留的旧写法共 '
+            f'{han_checks}/{han_checks} 次正确显示本字并省去字上短释义。土家语拼写与手写转拼写 {spelling_checks}/{spelling_checks} '
+            f'次仍显示释义。词义联想表中共有 {prediction_checks} 条边指向这些词义，全部保留土家语词条身份与完整释义。'
+            '例如输入 `sanggo` 或手写“伤哥”可选到“山歌”；切换到土家语拼写，候选 `sānggō` 上方显示“山歌”。')
+
+
 def source_oracle(site, rows, song_lines):
     dictionary=load(site/'dictionary.json.gz')
     words={r['id']:r for r in rows}
@@ -390,6 +419,7 @@ def main():
         dll=library(Path(temp)/'shared.so')
         with Model(dll,words,model_data,sound_path.read_bytes()) as model, Model(dll,words,model_data) as baseline:
             sounds = syllable_oracle(model, baseline, rows, sound_path)
+            loans = loan_oracle(model, rows, grams_path)
             labels=lexical(model,rows,scores)
             other_candidates(model, entries, scores)
             lines=song(model,rows,scores)
@@ -405,6 +435,7 @@ def main():
             scores.table(['明确声调→参考表用字','语法形式→推荐汉字','普通话拼音→汉语后备词']),
             '音节行按参考字、调号确定的输入长度和输出类别计分，实际词条与默认音节可共用该字。汉语后备项显示在土家语候选后面，按空释义、汉字、输入长度及汉语类别判断。',
             '## 下一音节',sounds,
+            '## 汉语借词的本字',loans,
             '## 学堂来源核对',source_oracle(args.site,rows,lines), '## 真实连续输入',
             f'毕兹学堂《山歌两首》第一首有 4 行、{tokens} 次词语出现。一次选择要求只有一个候选就能按原顺序送入全行所有词。逐词选择从完整的连续输入开始，每次选择后用核心函数取回余串。诗行的逗号、句号和换行属于编辑操作，未计入打字数。各行分别测试无调、调号和叶氏键入。[学堂原文](https://tujia.biz/?id=xu-tujia-annotated-2-13#corpus?corpusCollection=xu-tujia-annotated-texts)',
             scores.table([f'{prefix}·{form}' for prefix in ('山歌单词','山歌整行一次选择','山歌整行预编辑后分词',) for form in ('plain','diacritic','ye')]),

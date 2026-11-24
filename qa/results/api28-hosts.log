@@ -1,0 +1,39 @@
+Android 9, emulator-5562. Each suite checks a pulled installed base.apk against the supplied APK.
+
+Host controls
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+c9f35807d76b1eb056d3bb1f8f7c5271801bfc53614be92f0782e360c99d31ab  /workspace/tujia-android-artifacts/tujia-keyboard.apk
+0bd6278eec24404192f7b760539bde8cd5ea6374936804116e8baba5656d35b7  /workspace/tujia-android-artifacts/tujia-device-test.apk
+/data/app/biz.tujia.ime-nWz9BQkbqXJTCEYTFytMBQ==/base.apk: 1 file pulled, 0 skipped. 91.1 MB/s (5486422 bytes in 0.057s)
+/data/app/biz.tujia.ime.e2e-snvEt2AArI02gA9kXots6A==/base.apk: 1 file pulled, 0 skipped. 9.9 MB/s (57771 bytes in 0.006s)
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 搜索
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 发送
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 下一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 上一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Masked native text and numeric passwords use direct input
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Android System WebView: input, textarea, DOM focus change and password
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+
+Stock system applications
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+c9f35807d76b1eb056d3bb1f8f7c5271801bfc53614be92f0782e360c99d31ab  /workspace/tujia-android-artifacts/tujia-keyboard.apk
+0bd6278eec24404192f7b760539bde8cd5ea6374936804116e8baba5656d35b7  /workspace/tujia-android-artifacts/tujia-device-test.apk
+/data/app/biz.tujia.ime-nWz9BQkbqXJTCEYTFytMBQ==/base.apk: 1 file pulled, 0 skipped. 67.9 MB/s (5486422 bytes in 0.077s)
+/data/app/biz.tujia.ime.e2e-snvEt2AArI02gA9kXots6A==/base.apk: 1 file pulled, 0 skipped. 9.4 MB/s (57771 bytes in 0.006s)
+INSTRUMENTATION_STATUS: step=Preinstalled AOSP Contacts: enter a name in an unsaved new contact
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Preinstalled Chromium WebView Shell: direct text into the browser address bar
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=System checks completed without submitting, navigating or saving
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
