@@ -749,9 +749,11 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private Card findPagedCard(String wanted, boolean byName) {
-        List<Card> start = pageCards("，");
-        if (start.isEmpty()) throw new AssertionError("No candidates: " + visibleControls());
-        AccessibilityNodeInfo row = candidateRow(start.get(0));
+        for (Card candidate : pageCards(wanted)) {
+            if (wanted.equals(byName ? candidate.name : outputLine(candidate))) return candidate;
+        }
+        // A whole page can consist of bare syllables, with no gloss or comma in their names.
+        AccessibilityNodeInfo row = rowBesidePager();
         try {
             do {
                 for (Card candidate : rowCards(row)) {
@@ -760,6 +762,28 @@ public final class KeyboardTest extends Instrumentation {
             } while (advanceCandidatePage(row));
         } finally { row.recycle(); }
         throw new AssertionError("Could not find " + wanted + " across candidate pages");
+    }
+
+    private AccessibilityNodeInfo rowBesidePager() {
+        waitForNode("下一页候选", false);
+        for (AccessibilityNodeInfo arrow : imeRoot.findAccessibilityNodeInfosByText("下一页候选")) {
+            try {
+                if (!arrow.refresh() || !android.text.TextUtils.equals(arrow.getContentDescription(), "下一页候选")) continue;
+                AccessibilityNodeInfo strip = arrow.getParent();
+                if (strip == null) continue;
+                try {
+                    strip.refresh();
+                    for (int i = 0; i < strip.getChildCount(); i++) {
+                        AccessibilityNodeInfo child = strip.getChild(i);
+                        if (child == null) continue;
+                        if ("android.widget.LinearLayout".contentEquals(child.getClassName())
+                                && !rowCards(child).isEmpty()) return child;
+                        child.recycle();
+                    }
+                } finally { strip.recycle(); }
+            } finally { arrow.recycle(); }
+        }
+        throw new AssertionError("No candidate row beside its paging controls: " + visibleControls());
     }
 
     void assertNumberedCard(Card card, String compactLabel, String form) {
