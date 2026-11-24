@@ -17,7 +17,16 @@
     "story-words.tsv": "4d2e4ef43615367d906d487ecfb2851eb8ae99bf7ac98e6026f3696e65830b68",
     "context-words.tsv": "fa24177b8ce3cba8a27a9eabb28bf28a1853a990c132fcd830d0479dee036842",
     "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
-    "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703"
+    "plain-han-loans.tsv": "52c865a5cdd2f8365e2b9cb807e012d03537a97795c300047ced1baa153ef23b",
+    "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703",
+    "mandarin-reading-aliases.tsv": "d6281e02de39cb3fd1056cfed2caca3ac5a8f3d92f9c36fe52c67a100da09fa4"
+  },
+  "mandarinReadingSources": {
+    "local": [
+      "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/吉首.tsv",
+      "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/重慶.tsv"
+    ],
+    "method": "Regional input aliases use translate-tujia's modern Jishou character readings, supplemented per missing reading by Chongqing. Regional phrase alternatives require an attested example. Pypinyin 0.55.0 supplies boundaries for the pre-existing standard Chinese fallback."
   },
   "stats": {
     "annotatedTexts": 14,
