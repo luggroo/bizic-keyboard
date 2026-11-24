@@ -11,6 +11,7 @@ import android.util.TypedValue;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 final class SystemTypography {
     private final KeyboardTest test;
     private final EditorActivity host;
+    private final List<String> geometryErrors = new ArrayList<>();
 
     SystemTypography(KeyboardTest test, EditorActivity host) {
         this.test = test;
@@ -42,11 +44,12 @@ final class SystemTypography {
             int larger = measure("160", 1.6f, baseline);
             int largest = measure("largest", 2f, baseline);
             if (!(small < standard && standard < larger && larger <= largest + 1))
-                throw new AssertionError("The visible Q did not follow system font sizes: " + small + "/" + standard + "/" + larger + "/" + largest);
+                geometryErrors.add("The visible Q did not follow system font sizes: " + small + "/" + standard + "/" + larger + "/" + largest);
             measure("default-dense", 1f, narrow);
             measure("160-dense", 1.6f, narrow);
             measure("largest-dense", 2f, narrow);
             activeInputChanges(baseline, narrow);
+            if (!geometryErrors.isEmpty()) throw new AssertionError("Typography requirements: " + geometryErrors);
         } finally {
             shell("wm density " + (override == 0 ? "reset" : Integer.toString(override)));
             if ("null".equals(startingScale)) shell("settings delete system font_scale");
@@ -86,10 +89,10 @@ final class SystemTypography {
             float ratio14 = sp(14, dm) / (14 * dm.density);
             float ratio20 = sp(20, dm) / (20 * dm.density);
             if (Math.abs(ratio14 - ratio20) < .02f)
-                throw new AssertionError("API 34+ did not apply distinct system SP curves at 200%: " + ratio14 + ", " + ratio20);
+                geometryErrors.add("API 34+ did not apply distinct system SP curves at 200%: " + ratio14 + ", " + ratio20);
         }
         if (scale == 1f && cfg.screenHeightDp >= 600 && (keyDp < 43.5f || keyDp > 48.5f))
-            throw new AssertionError("Ordinary key height is " + keyDp + "dp at " + name);
+            geometryErrors.add("Ordinary key height is " + keyDp + "dp at " + name);
         test.stage(String.format(Locale.ROOT, "Typography %s font=%.2f dpi=%d viewport=%ddp keyHeight=%.1fdp platform14sp=%.2fpx platform20sp=%.2fpx Qink=%dpx glossInk=%dpx wordInk=%dpx toolbarY=%dpx editorBottom=%dpx", name, cfg.fontScale, dm.densityDpi, cfg.screenWidthDp, keyDp, sp(14, dm), sp(20, dm), qInk, glossInk, wordInk, toolbar.top, hostField.bottom));
         test.captureFrame("typography-" + name + ".png");
         test.pressCandidate("吃、咬，架", false);
