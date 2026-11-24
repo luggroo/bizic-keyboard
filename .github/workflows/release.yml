@@ -35,6 +35,12 @@ jobs:
           git restore --source="$BUNDLE" --worktree -- release-assets
           cd release-assets
           sha256sum -c SHA256SUMS
+          readings=wenbai-jishou-chongqing.xlsx
+          if [[ "$VERSION" == v0.3.3 || -f "$readings" ]]; then
+            grep -Fxq -- "$(sha256sum "$readings")" SHA256SUMS
+            unzip -tqq "$readings"
+            unzip -p "$readings" xl/workbook.xml >/dev/null
+          fi
           apk="tujia-keyboard-${VERSION#v}.apk"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
           python3 ../qa/verify-apk.py "$apk"
@@ -45,6 +51,7 @@ jobs:
           cd release-assets
           extras=()
           if [[ -f one-tap.mp4 ]]; then extras+=(one-tap.mp4); fi
+          if [[ -f wenbai-jishou-chongqing.xlsx ]]; then extras+=(wenbai-jishou-chongqing.xlsx); fi
           gh release create "$VERSION" --target "$GITHUB_SHA" --title "北部土家语输入法 ${VERSION#v}" \
             --notes-file NOTES.md "tujia-keyboard-${VERSION#v}.apk" shange-demo.mp4 \
             continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS "${extras[@]}"
