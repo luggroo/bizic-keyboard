@@ -46,7 +46,7 @@ function openTujiaCore(data){
           ranges=Array.from(new Int32Array(api.memory.buffer,start,count));
         }finally{api.free(ptr)}
         rows.push({form:field('text'),meaning:field('meaning'),short:field('short_meaning'),
-          ids:field('lexeme_ids'),sound:field('last_syllable'),kind:api.tji_choice_kind(handle,i),
+          ids:field('lexeme_ids'),sound:field('last_syllable'),hanSenseId:field('han_sense_id'),kind:api.tji_choice_kind(handle,i),
           syllable:!!api.tji_choice_is_syllable(handle,i),loan:!!api.tji_choice_plain_han_loan(handle,i),
           length:api.tji_choice_consumed_utf16(handle,i),ranges});
       }

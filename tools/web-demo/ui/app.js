@@ -234,16 +234,50 @@ function matchesInput(input,ye,marked){
 }
 const cardsPerPage=4;
 let candidateItems=[],candidatePage=0;
+const reading=$('candidateReading');
+let readingChoice=null;
+function openReading(item){
+  if(reading.open)return;
+  readingChoice=item;
+  putHanUnits($('readForm'),item.form,item.units);
+  $('readMeaning').textContent=item.fullGloss?'汉义　'+item.fullGloss:'';
+  $('readMeaning').hidden=!item.fullGloss;
+  reading.showModal();
+}
+$('readBack').onclick=()=>reading.close();
+$('readChoose').onclick=()=>{
+  const choice=readingChoice;
+  reading.close();choice?.commit();
+};
+reading.addEventListener('close',()=>{readingChoice=null});
+function allowReading(el,item){
+  let timer,held=false;
+  el.addEventListener('pointerdown',event=>{
+    clearTimeout(timer);held=false;
+    if(event.button===0)timer=setTimeout(()=>{held=true;openReading(item)},520);
+  });
+  for(const event of ['pointerup','pointercancel','pointerleave'])el.addEventListener(event,()=>clearTimeout(timer));
+  el.addEventListener('click',event=>{
+    if(held && event.detail){event.preventDefault();event.stopImmediatePropagation();held=false}
+  },true);
+  el.addEventListener('contextmenu',event=>{event.preventDefault();held=true;openReading(item)});
+  el.addEventListener('keydown',event=>{
+    if(event.key==='F2'){event.preventDefault();openReading(item)}
+  });
+  el.setAttribute('aria-keyshortcuts','F2');
+}
 function showCandidatePage(page){
   const box=$('candidates');
   candidatePage=page;
   const visible=candidateItems.slice(page*cardsPerPage,(page+1)*cardsPerPage);
   box.replaceChildren(...visible.map(item=>{
     const el=wordButton(item.form,item.short,item.commit,item.units);
-    if(/^\p{Script=Han}{3,4}$/u.test(item.form))el.dataset.hanCount=Array.from(item.form).length;
+    if(/^\p{Script=Han}{2,4}$/u.test(item.form))el.dataset.hanCount=Array.from(item.form).length;
     const description=item.short?(item.meaning||item.short):item.kind===1?'汉语':'';
     el.setAttribute('aria-label',description?description+'，'+item.form:item.form);
-    el.title=description;
+    el.title=item.fullGloss||description;
+    if(!item.short && item.fullGloss)el.setAttribute('aria-description','汉义　'+item.fullGloss);
+    allowReading(el,item);
     if(item.id)el.dataset.wordId=item.id;
     if(item.source)el.dataset.source=item.source;el.dataset.consumed=String(item.consumed);
     return el;
@@ -272,17 +306,25 @@ function candidates(){
   $('raw').textContent=mode?'用原字':'用原拼写';
   $('raw').setAttribute('aria-label',mode&&val?'输入原字 '+val:$('raw').textContent);
   candidateItems=[];
-  const seen=new Set(),forms=new Set();
+  const seen=new Set(),forms=new Set(),hanSenses=new Set();
   function offer(c,source){
     const consumed=source==='exact'?c.length:value.length;
     const visible=c.form+'\0'+consumed;
     const key=visible+'\0'+(c.syllable||c.loan?'':c.meaning);
     const fallback=source==='exact' && c.kind!==0;
     if(!fallback && (source==='sound'?forms.has(visible):seen.has(key)))return;
+    // A sense ID is assigned by the shared lexicon for the complete untoned
+    // source form and full gloss. Two prefix lengths still mean two edits.
+    const sense=mode===1 && c.hanSenseId?consumed+'\0'+c.hanSenseId:'';
+    if(sense && hanSenses.has(sense))return;
+    if(mode===1 && c.kind===1 && forms.has(visible))return;
+    if(sense)hanSenses.add(sense);
     forms.add(visible);seen.add(key);
     const units=unitsFromRanges(c.form,c.ranges);
-    const short=c.kind===0&&!c.loan&&(!c.syllable||source==='sound')?c.short:'';
-    candidateItems.push({form:c.form,meaning:c.meaning,short,id:c.ids,units,source,consumed,kind:c.kind,
+    const gloss=c.kind===0&&!c.loan&&(!c.syllable||source==='sound')?c.short:'';
+    const short=outputMode===1 && gloss===c.form?'':gloss;
+    const fullGloss=c.kind===0 && (!c.syllable||gloss)?c.meaning:'';
+    candidateItems.push({form:c.form,meaning:c.meaning,short,fullGloss,id:c.ids,units,source,consumed,kind:c.kind,
       commit:()=>{
         const replacing=hand && (source==='exact'||source==='completion');
         const before=replacing?hand.prior:editorContext();
@@ -387,7 +429,7 @@ for(const chars of ['qwertyuiop','asdfghjkl','zxcvbnm']){
       if(held){held=false;return}
       closeToneKeys();editKey(c);
     },'key');
-    virtualKeys.set(c,key);row.append(key);
+    virtualKeys.set(c,key);key.dataset.letter=c;row.append(key);
     if(!vowelMarks[c])continue;
     key.title='长按或按 ↓ 选择调号';
     key.setAttribute('aria-keyshortcuts','ArrowDown');

@@ -32,8 +32,10 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     def type_raw(raw):
         for key in raw:
             press(page.get_by_role('button',name=key.upper(),exact=True));shot(.24)
-    def choose(name,kind):
-        card=page.locator('#candidates button[data-source="'+kind+'"]').filter(has=page.get_by_text(name,exact=True)).first
+    def choose(name,kind,gloss=None):
+        cards=page.locator('#candidates button[data-source="'+kind+'"]').filter(has=page.get_by_text(name,exact=True))
+        if gloss:cards=cards.filter(has=page.get_by_text(gloss,exact=True))
+        card=cards.first
         for _ in range(8):
             if card.count():break
             more=page.locator('#nextCandidates');assert more.is_enabled(),name
@@ -50,6 +52,9 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     newline();press(page.locator('#kbMore'));shot(.6);press(page.locator('#menuHan'));shot(.6)
     type_raw('bizika');choose('币兹咔','exact');choose('萌','sound');choose('夹','sound')
     assert body().splitlines()[-1]=='币兹咔萌夹'
+    newline();type_raw('go');choose('过','exact','他')
+    newline();type_raw('gor');choose('郭','exact','他')
+    assert body().splitlines()[-2:]==['过','郭']
     shot(2.1);browser.close()
     seq=work/'frames.txt'
     seq.write_text("ffconcat version 1.0\n"+''.join(f"file '{p}'\nduration {s}\n" for p,s in frames)+f"file '{frames[-1][0]}'\n")

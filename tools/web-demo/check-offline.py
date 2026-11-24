@@ -69,27 +69,46 @@ with sync_playwright() as pw:
         assert page.locator('#draft').input_value()==''
         snap(page,'after-second-prediction')
         return form,next_form
-    # The outer editor, candidate strip, and bottom key stay fixed while switching panels.
-    for width,height,font_scale in [(390,844,1),(320,568,1.25)]:
+    # Font preferences scale the text while the IME stays anchored to the same editor.
+    preferences=context.new_cdp_session(page)
+    for size in [14,16,21,26,32]:
+        preferences.send('Page.setFontSizes',dict(fontSizes=dict(standard=size,fixed=size)))
+        reset()
+        actual_size=page.locator('#keys .key').first.evaluate('e=>parseFloat(getComputedStyle(e).fontSize)')
+        assert abs(actual_size-size*19/16)<.05,(size,actual_size)
+    preferences.send('Page.setFontSizes',dict(fontSizes=dict(standard=16,fixed=13)))
+    preferences.send('Emulation.setPageScaleFactor',dict(pageScaleFactor=1.5))
+    assert abs(page.evaluate('visualViewport.scale')-1.5)<.05
+    preferences.send('Emulation.setPageScaleFactor',dict(pageScaleFactor=1))
+    metrics=[]
+    for width,height in [(390,844),(320,568)]:
+      for percent in [85,100,130,160,200]:
         page.set_viewport_size(dict(width=width,height=height))
         keyboard(0)
-        if font_scale!=1:
-            page.add_style_tag(content=f'.kbhead button,#kbMorePanel button,#hideKeyboard,#kbMore {{font-size:{16*font_scale}px}} .word strong,.key {{font-size:{22*font_scale}px}}')
+        page.add_style_tag(content=f':root {{font-size:{percent}%}}')
         def bounds(selector):return page.locator(selector).first.bounding_box()
         def geometry():return [bounds('#result'),bounds('#keyboardPanel'),bounds('.candidateBar'),bounds('#keys .row:last-child')]
+        def font_size(selector):return page.locator(selector).first.evaluate('e=>parseFloat(getComputedStyle(e).fontSize)')
         base=geometry()
         assert all(b for b in base)
-        assert 48<=base[3]['height']<=58,(width,base)
-        assert base[0]['height']>=32 and base[0]['y']+base[0]['height']<=base[1]['y'],(width,base)
-        assert base[3]['y']+base[3]['height']<=height and base[3]['width']<=width,(width,base)
+        key_font=font_size('#keys .key')
+        assert abs(key_font - 19*percent/100)<.05,(width,percent,key_font)
+        assert 44<=base[3]['height']<=48.5,(width,percent,base)
+        assert base[0]['height']>=30 and base[0]['y']+base[0]['height']<=base[1]['y'],(width,percent,base)
+        assert base[3]['y']+base[3]['height']<=height and base[3]['width']<=width,(width,percent,base)
+        for node_id in ['typeMode','handMode','kbMore','hideKeyboard']:
+            ctl=bounds('#'+node_id)
+            assert 0<=ctl['x'] and ctl['x']+ctl['width']<=width,(width,percent,node_id,ctl)
         assert not page.locator('#draftBar.has-text').count()
         assert not page.locator('#kbSettings').is_visible()
         assert page.locator('#draft').get_attribute('placeholder') is None
-        snap(page,'compact-toolbar-'+str(width))
+        assert 'maximum-scale' not in page.locator('meta[name="viewport"]').get_attribute('content')
+        tag=f'{width}-{percent}'
+        if (width,percent) in [(390,100),(320,100),(320,160),(320,200)]:snap(page,'compact-toolbar-'+tag)
         page.locator('#kbMore').click()
         assert geometry()==base and page.locator('#kbMore').get_attribute('aria-expanded')=='true'
         assert page.locator('#kbMorePanel').evaluate('e=>e.clientWidth>=e.scrollWidth && e.offsetTop+e.offsetHeight<=e.parentElement.clientHeight')
-        snap(page,'more-menu-'+str(width))
+        if (width,percent) in [(390,100),(320,160)]:snap(page,'more-menu-'+tag)
         page.keyboard.press('Escape')
         assert not page.locator('#kbMorePanel').is_visible() and geometry()==base
         page.locator('#result').press('k')
@@ -103,12 +122,13 @@ with sync_playwright() as pw:
         if width==320:
             page.locator('#draft').fill('marmardiexhxif')
             card=page.locator('#candidates .word[data-han-count="3"] strong').filter(has_text='麻麻爹').first
-            assert card.evaluate('e=>e.scrollWidth<=e.clientWidth'),card.bounding_box()
-            snap(page,'readable-three-han-320')
+            assert card.evaluate('e=>e.scrollWidth<=e.clientWidth'),(percent,card.bounding_box())
+            if percent in [100,160,200]:snap(page,'three-han-'+tag)
         page.locator('#hideKeyboard').click();assert not page.locator('#keyboardPanel').is_visible()
-        page.locator('#result').click();page.wait_for_timeout(220);assert geometry()==base,(width,base,geometry())
+        page.locator('#result').click();page.wait_for_timeout(220);assert geometry()==base,(width,percent,base,geometry())
+        metrics.append((width,percent,round(key_font,1),round(base[3]['height'],1),round(base[1]['height'],1)))
     page.set_viewport_size(dict(width=390,height=844))
-    print('390px / 320px + large text: four rows of 48–58px; stable menu, handwriting and editor: PASS')
+    print('Viewport, root font %, letter px, touch row px, panel px:',metrics)
     print('Two consecutive one-tap script-independent predictions:',expected_sound(0),expected_sound(1))
     keyboard(0,True)
     page.locator('#draft').fill('bizika');choose('bízīkǎ')
@@ -132,6 +152,34 @@ with sync_playwright() as pw:
     choose('mongr','[data-source="sound"]')
     assert text()=='bifzixkar mongr'
     keyboard(1)
+    # Untoned typing yields one recommended Han per genuine meaning. Source
+    # abbreviations and prefix matches with a differing tail are independent.
+    for raw,meaning,canonical in [('go','他','过'),('gor','他','郭'),('gǒ','他','郭'),('tai','没有','太'),('ma','呢',None),('qiaga','弟兄',None)]:
+        page.locator('#draft').fill(raw)
+        picks=page.evaluate("([n,m])=>candidateItems.filter(c=>c.kind===0 && c.meaning===m && c.consumed===n).map(c=>c.form)",[len(raw),meaning])
+        assert len(picks)==1 and (canonical is None or picks[0]==canonical),(raw,meaning,picks)
+    page.locator('#draft').fill('go')
+    snap(page,'sense-go-untone')
+    assert page.evaluate("candidateItems.some(c=>c.meaning==='过错' && c.form==='过')")
+    assert page.evaluate("!candidateItems.some(c=>c.kind===1 && c.form==='过' && c.consumed===2)")
+    choose('过','[aria-label="他，过"]');assert text()=='过'
+    page.locator('#draft').fill('gor')
+    snap(page,'sense-gor-tone')
+    page.locator('#draft').fill('ar')
+    assert page.evaluate("new Set(candidateItems.filter(c=>c.kind===0 && c.meaning==='哥哥').map(c=>c.form)).size>=2")
+    keyboard(1)
+    page.locator('#draft').fill('ga')
+    assert page.evaluate("candidateItems.some(c=>c.meaning==='吃、咬') && candidateItems.some(c=>c.meaning==='干、渴')")
+    page.locator('#draft').fill('ma')
+    assert page.evaluate("candidateItems.some(c=>c.kind===1 && c.form!=='马') && !candidateItems.some(c=>c.kind===1 && c.form==='马' && c.consumed===2)")
+    page.locator('#draft').fill('mav')
+    horse=page.locator('#candidates [data-word-id="w1459"]').first
+    assert horse.locator('strong').inner_text()=='马' and horse.locator('small').inner_text()==''
+    before=text()
+    box=horse.bounding_box();page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2)
+    page.mouse.down();page.locator('#candidateReading').wait_for(state='visible',timeout=2500);page.mouse.up()
+    assert page.locator('#candidateReading').is_visible() and page.locator('#readMeaning').text_content().strip().endswith('马')
+    page.locator('#readBack').click();assert text()==before and page.locator('#draft').input_value()=='mav'
     page.locator('#draft').fill('sanggo');loan=page.get_by_role('button',name='山歌',exact=True).first
     assert loan.locator('small').inner_text()=='';loan.click()
     assert text()=='山歌'
@@ -178,6 +226,7 @@ with sync_playwright() as pw:
     # The demo glyph uses the same handwriting accept path. One lexical tap corrects its meaning/form.
     page.locator('#kbMore').click();page.locator('#menuSpell').click()
     page.locator('#draft').fill('尬')
+    assert page.evaluate("['吃、咬','干、渴'].every(m=>candidateItems.some(c=>c.meaning===m))")
     choose('gaf')
     assert text().endswith('gaf')
     print('Confirmed one-sense label, automatic real handwriting, one-tap phonetic Han conversion: PASS')
