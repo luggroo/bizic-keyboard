@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -62,11 +61,11 @@ final class OchWRecognizer implements AutoCloseable {
                 float[] logits = ((float[][]) result.get(0).getValue())[0];
                 Integer[] order = new Integer[logits.length];
                 for (int i = 0; i < order.length; i++) order[i] = i;
-                Arrays.sort(order, Comparator.comparingDouble((Integer i) -> logits[i]).reversed());
+                Arrays.sort(order, (a, b) -> Float.compare(logits[b], logits[a]));
                 List<String> output = new ArrayList<>();
                 for (int i : order) {
                     String c = characters.get(i);
-                    if (Character.UnicodeScript.of(c.codePointAt(0)) == Character.UnicodeScript.HAN) {
+                    if (isHan(c.codePointAt(0))) {
                         output.add(c);
                         if (output.size() == limit) break;
                     }
@@ -84,6 +83,11 @@ final class OchWRecognizer implements AutoCloseable {
         } catch (OrtException ex) {
             throw new IllegalStateException("Handwriting inference failed", ex);
         }
+    }
+
+    private static boolean isHan(int c) {
+        return (c >= 0x3400 && c <= 0x9fff) || (c >= 0xf900 && c <= 0xfaff)
+                || (c >= 0x20000 && c <= 0x323af) || (c >= 0x2e80 && c <= 0x2fdf);
     }
 
     /** Uniformly reduce dense touch points while keeping each stroke's endpoints. */
