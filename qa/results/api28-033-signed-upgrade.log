@@ -1,0 +1,23 @@
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+4cba2db80e58c4ae2663cdbe0006972516ae903a221d97278ba54f897e824c97  /tmp/tujia-device-release033reading/ime.apk
+6944dfee241b1bcd3100c50778686d79d30ccc027fd01c14865365c2b327acfe  /tmp/tujia-device-release033reading/fixture.apk
+/data/app/biz.tujia.ime-rQLTY4apZ5VSskZG0O-Naw==/base.apk: 1 file pulled, 0 skipped. 10.3 MB/s (5490518 bytes in 0.507s)
+Installed before update
+7dc2f1e150b355e032eac0d99d6bbac95265385d491adfa02383c61e967256e7  /tmp/tujia-device-release033reading/previous.apk
+    userId=10071
+    versionCode=7 minSdk=23 targetSdk=35
+    versionName=0.3.2
+    firstInstallTime=2026-11-24 05:34:39
+Performing Streamed Install
+Success
+Installed after update
+    userId=10071
+    versionCode=8 minSdk=23 targetSdk=35
+    versionName=0.3.3
+    firstInstallTime=2026-11-24 05:34:39
+/data/app/biz.tujia.ime-QMajgYaKzBl4bhXimlL62Q==/base.apk: 1 file pulled, 0 skipped. 47.5 MB/s (5871518 bytes in 0.118s)
+Updated installed bytes match the signed release; install identity and original timestamp preserved.
+Performing Streamed Install
+Success
+Cold start: no IME PID before first focus

@@ -1,6 +1,8 @@
 # Android 设备与宿主验收
 
-0.3.3（版本码 8）在 AOSP Android 9 云模拟器 `emulator-5562` 上从 0.3.2 覆盖升级。升级后安装时间与应用 UID 均保留。该机为 x86_64，竖屏 480 × 800 px、160 dpi，系统字号 100%。该轮 Android 9 记录对应的 APK 摘要为 `25ff5973…`。后续的候选合并和系统字号在 Android 15 上单独复测。后来的本地 Android 9 软件模拟器在全量复测中发生系统进程崩溃，一度无法取得 `window`、`activity` 和 `input_method` 服务。[当时的系统日志](results/api28-software-guest-interruption.log)
+0.3.3（版本码 8）在 AOSP Android 9 云模拟器 `emulator-5562` 上从 0.3.2 覆盖升级。升级后安装时间与应用 UID 均保留。该机为 x86_64，竖屏 480 × 800 px、160 dpi，系统字号 100%。在正式签名 APK `4cba2db8…` 上再次覆盖升级，拉回的安装包与分发文件逐字节相同。下表所列的 Android 9 全量宿主记录使用较早的 `25ff5973…`。[正式签名包的升级记录](results/api28-033-signed-upgrade.log)
+
+后续的候选合并和系统字号在 Android 15 上单独复测。后来的本地 Android 9 软件模拟器在全量复测中发生系统进程崩溃，一度无法取得 `window`、`activity` 和 `input_method` 服务。[当时的系统日志](results/api28-software-guest-interruption.log)
 
 键盘和用于读取结果的宿主分属不同进程。测试点击屏幕键位、注入手写笔画，再读取宿主文本、选区、网页 DOM 或编辑动作。
 
