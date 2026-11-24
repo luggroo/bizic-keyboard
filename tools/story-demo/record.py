@@ -159,7 +159,7 @@ if args.keyframes:
         with tarfile.open(fileobj=archive) as packed:
             for entry in packed:
                 name=Path(entry.name).name
-                if entry.isfile() and re.fullmatch(r'[0-9]+-[a-zA-Z0-9]+\.png',name):
+                if entry.isfile() and re.fullmatch(r'[0-9]+-[a-zA-Z0-9-]+\.png',name):
                     (frames/name).write_bytes(packed.extractfile(entry).read())
 shell('rm','-r',remote_dir)
 if not args.dry:

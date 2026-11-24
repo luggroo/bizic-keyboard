@@ -72,12 +72,12 @@ public final class PerformanceTest extends Instrumentation {
             openHost();
             if (onlyLetters || checkGestures || keysOnly) {
                 shell("ime set biz.tujia.ime/.TujiaIme");
-                if (keysOnly) { runOnMainSync(() -> host.show(host.words)); tap(await("汉字记音", true)); }
+                if (keysOnly) { runOnMainSync(() -> host.show(host.words)); selectHan(awaitTypingHeader()); }
             } else {
                 if (cold == 0) {
                     shell("ime set biz.tujia.ime/.TujiaIme");
                     runOnMainSync(() -> host.show(host.words));
-                    showKnownWord(await("汉字记音", true));
+                    showKnownWord(awaitTypingHeader());
                     clearKnownDraft();
                 }
                 for (int i = 0; i < cold; i++) coldRound(i);
@@ -125,7 +125,7 @@ public final class PerformanceTest extends Instrumentation {
         expectText(host.direct, "");
 
         runOnMainSync(() -> host.show(host.words));
-        tap(await("汉字记音", true));
+        selectHan(awaitTypingHeader());
         hold(await("a", true));
         tap(await("ā", true));
         await("待选拼写 ā", true);
@@ -208,15 +208,35 @@ public final class PerformanceTest extends Instrumentation {
         long start = System.nanoTime();
         shell("ime set biz.tujia.ime/.TujiaIme");
         runOnMainSync(() -> host.show(host.words));
-        Rect mode = await("汉字记音", true);
+        Rect mode = awaitTypingHeader();
         metric("cold_visible", i, System.nanoTime() - start);
         showKnownWord(mode);
         metric("cold_lexical", i, System.nanoTime() - start);
         clearKnownDraft();
     }
 
-    private void showKnownWord(Rect mode) {
+    private Rect awaitTypingHeader() {
+        long limit = SystemClock.uptimeMillis() + 90000;
+        do {
+            Rect visible = find("打字");
+            if (visible != null) return visible;
+            visible = find("汉字记音");  // 0.3.1/0.3.2 persistent tabs
+            if (visible != null) return visible;
+            SystemClock.sleep(12);
+        } while (SystemClock.uptimeMillis() < limit);
+        throw new AssertionError("Typing header not visible; IME=" + imeWindowPackage());
+    }
+
+    private void selectHan(Rect mode) {
         tap(mode);
+        if (find("更多") != null) {
+            tap(await("更多", true));
+            tap(await("汉字记音", true));
+        }
+    }
+
+    private void showKnownWord(Rect mode) {
+        selectHan(mode);
         tap(await("g", true));
         tap(await("a", true));
         await("吃、咬，架", true);
@@ -232,7 +252,7 @@ public final class PerformanceTest extends Instrumentation {
         await("隐藏键盘", false);
         long[] start = new long[1];
         runOnMainSync(() -> { start[0] = System.nanoTime(); host.show(host.words); });
-        await("汉字记音", true);
+        awaitTypingHeader();
         metric("warm_visible", i, System.nanoTime() - start[0]);
     }
 

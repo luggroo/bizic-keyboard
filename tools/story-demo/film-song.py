@@ -56,7 +56,12 @@ def play(start,end,count):
     for j in range(count):items.append(start+(end-start)*j//count)
 
 def sample(start,end,minimum=0):
-    if start<end: play(start,end,max(minimum,3*(end-start)))
+    if start<end:
+        offset=len(items)
+        play(start,end,max(minimum,3*(end-start)))
+        for j in range(len(items)-1,offset-1,-1):
+            if tags[items[j]]=='mode-options' and (j==offset or items[j-1]!=items[j]):
+                items[j:j]=[items[j]]*21
 
 sample(0,tags.index('begin0'),24)
 for i, syllables in enumerate(syl):

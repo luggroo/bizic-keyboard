@@ -229,8 +229,15 @@ public final class Playback extends Instrumentation {
     }
 
     private void warmHandwriting() {
-        if (lookupKeyboard("拼写 ▾")!=null) press("切换手写输出",100);
-        require("记音 ▾");
+        boolean menu = lookupKeyboard("更多") != null;
+        if (menu) press("更多",100);
+        require("切换手写输出");
+        if (lookupKeyboard("拼写 ▾") != null) {
+            press("切换手写输出",100);
+        } else {
+            require("记音 ▾");
+            if (menu) press("更多",100);
+        }
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {
@@ -299,6 +306,16 @@ public final class Playback extends Instrumentation {
                     SystemClock.sleep(1300);
                     choose(step[1],step[2],true);
                 }
+            } else if (keys.equals("@next")) {
+                requireEmptyDraft();
+                String label="下一音节 "+(step[2].isEmpty()?"":step[2]+"，")+step[1];
+                Rect offered=require(label);
+                shot("choices"+i);
+                trace("sound-offered",step[1]);
+                SystemClock.sleep(1200);
+                tap(offered,170);
+                requireEmptyDraft();
+                trace("sound-committed",step[1]);
             } else {
                 trace("word-start",keys);
                 typeAfterSettings(keys);
@@ -486,7 +503,8 @@ public final class Playback extends Instrumentation {
             imm.showSoftInput(host.editor, InputMethodManager.SHOW_IMPLICIT);
         });
         press(mode,100);
-        require("手写".equals(mode) ? "汉字手写区" : "待选拼写 ");
+        if ("手写".equals(mode)) require("汉字手写区");
+        else requireEmptyDraft();
     }
 
     private void typeAfterSettings(String raw) {
@@ -559,8 +577,7 @@ public final class Playback extends Instrumentation {
         long end=SystemClock.uptimeMillis()+75000;
         long retryAt=SystemClock.uptimeMillis()+1800;
         do {
-            Rect button=lookupKeyboard(mode);
-            if (button!=null) { tap(button,30); return; }
+            if (lookupKeyboard("隐藏键盘") != null) { press(mode,30); return; }
             if (SystemClock.uptimeMillis()>=retryAt) {
                 runOnMainSync(() -> {
                     host.editor.requestFocus();
@@ -637,7 +654,14 @@ public final class Playback extends Instrumentation {
                 if (value!=null && value.toString().startsWith("待选拼写 ")) return value.toString().substring(5);
             } finally { n.recycle(); }
         }
-        return null;
+        // A blank preview is hidden in the compact toolbar. An alphabet key
+        // distinguishes this state from a hidden IME or an open menu.
+        return lookupKeyboard("q") == null ? null : "";
+    }
+
+    private void requireEmptyDraft() {
+        require("q");
+        if (!waitDraft("",3500)) throw new AssertionError("Expected an empty draft; got " + draft());
     }
 
     private boolean waitDraft(String value,long timeout) {
@@ -846,7 +870,23 @@ public final class Playback extends Instrumentation {
         }
     }
 
-    private void press(String label,long duration) { tap(require(label),duration); }
+    private void press(String label,long duration) {
+        if ("汉字记音".equals(label) || "土家语拼写".equals(label)) {
+            require("隐藏键盘");
+            if (lookupKeyboard(label) == null && lookupKeyboard("更多") != null) {
+                // The handwriting More menu configures handwritten output.
+                // Return to typing before choosing the keyboard's output script.
+                if (lookupKeyboard("q") == null) {
+                    tap(require("打字"),100);
+                    require("q");
+                }
+                tap(require("更多"),100);
+                require(label);
+                shot("mode-options");
+            }
+        }
+        tap(require(label),duration);
+    }
     private Rect require(String value) {
         long end=SystemClock.uptimeMillis() + 16000;
         do {
