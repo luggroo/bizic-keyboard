@@ -52,7 +52,8 @@ public final class KeyboardTest extends Instrumentation {
         try {
             ui = getUiAutomation();
             AccessibilityServiceInfo info = ui.getServiceInfo();
-            info.flags |= AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+            info.flags |= AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
+                    | AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
                     | AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS;
             info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
             info.notificationTimeout = 0;
@@ -1464,9 +1465,35 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Missing candidate: " + label + "; screen=" + visibleControls());
     }
 
+    private boolean waitForUnrelatedSystemApp() {
+        for (AccessibilityWindowInfo window : ui.getWindows()) {
+            if (!window.isFocused()) continue;
+            AccessibilityNodeInfo root = window.getRoot();
+            if (root == null) continue;
+            try {
+                if (!android.text.TextUtils.equals(root.getPackageName(), "android")) continue;
+                StringBuilder labels = new StringBuilder();
+                collectLabels(root, labels);
+                String text = labels.toString().replace('’', (char) 39);
+                if (!text.contains("Pixel Launcher isn't responding") && !text.contains("System UI isn't responding")
+                        && !text.contains("系统界面没有响应") && !text.contains("系统界面无响应")) continue;
+                for (AccessibilityNodeInfo wait : root.findAccessibilityNodeInfosByViewId("android:id/aerr_wait")) {
+                    try {
+                        if (!wait.isVisibleToUser() || !wait.performAction(AccessibilityNodeInfo.ACTION_CLICK)) continue;
+                        stage("Chose Wait on an unrelated Android launcher/System UI ANR before focusing the test editor");
+                        return true;
+                    } finally { wait.recycle(); }
+                }
+            } finally { root.recycle(); }
+        }
+        return false;
+    }
+
     void tapField(EditText field) {
         AtomicReference<Rect> bounds = new AtomicReference<>();
         long readyBy = SystemClock.uptimeMillis() + WAIT_MS;
+        long nextSystemCheck = 0;
+        boolean waitedForSystemApp = false;
         while (bounds.get() == null && SystemClock.uptimeMillis() < readyBy) {
             runOnMainSync(() -> {
                 Rect visible = new Rect();
@@ -1476,10 +1503,19 @@ public final class KeyboardTest extends Instrumentation {
                 visible.offset(pos[0], pos[1]);
                 if (!visible.isEmpty()) bounds.set(visible);
             });
-            if (bounds.get() == null) SystemClock.sleep(40);
+            if (bounds.get() == null) {
+                long now = SystemClock.uptimeMillis();
+                if (!waitedForSystemApp && now >= nextSystemCheck) {
+                    waitedForSystemApp = waitForUnrelatedSystemApp();
+                    if (waitedForSystemApp) readyBy = now + WAIT_MS;
+                    nextSystemCheck = now + 500;
+                }
+                SystemClock.sleep(40);
+            }
         }
         Rect r = bounds.get();
-        if (r == null) throw new AssertionError("Host did not expose a focused window and visible editor");
+        if (r == null) throw new AssertionError("Host did not expose a focused window and visible editor; "
+                + "unrelated system ANR accepted=" + waitedForSystemApp);
         // Leave the cursor after short test text without hitting the navigation gesture region.
         int rightInset = Math.round(32 * field.getResources().getDisplayMetrics().density);
         tap(Math.max(r.centerX(), r.right - rightInset), r.centerY());
