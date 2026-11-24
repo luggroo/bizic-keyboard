@@ -41,6 +41,11 @@ jobs:
             unzip -tqq "$readings"
             unzip -p "$readings" xl/workbook.xml >/dev/null
           fi
+          readings_movie=jishou-readings-android.mp4
+          if [[ "$VERSION" == v0.3.3 || -f "$readings_movie" ]]; then
+            grep -Fxq -- "$(sha256sum "$readings_movie")" SHA256SUMS
+            test "$(head -c 8 "$readings_movie" | tail -c 4)" = ftyp
+          fi
           apk="tujia-keyboard-${VERSION#v}.apk"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
           python3 ../qa/verify-apk.py "$apk"
@@ -52,6 +57,7 @@ jobs:
           extras=()
           if [[ -f one-tap.mp4 ]]; then extras+=(one-tap.mp4); fi
           if [[ -f wenbai-jishou-chongqing.xlsx ]]; then extras+=(wenbai-jishou-chongqing.xlsx); fi
+          if [[ -f jishou-readings-android.mp4 ]]; then extras+=(jishou-readings-android.mp4); fi
           gh release create "$VERSION" --target "$GITHUB_SHA" --title "北部土家语输入法 ${VERSION#v}" \
             --notes-file NOTES.md "tujia-keyboard-${VERSION#v}.apk" shange-demo.mp4 \
             continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS "${extras[@]}"
