@@ -209,6 +209,10 @@ let firstCommit=null;
 let committedContext=null, editRevision=0;
 function compositionMode(){return mode===2?(handHan?1:2):mode}
 function outputForm(entry){return compositionMode()===1?entry.recommended:spelling(entry)}
+function practiceInput(entry){
+  if(mode===2)return entry.recommended;
+  return mode===1?entry.plain:spelling(entry);
+}
 function editorContext(){
   const at=output.selectionStart, before=output.value.slice(0,at);
   if(at===output.selectionEnd){
@@ -707,7 +711,7 @@ render();
 
 $('showScene').onclick=()=>{
   restoreManual();choose(mode);keyboardOpen(true);
-  change(sentenceWords.map(e=>mode===2?e.recommended:e.word).join('')+'。');
+  change(sentenceWords.map(practiceInput).join('')+'。');
   $('playStatus').textContent='点首选可输入整句；点短词后可继续选词';
 };
 
@@ -717,7 +721,7 @@ $('tryForms').onclick=()=>{
 };
 
 $('tryNext').onclick=()=>{
-  restoreManual();choose(0,true);change('boxlir');
+  restoreManual();choose(0,true);change(practiceInput(wordById.get('w309')));
   $('playStatus').textContent='点「小孩」，再点想接着输入的词或音节';
 };
 
@@ -863,7 +867,7 @@ function renderLibrary(){
   for(const entry of matches.slice(libraryPage*pageSize,(libraryPage+1)*pageSize)){
     const row=node('div','','lexrow');
     const tryWord=button('',()=>{
-      restoreManual();choose(mode,true);change(mode===2?entry.recommended:entry.word);
+      restoreManual();choose(mode,true);change(practiceInput(entry));
       $('playStatus').textContent='点候选词，放入输入框';
       $('play').scrollIntoView({block:'start'});
     });

@@ -45,6 +45,11 @@ input('bizika');click('#openSettings');chooseForm('#orthography','diacritic');
 if(d.querySelector('#orthography [aria-pressed=true]').dataset.form!=='diacritic' ||
    d.querySelector('#draft').value!=='bizika' || w.localStorage.getItem('tujia-orthography')!=='diacritic')throw Error('Settings selection failed');
 d.querySelector('#settingsPanel').close();candidate('bízīkǎ');
+for(const [form,sentence] of [['ye','ngaf yer gaf。'],['diacritic','ngá yě gá。'],['han','讶叶架。']]){
+  click('#kbMore');chooseForm('#menuOutputs',form);click('#showScene');candidate(sentence).click();
+  if(!result.value.endsWith(sentence))throw Error('Sentence practice ignored '+form);
+}
+click('#kbMore');chooseForm('#menuOutputs','diacritic');click('#tryNext');candidate('bōlǐ');
 click('#kbMore');click('#menuHan');input('');result.value='';result.setSelectionRange(0,0);
 input('guaijia');
 const country=Array.from(d.querySelectorAll('#candidates button strong')).map(e=>e.textContent);
