@@ -2,6 +2,7 @@ name: Android device QA
 run-name: Android API ${{ inputs.api_level || '35' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       api_level:
@@ -67,7 +68,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - name: Exercise installed input method
         env:
-          TUJIA_E2E_SUITE: ${{ inputs.suite }}
+          TUJIA_E2E_SUITE: ${{ inputs.suite || 'core' }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ inputs.api_level || '35' }}
