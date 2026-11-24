@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -47,6 +48,19 @@ public final class HandwritingPad extends View {
     private volatile int generation;
     private Path currentPath;
     private String message = "";
+    private InkSnapshot pendingRestore;
+
+    /** Drawing only. The IME owns the editor identity and the pending commit anchor. */
+    static final class InkSnapshot {
+        private final int width, height;
+        private final List<float[]> strokes;
+
+        private InkSnapshot(int width, int height, List<float[]> strokes) {
+            this.width = width;
+            this.height = height;
+            this.strokes = strokes;
+        }
+    }
 
     public HandwritingPad(Context context, Listener listener) {
         super(context);
@@ -60,14 +74,62 @@ public final class HandwritingPad extends View {
         ink.setStrokeCap(Paint.Cap.ROUND);
         label.setColor(Color.rgb(112,84,65));
         label.setTextAlign(Paint.Align.CENTER);
-        label.setTextSize(17*getResources().getDisplayMetrics().scaledDensity);
+        label.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                14, getResources().getDisplayMetrics()));
         guide.setColor(Color.rgb(211,180,160));
         guide.setStrokeWidth(Math.max(1f, density));
         setBackgroundColor(Color.rgb(255,249,241));
         setContentDescription("手写记音字，逐笔书写后选字");
     }
 
-    public boolean hasInk() { return currentPath != null || !strokes.isEmpty(); }
+    public boolean hasInk() { return pendingRestore != null || currentPath != null || !strokes.isEmpty(); }
+
+    /** Main thread, before removing the old pad. Invalidates its jobs and idle callback. */
+    InkSnapshot takeInk() {
+        InkSnapshot snapshot = pendingRestore;
+        if (snapshot == null && hasInk() && getWidth() > 0 && getHeight() > 0) {
+            List<float[]> finished = new ArrayList<>(strokes);
+            if (used > 0) finished.add(Arrays.copyOf(writing, used));
+            snapshot = new InkSnapshot(getWidth(), getHeight(), finished);
+        }
+        clearInk();
+        return snapshot;
+    }
+
+    /** Main thread, on the replacement pad after its owner has validated the editor. */
+    void restoreInk(InkSnapshot snapshot) {
+        clearInk();
+        pendingRestore = snapshot;
+        restoreIfMeasured();
+    }
+
+    private void restoreIfMeasured() {
+        if (pendingRestore == null || getWidth() <= 0 || getHeight() <= 0) return;
+        InkSnapshot snapshot = pendingRestore;
+        pendingRestore = null;
+        float scale = Math.min((float) getWidth() / snapshot.width, (float) getHeight() / snapshot.height);
+        float dx = (getWidth() - snapshot.width * scale) / 2f;
+        float dy = (getHeight() - snapshot.height * scale) / 2f;
+        for (float[] old : snapshot.strokes) {
+            float[] points = new float[old.length];
+            Path path = new Path();
+            for (int i = 0; i < points.length; i += 2) {
+                points[i] = dx + old[i] * scale;
+                points[i + 1] = dy + old[i + 1] * scale;
+                if (i == 0) path.moveTo(points[i], points[i + 1]);
+                else path.lineTo(points[i], points[i + 1]);
+            }
+            paths.add(path);
+            strokes.add(points);
+        }
+        if (isAttachedToWindow()) recognize();
+        invalidate();
+    }
+
+    @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        restoreIfMeasured();
+    }
 
     private void cancelAccept() {
         if (pendingAccept != null) main.removeCallbacks(pendingAccept);
@@ -82,6 +144,7 @@ public final class HandwritingPad extends View {
     public void clearInk() {
         cancelAccept();
         generation++;
+        pendingRestore = null;
         discardActive();
         strokes.clear();
         paths.clear();

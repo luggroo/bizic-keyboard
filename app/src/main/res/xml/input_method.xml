@@ -1,4 +1,5 @@
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configChanges="fontScale|density|screenSize|smallestScreenSize"
     android:settingsActivity="biz.tujia.ime.SetupActivity"
     android:supportsSwitchingToNextInputMethod="true">
     <subtype android:label="@string/subtype_name"
