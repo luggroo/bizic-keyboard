@@ -633,6 +633,22 @@ public final class KeyboardTest extends Instrumentation {
         assertMixedPage(fourCards());
         int gaPages = verifyUniqueFormsAcrossPages("夹");
         stage("Across all " + gaPages + " ga pages each form occurs once; 夹 shows ¹上/²干");
+        newPredictionEditor();
+        for (int i = 0; i < 2; i++) {
+            type("ye");
+            pressCandidate("饭，叶", false);
+            type("go");
+            Card ambiguous = visibleForm("过");
+            tap(ambiguous.bounds.centerX(), ambiguous.bounds.centerY());
+            press("句号");
+        }
+        type("ye");
+        pressCandidate("饭，叶", false);
+        expectFirst("联想 吃、咬，架");
+        if (!pageCards("联想 他").isEmpty())
+            throw new AssertionError("Unresolved 过 incorrectly trained the first sense 他");
+        expectText(host.first, "叶过。叶过。叶");
+        stage("An ambiguous written 过 did not teach the host that the user had chosen 他");
     }
 
     private void assertNumberedCard(Card card, String compactLabel, String form) {
@@ -947,17 +963,17 @@ public final class KeyboardTest extends Instrumentation {
             pressCandidate("饭，叶", false);
             sentence.append("叶");
             if (i == 2) {
-                expectFirst("联想 小孩、儿童，波俐");
+                expectFirst("联想 中午，半日猜");
                 break;
             }
             if (i == 0) {
-                type("boxlir");
-                pressCandidate("小孩、儿童，波俐", false);
+                type("bangricai");
+                pressCandidate("中午，半日猜", false);
             } else {
-                pressCandidate("联想 小孩、儿童，波俐", false);
+                pressCandidate("联想 中午，半日猜", false);
             }
             press("句号");
-            sentence.append("波俐。");
+            sentence.append("半日猜。");
             expectText(host.first, sentence.toString());
         }
         expectText(host.first, sentence.toString());
@@ -965,7 +981,7 @@ public final class KeyboardTest extends Instrumentation {
         type("ye");
         pressCandidate("饭，叶", false);
         expectFirst("联想 吃、咬，架");
-        if (!pageCards("联想 小孩、儿童，波俐").isEmpty())
+        if (!pageCards("联想 中午，半日猜").isEmpty())
             throw new AssertionError("Word associations leaked into a new editor");
         expectText(host.second, "叶");
 
@@ -977,15 +993,15 @@ public final class KeyboardTest extends Instrumentation {
             tapField(host.first);
             type("ye");
             pressCandidate("饭，叶", false);
-            type("boxlir");
-            pressCandidate("小孩、儿童，波俐", false);
+            type("bangricai");
+            pressCandidate("中午，半日猜", false);
             press("句号");
             type("ye");
             pressCandidate("饭，叶", false);
             waitForNode("联想 吃、咬，架", false);
-            if (!pageCards("联想 小孩、儿童，波俐").isEmpty())
+            if (!pageCards("联想 中午，半日猜").isEmpty())
                 throw new AssertionError("Private editor personalized a repeated continuation");
-            expectText(host.first, "叶波俐。叶");
+            expectText(host.first, "叶半日猜。叶");
         }
     }
 
