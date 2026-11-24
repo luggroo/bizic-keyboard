@@ -37,6 +37,7 @@ public final class CandidateEngineTest {
 
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
+        checkHandwrittenSuffixes(asset);
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_senses.tsv").toFile()));
@@ -199,5 +200,48 @@ public final class CandidateEngineTest {
         check(engine.lookup("notaword", Mode.HANDWRITING).isEmpty(), "Handwriting should not accept Latin");
         check(engine.lookup("龘", Mode.PINYIN).isEmpty(), "No false matches");
         System.out.println("Passed all " + words + " words, keys, handwritten forms, segmentation, homophones, and sentence checks.");
+    }
+
+    private static void checkHandwrittenSuffixes(Path asset) throws Exception {
+        try (CandidateEngine dictionary = new CandidateEngine(new java.io.SequenceInputStream(
+                Files.newInputStream(asset), Files.newInputStream(asset.resolveSibling("northern-words.tsv"))),
+                null, null, null, Files.newInputStream(asset.resolveSibling("handwriting-readings.tsv")))) {
+            for (String raw : Arrays.asList("树稀布理", "树稀步李", "前面还有字树稀步李")) {
+                List<Candidate> choices = dictionary.handwrittenWords(raw, Mode.HAN, Orthography.DIACRITIC);
+                check(offers(choices, "树希布里", "板栗", 4) && offers(choices, "希布里", "星", 3) &&
+                      offers(choices, "昔布里", "草籽", 3) && offers(choices, "布里", "水果", 2), "Regional suffixes " + raw);
+                int length = 4;
+                for (Candidate c : choices) {
+                    check(c.consumed <= length, "Longer suffix first");
+                    length = c.consumed;
+                }
+            }
+            List<Candidate> child = dictionary.handwrittenWords("波粒", Mode.HAN, Orthography.YE);
+            check(child.get(0).text.equals("波俐") && offers(child, "波立", "孩子", 2), "Recorded alias before a regional homophone");
+            check(offers(dictionary.handwrittenWords("树稀步李", Mode.HANDWRITING, Orthography.DIACRITIC),
+                    "xìbúlī", "星", 3), "Replace exactly the selected suffix with its dictionary spelling");
+            check(offers(dictionary.handwrittenWords("恩给", Mode.HAN, Orthography.YE), "恩格锿", "那里", 2) &&
+                    offers(dictionary.handwrittenWords("恩格锿", Mode.HAN, Orthography.YE), "恩格锿", "那里", 3),
+                    "The joined syllable and its one-graph spelling use different host ranges");
+            List<Candidate> flower = dictionary.handwrittenWords("借米提卡铺", Mode.HAN, Orthography.YE);
+            check(flower.stream().noneMatch(c -> c.lexemeIds.equals("w1031")) &&
+                    flower.stream().anyMatch(c -> c.text.equals("卡铺") && c.consumed == 2), "Four written characters including the latest");
+            for (String separator : Arrays.asList("。", "\n", " ", "a")) {
+                List<Candidate> split = dictionary.handwrittenWords("树稀" + separator + "步李", Mode.HAN, Orthography.YE);
+                check(split.stream().allMatch(c -> c.consumed <= 2) && offers(split, "布里", "水果", 2), "Host boundary " + separator);
+            }
+            List<Candidate> next = dictionary.nextHandwrittenGlyphs("玻");
+            check(next.stream().anyMatch(c -> c.text.equals("俐")) &&
+                    next.stream().allMatch(c -> c.consumed == 0 && c.text.codePointCount(0, c.text.length()) == 1), "Append just the next glyph");
+        }
+        String source = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\n" +
+                "n4\tword\t\t四\t甲乙丙丁\t\t甲 乙 丙 丁\n" +
+                "n5\tlong\t\t五\t戊甲乙丙丁\t\t戊 甲 乙 丙 丁\n";
+        String local = "han\tjishou\tchongqing\tnasal\n甲\t𠀀\t\t\n乙\t\t另\t\n丙\t\t\t近\n";
+        try (CandidateEngine test = new CandidateEngine(new java.io.ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)),
+                null, null, null, new java.io.ByteArrayInputStream(local.getBytes(StandardCharsets.UTF_8)))) {
+            List<Candidate> result = test.handwrittenWords("戊𠀀另近丁", Mode.HAN, Orthography.YE);
+            check(result.size() == 1 && offers(result, "甲乙丙丁", "四", 5), "Four scalars, five UTF-16 units; fifth graph is outside the window");
+        }
     }
 }

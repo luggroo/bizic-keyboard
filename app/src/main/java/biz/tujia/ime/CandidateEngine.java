@@ -8,6 +8,7 @@ import java.util.List;
 
 /** Android adapter for the shared Tujia word and sentence engine. */
 public final class CandidateEngine implements AutoCloseable {
+    static final int HANDWRITING_WINDOW = 4;
     public enum Mode { PINYIN, HAN, HANDWRITING }
     public enum Kind { TUJIA, CHINESE, LITERAL, PUNCTUATION }
     public enum Orthography { YE, DIACRITIC }
@@ -63,11 +64,21 @@ public final class CandidateEngine implements AutoCloseable {
     }
 
     public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams, InputStream syllableSenses) throws IOException {
-        try (InputStream context = ngrams; InputStream sounds = syllableBigrams; InputStream senses = syllableSenses) {
+        this(input, ngrams, syllableBigrams, syllableSenses, null);
+    }
+
+    public final int handwritingContextLength;
+
+    public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams, InputStream syllableSenses,
+                           InputStream regionalReadings) throws IOException {
+        try (InputStream context = ngrams; InputStream sounds = syllableBigrams; InputStream senses = syllableSenses;
+             InputStream readings = regionalReadings) {
             model = NativeCore.loadLexicon(NativeCore.readAsset(input),
                     context == null ? new byte[0] : NativeCore.readAsset(context),
                     sounds == null ? new byte[0] : NativeCore.readAsset(sounds),
-                    senses == null ? new byte[0] : NativeCore.readAsset(senses));
+                    senses == null ? new byte[0] : NativeCore.readAsset(senses),
+                    readings == null ? new byte[0] : NativeCore.readAsset(readings));
+            handwritingContextLength = NativeCore.handwritingContextLength(model);
         }
     }
 
@@ -81,6 +92,22 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {
         return candidates(acceptedHan, outputMode, style, 1);
+    }
+
+    public List<Candidate> handwrittenWords(String beforeCaret, Mode outputMode, Orthography style) {
+        return candidates(handwritingTail(beforeCaret), outputMode, style, 5);
+    }
+
+    public List<Candidate> nextHandwrittenGlyphs(String beforeCaret) {
+        return candidates(handwritingTail(beforeCaret), Mode.HAN, Orthography.YE, 6);
+    }
+
+    static String handwritingTail(String text) {
+        if (text == null) return "";
+        int start = text.length();
+        for (int i = 0; i < HANDWRITING_WINDOW && start > 0; i++)
+            start -= Character.charCount(text.codePointBefore(start));
+        return text.substring(start);
     }
 
     public synchronized List<Candidate> spellingCompletions(String prefix, String previousIds, Mode outputMode, Orthography style) {

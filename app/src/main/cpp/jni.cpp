@@ -70,9 +70,9 @@ constexpr auto CALL_ERROR = "java/lang/IllegalStateException";
 } // namespace
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams, jbyteArray syllableBigrams, jbyteArray syllableSenses) {
+Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams, jbyteArray syllableBigrams, jbyteArray syllableSenses, jbyteArray readings) {
     return guarded<jlong>(env, LOAD_ERROR, [&] {
-        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams), bytes(env, syllableBigrams), bytes(env, syllableSenses));
+        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams), bytes(env, syllableBigrams), bytes(env, syllableSenses), bytes(env, readings));
         return static_cast<jlong>(reinterpret_cast<uintptr_t>(value.release()));
     });
 }
@@ -96,6 +96,8 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             case 2: found = lexicon->nextWords(input, form, style); break;
             case 3: found = lexicon->nextSyllables(input, form, style); break;
             case 4: found = lexicon->spellingCompletions(input, bytes(env, history), form, style); break;
+            case 5: found = lexicon->handwrittenWords(input, form, style); break;
+            case 6: found = lexicon->nextHandwrittenGlyphs(input); break;
             default: throw std::invalid_argument("Unknown candidate operation");
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
@@ -144,6 +146,11 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
         }
         return result;
     });
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_biz_tujia_ime_NativeCore_handwritingContextLength(JNIEnv* env, jclass, jlong handle) {
+    return guarded<jint>(env, CALL_ERROR, [&] { return model<tujia::Lexicon>(handle)->handwritingContextLength(); });
 }
 
 extern "C" JNIEXPORT jint JNICALL

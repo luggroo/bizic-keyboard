@@ -37,13 +37,17 @@ bool matchesSpellingPrefix(const std::string& input, const std::string& ye, cons
 class Lexicon {
 public:
     explicit Lexicon(const std::string& tsv, const std::string& ngrams = {},
-                     const std::string& syllableBigrams = {}, const std::string& syllableSenses = {});
+                     const std::string& syllableBigrams = {}, const std::string& syllableSenses = {},
+                     const std::string& handwritingReadings = {});
     ~Lexicon();
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode,
                                   Orthography orthography = Orthography::Ye) const;
 
     std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;
+    std::vector<Candidate> handwrittenWords(const std::string& beforeCaret, Mode output, Orthography style) const;
+    std::vector<Candidate> nextHandwrittenGlyphs(const std::string& beforeCaret) const;
+    int handwritingContextLength() const;
     std::vector<Candidate> nextSyllables(const std::string& context, Orthography style) const;
     std::vector<Candidate> nextSyllables(const std::string& context, Mode output, Orthography style) const;
     int scoreHandwritingPrefix(const std::string& glyphs) const;

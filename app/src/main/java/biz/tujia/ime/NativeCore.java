@@ -24,7 +24,8 @@ final class NativeCore {
         return text.getBytes(StandardCharsets.UTF_8);
     }
 
-    static native long loadLexicon(byte[] data, byte[] ngrams, byte[] syllableBigrams, byte[] syllableSenses) throws IOException;
+    static native long loadLexicon(byte[] data, byte[] ngrams, byte[] syllableBigrams, byte[] syllableSenses, byte[] readings) throws IOException;
+    static native int handwritingContextLength(long model);
     static native void freeLexicon(long model);
     static native CandidateEngine.Candidate[] lookup(long model, byte[] input, int mode, int orthography, int operation, byte[] history);
     static native boolean matchesSpellingPrefix(byte[] input, byte[] ye, byte[] marked, boolean allowYe);

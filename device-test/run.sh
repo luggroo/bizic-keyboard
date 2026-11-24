@@ -99,7 +99,7 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     exit 1
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
-case "$suite" in all|core|host|window|web|system|sounds|compact|long-word|typography|han-senses|regional) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system, sounds, compact, long-word, typography, han-senses or regional" >&2; exit 2 ;; esac
+case "$suite" in all|core|host|window|web|system|sounds|compact|long-word|typography|han-senses|regional|hand-words) ;; *) echo "Unknown TUJIA_E2E_SUITE: $suite" >&2; exit 2 ;; esac
 if [[ "$suite" == typography ]]; then
     previous_density=$("$adb_bin" shell wm density | tr -d '\r' | sed -n 's/^Override density: //p')
     previous_font=$("$adb_bin" shell settings get system font_scale | tr -d '\r')

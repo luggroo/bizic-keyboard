@@ -80,10 +80,15 @@ final class HanChoice {
     }
 
     static String gloss(Set<String> meanings, boolean spaced) {
+        return gloss(meanings, spaced, Integer.MAX_VALUE);
+    }
+
+    static String gloss(Set<String> meanings, boolean spaced, int limit) {
         if (meanings.size() < 2) return join(meanings, "");
         StringBuilder out = new StringBuilder();
         int index = 0;
         for (String meaning : meanings) {
+            if (index >= limit) break;
             if (spaced && index != 0) out.append(' ');
             String number = Integer.toString(++index);
             for (int i = 0; i < number.length(); i++) out.append("⁰¹²³⁴⁵⁶⁷⁸⁹".charAt(number.charAt(i) - '0'));

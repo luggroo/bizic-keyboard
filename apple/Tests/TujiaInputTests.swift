@@ -121,11 +121,24 @@ final class TujiaInputTests: XCTestCase {
         XCTAssertTrue(senses.contains { $0.meaning == "脚" && $0.text == "及" })
         let sentence = try XCTUnwrap(dic.candidates(for: "ngafyergaf。", form: .spelling).first)
         XCTAssertEqual(sentence.text, "ngaf yer gaf。")
-        let marked = try XCTUnwrap(dic.candidates(for: "ngafyergaf。", form: .spelling, orthography: .diacritic).first)
+        let marked = try XCTUnwrap(dic.candidates(for: "ngáyěgá。", form: .spelling, orthography: .diacritic).first)
         XCTAssertEqual(marked.text, "ngá yě gá。")
         let word = try XCTUnwrap(dic.candidates(for: "hxif", form: .spelling).first)
         let spaced = dic.selection(word, in: "hxif", before: "ngaf", after: "yer")
         XCTAssertEqual(spaced?.text, " hxif ")
+    }
+
+    func testFourHandwrittenCharactersBeforeCaret() throws {
+        let dictionary = try TujiaDictionary()
+        let text = "🙂树稀步李"
+        let matches = dictionary.handwrittenWords(beforeCaret: text)
+        let star = try XCTUnwrap(matches.first { $0.candidate.meaning == "星" })
+        XCTAssertEqual(star.range, NSRange(location: 3, length: 3))
+        XCTAssertEqual(star.candidate.text, "希布里")
+        XCTAssertEqual(dictionary.selection(star.candidate, in: "稀步李")?.text, "希布里")
+        XCTAssertNil(dictionary.selection(star.candidate, in: text))
+        XCTAssertFalse(dictionary.handwrittenWords(beforeCaret: "借米提卡铺").contains { $0.candidate.meaning == "指甲花" })
+        XCTAssertTrue(dictionary.nextHandwrittenGlyphs(beforeCaret: "玻").contains { $0.text == "俐" && $0.consumedUTF16 == 0 })
     }
 
     func testEveryBundledEntryThroughSwift() throws {

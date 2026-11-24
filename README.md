@@ -39,7 +39,11 @@
 
 安卓手写模型随安装包提供，无需联网。模型源自 [Ismantic/Handwritten](https://github.com/Ismantic/Handwritten)，使用 ONNX Runtime 在设备上运行。
 
-在「手写」里写下「波」，停笔后首选字会进入正文。可以接着写「俐」，也可以点“小孩”对应的整词「波俐」补全。认错字时，点其他字形即可改选。遇到「尬」这样有多种记音用法的字，可以点“吃”选中相应词条。切到手写的拼写输出后，选词会使用设置中指定的拼写形式。
+在「手写」里写完一个字，首选字会直接进入正文。记成「波粒」也能找到「波俐」（小孩）。认错字时，点「改字」旁的其他字形即可更正。
+
+「已写成词」查光标前最多四个汉字，包含刚写下的字，遇到标点、空格或换行就停。写「树稀步李」，候选栏会同时列出「树希布里」（板栗）、「希布里」（星）和「布里」（水果）等词。当地同音字优先按吉首话匹配，缺少吉首读音时参考重庆话。可以继续写，也可以点某个词看汉义，用推荐字或调号拼音替换它对应的那几个字。[板栗](https://tujia.biz/?id=w2169) · [星](https://tujia.biz/?id=w2432) · [水果](https://tujia.biz/?id=w341)
+
+点「接着写」可选下一个字。例如写「波」后点「俐」，只追加「俐」。词库里能接上的字排在前面，后面是按上下文推荐的词和音节。在「更多」里切到手写的拼写输出，连续写字会使用设置中指定的拼写形式。
 
 ### 试试自由输入
 
@@ -95,6 +99,8 @@ final class KeyboardController: UIInputViewController {
 点候选时传入 `group.primary`。长按时也可选择 `group.alternativeEdits` 里的较短拼写。例如输入 `rif`，点击「日」会用掉整个拼写，长按后选择 `ri` 会留下 `f`。多义卡只有在能确定词条时才提供词条 ID，多个读音共用同一个字时，音节上下文留空。
 
 `TujiaHandwriting.glyphs(for:)` 接收依书写顺序排列的笔画。把记音字交给 `dictionary.candidates(for:form:)`，使用 `.handwritingToSpelling` 取土家语拼写，或使用 `.recommendedHan` 取推荐汉字。`handwritingSuggestions(for:form:orthography:)` 根据已经写下的字补全词语，`spellingCompletions(_:after:form:orthography:)` 根据已打出的拼写补全词尾。
+
+手写字上屏后，把光标前的文字交给 `handwrittenWords(beforeCaret:form:orthography:)`。每个结果带有原文的 UTF-16 范围，允许替换同一位置上两字、三字或四字的词。单字也会返回。`nextHandwrittenGlyphs(beforeCaret:)` 提供只需追加的下一个字。
 
 `nextWords(after:form:orthography:)` 接收当前输入框最近选过的词条 ID，以空格分隔。一个或两个前词可用于普通预测。传入最多 32 项可让最近重复选择的搭配提前。已知的句首传入 `<s>`。`nextSyllables(after:form:orthography:)` 接收最近一个已确认音节或句首标记，按所选输出形式返回可直接提交的候选。
 

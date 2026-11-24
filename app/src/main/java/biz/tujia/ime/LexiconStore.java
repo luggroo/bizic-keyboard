@@ -37,8 +37,9 @@ final class LexiconStore {
                  InputStream northern = app.getAssets().open("northern-words.tsv");
                  InputStream ngrams = app.getAssets().open("ngrams.tsv");
                  InputStream syllables = app.getAssets().open("syllable_bigrams.tsv");
-                 InputStream senses = app.getAssets().open("syllable_senses.tsv")) {
-                result = new CandidateEngine(new java.io.SequenceInputStream(words, northern), ngrams, syllables, senses);
+                 InputStream senses = app.getAssets().open("syllable_senses.tsv");
+                 InputStream readings = app.getAssets().open("handwriting-readings.tsv")) {
+                result = new CandidateEngine(new java.io.SequenceInputStream(words, northern), ngrams, syllables, senses, readings);
             } catch (IOException | RuntimeException | LinkageError failure) {
                 Log.e("TujiaIME", "Could not load bundled dictionary", failure);
                 result = null;
