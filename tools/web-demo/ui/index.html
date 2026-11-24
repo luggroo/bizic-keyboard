@@ -273,6 +273,13 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
 .readActions {display:flex;flex-wrap:wrap;gap:16px;margin-top:1rem}
 .readActions button {min-height:44px;color:var(--red)}
 #readChoose {font-weight:650}
+#candidates .glossPair {display:flex;justify-content:center;flex-wrap:wrap;width:100%;line-height:1.02}
+.glossPair .glossGap {white-space:pre}
+.glossPair.tight .glossGap {display:none}
+#candidates .glossPair.packed {width:max-content;max-width:none;flex-wrap:nowrap;transform:scaleX(var(--gloss-scale))}
+.glossPair span {max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#readMeaning p+p {margin-top:.25rem}
+#readEdits button {display:block;min-height:44px;color:var(--red)}
 </style></head>
 <body>
 <header class="mast">
@@ -336,7 +343,7 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
     </aside>
     <section id="library" aria-labelledby="library-heading">
       <h2 id="library-heading">毕兹学堂试用词表</h2>
-      <p class="hint">查找 345 个基础词。点选词条，就能在键盘上试输。</p>
+      <p class="hint">输入法收录 526 个北部土家语词项。这里可以查找其中的 345 个基础词，点选词条即可试输。</p>
       <label for="wordSearch">查词</label><input type="search" id="wordSearch" placeholder="输入汉义、拼写或记音字">
       <div id="wordList"></div>
       <div class="pager"><button id="prevWords">上一页</button><span id="wordCount" aria-live="polite"></span><button id="nextWords">下一页</button></div>
@@ -350,6 +357,6 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
   </details>
 </footer>
 <dialog id="candidateReading" aria-labelledby="readForm">
-  <h2 id="readForm"></h2><p id="readMeaning"></p>
+  <h2 id="readForm"></h2><div id="readMeaning"></div><div id="readEdits"></div>
   <div class="readActions"><button id="readBack" type="button">返回候选</button><button id="readChoose" type="button">输入这个词</button></div>
 </dialog><dialog id="settingsPanel"><form method="dialog"><h2>拼写设置</h2><p><label for="orthography">土家语拼写输出</label></p><select id="orthography"><option value="ye">叶氏拼音 · aixzux</option><option value="diacritic">带调号拼音 · āizū</option></select><p class="sub">输入 <code>aizu</code> 或 <code>āizū</code> 都能找“从前”。长按元音键可选调号。</p><button id="closeSettings" value="done">完成</button></form></dialog><script src="words.js"></script><script src="story-words.js"></script><script src="engine-data.js"></script><script src="core-runtime.js"></script><script src="notepad.js"></script><script src="app.js"></script></body></html>

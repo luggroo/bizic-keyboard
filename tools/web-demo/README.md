@@ -16,7 +16,7 @@ python3 tools/web-demo/embed-core.py build/input.wasm build/web/engine-data.js
 ```sh
 cp -R build/web/. /path/to/site/dist/
 python3 tools/web-demo/package.py /path/to/site/dist build/artifacts --version 0.3.3
-python3 tools/web-demo/check-offline.py build/artifacts/shange-demo.zip
+python3 tools/web-demo/check-offline.py build/artifacts/shange-demo.zip --all-han
 ```
 
 只有代码仓库时，也可以从上一版公开发行包取出随书字表、图片和附录网页，离线重建整套演示。首页、键盘和预测始终使用当前源码。
@@ -30,4 +30,4 @@ python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3 --re
 
 键盘字体随浏览器默认字号变化。默认字号为 16 像素时，字母和候选为 19 像素，汉义为 14 像素。窄屏三字词会依照实际候选格宽适配。浏览器回归会检查 320 和 390 像素宽视口、85% 到 200% 的根字号、Chromium 字体偏好与页面缩放。
 
-汉字记音的候选组采用共享词库的义项编号和实际消费长度。测试对照了无调 go、有调 gǒ 与叶氏 gor，同写「过」的“他”和“过错”，以及手写「尬」的两种意思。
+汉字记音把相同的写入形式合为一张卡。输入 go，可以看到「¹他 ²讨／过」；长按可查“过错（借词本字）”。点击只写入一个「过」，词义不确定时不记入某个词条。如果同一张卡有不同消耗长度，默认使用最长拼写，长按可保留尾串。浏览器回归同时检查同形不同音的「萌」、明确调号、手写多义和三种山歌回放。

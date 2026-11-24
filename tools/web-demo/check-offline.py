@@ -10,6 +10,7 @@ ap=argparse.ArgumentParser()
 ap.add_argument('bundle',type=Path)
 ap.add_argument('--chromium',default='/usr/bin/chromium')
 ap.add_argument('--frames',type=Path)
+ap.add_argument('--all-han',action='store_true',help='Sweep every lexicon spelling for duplicate Han cards')
 args=ap.parse_args()
 with ZipFile(args.bundle) as z:
     assert z.testzip() is None
@@ -61,6 +62,13 @@ with sync_playwright() as pw:
         assert text()==before+('' if output_mode else ' ')+form
         assert page.locator('#draft').input_value()==''
         snap(page,'after-first-prediction')
+        if output_mode:
+            assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
+            assert page.locator('#candidates [data-source="sound"]').count()==0
+            page.locator('#draft').fill('ga');choose('夹')
+            assert text()==before+'萌夹'
+            snap(page,'after-typed-ga')
+            return form,'ga→夹'
         next_card=page.locator('#candidates [data-source="sound"]').first
         next_form=next_card.locator('strong').inner_text()
         assert next_form
@@ -129,20 +137,28 @@ with sync_playwright() as pw:
                 card=page.locator('#candidates button').filter(has=page.get_by_text('夹吓',exact=True))
                 assert card.locator('small').inner_text()=='上面'
                 assert card.locator('strong').evaluate('e=>e.scrollWidth<=e.clientWidth')
+                snap(page,'ga-merged-320-200')
                 card.click();assert text()=='夹吓'
+            if percent in [160,200]:
+                page.locator('#draft').fill('go')
+                label=page.locator('#candidates .glossPair').first
+                assert label.locator('.glossGap').evaluate("e=>getComputedStyle(e).display==='none'")
+                assert label.evaluate("e=>e.getBoundingClientRect().width<=e.parentElement.clientWidth+1")
+                if percent==200:snap(page,'two-meanings-320-200')
         page.locator('#hideKeyboard').click();assert not page.locator('#keyboardPanel').is_visible()
         page.locator('#result').click();page.wait_for_timeout(220);assert geometry()==base,(width,percent,base,geometry())
         metrics.append((width,percent,round(key_font,1),round(base[3]['height'],1),round(base[1]['height'],1)))
     page.set_viewport_size(dict(width=390,height=844))
     print('Viewport, root font %, letter px, touch row px, panel px:',metrics)
-    print('Two consecutive one-tap script-independent predictions:',expected_sound(0),expected_sound(1))
+    print('One-tap predictions and ambiguous Han sound reset:',expected_sound(0),expected_sound(1))
     keyboard(0,True)
     page.locator('#draft').fill('bizika');choose('bízīkǎ')
     page.locator('#kbMore').click();page.locator('#menuHan').click()
     choose('萌','[data-source="sound"]')
     assert text()=='bízīkǎ萌'
+    assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
     page.locator('#kbMore').click();page.locator('#menuSpell').click()
-    choose('gǎ','[data-source="sound"]')
+    page.locator('#draft').fill('gǎ');choose('gǎ')
     assert text()=='bízīkǎ萌gǎ'
     page.get_by_role('button',name='。',exact=True).click()
     assert page.evaluate("editorContext().ids.endsWith('<s>') && editorContext().sound==='<s>'")
@@ -162,20 +178,32 @@ with sync_playwright() as pw:
     # abbreviations and prefix matches with a differing tail are independent.
     for raw,meaning,canonical in [('go','他','过'),('gor','他','郭'),('gǒ','他','郭'),('tai','没有','太'),('ma','呢',None),('qiaga','弟兄',None)]:
         page.locator('#draft').fill(raw)
-        picks=page.evaluate("([n,m])=>candidateItems.filter(c=>c.kind===0 && c.meaning===m && c.consumed===n).map(c=>c.form)",[len(raw),meaning])
+        picks=page.evaluate("([n,m])=>candidateItems.filter(c=>(c.members||[c]).some(i=>i.kind===0 && i.meaning===m && i.consumed===n)).map(c=>c.form)",[len(raw),meaning])
         assert len(picks)==1 and (canonical is None or picks[0]==canonical),(raw,meaning,picks)
     page.locator('#draft').fill('go')
     snap(page,'sense-go-untone')
-    assert page.evaluate("candidateItems.some(c=>c.meaning==='过错' && c.form==='过')")
-    assert page.evaluate("!candidateItems.some(c=>c.kind===1 && c.form==='过' && c.consumed===2)")
-    choose('过','[aria-label="他，过"]');assert text()=='过'
+    assert page.evaluate("new Set(candidateItems.map(i=>i.form)).size===candidateItems.length")
+    multi=page.locator('#candidates button[aria-label="他、讨，过"]')
+    assert multi.count()==1 and multi.locator('.glossPair span').all_text_contents()==['¹他',' ','²讨']
+    multi.focus();page.keyboard.press('F2')
+    all_meanings=page.locator('#readMeaning p').all_text_contents()
+    assert all_meanings[:2]==['他','讨'] and '过错（借词本字）' in all_meanings,all_meanings
+    page.locator('#readBack').click()
+    multi.click();assert text()=='过' and page.evaluate("editorContext().ids===''")
     page.locator('#draft').fill('gor')
     snap(page,'sense-gor-tone')
-    page.locator('#draft').fill('ar')
-    assert page.evaluate("new Set(candidateItems.filter(c=>c.kind===0 && c.meaning==='哥哥').map(c=>c.form)).size>=2")
+    page.locator('#draft').fill('gogo')
+    brother=page.locator('#candidates .word').filter(has=page.get_by_text('哥哥',exact=True)).first
+    assert brother.locator('strong').inner_text()=='哥哥' and brother.locator('small').inner_text()==''
+    page.locator('#draft').fill('akoa')
+    assert page.evaluate("candidateItems.some(c=>c.form==='吖科吖' && c.meaning==='哥哥啊')")
     keyboard(1)
     page.locator('#draft').fill('ga')
-    assert page.evaluate("candidateItems.some(c=>c.meaning==='吃、咬') && candidateItems.some(c=>c.meaning==='干、渴')")
+    assert page.evaluate("candidateItems.some(c=>c.form==='架' && c.fullGloss.includes('吃、咬'))")
+    same=page.locator('#candidates button[aria-label="上、干，夹"]')
+    assert same.count()==1 and same.locator('.glossPair span').all_text_contents()==['¹上',' ','²干']
+    same.click();assert text()=='夹' and page.evaluate("editorContext().ids===''")
+    keyboard(1)
     page.locator('#draft').fill('ma')
     assert page.evaluate("candidateItems.some(c=>c.kind===1 && c.form!=='马') && !candidateItems.some(c=>c.kind===1 && c.form==='马' && c.consumed===2)")
     page.locator('#draft').fill('mav')
@@ -193,16 +221,22 @@ with sync_playwright() as pw:
     assert page.evaluate("editorContext().ids.split(' ').slice(-2).join(' ')==='xu213-2-1 <s>'")
     page.locator('#draft').fill('boxlir');choose('波俐')
     assert text()=='山歌。波俐' # combination from independent user choices
-    # Two 日 choices have different edit operations. Reaching the same glyph
-    # does not make ri (retain f) interchangeable with rif (consume all three).
-    for label,consumed,suffix in [('做，日','2','f'),('日','3','')]:
+    # The one visible glyph uses the full draft by default. Its reader keeps the
+    # shorter operation available without guessing which possible meaning was intended.
+    for keep_suffix in [False,True]:
         page.locator('#draft').fill('rif')
-        match=page.locator('#candidates [aria-label="'+label+'"][data-consumed="'+consumed+'"]')
+        card=page.locator('#candidates .word').filter(has=page.get_by_text('日',exact=True))
         for _ in range(50):
-            if match.count():break
+            if card.count():break
             assert page.locator('#nextCandidates').is_enabled()
             page.locator('#nextCandidates').click()
-        match.first.click();assert page.locator('#draft').input_value()==suffix
+        assert card.count()==1 and card.get_attribute('data-consumed')=='3'
+        if keep_suffix:
+            card.focus();page.keyboard.press('F2')
+            assert len(page.locator('#readMeaning p').all_text_contents())>=3
+            page.get_by_role('button',name='用 ri，保留 f',exact=True).click()
+        else:card.click()
+        assert page.locator('#draft').input_value()==('f' if keep_suffix else '')
     page.locator('#draft').fill('marmardiexhxif');choose('麻麻爹')
     assert page.locator('#draft').input_value()=='hxif'
     choose('诶');assert text().endswith('麻麻爹诶')
@@ -247,4 +281,23 @@ with sync_playwright() as pw:
             after+=e[field]+e['after'].replace('\\n','\n')
         assert text()==after,(which,text(),after)
     print('Four original song lines in Han, Ye and marked spelling: PASS')
+    if args.all_han:
+        keyboard(1)
+        counts=page.evaluate("""()=>{
+            const rows=tujiaCoreData.words.split('\\n').map(l=>l.split('\\t')).filter(r=>r[8]==='phrase'||r[8]==='tujia');
+            const forms=new Set(rows.flatMap(r=>[r[1],r[10],r[11]]).filter(Boolean));
+            let merged=0,alternateEdits=0;
+            for(const raw of forms){
+                change(raw);
+                if(new Set(candidateItems.map(c=>c.form)).size!==candidateItems.length)
+                    throw new Error('Duplicate Han card for '+raw);
+                for(const c of candidateItems){
+                    if(c.members?.length>1)merged++;
+                    alternateEdits+=c.otherEdits?.length||0;
+                }
+            }
+            return {rows:rows.length,forms:forms.size,merged,alternateEdits};
+        }""")
+        assert counts['rows']>=526 and counts['forms']>=1000,counts
+        print('All dictionary spellings produce unique written cards:',counts)
     assert not errors,errors

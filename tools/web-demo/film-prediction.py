@@ -34,7 +34,7 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
             press(page.get_by_role('button',name=key.upper(),exact=True));shot(.24)
     def choose(name,kind,gloss=None):
         cards=page.locator('#candidates button[data-source="'+kind+'"]').filter(has=page.get_by_text(name,exact=True))
-        if gloss:cards=cards.filter(has=page.get_by_text(gloss,exact=True))
+        if gloss:cards=cards.filter(has=page.locator('small').filter(has_text=gloss))
         card=cards.first
         for _ in range(8):
             if card.count():break
@@ -50,7 +50,7 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     choose('mǒng','sound');choose('gǎ','sound')
     assert body().splitlines()[-1]=='bízīkǎ mǒng gǎ'
     newline();press(page.locator('#kbMore'));shot(.6);press(page.locator('#menuHan'));shot(.6)
-    type_raw('bizika');choose('币兹咔','exact');choose('萌','sound');choose('夹','sound')
+    type_raw('bizika');choose('币兹咔','exact');choose('萌','sound');type_raw('ga');choose('夹','exact')
     assert body().splitlines()[-1]=='币兹咔萌夹'
     newline();type_raw('go');choose('过','exact','他')
     newline();type_raw('gor');choose('郭','exact','他')

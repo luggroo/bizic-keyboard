@@ -240,8 +240,12 @@ function openReading(item){
   if(reading.open)return;
   readingChoice=item;
   putHanUnits($('readForm'),item.form,item.units);
-  $('readMeaning').textContent=item.fullGloss?'汉义　'+item.fullGloss:'';
-  $('readMeaning').hidden=!item.fullGloss;
+  const meanings=item.readerLines||[item.fullGloss].filter(Boolean);
+  $('readMeaning').replaceChildren(...meanings.map(text=>node('p',text)));
+  $('readMeaning').hidden=!meanings.length;
+  $('readEdits').replaceChildren(...(item.otherEdits||[]).map(edit=>
+    button('用 '+edit.prefix+'，保留 '+edit.remainder,()=>{reading.close();edit.commit()})));
+
   reading.showModal();
 }
 $('readBack').onclick=()=>reading.close();
@@ -266,6 +270,23 @@ function allowReading(el,item){
   });
   el.setAttribute('aria-keyshortcuts','F2');
 }
+function fitGlossPairs(){
+  for(const label of $('candidates').querySelectorAll('.glossPair')){
+    const [left,space,right]=label.children;
+    label.classList.remove('tight','packed');
+    const room=label.clientWidth;
+    if(!room)continue;
+    const textWidth=left.scrollWidth+right.scrollWidth;
+    if(textWidth+space.getBoundingClientRect().width>room)label.classList.add('tight');
+    // Keep the chosen text height for short labels that only just miss one line.
+    if(textWidth>room && room/textWidth>=.75){
+      label.style.setProperty('--gloss-scale',String((room-.5)/textWidth));
+      label.classList.add('packed');
+    }
+  }
+}
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(fitGlossPairs).observe($('candidates'));
+document.fonts?.ready.then(fitGlossPairs);
 function showCandidatePage(page){
   const box=$('candidates');
   candidatePage=page;
@@ -273,10 +294,14 @@ function showCandidatePage(page){
   box.replaceChildren(...visible.map(item=>{
     const el=wordButton(item.form,item.short,item.commit,item.units);
     if(/^\p{Script=Han}{2,4}$/u.test(item.form))el.dataset.hanCount=Array.from(item.form).length;
-    const description=item.short?(item.meaning||item.short):item.kind===1?'汉语':'';
+    if(item.shortParts?.length===2){
+      const small=el.firstElementChild;small.classList.add('glossPair');
+      small.replaceChildren(node('span','¹'+item.shortParts[0]),node('span',' ','glossGap'),node('span','²'+item.shortParts[1]));
+    }
+    const description=item.shortParts?.length===2?item.shortParts.join('、'):item.short?(item.meaning||item.short):item.kind===1?'汉语':'';
     el.setAttribute('aria-label',description?description+'，'+item.form:item.form);
     el.title=item.fullGloss||description;
-    if(!item.short && item.fullGloss)el.setAttribute('aria-description','汉义　'+item.fullGloss);
+    if(item.fullGloss && item.fullGloss!==description)el.setAttribute('aria-description','汉义　'+item.fullGloss);
     allowReading(el,item);
     if(item.id)el.dataset.wordId=item.id;
     if(item.source)el.dataset.source=item.source;el.dataset.consumed=String(item.consumed);
@@ -286,6 +311,7 @@ function showCandidatePage(page){
   $('previousCandidates').disabled=page===0;
   $('nextCandidates').disabled=(page+1)*cardsPerPage>=candidateItems.length;
   firstCommit=visible[0]?.commit || null;
+  fitGlossPairs();
 }
 $('previousCandidates').onclick=()=>{if(candidatePage>0)showCandidatePage(candidatePage-1)};
 $('nextCandidates').onclick=()=>{if(!$('nextCandidates').disabled)showCandidatePage(candidatePage+1)};
@@ -296,6 +322,43 @@ $('moreForms').onclick=()=>{
   box.append(button('返回手写',()=>{keyboardOpen(true);paint()}));
   box.scrollIntoView({block:'center'});
 };
+// Multiple readings can produce the same written form. Render that form once
+// and retain each distinct edit, so a shorter match can still leave a suffix.
+function groupHanCards(items,raw){
+  const groups=new Map();
+  for(const item of items){
+    const group=groups.get(item.form);
+    if(group)group.push(item);else groups.set(item.form,[item]);
+  }
+  return Array.from(groups.values(),members=>{
+    if(members.length===1)return members[0];
+    const primary=members[0],real=new Map(),loans=new Set();
+    for(const item of members){
+      if(!item.fullGloss)continue;
+      if(item.loan)loans.add(item.fullGloss);
+      else if(!real.has(item.fullGloss))real.set(item.fullGloss,item.short||item.fullGloss);
+    }
+    const meaningParts=[...real.keys()];
+    const labels=[...new Set(real.values())];
+    const shortParts=labels.length===1 && labels[0]===primary.form?[]:labels.slice(0,2);
+    const readerLines=[...meaningParts,...Array.from(loans,meaning=>meaning+'（借词本字）')];
+    const edits=new Map();
+    for(const item of members)if(!edits.has(item.consumed))edits.set(item.consumed,item);
+    const ordered=[...edits.values()].sort((a,b)=>b.consumed-a.consumed);
+    const known=members.filter(item=>item.kind===0);
+    const sounds=new Set(known.map(item=>item.sound));
+    const ambiguous=new Set(known.map(item=>item.id).filter(Boolean)).size>1 || sounds.size>1 ||
+      new Set([...meaningParts,...loans]).size>1;
+    const context={kind:0,ids:'',sound:sounds.size===1?[...sounds][0]:''};
+    const commitEdit=item=>ambiguous?item.commitWith(context):item.commit();
+    return {...primary,id:ambiguous?'':ordered[0].id,meaning:meaningParts.join('；'),fullGloss:readerLines.join('；'),
+      short:shortParts.length===2?'¹'+shortParts[0]+' ²'+shortParts[1]:shortParts[0]||'',
+      shortParts,meaningParts,readerLines,members,consumed:ordered[0].consumed,
+      commit:()=>commitEdit(ordered[0]),otherEdits:ordered.slice(1).map(item=>({
+        consumed:item.consumed,prefix:raw.slice(0,item.consumed),remainder:core.suffix(raw,item.consumed),commit:()=>commitEdit(item)
+      }))};
+  });
+}
 function candidates(){
   const hand=mode===2 && !draft.value ? activeHand() : null;
   const value=draft.value||hand?.raw||'',val=value.trim(),outputMode=compositionMode();
@@ -306,31 +369,35 @@ function candidates(){
   $('raw').textContent=mode?'用原字':'用原拼写';
   $('raw').setAttribute('aria-label',mode&&val?'输入原字 '+val:$('raw').textContent);
   candidateItems=[];
-  const seen=new Set(),forms=new Set(),hanSenses=new Set();
+  const seen=new Set(),forms=new Set(),hanSenses=new Map();
   function offer(c,source){
     const consumed=source==='exact'?c.length:value.length;
     const visible=c.form+'\0'+consumed;
-    const key=visible+'\0'+(c.syllable||c.loan?'':c.meaning);
+    const hanOutput=mode===1 && /\p{Script=Han}/u.test(c.form);
+    const key=hanOutput?[visible,c.kind,c.ids,c.sound,c.meaning].join('\0')
+      :visible+'\0'+(c.syllable||c.loan?'':c.meaning);
     const fallback=source==='exact' && c.kind!==0;
-    if(!fallback && (source==='sound'?forms.has(visible):seen.has(key)))return;
-    // A sense ID is assigned by the shared lexicon for the complete untoned
-    // source form and full gloss. Two prefix lengths still mean two edits.
-    const sense=mode===1 && c.hanSenseId?consumed+'\0'+c.hanSenseId:'';
-    if(sense && hanSenses.has(sense))return;
-    if(mode===1 && c.kind===1 && forms.has(visible))return;
-    if(sense)hanSenses.add(sense);
+    if(!hanOutput && !fallback && (source==='sound'?forms.has(visible):seen.has(key)))return;
+    if(hanOutput && seen.has(key))return;
+    // Retain every possible reading of the displayed form. A phonetic 萌 may
+    // be either mongr or munr and cannot establish either sound as history.
+    const sense=hanOutput && c.hanSenseId?consumed+'\0'+c.hanSenseId:'';
+    if(sense && hanSenses.has(sense) && hanSenses.get(sense)!==c.form)return;
+    if(hanOutput && c.kind===1 && forms.has(visible))return;
+    if(sense)hanSenses.set(sense,c.form);
     forms.add(visible);seen.add(key);
     const units=unitsFromRanges(c.form,c.ranges);
     const gloss=c.kind===0&&!c.loan&&(!c.syllable||source==='sound')?c.short:'';
     const short=outputMode===1 && gloss===c.form?'':gloss;
     const fullGloss=c.kind===0 && (!c.syllable||gloss)?c.meaning:'';
+    function commitWith(context){
+      const replacing=hand && (source==='exact'||source==='completion');
+      const before=replacing?hand.prior:editorContext();
+      if(replacing)output.setSelectionRange(hand.start,hand.at);
+      submit(c.form,source==='exact'?core.suffix(value,c.length):'',units,context,before);
+    }
     candidateItems.push({form:c.form,meaning:c.meaning,short,fullGloss,id:c.ids,units,source,consumed,kind:c.kind,
-      commit:()=>{
-        const replacing=hand && (source==='exact'||source==='completion');
-        const before=replacing?hand.prior:editorContext();
-        if(replacing)output.setSelectionRange(hand.start,hand.at);
-        submit(c.form,source==='exact'?core.suffix(value,c.length):'',units,c,before);
-      }});
+      sound:c.sound,loan:c.loan,commitWith,commit:()=>commitWith(c)});
 
   }
   const {ids,sound}=editorContext();
@@ -345,8 +412,8 @@ function candidates(){
       }
       for(const c of core.completions(value,outputMode,style))offer(c,'completion');
     }
-    for(const c of exact)if(c.syllable&&c.length===value.length&&!forms.has(c.form+'\0'+c.length))offer(c,'exact');
-    for(const c of exact)if(c.kind===0&&(!c.syllable||!forms.has(c.form+'\0'+c.length)))offer(c,'exact');
+    for(const c of exact)if(c.syllable&&c.length===value.length&&(mode===1||!forms.has(c.form+'\0'+c.length)))offer(c,'exact');
+    for(const c of exact)if(c.kind===0&&(mode===1||!c.syllable||!forms.has(c.form+'\0'+c.length)))offer(c,'exact');
     for(const c of exact)if(c.kind!==0)offer(c,'exact');
   }
   if(!speaking){
@@ -359,6 +426,7 @@ function candidates(){
     for(const c of words)if(!prefix||matchesInput(prefix,yeWords.get(c.ids),markedWords.get(c.ids)))offer(c,'word');
     for(const c of sounds)if(!prefix||matchesInput(prefix,c.sound,markedSounds.get(c.sound)))offer(c,'sound');
   }
+  if(mode===1)candidateItems=groupHanCards(candidateItems,value);
   $('moreForms').disabled=!/^\p{Script=Han}+$/u.test(val);
   showCandidatePage(0);
 }
@@ -579,7 +647,8 @@ function restoreManual(){
   }
 }
 function matchesStoryWord(item,entry){
-  return item.id===entry.id || (item.form===outputForm(entry) && item.meaning===entry.meaning);
+  return (item.members||[item]).some(member=>
+    member.id===entry.id || (member.form===outputForm(entry) && member.meaning===entry.meaning));
 }
 function schedule(ms){
   const speed=Number($('playSpeed').value)||1;
