@@ -34,9 +34,10 @@ TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input
 /* Strict lexical completions consume the supplied glyphs. Next-word suggestions consume zero.
    Context is the last one or two selected word IDs, separated by an ASCII space. */
 TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyphs, int32_t mode, int32_t orthography);
-/* Words ending at the caret. Consumed UTF-16 units count backwards from the caret. */
+/* Up to four Han characters ending at the caret. Consumed UTF-16 units include any ˻…˼ marks. */
 TJIChoices *tji_handwritten_words(const TJIWords *words, const char *before_caret, int32_t mode, int32_t orthography);
 TJIChoices *tji_next_handwritten_glyphs(const TJIWords *words, const char *before_caret);
+/* Maximum UTF-16 units to request from the host, including supplementary Han and delimiters. */
 int32_t tji_handwriting_context_length(const TJIWords *words);
 /* Test a typed prefix of an attested Ye/diacritic spelling pair, including syllable-final an/ang. */
 int32_t tji_matches_spelling_prefix(const char *input, const char *ye, const char *marked);

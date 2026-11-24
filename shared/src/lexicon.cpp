@@ -1273,26 +1273,48 @@ struct Lexicon::Impl {
 
     std::vector<Candidate> handSuffixes(const std::string& input, Mode mode, Orthography style, bool next) const {
         size_t byteStart = input.size();
-        for (size_t n = 0; n < HandwordIndex::contextCharacters && byteStart > 0; ++n) {
+        constexpr size_t limit = HandwordIndex::contextCharacters;
+        // Two displayed Han characters can have an additional opening and closing mark.
+        for (size_t n = 0; n < 2 * limit && byteStart > 0; ++n) {
             --byteStart;
             while (byteStart > 0 && (static_cast<unsigned char>(input[byteStart]) & 0xc0) == 0x80) --byteStart;
         }
         Query q;
         if (!q.read(input.substr(byteStart)) || q.scalars.empty()) return {};
+        std::u32string glyphs;
+        std::array<int, limit + 1> consumed{};
         size_t start = q.scalars.size();
-        while (start > 0 && q.scalars.size() - start < HandwordIndex::contextCharacters && hanCharacter(q.scalars[start - 1])) --start;
-        const auto hits = handwriting.lookup(std::u32string_view(q.scalars).substr(start), next);
+        while (start > 0 && glyphs.size() < limit) {
+            char32_t last = q.scalars[start - 1];
+            if (last == U'˼') {
+                if (start < 4 || q.scalars[start - 4] != U'˻' || glyphs.size() + 2 > limit ||
+                        !hanCharacter(q.scalars[start - 2]) || !hanCharacter(q.scalars[start - 3])) break;
+                glyphs.push_back(q.scalars[start - 2]);
+                glyphs.push_back(q.scalars[start - 3]);
+                start -= 4;
+            } else {
+                if (!hanCharacter(last)) break;
+                // A caret inside a marked syllable cannot replace just half of that syllable.
+                if ((start >= 2 && q.scalars[start - 2] == U'˻') ||
+                        (start >= 3 && q.scalars[start - 3] == U'˻' && hanCharacter(q.scalars[start - 2]))) break;
+                glyphs.push_back(last);
+                --start;
+            }
+            consumed[glyphs.size()] = q.utf16At.back() - q.utf16At[start];
+        }
+        std::reverse(glyphs.begin(), glyphs.end());
+        const auto hits = handwriting.lookup(glyphs, next);
         std::vector<Candidate> result;
         std::unordered_set<char32_t> emitted;
         for (const auto& hit : hits) {
+            if (!consumed[hit.length]) continue;
             if (next) {
                 if (!hanCharacter(hit.next) || !emitted.insert(hit.next).second) continue;
                 Candidate c{"", "", 0};
                 appendUtf8(c.text, hit.next);
                 result.push_back(std::move(c));
             } else {
-                const int consumed = q.utf16At.back() - q.utf16At[q.scalars.size() - hit.length];
-                result.push_back(lexical(hit.id, mode, style, consumed));
+                result.push_back(lexical(hit.id, mode, style, consumed[hit.length]));
             }
         }
         return result;
@@ -1497,8 +1519,9 @@ std::vector<Candidate> Lexicon::nextHandwrittenGlyphs(const std::string& before)
 }
 
 int Lexicon::handwritingContextLength() const {
-    // A regional homophone may be outside the BMP even when its canonical graph is not.
-    return static_cast<int>(std::min(impl_->handwriting.longest, HandwordIndex::contextCharacters) * 2);
+    const size_t glyphs = std::min(impl_->handwriting.longest, HandwordIndex::contextCharacters);
+    // A Han glyph can use two UTF-16 units, and a marked pair has two one-unit delimiters.
+    return static_cast<int>(2 * glyphs + 2 * (glyphs / 2));
 }
 
 std::vector<Candidate> Lexicon::nextSyllables(const std::string& context, Orthography style) const {

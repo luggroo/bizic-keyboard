@@ -105,8 +105,12 @@ public final class CandidateEngine implements AutoCloseable {
     static String handwritingTail(String text) {
         if (text == null) return "";
         int start = text.length();
-        for (int i = 0; i < HANDWRITING_WINDOW && start > 0; i++)
-            start -= Character.charCount(text.codePointBefore(start));
+        // Allow the shared matcher to read both delimiters of each two-Han syllable.
+        for (int i = 0; i < 2 * HANDWRITING_WINDOW && start > 0; i++) {
+            int scalar = text.codePointBefore(start);
+            if (scalar == 0) break;
+            start -= Character.charCount(scalar);
+        }
         return text.substring(start);
     }
 

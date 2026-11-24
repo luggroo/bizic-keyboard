@@ -138,6 +138,8 @@ final class TujiaInputTests: XCTestCase {
         XCTAssertEqual(dictionary.selection(star.candidate, in: "稀步李")?.text, "希布里")
         XCTAssertNil(dictionary.selection(star.candidate, in: text))
         XCTAssertFalse(dictionary.handwrittenWords(beforeCaret: "借米提卡铺").contains { $0.candidate.meaning == "指甲花" })
+        let marked = dictionary.handwrittenWords(beforeCaret: "🙂恩˻格锿˼")
+        XCTAssertEqual(marked.first { $0.candidate.meaning == "那里" }?.range, NSRange(location: 2, length: 5))
         XCTAssertTrue(dictionary.nextHandwrittenGlyphs(beforeCaret: "玻").contains { $0.text == "俐" && $0.consumedUTF16 == 0 })
     }
 

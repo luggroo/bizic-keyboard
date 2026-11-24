@@ -1190,7 +1190,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handDetail.addView(definition, new LinearLayout.LayoutParams(-1, 0, 1));
         LinearLayout actions = row();
         handDetail.addView(actions, lineWithMinimum(compact ? 33 : 41, compact ? 14 : 16));
-        String hanLabel = raw.equals(c.text) ? "保留原写法" : "用推荐字";
+        String hanLabel = sameHandForm(raw, c) ? "保留原写法" : "用推荐字";
         key(actions, hanLabel, hanLabel, 1, false, () -> applyHandWord(anchor, c, c, raw));
         key(actions, "用调号拼音", "用调号拼音", 1, true, () -> applyHandWord(anchor, c, roman, raw));
     }
@@ -1199,13 +1199,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         HandAnchor cursor = handAnchor();
         if (!shown.matches(cursor) || cursor.start != cursor.end || cursor.end < raw.length()
                 || !cursor.before.endsWith(raw)) { discardHandWork(); return; }
-        if (!form.text.equals(raw) && !writeHandRange(cursor, form.text, form.joinedHanRanges,
+        if (!sameHandForm(raw, form) && !writeHandRange(cursor, form.text, form.joinedHanRanges,
                 cursor.end - raw.length(), raw.length())) { discardHandWork(); return; }
         remember(handHistory, lexical);
         clearHandSession();
         glyphs = Collections.emptyList();
         showGlyphs();
         refreshHandCandidates();
+    }
+
+    private static boolean sameHandForm(String raw, CandidateEngine.Candidate form) {
+        return raw.equals(form.text) || raw.equals(HanUnitBrackets.format(form.text, form.joinedHanRanges, 0).text);
     }
 
     private void buildKeys() {

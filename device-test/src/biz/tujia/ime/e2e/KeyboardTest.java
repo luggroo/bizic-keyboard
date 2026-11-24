@@ -570,12 +570,16 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("板栗，树希布里");
         runOnMainSync(() -> { host.first.setText("前阿安后"); host.first.setSelection(3); });
         press("已写成词");
-        tapForm("阿安");
+        tapForm("˻阿安˼");
         waitForNode("已写「阿安」", false);
         for (int i = 0; i < 8 && findNode("已写「安」", false) == null; i++) press("切换匹配或义项");
         waitForNode("已写「安」", false);
         press("用推荐字");
-        expectText(host.first, "前阿阿安后");
+        expectText(host.first, "前阿˻阿安˼后");
+        tapForm("˻阿安˼");
+        waitForNode("已写「˻阿安˼」", false);
+        press("用调号拼音");
+        expectText(host.first, "前阿ān后");
     }
 
     private String chooseAlternateGlyph(String recognized) {
