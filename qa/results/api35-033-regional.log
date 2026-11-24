@@ -1,0 +1,34 @@
+https://github.com/luggroo/bizic-keyboard/actions/runs/45455723681
+Source 143c551, Android 15 APK built by this workflow.
+google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
+Physical size: 1080x1920
+Physical density: 420
+1.0
+2
+fa4b72f884cb1f083d94468b2ce822cdd68fa6a74abafe8f4ef50a0a32477bca  build/qa-keyboard.apk
+ab6c625e2d5d9810c233692714942fe6c6c0e6168f35c001a630e0721d04ac0b  build/fixture.apk
+
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 稼: ga / jia
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 窖: gao / jiao
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 教: gao / jiao
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 降: gan / jian
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 嫁: ga / jia
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 甲: ga / jia
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 讲: gan / jian
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 眼: ngan / yan
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Both modern Jishou readings committed 虾: ha / xia
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
