@@ -5,7 +5,7 @@
     "shared/bundle/Assets/ngrams.tsv": "ebf162ef3d314fe5268ab68105db404bd7e727eb50117551e15229e8ef8a95b9",
     "shared/bundle/Assets/syllable_bigrams.tsv": "be7c9bce576dcfda5fa2bb4c61440a929c0d0b7b0cdef8e7891682dbd594458e",
     "shared/bundle/Assets/syllable_senses.tsv": "be15f81f8d8df6a34dc37eb027ae90c6f23b7283ccf0275846375f5899b1d7cf",
-    "shared/bundle/Assets/words.tsv": "8f494b6c7a6853cd830cc5c97c9d5a081afad9b9ddd36fd65c471c437eb665c9",
+    "shared/bundle/Assets/words.tsv": "c6bdcacbb3e2c1f18e40143be667d1027f913a5edcad372469dd016368a96df2",
     "shared/src/lexicon.cpp": "61259cbf9c391a75e3a2503a7dc8a9032fd04ff9c539e23fec1ce312ebf10e3f",
     "tools/prediction_model.py": "26232f1e2e28ec8c15a40b56f4c47dceb47500716e50e063cf98c7d67c20ea93"
   },
