@@ -13,7 +13,7 @@ from tempfile import TemporaryDirectory
 
 from lexicon import ASSETS, ROOT, Model, library, rank, tsv, utf16
 from import_ngrams import aligned_units, letters, lexemes_by_sense
-from import_words import gloss_parts, load, native_forms, spellings
+from import_words import gloss_parts, load, native_forms, reviewed_glosses, spellings
 
 
 @dataclass(frozen=True)
@@ -44,6 +44,8 @@ def corpus(site, words_path):
             group = doc.get('externalUrl', '').partition('#')[0] or doc['id']
             previous_ending = True
             for i, block in enumerate(doc['blocks'], 1):
+                if doc['id'] == 'tlp-longshan-stories-02-01':
+                    block = dict(block, glosses=reviewed_glosses(block))
                 initial = previous_ending
                 previous_ending = block.get('zh', '').rstrip('”’)） ').endswith(('。', '？', '！', '.', '!', '?'))
                 glosses = block.get('glosses', [])
@@ -187,6 +189,26 @@ def lexical_cards(items):
             seen.add(key)
 
 
+def han_cards(items):
+    """One cell per written form; a tap cannot confirm one of several lexical IDs."""
+    forms = {}
+    recommendations = {}
+    for item in items:
+        if item.han_sense:
+            surface = recommendations.setdefault((item.consumed, item.han_sense), item.text)
+            if surface != item.text:
+                continue
+        forms.setdefault(item.text, {}).setdefault(item.consumed, []).append(item)
+    cards = []
+    for boundaries in forms.values():
+        action = boundaries[max(boundaries)]
+        senses = {c.ids for c in action if not c.syllable_only or (c.ids and c.short)}
+        sounds = {c.last_syllable for c in action}
+        cards.append(action[0]._replace(ids=next(iter(senses)) if len(senses) == 1 else '',
+                                        last_syllable=next(iter(sounds)) if len(sounds) == 1 else ''))
+    return cards
+
+
 class Results:
     def __init__(self):
         self.counts = Counter()
@@ -229,17 +251,19 @@ def score_fold(engine, label, test, by_id, all_scores, freq=None, slices=None, s
         for i, target in enumerate(seg.ids):
             start = i == 0 and seg.initial
             key = ' '.join(recent) if warm else ' '.join(history) or ('<s>' if start else '')
-            word_cards = (freq if freq is not None else list(lexical_cards(engine.choices(key, op='next_words')))) if key else []
-            # Match the mobile first page: deduplicate words on text and sense,
-            # then append direct syllable choices whose text is new.
+            raw_words = engine.choices(key, op='next_words') if key and freq is None else []
+            word_cards = (freq if freq is not None else han_cards(raw_words)) if key else []
             word_ids = [c if isinstance(c, str) else c.ids for c in word_cards][:4]
             for c in word_cards[:4]:
-                if not isinstance(c, str) and (not c.ids or c.text != by_id[c.ids]['recommended']
+                if not isinstance(c, str) and c.ids and (c.text != by_id[c.ids]['recommended']
                                                or c.gloss != by_id[c.ids]['meaning']):
                     raise AssertionError(f'Predicted Han output does not identify its dictionary word: {c}')
             direct_ids = list(word_ids)
-            if len(direct_ids) < 4 and last_sound:
-                visible = {by_id[w]['recommended'] for w in word_ids}
+            if freq is None and last_sound:
+                screen = han_cards(chain(raw_words, engine.choices(last_sound, op='next_syllables')))
+                direct_ids = [c.ids if c.ids and c.text == by_id[c.ids]['recommended'] else '' for c in screen[:4]]
+            elif len(direct_ids) < 4 and last_sound:
+                visible = {by_id[c]['recommended'] if isinstance(c, str) else c.text for c in word_cards[:4]}
                 for candidate in engine.choices(last_sound, op='next_syllables'):
                     if candidate.text in visible:
                         continue
@@ -248,15 +272,32 @@ def score_fold(engine, label, test, by_id, all_scores, freq=None, slices=None, s
                     direct_ids.append(exact_id)
                     if len(direct_ids) == 4:
                         break
+            if label == 'statistical_warm' and target:
+                screen_text = [c.text for c in (screen if last_sound else word_cards)[:4]]
+                score = all_scores[label, 'screen'].counts
+                score['predicted_surface_top4'] += by_id[target]['recommended'] in screen_text
             manual = prefix_cost = None
+            typed_surface = None
             chosen_sound = ''
             if target:
                 row = by_id[target]
                 query = row['plain']
-                typed = [c for c in engine.choices(query) if c.kind == 0 and not c.syllable_only
+                exact = [c for c in engine.choices(query) if c.kind == 0 and not c.syllable_only
                          and c.consumed == utf16(query)]
+                typed = han_cards(exact)
                 pos = rank(typed, lambda c: c.ids == target and c.consumed == utf16(query)
                            and c.text == row['recommended'] and c.gloss == row['meaning'])
+                typed_surface = next((c for c in typed if c.text == row['recommended']), None)
+                if label == 'statistical_warm' and query.isascii() and query.isalpha():
+                    score = all_scores[label, 'screen'].counts
+                    output = typed_surface
+                    eligible = any(c.ids == target and c.text == row['recommended'] for c in exact)
+                    score['manual_exact_raw_id'] += eligible
+                    score['manual_exact_surface'] += bool(output)
+                    if eligible and not pos:
+                        if output is None or output.ids:
+                            raise AssertionError(f'Grouped card lost an unambiguous exact target: {row["id"]}')
+                        score['manual_raw_to_ambiguous'] += 1
                 if pos and query.isascii() and query.isalpha():
                     # Each "next page" advances four cards. The final tap commits the word.
                     manual = len(query) + 1 + (pos - 1) // 4
@@ -268,7 +309,7 @@ def score_fold(engine, label, test, by_id, all_scores, freq=None, slices=None, s
                             exact = [c for c in engine.choices(prefix) if c.kind == 0 and not c.syllable_only
                                      and c.consumed == utf16(prefix)]
                             completes = engine.choices(prefix, op='spelling_completions', history=key)
-                            first = list(lexical_cards(chain(exact, completes)))[:4]
+                            first = han_cards(chain(exact, completes))[:4]
                             if any(c.ids == target for c in first):
                                 prefix_cost = length + 1
                                 break
@@ -297,7 +338,8 @@ def score_fold(engine, label, test, by_id, all_scores, freq=None, slices=None, s
             else:
                 recent = []
                 history = []
-                last_sound = ''
+                # A merged card can supply one agreed pronunciation even with no sense ID.
+                last_sound = typed_surface.last_syllable if typed_surface and not typed_surface.ids else ''
 
 
 def spelling_screen(engine, test, by_id):
@@ -412,7 +454,7 @@ def run(site, output):
                 seen = set()
                 common = []
                 for w in frequent:
-                    visible = by_id[w]['recommended'], by_id[w]['meaning']
+                    visible = by_id[w]['recommended']
                     if visible not in seen:
                         common.append(w)
                         seen.add(visible)
@@ -465,6 +507,7 @@ def write_report(path, result):
               f"在 {warm['tokens']:,} 个留出词位上，以最多 32 个已确认词作上下文，四张可见候选卡共命中 {warm['top4']} 个（{warm['top4']/warm['tokens']:.2%}）。旧邻接模型命中 {baseline['top4']} 个。按整套来源留出时，单纯按词频排序的前四命中数更高。",
               '## 整篇留出',
               f"每次留出一份完整材料，共 19 折。无调全拼能按目标义项选到原词的有 {warm['comparable']:,} 个词位，共需 {warm['manual_keys']:,} 键。下表的命中率分母包含全部 {warm['tokens']:,} 个词位。按键数只在可以实际查到目标词的共同子集上比较。",
+              f"无调全拼能在完整词候选中写出目标记音字的有 {warm['manual_exact_surface']:,} 个词位。合并前，后台返回的词义记录中有 {warm['manual_exact_raw_id']:,} 个词位可以落到目标 ID；其中 {warm['manual_raw_to_ambiguous']:,} 个在合并后能写对字，但一次点选不能判定具体词义。首屏下一词只比字形可写中 {warm['predicted_surface_top4']} 次。字形比较限于已对齐且有推荐记音字的参考词，覆盖率分母仍保留其他词位。",
               '| 候选排序 | 首位命中 | 首屏四位命中 | 使用下一词所需键数 | 比全拼省键 |\n|---|---:|---:|---:|---:|\n'
               + '\n'.join(row(label, measures[key+':screen']) for key,label in labels),
               f"对同一批可输入的词位，逐字输入拼写前缀，再选择首屏中的目标，需要 {warm['prefix_only_keys']:,} 键。先看下一词、没有命中再输入前缀，需要 {warm['with_prediction_and_prefix']:,} 键。和全拼相比合计省 {warm['manual_keys'] - warm['with_prediction_and_prefix']:,} 键（{1-warm['with_prediction_and_prefix']/warm['manual_keys']:.1%}）。这是按给定选词策略计算的界面动作数，未计量阅读、判断、打错和纠错的耗时。",
@@ -487,7 +530,7 @@ def write_report(path, result):
                '## 数据、隔离与计分',
                f"14 章徐氏文献、4 份龙山故事和 1 份北部参考语法构成 19 组。{n['uniquely_linked_tokens']:,} 个词位与当前词表的发音和义项唯一对应，{n['unlinked_tokens']:,} 个未对应，{n.get('ambiguous_tokens', 0)} 个仍有多个可能词义，{n['unaligned_tokens']} 个音文未对齐。后面三类都按未命中计数，并清除可续用词史。另有 {n['blocks_without_reference_words']} 个块没有逐词参考，只记录块数。原始材料缺少可验证的说话人标识，因此无法据此判断对新说话人的表现。",
                '每折重新计算词频、邻接和词类统计。整篇测试文献、两个演示文献及其重复材料全部隔离。训练侧删除相同整段、包含测试短句的段落及与测试共享连续四个读音的段落。同折训练段再次去重。词典读音、对义、词类和推荐汉字作为产品固定词表使用。普通话后备频率沿用原表。人工重组另算，不参与主结果。每一折的训练数、删除数和输入文件摘要在机器可读结果中。',
-               f'通过与安卓键盘相同的 C ABI 请求候选。空白句首从句界标记开始，断开的未知词史使用空上下文。短期排序按原文从左到右，只读已确认的词，在编辑材料或未知词切换时清除。统计模型的另一列最多读取两个前词。先取去重词卡，再用参考音节补足首屏。计分要求一张卡能上屏目标字形且属于同一词义 ID。补入音节卡后，首屏多命中 {extra_sound} 个可确认的词义。单音节表音还可帮助书写词库外的字。',
+               f'通过与安卓键盘相同的 C ABI 请求候选。空白句首从句界标记开始，断开的未知词史使用空上下文。短期排序按原文从左到右，只读已确认的词，在编辑材料或未知词切换时清除。统计模型的另一列最多读取两个前词。同写法归为一格。计分要求点击该格能写出目标字形并确认词义 ID；同一格含多个不同词义时，仍能写字，但不计为命中某个特定义项，也不把其中任一义项当成已确认词史。若同格各义的末音一致，仍可用这个音节接下一个音。补入音节卡后，首屏多命中 {extra_sound} 个可确认的词义。单音节表音还可帮助书写词库外的字。',
                '全拼路径逐个点击无调字母、每四项计一次翻页，再点目标词。首屏预测命中需点一次。前缀补全逐键读取实际候选，完整匹配优先于补全，首屏出现正确词才允许停。每个未知、无法消歧或无法用标准无调拼写选到的词保留在命中分母，但缺少可比较的录入成本。',
                '## 复现',
                '在仓库根目录使用 Python 3、Node.js、C++17 编译器和毕兹学堂网站快照运行。',

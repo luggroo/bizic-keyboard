@@ -1,111 +1,115 @@
 {
   "build_inputs": {
     "qa/prediction-holdouts.tsv": "f4808ca0da4bdb37cd1e31dcfc16d247b95b22e8d94fe657518e2d1f69208231",
-    "qa/prediction.py": "d25e234659bba22ff3e6a8da2115d492bd49edf0c45fc9f8e9cdf495b265e199",
-    "shared/bundle/Assets/ngrams.tsv": "df317e45ec95cea548ae2b601048a19d3d974110e40b3068465836b1ac9a156a",
+    "qa/prediction.py": "6f9076a0e20bc293ad143088e808088ab1bf59d3d5202ec1d2b46bf994809724",
+    "shared/bundle/Assets/ngrams.tsv": "ebf162ef3d314fe5268ab68105db404bd7e727eb50117551e15229e8ef8a95b9",
     "shared/bundle/Assets/syllable_bigrams.tsv": "be7c9bce576dcfda5fa2bb4c61440a929c0d0b7b0cdef8e7891682dbd594458e",
     "shared/bundle/Assets/syllable_senses.tsv": "be15f81f8d8df6a34dc37eb027ae90c6f23b7283ccf0275846375f5899b1d7cf",
-    "shared/bundle/Assets/words.tsv": "ace4dec50e6e13e4686961eba94232f0c17f384f7602a2e3e01ad83420898bc5",
-    "shared/src/lexicon.cpp": "d6ca0e74a61f15fa114ef6c0e1d3bbc6118ff11fa31f52f708d9189f57cb5937",
-    "tools/prediction_model.py": "9bb181b7ed5ef36dd7359829e780f5488faec619745904417222d3bc3be0d6e8"
+    "shared/bundle/Assets/words.tsv": "8f494b6c7a6853cd830cc5c97c9d5a081afad9b9ddd36fd65c471c437eb665c9",
+    "shared/src/lexicon.cpp": "61259cbf9c391a75e3a2503a7dc8a9032fd04ff9c539e23fec1ce312ebf10e3f",
+    "tools/prediction_model.py": "26232f1e2e28ec8c15a40b56f4c47dceb47500716e50e063cf98c7d67c20ea93"
   },
   "collection_holdouts": {
     "attested:screen": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "tokens": 10404,
       "top1": 0,
       "top4": 3,
-      "unknown": 8450,
-      "with_prediction": 7295
+      "unknown": 8442,
+      "with_prediction": 5359
     },
     "attested:words": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "tokens": 10404,
       "top1": 0,
       "top4": 3,
-      "unknown": 8450,
-      "with_prediction": 7295
+      "unknown": 8442,
+      "with_prediction": 5359
     },
     "frequency:screen": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "tokens": 10401,
-      "top1": 1,
-      "top4": 37,
-      "unknown": 8450,
-      "with_prediction": 7196
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "tokens": 10404,
+      "top1": 0,
+      "top4": 33,
+      "unknown": 8442,
+      "with_prediction": 5270
     },
     "frequency:words": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "tokens": 10401,
-      "top1": 1,
-      "top4": 37,
-      "unknown": 8450,
-      "with_prediction": 7196
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "tokens": 10404,
+      "top1": 0,
+      "top4": 33,
+      "unknown": 8442,
+      "with_prediction": 5270
     },
     "statistical:screen": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "prefix_only_keys": 5331,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "prefix_only_keys": 3739,
+      "tokens": 10404,
       "top1": 4,
-      "top4": 18,
-      "unknown": 8450,
-      "with_prediction": 7253,
-      "with_prediction_and_prefix": 5309
+      "top4": 17,
+      "unknown": 8442,
+      "with_prediction": 5319,
+      "with_prediction_and_prefix": 3722
     },
     "statistical:words": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "prefix_only_keys": 5331,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "prefix_only_keys": 3739,
+      "tokens": 10404,
       "top1": 4,
-      "top4": 18,
-      "unknown": 8450,
-      "with_prediction": 7253,
-      "with_prediction_and_prefix": 5309
+      "top4": 17,
+      "unknown": 8442,
+      "with_prediction": 5319,
+      "with_prediction_and_prefix": 3722
     },
     "statistical_warm:screen": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "prefix_only_keys": 5324,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_exact_raw_id": 1832,
+      "manual_exact_surface": 1877,
+      "manual_keys": 5365,
+      "manual_raw_to_ambiguous": 432,
+      "predicted_surface_top4": 69,
+      "prefix_only_keys": 3733,
+      "tokens": 10404,
       "top1": 5,
-      "top4": 23,
-      "unknown": 8450,
-      "with_prediction": 7235,
-      "with_prediction_and_prefix": 5297
+      "top4": 21,
+      "unknown": 8442,
+      "with_prediction": 5303,
+      "with_prediction_and_prefix": 3712
     },
     "statistical_warm:words": {
-      "cold": 8653,
-      "comparable": 1941,
-      "manual_keys": 7301,
-      "prefix_only_keys": 5324,
-      "tokens": 10401,
+      "cold": 9124,
+      "comparable": 1400,
+      "manual_keys": 5365,
+      "prefix_only_keys": 3733,
+      "tokens": 10404,
       "top1": 5,
-      "top4": 23,
-      "unknown": 8450,
-      "with_prediction": 7235,
-      "with_prediction_and_prefix": 5297
+      "top4": 21,
+      "unknown": 8442,
+      "with_prediction": 5303,
+      "with_prediction_and_prefix": 3712
     }
   },
   "coverage": {
     "blocks_without_reference_words": 58,
-    "reference_tokens": 10401,
+    "reference_tokens": 10404,
     "unaligned_blocks": 35,
     "unaligned_tokens": 323,
-    "uniquely_linked_tokens": 1951,
-    "unlinked_tokens": 8127
+    "uniquely_linked_tokens": 1962,
+    "unlinked_tokens": 8119
   },
   "everyday_cases": {
     "1": [
@@ -267,7 +271,7 @@
     "4": [
       {
         "context": "<s>",
-        "manual_taps": 5,
+        "manual_taps": null,
         "screen_ids": [
           "ls60-14",
           "w1585",
@@ -283,25 +287,21 @@
         "word_rank": 0
       },
       {
-        "context": "w309",
+        "context": "",
         "manual_taps": 5,
         "screen_ids": [
-          "xu213-3-3",
-          "w684",
-          "ls60-137",
+          "",
+          "",
+          "",
           ""
         ],
         "screen_rank": 0,
         "target": "stedt-rn-368307",
-        "word_ids": [
-          "xu213-3-3",
-          "w684",
-          "ls60-137"
-        ],
+        "word_ids": [],
         "word_rank": 0
       },
       {
-        "context": "w309 stedt-rn-368307",
+        "context": "stedt-rn-368307",
         "manual_taps": 3,
         "screen_ids": [
           "w684",
@@ -353,7 +353,7 @@
       },
       {
         "context": "w1585 w986",
-        "manual_taps": 3,
+        "manual_taps": null,
         "screen_ids": [
           "w684",
           "ls60-137"
@@ -404,7 +404,7 @@
       },
       {
         "context": "w1315 w986",
-        "manual_taps": 3,
+        "manual_taps": null,
         "screen_ids": [
           "w684",
           "ls60-137"
@@ -472,7 +472,7 @@
     "8": [
       {
         "context": "<s>",
-        "manual_taps": 5,
+        "manual_taps": null,
         "screen_ids": [
           "ls60-14",
           "w1585",
@@ -488,25 +488,21 @@
         "word_rank": 0
       },
       {
-        "context": "w309",
+        "context": "",
         "manual_taps": 3,
         "screen_ids": [
-          "xu213-3-3",
-          "w684",
-          "ls60-137",
+          "",
+          "",
+          "",
           ""
         ],
         "screen_rank": 0,
         "target": "w2548",
-        "word_ids": [
-          "xu213-3-3",
-          "w684",
-          "ls60-137"
-        ],
+        "word_ids": [],
         "word_rank": 0
       },
       {
-        "context": "w309 w2548",
+        "context": "w2548",
         "manual_taps": 3,
         "screen_ids": [
           "w684",
@@ -527,92 +523,96 @@
   },
   "everyday_recombinations": {
     "attested:screen": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
       "tokens": 24,
       "top1": 2,
       "top4": 2,
       "unknown": 0,
-      "with_prediction": 90
+      "with_prediction": 74
     },
     "attested:words": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
       "tokens": 24,
       "top1": 2,
       "top4": 2,
       "unknown": 0,
-      "with_prediction": 90
+      "with_prediction": 74
     },
     "frequency:screen": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
       "tokens": 24,
       "top1": 0,
       "top4": 2,
       "unknown": 0,
-      "with_prediction": 88
+      "with_prediction": 72
     },
     "frequency:words": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
       "tokens": 24,
       "top1": 0,
       "top4": 2,
       "unknown": 0,
-      "with_prediction": 88
+      "with_prediction": 72
     },
     "statistical:screen": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
-      "prefix_only_keys": 62,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
+      "prefix_only_keys": 48,
       "tokens": 24,
       "top1": 2,
       "top4": 4,
       "unknown": 0,
-      "with_prediction": 84,
-      "with_prediction_and_prefix": 58
+      "with_prediction": 68,
+      "with_prediction_and_prefix": 44
     },
     "statistical:words": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
-      "prefix_only_keys": 62,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
+      "prefix_only_keys": 48,
       "tokens": 24,
       "top1": 2,
       "top4": 4,
       "unknown": 0,
-      "with_prediction": 84,
-      "with_prediction_and_prefix": 58
+      "with_prediction": 68,
+      "with_prediction_and_prefix": 44
     },
     "statistical_warm:screen": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
-      "prefix_only_keys": 62,
+      "cold": 10,
+      "comparable": 20,
+      "manual_exact_raw_id": 24,
+      "manual_exact_surface": 24,
+      "manual_keys": 78,
+      "manual_raw_to_ambiguous": 4,
+      "predicted_surface_top4": 6,
+      "prefix_only_keys": 48,
       "tokens": 24,
       "top1": 2,
       "top4": 4,
       "unknown": 0,
-      "with_prediction": 84,
-      "with_prediction_and_prefix": 58
+      "with_prediction": 68,
+      "with_prediction_and_prefix": 44
     },
     "statistical_warm:words": {
-      "cold": 8,
-      "comparable": 24,
-      "manual_keys": 94,
-      "prefix_only_keys": 62,
+      "cold": 10,
+      "comparable": 20,
+      "manual_keys": 78,
+      "prefix_only_keys": 48,
       "tokens": 24,
       "top1": 2,
       "top4": 4,
       "unknown": 0,
-      "with_prediction": 84,
-      "with_prediction_and_prefix": 58
+      "with_prediction": 68,
+      "with_prediction_and_prefix": 44
     }
   },
   "folds": {
@@ -620,92 +620,96 @@
       "purged_repeated_segments": 20,
       "scores": {
         "attested:screen": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
           "tokens": 24,
           "top1": 2,
           "top4": 2,
           "unknown": 0,
-          "with_prediction": 90
+          "with_prediction": 74
         },
         "attested:words": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
           "tokens": 24,
           "top1": 2,
           "top4": 2,
           "unknown": 0,
-          "with_prediction": 90
+          "with_prediction": 74
         },
         "frequency:screen": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
           "tokens": 24,
           "top1": 0,
           "top4": 2,
           "unknown": 0,
-          "with_prediction": 88
+          "with_prediction": 72
         },
         "frequency:words": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
           "tokens": 24,
           "top1": 0,
           "top4": 2,
           "unknown": 0,
-          "with_prediction": 88
+          "with_prediction": 72
         },
         "statistical:screen": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
-          "prefix_only_keys": 62,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
+          "prefix_only_keys": 48,
           "tokens": 24,
           "top1": 2,
           "top4": 4,
           "unknown": 0,
-          "with_prediction": 84,
-          "with_prediction_and_prefix": 58
+          "with_prediction": 68,
+          "with_prediction_and_prefix": 44
         },
         "statistical:words": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
-          "prefix_only_keys": 62,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
+          "prefix_only_keys": 48,
           "tokens": 24,
           "top1": 2,
           "top4": 4,
           "unknown": 0,
-          "with_prediction": 84,
-          "with_prediction_and_prefix": 58
+          "with_prediction": 68,
+          "with_prediction_and_prefix": 44
         },
         "statistical_warm:screen": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
-          "prefix_only_keys": 62,
+          "cold": 10,
+          "comparable": 20,
+          "manual_exact_raw_id": 24,
+          "manual_exact_surface": 24,
+          "manual_keys": 78,
+          "manual_raw_to_ambiguous": 4,
+          "predicted_surface_top4": 6,
+          "prefix_only_keys": 48,
           "tokens": 24,
           "top1": 2,
           "top4": 4,
           "unknown": 0,
-          "with_prediction": 84,
-          "with_prediction_and_prefix": 58
+          "with_prediction": 68,
+          "with_prediction_and_prefix": 44
         },
         "statistical_warm:words": {
-          "cold": 8,
-          "comparable": 24,
-          "manual_keys": 94,
-          "prefix_only_keys": 62,
+          "cold": 10,
+          "comparable": 20,
+          "manual_keys": 78,
+          "prefix_only_keys": 48,
           "tokens": 24,
           "top1": 2,
           "top4": 4,
           "unknown": 0,
-          "with_prediction": 84,
-          "with_prediction_and_prefix": 58
+          "with_prediction": 68,
+          "with_prediction_and_prefix": 44
         }
       },
       "spelling_screen": {
@@ -720,98 +724,102 @@
       "test_segments": 8,
       "test_tokens": 24,
       "training_segments": 1375,
-      "training_tokens": 1642
+      "training_tokens": 1643
     },
     "annotated-books.json": {
       "purged_repeated_segments": 11,
       "scores": {
         "attested:screen": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
           "tokens": 8536,
           "top1": 0,
           "top4": 2,
-          "unknown": 7091,
-          "with_prediction": 5140
+          "unknown": 7090,
+          "with_prediction": 3742
         },
         "attested:words": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
           "tokens": 8536,
           "top1": 0,
           "top4": 2,
-          "unknown": 7091,
-          "with_prediction": 5140
+          "unknown": 7090,
+          "with_prediction": 3742
         },
         "frequency:screen": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
           "tokens": 8536,
           "top1": 0,
-          "top4": 17,
-          "unknown": 7091,
-          "with_prediction": 5093
+          "top4": 16,
+          "unknown": 7090,
+          "with_prediction": 3698
         },
         "frequency:words": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
           "tokens": 8536,
           "top1": 0,
-          "top4": 17,
-          "unknown": 7091,
-          "with_prediction": 5093
+          "top4": 16,
+          "unknown": 7090,
+          "with_prediction": 3698
         },
         "statistical:screen": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
-          "prefix_only_keys": 3811,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
+          "prefix_only_keys": 2695,
           "tokens": 8536,
           "top1": 0,
           "top4": 0,
-          "unknown": 7091,
-          "with_prediction": 5144,
-          "with_prediction_and_prefix": 3811
+          "unknown": 7090,
+          "with_prediction": 3746,
+          "with_prediction_and_prefix": 2695
         },
         "statistical:words": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
-          "prefix_only_keys": 3811,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
+          "prefix_only_keys": 2695,
           "tokens": 8536,
           "top1": 0,
           "top4": 0,
-          "unknown": 7091,
-          "with_prediction": 5144,
-          "with_prediction_and_prefix": 3811
+          "unknown": 7090,
+          "with_prediction": 3746,
+          "with_prediction_and_prefix": 2695
         },
         "statistical_warm:screen": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
-          "prefix_only_keys": 3807,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_exact_raw_id": 1397,
+          "manual_exact_surface": 1397,
+          "manual_keys": 3746,
+          "manual_raw_to_ambiguous": 338,
+          "predicted_surface_top4": 17,
+          "prefix_only_keys": 2691,
           "tokens": 8536,
           "top1": 1,
           "top4": 3,
-          "unknown": 7091,
-          "with_prediction": 5136,
-          "with_prediction_and_prefix": 3804
+          "unknown": 7090,
+          "with_prediction": 3738,
+          "with_prediction_and_prefix": 2688
         },
         "statistical_warm:words": {
-          "cold": 7192,
-          "comparable": 1445,
-          "manual_keys": 5144,
-          "prefix_only_keys": 3807,
+          "cold": 7535,
+          "comparable": 1059,
+          "manual_keys": 3746,
+          "prefix_only_keys": 2691,
           "tokens": 8536,
           "top1": 1,
           "top4": 3,
-          "unknown": 7091,
-          "with_prediction": 5136,
-          "with_prediction_and_prefix": 3804
+          "unknown": 7090,
+          "with_prediction": 3738,
+          "with_prediction_and_prefix": 2688
         }
       },
       "spelling_screen": {
@@ -821,7 +829,7 @@
         "tokens": 8536,
         "top1": 114,
         "top4": 290,
-        "unlinked_reference": 222
+        "unlinked_reference": 221
       },
       "test_segments": 1032,
       "test_tokens": 8536,
@@ -832,92 +840,96 @@
       "purged_repeated_segments": 17,
       "scores": {
         "attested:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
           "top1": 0,
           "top4": 0,
           "unknown": 487,
-          "with_prediction": 338
+          "with_prediction": 257
         },
         "attested:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
           "top1": 0,
           "top4": 0,
           "unknown": 487,
-          "with_prediction": 338
+          "with_prediction": 257
         },
         "frequency:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
-          "top1": 1,
-          "top4": 12,
+          "top1": 0,
+          "top4": 11,
           "unknown": 487,
-          "with_prediction": 303
+          "with_prediction": 224
         },
         "frequency:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
-          "top1": 1,
-          "top4": 12,
+          "top1": 0,
+          "top4": 11,
           "unknown": 487,
-          "with_prediction": 303
+          "with_prediction": 224
         },
         "statistical:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 11,
           "unknown": 487,
-          "with_prediction": 305,
-          "with_prediction_and_prefix": 217
+          "with_prediction": 224,
+          "with_prediction_and_prefix": 159
         },
         "statistical:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 11,
           "unknown": 487,
-          "with_prediction": 305,
-          "with_prediction_and_prefix": 217
+          "with_prediction": 224,
+          "with_prediction_and_prefix": 159
         },
         "statistical_warm:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_exact_raw_id": 100,
+          "manual_exact_surface": 101,
+          "manual_keys": 257,
+          "manual_raw_to_ambiguous": 25,
+          "predicted_surface_top4": 35,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 10,
           "unknown": 487,
-          "with_prediction": 308,
-          "with_prediction_and_prefix": 218
+          "with_prediction": 227,
+          "with_prediction_and_prefix": 160
         },
         "statistical_warm:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 10,
           "unknown": 487,
-          "with_prediction": 308,
-          "with_prediction_and_prefix": 218
+          "with_prediction": 227,
+          "with_prediction_and_prefix": 160
         }
       },
       "spelling_screen": {
@@ -932,98 +944,102 @@
       "test_segments": 145,
       "test_tokens": 588,
       "training_segments": 1233,
-      "training_tokens": 1543
+      "training_tokens": 1544
     },
     "https://tujialanguage.com/texts/longshan-stories-01.html": {
       "purged_repeated_segments": 19,
       "scores": {
         "attested:screen": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
           "tokens": 410,
           "top1": 0,
           "top4": 1,
           "unknown": 297,
-          "with_prediction": 417
+          "with_prediction": 230
         },
         "attested:words": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
           "tokens": 410,
           "top1": 0,
           "top4": 1,
           "unknown": 297,
-          "with_prediction": 417
+          "with_prediction": 230
         },
         "frequency:screen": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
           "tokens": 410,
           "top1": 0,
           "top4": 5,
           "unknown": 297,
-          "with_prediction": 408
+          "with_prediction": 221
         },
         "frequency:words": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
           "tokens": 410,
           "top1": 0,
           "top4": 5,
           "unknown": 297,
-          "with_prediction": 408
+          "with_prediction": 221
         },
         "statistical:screen": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
-          "prefix_only_keys": 302,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
+          "prefix_only_keys": 143,
           "tokens": 410,
           "top1": 4,
-          "top4": 7,
+          "top4": 6,
           "unknown": 297,
-          "with_prediction": 404,
-          "with_prediction_and_prefix": 291
+          "with_prediction": 219,
+          "with_prediction_and_prefix": 137
         },
         "statistical:words": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
-          "prefix_only_keys": 302,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
+          "prefix_only_keys": 143,
           "tokens": 410,
           "top1": 4,
-          "top4": 7,
+          "top4": 6,
           "unknown": 297,
-          "with_prediction": 404,
-          "with_prediction_and_prefix": 291
+          "with_prediction": 219,
+          "with_prediction_and_prefix": 137
         },
         "statistical_warm:screen": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
-          "prefix_only_keys": 302,
+          "cold": 358,
+          "comparable": 55,
+          "manual_exact_raw_id": 93,
+          "manual_exact_surface": 96,
+          "manual_keys": 232,
+          "manual_raw_to_ambiguous": 38,
+          "predicted_surface_top4": 11,
+          "prefix_only_keys": 143,
           "tokens": 410,
           "top1": 4,
-          "top4": 7,
+          "top4": 6,
           "unknown": 297,
-          "with_prediction": 404,
-          "with_prediction_and_prefix": 291
+          "with_prediction": 219,
+          "with_prediction_and_prefix": 137
         },
         "statistical_warm:words": {
-          "cold": 308,
-          "comparable": 111,
-          "manual_keys": 419,
-          "prefix_only_keys": 302,
+          "cold": 358,
+          "comparable": 55,
+          "manual_keys": 232,
+          "prefix_only_keys": 143,
           "tokens": 410,
           "top1": 4,
-          "top4": 7,
+          "top4": 6,
           "unknown": 297,
-          "with_prediction": 404,
-          "with_prediction_and_prefix": 291
+          "with_prediction": 219,
+          "with_prediction_and_prefix": 137
         }
       },
       "spelling_screen": {
@@ -1038,204 +1054,212 @@
       "test_segments": 94,
       "test_tokens": 410,
       "training_segments": 1282,
-      "training_tokens": 1529
+      "training_tokens": 1530
     },
     "https://tujialanguage.com/texts/longshan-stories-02.html": {
       "purged_repeated_segments": 17,
       "scores": {
         "attested:screen": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "tokens": 274,
+          "cold": 127,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "tokens": 277,
           "top1": 1,
           "top4": 2,
-          "unknown": 7,
-          "with_prediction": 1299
+          "unknown": 0,
+          "with_prediction": 1032
         },
         "attested:words": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "tokens": 274,
+          "cold": 127,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "tokens": 277,
           "top1": 1,
           "top4": 2,
-          "unknown": 7,
-          "with_prediction": 1299
+          "unknown": 0,
+          "with_prediction": 1032
         },
         "frequency:screen": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "tokens": 277,
           "top1": 0,
-          "top4": 4,
-          "unknown": 7,
-          "with_prediction": 1300
+          "top4": 2,
+          "unknown": 0,
+          "with_prediction": 1036
         },
         "frequency:words": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "tokens": 277,
           "top1": 0,
-          "top4": 4,
-          "unknown": 7,
-          "with_prediction": 1300
+          "top4": 2,
+          "unknown": 0,
+          "with_prediction": 1036
         },
         "statistical:screen": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "prefix_only_keys": 864,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "prefix_only_keys": 642,
+          "tokens": 277,
           "top1": 0,
           "top4": 1,
-          "unknown": 7,
-          "with_prediction": 1308,
-          "with_prediction_and_prefix": 862
+          "unknown": 0,
+          "with_prediction": 1039,
+          "with_prediction_and_prefix": 641
         },
         "statistical:words": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "prefix_only_keys": 864,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "prefix_only_keys": 642,
+          "tokens": 277,
           "top1": 0,
           "top4": 1,
-          "unknown": 7,
-          "with_prediction": 1308,
-          "with_prediction_and_prefix": 862
+          "unknown": 0,
+          "with_prediction": 1039,
+          "with_prediction_and_prefix": 641
         },
         "statistical_warm:screen": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "prefix_only_keys": 861,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_exact_raw_id": 235,
+          "manual_exact_surface": 247,
+          "manual_keys": 1041,
+          "manual_raw_to_ambiguous": 47,
+          "predicted_surface_top4": 7,
+          "prefix_only_keys": 641,
+          "tokens": 277,
           "top1": 0,
-          "top4": 4,
-          "unknown": 7,
-          "with_prediction": 1295,
-          "with_prediction_and_prefix": 856
+          "top4": 2,
+          "unknown": 0,
+          "with_prediction": 1030,
+          "with_prediction_and_prefix": 639
         },
         "statistical_warm:words": {
-          "cold": 73,
-          "comparable": 263,
-          "manual_keys": 1310,
-          "prefix_only_keys": 861,
-          "tokens": 274,
+          "cold": 128,
+          "comparable": 188,
+          "manual_keys": 1041,
+          "prefix_only_keys": 641,
+          "tokens": 277,
           "top1": 0,
-          "top4": 4,
-          "unknown": 7,
-          "with_prediction": 1295,
-          "with_prediction_and_prefix": 856
+          "top4": 2,
+          "unknown": 0,
+          "with_prediction": 1030,
+          "with_prediction_and_prefix": 639
         }
       },
       "spelling_screen": {
         "bare_syllable": 3,
         "confirmed_target_sense": 2,
         "syllable_card": 3,
-        "tokens": 274,
+        "tokens": 277,
         "top1": 0,
         "top4": 5,
         "unlinked_reference": 0
       },
       "test_segments": 68,
-      "test_tokens": 274,
+      "test_tokens": 277,
       "training_segments": 1375,
-      "training_tokens": 1642
+      "training_tokens": 1643
     },
     "https://tujialanguage.com/texts/longshan-stories-03.html": {
       "purged_repeated_segments": 16,
       "scores": {
         "attested:screen": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73
+          "with_prediction": 22
         },
         "attested:words": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73
+          "with_prediction": 22
         },
         "frequency:screen": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73
+          "with_prediction": 22
         },
         "frequency:words": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73
+          "with_prediction": 22
         },
         "statistical:screen": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
-          "prefix_only_keys": 59,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
+          "prefix_only_keys": 14,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73,
-          "with_prediction_and_prefix": 59
+          "with_prediction": 22,
+          "with_prediction_and_prefix": 14
         },
         "statistical:words": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
-          "prefix_only_keys": 59,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
+          "prefix_only_keys": 14,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73,
-          "with_prediction_and_prefix": 59
+          "with_prediction": 22,
+          "with_prediction_and_prefix": 14
         },
         "statistical_warm:screen": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
-          "prefix_only_keys": 59,
+          "cold": 284,
+          "comparable": 6,
+          "manual_exact_raw_id": 16,
+          "manual_exact_surface": 19,
+          "manual_keys": 22,
+          "manual_raw_to_ambiguous": 10,
+          "predicted_surface_top4": 2,
+          "prefix_only_keys": 14,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73,
-          "with_prediction_and_prefix": 59
+          "with_prediction": 22,
+          "with_prediction_and_prefix": 14
         },
         "statistical_warm:words": {
-          "cold": 274,
-          "comparable": 21,
-          "manual_keys": 73,
-          "prefix_only_keys": 59,
+          "cold": 284,
+          "comparable": 6,
+          "manual_keys": 22,
+          "prefix_only_keys": 14,
           "tokens": 290,
           "top1": 0,
           "top4": 0,
           "unknown": 269,
-          "with_prediction": 73,
-          "with_prediction_and_prefix": 59
+          "with_prediction": 22,
+          "with_prediction_and_prefix": 14
         }
       },
       "spelling_screen": {
@@ -1250,98 +1274,102 @@
       "test_segments": 116,
       "test_tokens": 290,
       "training_segments": 1266,
-      "training_tokens": 1621
+      "training_tokens": 1622
     },
     "https://tujialanguage.com/texts/longshan-stories-04.html": {
       "purged_repeated_segments": 20,
       "scores": {
         "attested:screen": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
+          "comparable": 3,
+          "manual_keys": 16,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20
+          "with_prediction": 16
         },
         "attested:words": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
+          "comparable": 3,
+          "manual_keys": 16,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20
+          "with_prediction": 16
         },
         "frequency:screen": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
+          "comparable": 3,
+          "manual_keys": 16,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20
+          "with_prediction": 16
         },
         "frequency:words": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
+          "comparable": 3,
+          "manual_keys": 16,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20
+          "with_prediction": 16
         },
         "statistical:screen": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
-          "prefix_only_keys": 14,
+          "comparable": 3,
+          "manual_keys": 16,
+          "prefix_only_keys": 8,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20,
-          "with_prediction_and_prefix": 14
+          "with_prediction": 16,
+          "with_prediction_and_prefix": 8
         },
         "statistical:words": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
-          "prefix_only_keys": 14,
+          "comparable": 3,
+          "manual_keys": 16,
+          "prefix_only_keys": 8,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20,
-          "with_prediction_and_prefix": 14
+          "with_prediction": 16,
+          "with_prediction_and_prefix": 8
         },
         "statistical_warm:screen": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
-          "prefix_only_keys": 14,
+          "comparable": 3,
+          "manual_exact_raw_id": 4,
+          "manual_exact_surface": 4,
+          "manual_keys": 16,
+          "manual_raw_to_ambiguous": 1,
+          "predicted_surface_top4": 0,
+          "prefix_only_keys": 8,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20,
-          "with_prediction_and_prefix": 14
+          "with_prediction": 16,
+          "with_prediction_and_prefix": 8
         },
         "statistical_warm:words": {
           "cold": 300,
-          "comparable": 4,
-          "manual_keys": 20,
-          "prefix_only_keys": 14,
+          "comparable": 3,
+          "manual_keys": 16,
+          "prefix_only_keys": 8,
           "tokens": 303,
           "top1": 0,
           "top4": 0,
           "unknown": 299,
-          "with_prediction": 20,
-          "with_prediction_and_prefix": 14
+          "with_prediction": 16,
+          "with_prediction_and_prefix": 8
         }
       },
       "spelling_screen": {
@@ -1350,204 +1378,212 @@
       "test_segments": 51,
       "test_tokens": 303,
       "training_segments": 1356,
-      "training_tokens": 1638
+      "training_tokens": 1639
     },
     "longshan-texts.json": {
       "purged_repeated_segments": 12,
       "scores": {
         "attested:screen": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "tokens": 1280,
           "top1": 0,
           "top4": 1,
-          "unknown": 872,
-          "with_prediction": 1817
+          "unknown": 865,
+          "with_prediction": 1360
         },
         "attested:words": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "tokens": 1280,
           "top1": 0,
           "top4": 1,
-          "unknown": 872,
-          "with_prediction": 1817
+          "unknown": 865,
+          "with_prediction": 1360
         },
         "frequency:screen": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "tokens": 1280,
           "top1": 0,
-          "top4": 8,
-          "unknown": 872,
-          "with_prediction": 1800
+          "top4": 6,
+          "unknown": 865,
+          "with_prediction": 1348
         },
         "frequency:words": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "tokens": 1280,
           "top1": 0,
-          "top4": 8,
-          "unknown": 872,
-          "with_prediction": 1800
+          "top4": 6,
+          "unknown": 865,
+          "with_prediction": 1348
         },
         "statistical:screen": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "prefix_only_keys": 1292,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "prefix_only_keys": 874,
+          "tokens": 1280,
           "top1": 4,
-          "top4": 7,
-          "unknown": 872,
-          "with_prediction": 1804,
-          "with_prediction_and_prefix": 1281
+          "top4": 6,
+          "unknown": 865,
+          "with_prediction": 1349,
+          "with_prediction_and_prefix": 868
         },
         "statistical:words": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "prefix_only_keys": 1292,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "prefix_only_keys": 874,
+          "tokens": 1280,
           "top1": 4,
-          "top4": 7,
-          "unknown": 872,
-          "with_prediction": 1804,
-          "with_prediction_and_prefix": 1281
+          "top4": 6,
+          "unknown": 865,
+          "with_prediction": 1349,
+          "with_prediction_and_prefix": 868
         },
         "statistical_warm:screen": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "prefix_only_keys": 1289,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_exact_raw_id": 335,
+          "manual_exact_surface": 379,
+          "manual_keys": 1362,
+          "manual_raw_to_ambiguous": 69,
+          "predicted_surface_top4": 17,
+          "prefix_only_keys": 872,
+          "tokens": 1280,
           "top1": 4,
-          "top4": 10,
-          "unknown": 872,
-          "with_prediction": 1791,
-          "with_prediction_and_prefix": 1275
+          "top4": 8,
+          "unknown": 865,
+          "with_prediction": 1338,
+          "with_prediction_and_prefix": 864
         },
         "statistical_warm:words": {
-          "cold": 959,
-          "comparable": 395,
-          "manual_keys": 1819,
-          "prefix_only_keys": 1289,
-          "tokens": 1277,
+          "cold": 1062,
+          "comparable": 266,
+          "manual_keys": 1362,
+          "prefix_only_keys": 872,
+          "tokens": 1280,
           "top1": 4,
-          "top4": 10,
-          "unknown": 872,
-          "with_prediction": 1791,
-          "with_prediction_and_prefix": 1275
+          "top4": 8,
+          "unknown": 865,
+          "with_prediction": 1338,
+          "with_prediction_and_prefix": 864
         }
       },
       "spelling_screen": {
         "bare_syllable": 15,
         "confirmed_target_sense": 8,
         "syllable_card": 15,
-        "tokens": 1277,
+        "tokens": 1280,
         "top1": 5,
         "top4": 23,
         "unlinked_reference": 5
       },
       "test_segments": 329,
-      "test_tokens": 1277,
+      "test_tokens": 1280,
       "training_segments": 1154,
-      "training_tokens": 1504
+      "training_tokens": 1505
     },
     "northern-reference-grammar": {
       "purged_repeated_segments": 17,
       "scores": {
         "attested:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
           "top1": 0,
           "top4": 0,
           "unknown": 487,
-          "with_prediction": 338
+          "with_prediction": 257
         },
         "attested:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
           "top1": 0,
           "top4": 0,
           "unknown": 487,
-          "with_prediction": 338
+          "with_prediction": 257
         },
         "frequency:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
-          "top1": 1,
-          "top4": 12,
+          "top1": 0,
+          "top4": 11,
           "unknown": 487,
-          "with_prediction": 303
+          "with_prediction": 224
         },
         "frequency:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
           "tokens": 588,
-          "top1": 1,
-          "top4": 12,
+          "top1": 0,
+          "top4": 11,
           "unknown": 487,
-          "with_prediction": 303
+          "with_prediction": 224
         },
         "statistical:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 11,
           "unknown": 487,
-          "with_prediction": 305,
-          "with_prediction_and_prefix": 217
+          "with_prediction": 224,
+          "with_prediction_and_prefix": 159
         },
         "statistical:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 11,
           "unknown": 487,
-          "with_prediction": 305,
-          "with_prediction_and_prefix": 217
+          "with_prediction": 224,
+          "with_prediction_and_prefix": 159
         },
         "statistical_warm:screen": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_exact_raw_id": 100,
+          "manual_exact_surface": 101,
+          "manual_keys": 257,
+          "manual_raw_to_ambiguous": 25,
+          "predicted_surface_top4": 35,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 10,
           "unknown": 487,
-          "with_prediction": 308,
-          "with_prediction_and_prefix": 218
+          "with_prediction": 227,
+          "with_prediction_and_prefix": 160
         },
         "statistical_warm:words": {
-          "cold": 502,
-          "comparable": 101,
-          "manual_keys": 338,
-          "prefix_only_keys": 228,
+          "cold": 527,
+          "comparable": 75,
+          "manual_keys": 257,
+          "prefix_only_keys": 170,
           "tokens": 588,
           "top1": 0,
           "top4": 10,
           "unknown": 487,
-          "with_prediction": 308,
-          "with_prediction_and_prefix": 218
+          "with_prediction": 227,
+          "with_prediction_and_prefix": 160
         }
       },
       "spelling_screen": {
@@ -1562,98 +1598,102 @@
       "test_segments": 145,
       "test_tokens": 588,
       "training_segments": 1233,
-      "training_tokens": 1543
+      "training_tokens": 1544
     },
     "xu-tujia-annotated-2-1-excerpt": {
       "purged_repeated_segments": 41,
       "scores": {
         "attested:screen": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_keys": 538,
           "tokens": 1140,
           "top1": 2,
-          "top4": 4,
+          "top4": 3,
           "unknown": 930,
-          "with_prediction": 740
+          "with_prediction": 536
         },
         "attested:words": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_keys": 538,
           "tokens": 1140,
           "top1": 2,
-          "top4": 4,
+          "top4": 3,
           "unknown": 930,
-          "with_prediction": 740
+          "with_prediction": 536
         },
         "frequency:screen": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
+          "cold": 1001,
+          "comparable": 148,
+          "manual_keys": 538,
           "tokens": 1140,
           "top1": 0,
           "top4": 4,
           "unknown": 930,
-          "with_prediction": 740
+          "with_prediction": 532
         },
         "frequency:words": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
+          "cold": 1001,
+          "comparable": 148,
+          "manual_keys": 538,
           "tokens": 1140,
           "top1": 0,
           "top4": 4,
           "unknown": 930,
-          "with_prediction": 740
+          "with_prediction": 532
         },
         "statistical:screen": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
-          "prefix_only_keys": 487,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_keys": 538,
+          "prefix_only_keys": 347,
           "tokens": 1140,
           "top1": 3,
           "top4": 5,
           "unknown": 930,
-          "with_prediction": 738,
-          "with_prediction_and_prefix": 481
+          "with_prediction": 532,
+          "with_prediction_and_prefix": 344
         },
         "statistical:words": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
-          "prefix_only_keys": 487,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_keys": 538,
+          "prefix_only_keys": 347,
           "tokens": 1140,
           "top1": 3,
           "top4": 5,
           "unknown": 930,
-          "with_prediction": 738,
-          "with_prediction_and_prefix": 481
+          "with_prediction": 532,
+          "with_prediction_and_prefix": 344
         },
         "statistical_warm:screen": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
-          "prefix_only_keys": 485,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_exact_raw_id": 210,
+          "manual_exact_surface": 210,
+          "manual_keys": 538,
+          "manual_raw_to_ambiguous": 62,
+          "predicted_surface_top4": 8,
+          "prefix_only_keys": 345,
           "tokens": 1140,
           "top1": 4,
           "top4": 8,
           "unknown": 930,
-          "with_prediction": 730,
-          "with_prediction_and_prefix": 476
+          "with_prediction": 524,
+          "with_prediction_and_prefix": 339
         },
         "statistical_warm:words": {
-          "cold": 950,
-          "comparable": 210,
-          "manual_keys": 748,
-          "prefix_only_keys": 485,
+          "cold": 1000,
+          "comparable": 148,
+          "manual_keys": 538,
+          "prefix_only_keys": 345,
           "tokens": 1140,
           "top1": 4,
           "top4": 8,
           "unknown": 930,
-          "with_prediction": 730,
-          "with_prediction_and_prefix": 476
+          "with_prediction": 524,
+          "with_prediction_and_prefix": 339
         }
       },
       "spelling_screen": {
@@ -1668,98 +1708,102 @@
       "test_segments": 129,
       "test_tokens": 1140,
       "training_segments": 1225,
-      "training_tokens": 1371
+      "training_tokens": 1372
     },
     "xu-tujia-annotated-2-10": {
       "purged_repeated_segments": 21,
       "scores": {
         "attested:screen": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
+          "cold": 282,
+          "comparable": 36,
+          "manual_keys": 157,
           "tokens": 317,
           "top1": 0,
-          "top4": 3,
+          "top4": 2,
           "unknown": 260,
-          "with_prediction": 214
+          "with_prediction": 157
         },
         "attested:words": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
+          "cold": 282,
+          "comparable": 36,
+          "manual_keys": 157,
           "tokens": 317,
           "top1": 0,
-          "top4": 3,
+          "top4": 2,
           "unknown": 260,
-          "with_prediction": 214
+          "with_prediction": 157
         },
         "frequency:screen": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
+          "cold": 284,
+          "comparable": 36,
+          "manual_keys": 157,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218
+          "with_prediction": 157
         },
         "frequency:words": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
+          "cold": 284,
+          "comparable": 36,
+          "manual_keys": 157,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218
+          "with_prediction": 157
         },
         "statistical:screen": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
-          "prefix_only_keys": 127,
+          "cold": 284,
+          "comparable": 36,
+          "manual_keys": 157,
+          "prefix_only_keys": 78,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218,
-          "with_prediction_and_prefix": 125
+          "with_prediction": 157,
+          "with_prediction_and_prefix": 78
         },
         "statistical:words": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
-          "prefix_only_keys": 127,
+          "cold": 284,
+          "comparable": 36,
+          "manual_keys": 157,
+          "prefix_only_keys": 78,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218,
-          "with_prediction_and_prefix": 125
+          "with_prediction": 157,
+          "with_prediction_and_prefix": 78
         },
         "statistical_warm:screen": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
-          "prefix_only_keys": 127,
+          "cold": 284,
+          "comparable": 36,
+          "manual_exact_raw_id": 57,
+          "manual_exact_surface": 57,
+          "manual_keys": 157,
+          "manual_raw_to_ambiguous": 21,
+          "predicted_surface_top4": 0,
+          "prefix_only_keys": 78,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218,
-          "with_prediction_and_prefix": 125
+          "with_prediction": 157,
+          "with_prediction_and_prefix": 78
         },
         "statistical_warm:words": {
-          "cold": 265,
-          "comparable": 57,
-          "manual_keys": 220,
-          "prefix_only_keys": 127,
+          "cold": 284,
+          "comparable": 36,
+          "manual_keys": 157,
+          "prefix_only_keys": 78,
           "tokens": 317,
           "top1": 0,
-          "top4": 1,
+          "top4": 0,
           "unknown": 260,
-          "with_prediction": 218,
-          "with_prediction_and_prefix": 125
+          "with_prediction": 157,
+          "with_prediction_and_prefix": 78
         }
       },
       "spelling_screen": {
@@ -1774,98 +1818,102 @@
       "test_segments": 33,
       "test_tokens": 317,
       "training_segments": 1341,
-      "training_tokens": 1583
+      "training_tokens": 1584
     },
     "xu-tujia-annotated-2-11-partial": {
       "purged_repeated_segments": 19,
       "scores": {
         "attested:screen": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103
+          "with_prediction": 56
         },
         "attested:words": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103
+          "with_prediction": 56
         },
         "frequency:screen": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
           "tokens": 266,
           "top1": 1,
-          "top4": 2,
+          "top4": 1,
           "unknown": 231,
-          "with_prediction": 102
+          "with_prediction": 58
         },
         "frequency:words": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
           "tokens": 266,
           "top1": 1,
-          "top4": 2,
+          "top4": 1,
           "unknown": 231,
-          "with_prediction": 102
+          "with_prediction": 58
         },
         "statistical:screen": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
-          "prefix_only_keys": 72,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
+          "prefix_only_keys": 36,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103,
-          "with_prediction_and_prefix": 70
+          "with_prediction": 56,
+          "with_prediction_and_prefix": 34
         },
         "statistical:words": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
-          "prefix_only_keys": 72,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
+          "prefix_only_keys": 36,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103,
-          "with_prediction_and_prefix": 70
+          "with_prediction": 56,
+          "with_prediction_and_prefix": 34
         },
         "statistical_warm:screen": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
-          "prefix_only_keys": 72,
+          "cold": 249,
+          "comparable": 18,
+          "manual_exact_raw_id": 35,
+          "manual_exact_surface": 35,
+          "manual_keys": 60,
+          "manual_raw_to_ambiguous": 17,
+          "predicted_surface_top4": 2,
+          "prefix_only_keys": 36,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103,
-          "with_prediction_and_prefix": 70
+          "with_prediction": 56,
+          "with_prediction_and_prefix": 34
         },
         "statistical_warm:words": {
-          "cold": 233,
-          "comparable": 35,
-          "manual_keys": 107,
-          "prefix_only_keys": 72,
+          "cold": 249,
+          "comparable": 18,
+          "manual_keys": 60,
+          "prefix_only_keys": 36,
           "tokens": 266,
           "top1": 2,
           "top4": 2,
           "unknown": 231,
-          "with_prediction": 103,
-          "with_prediction_and_prefix": 70
+          "with_prediction": 56,
+          "with_prediction_and_prefix": 34
         }
       },
       "spelling_screen": {
@@ -1880,98 +1928,102 @@
       "test_segments": 33,
       "test_tokens": 266,
       "training_segments": 1343,
-      "training_tokens": 1607
+      "training_tokens": 1608
     },
     "xu-tujia-annotated-2-12-partial": {
       "purged_repeated_segments": 22,
       "scores": {
         "attested:screen": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
+          "cold": 1014,
+          "comparable": 121,
+          "manual_keys": 417,
           "tokens": 1122,
-          "top1": 3,
-          "top4": 9,
+          "top1": 2,
+          "top4": 5,
           "unknown": 960,
-          "with_prediction": 536
+          "with_prediction": 408
         },
         "attested:words": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
+          "cold": 1014,
+          "comparable": 121,
+          "manual_keys": 417,
+          "tokens": 1122,
+          "top1": 2,
+          "top4": 5,
+          "unknown": 960,
+          "with_prediction": 408
+        },
+        "frequency:screen": {
+          "cold": 1014,
+          "comparable": 121,
+          "manual_keys": 417,
+          "tokens": 1122,
+          "top1": 1,
+          "top4": 5,
+          "unknown": 960,
+          "with_prediction": 406
+        },
+        "frequency:words": {
+          "cold": 1014,
+          "comparable": 121,
+          "manual_keys": 417,
+          "tokens": 1122,
+          "top1": 1,
+          "top4": 5,
+          "unknown": 960,
+          "with_prediction": 406
+        },
+        "statistical:screen": {
+          "cold": 1013,
+          "comparable": 121,
+          "manual_keys": 417,
+          "prefix_only_keys": 249,
           "tokens": 1122,
           "top1": 3,
           "top4": 9,
           "unknown": 960,
-          "with_prediction": 536
-        },
-        "frequency:screen": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "tokens": 1122,
-          "top1": 2,
-          "top4": 6,
-          "unknown": 960,
-          "with_prediction": 540
-        },
-        "frequency:words": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "tokens": 1122,
-          "top1": 2,
-          "top4": 6,
-          "unknown": 960,
-          "with_prediction": 540
-        },
-        "statistical:screen": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "prefix_only_keys": 345,
-          "tokens": 1122,
-          "top1": 3,
-          "top4": 12,
-          "unknown": 960,
-          "with_prediction": 528,
-          "with_prediction_and_prefix": 333
+          "with_prediction": 400,
+          "with_prediction_and_prefix": 242
         },
         "statistical:words": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "prefix_only_keys": 345,
+          "cold": 1013,
+          "comparable": 121,
+          "manual_keys": 417,
+          "prefix_only_keys": 249,
           "tokens": 1122,
           "top1": 3,
-          "top4": 12,
+          "top4": 9,
           "unknown": 960,
-          "with_prediction": 528,
-          "with_prediction_and_prefix": 333
+          "with_prediction": 400,
+          "with_prediction_and_prefix": 242
         },
         "statistical_warm:screen": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "prefix_only_keys": 345,
+          "cold": 1013,
+          "comparable": 121,
+          "manual_exact_raw_id": 162,
+          "manual_exact_surface": 162,
+          "manual_keys": 417,
+          "manual_raw_to_ambiguous": 41,
+          "predicted_surface_top4": 9,
+          "prefix_only_keys": 249,
           "tokens": 1122,
           "top1": 3,
-          "top4": 12,
+          "top4": 9,
           "unknown": 960,
-          "with_prediction": 528,
-          "with_prediction_and_prefix": 333
+          "with_prediction": 400,
+          "with_prediction_and_prefix": 242
         },
         "statistical_warm:words": {
-          "cold": 974,
-          "comparable": 162,
-          "manual_keys": 555,
-          "prefix_only_keys": 345,
+          "cold": 1013,
+          "comparable": 121,
+          "manual_keys": 417,
+          "prefix_only_keys": 249,
           "tokens": 1122,
           "top1": 3,
-          "top4": 12,
+          "top4": 9,
           "unknown": 960,
-          "with_prediction": 528,
-          "with_prediction_and_prefix": 333
+          "with_prediction": 400,
+          "with_prediction_and_prefix": 242
         }
       },
       "spelling_screen": {
@@ -1986,98 +2038,102 @@
       "test_segments": 135,
       "test_tokens": 1122,
       "training_segments": 1238,
-      "training_tokens": 1478
+      "training_tokens": 1479
     },
     "xu-tujia-annotated-2-13": {
       "purged_repeated_segments": 19,
       "scores": {
         "attested:screen": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
+          "cold": 46,
+          "comparable": 26,
+          "manual_keys": 121,
           "tokens": 65,
           "top1": 0,
           "top4": 2,
           "unknown": 30,
-          "with_prediction": 133
+          "with_prediction": 109
         },
         "attested:words": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
+          "cold": 46,
+          "comparable": 26,
+          "manual_keys": 121,
           "tokens": 65,
           "top1": 0,
           "top4": 2,
           "unknown": 30,
-          "with_prediction": 133
+          "with_prediction": 109
         },
         "frequency:screen": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
+          "cold": 46,
+          "comparable": 26,
+          "manual_keys": 121,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143
+          "with_prediction": 119
         },
         "frequency:words": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
+          "cold": 46,
+          "comparable": 26,
+          "manual_keys": 121,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143
+          "with_prediction": 119
         },
         "statistical:screen": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
-          "prefix_only_keys": 91,
+          "cold": 45,
+          "comparable": 26,
+          "manual_keys": 121,
+          "prefix_only_keys": 72,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143,
-          "with_prediction_and_prefix": 90
+          "with_prediction": 121,
+          "with_prediction_and_prefix": 72
         },
         "statistical:words": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
-          "prefix_only_keys": 91,
+          "cold": 45,
+          "comparable": 26,
+          "manual_keys": 121,
+          "prefix_only_keys": 72,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143,
-          "with_prediction_and_prefix": 90
+          "with_prediction": 121,
+          "with_prediction_and_prefix": 72
         },
         "statistical_warm:screen": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
-          "prefix_only_keys": 91,
+          "cold": 45,
+          "comparable": 26,
+          "manual_exact_raw_id": 35,
+          "manual_exact_surface": 35,
+          "manual_keys": 121,
+          "manual_raw_to_ambiguous": 9,
+          "predicted_surface_top4": 1,
+          "prefix_only_keys": 72,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143,
-          "with_prediction_and_prefix": 90
+          "with_prediction": 121,
+          "with_prediction_and_prefix": 72
         },
         "statistical_warm:words": {
-          "cold": 38,
-          "comparable": 35,
-          "manual_keys": 145,
-          "prefix_only_keys": 91,
+          "cold": 45,
+          "comparable": 26,
+          "manual_keys": 121,
+          "prefix_only_keys": 72,
           "tokens": 65,
           "top1": 1,
           "top4": 1,
           "unknown": 30,
-          "with_prediction": 143,
-          "with_prediction_and_prefix": 90
+          "with_prediction": 121,
+          "with_prediction_and_prefix": 72
         }
       },
       "spelling_screen": {
@@ -2092,98 +2148,102 @@
       "test_segments": 12,
       "test_tokens": 65,
       "training_segments": 1375,
-      "training_tokens": 1642
+      "training_tokens": 1643
     },
     "xu-tujia-annotated-2-14": {
       "purged_repeated_segments": 19,
       "scores": {
         "attested:screen": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
+          "cold": 639,
+          "comparable": 81,
+          "manual_keys": 290,
           "tokens": 720,
           "top1": 3,
           "top4": 4,
           "unknown": 626,
-          "with_prediction": 320
+          "with_prediction": 281
         },
         "attested:words": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
+          "cold": 639,
+          "comparable": 81,
+          "manual_keys": 290,
           "tokens": 720,
           "top1": 3,
           "top4": 4,
           "unknown": 626,
-          "with_prediction": 320
+          "with_prediction": 281
         },
         "frequency:screen": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
+          "cold": 640,
+          "comparable": 81,
+          "manual_keys": 290,
           "tokens": 720,
           "top1": 0,
           "top4": 0,
           "unknown": 626,
-          "with_prediction": 331
+          "with_prediction": 290
         },
         "frequency:words": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
+          "cold": 640,
+          "comparable": 81,
+          "manual_keys": 290,
           "tokens": 720,
           "top1": 0,
           "top4": 0,
           "unknown": 626,
-          "with_prediction": 331
+          "with_prediction": 290
         },
         "statistical:screen": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
-          "prefix_only_keys": 198,
+          "cold": 639,
+          "comparable": 81,
+          "manual_keys": 290,
+          "prefix_only_keys": 171,
           "tokens": 720,
           "top1": 2,
           "top4": 10,
           "unknown": 626,
-          "with_prediction": 302,
-          "with_prediction_and_prefix": 188
+          "with_prediction": 263,
+          "with_prediction_and_prefix": 162
         },
         "statistical:words": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
-          "prefix_only_keys": 198,
+          "cold": 639,
+          "comparable": 81,
+          "manual_keys": 290,
+          "prefix_only_keys": 171,
           "tokens": 720,
           "top1": 2,
           "top4": 10,
           "unknown": 626,
-          "with_prediction": 302,
-          "with_prediction_and_prefix": 188
+          "with_prediction": 263,
+          "with_prediction_and_prefix": 162
         },
         "statistical_warm:screen": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
-          "prefix_only_keys": 198,
+          "cold": 639,
+          "comparable": 81,
+          "manual_exact_raw_id": 94,
+          "manual_exact_surface": 94,
+          "manual_keys": 290,
+          "manual_raw_to_ambiguous": 13,
+          "predicted_surface_top4": 10,
+          "prefix_only_keys": 171,
           "tokens": 720,
           "top1": 2,
           "top4": 10,
           "unknown": 626,
-          "with_prediction": 302,
-          "with_prediction_and_prefix": 188
+          "with_prediction": 263,
+          "with_prediction_and_prefix": 162
         },
         "statistical_warm:words": {
-          "cold": 627,
-          "comparable": 94,
-          "manual_keys": 331,
-          "prefix_only_keys": 198,
+          "cold": 639,
+          "comparable": 81,
+          "manual_keys": 290,
+          "prefix_only_keys": 171,
           "tokens": 720,
           "top1": 2,
           "top4": 10,
           "unknown": 626,
-          "with_prediction": 302,
-          "with_prediction_and_prefix": 188
+          "with_prediction": 263,
+          "with_prediction_and_prefix": 162
         }
       },
       "spelling_screen": {
@@ -2198,98 +2258,102 @@
       "test_segments": 80,
       "test_tokens": 720,
       "training_segments": 1296,
-      "training_tokens": 1546
+      "training_tokens": 1547
     },
     "xu-tujia-annotated-2-2-excerpt": {
       "purged_repeated_segments": 20,
       "scores": {
         "attested:screen": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
           "tokens": 411,
           "top1": 1,
           "top4": 1,
           "unknown": 371,
-          "with_prediction": 138
+          "with_prediction": 97
         },
         "attested:words": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
           "tokens": 411,
           "top1": 1,
           "top4": 1,
           "unknown": 371,
-          "with_prediction": 138
+          "with_prediction": 97
         },
         "frequency:screen": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
           "tokens": 411,
           "top1": 2,
           "top4": 3,
           "unknown": 371,
-          "with_prediction": 134
+          "with_prediction": 93
         },
         "frequency:words": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
           "tokens": 411,
           "top1": 2,
           "top4": 3,
           "unknown": 371,
-          "with_prediction": 134
+          "with_prediction": 93
         },
         "statistical:screen": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
-          "prefix_only_keys": 88,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
+          "prefix_only_keys": 55,
           "tokens": 411,
-          "top1": 4,
-          "top4": 4,
+          "top1": 2,
+          "top4": 2,
           "unknown": 371,
-          "with_prediction": 132,
-          "with_prediction_and_prefix": 83
+          "with_prediction": 95,
+          "with_prediction_and_prefix": 53
         },
         "statistical:words": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
-          "prefix_only_keys": 88,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
+          "prefix_only_keys": 55,
           "tokens": 411,
-          "top1": 4,
-          "top4": 4,
+          "top1": 2,
+          "top4": 2,
           "unknown": 371,
-          "with_prediction": 132,
-          "with_prediction_and_prefix": 83
+          "with_prediction": 95,
+          "with_prediction_and_prefix": 53
         },
         "statistical_warm:screen": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
-          "prefix_only_keys": 88,
+          "cold": 385,
+          "comparable": 26,
+          "manual_exact_raw_id": 40,
+          "manual_exact_surface": 40,
+          "manual_keys": 99,
+          "manual_raw_to_ambiguous": 14,
+          "predicted_surface_top4": 2,
+          "prefix_only_keys": 55,
           "tokens": 411,
-          "top1": 4,
-          "top4": 4,
+          "top1": 2,
+          "top4": 2,
           "unknown": 371,
-          "with_prediction": 132,
-          "with_prediction_and_prefix": 83
+          "with_prediction": 95,
+          "with_prediction_and_prefix": 53
         },
         "statistical_warm:words": {
-          "cold": 374,
-          "comparable": 40,
-          "manual_keys": 140,
-          "prefix_only_keys": 88,
+          "cold": 385,
+          "comparable": 26,
+          "manual_keys": 99,
+          "prefix_only_keys": 55,
           "tokens": 411,
-          "top1": 4,
-          "top4": 4,
+          "top1": 2,
+          "top4": 2,
           "unknown": 371,
-          "with_prediction": 132,
-          "with_prediction_and_prefix": 83
+          "with_prediction": 95,
+          "with_prediction_and_prefix": 53
         }
       },
       "spelling_screen": {
@@ -2304,98 +2368,102 @@
       "test_segments": 56,
       "test_tokens": 411,
       "training_segments": 1319,
-      "training_tokens": 1602
+      "training_tokens": 1603
     },
     "xu-tujia-annotated-2-3-excerpt": {
       "purged_repeated_segments": 52,
       "scores": {
         "attested:screen": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
           "tokens": 834,
-          "top1": 3,
-          "top4": 3,
-          "unknown": 687,
-          "with_prediction": 500
+          "top1": 2,
+          "top4": 2,
+          "unknown": 686,
+          "with_prediction": 335
         },
         "attested:words": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
           "tokens": 834,
-          "top1": 3,
-          "top4": 3,
-          "unknown": 687,
-          "with_prediction": 500
+          "top1": 2,
+          "top4": 2,
+          "unknown": 686,
+          "with_prediction": 335
         },
         "frequency:screen": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
           "tokens": 834,
-          "top1": 4,
-          "top4": 7,
-          "unknown": 687,
-          "with_prediction": 492
+          "top1": 3,
+          "top4": 6,
+          "unknown": 686,
+          "with_prediction": 327
         },
         "frequency:words": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
           "tokens": 834,
-          "top1": 4,
-          "top4": 7,
-          "unknown": 687,
-          "with_prediction": 492
+          "top1": 3,
+          "top4": 6,
+          "unknown": 686,
+          "with_prediction": 327
         },
         "statistical:screen": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
-          "prefix_only_keys": 323,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
+          "prefix_only_keys": 211,
           "tokens": 834,
           "top1": 5,
-          "top4": 6,
-          "unknown": 687,
-          "with_prediction": 494,
-          "with_prediction_and_prefix": 314
+          "top4": 5,
+          "unknown": 686,
+          "with_prediction": 329,
+          "with_prediction_and_prefix": 206
         },
         "statistical:words": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
-          "prefix_only_keys": 323,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
+          "prefix_only_keys": 211,
           "tokens": 834,
           "top1": 5,
-          "top4": 6,
-          "unknown": 687,
-          "with_prediction": 494,
-          "with_prediction_and_prefix": 314
+          "top4": 5,
+          "unknown": 686,
+          "with_prediction": 329,
+          "with_prediction_and_prefix": 206
         },
         "statistical_warm:screen": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
-          "prefix_only_keys": 323,
+          "cold": 736,
+          "comparable": 105,
+          "manual_exact_raw_id": 148,
+          "manual_exact_surface": 148,
+          "manual_keys": 339,
+          "manual_raw_to_ambiguous": 43,
+          "predicted_surface_top4": 5,
+          "prefix_only_keys": 211,
           "tokens": 834,
           "top1": 5,
-          "top4": 6,
-          "unknown": 687,
-          "with_prediction": 494,
-          "with_prediction_and_prefix": 314
+          "top4": 5,
+          "unknown": 686,
+          "with_prediction": 329,
+          "with_prediction_and_prefix": 206
         },
         "statistical_warm:words": {
-          "cold": 697,
-          "comparable": 147,
-          "manual_keys": 506,
-          "prefix_only_keys": 323,
+          "cold": 736,
+          "comparable": 105,
+          "manual_keys": 339,
+          "prefix_only_keys": 211,
           "tokens": 834,
           "top1": 5,
-          "top4": 6,
-          "unknown": 687,
-          "with_prediction": 494,
-          "with_prediction_and_prefix": 314
+          "top4": 5,
+          "unknown": 686,
+          "with_prediction": 329,
+          "with_prediction_and_prefix": 206
         }
       },
       "spelling_screen": {
@@ -2416,92 +2484,96 @@
       "purged_repeated_segments": 50,
       "scores": {
         "attested:screen": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
           "tokens": 568,
-          "top1": 4,
-          "top4": 7,
+          "top1": 3,
+          "top4": 6,
           "unknown": 460,
-          "with_prediction": 349
+          "with_prediction": 303
         },
         "attested:words": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
           "tokens": 568,
-          "top1": 4,
-          "top4": 7,
+          "top1": 3,
+          "top4": 6,
           "unknown": 460,
-          "with_prediction": 349
+          "with_prediction": 303
         },
         "frequency:screen": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
           "tokens": 568,
-          "top1": 3,
-          "top4": 5,
+          "top1": 2,
+          "top4": 3,
           "unknown": 460,
-          "with_prediction": 353
+          "with_prediction": 309
         },
         "frequency:words": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
           "tokens": 568,
-          "top1": 3,
-          "top4": 5,
+          "top1": 2,
+          "top4": 3,
           "unknown": 460,
-          "with_prediction": 353
+          "with_prediction": 309
         },
         "statistical:screen": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
-          "prefix_only_keys": 226,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
+          "prefix_only_keys": 188,
           "tokens": 568,
-          "top1": 4,
-          "top4": 6,
+          "top1": 3,
+          "top4": 4,
           "unknown": 460,
-          "with_prediction": 351,
-          "with_prediction_and_prefix": 219
+          "with_prediction": 307,
+          "with_prediction_and_prefix": 184
         },
         "statistical:words": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
-          "prefix_only_keys": 226,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
+          "prefix_only_keys": 188,
           "tokens": 568,
-          "top1": 4,
-          "top4": 6,
+          "top1": 3,
+          "top4": 4,
           "unknown": 460,
-          "with_prediction": 351,
-          "with_prediction_and_prefix": 219
+          "with_prediction": 307,
+          "with_prediction_and_prefix": 184
         },
         "statistical_warm:screen": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
-          "prefix_only_keys": 226,
+          "cold": 481,
+          "comparable": 93,
+          "manual_exact_raw_id": 108,
+          "manual_exact_surface": 108,
+          "manual_keys": 315,
+          "manual_raw_to_ambiguous": 15,
+          "predicted_surface_top4": 4,
+          "prefix_only_keys": 188,
           "tokens": 568,
-          "top1": 4,
-          "top4": 6,
+          "top1": 3,
+          "top4": 4,
           "unknown": 460,
-          "with_prediction": 351,
-          "with_prediction_and_prefix": 219
+          "with_prediction": 307,
+          "with_prediction_and_prefix": 184
         },
         "statistical_warm:words": {
-          "cold": 468,
-          "comparable": 108,
-          "manual_keys": 363,
-          "prefix_only_keys": 226,
+          "cold": 481,
+          "comparable": 93,
+          "manual_keys": 315,
+          "prefix_only_keys": 188,
           "tokens": 568,
-          "top1": 4,
-          "top4": 6,
+          "top1": 3,
+          "top4": 4,
           "unknown": 460,
-          "with_prediction": 351,
-          "with_prediction_and_prefix": 219
+          "with_prediction": 307,
+          "with_prediction_and_prefix": 184
         }
       },
       "spelling_screen": {
@@ -2516,98 +2588,102 @@
       "test_segments": 75,
       "test_tokens": 568,
       "training_segments": 1270,
-      "training_tokens": 1448
+      "training_tokens": 1449
     },
     "xu-tujia-annotated-2-5-draft": {
       "purged_repeated_segments": 43,
       "scores": {
         "attested:screen": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
           "tokens": 762,
           "top1": 3,
           "top4": 3,
           "unknown": 604,
-          "with_prediction": 554
+          "with_prediction": 469
         },
         "attested:words": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
           "tokens": 762,
           "top1": 3,
           "top4": 3,
           "unknown": 604,
-          "with_prediction": 554
+          "with_prediction": 469
         },
         "frequency:screen": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
           "tokens": 762,
-          "top1": 4,
-          "top4": 4,
+          "top1": 3,
+          "top4": 3,
           "unknown": 604,
-          "with_prediction": 553
+          "with_prediction": 468
         },
         "frequency:words": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
           "tokens": 762,
-          "top1": 4,
-          "top4": 4,
+          "top1": 3,
+          "top4": 3,
           "unknown": 604,
-          "with_prediction": 553
+          "with_prediction": 468
         },
         "statistical:screen": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
-          "prefix_only_keys": 348,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
+          "prefix_only_keys": 283,
           "tokens": 762,
           "top1": 3,
           "top4": 4,
           "unknown": 604,
-          "with_prediction": 551,
-          "with_prediction_and_prefix": 344
+          "with_prediction": 466,
+          "with_prediction_and_prefix": 280
         },
         "statistical:words": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
-          "prefix_only_keys": 348,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
+          "prefix_only_keys": 283,
           "tokens": 762,
           "top1": 3,
           "top4": 4,
           "unknown": 604,
-          "with_prediction": 551,
-          "with_prediction_and_prefix": 344
+          "with_prediction": 466,
+          "with_prediction_and_prefix": 280
         },
         "statistical_warm:screen": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
-          "prefix_only_keys": 348,
+          "cold": 634,
+          "comparable": 132,
+          "manual_exact_raw_id": 157,
+          "manual_exact_surface": 157,
+          "manual_keys": 474,
+          "manual_raw_to_ambiguous": 25,
+          "predicted_surface_top4": 4,
+          "prefix_only_keys": 283,
           "tokens": 762,
           "top1": 3,
           "top4": 4,
           "unknown": 604,
-          "with_prediction": 551,
-          "with_prediction_and_prefix": 344
+          "with_prediction": 466,
+          "with_prediction_and_prefix": 280
         },
         "statistical_warm:words": {
-          "cold": 610,
-          "comparable": 158,
-          "manual_keys": 561,
-          "prefix_only_keys": 348,
+          "cold": 634,
+          "comparable": 132,
+          "manual_keys": 474,
+          "prefix_only_keys": 283,
           "tokens": 762,
           "top1": 3,
           "top4": 4,
           "unknown": 604,
-          "with_prediction": 551,
-          "with_prediction_and_prefix": 344
+          "with_prediction": 466,
+          "with_prediction_and_prefix": 280
         }
       },
       "spelling_screen": {
@@ -2622,98 +2698,102 @@
       "test_segments": 96,
       "test_tokens": 762,
       "training_segments": 1256,
-      "training_tokens": 1420
+      "training_tokens": 1421
     },
     "xu-tujia-annotated-2-6": {
       "purged_repeated_segments": 51,
       "scores": {
         "attested:screen": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
+          "cold": 643,
+          "comparable": 132,
+          "manual_keys": 439,
           "tokens": 772,
           "top1": 11,
           "top4": 12,
           "unknown": 607,
-          "with_prediction": 516
+          "with_prediction": 416
         },
         "attested:words": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
+          "cold": 643,
+          "comparable": 132,
+          "manual_keys": 439,
           "tokens": 772,
           "top1": 11,
           "top4": 12,
           "unknown": 607,
-          "with_prediction": 516
+          "with_prediction": 416
         },
         "frequency:screen": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
+          "cold": 645,
+          "comparable": 132,
+          "manual_keys": 439,
           "tokens": 772,
           "top1": 6,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 520
+          "with_prediction": 416
         },
         "frequency:words": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
+          "cold": 645,
+          "comparable": 132,
+          "manual_keys": 439,
           "tokens": 772,
           "top1": 6,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 520
+          "with_prediction": 416
         },
         "statistical:screen": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
-          "prefix_only_keys": 378,
+          "cold": 643,
+          "comparable": 132,
+          "manual_keys": 439,
+          "prefix_only_keys": 269,
           "tokens": 772,
           "top1": 9,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 521,
-          "with_prediction_and_prefix": 367
+          "with_prediction": 421,
+          "with_prediction_and_prefix": 261
         },
         "statistical:words": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
-          "prefix_only_keys": 378,
+          "cold": 643,
+          "comparable": 132,
+          "manual_keys": 439,
+          "prefix_only_keys": 269,
           "tokens": 772,
           "top1": 9,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 521,
-          "with_prediction_and_prefix": 367
+          "with_prediction": 421,
+          "with_prediction_and_prefix": 261
         },
         "statistical_warm:screen": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
-          "prefix_only_keys": 378,
+          "cold": 643,
+          "comparable": 132,
+          "manual_exact_raw_id": 158,
+          "manual_exact_surface": 158,
+          "manual_keys": 439,
+          "manual_raw_to_ambiguous": 26,
+          "predicted_surface_top4": 10,
+          "prefix_only_keys": 269,
           "tokens": 772,
           "top1": 9,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 521,
-          "with_prediction_and_prefix": 367
+          "with_prediction": 421,
+          "with_prediction_and_prefix": 261
         },
         "statistical_warm:words": {
-          "cold": 616,
-          "comparable": 165,
-          "manual_keys": 543,
-          "prefix_only_keys": 378,
+          "cold": 643,
+          "comparable": 132,
+          "manual_keys": 439,
+          "prefix_only_keys": 269,
           "tokens": 772,
           "top1": 9,
           "top4": 10,
           "unknown": 607,
-          "with_prediction": 521,
-          "with_prediction_and_prefix": 367
+          "with_prediction": 421,
+          "with_prediction_and_prefix": 261
         }
       },
       "spelling_screen": {
@@ -2728,98 +2808,102 @@
       "test_segments": 86,
       "test_tokens": 772,
       "training_segments": 1258,
-      "training_tokens": 1402
+      "training_tokens": 1403
     },
     "xu-tujia-annotated-2-7-review": {
       "purged_repeated_segments": 25,
       "scores": {
         "attested:screen": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
           "tokens": 426,
-          "top1": 2,
-          "top4": 3,
+          "top1": 1,
+          "top4": 1,
           "unknown": 362,
-          "with_prediction": 212
+          "with_prediction": 171
         },
         "attested:words": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
+          "tokens": 426,
+          "top1": 1,
+          "top4": 1,
+          "unknown": 362,
+          "with_prediction": 171
+        },
+        "frequency:screen": {
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
           "tokens": 426,
           "top1": 2,
           "top4": 3,
           "unknown": 362,
-          "with_prediction": 212
-        },
-        "frequency:screen": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
-          "tokens": 426,
-          "top1": 4,
-          "top4": 5,
-          "unknown": 362,
-          "with_prediction": 208
+          "with_prediction": 167
         },
         "frequency:words": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
           "tokens": 426,
-          "top1": 4,
-          "top4": 5,
+          "top1": 2,
+          "top4": 3,
           "unknown": 362,
-          "with_prediction": 208
+          "with_prediction": 167
         },
         "statistical:screen": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
-          "prefix_only_keys": 144,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
+          "prefix_only_keys": 110,
           "tokens": 426,
-          "top1": 3,
-          "top4": 5,
+          "top1": 1,
+          "top4": 3,
           "unknown": 362,
-          "with_prediction": 207,
-          "with_prediction_and_prefix": 138
+          "with_prediction": 166,
+          "with_prediction_and_prefix": 107
         },
         "statistical:words": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
-          "prefix_only_keys": 144,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
+          "prefix_only_keys": 110,
           "tokens": 426,
-          "top1": 3,
-          "top4": 5,
+          "top1": 1,
+          "top4": 3,
           "unknown": 362,
-          "with_prediction": 207,
-          "with_prediction_and_prefix": 138
+          "with_prediction": 166,
+          "with_prediction_and_prefix": 107
         },
         "statistical_warm:screen": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
-          "prefix_only_keys": 144,
+          "cold": 379,
+          "comparable": 50,
+          "manual_exact_raw_id": 64,
+          "manual_exact_surface": 64,
+          "manual_keys": 173,
+          "manual_raw_to_ambiguous": 14,
+          "predicted_surface_top4": 4,
+          "prefix_only_keys": 110,
           "tokens": 426,
-          "top1": 3,
-          "top4": 5,
+          "top1": 1,
+          "top4": 3,
           "unknown": 362,
-          "with_prediction": 207,
-          "with_prediction_and_prefix": 138
+          "with_prediction": 166,
+          "with_prediction_and_prefix": 107
         },
         "statistical_warm:words": {
-          "cold": 367,
-          "comparable": 64,
-          "manual_keys": 218,
-          "prefix_only_keys": 144,
+          "cold": 379,
+          "comparable": 50,
+          "manual_keys": 173,
+          "prefix_only_keys": 110,
           "tokens": 426,
-          "top1": 3,
-          "top4": 5,
+          "top1": 1,
+          "top4": 3,
           "unknown": 362,
-          "with_prediction": 207,
-          "with_prediction_and_prefix": 138
+          "with_prediction": 166,
+          "with_prediction_and_prefix": 107
         }
       },
       "spelling_screen": {
@@ -2834,98 +2918,102 @@
       "test_segments": 61,
       "test_tokens": 426,
       "training_segments": 1309,
-      "training_tokens": 1561
+      "training_tokens": 1562
     },
     "xu-tujia-annotated-2-8-partial": {
       "purged_repeated_segments": 21,
       "scores": {
         "attested:screen": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
+          "cold": 558,
+          "comparable": 65,
+          "manual_keys": 263,
           "tokens": 622,
           "top1": 4,
-          "top4": 6,
+          "top4": 5,
           "unknown": 542,
-          "with_prediction": 296
+          "with_prediction": 257
         },
         "attested:words": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
+          "cold": 558,
+          "comparable": 65,
+          "manual_keys": 263,
           "tokens": 622,
           "top1": 4,
-          "top4": 6,
+          "top4": 5,
           "unknown": 542,
-          "with_prediction": 296
+          "with_prediction": 257
         },
         "frequency:screen": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
+          "cold": 560,
+          "comparable": 65,
+          "manual_keys": 263,
           "tokens": 622,
           "top1": 3,
-          "top4": 4,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 300
+          "with_prediction": 257
         },
         "frequency:words": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
+          "cold": 560,
+          "comparable": 65,
+          "manual_keys": 263,
           "tokens": 622,
           "top1": 3,
-          "top4": 4,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 300
+          "with_prediction": 257
         },
         "statistical:screen": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
-          "prefix_only_keys": 179,
+          "cold": 560,
+          "comparable": 65,
+          "manual_keys": 263,
+          "prefix_only_keys": 138,
           "tokens": 622,
           "top1": 3,
-          "top4": 5,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 298,
-          "with_prediction_and_prefix": 173
+          "with_prediction": 257,
+          "with_prediction_and_prefix": 135
         },
         "statistical:words": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
-          "prefix_only_keys": 179,
+          "cold": 560,
+          "comparable": 65,
+          "manual_keys": 263,
+          "prefix_only_keys": 138,
           "tokens": 622,
           "top1": 3,
-          "top4": 5,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 298,
-          "with_prediction_and_prefix": 173
+          "with_prediction": 257,
+          "with_prediction_and_prefix": 135
         },
         "statistical_warm:screen": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
-          "prefix_only_keys": 179,
+          "cold": 560,
+          "comparable": 65,
+          "manual_exact_raw_id": 80,
+          "manual_exact_surface": 80,
+          "manual_keys": 263,
+          "manual_raw_to_ambiguous": 15,
+          "predicted_surface_top4": 3,
+          "prefix_only_keys": 138,
           "tokens": 622,
           "top1": 3,
-          "top4": 5,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 298,
-          "with_prediction_and_prefix": 173
+          "with_prediction": 257,
+          "with_prediction_and_prefix": 135
         },
         "statistical_warm:words": {
-          "cold": 549,
-          "comparable": 80,
-          "manual_keys": 308,
-          "prefix_only_keys": 179,
+          "cold": 560,
+          "comparable": 65,
+          "manual_keys": 263,
+          "prefix_only_keys": 138,
           "tokens": 622,
           "top1": 3,
-          "top4": 5,
+          "top4": 3,
           "unknown": 542,
-          "with_prediction": 298,
-          "with_prediction_and_prefix": 173
+          "with_prediction": 257,
+          "with_prediction_and_prefix": 135
         }
       },
       "spelling_screen": {
@@ -2940,98 +3028,102 @@
       "test_segments": 69,
       "test_tokens": 622,
       "training_segments": 1305,
-      "training_tokens": 1562
+      "training_tokens": 1563
     },
     "xu-tujia-annotated-2-9": {
       "purged_repeated_segments": 25,
       "scores": {
         "attested:screen": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
+          "cold": 445,
+          "comparable": 67,
+          "manual_keys": 228,
           "tokens": 511,
-          "top1": 3,
-          "top4": 6,
+          "top1": 1,
+          "top4": 3,
           "unknown": 421,
-          "with_prediction": 286
+          "with_prediction": 226
         },
         "attested:words": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
+          "cold": 445,
+          "comparable": 67,
+          "manual_keys": 228,
           "tokens": 511,
-          "top1": 3,
-          "top4": 6,
+          "top1": 1,
+          "top4": 3,
           "unknown": 421,
-          "with_prediction": 286
+          "with_prediction": 226
         },
         "frequency:screen": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
+          "cold": 446,
+          "comparable": 67,
+          "manual_keys": 228,
           "tokens": 511,
           "top1": 2,
-          "top4": 4,
+          "top4": 3,
           "unknown": 421,
-          "with_prediction": 290
+          "with_prediction": 224
         },
         "frequency:words": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
+          "cold": 446,
+          "comparable": 67,
+          "manual_keys": 228,
           "tokens": 511,
           "top1": 2,
-          "top4": 4,
+          "top4": 3,
           "unknown": 421,
-          "with_prediction": 290
+          "with_prediction": 224
         },
         "statistical:screen": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
-          "prefix_only_keys": 198,
+          "cold": 444,
+          "comparable": 67,
+          "manual_keys": 228,
+          "prefix_only_keys": 144,
           "tokens": 511,
-          "top1": 4,
-          "top4": 8,
+          "top1": 2,
+          "top4": 6,
           "unknown": 421,
-          "with_prediction": 282,
-          "with_prediction_and_prefix": 190
+          "with_prediction": 222,
+          "with_prediction_and_prefix": 141
         },
         "statistical:words": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
-          "prefix_only_keys": 198,
+          "cold": 444,
+          "comparable": 67,
+          "manual_keys": 228,
+          "prefix_only_keys": 144,
           "tokens": 511,
-          "top1": 4,
-          "top4": 8,
+          "top1": 2,
+          "top4": 6,
           "unknown": 421,
-          "with_prediction": 282,
-          "with_prediction_and_prefix": 190
+          "with_prediction": 222,
+          "with_prediction_and_prefix": 141
         },
         "statistical_warm:screen": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
-          "prefix_only_keys": 198,
+          "cold": 444,
+          "comparable": 67,
+          "manual_exact_raw_id": 90,
+          "manual_exact_surface": 90,
+          "manual_keys": 228,
+          "manual_raw_to_ambiguous": 23,
+          "predicted_surface_top4": 6,
+          "prefix_only_keys": 144,
           "tokens": 511,
-          "top1": 4,
-          "top4": 8,
+          "top1": 2,
+          "top4": 6,
           "unknown": 421,
-          "with_prediction": 282,
-          "with_prediction_and_prefix": 190
+          "with_prediction": 222,
+          "with_prediction_and_prefix": 141
         },
         "statistical_warm:words": {
-          "cold": 424,
-          "comparable": 90,
-          "manual_keys": 298,
-          "prefix_only_keys": 198,
+          "cold": 444,
+          "comparable": 67,
+          "manual_keys": 228,
+          "prefix_only_keys": 144,
           "tokens": 511,
-          "top1": 4,
-          "top4": 8,
+          "top1": 2,
+          "top4": 6,
           "unknown": 421,
-          "with_prediction": 282,
-          "with_prediction_and_prefix": 190
+          "with_prediction": 222,
+          "with_prediction_and_prefix": 141
         }
       },
       "spelling_screen": {
@@ -3046,595 +3138,599 @@
       "test_segments": 63,
       "test_tokens": 511,
       "training_segments": 1307,
-      "training_tokens": 1542
+      "training_tokens": 1543
     }
   },
   "metrics": {
     "attested:screen": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 10401,
-      "top1": 42,
-      "top4": 68,
-      "unknown": 8450,
-      "with_prediction": 7044
+      "cold": 9087,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 10404,
+      "top1": 36,
+      "top4": 54,
+      "unknown": 8442,
+      "with_prediction": 5378
     },
     "attested:words": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 10401,
-      "top1": 42,
-      "top4": 68,
-      "unknown": 8450,
-      "with_prediction": 7044
+      "cold": 9087,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 10404,
+      "top1": 36,
+      "top4": 54,
+      "unknown": 8442,
+      "with_prediction": 5378
     },
     "frequency:screen": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 10401,
-      "top1": 33,
-      "top4": 77,
-      "unknown": 8450,
-      "with_prediction": 7028
+      "cold": 9097,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 10404,
+      "top1": 26,
+      "top4": 63,
+      "unknown": 8442,
+      "with_prediction": 5342
     },
     "frequency:words": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 10401,
-      "top1": 33,
-      "top4": 77,
-      "unknown": 8450,
-      "with_prediction": 7028
+      "cold": 9097,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 10404,
+      "top1": 26,
+      "top4": 63,
+      "unknown": 8442,
+      "with_prediction": 5342
     },
     "statistical:screen": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4671,
-      "tokens": 10401,
-      "top1": 50,
-      "top4": 98,
-      "unknown": 8450,
-      "with_prediction": 6978,
-      "with_prediction_and_prefix": 4558
+      "cold": 9089,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3328,
+      "tokens": 10404,
+      "top1": 43,
+      "top4": 82,
+      "unknown": 8442,
+      "with_prediction": 5312,
+      "with_prediction_and_prefix": 3258
     },
     "statistical:words": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4671,
-      "tokens": 10401,
-      "top1": 50,
-      "top4": 98,
-      "unknown": 8450,
-      "with_prediction": 6978,
-      "with_prediction_and_prefix": 4558
+      "cold": 9089,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3328,
+      "tokens": 10404,
+      "top1": 43,
+      "top4": 82,
+      "unknown": 8442,
+      "with_prediction": 5312,
+      "with_prediction_and_prefix": 3258
     },
     "statistical_warm:screen": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4666,
-      "tokens": 10401,
-      "top1": 51,
-      "top4": 103,
-      "unknown": 8450,
-      "with_prediction": 6960,
-      "with_prediction_and_prefix": 4548
+      "cold": 9089,
+      "comparable": 1427,
+      "manual_exact_raw_id": 1886,
+      "manual_exact_surface": 1905,
+      "manual_keys": 5481,
+      "manual_raw_to_ambiguous": 459,
+      "predicted_surface_top4": 123,
+      "prefix_only_keys": 3325,
+      "tokens": 10404,
+      "top1": 44,
+      "top4": 85,
+      "unknown": 8442,
+      "with_prediction": 5298,
+      "with_prediction_and_prefix": 3252
     },
     "statistical_warm:words": {
-      "cold": 8649,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4666,
-      "tokens": 10401,
-      "top1": 51,
-      "top4": 103,
-      "unknown": 8450,
-      "with_prediction": 6960,
-      "with_prediction_and_prefix": 4548
+      "cold": 9089,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3325,
+      "tokens": 10404,
+      "top1": 44,
+      "top4": 85,
+      "unknown": 8442,
+      "with_prediction": 5298,
+      "with_prediction_and_prefix": 3252
     }
   },
   "slices": {
     "attested:screen:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "tokens": 8649,
+      "cold": 9087,
+      "comparable": 1198,
+      "manual_keys": 4459,
+      "tokens": 9087,
       "top1": 0,
       "top4": 0,
-      "unknown": 7166,
-      "with_prediction": 5295
+      "unknown": 7463,
+      "with_prediction": 4459
     },
     "attested:screen:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "tokens": 1752,
-      "top1": 42,
-      "top4": 68,
-      "unknown": 1284,
-      "with_prediction": 1749
+      "comparable": 229,
+      "manual_keys": 1022,
+      "tokens": 1317,
+      "top1": 36,
+      "top4": 54,
+      "unknown": 979,
+      "with_prediction": 919
     },
     "attested:screen:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 1951,
-      "top1": 42,
-      "top4": 68,
+      "cold": 1624,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 1962,
+      "top1": 36,
+      "top4": 54,
       "unknown": 0,
-      "with_prediction": 7044
+      "with_prediction": 5378
     },
     "attested:screen:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7463,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "attested:screen:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
+      "comparable": 106,
+      "manual_keys": 474,
       "tokens": 581,
       "top1": 0,
       "top4": 0,
       "unknown": 443,
-      "with_prediction": 582
+      "with_prediction": 474
     },
     "attested:screen:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "tokens": 393,
+      "comparable": 185,
+      "manual_keys": 865,
+      "tokens": 280,
       "top1": 0,
       "top4": 0,
       "unknown": 0,
-      "with_prediction": 1656
+      "with_prediction": 865
     },
     "attested:words:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "tokens": 8649,
+      "cold": 9087,
+      "comparable": 1198,
+      "manual_keys": 4459,
+      "tokens": 9087,
       "top1": 0,
       "top4": 0,
-      "unknown": 7166,
-      "with_prediction": 5295
+      "unknown": 7463,
+      "with_prediction": 4459
     },
     "attested:words:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "tokens": 1752,
-      "top1": 42,
-      "top4": 68,
-      "unknown": 1284,
-      "with_prediction": 1749
+      "comparable": 229,
+      "manual_keys": 1022,
+      "tokens": 1317,
+      "top1": 36,
+      "top4": 54,
+      "unknown": 979,
+      "with_prediction": 919
     },
     "attested:words:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 1951,
-      "top1": 42,
-      "top4": 68,
+      "cold": 1624,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 1962,
+      "top1": 36,
+      "top4": 54,
       "unknown": 0,
-      "with_prediction": 7044
+      "with_prediction": 5378
     },
     "attested:words:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7463,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "attested:words:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
+      "comparable": 106,
+      "manual_keys": 474,
       "tokens": 581,
       "top1": 0,
       "top4": 0,
       "unknown": 443,
-      "with_prediction": 582
+      "with_prediction": 474
     },
     "attested:words:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "tokens": 393,
+      "comparable": 185,
+      "manual_keys": 865,
+      "tokens": 280,
       "top1": 0,
       "top4": 0,
       "unknown": 0,
-      "with_prediction": 1656
+      "with_prediction": 865
     },
     "frequency:screen:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "tokens": 8649,
+      "cold": 9097,
+      "comparable": 1196,
+      "manual_keys": 4455,
+      "tokens": 9097,
       "top1": 4,
       "top4": 30,
-      "unknown": 7166,
-      "with_prediction": 5221
+      "unknown": 7474,
+      "with_prediction": 4381
     },
     "frequency:screen:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "tokens": 1752,
-      "top1": 29,
-      "top4": 47,
-      "unknown": 1284,
-      "with_prediction": 1807
+      "comparable": 231,
+      "manual_keys": 1026,
+      "tokens": 1307,
+      "top1": 22,
+      "top4": 33,
+      "unknown": 968,
+      "with_prediction": 961
     },
     "frequency:screen:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 1951,
-      "top1": 33,
-      "top4": 77,
+      "cold": 1623,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 1962,
+      "top1": 26,
+      "top4": 63,
       "unknown": 0,
-      "with_prediction": 7028
+      "with_prediction": 5342
     },
     "frequency:screen:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7474,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "frequency:screen:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
+      "comparable": 106,
+      "manual_keys": 474,
       "tokens": 581,
       "top1": 4,
       "top4": 30,
       "unknown": 443,
-      "with_prediction": 508
+      "with_prediction": 400
     },
     "frequency:screen:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "tokens": 393,
-      "top1": 10,
-      "top4": 22,
+      "comparable": 184,
+      "manual_keys": 860,
+      "tokens": 278,
+      "top1": 5,
+      "top4": 14,
       "unknown": 0,
-      "with_prediction": 1606
+      "with_prediction": 834
     },
     "frequency:words:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "tokens": 8649,
+      "cold": 9097,
+      "comparable": 1196,
+      "manual_keys": 4455,
+      "tokens": 9097,
       "top1": 4,
       "top4": 30,
-      "unknown": 7166,
-      "with_prediction": 5221
+      "unknown": 7474,
+      "with_prediction": 4381
     },
     "frequency:words:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "tokens": 1752,
-      "top1": 29,
-      "top4": 47,
-      "unknown": 1284,
-      "with_prediction": 1807
+      "comparable": 231,
+      "manual_keys": 1026,
+      "tokens": 1307,
+      "top1": 22,
+      "top4": 33,
+      "unknown": 968,
+      "with_prediction": 961
     },
     "frequency:words:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "tokens": 1951,
-      "top1": 33,
-      "top4": 77,
+      "cold": 1623,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "tokens": 1962,
+      "top1": 26,
+      "top4": 63,
       "unknown": 0,
-      "with_prediction": 7028
+      "with_prediction": 5342
     },
     "frequency:words:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7474,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "frequency:words:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
+      "comparable": 106,
+      "manual_keys": 474,
       "tokens": 581,
       "top1": 4,
       "top4": 30,
       "unknown": 443,
-      "with_prediction": 508
+      "with_prediction": 400
     },
     "frequency:words:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "tokens": 393,
-      "top1": 10,
-      "top4": 22,
+      "comparable": 184,
+      "manual_keys": 860,
+      "tokens": 278,
+      "top1": 5,
+      "top4": 14,
       "unknown": 0,
-      "with_prediction": 1606
+      "with_prediction": 834
     },
     "statistical:screen:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "prefix_only_keys": 3410,
-      "tokens": 8649,
+      "cold": 9089,
+      "comparable": 1195,
+      "manual_keys": 4452,
+      "prefix_only_keys": 2700,
+      "tokens": 9089,
       "top1": 10,
       "top4": 32,
-      "unknown": 7166,
-      "with_prediction": 5210,
-      "with_prediction_and_prefix": 3367
+      "unknown": 7467,
+      "with_prediction": 4367,
+      "with_prediction_and_prefix": 2668
     },
     "statistical:screen:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "prefix_only_keys": 1261,
-      "tokens": 1752,
-      "top1": 40,
-      "top4": 66,
-      "unknown": 1284,
-      "with_prediction": 1768,
-      "with_prediction_and_prefix": 1191
+      "comparable": 232,
+      "manual_keys": 1029,
+      "prefix_only_keys": 628,
+      "tokens": 1315,
+      "top1": 33,
+      "top4": 50,
+      "unknown": 975,
+      "with_prediction": 945,
+      "with_prediction_and_prefix": 590
     },
     "statistical:screen:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4671,
-      "tokens": 1951,
-      "top1": 50,
-      "top4": 98,
+      "cold": 1622,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3328,
+      "tokens": 1962,
+      "top1": 43,
+      "top4": 82,
       "unknown": 0,
-      "with_prediction": 6978,
-      "with_prediction_and_prefix": 4558
+      "with_prediction": 5312,
+      "with_prediction_and_prefix": 3258
     },
     "statistical:screen:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7467,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "statistical:screen:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
-      "prefix_only_keys": 359,
+      "comparable": 106,
+      "manual_keys": 474,
+      "prefix_only_keys": 266,
       "tokens": 581,
       "top1": 10,
       "top4": 32,
       "unknown": 443,
-      "with_prediction": 497,
-      "with_prediction_and_prefix": 316
+      "with_prediction": 389,
+      "with_prediction_and_prefix": 234
     },
     "statistical:screen:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "prefix_only_keys": 1108,
-      "tokens": 393,
-      "top1": 6,
-      "top4": 13,
+      "comparable": 185,
+      "manual_keys": 863,
+      "prefix_only_keys": 533,
+      "tokens": 279,
+      "top1": 4,
+      "top4": 8,
       "unknown": 0,
-      "with_prediction": 1630,
-      "with_prediction_and_prefix": 1093
+      "with_prediction": 855,
+      "with_prediction_and_prefix": 529
     },
     "statistical:words:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "prefix_only_keys": 3410,
-      "tokens": 8649,
+      "cold": 9089,
+      "comparable": 1195,
+      "manual_keys": 4452,
+      "prefix_only_keys": 2700,
+      "tokens": 9089,
       "top1": 10,
       "top4": 32,
-      "unknown": 7166,
-      "with_prediction": 5210,
-      "with_prediction_and_prefix": 3367
+      "unknown": 7467,
+      "with_prediction": 4367,
+      "with_prediction_and_prefix": 2668
     },
     "statistical:words:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "prefix_only_keys": 1261,
-      "tokens": 1752,
-      "top1": 40,
-      "top4": 66,
-      "unknown": 1284,
-      "with_prediction": 1768,
-      "with_prediction_and_prefix": 1191
+      "comparable": 232,
+      "manual_keys": 1029,
+      "prefix_only_keys": 628,
+      "tokens": 1315,
+      "top1": 33,
+      "top4": 50,
+      "unknown": 975,
+      "with_prediction": 945,
+      "with_prediction_and_prefix": 590
     },
     "statistical:words:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4671,
-      "tokens": 1951,
-      "top1": 50,
-      "top4": 98,
+      "cold": 1622,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3328,
+      "tokens": 1962,
+      "top1": 43,
+      "top4": 82,
       "unknown": 0,
-      "with_prediction": 6978,
-      "with_prediction_and_prefix": 4558
+      "with_prediction": 5312,
+      "with_prediction_and_prefix": 3258
     },
     "statistical:words:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7467,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "statistical:words:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
-      "prefix_only_keys": 359,
+      "comparable": 106,
+      "manual_keys": 474,
+      "prefix_only_keys": 266,
       "tokens": 581,
       "top1": 10,
       "top4": 32,
       "unknown": 443,
-      "with_prediction": 497,
-      "with_prediction_and_prefix": 316
+      "with_prediction": 389,
+      "with_prediction_and_prefix": 234
     },
     "statistical:words:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "prefix_only_keys": 1108,
-      "tokens": 393,
-      "top1": 6,
-      "top4": 13,
+      "comparable": 185,
+      "manual_keys": 863,
+      "prefix_only_keys": 533,
+      "tokens": 279,
+      "top1": 4,
+      "top4": 8,
       "unknown": 0,
-      "with_prediction": 1630,
-      "with_prediction_and_prefix": 1093
+      "with_prediction": 855,
+      "with_prediction_and_prefix": 529
     },
     "statistical_warm:screen:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "prefix_only_keys": 3409,
-      "tokens": 8649,
+      "cold": 9089,
+      "comparable": 1195,
+      "manual_keys": 4452,
+      "prefix_only_keys": 2699,
+      "tokens": 9089,
       "top1": 10,
       "top4": 32,
-      "unknown": 7166,
-      "with_prediction": 5204,
-      "with_prediction_and_prefix": 3366
+      "unknown": 7467,
+      "with_prediction": 4361,
+      "with_prediction_and_prefix": 2667
     },
     "statistical_warm:screen:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "prefix_only_keys": 1257,
-      "tokens": 1752,
-      "top1": 41,
-      "top4": 71,
-      "unknown": 1284,
-      "with_prediction": 1756,
-      "with_prediction_and_prefix": 1182
+      "comparable": 232,
+      "manual_keys": 1029,
+      "prefix_only_keys": 626,
+      "tokens": 1315,
+      "top1": 34,
+      "top4": 53,
+      "unknown": 975,
+      "with_prediction": 937,
+      "with_prediction_and_prefix": 585
     },
     "statistical_warm:screen:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4666,
-      "tokens": 1951,
-      "top1": 51,
-      "top4": 103,
+      "cold": 1622,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3325,
+      "tokens": 1962,
+      "top1": 44,
+      "top4": 85,
       "unknown": 0,
-      "with_prediction": 6960,
-      "with_prediction_and_prefix": 4548
+      "with_prediction": 5298,
+      "with_prediction_and_prefix": 3252
     },
     "statistical_warm:screen:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7467,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "statistical_warm:screen:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
-      "prefix_only_keys": 358,
+      "comparable": 106,
+      "manual_keys": 474,
+      "prefix_only_keys": 265,
       "tokens": 581,
       "top1": 10,
       "top4": 32,
       "unknown": 443,
-      "with_prediction": 491,
-      "with_prediction_and_prefix": 315
+      "with_prediction": 383,
+      "with_prediction_and_prefix": 233
     },
     "statistical_warm:screen:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "prefix_only_keys": 1104,
-      "tokens": 393,
-      "top1": 7,
-      "top4": 18,
+      "comparable": 185,
+      "manual_keys": 863,
+      "prefix_only_keys": 531,
+      "tokens": 279,
+      "top1": 5,
+      "top4": 11,
       "unknown": 0,
-      "with_prediction": 1618,
-      "with_prediction_and_prefix": 1084
+      "with_prediction": 847,
+      "with_prediction_and_prefix": 524
     },
     "statistical_warm:words:cold": {
-      "cold": 8649,
-      "comparable": 1481,
-      "manual_keys": 5295,
-      "prefix_only_keys": 3409,
-      "tokens": 8649,
+      "cold": 9089,
+      "comparable": 1195,
+      "manual_keys": 4452,
+      "prefix_only_keys": 2699,
+      "tokens": 9089,
       "top1": 10,
       "top4": 32,
-      "unknown": 7166,
-      "with_prediction": 5204,
-      "with_prediction_and_prefix": 3366
+      "unknown": 7467,
+      "with_prediction": 4361,
+      "with_prediction_and_prefix": 2667
     },
     "statistical_warm:words:history": {
       "cold": 0,
-      "comparable": 464,
-      "manual_keys": 1908,
-      "prefix_only_keys": 1257,
-      "tokens": 1752,
-      "top1": 41,
-      "top4": 71,
-      "unknown": 1284,
-      "with_prediction": 1756,
-      "with_prediction_and_prefix": 1182
+      "comparable": 232,
+      "manual_keys": 1029,
+      "prefix_only_keys": 626,
+      "tokens": 1315,
+      "top1": 34,
+      "top4": 53,
+      "unknown": 975,
+      "with_prediction": 937,
+      "with_prediction_and_prefix": 585
     },
     "statistical_warm:words:known": {
-      "cold": 1483,
-      "comparable": 1945,
-      "manual_keys": 7203,
-      "prefix_only_keys": 4666,
-      "tokens": 1951,
-      "top1": 51,
-      "top4": 103,
+      "cold": 1622,
+      "comparable": 1427,
+      "manual_keys": 5481,
+      "prefix_only_keys": 3325,
+      "tokens": 1962,
+      "top1": 44,
+      "top4": 85,
       "unknown": 0,
-      "with_prediction": 6960,
-      "with_prediction_and_prefix": 4548
+      "with_prediction": 5298,
+      "with_prediction_and_prefix": 3252
     },
     "statistical_warm:words:oov_or_uncertain": {
-      "cold": 7166,
-      "tokens": 8450,
+      "cold": 7467,
+      "tokens": 8442,
       "top1": 0,
       "top4": 0,
-      "unknown": 8450
+      "unknown": 8442
     },
     "statistical_warm:words:start": {
       "cold": 581,
-      "comparable": 138,
-      "manual_keys": 582,
-      "prefix_only_keys": 358,
+      "comparable": 106,
+      "manual_keys": 474,
+      "prefix_only_keys": 265,
       "tokens": 581,
       "top1": 10,
       "top4": 32,
       "unknown": 443,
-      "with_prediction": 491,
-      "with_prediction_and_prefix": 315
+      "with_prediction": 383,
+      "with_prediction_and_prefix": 233
     },
     "statistical_warm:words:unseen_pair": {
       "cold": 0,
-      "comparable": 389,
-      "manual_keys": 1656,
-      "prefix_only_keys": 1104,
-      "tokens": 393,
-      "top1": 7,
-      "top4": 18,
+      "comparable": 185,
+      "manual_keys": 863,
+      "prefix_only_keys": 531,
+      "tokens": 279,
+      "top1": 5,
+      "top4": 11,
       "unknown": 0,
-      "with_prediction": 1618,
-      "with_prediction_and_prefix": 1084
+      "with_prediction": 847,
+      "with_prediction_and_prefix": 524
     }
   },
   "sources": {
@@ -3648,16 +3744,16 @@
       "bare_syllable": 285,
       "confirmed_target_sense": 21,
       "syllable_card": 285,
-      "tokens": 10401,
+      "tokens": 10404,
       "top1": 123,
       "top4": 357,
-      "unlinked_reference": 235
+      "unlinked_reference": 234
     },
     "documents": {
       "bare_syllable": 284,
       "confirmed_target_sense": 98,
       "syllable_card": 284,
-      "tokens": 10401,
+      "tokens": 10404,
       "top1": 129,
       "top4": 400,
       "unlinked_reference": 214

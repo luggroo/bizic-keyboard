@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 from import_ngrams import aligned_units, lexemes_by_sense
 from import_words import gloss_parts, load, native_forms, spellings
 
-Item = namedtuple('Item', 'ids text gloss short consumed kind last_syllable syllable_only plain_han_loan')
+Item = namedtuple('Item', 'ids text gloss short consumed kind last_syllable syllable_only plain_han_loan han_sense')
 
 
 def tsv(path):
@@ -48,7 +48,7 @@ def library(target):
     for name in ('lookup_with_orthography', 'handwriting_suggestions', 'next_words', 'next_syllables_for_mode'):
         declare(name, [ptr, string, num, num], ptr)
     declare('choices_count', [ptr], size)
-    for field in ('text', 'meaning', 'short_meaning', 'lexeme_ids', 'last_syllable'):
+    for field in ('text', 'meaning', 'short_meaning', 'lexeme_ids', 'last_syllable', 'han_sense_id'):
         declare('choice_' + field, [ptr, size], string)
     for field in ('consumed_utf16', 'kind', 'is_syllable', 'plain_han_loan'):
         declare('choice_' + field, [ptr, size], num)
@@ -82,7 +82,7 @@ class Model:
                           d.tji_choice_meaning(choices, i).decode(), d.tji_choice_short_meaning(choices, i).decode(),
                           d.tji_choice_consumed_utf16(choices, i), d.tji_choice_kind(choices, i),
                           d.tji_choice_last_syllable(choices, i).decode(), bool(d.tji_choice_is_syllable(choices, i)),
-                          bool(d.tji_choice_plain_han_loan(choices, i)))
+                          bool(d.tji_choice_plain_han_loan(choices, i)), d.tji_choice_han_sense_id(choices, i).decode())
                      for i in range(d.tji_choices_count(choices))]
         finally:
             d.tji_choices_close(choices)
@@ -249,7 +249,7 @@ def corpus_documents(site, words_path):
             for block in doc['blocks']:
                 history = []
                 prior_unit = False
-                for gloss in aligned_units(block,form):
+                for gloss in aligned_units(block, form, doc['id']):
                     if gloss is None:
                         history.clear()
                         prior_unit = False
@@ -394,7 +394,7 @@ def loan_oracle(model, entries, gram_path):
         prediction_checks += 1
     predicted = (f'词义联想表中 {prediction_checks} 条边指向这些词义，均保留词条身份与完整释义。'
                  if prediction_checks else '当前词模没有生成指向这组借词的词级联想。')
-    return (f'{len(loans)} 个经过借源和本字核对的词义采用原汉字。键入拼写、手写本字或保留的旧写法共 '
+    return (f'{len(loans)} 个词条按词典借源或项目的本字约定显示，并在清单内分别列出依据。键入拼写、手写本字或保留的旧写法共 '
             f'{han_checks}/{han_checks} 次正确显示本字并省去字上短释义。土家语拼写与手写转拼写 {spelling_checks}/{spelling_checks} '
             f'次仍显示释义。{predicted}'
             '例如输入 `sanggo` 或手写“伤哥”可选到“山歌”；切换到土家语拼写，候选 `sānggō` 上方显示“山歌”。')
@@ -428,13 +428,13 @@ def source_oracle(site, rows, song_lines):
                           tok['gloss']==labels.get(source['zh'],source['zh']))
     story=next(d for d in load(site/'longshan-texts.json') if d['id']=='tlp-longshan-stories-02-01')
     witnesses={(native_forms(g['ye']),g['zh']) for b in story['blocks'] for g in b['glosses']}
-    story_only=[r for r in rows if r['id'] not in native['display'] and not r['id'].startswith('xu213-')]
+    story_only=[r for r in rows if r['id'].startswith(('ls60-', 'tlp-'))]
     direct=sum(any((native_forms(a),r['meaning']) in witnesses for a in [r['word'],*r['romanAliases'].split()]) for r in story_only)
     return (f'学堂词典中可按 ID 直接对应 {len(entries)} 条。逐条调用学堂北部词头显示函数后，'
             f'叶氏拼写有 {compared["ye"]}/{len(entries)} 条与词条展示形式一致，调号有 {compared["accent"]}/{len(entries)} 条一致。'
             f'完整汉义与词典主释义逐字一致 {compared["literalGloss"]}/{len(entries)} 条；例如主释义“儿童”在键盘中扩为“小孩、儿童”。'
             f'其余条目中的 {len(story_only)} 条取自《陈二郎戏弄哥哥》，其中 {direct}/{len(story_only)} 条可以用原文拼写或保留的拼写变体加原释义直接回查。'
-            '有一处原标注“一会儿坐”，导入时结合相邻的“坐”拆为两个词，故未通过逐字比对。'
+            '有一处原标注“一会儿坐”，导入时结合相邻的“坐”拆为两个词。另有语保调查词“午（地支）”取自北部词号 yubao-60757-v-2498。'
             f'山歌原文前四行的 IPA 换算拼写、调号与逐词汉义另核 {compared["song"]}/{len(source_tokens)} 词次。'
             '推荐汉字另依项目参考字表和分义约定。')
 
@@ -468,13 +468,15 @@ def main():
     report=['# 词库、连续分词与下一词联想评测',
             f'在共用输入核心中测试 {n} 个土家语词条或词组。每个词按相同权重计一次。一个候选要同时给出预期词条 ID、字形或拼写、完整与简明汉义，并消耗正确数量的 UTF-16 单元才算命中。首位和前三位均计入全部候选。',
             '## 词条与同形词',scores.table(labels),
-            '同形词按相同输入、不同来源词条 ID 取样。旧写法来自保留的输入别名，词内补全按每个能严格补成整词的前缀计分。无调键入和相邻词连打的“可见结果”要求候选消费长度正确，字形和短义来自相同无调拼写、相同完整汉义的词条。比如打 go，表示“他”的多种来源写法共占一格“过”；选择“过错”仍有独立的一格。逐条核对 ID 的行保留来源间的差异。带调 gǒ 或叶氏 gor 仍能选“郭”。',
-            'Android 15 模拟器实际点按验证了无调 `go` 的两页候选。两页合计只有一项“他／过”，另有一项“过错／过”。选择“过错”上屏“过”后，再键入 `g` 并长按 `o` 选 `ǒ`，候选给出“他／郭”，点选后宿主正文成为“过郭”。[无调候选](results/api35-033-han-go.png) · [带调候选](results/api35-033-han-marked-go.png) · [设备与断言记录](results/api35-033-han-senses.log)',
+            '同形词按相同输入、不同来源词条 ID 取样。旧写法来自保留的输入别名，词内补全按每个能严格补成整词的前缀计分。无调键入和相邻词连打的“可见结果”要求候选消费长度正确，字形和短义来自相同无调拼写、相同完整汉义的词条。例如，打 go 时，共用词库保留“他、讨、过错”三个不同的词义记录，写入汉字都为“过”。手机最终候选栏把同样上屏的字排在一格，点一次就写入“过”。表中的首位与前三位取自共用词库返回的词义记录，手机候选格数可以更少。带调 gǒ 或叶氏 gor 仍能选“郭”。',
+            'Android 15 实测，全页只有一张“过”，卡上显示“¹他 ²讨”，长按可看“过错”。长按 `o` 选 `ǒ` 后改为“他／郭”。[无调候选](results/api35-033-han-go.png) · [带调候选](results/api35-033-han-marked-go.png) · [设备记录](results/api35-033-han-senses.log)',
+            '## “哥哥”和句中的语气',
+            '龙山故事《陈二郎戏弄哥哥》第三段末尾的 `gox gov`、第四段开头的 `gox gox` 都释作“哥哥”。第五段开头是 `Air gox gov ar, ar kov …`；段中 `air gox gox manr hav tair` 的“哥哥呢”同样来自原注。键盘把这两处裸词的释义统一为“哥哥”，并将开头紧随 `gox gov` 的独立 `ar` 按此处呼语记为“啊”。第一段 `ar kox, ar kox ar` 的后一组确实多一个音节，仍可选 `ǎkō\'ǎ`（哥哥啊）。归档故事保留第五段三处原始词注及各段译文。[龙山故事原文](https://tujialanguage.com/texts/longshan-stories-02.html#track-02) · [毕兹学堂故事](https://tujia.biz/?id=tlp-longshan-stories-02-01) · [词典的 goxgox](https://tujia.biz/?id=w809)',
             '## 音节、语法与汉语后备候选',
             scores.table(['明确声调→参考表用字','语法形式→推荐汉字','普通话拼音→汉语后备词']),
             '音节行按参考字、调号确定的输入长度和输出类别计分，实际词条与默认音节可共用该字。汉语后备项显示在土家语候选后面，按空释义、汉字、输入长度及汉语类别判断。',
             '## 下一音节',sounds,
-            '## 汉语借词的本字',loans,
+            '## 汉语借词和约定本字',loans, '[逐项核对和完整表格](han-source-review.md)',
             '## 学堂来源核对',source_oracle(args.site,rows,lines), '## 真实连续输入',
             f'毕兹学堂《山歌两首》第一首有 4 行、{tokens} 次词语出现。一次选择要求只有一个候选就能按原顺序送入全行所有词。逐词选择从完整的连续输入开始，每次选择后用核心函数取回余串。诗行的逗号、句号和换行属于编辑操作，未计入打字数。各行分别测试无调、调号和叶氏键入。[学堂原文](https://tujia.biz/?id=xu-tujia-annotated-2-13#corpus?corpusCollection=xu-tujia-annotated-texts)',
             scores.table([f'{prefix}·{form}' for prefix in ('山歌单词','山歌整行一次选择','山歌整行预编辑后分词',) for form in ('plain','diacritic','ye')]),
