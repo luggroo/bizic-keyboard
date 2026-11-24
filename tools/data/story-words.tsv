@@ -9,12 +9,12 @@ ls60-7	geivzair	geizai	他们	给再	给在	给 再在	1	tujia	他们	geizai	gè
 ls60-8	axngairlair	angailai	弟弟呢	阿岩来	啊挨来	阿啊 岩挨 来	1	tujia	弟弟呢	angailai	āngǎilǎi	阿|岩|来
 ls60-9	zuif	zui	最	最		最嘴	1	tujia	最	zui	zuí	最
 ls60-10	lox	lo	人	倮		倮落	1	tujia	人	lo	lō	倮
-ls60-11	riflunx	rilun	日弄	日沦	日拢 日意沦	日 沦拢	1	tujia	日弄	rilun	rílūn	日|沦
+ls60-11	riflongx	rilong	日弄	日沦	日拢 日意沦	日 沦拢	1	tujia	日弄	rilong	rílōng	日|沦
 ls60-12	hev	he	肯	嘿	黑	嘿黑	1	tujia	肯	he	hè	嘿
 ls60-13	gof	go	他	过	哥	过哥	7	tujia	他	go	gó	过
 ls60-14	aix	ai	那	哎		哎	3	tujia	那	ai	āi	哎
 ls60-15	laxniex	lanie	一天	拉捏		拉 捏	1	tujia	一天	lanie	lāniē	拉|捏
-ls60-16	tafmunx	tamun	突然	拓蒙	獭母	拓獭 蒙母	1	tujia	突然	tamun	támūn	拓|蒙
+ls60-16	tafmongx	tamong	突然	拓蒙	獭母	拓獭 蒙母	1	tujia	突然	tamong	támōng	拓|蒙
 ls60-17	lavgaryifaxlair	lagayialai	走啊了	喇夹意阿来	拉夹余啊来	喇拉 夹 意余 阿啊 来	1	tujia	走啊了	lagayialai	làgǎyí'ālǎi	喇|夹|意|阿|来
 ls60-18	goxgox	gogo	哥哥	哥哥		哥 哥	3	tujia	哥哥	gogo	gōgō	哥|哥
 ls60-19	daxhar	daha	一起	搭蛤	打哈	搭打 蛤哈	3	tujia	一起	daha	dāhǎ	搭|蛤
@@ -25,10 +25,10 @@ ls60-23	dar	da	一起	达		达	1	tujia	一起	da	dǎ	达
 ls60-24	enrgeir	engei	那里	阿蒽格锿	迎给	迎 给	1	tujia	那里	engei	ěn'gěi	阿蒽|格锿
 ls60-25	cerlirbor	celibo	城里往	策立博	侧粒拨	策侧 立粒 博拨	3	tujia	城里往	celibo	cělǐbǒ	策|立|博
 ls60-26	yif	yi	去	意	余	意余	4	tujia	去	yi	yí	意
-ls60-27	yiar	yia	啊	呀	牙	呀牙	1	tujia	啊	yia	yiǎ	呀
+ls60-27	yar	ya	啊	呀	牙	呀牙	1	tujia	啊	ya	yǎ	呀
 ls60-28	laiv	lai	什么	莱	来	莱来	3	tujia	什么	lai	lài	莱
 ls60-29	riv	ri	将做	日	日以	日	1	tujia	将做	ri	rì	日
-ls60-30	yior	yio	啊	药		药	1	tujia	啊	yio	yiǒ	药
+ls60-30	yor	yo	啊	药		药	1	tujia	啊	yo	yǒ	药
 ls60-31	anfnianxhux	annianhu	我们两个	阿岸拈呼	岸捻虎	岸 拈捻 呼虎	1	tujia	我们两个	annianhu	ánniānhū	阿岸|拈|呼
 ls60-32	dax	da	一起	搭	打	搭打	1	tujia	一起	da	dā	搭
 ls60-33	nif	ni	你	腻	泥	腻泥	6	tujia	你	ni	ní	腻
@@ -53,9 +53,9 @@ ls60-52	max	ma	呢	妈		妈	1	tujia	呢	ma	mā	妈
 ls60-53	yifmaxyifar	yimayia	走嘛走啊	意妈意吖	余妈余阿	意余 妈 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|妈|意|吖
 ls60-54	laxbiex	labie	一些	拉憋	拉别	拉 憋别	1	tujia	一些	labie	lābiē	拉|憋
 ls60-55	duvdor	dudo	赌要	堵夺	肚夺	堵肚 夺	2	tujia	赌要	dudo	dùdǒ	堵|夺
-ls60-56	duvyior	duyio	赌啊	堵药	肚药	堵肚 药	1	tujia	赌啊	duyio	dùyiǒ	堵|药
-ls60-57	ngovwunvjir	ngowunji	五两银子	我翁吉	我翁即	我 翁 吉即	2	tujia	五两银子	ngowunji	ngòwùnjǐ	我|翁|吉
-ls60-58	duvwuar	duwua	赌啊	堵娃	肚袜	堵肚 娃袜	1	tujia	赌啊	duwua	dùwuǎ	堵|娃
+ls60-56	duvyor	duyo	赌啊	堵药	肚药	堵肚 药	1	tujia	赌啊	duyo	dùyǒ	堵|药
+ls60-57	ngovwongvjir	ngowongji	五两银子	我翁吉	我翁即	我 翁 吉即	2	tujia	五两银子	ngowongji	ngòwòngjǐ	我|翁|吉
+ls60-58	duvwar	duwa	赌啊	堵娃	肚袜	堵肚 娃袜	1	tujia	赌啊	duwa	dùwǎ	堵|娃
 ls60-59	aixlex	aile	那么	哎里		哎 里	4	tujia	那么	aile	āilē	哎|里
 ls60-60	davhar	daha	一起	打蛤	打哈	打 蛤哈	1	tujia	一起	daha	dàhǎ	打|蛤
 ls60-61	dif	di	第	第		第弟	1	tujia	第	di	dí	第
@@ -80,27 +80,26 @@ ls60-81	lax	la	着	拉		拉	3	tujia	着	la	lā	拉
 ls60-82	avngairmar	angaima	弟弟呢	阿岩麻	啊挨麻	阿啊 岩挨 麻	1	tujia	弟弟呢	angaima	àngǎimǎ	阿|岩|麻
 ls60-83	tavnier	tanie	后面	塔业	他捏	塔他 业捏	1	tujia	后面	tanie	tàniě	塔|业
 ls60-84	yifaxlair	yialai	走啊了	意阿来	余啊来	意余 阿啊 来	2	tujia	走啊了	yialai	yí'ālǎi	意|阿|来
-ls60-85	yiev	yie	到	也	野	也野	1	tujia	到	yie	yiè	也
+ls60-85	yev	ye	到	也	野	也野	1	tujia	到	ye	yè	也
 ls60-86	larhux	lahu	着了	辣呼	拉虎	辣拉 呼虎	2	tujia	着了	lahu	lǎhū	辣|呼
 ls60-87	loxdaixjir	lodaiji	人家几个	倮歹吉	落袋即 倮袋即	倮落 歹袋 吉即	1	tujia	人家几个	lodaiji	lōdāijǐ	倮|歹|吉
 ls60-88	jier	jie	喊	节		节	1	tujia	喊	jie	jiě	节
 ls60-89	pofgav	poga	先生	破尕	坡家	破坡 尕家	2	tujia	先生	poga	pógà	破|尕
-ls60-90	gavdunr	gadun	一会儿坐	尕钝	家东	尕家 钝东	2	tujia	一会儿坐	gadun	gàdǔn	尕|钝
-ls60-91	wunr	wun	茶	吴		吴	2	tujia	茶	wun	wǔn	吴
-ls60-92	arceixhur	aceihu	喝	吖雌诶胡	阿侧壶	吖阿 侧 胡壶	2	tujia	喝	aceihu	ǎcēihǔ	吖|雌诶|胡
+tlp-gavdunr	gavdongr	gadong	一会儿	尕钝	家东	尕家 钝东	2	tujia	一会儿	gadong	gàdǒng	尕|钝
+stedt-rn-368307	arciex	acie	茶	吖雌	阿侧	吖阿 侧	1	tujia	茶	acie	ǎciē	吖|雌
 ls60-93	laix	lai	呢	莱	来	莱来	2	tujia	呢	lai	lāi	莱
 ls60-94	loxdeix	lodei	人家	倮低	落低	倮落 低	5	tujia	人家	lodei	lōdēi	倮|低
 ls60-95	gor	go	他	郭	鸽	郭鸽	3	tujia	他	go	gǒ	郭
-ls60-96	yiev	yie	也	也	野	也野	1	tujia	也	yie	yiè	也
+ls60-96	yev	ye	也	也	野	也野	1	tujia	也	ye	yè	也
 ls60-97	yifyif	yiyi	走走	意意	余余	意余 意余	1	tujia	走走	yiyi	yíyí	意|意
 ls60-98	exdir	edi	这个	阿婀的	医笛	医 的笛	1	tujia	这个	edi	ēdǐ	阿婀|的
 ls60-99	ngefzarsirdeir	ngezasidei	硬厉害	扼扎石笛	泥扎四笛	扼泥 扎 石四 笛	1	tujia	硬厉害	ngezasidei	ngézǎsǐděi	扼|扎|石|笛
 ls60-100	zexdix	zedi	真的	遮低	资低	遮资 低	1	tujia	真的	zedi	zēdī	遮|低
-ls60-101	aixyiuf	aiyiu	那又	哎又	哎右	哎 又右	1	tujia	那又	aiyiu	āiyiú	哎|又
+ls60-101	aixyouf	aiyou	那又	哎又	哎右	哎 又右	1	tujia	那又	aiyou	āiyóu	哎|又
 ls60-102	zixgeiv	zigei	前头	兹给	资给	兹资 给	2	tujia	前头	zigei	zīgèi	兹|给
 ls60-103	bor	bo	往	博	拨	博拨	1	tujia	往	bo	bǒ	博
 ls60-104	axlair	alai	啊了	阿来	啊来	阿啊 来	1	tujia	啊了	alai	ālǎi	阿|来
-ls60-105	yiuf	yiu	又	又	右	又右	2	tujia	又	yiu	yiú	又
+ls60-105	youf	you	又	又	右	又右	2	tujia	又	you	yóu	又
 ls60-106	gox	go	他	哥		哥	4	tujia	他	go	gō	哥
 ls60-107	bovlir	boli	小孩儿	波俐	波粒	波 俐粒	1	tujia	小孩儿	boli	bòlǐ	波|俐
 ls60-108	zair	zai	大人	再	在	再在	1	tujia	大人	zai	zǎi	再
@@ -116,8 +115,8 @@ ls60-117	jixliaox	jiliao	完了	机了	鸡辽	机鸡 了辽	1	tujia	完了	jilia
 ls60-118	taif	tai	没有	太	泰	太泰	2	tujia	没有	tai	tái	太
 ls60-119	goxgov	gogo	哥哥	哥哥		哥 哥	1	tujia	哥哥	gogo	gōgò	哥|哥
 ls60-120	eflar	ela	二郎	二郎		二姨 郎拉	1	tujia	二郎	ela	élǎ	二|郎
-ls60-121	yianxtanrlair	yiantanlai	蔫蔫地	蔫坦来		蔫烟 坦糖 来	2	tujia	蔫蔫地	yiantanlai	yiāntǎnlǎi	蔫|坦|来
-ls60-122	sunxkordif	sunkodi	回来	孙阔地	松颗弟	孙松 阔颗 地弟	1	tujia	回来	sunkodi	sūnkǒdí	孙|阔|地
+ls60-121	yanxtanrlair	yantanlai	蔫蔫地	蔫坦来		蔫烟 坦糖 来	2	tujia	蔫蔫地	yantanlai	yāntǎnlǎi	蔫|坦|来
+ls60-122	songxkordif	songkodi	回来	孙阔地	松颗弟	孙松 阔颗 地弟	1	tujia	回来	songkodi	sōngkǒdí	孙|阔|地
 ls60-123	ax	a	了	阿	啊	阿啊	1	tujia	了	a	ā	阿
 ls60-124	cuv	cu	家	础	粗	础粗	1	tujia	家	cu	cù	础
 ls60-125	air	ai	哎	哀	哎	哀哎	1	tujia	哎	ai	ǎi	哀
@@ -131,10 +130,8 @@ ls60-132	jiaf	jia	先	嫁	家	嫁家	1	tujia	先	jia	jiá	嫁
 ls60-133	qiafgaov	qiagao	怎么搞	欺亚搞	恰高	恰 搞高	1	tujia	怎么搞	qiagao	qiágào	欺亚|搞
 ls60-134	bor	bo	着	博	拨	博拨	1	tujia	着	bo	bǒ	博
 ls60-135	jif	ji	的	记		记	1	tujia	的	ji	jí	记
-ls60-136	yiaoxgax	yiaoga	腰杆	邀嘎	腰家	邀腰 嘎家	1	tujia	腰杆	yiaoga	yiāogā	邀|嘎
+ls60-136	yaoxgax	yaoga	腰杆	邀嘎	腰家	邀腰 嘎家	1	tujia	腰杆	yaoga	yāogā	邀|嘎
 ls60-137	gar	ga	上	夹		夹	1	tujia	上	ga	gǎ	夹
-ls60-138	wunr	wun	坐	吴		吴	1	tujia	坐	wun	wǔn	吴
-ls60-139	arceirhur	aceihu	茶喝	吖雌锿胡	阿侧壶	吖阿 侧 胡壶	1	tujia	茶喝	aceihu	ǎcěihǔ	吖|雌锿|胡
 ls60-140	huerbir	huebi	粉笔	壶必	壶臂	壶 必臂	1	tujia	粉笔	huebi	huěbǐ	壶|必
 ls60-141	hor	ho	用	和	盒	和盒	1	tujia	用	ho	hǒ	和
 ls60-142	haf	ha	那么	吓	哈	吓哈	1	tujia	那么	ha	há	吓
@@ -155,12 +152,29 @@ ls60-156	manrhavtair	manhatai	不知道	忙哈台	芒哈台	忙芒 哈 台	1	tuj
 ls60-157	zifjiar	zijia	认为	致甲	紫甲	致紫 甲	2	tujia	认为	zijia	zíjiǎ	致|甲
 ls60-158	taxnier	tanie	后面	他业	他捏	他 业捏	1	tujia	后面	tanie	tāniě	他|业
 ls60-159	ngefngouf	ngengou	硬忤	硬忤		硬泥 忤藕	1	tujia	硬忤	ngengou	ngéngóu	硬|忤
-ls60-160	sivyior	siyio	要死啊	使药	丝药	使丝 药	1	tujia	要死啊	siyio	sìyiǒ	使|药
+ls60-160	sivyor	siyo	要死啊	使药	丝药	使丝 药	1	tujia	要死啊	siyo	sìyǒ	使|药
 ls60-161	beifbeixdix	beibeidi	白白地	白白地		白杯 白杯 地低	1	tujia	白白地	beibeidi	béibēidī	白|白|地
 ls60-162	bor	bo	给	博	拨	博拨	1	tujia	给	bo	bǒ	博
-ls60-163	ngoxwunv	ngowun	银子五两	我翁		我 翁	1	tujia	银子五两	ngowun	ngōwùn	我|翁
+ls60-163	ngoxwongv	ngowong	银子五两	我翁		我 翁	1	tujia	银子五两	ngowong	ngōwòng	我|翁
 ls60-164	cirlier	cilie	送	尺列	次列	尺次 列	1	tujia	送	cilie	cǐliě	尺|列
 ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|录
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了
 ls60-168	jiufhaflar	jiuhala	就这样的	就吓辣	九哈拉	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|吓|辣
+xu213-1-1	ngafnix	ngani	我们	讶妮		讶 妮	0	tujia	我们	ngani	ngánī	讶|妮
+xu213-1-2	hufnix	huni	大家	互妮		互 妮	0	tujia	大家	huni	húnī	互|妮
+xu213-1-3	bifzixkar	bizika	土家族	币兹咔		币 兹 咔	0	tujia	土家族	bizika	bízīkǎ	币|兹|咔
+xu213-1-4	ox	o	语气词	喔		喔	0	tujia	语气词	o	ō	喔
+xu213-2-1	sangxgox	sanggo	山歌	伤哥		伤 哥	0	tujia	山歌	sanggo	sānggō	伤|哥
+xu213-2-2	cangf	cang	唱	唱		唱	0	tujia	唱	cang	cáng	唱
+xu213-2-3	diex	die	强调	爹		爹	0	tujia	强调	die	diē	爹
+xu213-2-4	bifzixsar	bizisa	土家语	币兹刹		币 兹 刹	0	tujia	土家语	bizisa	bízīsǎ	币|兹|刹
+xu213-3-1	bifzix	bizi	土家的	币兹		币 兹	0	tujia	土家的	bizi	bízī	币|兹
+xu213-3-3	nax	na	一	哪		哪	0	tujia	一	na	nā	哪
+xu213-3-4	zex	ze	句	遮		遮	0	tujia	句	ze	zē	遮
+xu213-4-2	xix	xi	状态助词	兮		兮	0	tujia	状态助词	xi	xī	兮
+xu213-4-3	rev	re	漂亮	惹		惹	0	tujia	漂亮	re	rè	惹
+xu213-4-5	gof	go	过错	过		过	0	tujia	过错	go	gó	过
+xu213-4-6	tav	ta	别	塔		塔	0	tujia	别	ta	tà	塔
+xu213-4-7	ar	a	取	吖		吖	0	tujia	取	a	ǎ	吖
+xu213-4-8	lex	le	陈述语气	里		里	0	tujia	陈述语气	le	lē	里

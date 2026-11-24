@@ -89,7 +89,7 @@ public final class SetupActivity extends Activity {
 
         LinearLayout editor = section(body, 24);
         editor.addView(label("试打", 22, INK, true));
-        addSpaced(editor, label("在汉字记音模式输入 jir。点汉义“脚”下面的「及」，它就会出现在输入框里。", 17, MUTED, false), 6);
+        addSpaced(editor, label("在「记音」里输入 bizika，点“土家族”下面的「币兹咔」，就写出了《山歌两首》第一行里的一个词。", 17, MUTED, false), 6);
         trial = new EditText(this);
         trial.setId(0x101010);
         trial.setTextSize(24);

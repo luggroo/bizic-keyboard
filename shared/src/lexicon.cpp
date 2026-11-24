@@ -37,7 +37,7 @@ bool readLine(std::string_view& rest, std::string_view& line) {
     return true;
 }
 
-using Fields = std::array<std::string_view, 13>;
+using Fields = std::array<std::string_view, 14>;
 void readFields(std::string_view row, size_t count, Fields& fields) {
     size_t start = 0, column = 0;
     for (size_t i = 0; i < row.size(); ++i) {
@@ -193,6 +193,7 @@ struct Entry {
     std::vector<std::u32string> units{};
     std::vector<int> joinedRanges{};
     int hanLength = 0;
+    std::vector<std::string> writtenForms{};
 
     void setUnits(const std::string& field) {
         std::string combined;
@@ -241,6 +242,36 @@ struct Entry {
         return true;
     }
 
+    bool extends(const Query& q) const {
+        for (const auto& form : writtenForms) {
+            if (form.size() > q.folded.size() && form.compare(0, q.folded.size(), q.folded) == 0) return true;
+        }
+        const auto length = q.scalars.size();
+        const size_t groups = units.empty() ? variants.size() : units.size();
+        std::vector<size_t> positions{0};
+        for (size_t i = 0; i < groups; ++i) {
+            std::vector<size_t> next;
+            for (auto pos : positions) {
+                if (pos == length) return true; // remaining syllable(s)
+                if (i < variants.size() && variants[i].find(q.scalars[pos]) != std::u32string::npos)
+                    next.push_back(pos + 1);
+                if (i < units.size()) {
+                    const auto& unit = units[i];
+                    size_t take = std::min(unit.size(), length - pos);
+                    if (q.scalars.compare(pos, take, unit, 0, take) == 0) {
+                        if (take < unit.size()) return true; // started a real two-Han unit
+                        next.push_back(pos + take);
+                    }
+                }
+            }
+            if (next.empty()) break;
+            std::sort(next.begin(), next.end());
+            next.erase(std::unique(next.begin(), next.end()), next.end());
+            positions.swap(next);
+        }
+        return false;
+    }
+
     const std::string& output(Mode mode, Orthography orthography) const {
         if (mode == Mode::Han) return han;
         return orthography == Orthography::Diacritic ? diacritic : word;
@@ -281,24 +312,28 @@ struct Lexicon::Impl {
     WordIndex syllables;
     std::unordered_map<char32_t, WordIds> variantInitials;
     WordIndex chineseKeys;
+    std::unordered_map<std::string, size_t> lexicalIds;
+    struct Following { size_t id; uint64_t count; };
+    std::unordered_map<std::string, std::vector<Following>> ngrams;
     std::unordered_set<std::string> chineseWritten;
     std::vector<ChineseWord> chineseWords;
     size_t maxChinese = 0, maxWritten = 0;
     size_t maxKey = 0, maxSyllable = 0;
 
-    explicit Impl(const std::string& tsv) {
+    explicit Impl(const std::string& tsv, const std::string& ngramData) {
         std::string_view lines(tsv), line;
         const std::string legacyHeader = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants";
         if (!readLine(lines, line)) throw std::invalid_argument("Empty dictionary");
         const auto rankedHeader = legacyHeader + "\tfrequency\tkind\tshortGloss";
         const auto toneHeader = rankedHeader + "\tplain\tdiacritic";
-        const bool hasUnits = line == toneHeader + "\thanUnits";
+        const bool hasRomanAliases = line == toneHeader + "\thanUnits\tromanAliases";
+        const bool hasUnits = hasRomanAliases || line == toneHeader + "\thanUnits";
         const bool tones = hasUnits || line == toneHeader;
         const bool ranked = tones || line == rankedHeader;
         if (line != legacyHeader && !ranked) {
             throw std::invalid_argument("Unexpected dictionary header");
         }
-        const size_t fieldCount = hasUnits ? 13 : tones ? 12 : ranked ? 10 : 7;
+        const size_t fieldCount = hasRomanAliases ? 14 : hasUnits ? 13 : tones ? 12 : ranked ? 10 : 7;
         Fields fields{};
         while (readLine(lines, line)) {
             readFields(line, fieldCount, fields);
@@ -344,6 +379,10 @@ struct Lexicon::Impl {
                 entries.push_back(std::move(entry));
                 continue;
             }
+            lexicalIds.emplace(entry.id, id);
+            if (hasRomanAliases && !f[13].empty()) {
+                for (const auto& alias : split(f[13], ' ')) addSpelling(alias, id);
+            }
             addSpelling(entry.word, id);
             const bool suffix = grammar && entry.word.front() == '-';
             if (tones) {
@@ -354,8 +393,16 @@ struct Lexicon::Impl {
                 (bucket(spellings, f[2]).empty() || bucket(spellings, f[2]).back() != id))
                 index(shortKeys, f[2], id, maxKey);
             index(hanWords, entry.han, id, maxKey);
+            entry.writtenForms.push_back(entry.han);
             for (const auto& alias : split(f[5], ' ')) {
-                if (!alias.empty()) index(aliases, alias, id, maxKey);
+                if (alias.empty()) continue;
+                index(aliases, alias, id, maxKey);
+                entry.writtenForms.push_back(alias);
+            }
+            for (const auto& form : entry.writtenForms) {
+                size_t pos = 0;
+                char32_t first;
+                if (nextScalar(form, pos, first) && hanCharacter(first)) addUnique(variantInitials[first], id);
             }
             if (!f[6].empty()) {
                 for (const auto& choices : split(f[6], ' ')) {
@@ -385,6 +432,34 @@ struct Lexicon::Impl {
             words.erase(std::remove_if(words.begin(), words.end(), [&](size_t id) {
                 return !forms.insert(chineseWords[id].text).second;
             }), words.end());
+        }
+        if (!ngramData.empty()) loadNgrams(ngramData);
+    }
+
+    void loadNgrams(const std::string& data) {
+        std::string_view lines(data), line;
+        if (!readLine(lines, line) || line != "context\tnext\tcount\texample")
+            throw std::invalid_argument("Unexpected ngram header");
+        Fields fields{};
+        while (readLine(lines, line)) {
+            readFields(line, 4, fields);
+            const std::string context(fields[0]);
+            const auto history = split(context, ' ');
+            if (history.empty() || history.size() > 2) throw std::invalid_argument("Invalid context length");
+            for (const auto& id : history)
+                if (!lexicalIds.count(id)) throw std::invalid_argument("Unknown context ID: " + id);
+            const auto next = lexicalIds.find(std::string(fields[1]));
+            const auto count = frequencyOf(fields[2]);
+            if (next == lexicalIds.end() || !count) throw std::invalid_argument("Invalid following lexeme");
+            ngrams[context].push_back({next->second, count});
+        }
+        for (auto& pair : ngrams) {
+            auto& next = pair.second;
+            std::sort(next.begin(), next.end(), [&](const Following& a, const Following& b) {
+                if (a.count != b.count) return a.count > b.count;
+                const auto& x = entries[a.id]; const auto& y = entries[b.id];
+                return x.frequency != y.frequency ? x.frequency > y.frequency : x.id < y.id;
+            });
         }
     }
 
@@ -446,11 +521,14 @@ struct Lexicon::Impl {
             if (!out.text.empty() && mode != Mode::Han) out.text += ' ';
             if (!out.meaning.empty()) out.meaning += " · ";
             if (!out.shortMeaning.empty()) out.shortMeaning += " · ";
+            if (!out.lexemeIds.empty()) out.lexemeIds += ' ';
+            out.lexemeIds += entries[id].id;
             out.text += entries[id].output(mode, orthography);
             out.meaning += entries[id].meaning;
             out.shortMeaning += entries[id].shortMeaning;
         }
         out.text += tail;
+        if (!tail.empty()) out.lexemeIds.clear();
         return out;
     }
 
@@ -546,6 +624,7 @@ struct Lexicon::Impl {
                 });
                 if (duplicate == result.end()) {
                     result.push_back({text, entry.meaning, q.utf16At[q.skipSpaces(end)], entry.shortMeaning});
+                    result.back().lexemeIds = entry.id;
                     if (mode == Mode::Han) result.back().joinedHanRanges = entry.joinedRanges;
                 }
             }
@@ -565,6 +644,66 @@ struct Lexicon::Impl {
         const bool latin = mode != Mode::Handwriting && q.scalars[start] >= U'a' && q.scalars[start] <= U'z';
         if (written || latin) appendChinese(result, q, start, written);
         return result;
+    }
+
+    Candidate lexical(size_t id, Mode output, Orthography style, int consumed) const {
+        const auto& e = entries[id];
+        Candidate c{e.output(output, style), e.meaning, consumed, e.shortMeaning};
+        c.lexemeIds = e.id;
+        if (output == Mode::Han) c.joinedHanRanges = e.joinedRanges;
+        return c;
+    }
+
+    bool glyphQuery(const std::string& input, Query& q) const {
+        return !input.empty() && q.read(input) &&
+               std::all_of(q.scalars.begin(), q.scalars.end(), hanCharacter);
+    }
+
+    WordIds completions(const Query& q) const {
+        WordIds matches;
+        auto it = variantInitials.find(q.scalars.front());
+        if (it == variantInitials.end()) return matches;
+        for (auto id : it->second) if (entries[id].extends(q)) matches.push_back(id);
+        std::stable_sort(matches.begin(), matches.end(), [&](size_t a, size_t b) {
+            return entries[a].frequency > entries[b].frequency;
+        });
+        return matches;
+    }
+
+    std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const {
+        Query q;
+        if (!glyphQuery(glyphs, q)) return {};
+        const auto exact = match(q, 0, q.scalars.size(), Mode::Handwriting);
+        std::vector<Candidate> out;
+        for (auto id : completions(q)) {
+            if (std::find(exact.begin(), exact.end(), id) == exact.end())
+                out.push_back(lexical(id, output, style, q.utf16At.back()));
+        }
+        return out;
+    }
+
+    int scoreHandwritingPrefix(const std::string& glyphs) const {
+        Query q;
+        if (!glyphQuery(glyphs, q)) return 0;
+        if (!match(q, 0, q.scalars.size(), Mode::Handwriting).empty()) return 2;
+        return completions(q).empty() ? 0 : 1;
+    }
+
+    std::vector<Candidate> nextWords(const std::string& context, Mode output, Orthography style) const {
+        const auto ids = split(context, ' ');
+        if (ids.empty() || !lexicalIds.count(ids.back())) return {};
+        std::vector<Candidate> out;
+        std::unordered_set<size_t> offered;
+        auto append = [&](const std::string& key) {
+            const auto it = ngrams.find(key);
+            if (it == ngrams.end()) return;
+            for (const auto& next : it->second) {
+                if (offered.insert(next.id).second) out.push_back(lexical(next.id, output, style, 0));
+            }
+        };
+        if (ids.size() >= 2) append(ids[ids.size()-2] + " " + ids.back());
+        append(ids.back());
+        return out;
     }
 
     void appendSyllables(std::vector<Candidate>& result, const Query& q, size_t start, Mode mode,
@@ -609,13 +748,27 @@ struct Lexicon::Impl {
     }
 };
 
-Lexicon::Lexicon(const std::string& tsv) : impl_(new Impl(tsv)) {}
+Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams) : impl_(new Impl(tsv, ngrams)) {}
 Lexicon::~Lexicon() = default;
 
 std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orthography orthography) const {
     if (mode != Mode::Pinyin && mode != Mode::Han && mode != Mode::Handwriting) return {};
     if (orthography != Orthography::Ye && orthography != Orthography::Diacritic) return {};
     return impl_->lookup(input, mode, orthography);
+}
+
+std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input, Mode mode, Orthography style) const {
+    if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
+    return impl_->handwritingSuggestions(input, mode, style);
+}
+
+int Lexicon::scoreHandwritingPrefix(const std::string& glyphs) const {
+    return impl_->scoreHandwritingPrefix(glyphs);
+}
+
+std::vector<Candidate> Lexicon::nextWords(const std::string& ids, Mode mode, Orthography style) const {
+    if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
+    return impl_->nextWords(ids, mode, style);
 }
 
 } // namespace tujia

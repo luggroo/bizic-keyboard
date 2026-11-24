@@ -3,6 +3,19 @@ import XCTest
 import TujiaInput
 
 final class TujiaInputTests: XCTestCase {
+    func testHandwritingCompletionAndContext() throws {
+        let dictionary = try TujiaDictionary()
+        let child = try XCTUnwrap(dictionary.handwritingSuggestions(for: "玻", form: .recommendedHan).first { $0.lexemeIds == "w309" })
+        XCTAssertEqual(child.text, "波俐")
+        XCTAssertEqual(dictionary.selection(child, in: "玻")?.remainingInput, "")
+        XCTAssertEqual(dictionary.scoreHandwritingPrefix("波俐"), 2)
+        let meal = try XCTUnwrap(dictionary.nextWords(after: "w2548", form: .spelling, orthography: .diacritic).first)
+        XCTAssertEqual(meal.lexemeIds, "w684")
+        XCTAssertEqual(meal.consumedUTF16, 0)
+        XCTAssertEqual(dictionary.selection(meal, in: "", before: "yě")?.text, " gá")
+        XCTAssertTrue(dictionary.nextWords(after: "w2548 。", form: .spelling).isEmpty)
+    }
+
     func testContinuousSelectionAndDifferentOutputs() throws {
         let dic = try TujiaDictionary()
         let input = "marmardiexhxif"
@@ -43,7 +56,7 @@ final class TujiaInputTests: XCTestCase {
             let compact = fields.count >= 10 && !fields[9].isEmpty ? fields[9] : gloss
             XCTAssertEqual(candidate.shortMeaning, compact, fields[0])
             XCTAssertEqual(candidate.kind, .tujia, fields[0])
-            if fields.count == 13 {
+            if fields.count >= 13 {
                 var expected: [Int] = []
                 var offset = 0
                 for unit in fields[12].split(separator: "|") {
@@ -101,7 +114,7 @@ final class TujiaInputTests: XCTestCase {
 
     func testHandwritingAndVariantLookup() throws {
         let pen = try TujiaHandwriting()
-        XCTAssertEqual(pen.glyphCount, 3559)
+        XCTAssertEqual(pen.glyphCount, 3561)
         let strokes = [[CGPoint(x: 20,y: 20), CGPoint(x: 70,y: 20)],
                        [CGPoint(x: 25,y: 49), CGPoint(x: 75,y: 49)],
                        [CGPoint(x: 10,y: 80), CGPoint(x: 90,y: 80)]]

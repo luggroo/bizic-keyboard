@@ -1,13 +1,13 @@
 离线手写字形数据
 
-可手写 3559 个不同的汉字。词表、音节表和语法表中的同一个字共用一份笔画模板。
+可手写 3561 个不同的汉字。词表、音节表和语法表中的同一个字共用一份笔画模板。
 
-土家语词与变体　已收 1258 / 1258 字。
-参考音节字表　已收 953 / 953 字。
+土家语词与变体　已收 1260 / 1260 字。
+参考音节字表　已收 955 / 955 字。
 语法成分　已收 9 / 9 字。
 普通汉语独立成词的汉字　已收 3361 / 3390 字。缺少佢冇咁啲囧垬壊変広徳戦歩歳歴気沢満瀬珪発祂祐竜筽粿肏膥証镠。
 
-3558 个字的笔画中线选自 Hanzi Writer Data 2.0.1，原始数据来自 Make Me a Hanzi 和文鼎字型。「尅」的模板为本项目另绘。2026-11-24 对数据作了选字、坐标方向调整和文本转换。转换程序见源码包中的 tools/import_handwriting.py。
+3560 个字的笔画中线选自 Hanzi Writer Data 2.0.1，原始数据来自 Make Me a Hanzi 和文鼎字型。「尅」的模板为本项目另绘。2026-11-24 对数据作了选字、坐标方向调整和文本转换。转换程序见源码包中的 tools/import_handwriting.py。
 
 Hanzi Writer Data: https://github.com/chanind/hanzi-writer-data
 Make Me a Hanzi: https://github.com/skishore/makemeahanzi

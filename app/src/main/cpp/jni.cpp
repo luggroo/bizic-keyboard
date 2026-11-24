@@ -70,8 +70,11 @@ constexpr auto CALL_ERROR = "java/lang/IllegalStateException";
 } // namespace
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data) {
-    return guarded<jlong>(env, LOAD_ERROR, [&] { return makeModel<tujia::Lexicon>(env, data); });
+Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams) {
+    return guarded<jlong>(env, LOAD_ERROR, [&] {
+        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams));
+        return static_cast<jlong>(reinterpret_cast<uintptr_t>(value.release()));
+    });
 }
 
 extern "C" JNIEXPORT void JNICALL
@@ -80,13 +83,22 @@ Java_biz_tujia_ime_NativeCore_freeLexicon(JNIEnv*, jclass, jlong handle) {
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArray raw, jint mode, jint orthography) {
+Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArray raw, jint mode, jint orthography, jint operation) {
     return guarded<jobjectArray>(env, CALL_ERROR, [&]() -> jobjectArray {
-        const auto found = model<tujia::Lexicon>(handle)->lookup(bytes(env, raw), static_cast<tujia::Mode>(mode),
-                                                                  static_cast<tujia::Orthography>(orthography));
+        const auto lexicon = model<tujia::Lexicon>(handle);
+        const auto input = bytes(env, raw);
+        const auto form = static_cast<tujia::Mode>(mode);
+        const auto style = static_cast<tujia::Orthography>(orthography);
+        std::vector<tujia::Candidate> found;
+        switch (operation) {
+            case 0: found = lexicon->lookup(input, form, style); break;
+            case 1: found = lexicon->handwritingSuggestions(input, form, style); break;
+            case 2: found = lexicon->nextWords(input, form, style); break;
+            default: throw std::invalid_argument("Unknown candidate operation");
+        }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
         if (!item) return nullptr;
-        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZ)V");
+        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;)V");
         if (!init) return nullptr;
         jobjectArray result = env->NewObjectArray(lengthOf(found.size()), item, nullptr);
         if (!result) return nullptr;
@@ -106,12 +118,15 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
                                        candidate.joinedHanRanges.data());
                 if (env->ExceptionCheck()) return nullptr;
             }
+            jstring ids = stringToJava(env, candidate.lexemeIds);
+            if (!ids) return nullptr;
             jobject value = env->NewObject(item, init, text, meaning, shortMeaning,
                                             static_cast<jint>(candidate.kind), static_cast<jint>(candidate.consumed),
-                                            ranges, static_cast<jboolean>(candidate.syllableOnly));
+                                            ranges, static_cast<jboolean>(candidate.syllableOnly), ids);
             if (!value) return nullptr;
             env->SetObjectArrayElement(result, static_cast<jsize>(i), value);
             env->DeleteLocalRef(value);
+            env->DeleteLocalRef(ids);
             env->DeleteLocalRef(ranges);
             if (shortMeaning != meaning) env->DeleteLocalRef(shortMeaning);
             env->DeleteLocalRef(meaning);
@@ -120,6 +135,11 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
         }
         return result;
     });
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_biz_tujia_ime_NativeCore_scoreHandwritingPrefix(JNIEnv* env, jclass, jlong handle, jbyteArray raw) {
+    return guarded<jint>(env, CALL_ERROR, [&] { return model<tujia::Lexicon>(handle)->scoreHandwritingPrefix(bytes(env, raw)); });
 }
 
 extern "C" JNIEXPORT jstring JNICALL

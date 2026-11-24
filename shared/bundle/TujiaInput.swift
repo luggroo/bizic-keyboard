@@ -18,6 +18,8 @@ public struct WordCandidate: Equatable {
     public let meaning: String
     public let shortMeaning: String
     public let kind: CandidateKind
+    /// Space-separated source IDs in commit order. Empty ends lexical context.
+    public let lexemeIds: String
     public let consumedUTF16: Int
     /// Flattened UTF-16 start/end-exclusive pairs for two-Han syllables in text.
     public let joinedHanRanges: [Int]
@@ -46,12 +48,15 @@ public final class TujiaDictionary {
     private let handle: OpaquePointer
 
     public convenience init() throws {
-        try self.init(data: asset("words.tsv"))
+        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"))
     }
 
-    public init(data: Data) throws {
+    public init(data: Data, ngrams: Data = Data()) throws {
         guard let loaded = data.withUnsafeBytes({ bytes in
-            tji_words_open(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count)
+            ngrams.withUnsafeBytes { context in
+                tji_words_open_with_ngrams(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
+                                           context.bindMemory(to: UInt8.self).baseAddress, context.count)
+            }
         }) else { throw TujiaInputError.invalidDictionary }
         handle = loaded
     }
@@ -64,9 +69,32 @@ public final class TujiaDictionary {
     }
 
     public func candidates(for input: String, form: InputForm, orthography: SpellingOrthography) -> [WordCandidate] {
-        guard !input.utf8.contains(0),
-              let result = input.withCString({ tji_lookup_with_orthography(handle, $0, form.rawValue,
-                                                                           orthography.rawValue) }) else { return [] }
+        guard !input.utf8.contains(0) else { return [] }
+        let choices = input.withCString { tji_lookup_with_orthography(handle, $0, form.rawValue, orthography.rawValue) }
+        return readCandidates(choices, input: input)
+    }
+
+    public func handwritingSuggestions(for glyphs: String, form: InputForm,
+                                       orthography: SpellingOrthography = .ye) -> [WordCandidate] {
+        guard !glyphs.utf8.contains(0) else { return [] }
+        let choices = glyphs.withCString { tji_handwriting_suggestions(handle, $0, form.rawValue, orthography.rawValue) }
+        return readCandidates(choices, input: glyphs)
+    }
+
+    public func scoreHandwritingPrefix(_ glyphs: String) -> Int {
+        guard !glyphs.utf8.contains(0) else { return 0 }
+        return Int(glyphs.withCString { tji_score_handwriting_prefix(handle, $0) })
+    }
+
+    public func nextWords(after previousIds: String, form: InputForm,
+                          orthography: SpellingOrthography = .ye) -> [WordCandidate] {
+        guard !previousIds.utf8.contains(0) else { return [] }
+        let choices = previousIds.withCString { tji_next_words(handle, $0, form.rawValue, orthography.rawValue) }
+        return readCandidates(choices, input: "")
+    }
+
+    private func readCandidates(_ choices: OpaquePointer?, input: String) -> [WordCandidate] {
+        guard let result = choices else { return [] }
         defer { tji_choices_close(result) }
         return (0..<tji_choices_count(result)).map { i in
             var rangeCount = 0
@@ -76,6 +104,7 @@ public final class TujiaDictionary {
                           meaning: String(cString: tji_choice_meaning(result, i)),
                           shortMeaning: String(cString: tji_choice_short_meaning(result, i)),
                           kind: CandidateKind(rawValue: tji_choice_kind(result, i)) ?? .tujia,
+                          lexemeIds: String(cString: tji_choice_lexeme_ids(result, i)),
                           consumedUTF16: Int(tji_choice_consumed_utf16(result, i)), joinedHanRanges: ranges, input: input)
         }
     }

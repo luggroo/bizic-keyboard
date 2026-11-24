@@ -1,0 +1,16 @@
+{
+  "sources": {
+    "annotated-books.json": "4a13093d96a815fd3453055753a4c93b121ffbd72fefab5cae2eef586a7f8910",
+    "longshan-texts.json": "c5dd1e4ad1382ac63a34462c5ca8c319450e4cbb259e4eada73e78b21eae4cf7"
+  },
+  "sourceUrl": "https://tujia.biz",
+  "counts": {
+    "annotated-books.json aligned blocks": 1032,
+    "annotated-books.json matched tokens": 1431,
+    "longshan-texts.json aligned blocks": 30,
+    "longshan-texts.json matched tokens": 405,
+    "distinct bigrams": 352,
+    "distinct trigrams": 195
+  },
+  "method": "Adjacent glossed tokens within a single northern source block. Source punctuation, missing or ambiguous lexeme IDs, and block boundaries reset context. Example references identify the original text and block."
+}

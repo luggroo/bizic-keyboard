@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -14,7 +15,9 @@ from shutil import copyfile
 from han_orthography import DATA, TONES, Orthography
 
 ROOT = Path(__file__).resolve().parents[1]
-FIELDS = "id word key meaning recommended aliases variants frequency kind shortGloss plain diacritic hanUnits".split()
+sys.path.insert(0, str(ROOT/"tools/story-demo"))
+from longshan_spelling import reviewed_glosses
+FIELDS = "id word key meaning recommended aliases variants frequency kind shortGloss plain diacritic hanUnits romanAliases".split()
 DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
 # Use the concise reading that helps tell homophones apart; keep the original meaning intact.
 SHORT = {
@@ -28,6 +31,8 @@ SHORT = {
 }
 # Exact equivalences in the source annotation, for counting only.
 SENSES = {
+    "xu213-1-1":{"1pl"}, "xu213-1-4":{"INJ"}, "xu213-2-3":{"EMP"},
+    "xu213-4-2":{"STRP"}, "xu213-4-8":{"IND"},
     "w309": {"孩童", "孩子"}, "w1585": {"1sg", "1SG", "第一人称单数"},
     "w1469": {"1pl", "1PL"},
     "w1421": {"人"}, "w514": {"下来"}, "w958": {"步子"},
@@ -66,7 +71,7 @@ def orthography_rows():
             han = row['t'+str(tone)]
             rows.append(dict(id='ortho-'+word, word=word, key=base, meaning='音节', recommended=han,
                              kind='syllable', frequency=0, shortGloss='音节', plain=base, hanUnits=han))
-    glosses = {'nie':'领属','niexi':'名物化','mo':'情态','-bo':'处所','-lie':'施事','-xi':'状态',
+    glosses = {'nie':'领属','niexi':'名物化','mo':'情态','-bo':'处所','-lie':'施事','-xi':'名物化',
                '-xi ge':'状态补语','ge':'状态','la':'进行','-ɪ':'将来','-u':'完成'}
     with (DATA/'orthography-grammar.tsv').open() as stream:
         for row in csv.DictReader(stream, delimiter='\t'):
@@ -94,10 +99,12 @@ def gloss_parts(gloss):
     return {clean_gloss(part) for part in values if part}
 
 
-def spellings(site, rows, annotated):
+def spellings(site, rows, annotated, dictionary):
     ipa = {g["ipa"] for text in annotated for block in text["blocks"] for g in block.get("glosses", [])}
+    ids = {w["id"] for w in rows}
+    selected = [w for w in dictionary["words"] if w["id"] in ids]
     result = subprocess.run(["node", str(ROOT / "tools/site_spellings.cjs"), str(site)],
-        input=json.dumps({"words": [row["word"] for row in rows], "ipa": sorted(ipa)}),
+        input=json.dumps({"words": [row["word"] for row in rows], "ipa": sorted(ipa), "entries": selected}),
         text=True, capture_output=True, check=True)
     return json.loads(result.stdout)
 
@@ -122,7 +129,8 @@ def corpus_counts(rows, dictionary, data, annotated, longshan, ipa):
             senses[index].update(gloss_parts(term))
     for row in rows:
         i = row["id"]
-        candidates[native_forms(row["word"])].add(i)
+        for form in [row["word"], *row.get("romanAliases","").split()]:
+            candidates[native_forms(form)].add(i)
         senses[i].update(gloss_parts(row["meaning"]))
         senses[i].add(clean_gloss(row["shortGloss"]))
         senses[i].update(clean_gloss(g) for g in SENSES.get(i, ()))
@@ -151,7 +159,8 @@ def corpus_counts(rows, dictionary, data, annotated, longshan, ipa):
             continue
         stats["longshanTexts"] += 1
         for block in text["blocks"]:
-            for gloss in block.get("glosses", []):
+            glosses = (reviewed_glosses(block) if text["id"]=="tlp-longshan-stories-02-01" else block.get("glosses", []))
+            for gloss in glosses:
                 aligned("longshan", gloss["ye"], gloss["zh"])
     native_token = re.compile(r"(?<![a-z0-9])(?:[a-z]+[1-4])+(?![a-z0-9])", re.I)
     for text in data["corpus"]:
@@ -192,7 +201,25 @@ def main():
     annotated = load(site/"annotated-books.json")
     longshan = load(site/"longshan-texts.json")
     reference = orthography_rows()
-    forms = spellings(site, rows + reference, annotated)
+    dictionary = load(site/"dictionary.json.gz")
+    forms = spellings(site, rows + reference, annotated, dictionary)
+    with (DATA/"story-spelling-aliases.tsv").open() as src:
+        historical = {r["id"]:r["romanAliases"].split() for r in csv.DictReader(src,delimiter="\t")}
+    for row in rows:
+        raw = row["word"]
+        aliases = historical.get(row["id"],[])[:]
+        if row["id"] in forms["display"]:
+            # Pick the same witnessed reading, retaining the site's vocabulary boundaries.
+            display = forms["display"][row["id"]]
+            accent = forms["accented"][raw]
+            ye = next((v for v in display["ye"] if native_forms(v)==native_forms(raw)), None)
+            marked = next((v for v in display["accent"] if native_forms(v)==native_forms(accent)), None)
+            if ye is None or marked is None:
+                raise ValueError(f"Unmatched school spelling for {row['id']}: {raw} vs {display}")
+            if raw != ye: aliases.extend([raw, accent])
+            row.update(word=ye, diacritic=marked)
+        row["romanAliases"] = " ".join(dict.fromkeys(aliases))
+
     for r in rows + reference:
         r["shortGloss"] = SHORT.get(r["id"], r.get("shortGloss") or r["meaning"])
         if not r.get("diacritic"):
@@ -201,8 +228,8 @@ def main():
             # Preserve ü and ê; remove only the four tone accents and optional syllable separators.
             base = unicodedata.normalize("NFD", r["diacritic"])
             base = "".join(c for c in base if c not in "\u0304\u0301\u030c\u0300")
-            r["plain"] = unicodedata.normalize("NFC", base).replace("'", "")
-    counts, stats = corpus_counts(rows, load(site/"dictionary.json.gz"), load(site/"data.json.gz"),
+            r["plain"] = native_forms(unicodedata.normalize("NFC", base))
+    counts, stats = corpus_counts(rows, dictionary, load(site/"data.json.gz"),
                                   annotated, longshan, forms["spellings"])
     observed_rows = sum(counts[row["id"]] > 0 for row in rows)
     overrides = {}
@@ -235,18 +262,18 @@ def main():
                 mandarin[key].append([han, int(zipf100)])
     copyfile(args.demo/"dialect-data-LICENSE.txt",args.out/"dialect-data-LICENSE.txt")
     if args.web:
-        meta = {r["id"]:[r["frequency"],r["shortGloss"],r["plain"],r["diacritic"]] for r in rows}
+        meta = {r["id"]:[r["frequency"],r["shortGloss"],r["plain"],r["diacritic"],r["word"],r["romanAliases"].split()] for r in rows}
         refs = [[r["id"], r["word"], r["plain"], r["diacritic"], r["recommended"], r["shortGloss"], r["meaning"], r["hanUnits"]] for r in reference]
         args.web.write_text("window.tujiaRanking="+json.dumps({"words":meta,"mandarin":mandarin,"reference":refs},
             ensure_ascii=False,separators=(",",":"))+";\n",encoding="utf-8")
     files = ["annotated-books.json", "longshan-texts.json", "data.json.gz", "dictionary.json.gz",
-             "longshan-texts.js", "notation-ui.js"]
+             "longshan-texts.js", "notation-ui.js", "notation-profiles.js", "lexical-reviews.js", "spelling-boundaries.js"]
     provenance = {
         "source":"https://github.com/luggroo/bizic-dictionary/tree/b882110a9e86b52536f7b8b4bf8179ae5f70f2f0/site",
         "method":"Count northern aligned word or word-group annotations with matching tone-marked spelling and Chinese sense; omit unresolved homophones. In the geographically identified northern Brassett transcripts, count exact numeric-tone word spans only when there is one dictionary ID for the spelling. Undetermined sense and unresolved token boundaries are omitted. Counts estimate collection usage; zero means no qualifying observation.",
         "sourcesSHA256":{f:hashlib.sha256((site/f).read_bytes()).hexdigest() for f in files},
         "inputSHA256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest()
-                       for p in (args.demo/"words.js", args.story, args.mandarin) if p.exists()},
+                       for p in (args.demo/"words.js", args.story, DATA/"story-spelling-aliases.tsv", args.mandarin) if p.exists()},
         "stats":dict(stats), "tujiaRows":len(rows), "referenceRows":len(reference), "observedRows":observed_rows,
         "mandarinRows":sum(map(len, mandarin.values())),
     }

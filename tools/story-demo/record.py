@@ -9,6 +9,8 @@ import subprocess
 import sys
 import time
 import tempfile
+import tarfile
+import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument('script', type=Path)
@@ -17,6 +19,7 @@ parser.add_argument('--adb', default=os.environ.get('ADB', 'adb'))
 parser.add_argument('--mode', default='汉字记音')
 parser.add_argument('--chunk', type=int, default=18)
 parser.add_argument('--input', choices=['hardware','touch'], default='hardware')
+parser.add_argument('--keyframes',action='store_true',help='Save real device screenshots of each key-down, preedit, choice and commit')
 parser.add_argument('--fast-cards',action='store_true',help='Resolve ranks with the shared C++ core, then verify live candidate labels and committed text')
 parser.add_argument('--reading-pace',action='store_true',help='Touch every letter slowly and hold every candidate and sentence for reading; encode at real time')
 parser.add_argument('--dry',action='store_true',help='Run all input and saved-note checks without starting a screen recorder')
@@ -48,15 +51,16 @@ app('mkdir','-p','files')
 app('sh','-c','rm -f files/record-go-* files/record-finalized files/verified-note.txt')
 if not args.resume: app('rm','-f','files/story-checkpoint.txt')
 if args.reading_pace: (out/'chapters.tsv').unlink(missing_ok=True)
+if args.keyframes: app('rm','-rf','files/recorded-frames')
 if not args.resume and args.capture_from==0 and (out/'opening-timing.tsv').exists():
     (out/'opening-timing.tsv').unlink()
 upload(args.script.read_bytes(),script_name)
 if args.reading_pace:
     glyphs=[r.split('\t')[0][5:] for r in args.script.read_text().splitlines() if r.startswith('hand:')]
-    if len(glyphs)!=1: raise ValueError('Choose a single drawn character for the two-sentence demonstration')
     medians=Path(__file__).resolve().parents[2]/'shared/bundle/Assets/handwriting/medians.tsv'
-    drawing=next(r for r in medians.read_text().splitlines() if r.startswith(glyphs[0]+'\t'))
-    upload((drawing+'\n').encode(),'stroke-demo.tsv')
+    templates={r.split('\t',1)[0]:r for r in medians.read_text().splitlines() if '\t' in r}
+    drawing=''.join(templates[glyph]+'\n' for glyph in dict.fromkeys(glyphs))
+    upload(drawing.encode(),'stroke-demo.tsv')
 
 if args.fast_cards:
     if args.mode!='汉字记音': raise ValueError('--fast-cards requires Chinese phonetic-character output')
@@ -75,6 +79,7 @@ instrument = [args.adb,'shell','am','instrument','-w','-r','-e','script',script_
               '-e','resume',str(int(args.resume)),'-e','capture_from',str(args.capture_from)]
 if args.fast_cards: instrument.extend(['-e','fast_cards','1'])
 if args.reading_pace: instrument.extend(['-e','reading_pace','1'])
+if args.keyframes: instrument.extend(['-e','keyframes','1'])
 if args.style_demo:
     instrument.extend(['-e','style_demo','1'])
 instrument.append(package+'/.Playback')
@@ -145,6 +150,17 @@ if args.reading_pace:
 rows=(line for line in args.script.read_text(encoding='utf-8').splitlines() if line and not line.startswith('#') and not line.startswith('keys\ttext\t'))
 expected=''.join(row[1]+row[3].replace(r'\n','\n') for row in csv.reader(rows,delimiter='\t',quoting=csv.QUOTE_NONE))
 if saved.decode('utf-8') != expected: raise RuntimeError('Saved note bytes differ from the requested story')
+if args.keyframes:
+    frames=out/'frames'
+    frames.mkdir(exist_ok=True)
+    with tempfile.TemporaryFile() as archive:
+        adb('exec-out','run-as',package,'tar','-cf','-','-C','files/recorded-frames','.',stdout=archive)
+        archive.seek(0)
+        with tarfile.open(fileobj=archive) as packed:
+            for entry in packed:
+                name=Path(entry.name).name
+                if entry.isfile() and re.fullmatch(r'[0-9]+-[a-zA-Z0-9]+\.png',name):
+                    (frames/name).write_bytes(packed.extractfile(entry).read())
 shell('rm','-r',remote_dir)
 if not args.dry:
     command=[sys.executable,str(Path(__file__).with_name('encode.py')),str(out)]

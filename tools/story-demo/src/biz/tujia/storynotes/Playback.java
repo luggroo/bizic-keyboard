@@ -97,6 +97,21 @@ public final class Playback extends Instrumentation {
         sendStatus(1, status);
     }
 
+    private int shotIndex;
+    private boolean captureStates;
+    private void shot(String tag) {
+        if (!captureStates) return;
+        android.graphics.Bitmap frame=ui.takeScreenshot();
+        if (frame==null) throw new AssertionError("Could not capture the device screen");
+        File dir=file("recorded-frames");
+        if (!dir.isDirectory() && !dir.mkdirs()) throw new IllegalStateException("Cannot create frame directory");
+        File path=new File(dir,String.format(Locale.ROOT,"%05d-%s.png",shotIndex++,tag));
+        try (OutputStream out=new FileOutputStream(path)) {
+            if (!frame.compress(android.graphics.Bitmap.CompressFormat.PNG,100,out)) throw new IOException("Screenshot encoding failed");
+        } catch(IOException ex) { throw new IllegalStateException(ex); }
+        finally { frame.recycle(); }
+    }
+
     private void trace(String kind,String value) {
         if (readingPace) filmTrace.append(SystemClock.elapsedRealtimeNanos()).append('\t')
                 .append(kind).append('\t').append(value).append('\n');
@@ -146,7 +161,7 @@ public final class Playback extends Instrumentation {
         String currentStyle = styleDemo ? spellingStyle(script.get(0)[1]) : "";
         String mode = options.getString("mode","汉字记音");
         if (readingPace) {
-            playTwoSentences(script, noteId);
+            playReading(script, noteId, chunk);
             return;
         }
         if (styleDemo) {
@@ -203,12 +218,16 @@ public final class Playback extends Instrumentation {
         saveAndReopen(noteId, script.size());
     }
 
-    private void playTwoSentences(List<String[]> script,long noteId) throws Exception {
-        changeSpellingStyle("带调号拼音");
-        openStyleKeyboard("土家语拼写");
-        // Let the real recognizer load before starting the film. Nothing from
-        // this warm-up is selected, and the note is checked empty afterwards.
-        press("手写",100);
+    private String modeLabel(String mode) {
+        if ("spell".equals(mode)) return "土家语拼写";
+        if ("han".equals(mode)) return "汉字记音";
+        if ("hand".equals(mode)) return "手写";
+        throw new IllegalArgumentException("Unknown recording mode " + mode);
+    }
+
+    private void warmHandwriting() {
+        if (lookupKeyboard("拼写 ▾")!=null) press("切换手写输出",100);
+        require("记音 ▾");
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {
@@ -216,28 +235,45 @@ public final class Playback extends Instrumentation {
             float half=side*(i==2 ? .4f : .25f);
             drawLine(warmPad.exactCenterX()-half,y,warmPad.exactCenterX()+half,y);
         }
+        // Warm the real recognition worker, then remove its real host commit.
         long warmUntil=SystemClock.uptimeMillis()+90000;
-        while (lookupKeyboard("手写字形 三")==null && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(150);
-        require("手写字形 三");
-        press("清除笔迹",80);
-        press("土家语拼写",120);
+        while (!editorText().equals("三") && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(110);
+        expectEditor("三");
+        press("汉字记音",100);
+        press("退格",100);
         expectEditor("");
+    }
+
+    private void playReading(List<String[]> script,long noteId,int chunk) throws Exception {
+        String current = script.get(0)[0].split(":",2)[0];
+        boolean hasSpelling=false, hasHandwriting=false;
+        for (String[] row:script) {
+            hasSpelling|=row[0].startsWith("spell:");
+            hasHandwriting|=row[0].startsWith("hand:");
+        }
+        if (hasSpelling) changeSpellingStyle("带调号拼音");
+        openStyleKeyboard(hasHandwriting ? "手写" : modeLabel(current));
+        if (hasHandwriting) warmHandwriting();
+        press(modeLabel(current),100);
         press("隐藏键盘",100);
         SystemClock.sleep(700);
         segment(0);
-        trace("record-ready","拼写");
-        stage("chapter","土家语拼写");
+        captureStates="1".equals(options.getString("keyframes"));
+        shot("opening");
+        trace("record-ready",modeLabel(current));
+        stage("chapter",modeLabel(current));
         SystemClock.sleep(850);
-        openStyleKeyboard("土家语拼写");
-        String current="spell";
+        openStyleKeyboard(modeLabel(current));
+        shot("ready");
         boolean spaceBefore=false;
         for (int i=0;i<script.size();i++) {
+            if (i>0 && i%chunk==0) segment(i/chunk);
             String[] step=script.get(i);
             String[] input=step[0].split(":",2);
             if (input.length!=2) throw new IOException("Missing input mode for demonstration row "+(i+1));
             String mode=input[0], keys=input[1];
             if (!mode.equals(current)) {
-                String name=mode.equals("han") ? "汉字记音" : "手写";
+                String name=modeLabel(mode);
                 stage("chapter",name);
                 trace("mode-start",name);
                 press(name,230);
@@ -245,24 +281,32 @@ public final class Playback extends Instrumentation {
                 SystemClock.sleep(1100);
                 current=mode;
             }
+            shot("begin"+i);
             if (mode.equals("hand")) {
-                if (lookupKeyboard("拼写 ▾")!=null) press("切换手写输出",240);
-                require("记音 ▾");
                 trace("word-start",keys);
                 drawGlyph(keys);
                 trace("word-end",keys);
-                Rect glyph=require("手写字形 "+keys);
-                SystemClock.sleep(1800);
-                tap(glyph,220);
+                expectEditor(expected.toString()+keys);
+                shot("auto"+i);
+                stage("automatic", keys);
+                if (keys.equals(step[1])) {
+                    // An optional hint is observed, without pressing any candidate.
+                    if (!step[2].isEmpty()) require(step[2]);
+                } else {
+                    SystemClock.sleep(1300);
+                    choose(step[1],step[2],true);
+                }
             } else {
                 trace("word-start",keys);
                 typeAfterSettings(keys);
                 trace("word-end",keys);
+                shot("choices"+i);
+                choose(step[1],step[2],true);
             }
-            choose(step[1],step[2],true);
             if (spaceBefore) expected.append(' ');
             expected.append(step[1]);
             expectEditor(expected.toString());
+            shot("commit"+i);
             trace("commit",step[1]);
             stage("selected",step[1]);
             SystemClock.sleep(1200);
@@ -270,12 +314,14 @@ public final class Playback extends Instrumentation {
             if (!spaceBefore && !step[3].isEmpty()) {
                 if (mode.equals("hand")) {
                     press("汉字记音",200);
+                    current="han";
                     SystemClock.sleep(600);
                 }
                 appendPunctuation(step[3]);
                 expectEditor(expected.toString());
                 if (step[3].contains("。")) SystemClock.sleep(2000);
             }
+            shot("after"+i);
             stage("words",(i+1)+"/"+script.size());
         }
         stage("chapter","保存并重开");
@@ -287,9 +333,14 @@ public final class Playback extends Instrumentation {
 
     private void drawGlyph(String glyph) throws IOException {
         Rect pad=require("汉字手写区");
-        String line;
-        try (BufferedReader r=new BufferedReader(new FileReader(file("stroke-demo.tsv")))) { line=r.readLine(); }
-        if (line==null || !line.startsWith(glyph+"\t")) throw new IOException("Missing recorded stroke path for "+glyph);
+        String line=null;
+        try (BufferedReader r=new BufferedReader(new FileReader(file("stroke-demo.tsv")))) {
+            String next;
+            while ((next=r.readLine())!=null) {
+                if (next.startsWith(glyph+"\t")) { line=next; break; }
+            }
+        }
+        if (line==null) throw new IOException("Missing recorded stroke path for "+glyph);
         float side=.88f*Math.min(pad.width(),pad.height());
         int strokeNumber=0;
         for (String stroke:line.split("\t",2)[1].split(";")) {
@@ -301,12 +352,20 @@ public final class Playback extends Instrumentation {
                 float x=pad.exactCenterX()+(Float.parseFloat(xy[0])/1024f-.5f)*side;
                 float y=pad.exactCenterY()+(Float.parseFloat(xy[1])/1024f-.5f)*side;
                 int action=j==0 ? MotionEvent.ACTION_DOWN : j==points.length-1 ? MotionEvent.ACTION_UP : MotionEvent.ACTION_MOVE;
+                if (captureStates && j==points.length-1) {
+                    // Capture the true final movement before lifting. Capturing after
+                    // an UP could let the automatic character boundary expire.
+                    injectStroke(down,MotionEvent.ACTION_MOVE,x,y);
+                    shot("ink"+strokeNumber);
+                }
                 if (j==0 || j==points.length-1)
                     trace(j==0 ? "stroke-down" : "stroke-up",Integer.toString(strokeNumber));
-                injectStroke(down,action,x,y);
-                SystemClock.sleep(45);
+                // Finish the pen lift promptly so a multi-stroke character is
+                // not mistaken for several separate characters on a slow AVD.
+                inject(down,action,x,y);
+                SystemClock.sleep(20);
             }
-            SystemClock.sleep(170);
+            SystemClock.sleep(55);
         }
         if (!pad.equals(require("汉字手写区"))) throw new AssertionError("Handwriting panel changed bounds");
     }
@@ -346,6 +405,7 @@ public final class Playback extends Instrumentation {
         try (OutputStream out = new FileOutputStream(file("verified-note.txt"))) {
             out.write(saved[0].getBytes(StandardCharsets.UTF_8));
         }
+        shot("saved");
         stage("saved", wordCount + " selections; " + saved[0].length() + " UTF-16 units, verified after reopen");
         SystemClock.sleep(readingPace ? 4200 : 800);
         reviewSavedText();
@@ -423,7 +483,7 @@ public final class Playback extends Instrumentation {
             imm.showSoftInput(host.editor, InputMethodManager.SHOW_IMPLICIT);
         });
         press(mode,100);
-        require("待选拼写 ");
+        require("手写".equals(mode) ? "汉字手写区" : "待选拼写 ");
     }
 
     private void typeAfterSettings(String raw) {
@@ -446,11 +506,13 @@ public final class Playback extends Instrumentation {
                     injectStroke(down,MotionEvent.ACTION_UP,x,y);
                 }
                 Rect tone=require(symbol);
+                shot("tones");
                 SystemClock.sleep(700);
                 tap(tone,180);
             } else press(symbol,readingPace ? 310 : 155);
             trace("letter-released",raw.substring(0,i+1));
             require("待选拼写 " + raw.substring(0,i+1));
+            shot("draft");
             trace("preedit",raw.substring(0,i+1));
             SystemClock.sleep(readingPace ? 220 : 150);
         }
@@ -837,6 +899,7 @@ public final class Playback extends Instrumentation {
         if (readingPace) injectStroke(down,MotionEvent.ACTION_DOWN,x,y);
         else inject(down,MotionEvent.ACTION_DOWN,x,y);
         SystemClock.sleep(hold);
+        shot("press");
         inject(down,MotionEvent.ACTION_UP,x,y);
     }
 

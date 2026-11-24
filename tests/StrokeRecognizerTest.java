@@ -17,7 +17,7 @@ public class StrokeRecognizerTest {
 
     public static void main(String[] args) throws Exception {
         StrokeRecognizer model = new StrokeRecognizer(new FileInputStream(args[0]));
-        if (model.size() != 3559) throw new AssertionError("Dictionary coverage");
+        if (model.size() != 3561) throw new AssertionError("Dictionary coverage");
         if (!model.recognize(Collections.emptyList(),5).isEmpty()) throw new AssertionError("Blank pad");
         if (!model.recognize(Collections.singletonList(p(8,8)),5).isEmpty()) throw new AssertionError("Tap");
         // Independent finger-stroke samples, normalized by the matcher at any position/size.

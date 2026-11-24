@@ -1,6 +1,7 @@
 import biz.tujia.ime.CandidateEngine;
 import biz.tujia.ime.CandidateEngine.Candidate;
 import biz.tujia.ime.CandidateEngine.Mode;
+import biz.tujia.ime.CandidateEngine.Orthography;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -36,7 +37,12 @@ public final class CandidateEngineTest {
 
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
-        CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()));
+        CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()));
+        check(engine.scoreHandwritingPrefix("波俐") == 2, "Complete handwriting path");
+        check(engine.handwritingSuggestions("玻", Mode.HAN, Orthography.YE).stream().anyMatch(c ->
+                c.text.equals("波俐") && c.lexemeIds.equals("w309") && c.consumed == 1), "Handwritten initial alias completes whole word");
+        Candidate nextMeal = engine.nextWords("w2548", Mode.HAN, Orthography.YE).get(0);
+        check(nextMeal.lexemeIds.equals("w684") && nextMeal.consumed == 0 && nextMeal.text.equals("架"), "Attested next lexeme");
         List<String> rows = Files.readAllLines(asset, StandardCharsets.UTF_8);
         int words = 0;
         int compactGlosses = 0;
@@ -57,7 +63,7 @@ public final class CandidateEngineTest {
             }
             check(hasGloss, id + ": spelling, kind and glosses");
             if (!compact.equals(meaning)) compactGlosses++;
-            if (f.length == 13 && !f[12].isEmpty()) {
+            if (f.length >= 13 && !f[12].isEmpty()) {
                 java.util.ArrayList<Integer> offsets = new java.util.ArrayList<>();
                 int pos = 0;
                 for (String unit : f[12].split("\\|")) {

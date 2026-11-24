@@ -21,15 +21,21 @@ struct Candidate {
     std::vector<int> joinedHanRanges{};
     // An orthographic spelling fallback, independent of a lexical word or meaning.
     bool syllableOnly = false;
+    // Space-delimited source IDs in selection order. Empty ends lexical context.
+    std::string lexemeIds{};
 };
 
 class Lexicon {
 public:
-    explicit Lexicon(const std::string& tsv);
+    explicit Lexicon(const std::string& tsv, const std::string& ngrams = {});
     ~Lexicon();
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode,
                                   Orthography orthography = Orthography::Ye) const;
+
+    std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;
+    int scoreHandwritingPrefix(const std::string& glyphs) const;
+    std::vector<Candidate> nextWords(const std::string& previousIds, Mode output, Orthography style) const;
 
 private:
     struct Impl;

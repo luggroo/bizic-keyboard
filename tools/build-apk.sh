@@ -11,7 +11,13 @@ source_root="$root_dir/app/src/main"
 java_dir="$source_root/java"
 assets_dir="$root_dir/shared/bundle/Assets"
 application_id="biz.tujia.ime"
-if [[ "${1:-}" == "--device-test" ]]; then
+if [[ "${1:-}" == "--performance-test" ]]; then
+  shift
+  source_root="$root_dir/qa/device"
+  java_dir="$source_root/src"
+  assets_dir=""
+  application_id="biz.tujia.ime.perf"
+elif [[ "${1:-}" == "--device-test" ]]; then
   shift
   source_root="$root_dir/device-test"
   java_dir="$source_root/src"
@@ -20,7 +26,7 @@ if [[ "${1:-}" == "--device-test" ]]; then
 fi
 out="${1:-$root_dir/build/$application_id.apk}"
 case "$out" in /*) ;; *) out="$PWD/$out";; esac
-if (( $# > 1 )); then echo 'Usage: build-apk.sh [--device-test] [output.apk]' >&2; exit 1; fi
+if (( $# > 1 )); then echo 'Usage: build-apk.sh [--device-test|--performance-test] [output.apk]' >&2; exit 1; fi
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$work/generated" "$work/classes" "$work/dex"
@@ -46,7 +52,7 @@ fi
 if [[ -n "$assets_dir" ]]; then resources+=(-A "$assets_dir"); fi
 "$build_tools/aapt2" link -I "$platform_jar" --manifest "$work/AndroidManifest.xml" \
   --java "$work/generated" --min-sdk-version 23 --target-sdk-version 35 \
-  --version-code 4 --version-name 0.2.2 -o "$work/app.apk" "${resources[@]}"
+  --version-code 5 --version-name 0.3.0 -o "$work/app.apk" "${resources[@]}"
 
 mapfile -d '' sources < <(find "$java_dir" "$work/generated" -name '*.java' -print0)
 javac -encoding UTF-8 -source 8 -target 8 -Xlint:-options \

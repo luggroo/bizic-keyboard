@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +23,13 @@ import java.util.concurrent.Executors;
 
 /** Finger/stylus input; the caller displays character choices and chooses when to commit. */
 public final class HandwritingPad extends View {
-    public interface Listener { void onCandidates(List<String> characters); }
+    public interface Listener {
+        void onStrokeStarted(boolean firstStroke);
+        void onCandidates(List<String> characters);
+        void onSettled();
+    }
+    private static final long SETTLE_MS = 1050;
+    private Runnable pendingAccept;
 
     private static final int NONE = -1;
     private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
@@ -60,17 +67,30 @@ public final class HandwritingPad extends View {
         setContentDescription("手写记音字，逐笔书写后选字");
     }
 
+    public boolean hasInk() { return currentPath != null || !strokes.isEmpty(); }
+
+    private void cancelAccept() {
+        if (pendingAccept != null) main.removeCallbacks(pendingAccept);
+        pendingAccept = null;
+    }
+
     public void clear() {
+        clearInk();
+        listener.onCandidates(Collections.<String>emptyList());
+    }
+
+    public void clearInk() {
+        cancelAccept();
         generation++;
         discardActive();
         strokes.clear();
         paths.clear();
         message = "";
-        listener.onCandidates(Collections.<String>emptyList());
         invalidate();
     }
 
     public void undoStroke() {
+        cancelAccept();
         generation++;
         discardActive();
         if (!strokes.isEmpty()) {
@@ -116,14 +136,16 @@ public final class HandwritingPad extends View {
         switch(event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 if (strokes.size() >= 64) { message="请选字、撤笔或重写"; invalidate(); return true; }
+                cancelAccept();
                 generation++;
-                listener.onCandidates(Collections.<String>emptyList());
+                listener.onStrokeStarted(strokes.isEmpty());
                 getParent().requestDisallowInterceptTouchEvent(true);
                 activePointer = event.getPointerId(0);
                 used = 0;
                 currentPath = new Path();
                 message = "";
                 addPoint(event.getX(),event.getY());
+                listener.onCandidates(Collections.<String>emptyList());
                 invalidate();
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -178,6 +200,8 @@ public final class HandwritingPad extends View {
 
     private void recognize() {
         final int request = ++generation;
+        final long idleAt = SystemClock.uptimeMillis() + SETTLE_MS;
+        cancelAccept();
         // Completed arrays are immutable; the next stroke writes to a separate buffer.
         final List<float[]> snapshot = new ArrayList<>(strokes);
         WORKER.execute(() -> {
@@ -191,6 +215,13 @@ public final class HandwritingPad extends View {
                     if (generation != request) return;
                     message = results.isEmpty() ? "请继续写或重写" : "";
                     listener.onCandidates(results);
+                    if (!results.isEmpty() && generation == request) {
+                        pendingAccept = () -> {
+                            pendingAccept = null;
+                            if (generation == request && currentPath == null && isShown()) listener.onSettled();
+                        };
+                        main.postAtTime(pendingAccept, idleAt);
+                    }
                     invalidate();
                 });
             } catch (IOException | RuntimeException ex) {
@@ -205,7 +236,13 @@ public final class HandwritingPad extends View {
         });
     }
 
+    @Override protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!strokes.isEmpty() && currentPath == null) recognize();
+    }
+
     @Override protected void onDetachedFromWindow() {
+        cancelAccept();
         generation++;
         discardActive();
         super.onDetachedFromWindow();

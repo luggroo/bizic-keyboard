@@ -65,6 +65,7 @@ public final class KeyboardTest extends Instrumentation {
                 testSpellingStyle();
                 testJoinedForms();
                 testApicalVowels();
+                testContinuousHandwriting();
             } finally {
                 setStyleFromLauncher(originalStyle);
             }
@@ -146,19 +147,15 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, "ngaf yer ga诶");
 
         press("手写");
-        stage("Handwriting");
+        stage("Automatic handwriting in spelling output");
+        setHandwritingOutput(false);
         Rect pad = waitForNode("汉字手写区", false);
-        // Draw 三 using three real strokes. The pad runs its normal stroke recognizer.
-        drawStroke(pad, .23f, .20f, .77f, .20f);
-        drawStroke(pad, .29f, .48f, .71f, .48f);
-        drawStroke(pad, .10f, .80f, .90f, .80f);
-        if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved while drawing");
-        press("手写字形 三");
-        pressCandidate("三，sangx", false);
+        drawThree(pad);
         expectText(host.second, "ngaf yer ga诶sangx");
+        if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved while drawing");
 
         stage("Handwrite 尬, distinguish the eating sense, commit the recommended Han form");
-        press("切换手写输出");
+        setHandwritingOutput(true);
         drawStroke(pad, .13f,.31f, .21f,.31f, .42f,.26f);
         drawStroke(pad, .25f,.08f, .29f,.13f, .25f,.47f, .18f,.64f, .06f,.81f);
         drawStroke(pad, .32f,.38f, .34f,.41f, .33f,.64f, .35f,.76f, .44f,.83f, .63f,.85f, .83f,.79f, .89f,.75f, .90f,.62f);
@@ -166,13 +163,12 @@ public final class KeyboardTest extends Instrumentation {
         drawStroke(pad, .61f,.21f, .72f,.34f, .81f,.41f, .93f,.43f);
         drawStroke(pad, .50f,.43f, .54f,.47f, .53f,.59f, .49f,.67f, .43f,.72f);
         drawStroke(pad, .65f,.40f, .68f,.44f, .68f,.77f);
-        press("手写字形 尬");
+        expectText(host.second, "ngaf yer ga诶sangx尬");
         waitForNode("干、渴，夹", false);
         pressCandidate("吃、咬，架", false);
         expectText(host.second, "ngaf yer ga诶sangx架");
         press("退格");
         expectText(host.second, "ngaf yer ga诶sangx");
-        press("切换手写输出");
 
         press("语音");
         stage("Voice placeholder");
@@ -379,6 +375,66 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
+    private void testContinuousHandwriting() {
+        stage("Two handwritten characters reach the editor with no confirmation taps");
+        runOnMainSync(() -> { host.first.setText("首"); host.second.setText("原"); });
+        tapField(host.first);
+        press("手写");
+        setHandwritingOutput(true);
+        Rect pad = waitForNode("汉字手写区", false);
+        drawBo(pad);
+        expectText(host.first, "首波");
+        waitForNode("续写 小孩、儿童，波俐", false);
+        waitForNode("波  →  俐", false);
+        drawLi(pad);
+        expectText(host.first, "首波俐");
+        if (!pad.equals(waitForNode("汉字手写区", false)))
+            throw new AssertionError("Writing the next character moved the pad");
+        pressCandidate("小孩、儿童，波俐", false);
+        expectText(host.first, "首波俐");
+        pressCandidate("联想 没有，太", false);
+        expectText(host.first, "首波俐太");
+
+        stage("Correct a handwritten character, then accept a word completion and its next word");
+        tapField(host.second);
+        drawBo(pad);
+        expectText(host.second, "原波");
+        press("手写字形 坡");
+        expectText(host.second, "原坡");
+        tapField(host.first);
+        tapField(host.second);
+        drawBo(pad);
+        expectText(host.second, "原坡波");
+        pressCandidate("续写 小孩儿，波俐", false);
+        expectText(host.second, "原坡波俐");
+        pressCandidate("联想 大人，再", false);
+        expectText(host.second, "原坡波俐再");
+
+        stage("Pending strokes and correction cannot cross editor or cursor changes");
+        drawThree(pad);
+        tapField(host.first);
+        SystemClock.sleep(1600);
+        expectText(host.second, "原坡波俐再");
+        expectText(host.first, "首波俐太");
+        drawBo(pad);
+        expectText(host.first, "首波俐太波");
+        runOnMainSync(() -> host.first.setSelection(1, 3));
+        waitAbsent("手写字形 坡");
+        drawThree(pad);
+        expectText(host.first, "首三太波");
+        runOnMainSync(() -> host.first.setSelection(1));
+        waitAbsent("手写字形 三");
+        drawThree(pad);
+        expectText(host.first, "首三三太波");
+        expectText(host.second, "原坡波俐再");
+    }
+
+    private void setHandwritingOutput(boolean han) {
+        String wanted = han ? "记音 ▾" : "拼写 ▾";
+        if (pollNode(wanted, false, 150) == null) press("切换手写输出");
+        waitForNode(wanted, false);
+    }
+
     private void assertJoinedRanges(EditText field, int... limits) {
         AtomicReference<Spanned> snapshot = new AtomicReference<>();
         runOnMainSync(() -> snapshot.set(new SpannedString(field.getText())));
@@ -578,6 +634,35 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Expected [" + expected + "], got [" + actual.get() + "]");
     }
 
+    private void drawThree(Rect pad) {
+        drawStroke(pad, .23f, .20f, .77f, .20f);
+        drawStroke(pad, .29f, .48f, .71f, .48f);
+        drawStroke(pad, .10f, .80f, .90f, .80f);
+    }
+
+    private void drawBo(Rect pad) {
+        drawStroke(pad, .20f,.18f, .30f,.27f);
+        drawStroke(pad, .13f,.37f, .22f,.44f);
+        drawStroke(pad, .17f,.84f, .16f,.76f, .31f,.50f);
+        drawStroke(pad, .45f,.33f, .75f,.27f, .78f,.30f, .72f,.38f);
+        drawStroke(pad, .38f,.31f, .42f,.38f, .40f,.59f, .27f,.86f);
+        drawStroke(pad, .55f,.08f, .60f,.13f, .57f,.50f);
+        drawStroke(pad, .48f,.53f, .66f,.50f, .70f,.53f, .60f,.76f, .39f,.84f);
+        drawStroke(pad, .47f,.59f, .79f,.86f, .95f,.87f);
+    }
+
+    private void drawLi(Rect pad) {
+        drawStroke(pad, .27f,.12f, .31f,.17f, .27f,.24f, .07f,.50f);
+        drawStroke(pad, .22f,.37f, .22f,.80f);
+        drawStroke(pad, .60f,.16f, .54f,.15f, .34f,.28f);
+        drawStroke(pad, .31f,.42f, .58f,.37f);
+        drawStroke(pad, .44f,.25f, .48f,.27f, .46f,.82f);
+        drawStroke(pad, .45f,.42f, .41f,.52f, .29f,.68f);
+        drawStroke(pad, .49f,.50f, .57f,.57f);
+        drawStroke(pad, .64f,.30f, .66f,.34f, .67f,.59f);
+        drawStroke(pad, .75f,.10f, .81f,.15f, .80f,.76f, .78f,.81f, .66f,.77f);
+    }
+
     private void drawStroke(Rect pad, float... points) {
         float side = Math.min(pad.width(), pad.height()) * .88f;
         float left = pad.exactCenterX() - side / 2f;
@@ -638,7 +723,7 @@ public final class KeyboardTest extends Instrumentation {
             if (findNode(label, false) == null) return;
             SystemClock.sleep(80);
         } while (SystemClock.uptimeMillis() < end);
-        throw new AssertionError("Keyboard did not close");
+        throw new AssertionError("Keyboard still exposes " + label + ": " + visibleControls());
     }
 
     private String visibleControls() {

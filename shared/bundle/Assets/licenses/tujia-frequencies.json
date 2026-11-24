@@ -7,26 +7,30 @@
     "data.json.gz": "7e380eb315516cb26484e16996fd3fe502bae0ac4531bd4176879e15a62bc2dc",
     "dictionary.json.gz": "7a090fdd4a77a3921aa818ee5a7ec03d4d87b8b839cf37e00ca32dfc3a4a5156",
     "longshan-texts.js": "ceabb318e7c4aea8a39794fb50647d4907a2d265ecb2d5c50447bc587cbcefec",
-    "notation-ui.js": "07f670c2d34e3a6be49eaccd00dfd39646b10561e85b84eb3268c3ba89cf7cb8"
+    "notation-ui.js": "07f670c2d34e3a6be49eaccd00dfd39646b10561e85b84eb3268c3ba89cf7cb8",
+    "notation-profiles.js": "c55a952891410ff74f78253178bf3089a1af2b5a809dbc3555135b2d4cb0872b",
+    "lexical-reviews.js": "4401d7c6dcd96f39ae1c65180bcb4ab5e00d6b4f5d8f2103df256fc4182b76b9",
+    "spelling-boundaries.js": "1e6a513bca1eb2c8b5820e1e0e0b8b1af05e11d382bf921a20fddf8dd54a71e1"
   },
   "inputSHA256": {
     "words.js": "dbc1164b0782be846aa051b5ba6e7b016e33373b5a6727a2828a4ef7fe3b239c",
-    "story-words.tsv": "27fe410d2b1fb8e1cbc879ed8e554f02d9616404dc139adb2cae85dd055c7282",
+    "story-words.tsv": "fbd85742676141ba52dd0212e18d9ffa55c2cd561dfe1f57af0765a8d71e1e23",
+    "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
     "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703"
   },
   "stats": {
     "annotatedTexts": 14,
     "annotatedUnits": 8536,
-    "annotatedMatches": 947,
+    "annotatedMatches": 1435,
     "longshanTexts": 4,
-    "longshanUnits": 1277,
-    "longshanMatches": 418,
+    "longshanUnits": 1280,
+    "longshanMatches": 421,
     "brassettTexts": 25,
     "brassettUnits": 14139,
     "brassettMatches": 434
   },
-  "tujiaRows": 510,
+  "tujiaRows": 524,
   "referenceRows": 1243,
-  "observedRows": 285,
+  "observedRows": 299,
   "mandarinRows": 35916
 }

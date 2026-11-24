@@ -24,9 +24,10 @@ final class NativeCore {
         return text.getBytes(StandardCharsets.UTF_8);
     }
 
-    static native long loadLexicon(byte[] data) throws IOException;
+    static native long loadLexicon(byte[] data, byte[] ngrams) throws IOException;
     static native void freeLexicon(long model);
-    static native CandidateEngine.Candidate[] lookup(long model, byte[] input, int mode, int orthography);
+    static native CandidateEngine.Candidate[] lookup(long model, byte[] input, int mode, int orthography, int operation);
+    static native int scoreHandwritingPrefix(long model, byte[] glyphs);
     static native String suffix(byte[] draft, int consumedUTF16);
     static native String space(byte[] candidate, char before, char after);
 

@@ -20,11 +20,14 @@ public final class CandidateEngine implements AutoCloseable {
         public final Kind kind;
         public final int consumed;
         public final boolean syllableOnly;
+        /** Source IDs in commit order. Empty for punctuation, defaults and Chinese fallback. */
+        public final String lexemeIds;
         /** Flattened UTF-16 start/end-exclusive ranges of two-Han syllables in text. */
         public final int[] joinedHanRanges;
 
         private Candidate(String text, String meaning, String shortMeaning, int kind, int consumed,
-                          int[] joinedHanRanges, boolean syllableOnly) {
+                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds) {
+            this.lexemeIds = lexemeIds;
             this.syllableOnly = syllableOnly;
             this.text = text;
             this.meaning = meaning;
@@ -38,17 +41,40 @@ public final class CandidateEngine implements AutoCloseable {
     private long model;
 
     public CandidateEngine(InputStream input) throws IOException {
-        model = NativeCore.loadLexicon(NativeCore.readAsset(input));
+        this(input, null);
+    }
+
+    public CandidateEngine(InputStream input, InputStream ngrams) throws IOException {
+        try (InputStream context = ngrams) {
+            model = NativeCore.loadLexicon(NativeCore.readAsset(input), context == null ? new byte[0] : NativeCore.readAsset(context));
+        }
     }
 
     public List<Candidate> lookup(String input, Mode mode) {
         return lookup(input, mode, Orthography.YE);
     }
 
-    public synchronized List<Candidate> lookup(String input, Mode mode, Orthography orthography) {
+    public List<Candidate> lookup(String input, Mode mode, Orthography orthography) {
+        return candidates(input, mode, orthography, 0);
+    }
+
+    public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {
+        return candidates(acceptedHan, outputMode, style, 1);
+    }
+
+    public List<Candidate> nextWords(String previousIds, Mode outputMode, Orthography style) {
+        return candidates(previousIds, outputMode, style, 2);
+    }
+
+    public synchronized int scoreHandwritingPrefix(String acceptedHan) {
+        if (model == 0) throw new IllegalStateException("Dictionary closed");
+        return acceptedHan == null || acceptedHan.isEmpty() ? 0 : NativeCore.scoreHandwritingPrefix(model, NativeCore.encode(acceptedHan));
+    }
+
+    private synchronized List<Candidate> candidates(String input, Mode mode, Orthography orthography, int operation) {
         if (model == 0) throw new IllegalStateException("Dictionary closed");
         if (input == null || input.isEmpty() || mode == null || orthography == null) return Collections.emptyList();
-        return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(input), mode.ordinal(), orthography.ordinal()));
+        return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(input), mode.ordinal(), orthography.ordinal(), operation));
     }
 
     public static String suffixAfterChoice(String draft, int consumedUTF16) {

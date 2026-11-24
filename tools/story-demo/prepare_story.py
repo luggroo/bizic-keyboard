@@ -4,7 +4,6 @@ Usage: python3 tools/story-demo/prepare_story.py DICTIONARY_REPO TRANSLATOR_REPO
 """
 import csv
 import json
-import html
 import re
 import subprocess
 import sys
@@ -15,14 +14,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from han_orthography import REVISIONS, Orthography
+from xu_song import make_song
+from longshan_spelling import align, reviewed_glosses
 
 dictionary, translator, web = map(Path, sys.argv[1:4])
 orthography = Orthography.from_file()
 story_path = ROOT / "tools/data/story-words.tsv"
-previous = {}
-if story_path.exists():
-    with story_path.open(encoding="utf-8") as archive:
-        previous = {(row["word"], row["meaning"]): row for row in csv.DictReader(archive, delimiter="\t")}
+# The release's handwritten variants are stable import inputs. Rebuilding in a
+# clean tree must not learn new aliases from the last generated output.
+with (ROOT/'tools/data/legacy-story-input-forms.tsv').open(encoding="utf-8") as archive:
+    previous = {(r["word"],r["meaning"]):r for r in csv.DictReader(archive,delimiter="\t")}
 source_id = "tlp-longshan-stories-02-01"
 source = next(s for s in json.loads((dictionary / "site/longshan-texts.json").read_text()) if s["id"] == source_id)
 assert source["title"] == "陈二郎戏弄哥哥" and len(source["blocks"]) == 6
@@ -46,12 +47,15 @@ per_syllable = {"gi": "给", "ki": "尅", "hi": "黑", "hxi": "诶"}
 ref_variants = {"tsʰɨ⁵⁵": "tsʰɿ⁵⁵", "tsʰɨ²¹": "tsʰɿ²¹"}
 occurrences = []
 keyed = {}
+# Keep existing entry IDs even after repairing an erroneous gloss boundary.
+source_keys = dict.fromkeys((''.join(g['ye'].lower().split()),g['zh']) for b in source['blocks'] for g in b['glosses'])
+old_ids={key:'ls60-'+str(i) for i,key in enumerate(source_keys,1)}
 for block_no, block in enumerate(source["blocks"], 1):
     letters = re.findall(r"([a-z]+)([^a-z]*)", block["ye"].lower())
     sounds = re.findall(r"[^\s,.;:!?，。；、：“”！？]+", block["ipa"])
     assert len(letters) == len(sounds)
     cursor = 0
-    for gloss in block["glosses"]:
+    for gloss in reviewed_glosses(block):
         parts = gloss["ye"].lower().split()
         stops = letters[cursor:cursor+len(parts)]
         assert parts == [v[0] for v in stops] and all(not v[1].strip() for v in stops[:-1])
@@ -85,7 +89,7 @@ for block_no, block in enumerate(source["blocks"], 1):
         assert len(parts) == len(units) and all(1 <= len(unit) <= 2 for unit in units), (lookup, units, parts)
         han = "".join(units)
         prior = previous.get(lookup, {})
-        word_id = keyed[lookup]['id'] if lookup in keyed else exact['id'] if exact else 'ls60-'+str(len(keyed)+1)
+        word_id = keyed[lookup]['id'] if lookup in keyed else exact['id'] if exact else old_ids.get(lookup, 'tlp-'+ye)
         aliases = []
         if not exact:
             old = names.get(lookup, "".join(legacy_units))
@@ -105,7 +109,7 @@ for block_no, block in enumerate(source["blocks"], 1):
             groups.append(group)
         if lookup not in keyed:
             keyed[lookup] = dict(id=word_id,
-                                 word=ye, meaning=exact["meaning"] if exact else meaning, storyMeaning=meaning,
+                                 word=ye, sourceYe=" ".join(parts), meaning=exact["meaning"] if exact else meaning, storyMeaning=meaning,
                                  recommended=han, hanUnits=units, syllables=ipa, aliases=aliases,
                                  variants=groups, inBase=bool(exact))
             non_table = [(syl, unit) for syl, unit in zip(parts, units) if orthography.base(syl) is None]
@@ -118,24 +122,20 @@ for block_no, block in enumerate(source["blocks"], 1):
         occurrences.append((block_no,lookup,after))
     assert cursor == len(letters)
 
-converted = json.loads(subprocess.check_output(
-    ["node", str(translator/"scripts/tujia-lex-spelling.cjs"), str(dictionary)],
-    input=json.dumps([dict(mode="ye", text=v["word"]) for v in keyed.values()]).encode()))
+merged_aliases=align(keyed,base,dictionary/'site',ROOT,orthography,refs)
+with (ROOT/'tools/data/story-spelling-aliases.tsv').open('w',newline='') as f:
+    table=csv.writer(f,delimiter='\t',lineterminator='\n');table.writerow(['id','romanAliases'])
+    for i,alts in sorted(merged_aliases.items()):
+        if alts:table.writerow([i,' '.join(alts)])
 counts = Counter(key for _,key,_ in occurrences)
-for (k, w), mark in zip(keyed.items(), converted):
-    w["diacritic"] = mark["accent"]
-    naked = ''.join(c for c in unicodedata.normalize('NFD',mark["accent"]) if c not in "\u0300\u0301\u0304\u030c")
-    w["plain"] = unicodedata.normalize('NFC',naked).replace("'","")
-    w["key"] = w["plain"]
-    assert re.fullmatch("[a-z]+",w["plain"]), w
-extras = [w for w in keyed.values() if not w["inBase"]]
+extras = list({w['id']:w for w in keyed.values() if not w['inBase']}.values())
 header = ["id","word","key","meaning","recommended","aliases","variants","frequency","kind","shortGloss","plain","diacritic","hanUnits"]
 with story_path.open("w", encoding="utf-8", newline="") as out:
     table = csv.writer(out, delimiter='\t', lineterminator='\n')
     table.writerow(header)
     for w in extras:
         table.writerow([w["id"],w["word"],w["key"],w["storyMeaning"],w["recommended"]," ".join(w["aliases"]),
-                        " ".join(w["variants"]),counts[w["word"],w["storyMeaning"]],
+                        " ".join(w["variants"]),counts[w["sourceWord"],w["storyMeaning"]],
                         "tujia",w["storyMeaning"],w["plain"],w["diacritic"],"|".join(w["hanUnits"])])
 record = ROOT/"tools/story-demo/chen-erlang.tsv"
 with record.open("w", encoding="utf-8", newline="") as out:
@@ -144,49 +144,22 @@ with record.open("w", encoding="utf-8", newline="") as out:
     for n, key, after in occurrences:
         w=keyed[key]
         table.writerow([w["plain"],w["recommended"],w["meaning"],after.replace("\n","\\n"),"|".join(w["hanUnits"])])
-sections=[]
-paragraphs=[]
-styled_paragraphs=[]
-for n,b in enumerate(source["blocks"],1):
-    rows=[{"id":keyed[key]["id"], "end":after} for num,key,after in occurrences if num==n]
-    sections.append({"translation":b["zh"],"rows":rows})
-    paragraphs.append("".join(keyed[key]["recommended"]+end for num,key,end in occurrences if num==n).rstrip("\n"))
-    pieces = []
-    for num, key, after in occurrences:
-        if num != n: continue
-        for unit in keyed[key]["hanUnits"]:
-            rendered = html.escape(unit)
-            if len(unit) == 2:
-                rendered = '<span class="joined-han"><span>'+rendered+'</span></span>'
-            pieces.append(rendered)
-        pieces.append(html.escape(after.rstrip("\n")))
-    styled_paragraphs.append("<p>"+"".join(pieces)+"</p>")
+# The old source is retained for the archive recording. The active demo uses Xu's first song.
+song, song_note = make_song(dictionary, base + extras, orthography, ROOT, refs)
+with story_path.open("a", encoding="utf-8", newline="") as out:
+    table=csv.writer(out, delimiter='\t', lineterminator='\n')
+    for w in song:
+        table.writerow([w["id"],w["word"],w["key"],w["meaning"],w["recommended"],"", " ".join(w["variants"]),
+                        0, "tujia",w["shortGloss"],w["plain"],w["diacritic"],"|".join(w["hanUnits"])])
+sections=[dict(translation=b['zh'],rows=[dict(id=keyed[key]['id'],end=after) for num,key,after in occurrences if num==n])
+          for n,b in enumerate(source['blocks'],1)]
+archived = dict(title=source['title'],url='https://tujia.biz/?id='+source_id,source=source['externalUrl'],sections=sections)
 dump=lambda v:json.dumps(v,ensure_ascii=False,separators=(',',':'))
-(web/"story-words.js").write_text("const storyEntries="+dump(extras)+";\nconst noteStory="+dump({"title":source["title"],"url":"https://tujia.biz/?id="+source["id"],"source":source["externalUrl"],"sections":sections})+";\n")
-landing = web / "android.html"
-if landing.is_file():
-    markup = landing.read_text(encoding="utf-8")
-    # Keep the existing summary, source attribution, media players and all other page content.
-    pattern = r'(<section class="manuscript"><details><summary>[^<]*</summary>)(.*?)(?=<p><a\s)'
-    matches = list(re.finditer(pattern, markup, flags=re.DOTALL))
-    if len(matches) != 1 or len(re.findall(r"<p>.*?</p>", matches[0].group(2), flags=re.DOTALL)) != 6:
-        raise ValueError("Could not identify six manuscript paragraphs in android.html")
-    a, b = matches[0].span(2)
-    markup = markup[:a] + "".join(styled_paragraphs) + markup[b:]
-    style = """<style id="manuscript-han-units">
-.manuscript .joined-han { display: inline-block; width: 1.68em; line-height: 1.08; white-space: nowrap; border-bottom: .07em solid currentColor; }
-.manuscript .joined-han > span { display: inline-block; transform-origin: left center; transform: scaleX(.84); }
-</style>"""
-    existing = re.search(r'<style id="manuscript-han-units">.*?</style>', markup, flags=re.DOTALL)
-    if existing:
-        markup = markup[:existing.start()] + style + markup[existing.end():]
-    else:
-        markup = markup.replace("</head>",style+"\n</head>",1)
-    landing.write_text(markup, encoding="utf-8")
+(web/"story-words.js").write_text("const storyEntries="+dump(extras+song)+";\nconst noteStory="+dump(song_note)+";\nconst archivedStory="+dump(archived)+";\n")
 print(source["title"],len(sections),"paragraphs,",len(occurrences),"selections,",
       sum(len(keyed[k]["hanUnits"]) for _,k,_ in occurrences),"syllables,",
       sum(len(keyed[k]["recommended"]) for _,k,_ in occurrences),"Han glyphs,",len(extras),"additional entries")
-fallbacks = sorted({(f["spelling"],f["unit"]) for w in keyed.values() for f in w.get("sourceFallback",[])})
+fallbacks = sorted({(s,u) for w in keyed.values() for s,u in zip(w["siteSyllables"],w["hanUnits"]) if orthography.base(s) is None})
 if fallbacks:
     print("Source spellings outside the default table:", ", ".join(f"{s} → {u}" for s,u in fallbacks))
 # The reference page also lists original story spellings outside the supplied table.

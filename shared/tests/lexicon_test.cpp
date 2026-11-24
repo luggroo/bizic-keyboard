@@ -73,7 +73,7 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
     unsigned count = 0, ordinary = 0, syllables = 0;
     while (std::getline(rows, line)) {
         const auto fields = split(line, '\t');
-        check(fields.size() == 7 || fields.size() == 10 || fields.size() == 12 || fields.size() == 13,
+        check(fields.size() == 7 || fields.size() == 10 || fields.size() == 12 || fields.size() == 13 || fields.size() == 14,
               "Invalid test asset");
         const auto& id = fields[0];
         const auto& word = fields[1];
@@ -103,6 +103,13 @@ void checkCorpus(const Lexicon& lexicon, const std::string& asset) {
         verify(Mode::Han, word, han);
         verify(Mode::Han, key, han);
         verify(Mode::Handwriting, han, word);
+        if (fields.size() == 14) {
+            for (const auto& alias : split(fields[13], ' ')) {
+                if (alias.empty()) continue;
+                check(offers(lexicon.lookup(alias, Mode::Pinyin), word, meaning, editorLength(alias)),
+                      id + ": original romanization " + alias);
+            }
+        }
         if (fields.size() >= 12) {
             const auto& plain = fields[10];
             const auto& marked = fields[11];
@@ -154,6 +161,18 @@ void checkSentences(const Lexicon& lexicon) {
     auto human = lexicon.lookup("倮", Mode::Handwriting);
     check(offers(human, "lov", "人", 1) && !offers(human, "lov", "暖和", 1), "Word-specific glyph");
     check(offers(lexicon.lookup("hxif", Mode::Han), "诶", "走", 4), "Customary syllable");
+    for (auto [syllable, han] : {std::pair{"hxex","呃"}, {"hxef","轭"}, {"hxer","额"}, {"hxev","呃"}}) {
+        auto options = lexicon.lookup(syllable, Mode::Han);
+        check(std::any_of(options.begin(), options.end(), [&](const Candidate& c) {
+            return c.syllableOnly && c.text == han && c.joinedHanRanges.empty();
+        }), std::string("Single-character hxe default: ") + syllable);
+    }
+    for (auto [key, han] : {std::pair{"xi","兮"}, {"xige","兮膈"}}) {
+        auto options = lexicon.lookup(key, Mode::Han);
+        check(std::any_of(options.begin(), options.end(), [&](const Candidate& c) {
+            return c.lexemeIds == std::string("grammar-") + key && c.text == han;
+        }), std::string("Grammatical reading: ") + key);
+    }
     check(lexicon.lookup("gaf", Mode::Handwriting).empty(), "Latin via handwriting");
     check(lexicon.lookup("龘", Mode::Pinyin).empty(), "Unknown pinyin");
     check(lexicon.lookup("", Mode::Pinyin).empty(), "Empty composition");
@@ -264,6 +283,35 @@ void checkHanUnitsAndDefaults() {
     check(first(lex, "px", Mode::Pinyin).joinedHanRanges.empty(), "No underline on spelling output");
 }
 
+void checkContext(const Lexicon& lex) {
+    const auto han = Mode::Han;
+    const auto ye = Orthography::Ye;
+    const auto marked = Orthography::Diacritic;
+    check(offers(lex.handwritingSuggestions("玻", han, ye), "波俐", "小孩、儿童", 1), "Alias prefix as complete word");
+    check(offers(lex.handwritingSuggestions("波", Mode::Handwriting, ye), "boxlir", "小孩、儿童", 1), "Handwriting to spelling completion");
+    check(!offers(lex.handwritingSuggestions("波俐", han, ye), "波俐", "小孩、儿童", 2), "Exact lexeme is not a completion");
+    check(lex.scoreHandwritingPrefix("波俐") == 2 && lex.scoreHandwritingPrefix("玻") > 0 &&
+          lex.scoreHandwritingPrefix("波。") == 0 && lex.scoreHandwritingPrefix("") == 0, "Recognition evidence and boundaries");
+    check(!lex.nextWords("w2548",han,ye).empty() && lex.nextWords("w2548",han,ye).front().lexemeIds == "w684", "Attested 饭→吃");
+    check(offers(lex.nextWords("w2548",Mode::Pinyin,marked), "gá", "吃、咬", 0), "Prediction consumes zero, uses chosen orthography");
+    check(lex.nextWords("w2548 。",han,ye).empty() && lex.nextWords("unknown",han,ye).empty(), "No cross-boundary inference");
+    check(lex.lookup("ngafyergaf。", Mode::Pinyin).front().lexemeIds.empty() &&
+          lex.lookup("ngafyergaf", Mode::Pinyin).front().lexemeIds == "w1585 w2548 w684", "Sentence context reset after punctuation");
+    Lexicon fixture("id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\n"
+                    "one\ta\ta\t甲\t甲\t\t甲\t1\ttujia\t甲\ta\ta\t甲\talf\n"
+                    "two\tb\tb\t乙\t乙\t\t乙\t20\ttujia\t乙\tb\tb\t乙\t\n"
+                    "three\tc\tc\t丙\t𠀀汉人\t见里\t山 人\t4\ttujia\t丙\tc\tc\t𠀀汉|人\t\n",
+                    "context\tnext\tcount\texample\none\ttwo\t8\tx\none\tthree\t1\tx\ntwo one\tthree\t1\tx\n");
+    check(fixture.nextWords("one",han,ye).front().lexemeIds == "two" &&
+          fixture.nextWords("two one",han,ye).front().lexemeIds == "three" && fixture.nextWords("two one",han,ye).size()==2,
+          "Observed trigram precedes high-frequency bigram, no double suggestion");
+    auto partial = fixture.handwritingSuggestions("𠀀",han,ye);
+    check(partial.size() == 1 && partial.front().consumed == 2 && partial.front().joinedHanRanges == std::vector<int>{0,3} &&
+          fixture.scoreHandwritingPrefix("𠀀") == 1, "Half of two-Han unit is a strict completion, UTF-16");
+    check(fixture.scoreHandwritingPrefix("见") == 1 && fixture.scoreHandwritingPrefix("山人") == 2, "Historical alias and mixed alternatives");
+    check(fixture.lookup("alf",Mode::Pinyin).front().lexemeIds == "one", "Source roman aliases retain canonical output");
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -274,7 +322,12 @@ int main(int argc, char** argv) {
         std::ostringstream contents;
         contents << input.rdbuf();
         const std::string asset = contents.str();
-        Lexicon lexicon(asset);
+        std::string assetPath(argv[1]);
+        std::ifstream gramFile(assetPath.substr(0,assetPath.find_last_of("/\\")+1)+"ngrams.tsv");
+        check(gramFile.good(), "Cannot open ngram data");
+        std::ostringstream ngrams; ngrams << gramFile.rdbuf();
+        Lexicon lexicon(asset, ngrams.str());
+        checkContext(lexicon);
         checkCorpus(lexicon, asset);
         checkSentences(lexicon);
         checkApicalWords(lexicon);

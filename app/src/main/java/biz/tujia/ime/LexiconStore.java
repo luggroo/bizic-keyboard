@@ -7,6 +7,7 @@ import android.os.Process;
 import android.util.Log;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /** A process owns one immutable native dictionary; a service only observes its availability. */
 final class LexiconStore {
@@ -32,8 +33,9 @@ final class LexiconStore {
         new Thread(() -> {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             CandidateEngine result;
-            try {
-                result = new CandidateEngine(app.getAssets().open("words.tsv"));
+            try (InputStream words = app.getAssets().open("words.tsv");
+                 InputStream ngrams = app.getAssets().open("ngrams.tsv")) {
+                result = new CandidateEngine(words, ngrams);
             } catch (IOException | RuntimeException | LinkageError failure) {
                 Log.e("TujiaIME", "Could not load bundled dictionary", failure);
                 result = null;
