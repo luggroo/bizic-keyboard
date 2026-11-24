@@ -5,7 +5,19 @@ function makeJoinedHan(text){
 }
 function putHanUnits(target,text,units){
   if(!units || !units.some(s=>/^\p{Script=Han}{2}$/u.test(s))){target.textContent=text;return}
-  target.replaceChildren(...units.map(s=>/^\p{Script=Han}{2}$/u.test(s)?makeJoinedHan(s):document.createTextNode(s)));
+  target.replaceChildren(...units.flatMap(s=>/^\p{Script=Han}{2}$/u.test(s)
+    ?[document.createTextNode('˻'),makeJoinedHan(s),document.createTextNode('˼')]:[document.createTextNode(s)]));
+}
+function bracketHanUnits(text,units){
+  if(!units || !units.some(s=>/^\p{Script=Han}{2}$/u.test(s)))return {text,units};
+  const joined=units.join(''), at=text.indexOf(joined);
+  if(at<0)return {text,units};
+  const parts=[text.slice(0,at)];
+  for(const unit of units){
+    if(/^\p{Script=Han}{2}$/u.test(unit))parts.push('˻',unit,'˼');else parts.push(unit);
+  }
+  parts.push(text.slice(at+joined.length));
+  return {text:parts.join(''),units:parts};
 }
 function installNoteEditor(el){
   if(!el.isContentEditable || !document.createRange)return;
