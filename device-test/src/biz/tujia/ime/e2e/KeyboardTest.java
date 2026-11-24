@@ -88,6 +88,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("regional")) testModernRegisterCharacters();
+            if (suite.equals("merged-smoke")) testMergedSmoke();
             if (suite.equals("hand-words")) {
                 testHandwrittenSuffixes();
                 testContinuousHandwriting();
@@ -125,6 +126,34 @@ public final class KeyboardTest extends Instrumentation {
             Log.w("TujiaImeE2E", "Could not save " + name, e);
             return false;
         } finally { shot.recycle(); }
+    }
+
+    private void testMergedSmoke() {
+        stage("Ismantic recognizes three strokes and commits to the editor");
+        tapField(host.first);
+        press("手写");
+        setHandwritingOutput(true);
+        drawThree(waitForNode("汉字手写区", false));
+        expectText(host.first, "三");
+
+        stage("Partially toned Ye syllables match the whole word in the editor");
+        press("叶氏拼音");
+        type("bifzika");
+        tapForm("bifzixkar");
+        press("句号");
+        expectText(host.first, "三bifzixkar。");
+
+        stage("Marked spelling mode accepts both untoned Tujia and Mandarin");
+        press("调号拼音");
+        type("siribuli");
+        tapForm("sīrǐbǔlǐ");
+        expectText(host.first, "三bifzixkar。sīrǐbǔlǐ");
+        type("surufa");
+        tapForm("输入法");
+        expectText(host.first, "三bifzixkar。sīrǐbǔlǐ输入法");
+
+        stage("Plain text syllable brackets retain rich editor styling");
+        testJoinedForms();
     }
 
     private void testFirstInput() {
@@ -415,7 +444,7 @@ public final class KeyboardTest extends Instrumentation {
 
         // Each character of this normal two-syllable word represents a separate syllable.
         type("boxlir");
-        pressCandidate("小孩、儿童，波俐", false);
+        tapForm("波俐");
         expectText(host.second, "˻克移˼波俐");
         assertJoinedRanges(host.second, 1, 3);
 
