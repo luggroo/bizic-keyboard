@@ -645,16 +645,23 @@ public final class KeyboardTest extends Instrumentation {
 
     void tapField(EditText field) {
         AtomicReference<Rect> bounds = new AtomicReference<>();
-        runOnMainSync(() -> {
-            Rect visible = new Rect();
-            if (!field.getGlobalVisibleRect(visible)) throw new AssertionError("Editor not visible");
-            int[] pos = new int[2];
-            field.getLocationOnScreen(pos);
-            bounds.set(new Rect(pos[0], pos[1], pos[0] + field.getWidth(), pos[1] + field.getHeight()));
-        });
-        // Tap at the trailing edge to leave the cursor at end of existing text.
+        long readyBy = SystemClock.uptimeMillis() + WAIT_MS;
+        while (bounds.get() == null && SystemClock.uptimeMillis() < readyBy) {
+            runOnMainSync(() -> {
+                Rect visible = new Rect();
+                if (!host.hasWindowFocus() || !field.isShown() || !field.getLocalVisibleRect(visible)) return;
+                int[] pos = new int[2];
+                field.getLocationOnScreen(pos);
+                visible.offset(pos[0], pos[1]);
+                if (!visible.isEmpty()) bounds.set(visible);
+            });
+            if (bounds.get() == null) SystemClock.sleep(40);
+        }
         Rect r = bounds.get();
-        tap(r.right - 15, r.centerY());
+        if (r == null) throw new AssertionError("Host did not expose a focused window and visible editor");
+        // Leave the cursor after short test text without hitting the navigation gesture region.
+        int rightInset = Math.round(32 * field.getResources().getDisplayMetrics().density);
+        tap(Math.max(r.centerX(), r.right - rightInset), r.centerY());
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
         do {
             final boolean[] focused = new boolean[1];
