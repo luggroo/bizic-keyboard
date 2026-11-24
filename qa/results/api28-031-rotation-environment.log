@@ -1,0 +1,13 @@
+Android 9 / API 28 / emulator-5564 / x86 / swiftshader_indirect
+0.3.1 intermediate APK dbcf9f1ce0d7100b7b5b9382a1d3eff1aa54fa3b8236884e57db7823379a8f69
+/data/app/biz.tujia.ime-isqUH-ttFR0coRAfDC02zw==/base.apk: 1 file pulled, 0 skipped. 73.7 MB/s (5486422 bytes in 0.071s)
+/data/app/biz.tujia.ime.e2e-AbRxuK0t-mpn656R0O_gEg==/base.apk: 1 file pulled, 0 skipped. 11.4 MB/s (57771 bytes in 0.005s)
+INSTRUMENTATION_STATUS: step=Native multiline editor, newline, hide and reopen without losing content
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Landscape preserves an editable host above a fixed handwriting pad
+INSTRUMENTATION_STATUS_CODE: 1
+onError: commandError=false message=INSTRUMENTATION_ABORTED: System has crashed.
+INSTRUMENTATION_ABORTED: System has crashed.
+cmd: Can't find service: input_method
+cmd: Can't find service: settings
+Device cleanup did not fully succeed.

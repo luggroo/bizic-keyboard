@@ -1,0 +1,149 @@
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+28
+x86_64
+Physical size: 480x800
+Physical density: 160
+1.0
+0
+059e2930521f1855272d8432c0002447a90543dada86e695fcfa08e31912077b  /data/app/biz.tujia.ime-cUPrERRxNGtp209S4n7WGw==/base.apk
+aed0e0f76d039ce2eaf51a43c1b8e1f7b761e1f3678a04121c8de79288914912  /tmp/tujia-perf-final-tools.apk
+INSTRUMENTATION_STATUS: sample=cold_visible,0,3378.944
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=cold_lexical,0,4740.692
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=cold_visible,1,3353.099
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=cold_lexical,1,4712.496
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=cold_visible,2,4874.385
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=cold_lexical,2,6477.585
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,0,972.135
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,1,1279.644
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,2,802.195
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,3,880.222
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,4,886.752
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,5,874.247
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,6,643.431
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: sample=warm_visible,7,779.153
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: gfx=Applications Graphics Acceleration Info:
+Uptime: 13844608 Realtime: 13844608
+
+** Graphics info for pid 18282 [biz.tujia.ime] **
+
+Stats since: 13844349197783ns
+Total frames rendered: 0
+Janky frames: 0 (0.00%)
+50th percentile: 4950ms
+90th percentile: 4950ms
+95th percentile: 4950ms
+99th percentile: 4950ms
+Number Missed Vsync: 0
+Number High input latency: 0
+Number Slow UI thread: 0
+Number Slow bitmap uploads: 0
+Number Slow issue draw commands: 0
+Number Frame deadline missed: 0
+HISTOGRAM: 5ms=0 6ms=0 7ms=0 8ms=0 9ms=0 10ms=0 11ms=0 12ms=0 13ms=0 14ms=0 15ms=0 16ms=0 17ms=0 18ms=0 19ms=0 20ms=0 21ms=0 22ms=0 23ms=0 24ms=0 25ms=0 26ms=0 27ms=0 28ms=0 29ms=0 30ms=0 31ms=0 32ms=0 34ms=0 36ms=0 38ms=0 40ms=0 42ms=0 44ms=0 46ms=0 48ms=0 53ms=0 57ms=0 61ms=0 65ms=0 69ms=0 73ms=0 77ms=0 81ms=0 85ms=0 89ms=0 93ms=0 97ms=0 101ms=0 105ms=0 109ms=0 113ms=0 117ms=0 121ms=0 125ms=0 129ms=0 133ms=0 150ms=0 200ms=0 250ms=0 300ms=0 350ms=0 400ms=0 450ms=0 500ms=0 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+Font Cache (CPU):
+  Size: 37.77 kB 
+  Glyph Count: 53 
+CPU Caches:
+GPU Caches:
+  Other:
+    Buffer Object: 63.00 KB (2 entries)
+  Scratch:
+    RenderTarget: 16.00 KB (1 entry)
+    Buffer Object: 64.00 KB (2 entries)
+    Texture: 256.00 KB (1 entry)
+Other Caches:
+                         Current / Maximum
+  VectorDrawableAtlas    0.00 kB /   0.00 KB (entries = 0)
+  Layers Total           0.00 KB (numLayers = 0)
+Total GPU memory usage:
+  408576 bytes, 399.00 KB (127.00 KB is purgeable)
+
+
+Pipeline=Skia (OpenGL)
+
+Layout Cache Info:
+  Usage: 96/5000 entries
+  Hit ratio: 3630/3726 (0.974235)
+Profile data in ms:
+
+	InputMethod/android.view.ViewRootImpl@3867585 (visibility=0)
+View hierarchy:
+
+  InputMethod/android.view.ViewRootImpl@3867585
+  76 views, 84.44 kB of display lists
+
+
+Total ViewRootImpl: 1
+Total Views:        76
+Total DisplayList:  84.44 kB
+
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: mem=Applications Memory Usage (in Kilobytes):
+Uptime: 13844857 Realtime: 13844857
+
+** MEMINFO in pid 18282 [biz.tujia.ime] **
+                   Pss  Private  Private  SwapPss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    22821    22712        0        0    32768    29798     2969
+  Dalvik Heap     8318     8248        0        0     3625     1813     1812
+ Dalvik Other      392      392        0        0                           
+        Stack       64       64        0        0                           
+       Ashmem        5        0        0        0                           
+    Other dev       12        0       12        0                           
+     .so mmap     2388      172      820        0                           
+    .apk mmap      817        0       88        0                           
+    .ttf mmap      228        0       60        0                           
+    .dex mmap     1126        4       76        0                           
+    .oat mmap      881        0        0        0                           
+    .art mmap     1534      824        4        0                           
+   Other mmap     1006        4      256        0                           
+      Unknown      542      516        0        0                           
+        TOTAL    40134    32936     1316        0    36393    31611     4781
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:     9076
+         Native Heap:    22712
+                Code:     1220
+               Stack:       64
+            Graphics:        0
+       Private Other:     1180
+              System:     5882
+ 
+               TOTAL:    40134       TOTAL SWAP PSS:        0
+ 
+ Objects
+               Views:       76         ViewRootImpl:        1
+         AppContexts:        3           Activities:        0
+              Assets:        2        AssetManagers:        0
+       Local Binders:       13        Proxy Binders:       31
+       Parcel memory:        3         Parcel count:       14
+    Death Recipients:        0      OpenSSL Sockets:        0
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 
+
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1

@@ -27,7 +27,7 @@ public final class PerformanceTest extends Instrumentation {
     private UiAutomation ui;
     private PerfEditor host;
     private int keys, cold, warm, pace, misses;
-    private boolean onlyLetters, checkGestures, freshKeys, keysOnly;
+    private boolean onlyLetters, checkGestures, freshKeys, keysOnly, startupOnly;
     private volatile long clickEvents, lastClickTime;
     private long sentDown, sentUp;
     private volatile String lastClick = "";
@@ -43,6 +43,7 @@ public final class PerformanceTest extends Instrumentation {
         onlyLetters = "letters".equals(args.getString("profile"));
         checkGestures = "gestures".equals(args.getString("profile"));
         keysOnly = "keys".equals(args.getString("profile"));
+        startupOnly = "startup".equals(args.getString("profile"));
         freshKeys = "true".equals(args.getString("fresh"));
         pace = Integer.parseInt(args.getString("pace", "0"));
         start();
@@ -73,12 +74,18 @@ public final class PerformanceTest extends Instrumentation {
                 shell("ime set biz.tujia.ime/.TujiaIme");
                 if (keysOnly) { runOnMainSync(() -> host.show(host.words)); tap(await("汉字记音", true)); }
             } else {
+                if (cold == 0) {
+                    shell("ime set biz.tujia.ime/.TujiaIme");
+                    runOnMainSync(() -> host.show(host.words));
+                    showKnownWord(await("汉字记音", true));
+                    clearKnownDraft();
+                }
                 for (int i = 0; i < cold; i++) coldRound(i);
                 for (int i = 0; i < warm; i++) warmRound(i);
             }
             shell("dumpsys gfxinfo " + PKG + " reset");
             if (checkGestures) verifyGestures();
-            else {
+            else if (!startupOnly) {
                 if (!onlyLetters) timeSelections();
                 timeDirectKeys();
             }
@@ -203,11 +210,19 @@ public final class PerformanceTest extends Instrumentation {
         runOnMainSync(() -> host.show(host.words));
         Rect mode = await("汉字记音", true);
         metric("cold_visible", i, System.nanoTime() - start);
+        showKnownWord(mode);
+        metric("cold_lexical", i, System.nanoTime() - start);
+        clearKnownDraft();
+    }
+
+    private void showKnownWord(Rect mode) {
         tap(mode);
         tap(await("g", true));
         tap(await("a", true));
         await("吃、咬，架", true);
-        metric("cold_lexical", i, System.nanoTime() - start);
+    }
+
+    private void clearKnownDraft() {
         tap(await("退格", true));
         tap(await("退格", true));
     }
