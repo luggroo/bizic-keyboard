@@ -1,0 +1,31 @@
+name: Upload verified mountain-song video
+
+on:
+  push:
+    branches: [work/upload-shange-b1fd997]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download and verify the recorded video
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download 45491096012 --repo "$GITHUB_REPOSITORY" --name shange-demo-latest-main --dir "$RUNNER_TEMP/song"
+          cd "$RUNNER_TEMP/song"
+          echo 'aea29a1dc0ab1de6ae156e13f6b7b9f39fbf6333eb4e6a4fe78cc5da66fe8d61  shange-half-speed.mp4' | sha256sum --check
+          mv shange-half-speed.mp4 bizic-keyboard-shange-demo-main-b1fd997.mp4
+      - name: Add the video to the release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/song"
+          gh release upload v0.3.3 'bizic-keyboard-shange-demo-main-b1fd997.mp4#安卓写山歌演示（main b1fd997）' --repo "$GITHUB_REPOSITORY"
