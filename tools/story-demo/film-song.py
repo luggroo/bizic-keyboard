@@ -40,7 +40,7 @@ with script.open('w',encoding='utf-8',newline='') as stream:
         assert entry['han']==units['text'] and entry['gloss']==units['meaning']
         syl.append(len(units['hanUnits'].split('|')));source_lines.append(line);words.append(chosen+after.replace(r'\n','\n'))
         input_key=chosen if mode=='hand' else entry['plain']
-        meaning='@written' if mode=='han' and entry['id'] in loan_ids else entry['gloss']
+        meaning=('@written:'+entry['gloss']) if mode=='han' and entry['id'] in loan_ids else entry['gloss']
         if mode=='hand': meaning=''
         w.writerow([mode+':'+input_key,chosen,meaning,after]);
         if r'\n' in after:line+=1

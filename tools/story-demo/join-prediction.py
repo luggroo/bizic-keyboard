@@ -26,9 +26,9 @@ def show(label,start,end,length):
             previous=frame
 show('试写一段拼音',0,tags.index('begin0'),24)
 for i in range(6):
-    label=['拼出 bízīkǎ','点选 mǒng','接着点选 gǎ','切换到汉字记音','点选「萌」','接着点选「夹」'][i]
+    label=['拼出 bízīkǎ','点选 mǒng','接着点选 gǎ','切换到汉字记音','点选「萌」','输入 ga，点选「夹」'][i]
     begin=tags.index('begin'+str(i));choice=tags.index('choices'+str(i));commit=tags.index('commit'+str(i));after=tags.index('after'+str(i))
-    show(label,begin,choice,90 if i in (0,3) else 14)
+    show(label,begin,choice,90 if i in (0,3) else 40 if i==5 else 14)
     sequence.extend([(label,choice)]*49)
     show(label,choice+1,commit,10)
     show(label,commit,after,37)

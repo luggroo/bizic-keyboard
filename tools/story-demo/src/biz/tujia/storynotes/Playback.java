@@ -308,7 +308,7 @@ public final class Playback extends Instrumentation {
                 }
             } else if (keys.equals("@next")) {
                 requireEmptyDraft();
-                String label="下一音节 "+(step[2].isEmpty()?"":step[2]+"，")+step[1];
+                String label="下一音节 "+(step[2].isEmpty() ? step[1] : choiceDescription(step[1],step[2]));
                 Rect offered=require(label);
                 shot("choices"+i);
                 trace("sound-offered",step[1]);
@@ -741,16 +741,15 @@ public final class Playback extends Instrumentation {
         }
     }
 
-    private AccessibilityNodeInfo currentCard(String description) {
+    private AccessibilityNodeInfo currentCard(String text, String meaning) {
         if (keyboard==null) lookupKeyboard("隐藏键盘");
         if (keyboard==null) return null;
-        List<AccessibilityNodeInfo> nodes=keyboard.findAccessibilityNodeInfosByText("，");
+        List<AccessibilityNodeInfo> nodes=keyboard.findAccessibilityNodeInfosByText(text);
         try {
             for (AccessibilityNodeInfo node:nodes) {
+                if (!node.refresh() || !node.isEnabled() || !node.isVisibleToUser()) continue;
                 CharSequence value=node.getContentDescription();
-                if (value==null || !description.contentEquals(value) || !node.refresh()) continue;
-                value=node.getContentDescription();
-                if (node.isEnabled() && node.isVisibleToUser() && value!=null && description.contentEquals(value))
+                if (value!=null && matchesChoice(value.toString(),text,meaning))
                     return AccessibilityNodeInfo.obtain(node);
             }
             return null;
@@ -759,8 +758,8 @@ public final class Playback extends Instrumentation {
         }
     }
 
-    private Rect liveCard(String description) {
-        AccessibilityNodeInfo node=currentCard(description);
+    private Rect liveCard(String text,String meaning) {
+        AccessibilityNodeInfo node=currentCard(text,meaning);
         if (node==null) return null;
         try {
             Rect r=new Rect();
@@ -769,10 +768,10 @@ public final class Playback extends Instrumentation {
         } finally { node.recycle(); }
     }
 
-    private Rect awaitCard(String description,long timeout) {
+    private Rect awaitCard(String text,String meaning,long timeout) {
         long until=SystemClock.uptimeMillis()+timeout;
         do {
-            Rect r=liveCard(description);
+            Rect r=liveCard(text,meaning);
             if (r!=null) return r;
             SystemClock.sleep(55);
         } while (SystemClock.uptimeMillis()<until);
@@ -780,16 +779,16 @@ public final class Playback extends Instrumentation {
     }
 
     private void chooseRanked(String raw,String text,String meaning,int rank) {
-        String label=(meaning.isEmpty() ? "汉语" : meaning)+"，"+text;
+        String label=choiceDescription(text,meaning);
         int page=(rank-1)/4;
         if (page>0) {
             verifyTyped(raw);
             for (int i=0;i<page;i++) press("下一页候选",25);
         }
-        Rect seen=awaitCard(label,3000);
+        Rect seen=awaitCard(text,meaning,3000);
         if (seen==null && page==0) {
             verifyTyped(raw);
-            seen=awaitCard(label,4000);
+            seen=awaitCard(text,meaning,4000);
         }
         if (seen==null) throw new AssertionError("Missing live candidate "+label+" at rank "+rank+"; "+shown());
         int slot=(rank-1)%4;
@@ -807,7 +806,7 @@ public final class Playback extends Instrumentation {
         while (before.equals(editorText()) && SystemClock.uptimeMillis()<deadline) SystemClock.sleep(35);
         if (before.equals(editorText()) && raw.equals(draft())) {
             moveCaretToEnd();
-            AccessibilityNodeInfo card=currentCard(label);
+            AccessibilityNodeInfo card=currentCard(text,meaning);
             if (card!=null) {
                 try { card.performAction(AccessibilityNodeInfo.ACTION_CLICK); }
                 finally { card.recycle(); }
@@ -815,30 +814,35 @@ public final class Playback extends Instrumentation {
         }
     }
 
+    private String choiceDescription(String text, String meaning) {
+        if ((meaning.equals("@written") || meaning.startsWith("@written:")) || meaning.equals(text)) return text;
+        return (meaning.isEmpty() ? "汉语" : meaning) + "，" + text;
+    }
+
+    private boolean matchesChoice(String description,String text,String meaning) {
+        if (description.equals(choiceDescription(text,meaning))) return true;
+        String suffix="，"+text;
+        if (meaning.isEmpty() || !description.endsWith(suffix)) return false;
+        String gloss=description.substring(0,description.length()-suffix.length());
+        String recorded=meaning.startsWith("@written:") ? meaning.substring("@written:".length())
+                : meaning.equals("@written") ? text : meaning;
+        // A merged form exposes all meanings. Compare whole sense words,
+        // so e.g. 哥哥 cannot select a card whose only meaning is 哥哥啊.
+        String separators="\\s*[、，,；;／/]\\s*";
+        List<String> offered=Arrays.asList(gloss.split(separators));
+        List<String> intended=Arrays.asList(recorded.split(separators));
+        return offered.containsAll(intended);
+    }
+
     private void choose(String text, String meaning, boolean slow) {
-        boolean bare=meaning.equals("@written");
-        String description=bare ? text : (meaning.isEmpty() ? "汉语" : meaning) + "，" + text;
-        // Fetch the displayed cards as a single live query. Exact searching by a
-        // card's combined accessibility label can return stale nodes on Android 9.
+        String description=choiceDescription(text,meaning);
         for (int page=0; page<125; page++) {
-            long timeout=SystemClock.uptimeMillis()+ (page==0 ? 2600 : 900);
-            do {
-                if (keyboard==null) lookupKeyboard("隐藏键盘");
-                if (keyboard!=null) {
-                    for (AccessibilityNodeInfo node:keyboard.findAccessibilityNodeInfosByText(bare ? text : "，")) {
-                        try {
-                            CharSequence value=node.getContentDescription();
-                            if (value==null || !description.contentEquals(value)) continue;
-                            Rect card=new Rect(); node.getBoundsInScreen(card);
-                            if (card.isEmpty()) continue;
-                            if (slow) SystemClock.sleep(readingPace ? 2050 : 650);
-                            tap(card,readingPace ? 230 : 20);
-                            return;
-                        } finally { node.recycle(); }
-                    }
-                }
-                SystemClock.sleep(55);
-            } while (SystemClock.uptimeMillis()<timeout);
+            Rect card=awaitCard(text,meaning,page==0 ? 2600 : 900);
+            if (card!=null) {
+                if (slow) SystemClock.sleep(readingPace ? 2050 : 650);
+                tap(card,readingPace ? 230 : 20);
+                return;
+            }
             Rect next=lookupKeyboard("下一页候选");
             if (next==null) throw new AssertionError("Missing candidate " + description + ". Visible: " + shown());
             tap(next,22);
