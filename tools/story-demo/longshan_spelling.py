@@ -14,11 +14,20 @@ SIT_ID = 'w1658'
 TEA_ID = 'stedt-rn-368307'
 DRINK_ID = 'w874'
 
+# In LS-60 paragraph 5 the vocative ar has its own syllable after gox gov.
+# The source glosses include the Chinese particles of the utterance in the noun.
+BROTHER_GLOSSES = {('gox gov', '哥哥啊'): '哥哥', ('ar', '哥哥'): '啊',
+                  ('gox gox', '哥哥呢'): '哥哥'}
+
 def reviewed_glosses(block):
     corrected=[]
+    brother_paragraph = block['ye'].casefold().startswith('air gox gov ar, ar kov ')
     for gloss in block['glosses']:
         ye=gloss['ye'].lower()
-        if ye=='gav dunr' and gloss['zh']=='一会儿坐':
+        reviewed = BROTHER_GLOSSES.get((ye, gloss['zh'])) if brother_paragraph else None
+        if reviewed is not None:
+            corrected.append(dict(gloss, zh=reviewed, sourceGloss=gloss['zh']))
+        elif ye=='gav dunr' and gloss['zh']=='一会儿坐':
             corrected.append(dict(ye=ye,zh='一会儿'))
         elif ye=='wunr' and gloss['zh'] in ('茶','坐'):
             corrected.append(dict(ye=ye,zh='坐'))

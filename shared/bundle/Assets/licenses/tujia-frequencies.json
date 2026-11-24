@@ -14,15 +14,15 @@
   },
   "inputSHA256": {
     "words.js": "dbc1164b0782be846aa051b5ba6e7b016e33373b5a6727a2828a4ef7fe3b239c",
-    "story-words.tsv": "8e69f6bc55d7599e5c4129ad06fcbf284b827aaf4e3041900a48b11c2f546bc4",
-    "context-words.tsv": "4bfd986fcc9e15479ac4863630ed902c13cf4174913439b59b95969f1f14f5bb",
+    "story-words.tsv": "4d2e4ef43615367d906d487ecfb2851eb8ae99bf7ac98e6026f3696e65830b68",
+    "context-words.tsv": "fa24177b8ce3cba8a27a9eabb28bf28a1853a990c132fcd830d0479dee036842",
     "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
     "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703"
   },
   "stats": {
     "annotatedTexts": 14,
     "annotatedUnits": 8536,
-    "annotatedMatches": 1449,
+    "annotatedMatches": 1450,
     "longshanTexts": 4,
     "longshanUnits": 1280,
     "longshanMatches": 421,
@@ -30,8 +30,8 @@
     "brassettUnits": 14139,
     "brassettMatches": 451
   },
-  "tujiaRows": 528,
+  "tujiaRows": 526,
   "referenceRows": 1243,
-  "observedRows": 300,
+  "observedRows": 298,
   "mandarinRows": 35916
 }

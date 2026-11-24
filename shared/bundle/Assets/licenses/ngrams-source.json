@@ -12,7 +12,7 @@
   ],
   "documents": 17,
   "sentences": 1378,
-  "linkedTokens": 1643,
-  "rankedRows": 1234,
+  "linkedTokens": 1644,
+  "rankedRows": 1231,
   "method": "Document-capped counts, duplicate utterance removal, dictionary POS and interpolated word/word-class/unigram backoff. Word pairs and triples require two distinct documents. The compiled table holds ranked choices only."
 }

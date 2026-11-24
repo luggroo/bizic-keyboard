@@ -34,8 +34,7 @@ base = json.loads((web / "words.js").read_text().split("=", 1)[1].split(";\ncons
 # Overrides apply to these attested senses of a word, never to an unrelated homophone.
 names = {
     ("cerjiarkar", "陈姓"): "陈家卡", ("cereflar", "陈二郎"): "陈二郎", ("eflar", "二郎"): "二郎",
-    ("goxgox", "哥哥"): "哥哥", ("goxgox", "哥哥呢"): "哥哥", ("goxgov", "哥哥"): "哥哥",
-    ("goxgov", "哥哥啊"): "哥哥", ("goxgor", "哥哥"): "哥哥",
+    ("goxgox", "哥哥"): "哥哥", ("goxgov", "哥哥"): "哥哥", ("goxgor", "哥哥"): "哥哥",
     ("jiuf", "就"): "就", ("jiur", "就"): "就", ("suxliaor", "输了"): "输了",
     ("ngefngouf", "硬忤"): "硬忤", ("beifbeixdix", "白白地"): "白白地",
     ("dif", "第"): "第", ("zuif", "最"): "最", ("lox", "人"): "倮",
@@ -46,6 +45,7 @@ per_syllable = {"gi": "给", "ki": "尅", "hi": "黑", "hxi": "诶"}
 # these two c syllables using its apical vowel. Keep the source IPA separately.
 ref_variants = {"tsʰɨ⁵⁵": "tsʰɿ⁵⁵", "tsʰɨ²¹": "tsʰɿ²¹"}
 occurrences = []
+source_glosses = {}
 keyed = {}
 # Keep existing entry IDs even after repairing an erroneous gloss boundary.
 source_keys = dict.fromkeys((''.join(g['ye'].lower().split()),g['zh']) for b in source['blocks'] for g in b['glosses'])
@@ -119,6 +119,8 @@ for block_no, block in enumerate(source["blocks"], 1):
         after = stops[-1][1].strip().translate(str.maketrans(".,;:?!", "。，；：？！"))
         if cursor == len(letters) and block_no != 6:
             after += "\n"
+        if "sourceGloss" in gloss:
+            source_glosses[len(occurrences)] = gloss["sourceGloss"]
         occurrences.append((block_no,lookup,after))
     assert cursor == len(letters)
 
@@ -151,8 +153,12 @@ with story_path.open("a", encoding="utf-8", newline="") as out:
     for w in song:
         table.writerow([w["id"],w["word"],w["key"],w["meaning"],w["recommended"]," ".join(w["aliases"]), " ".join(w["variants"]),
                         0, "tujia",w["shortGloss"],w["plain"],w["diacritic"],"|".join(w["hanUnits"])])
-sections=[dict(translation=b['zh'],rows=[dict(id=keyed[key]['id'],end=after) for num,key,after in occurrences if num==n])
-          for n,b in enumerate(source['blocks'],1)]
+sections = [dict(translation=b['zh'], rows=[]) for b in source['blocks']]
+for i, (num, key, after) in enumerate(occurrences):
+    row = dict(id=keyed[key]['id'], end=after)
+    if i in source_glosses:
+        row['sourceGloss'] = source_glosses[i]
+    sections[num - 1]['rows'].append(row)
 archived = dict(title=source['title'],url='https://tujia.biz/?id='+source_id,source=source['externalUrl'],sections=sections)
 dump=lambda v:json.dumps(v,ensure_ascii=False,separators=(',',':'))
 (web/"story-words.js").write_text("const storyEntries="+dump(extras+song)+";\nconst noteStory="+dump(song_note)+";\nconst archivedStory="+dump(archived)+";\n")

@@ -16,7 +16,7 @@ ls60-14	aix	ai	那	哎		哎	3	tujia	那	ai	āi	哎
 ls60-15	laxniex	lanie	一天	拉捏		拉 捏	1	tujia	一天	lanie	lāniē	拉|捏
 ls60-16	tafmongx	tamong	突然	拓蒙	獭母	拓獭 蒙母	1	tujia	突然	tamong	támōng	拓|蒙
 ls60-17	lavgaryifaxlair	lagayialai	走啊了	喇夹意阿来	拉夹余啊来	喇拉 夹 意余 阿啊 来	1	tujia	走啊了	lagayialai	làgǎyí'ālǎi	喇|夹|意|阿|来
-ls60-18	goxgox	gogo	哥哥	哥哥		哥 哥	3	tujia	哥哥	gogo	gōgō	哥|哥
+ls60-18	goxgox	gogo	哥哥	哥哥		哥 哥	4	tujia	哥哥	gogo	gōgō	哥|哥
 ls60-19	daxhar	daha	一起	搭蛤	打哈	搭打 蛤哈	3	tujia	一起	daha	dāhǎ	搭|蛤
 ls60-20	arkox	ako	哥哥	吖科	阿科	吖阿 科	4	tujia	哥哥	ako	ǎkō	吖|科
 ls60-21	arkoxar	akoa	哥哥啊	吖科吖	阿科阿	吖阿 科 吖阿	1	tujia	哥哥啊	akoa	ǎkō'ǎ	吖|科|吖
@@ -48,7 +48,7 @@ ls60-47	qiaxgax	qiaga	弟兄	欺鸦嘎	恰家	恰 嘎家	1	tujia	弟兄	qiaga	qi
 ls60-48	daxzeir	dazei	一样	搭资锿	打则	搭打 则	1	tujia	一样	dazei	dāzěi	搭|资锿
 ls60-49	lavheif	lahei	路那么	喇黑欸	拉黑	喇拉 黑	1	tujia	路那么	lahei	làhéi	喇|黑欸
 ls60-50	yir	yi	走	移	余	移余	1	tujia	走	yi	yǐ	移
-ls60-51	ar	a	啊	吖	阿	吖阿	1	tujia	啊	a	ǎ	吖
+ls60-51	ar	a	啊	吖	阿	吖阿	2	tujia	啊	a	ǎ	吖
 ls60-52	max	ma	呢	妈		妈	1	tujia	呢	ma	mā	妈
 ls60-53	yifmaxyifar	yimayia	走嘛走啊	意妈意吖	余妈余阿	意余 妈 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|妈|意|吖
 ls60-54	laxbiex	labie	一些	拉憋	拉别	拉 憋别	1	tujia	一些	labie	lābiē	拉|憋
@@ -113,15 +113,13 @@ ls60-115	tianrwor	tianwo	啊	田沃	田握	田 沃握	1	tujia	啊	tianwo	tiǎnw�
 ls60-116	dor	do	都	夺		夺	1	tujia	都	do	dǒ	夺
 ls60-117	jixliaox	jiliao	完了	机了	鸡辽	机鸡 了辽	1	tujia	完了	jiliao	jīliāo	机|了
 ls60-118	taif	tai	没有	太	泰	太泰	2	tujia	没有	tai	tái	太
-ls60-119	goxgov	gogo	哥哥	哥哥		哥 哥	1	tujia	哥哥	gogo	gōgò	哥|哥
+ls60-119	goxgov	gogo	哥哥	哥哥		哥 哥	2	tujia	哥哥	gogo	gōgò	哥|哥
 ls60-120	eflar	ela	二郎	二郎		二姨 郎拉	1	tujia	二郎	ela	élǎ	二|郎
 ls60-121	yanxtanrlair	yantanlai	蔫蔫地	蔫坦来		蔫烟 坦糖 来	2	tujia	蔫蔫地	yantanlai	yāntǎnlǎi	蔫|坦|来
 ls60-122	songxkordif	songkodi	回来	孙阔地	松颗弟	孙松 阔颗 地弟	1	tujia	回来	songkodi	sōngkǒdí	孙|阔|地
 ls60-123	ax	a	了	阿	啊	阿啊	1	tujia	了	a	ā	阿
 ls60-124	cuv	cu	家	础	粗	础粗	1	tujia	家	cu	cù	础
 ls60-125	air	ai	哎	哀	哎	哀哎	1	tujia	哎	ai	ǎi	哀
-ls60-126	goxgov	gogo	哥哥啊	哥哥		哥 哥	1	tujia	哥哥啊	gogo	gōgò	哥|哥
-ls60-127	ar	a	哥哥	吖	阿	吖阿	1	tujia	哥哥	a	ǎ	吖
 ls60-128	arkov	ako	哥哥	吖可	阿颗	吖阿 可颗	1	tujia	哥哥	ako	ǎkò	吖|可
 ls60-129	manv	man	吧	满		满	1	tujia	吧	man	màn	满
 ls60-130	geivdir	geidi	多的是	给的	给笛	给 的笛	1	tujia	多的是	geidi	gèidǐ	给|的
@@ -147,7 +145,6 @@ ls60-151	cixcix	cici	字	雌雌		雌 雌	1	tujia	字	cici	cīcī	雌|雌
 ls60-152	nianfniex	niannie	念的	念捏	捻捏	念捻 捏	1	tujia	念的	niannie	niánniē	念|捏
 ls60-153	jir	ji	呢	吉	即	吉即	1	tujia	呢	ji	jǐ	吉
 ls60-154	air	ai	那	哀	哎	哀哎	1	tujia	那	ai	ǎi	哀
-ls60-155	goxgox	gogo	哥哥呢	哥哥		哥 哥	1	tujia	哥哥呢	gogo	gōgō	哥|哥
 ls60-156	manrhavtair	manhatai	不知道	忙哈台	芒哈台	忙芒 哈 台	1	tujia	不知道	manhatai	mǎnhàtǎi	忙|哈|台
 ls60-157	zifjiar	zijia	认为	致甲	紫甲	致紫 甲	2	tujia	认为	zijia	zíjiǎ	致|甲
 ls60-158	taxnier	tanie	后面	他业	他捏	他 业捏	1	tujia	后面	tanie	tāniě	他|业

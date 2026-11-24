@@ -4,15 +4,16 @@ import csv
 import unicodedata
 from collections import defaultdict
 
-from import_words import SENSES, clean_gloss, gloss_parts, native_forms
+from import_words import SENSES, clean_gloss, gloss_parts, native_forms, reviewed_glosses
 
 
 def letters(value):
     return ''.join(c for c in value.casefold() if c.isalnum() or unicodedata.category(c).startswith('M'))
 
 
-def aligned_units(block, form):
-    glosses = block.get('glosses', [])
+def aligned_units(block, form, document_id=None):
+    glosses = (reviewed_glosses(block) if document_id == 'tlp-longshan-stories-02-01'
+               else block.get('glosses', []))
     surface = block.get(form, '')
     if not glosses or not surface:
         return []

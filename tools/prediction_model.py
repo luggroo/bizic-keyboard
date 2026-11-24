@@ -105,7 +105,7 @@ def read_material(site, words):
                 continue
             for block in doc['blocks']:
                 sentence = []
-                for unit in aligned_units(block, form):
+                for unit in aligned_units(block, form, doc['id']):
                     if unit is None:
                         if sentence:
                             docs[doc['id']].append(sentence)
