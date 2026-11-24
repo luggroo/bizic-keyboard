@@ -137,13 +137,39 @@ final class SystemTypography {
         // The last pen-up has occurred but the recognizer's idle timer has not elapsed.
         setConfiguration(1.3f, narrow);
         test.expectText(host.first, "正文麻麻爹三");
+        test.stage("First handwritten 三 committed while font size changed");
+        Rect previous = settledPad(null);
         setConfiguration(1.3f, baseline);
-        pad = test.waitForNode("汉字手写区", false);
+        pad = settledPad(baseline == narrow ? null : previous);
+        test.expectText(host.first, "正文麻麻爹三");
+        test.runOnMainSync(() -> {
+            int end = host.first.length();
+            if (host.first.getSelectionStart() != end || host.first.getSelectionEnd() != end)
+                throw new AssertionError("After display-size change the caret was not after 三");
+        });
         test.assertEditorAboveKeyboard(host.first, "手写");
+        test.stage("Writing second 三 in settled pad " + pad.toShortString() + ", previous density pad=" + previous.toShortString());
+        test.captureFrame("typography-hand-before-second.png");
         test.drawThree(pad);
         test.expectText(host.first, "正文麻麻爹三三");
         test.captureFrame("typography-hand.png");
         test.stage("Active input preserved marmardi across font and density changes, selected 麻麻爹, committed each handwritten 三 once, and kept the host field visible");
+    }
+
+    private Rect settledPad(Rect oldBounds) {
+        // The host receives its new resources before the IME's separate surface moves.
+        long until = SystemClock.uptimeMillis() + 12000;
+        Rect last = null;
+        do {
+            Rect current = test.waitForNode("汉字手写区", false);
+            if (!current.equals(oldBounds) && current.equals(last)) {
+                test.awaitKeyboardAtRest();
+                if (current.equals(test.waitForNode("汉字手写区", false))) return current;
+            }
+            last = current;
+            SystemClock.sleep(140);
+        } while (SystemClock.uptimeMillis() < until);
+        throw new AssertionError("Handwriting pad did not settle after reflow: old=" + oldBounds + " current=" + last);
     }
 
     private void setConfiguration(float scale, int density) throws Exception {
