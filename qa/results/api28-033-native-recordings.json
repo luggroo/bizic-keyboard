@@ -1,0 +1,83 @@
+{
+  "installedApkSha256": "4cba2db80e58c4ae2663cdbe0006972516ae903a221d97278ba54f897e824c97",
+  "androidSdk": 28,
+  "avd": "emulator-5564",
+  "screenPx": [
+    480,
+    800
+  ],
+  "densityDpi": 160,
+  "fontScale": 1.0,
+  "movies": [
+    {
+      "file": "shange-0.3.3.mp4",
+      "releaseFile": "shange-demo.mp4",
+      "bytes": 1044394,
+      "sha256": "84fcbe8ef8a7f08a636ee3c58071f9acfcaad582c4ea1965f1aa766e7c3d2bbf",
+      "durationSeconds": 137.066992,
+      "frames": 4112,
+      "chapters": [
+        [
+          "0.000000",
+          "我们都是土家族，"
+        ],
+        [
+          "22.967000",
+          "唱山歌都用土家语，"
+        ],
+        [
+          "46.100000",
+          "唱一句土家山歌，"
+        ],
+        [
+          "67.900000",
+          "唱得不好别怪我。"
+        ],
+        [
+          "101.767000",
+          "自由输入：连续点选音节"
+        ]
+      ]
+    },
+    {
+      "file": "one-tap.mp4",
+      "releaseFile": "one-tap.mp4",
+      "bytes": 243708,
+      "sha256": "b57d010b150fdcb66a27ba759b200b2847ccd65e4b2ad36ee9c93fe6cbbae96d",
+      "durationSeconds": 35.3,
+      "frames": 1059,
+      "chapters": []
+    },
+    {
+      "file": "continuous-handwriting-0.3.3.mp4",
+      "releaseFile": "continuous-handwriting.mp4",
+      "bytes": 73136,
+      "sha256": "760efdd9b1eafc4068a27cd6975adbde9d2bac7c86783a9827f1185bd93d4b94",
+      "durationSeconds": 16.366667,
+      "frames": 491,
+      "chapters": []
+    }
+  ],
+  "wordsSha256": "8f494b6c7a6853cd830cc5c97c9d5a081afad9b9ddd36fd65c471c437eb665c9",
+  "frameCapture": "Android UiAutomation real softkey-down, candidate, commit and finger-stroke states, timed for reading.",
+  "noteVerification": [
+    {
+      "example": "山歌第一首",
+      "savedAndReopened": "ngánī húnī bízīkǎ ō，\n山歌唱爹币兹刹喔，\n币兹山歌哪遮唱，\n唱兮惹太过塔吖里。",
+      "commitCount": 22,
+      "captureCount": 284
+    },
+    {
+      "example": "连续点音及同形字",
+      "savedAndReopened": "bízīkǎ mǒng gǎ。\n币兹咔萌夹。",
+      "commitCount": 6,
+      "captureCount": 74
+    },
+    {
+      "example": "连续手写",
+      "savedAndReopened": "波俐",
+      "commitCount": 2,
+      "captureCount": 33
+    }
+  ]
+}
