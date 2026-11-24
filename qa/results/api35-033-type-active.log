@@ -1,0 +1,62 @@
+https://github.com/luggroo/bizic-keyboard/actions/runs/45443861111
+Commit 8f0c44b; Android 15 APK built from this source by the workflow.
+google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
+Physical size: 1080x1920
+Physical density: 420
+1.0
+2
+73b9ff92fa5909bba8e7b7af2e633ee7fb6252b8c6dd336305e4e468e1cf61f9  build/qa-keyboard.apk
+1a3b1a2efc38f953e93a9339f0b64607d6e390e8254f5db047c332202a8889a3  build/fixture.apk
+
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+INSTRUMENTATION_STATUS: step=Typography small font=0.85 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=31.24px platform20sp=44.63px Qink=37px glossInk=27px wordInk=42px toolbarY=1117px editorBottom=176px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography default font=1.00 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=36.75px platform20sp=52.50px Qink=44px glossInk=32px wordInk=50px toolbarY=1116px editorBottom=187px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 完成 at [887,1729][1068,1849]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Bottom-row 完成 reached the host with 正文架 at default
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 115 font=1.15 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=43.05px platform20sp=57.22px Qink=47px glossInk=39px wordInk=55px toolbarY=1102px editorBottom=193px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography large font=1.30 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=49.35px platform20sp=61.95px Qink=52px glossInk=44px wordInk=59px toolbarY=1088px editorBottom=200px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 160 font=1.60 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=59.85px platform20sp=72.45px Qink=60px glossInk=54px wordInk=69px toolbarY=1062px editorBottom=214px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography largest font=2.00 dpi=420 viewport=411dp keyHeight=47.6dp platform14sp=68.25px platform20sp=89.25px Qink=74px glossInk=61px wordInk=86px toolbarY=1002px editorBottom=233px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography default-dense font=1.00 dpi=540 viewport=320dp keyHeight=46.2dp platform14sp=47.25px platform20sp=67.50px Qink=56px glossInk=44px wordInk=63px toolbarY=887px editorBottom=240px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 160-dense font=1.60 dpi=540 viewport=320dp keyHeight=46.2dp platform14sp=76.95px platform20sp=93.15px Qink=77px glossInk=70px wordInk=88px toolbarY=816px editorBottom=274px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography largest-dense font=2.00 dpi=540 viewport=320dp keyHeight=47.7dp platform14sp=87.75px platform20sp=114.75px Qink=96px glossInk=79px wordInk=109px toolbarY=746px editorBottom=297px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 完成 at [886,1668][1066,1829]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Bottom-row 完成 reached the host with 正文架 at largest-dense
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=First handwritten 三 committed while font size changed
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Writing second 三 in settled pad [8,1440][1072,1752], previous density pad=[10,1302][1070,1704]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Active input preserved marmardi across font and density changes, selected 麻麻爹, committed each handwritten 三 once, and kept the host field visible
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Restored original density 420 and system font_scale 1.0
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-small.png: 1 file pulled, 0 skipped. 33.0 MB/s (66046 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default.png: 1 file pulled, 0 skipped. 7.9 MB/s (73864 bytes in 0.009s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-115.png: 1 file pulled, 0 skipped. 56.1 MB/s (78992 bytes in 0.001s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-large.png: 1 file pulled, 0 skipped. 5.3 MB/s (84465 bytes in 0.015s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160.png: 1 file pulled, 0 skipped. 35.9 MB/s (94595 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest.png: 1 file pulled, 0 skipped. 33.3 MB/s (108445 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default-dense.png: 1 file pulled, 0 skipped. 2.0 MB/s (89256 bytes in 0.044s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160-dense.png: 1 file pulled, 0 skipped. 30.4 MB/s (115569 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest-dense.png: 1 file pulled, 0 skipped. 2.2 MB/s (131889 bytes in 0.056s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-draft.png: 1 file pulled, 0 skipped. 39.5 MB/s (127743 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand.png: 1 file pulled, 0 skipped. 48.3 MB/s (73570 bytes in 0.001s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand-before-second.png: 1 file pulled, 0 skipped. 24.7 MB/s (80478 bytes in 0.003s)
