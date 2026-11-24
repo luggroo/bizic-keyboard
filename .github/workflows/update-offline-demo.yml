@@ -1,4 +1,5 @@
 name: Build single-file offline demo
+# Publish the grouped handwriting suggestions in the downloadable demo.
 
 on:
   pull_request:
