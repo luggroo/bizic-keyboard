@@ -353,12 +353,40 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
     return {};
 }
 
+constexpr char32_t optionalTone = 0x110100;
+
+char32_t optionalLetter(char32_t edge) {
+    if (edge == optionalG) return U'g';
+    if (edge == optionalU) return U'u';
+    return edge >= optionalTone ? edge - optionalTone : 0;
+}
+
+std::u32string yeTonePattern(const Segments& parts) {
+    if (parts.size() < 2) return {};
+    std::u32string pattern;
+    for (const auto& part : parts) {
+        auto syllable = dictionaryScalars(part.first);
+        pattern += syllable;
+        pattern.back() += optionalTone;
+    }
+    return pattern;
+}
+
+std::string toneBucket(std::u32string_view form) {
+    std::string key;
+    for (auto cp : form) {
+        if (cp < optionalTone && std::u32string_view(U"xfrv").find(cp) == std::u32string_view::npos)
+            appendUtf8(key, cp);
+    }
+    return key;
+}
+
 bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool prefix) {
     std::vector<size_t> positions{0}, next;
     for (size_t i = 0;; ++i) {
         for (size_t p = 0; p < positions.size(); ++p) {
             size_t pos = positions[p];
-            if (pos < pattern.size() && (pattern[pos] == optionalG || pattern[pos] == optionalU) &&
+            if (pos < pattern.size() && optionalLetter(pattern[pos]) &&
                 std::find(positions.begin(), positions.end(), pos + 1) == positions.end())
                 positions.push_back(pos + 1);
         }
@@ -366,8 +394,7 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
                 (prefix || std::find(positions.begin(), positions.end(), pattern.size()) != positions.end());
         next.clear();
         for (size_t pos : positions) {
-            if (pos < pattern.size() && (pattern[pos] == input[i] || (pattern[pos] == optionalG && input[i] == U'g') ||
-                                         (pattern[pos] == optionalU && input[i] == U'u')))
+            if (pos < pattern.size() && (pattern[pos] == input[i] || (optionalLetter(pattern[pos]) && optionalLetter(pattern[pos]) == input[i])))
                 next.push_back(pos + 1);
         }
         if (next.empty()) return false;
@@ -393,7 +420,10 @@ std::string nasalBucket(std::u32string_view form) {
     return key;
 }
 
-struct NasalIndex {
+struct OptionalIndex {
+    using BucketKey = std::string (*)(std::u32string_view);
+    explicit OptionalIndex(BucketKey key = nasalBucket) : bucketKey(key) {}
+    BucketKey bucketKey;
     struct Form { std::u32string pattern; size_t id; };
     std::vector<Form> forms;
     WordIndex exact, prefixes;
@@ -401,17 +431,17 @@ struct NasalIndex {
     void add(std::u32string pattern, size_t id, size_t& longest, bool complete) {
         if (pattern.empty()) return;
         const size_t key = forms.size();
-        auto& existing = exact[nasalBucket(pattern)];
+        auto& existing = exact[bucketKey(pattern)];
         for (size_t index : existing) if (forms[index].id == id && forms[index].pattern == pattern) return;
         existing.push_back(key);
         longest = std::max(longest, pattern.size());
         if (complete) for (size_t end = 1; end < pattern.size(); ++end)
-            addUnique(prefixes[nasalBucket(std::u32string_view(pattern).substr(0, end))], key);
+            addUnique(prefixes[bucketKey(std::u32string_view(pattern).substr(0, end))], key);
         forms.push_back({std::move(pattern), id});
     }
 
     void find(std::u32string_view input, WordIds& out, bool prefix = false) const {
-        for (size_t key : bucket(prefix ? prefixes : exact, nasalBucket(input))) {
+        for (size_t key : bucket(prefix ? prefixes : exact, bucketKey(input))) {
             const auto& f = forms[key];
             if (patternMatches(f.pattern, input, prefix)) addUnique(out, f.id);
         }
@@ -476,7 +506,11 @@ bool matchesSpellingPrefix(const std::string& input, const std::string& ye, cons
     };
     auto segments = sourceSyllables(ye, marked);
     std::vector<std::u32string> forms{compact(accented.scalars), compact(plain(accented.scalars))};
-    if (allowYe) forms.push_back(compact(standard.scalars));
+    if (allowYe) {
+        forms.push_back(compact(standard.scalars));
+        auto pattern = yeTonePattern(segments);
+        if (!pattern.empty() && patternMatches(pattern, prefix, true)) return true;
+    }
     if (!segments.empty()) {
         std::u32string unspacedMarked, unmarked;
         for (const auto& part : segments) {
@@ -499,9 +533,10 @@ struct Lexicon::Impl {
     std::vector<Entry> entries;
     WordIndex spellings, shortKeys, hanWords, aliases, spellingPrefixes;
     WordIndex markedWords, markedPrefixes, markedSyllables;
-    NasalIndex markedNasalWords, markedNasalSyllables;
+    OptionalIndex markedNasalWords, markedNasalSyllables;
+    OptionalIndex yeTones{toneBucket};
     WordIndex syllables;
-    NasalIndex nasalWords, nasalShortKeys, nasalSyllables, nasalChinese;
+    OptionalIndex nasalWords, nasalShortKeys, nasalSyllables, nasalChinese;
     std::unordered_map<char32_t, WordIds> variantInitials;
     WordIndex chineseKeys;
     std::unordered_map<std::string, size_t> lexicalIds;
@@ -610,6 +645,7 @@ struct Lexicon::Impl {
                 entries.push_back(std::move(entry));
                 continue;
             }
+            yeTones.add(yeTonePattern(parts), id, maxKey, true);
             lexicalIds.emplace(entry.id, id);
             entry.hanSenseGroup = id;
             if (!entry.meaning.empty()) {
@@ -995,6 +1031,8 @@ struct Lexicon::Impl {
             bool marked = mode == Mode::Pinyin && style == Orthography::Diacritic;
             auto matches = bucket(marked ? markedWords : spellings, form);
             (marked ? markedNasalWords : nasalWords).find(std::u32string_view(q.scalars).substr(start, end-start), matches);
+            if (mode == Mode::Pinyin && !marked)
+                yeTones.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
             if (mode == Mode::Han) {
                 matches.erase(std::remove_if(matches.begin(), matches.end(), [&](size_t id) { return entries[id].han.empty(); }), matches.end());
                 const auto& shorter = bucket(shortKeys, form);
@@ -1294,9 +1332,11 @@ struct Lexicon::Impl {
         bool marked = output == Mode::Pinyin && style == Orthography::Diacritic;
         WordIds possible = bucket(marked ? markedPrefixes : spellingPrefixes, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, possible, true);
+        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, possible, true);
         if (possible.empty()) return {};
         auto exact = bucket(marked ? markedWords : spellings, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, exact);
+        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, exact);
         possible.erase(std::remove_if(possible.begin(), possible.end(), [&](size_t id) {
             return (output == Mode::Han && entries[id].han.empty()) || std::find(exact.begin(), exact.end(), id) != exact.end();
         }), possible.end());

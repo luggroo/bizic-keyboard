@@ -91,7 +91,7 @@ public final class SetupActivity extends Activity {
 
         LinearLayout editor = section(body, 24);
         editor.addView(label("试打", 18, INK, true));
-        addSpaced(editor, label("点键盘上的「更多」，选「汉字记音」。输入 bizika，点“土家族”下面的「币兹咔」。", 14, MUTED, false), 6);
+        addSpaced(editor, label("点键盘上的「更多」，选「谐音字」。输入 bizika，点“土家族”下面的「币子咔」。", 14, MUTED, false), 6);
         trial = new EditText(this);
         trial.setId(R.id.trial_editor);
         trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);

@@ -125,7 +125,7 @@ public final class KeyboardTest extends Instrumentation {
     private void testFirstInput() {
         stage("First input after IME startup");
         tapField(host.first);
-        press("汉字记音");
+        press("谐音字");
         boolean loadingAtFirstKey = findNode("正在加载词库，可先输入拼写", false) != null;
         type("ga");
         boolean buffered = findNode("正在加载词库，可先输入拼写", false) != null;
@@ -147,7 +147,7 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testEditor() {
         tapField(host.first);
-        press("汉字记音");
+        press("谐音字");
         assertEditorAboveKeyboard(host.first, "打字");
 
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
@@ -169,7 +169,7 @@ public final class KeyboardTest extends Instrumentation {
         type("jir");
         tapField(host.second);
         waitAbsent("待选拼写 jir");
-        press("土家语拼写");
+        press("叶氏拼音");
         type("ngafyergaf");
         stage("Whole sentence");
         if (!pageCards("，").get(0).name.endsWith("，ngaf yer gaf"))
@@ -183,7 +183,7 @@ public final class KeyboardTest extends Instrumentation {
         press("隐藏键盘");
         waitAbsent("隐藏键盘");
         tapField(host.second);
-        press("汉字记音");
+        press("谐音字");
         assertEditorAboveKeyboard(host.second, "打字");
         type("hxif");
         pressCandidate("走，诶", false);
@@ -221,7 +221,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, "ngaf yer ga诶sangx");
 
         stage("Four candidate columns, Tujia priority and Mandarin fallback");
-        press("汉字记音");
+        press("谐音字");
         type("ga");
         List<Card> mixed = fourCards();
         assertMixedPage(mixed);
@@ -276,18 +276,21 @@ public final class KeyboardTest extends Instrumentation {
     private void testSpellingStyle() {
         stage("Toneless input, Ye spelling and persistent tone-mark spelling");
         tapField(host.first);
-        press("土家语拼写");
+        press("叶氏拼音");
+        type("bifzika");
+        pressCandidate("土家族，bifzixkar", false);
+        press("句号");
         type("ga");
         pressCandidate("吃、咬，gaf", false);
-        String prefix = "麻麻爹诶及gaf。";
+        String prefix = "麻麻爹诶及bifzixkar。gaf。";
         press("句号");
         expectText(host.first, prefix);
 
-        setStyleFromLauncher("带调号拼音");
+        press("调号拼音");
         if (!"带调号拼音".equals(setStyleFromLauncher(null)))
             throw new AssertionError("Output setting did not survive closing and reopening the launcher");
         tapField(host.first);
-        press("土家语拼写");
+        press("调号拼音");
         type("ga");
         pressCandidate("吃、咬，gá", false);
         expectText(host.first, prefix + "gá");
@@ -317,14 +320,14 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, prefix + " āizū");
 
         stage("A Chinese loan shows its original Han form and keeps a gloss for romanized output");
-        press("汉字记音");
+        press("谐音字");
         type("sanggo");
         Card hanLoan = card("山歌");
         if (!hanLoan.lines.equals(Collections.singletonList("山歌")))
             throw new AssertionError("Unexpected Han loan display: " + hanLoan.lines);
         pressCandidate("山歌", false);
         expectText(host.first, prefix + " āizū山歌");
-        press("土家语拼写");
+        press("调号拼音");
         type("sanggo");
         Card romanLoan = card("山歌，sānggō");
         if (!romanLoan.lines.equals(Arrays.asList("山歌", "sānggō")))
@@ -399,7 +402,7 @@ public final class KeyboardTest extends Instrumentation {
         stage("Single-syllable Han pairs keep clean text and rich-editor spans");
         runOnMainSync(() -> host.second.setText(""));
         tapField(host.second);
-        press("汉字记音");
+        press("谐音字");
         type("engei");
         pressCandidate("那里，阿蒽格锿", false);
         expectText(host.second, "阿蒽格锿");
@@ -421,7 +424,7 @@ public final class KeyboardTest extends Instrumentation {
         stage("Noon and standalone apical syllables use full-width, unjoined Han characters");
         runOnMainSync(() -> host.second.setText(""));
         tapField(host.second);
-        press("汉字记音");
+        press("谐音字");
         String[][] examples = {
                 {"bangricai", "中午，半日猜"}, {"bangfrixcaix", "中午，半日猜"},
                 {"rix", "做，日"}, {"rif", "日"}, {"rir", "多，日"},
@@ -610,7 +613,7 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testHanSenses() {
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         type("go");
         Card pronoun = visibleForm("过");
         assertNumberedCard(pronoun, "¹他²讨", "过");
@@ -666,7 +669,7 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testReadingSpecificHan() {
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         type("ga");
         Card eating = visibleForm("架");
         if (!eating.lines.equals(Arrays.asList("吃", "架")))
@@ -729,7 +732,7 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testModernRegisterCharacters() {
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         String[][] examples = {{"稼","ga","jia"}, {"窖","gao","jiao"}, {"教","gao","jiao"},
                 {"降","gan","jian"}, {"嫁","ga","jia"}, {"甲","ga","jia"}, {"讲","gan","jian"},
                 {"眼","ngan","yan"}, {"虾","ha","xia"}};
@@ -875,7 +878,7 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testLongWordCard() {
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         type("marmardi");
         Card word = card("补全 女人，麻麻爹");
         if (!word.lines.equals(Arrays.asList("女人", "麻麻爹")))
@@ -891,10 +894,10 @@ public final class KeyboardTest extends Instrumentation {
     private void testCompactControls() {
         stage("Compact toolbar, fixed host field, actual letter-key bounds and text size");
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
         assertCompactToolbar();
-        for (String extra : new String[]{"土家语拼写", "汉字记音", "语音", "确定拼写"}) waitAbsent(extra);
+        for (String extra : new String[]{"叶氏拼音", "谐音字", "语音", "确定拼写"}) waitAbsent(extra);
         assertEditorAboveKeyboard(host.first, "打字");
         waitForNode("待选拼写 ", false);
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 ")) {
@@ -934,8 +937,8 @@ public final class KeyboardTest extends Instrumentation {
         captureFrame("compact-typing.png");
         tapControl("更多");
         waitSelectedControl("更多");
-        waitSelectedControl("汉字记音");
-        waitForNode("土家语拼写", false);
+        waitSelectedControl("谐音字");
+        waitForNode("叶氏拼音", false);
         waitForNode("语音", false);
         waitForNode("确定拼写", false);
         expectText(host.first, "正文");
@@ -968,9 +971,9 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, "正文架日日三");
         press("打字");
         tapControl("更多");
-        waitSelectedControl("汉字记音");
+        waitSelectedControl("谐音字");
         tapControl("更多");
-        waitAbsent("土家语拼写");
+        waitAbsent("叶氏拼音");
         assertEditorAboveKeyboard(host.first, "打字");
     }
 
@@ -979,7 +982,7 @@ public final class KeyboardTest extends Instrumentation {
         String oldStyle = setStyleFromLauncher("叶氏拼音");
         try {
             newPredictionEditor();
-            press("汉字记音");
+            press("谐音字");
             Card han = nextSoundCard();
             String written = outputLine(han);
             if (!"下一音节 过".equals(han.name) || !han.lines.equals(Collections.singletonList("过")))
@@ -998,7 +1001,7 @@ public final class KeyboardTest extends Instrumentation {
             if (written.codePointCount(0, written.length()) == 1) expectText(host.first, "");
 
             newPredictionEditor();
-            press("汉字记音");
+            press("谐音字");
             type("marmardi");
             pressCandidate("补全 女人，麻麻爹", false);
             expectText(host.first, "麻麻爹");
@@ -1012,7 +1015,7 @@ public final class KeyboardTest extends Instrumentation {
             setStyleFromLauncher("叶氏拼音");
             runOnMainSync(() -> host.second.setText(""));
             tapField(host.second);
-            press("汉字记音");
+            press("谐音字");
             Card start = nextSoundCard();
             openReader(start);
             expectText(host.second, "");
@@ -1022,7 +1025,7 @@ public final class KeyboardTest extends Instrumentation {
             testFieldHistory();
 
             newPredictionEditor();
-            press("土家语拼写");
+            press("叶氏拼音");
             Card ye = nextSoundCard();
             String spelling = outputLine(ye);
             if (!spelling.matches("[a-z]+")) throw new AssertionError("Unexpected Ye prediction: " + ye.name);
@@ -1035,7 +1038,7 @@ public final class KeyboardTest extends Instrumentation {
 
             setStyleFromLauncher("带调号拼音");
             newPredictionEditor();
-            press("土家语拼写");
+            press("调号拼音");
             Card toned = nextSoundCard();
             String marked = outputLine(toned);
             if (marked.matches("[a-z]+") || Character.isIdeographic(marked.codePointAt(0)))
@@ -1087,7 +1090,7 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.second, startingForm);
             expectText(host.first, "波俐" + afterChild);
             setHandwritingOutput(true);
-            press("汉字记音");
+            press("谐音字");
 
             runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT
                     | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD,
@@ -1113,7 +1116,7 @@ public final class KeyboardTest extends Instrumentation {
     private void testFieldHistory() {
         stage("Recent confirmed word pairs stay in one editor across sentence boundaries");
         newPredictionEditor();
-        press("汉字记音");
+        press("谐音字");
         StringBuilder sentence = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             type("ye");
@@ -1392,7 +1395,7 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     void press(String label) {
-        boolean typingOutput = "土家语拼写".equals(label) || "汉字记音".equals(label);
+        boolean typingOutput = "调号拼音".equals(label) || "叶氏拼音".equals(label) || "谐音字".equals(label);
         if (typingOutput || "语音".equals(label)) {
             awaitKeyboardAtRest();
             if (typingOutput && !isSelectedControl("打字")) {

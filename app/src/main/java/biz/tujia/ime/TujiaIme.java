@@ -403,10 +403,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     KeyLook.UTILITY, false, this::toggleHandOutput);
         } else {
             LinearLayout outputs = menuRow();
-            key(outputs, "土家语拼写", "土家语拼写", 1, KeyLook.TAB, typingMode == SPELL,
-                    () -> switchMode(SPELL));
-            key(outputs, "汉字记音", "汉字记音", 1, KeyLook.TAB, typingMode == HAN,
-                    () -> switchMode(HAN));
+            outputChoice(outputs, "叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE);
+            outputChoice(outputs, "调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC);
+            outputChoice(outputs, "谐音字", "币子咔", null);
         }
         LinearLayout tools = menuRow();
         key(tools, "语音", "语音", 1, KeyLook.PLAIN, false, () -> switchMode(VOICE));
@@ -426,6 +425,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 commitRaw();
             });
         }
+    }
+
+    private void outputChoice(LinearLayout row, String name, String example, CandidateEngine.Orthography style) {
+        boolean selected = style == null ? typingMode == HAN : typingMode == SPELL && orthography == style;
+        TextView choice = key(row, name + "\n" + example, name, 1, KeyLook.TAB, selected, () -> {
+            if (style != null) {
+                orthography = style;
+                KeyboardSettings.setSpelling(this, style);
+            }
+            switchMode(style == null ? HAN : SPELL);
+        });
+        choice.setSingleLine(false);
+        choice.setMaxLines(2);
     }
 
     private LinearLayout menuRow() {

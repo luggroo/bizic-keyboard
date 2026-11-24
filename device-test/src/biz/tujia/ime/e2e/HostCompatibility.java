@@ -40,7 +40,7 @@ final class HostCompatibility {
     }
 
     private void commitEating() {
-        keys.press("汉字记音");
+        keys.press("谐音字");
         keys.type("ga");
         keys.pressCandidate("吃、咬，架", false);
     }
@@ -151,7 +151,7 @@ final class HostCompatibility {
         keys.type("ga");
         tapDom("note");
         keys.waitAbsent("待选拼写 ga");
-        keys.press("汉字记音");
+        keys.press("谐音字");
         keys.type("bangricai");
         keys.pressCandidate("中午，半日猜", false);
         expectDom("note", "半日猜");

@@ -62,6 +62,14 @@ void checkNasalReadings(const Lexicon& model) {
         });
     };
     check(mandarin("jia", "架") && mandarin("ga", "架") && mandarin("gá", "架"), "Regular and attested dialect readings stay Chinese");
+    for (std::string query : {"bizika", "bifzika", "bizixka", "bizikar", "bifzixka", "bizixkar", "bifzikar", "bifzixkar"})
+        check(offers(model.lookup(query, Mode::Pinyin, Orthography::Ye), "bifzixkar", "土家族", editorLength(query)),
+              "Independent Ye tone letters in " + query);
+    for (std::string query : {"bixzika", "bifzika"})
+        check(!offers(model.lookup(query, Mode::Pinyin, Orthography::Diacritic), "bízīkǎ", "土家族", editorLength(query)),
+              "Marked spelling rejects Ye tone letters");
+    check(!offers(model.lookup("bixzika", Mode::Pinyin, Orthography::Ye), "bifzixkar", "土家族", 7),
+          "Explicit Ye tone must match");
     for (const auto& query : {"surufa", "shurufa"}) {
         const auto choices = model.lookup(query, Mode::Pinyin, Orthography::Diacritic);
         check(std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
