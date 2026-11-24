@@ -1,0 +1,13 @@
+AOSP API 28 x86_64 at emulator-5562, software CPU and graphics. Logcat crash buffer before guest services were restarted.
+11-24 17:30:29.721  2138  2138 E AndroidRuntime: Process: com.android.phone, PID: 2138
+11-24 17:30:29.721  2138  2138 E AndroidRuntime: DeadSystemException: The system died; earlier logs will point to the root cause
+11-24 17:31:10.935  4034  4034 E AndroidRuntime: java.lang.IllegalStateException: android.os.ServiceManager$ServiceNotFoundException: No service published for: input
+11-24 17:31:10.935  4034  4034 E AndroidRuntime: Caused by: android.os.ServiceManager$ServiceNotFoundException: No service published for: input
+
+Observed while recovering the guest, with adb shell service check:
+Service window: not found
+Service activity: not found
+After restarting guest SurfaceFlinger and Zygote:
+Service window: found
+Service activity: found
+Service input_method: found

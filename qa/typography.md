@@ -20,7 +20,7 @@ Google Android 15、x86_64 云模拟器的物理屏幕为 1080 × 1920 px。在 
 
 「吃」和「架」的字号不同，Android 15 对两者的放大比例也不同。在同一 420 dpi 屏幕上，从 100% 调到 200%，系统给 14 sp 的换算从 36.75 变为 68.25 px，给 20 sp 的换算从 52.50 变为 89.25 px。每个字号的像素取自设备上的 `TypedValue.applyDimension`。[85%](results/api35-033-type-small.png) · [100%](results/api35-033-type-default.png) · [160%](results/api35-033-type-160.png) · [320 dp 窄屏、200%，完整显示「夹吓」](results/api35-033-type-largest-dense.png)
 
-在 320 dp、200% 字号下，第三格「上面／夹吓」的两个汉字均可见。整行字形高 108 px，最右侧 28% 宽度内「吓」的笔画高 101 px。这个测量取自实际渲染画面。
+在 320 dp、200% 字号下，第三格「上面／夹吓」的两个汉字均可见。整行字形高 108 px，最右侧 28% 宽度内「吓」的笔画高 101 px。在同一字号与宽度下输入 `go`，「过」上方同时读得出「¹他²讨」。释义行的字形高 80 px，末字「讨」右侧的笔画高 79 px，选中后正文写入「过」。[两个义项在同一格](results/api35-033-type-numbered-go.png)
 
 九组均在外部编辑框逐键输入 `ga`，核对四个候选，点「吃／架」后读回「正文架」。收起再打开键盘后，输入框与正文仍可见。输入 `marmardi` 后在同一编辑框内先改字号、再改显示密度，草稿保留，之后可选择整词「麻麻爹」。该测试宿主自行处理系统配置变更。[改设置后保留的拼写](results/api35-033-type-draft.png)
 
@@ -38,4 +38,4 @@ TUJIA_E2E_SUITE=typography TUJIA_E2E_EVIDENCE=build/typography ./device-test/run
 
 同轮测试在两个显示档实际点到键盘底行的「完成」，宿主均收到对应编辑动作及「正文架」。手写「三」等待自动收字时改变系统字号，第一个「三」进入正文。随后调整显示密度，手写区上缘由 1302 px 移到 1440 px；待新位置稳定后再写一个「三」，宿主读回「正文麻麻爹三三」，光标位于句末。[新手写区与第一个「三」](results/api35-033-type-hand-before-second.png) · [两次收字后的正文](results/api35-033-type-hand.png) · [完整通过记录](results/api35-033-type-matrix.log)
 
-这轮测试从提交 `078a620` 构建 Android 15 测试 APK。各品牌手机的字体与显示档位还需对应实机复核。[工作流及原始截图](https://github.com/luggroo/bizic-keyboard/actions/runs/45446080562)
+这轮测试从提交 `3ef1307` 构建 Android 15 测试 APK。各品牌手机的字体与显示档位还需对应实机复核。[工作流及原始截图](https://github.com/luggroo/bizic-keyboard/actions/runs/45449851148)

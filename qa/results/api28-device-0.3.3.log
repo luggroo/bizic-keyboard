@@ -1,0 +1,177 @@
+AOSP Android 9 / API 28 / emulator-5562
+Evidence for 25ff5973, captured before later typography, reading and lexical changes.
+
+upgrade
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+25ff597364cf6839518b9b9e319e8fe49336c8f5fa665f3d479d558601e96315  /tmp/tujia-device-release033fit/ime.apk
+daa7aa9e85938f1fc95840537bf7d3ceccff9aa8c1a6e16dc307897dfe1ad798  /tmp/tujia-device-release033fit/fixture.apk
+/data/app/biz.tujia.ime-qtvZYA6pOEqbya1VqjuIHQ==/base.apk: 1 file pulled, 0 skipped. 87.6 MB/s (5490518 bytes in 0.060s)
+Installed before update
+7dc2f1e150b355e032eac0d99d6bbac95265385d491adfa02383c61e967256e7  /tmp/tujia-device-release033fit/previous.apk
+    userId=10071
+    versionCode=7 minSdk=23 targetSdk=35
+    versionName=0.3.2
+    firstInstallTime=2026-11-24 05:34:39
+Performing Streamed Install
+Success
+Installed after update
+    userId=10071
+    versionCode=8 minSdk=23 targetSdk=35
+    versionName=0.3.3
+    firstInstallTime=2026-11-24 05:34:39
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 29.0 MB/s (5646238 bytes in 0.186s)
+Updated installed bytes match the signed release; install identity and original timestamp preserved.
+Performing Streamed Install
+Success
+Cold start: no IME PID before first focus
+
+compact
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 79.6 MB/s (5646238 bytes in 0.068s)
+/data/app/biz.tujia.ime.e2e-aXD7jPubXR1XCoYH0slGqw==/base.apk: 1 file pulled, 0 skipped. 17.9 MB/s (78251 bytes in 0.004s)
+INSTRUMENTATION_STATUS: step=Compact toolbar, fixed host field, actual letter-key bounds and text size
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=One IME toolbar, 打字/手写/更多/收起 bounds: [Rect(3, 460 - 47, 508), Rect(47, 460 - 91, 508), Rect(389, 460 - 433, 508), Rect(433, 460 - 477, 508)]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Letter keys Q=[4,573][49,627] A=[4,629][54,683] Z=[71,685][117,740]; minHeight=54dp; viewport=480dp; fontScale=1.0
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [日] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Bare 日 consumes all of rif; unlike 做／日 it leaves no f in the draft
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-idle.png: 1 file pulled, 0 skipped. 3.3 MB/s (26026 bytes in 0.007s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-typing.png: 1 file pulled, 0 skipped. 4.9 MB/s (30067 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-more.png: 1 file pulled, 0 skipped. 4.3 MB/s (25085 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-handwriting.png: 1 file pulled, 0 skipped. 5.5 MB/s (22451 bytes in 0.004s)
+
+core
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 76.3 MB/s (5646238 bytes in 0.071s)
+/data/app/biz.tujia.ime.e2e-aXD7jPubXR1XCoYH0slGqw==/base.apk: 1 file pulled, 0 skipped. 4.7 MB/s (78251 bytes in 0.016s)
+INSTRUMENTATION_STATUS: step=First input after IME startup
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=First draft committed; loading visible at first key=false, after typing=false
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Longest prefix and uncommitted suffix
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Whole sentence
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Automatic handwriting in spelling output
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Handwrite 尬, distinguish the eating sense, commit the recommended Han form
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Voice placeholder
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Four candidate columns, Tujia priority and Mandarin fallback
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Brief sense and full reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Toneless input, Ye spelling and persistent tone-mark spelling
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Actual long-press tone entry
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=A Chinese loan shows its original Han form and keeps a gloss for romanized output
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Single-syllable Han pairs keep clean text and rich-editor spans
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Noon and standalone apical syllables use full-width, unjoined Han characters
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Real meaning above noon; unglossed Han spelling in candidate and reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Candidate 斯 missing on page 0:  [打字] [打字] [手写] [手写] [待选拼写 six] [six] [更多] [更多] [隐藏键盘] [收起] [上一页候选] [‹] [补全 衣服，斯巴] [衣服] [斯巴] [补全 穿衣服，斯巴大] [穿衣服] [斯巴大] [补全 洗衣服，斯巴炸] [洗衣服] [斯巴炸] [补全 爬，斯拉] [爬] [斯拉] [下一页候选] [›] [q] [Q] [w] [W] [e] [E] [r] [R] [t] [T] [y] [Y] [u] [U] [i] [I] [o] [O] [p] [P] [a] [A] [s] [S] [d] [D] [f] [F] [g] [G] [h] [H] [j] [J] [k] [K] [l] [L] [切换大小写] [⇧] [z] [Z] [x] [X] [c] [C] [v] [V] [b] [B] [n] [N] [m] [M] [退格] [⌫] [字母或符号] [123] [切换输入法] [换] [逗号] [，] [空格] [空格] [句号] [。] [完成] [完成]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Two handwritten characters reach the editor with no confirmation taps
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [一, 哪] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Correct a handwritten character, then accept a word completion and its next word
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Corrected 波 to the visible alternative 坡
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [小孩儿, 波俐] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [那, 哎] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Pending strokes and correction cannot cross editor or cursor changes
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Compact toolbar, fixed host field, actual letter-key bounds and text size
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=One IME toolbar, 打字/手写/更多/收起 bounds: [Rect(3, 460 - 47, 508), Rect(47, 460 - 91, 508), Rect(389, 460 - 433, 508), Rect(433, 460 - 477, 508)]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Letter keys Q=[4,573][49,627] A=[4,629][54,683] Z=[71,685][117,740]; minHeight=54dp; viewport=480dp; fontScale=1.0
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [日] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Bare 日 consumes all of rif; unlike 做／日 it leaves no f in the draft
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Single-tap predictions commit the displayed output across modes
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 过 [过]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [吃, 架] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 过 [过]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Recent confirmed word pairs stay in one editor across sentence boundaries
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=An editor disabling personalized learning keeps fixed dictionary predictions
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 gof [gof]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 gó [gó]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Handwriting predictions append and respect the selected output
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 博 [博]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Read single-tap syllable candidate 下一音节 gó [gó]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/prediction-han-before.png: 1 file pulled, 0 skipped. 0.6 MB/s (30640 bytes in 0.047s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/prediction-han-after.png: 1 file pulled, 0 skipped. 0.5 MB/s (29113 bytes in 0.051s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/prediction-jin-before.png: 1 file pulled, 0 skipped. 2.4 MB/s (28141 bytes in 0.011s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/prediction-jin-after.png: 1 file pulled, 0 skipped. 0.5 MB/s (26908 bytes in 0.049s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-idle.png: 1 file pulled, 0 skipped. 5.9 MB/s (26104 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-typing.png: 1 file pulled, 0 skipped. 4.7 MB/s (30177 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-more.png: 1 file pulled, 0 skipped. 6.2 MB/s (25190 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-handwriting.png: 1 file pulled, 0 skipped. 0.4 MB/s (22573 bytes in 0.049s)
+
+host
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 60.3 MB/s (5646238 bytes in 0.089s)
+/data/app/biz.tujia.ime.e2e-aXD7jPubXR1XCoYH0slGqw==/base.apk: 1 file pulled, 0 skipped. 7.9 MB/s (78251 bytes in 0.010s)
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 搜索
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 搜索 at [394,742][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 发送
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 发送 at [394,742][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 下一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 下一项 at [394,742][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 上一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 上一项 at [394,742][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Masked native text and numeric passwords use direct input
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Android System WebView: input, textarea, DOM focus change and password
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+
+system
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 70.0 MB/s (5646238 bytes in 0.077s)
+/data/app/biz.tujia.ime.e2e-aXD7jPubXR1XCoYH0slGqw==/base.apk: 1 file pulled, 0 skipped. 7.3 MB/s (78251 bytes in 0.010s)
+INSTRUMENTATION_STATUS: step=Preinstalled AOSP Contacts: enter a name in an unsaved new contact
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Preinstalled Chromium WebView Shell: direct text into the browser address bar
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=System checks completed without submitting, navigating or saving
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1

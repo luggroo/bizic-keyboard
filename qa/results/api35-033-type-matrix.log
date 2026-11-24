@@ -1,12 +1,12 @@
-https://github.com/luggroo/bizic-keyboard/actions/runs/45446080562
-Commit 078a620, Android 15 APK built by this workflow.
+https://github.com/luggroo/bizic-keyboard/actions/runs/45449851148
+Commit 3ef1307, Android 15 APK built by this workflow.
 google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
 Physical size: 1080x1920
 Physical density: 420
 1.0
 2
-7cf80d780744ca04525937384e58dc3669b186ebe726574573f5bed0e0d2b84f  build/qa-keyboard.apk
-6299d0b1dd0c1fa0414f9faf90a2aa33e29a624999369b4947c0e539497e3f0f  build/fixture.apk
+fffcf51deb0400fd7c5d1a1a00b87cdc373a37eb39b0b6e665d715cc8ce875c2  build/qa-keyboard.apk
+e7a28ca0f950abbde6d6ff6a59e124f81e3d813fcbcb958bd3537a6704b21f9b  build/fixture.apk
 
 Performing Streamed Install
 Success
@@ -40,6 +40,8 @@ INSTRUMENTATION_STATUS: step=Tap editor action 完成 at [886,1668][1066,1829]
 INSTRUMENTATION_STATUS_CODE: 1
 INSTRUMENTATION_STATUS: step=Bottom-row 完成 reached the host with 正文架 at largest-dense
 INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Two numbered meanings for 过: upper=[94,897][312,1010] ink=80px, 讨 sample=[247,897][312,1010] rightInk=79px
+INSTRUMENTATION_STATUS_CODE: 1
 INSTRUMENTATION_STATUS: step=First handwritten 三 committed while font size changed
 INSTRUMENTATION_STATUS_CODE: 1
 INSTRUMENTATION_STATUS: step=Writing second 三 in settled pad [8,1440][1072,1752], previous density pad=[10,1302][1070,1704]
@@ -50,15 +52,16 @@ INSTRUMENTATION_STATUS: step=Restored original density 420 and system font_scale
 INSTRUMENTATION_STATUS_CODE: 1
 INSTRUMENTATION_RESULT: outcome=PASS
 INSTRUMENTATION_CODE: -1
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-small.png: 1 file pulled, 0 skipped. 14.8 MB/s (69812 bytes in 0.004s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default.png: 1 file pulled, 0 skipped. 75.6 MB/s (78425 bytes in 0.001s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-115.png: 1 file pulled, 0 skipped. 52.4 MB/s (84142 bytes in 0.002s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-large.png: 1 file pulled, 0 skipped. 45.3 MB/s (89858 bytes in 0.002s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160.png: 1 file pulled, 0 skipped. 21.6 MB/s (101205 bytes in 0.004s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest.png: 1 file pulled, 0 skipped. 93.4 MB/s (116209 bytes in 0.001s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default-dense.png: 1 file pulled, 0 skipped. 49.6 MB/s (94793 bytes in 0.002s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160-dense.png: 1 file pulled, 0 skipped. 89.8 MB/s (123748 bytes in 0.001s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest-dense.png: 1 file pulled, 0 skipped. 33.5 MB/s (144483 bytes in 0.004s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-draft.png: 1 file pulled, 0 skipped. 104.6 MB/s (127290 bytes in 0.001s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand.png: 1 file pulled, 0 skipped. 57.8 MB/s (75975 bytes in 0.001s)
-/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand-before-second.png: 1 file pulled, 0 skipped. 4.9 MB/s (79624 bytes in 0.015s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-small.png: 1 file pulled, 0 skipped. 26.3 MB/s (68921 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default.png: 1 file pulled, 0 skipped. 19.2 MB/s (77593 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-115.png: 1 file pulled, 0 skipped. 49.0 MB/s (84974 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-large.png: 1 file pulled, 0 skipped. 32.4 MB/s (90801 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160.png: 1 file pulled, 0 skipped. 16.8 MB/s (101785 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest.png: 1 file pulled, 0 skipped. 29.1 MB/s (116634 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default-dense.png: 1 file pulled, 0 skipped. 40.0 MB/s (95040 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160-dense.png: 1 file pulled, 0 skipped. 46.3 MB/s (124267 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest-dense.png: 1 file pulled, 0 skipped. 25.3 MB/s (145023 bytes in 0.005s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-draft.png: 1 file pulled, 0 skipped. 68.8 MB/s (128559 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand.png: 1 file pulled, 0 skipped. 15.2 MB/s (74033 bytes in 0.005s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-hand-before-second.png: 1 file pulled, 0 skipped. 37.2 MB/s (80898 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-numbered-go.png: 1 file pulled, 0 skipped. 30.8 MB/s (136868 bytes in 0.004s)
