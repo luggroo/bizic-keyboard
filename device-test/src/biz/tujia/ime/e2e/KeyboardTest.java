@@ -432,7 +432,12 @@ public final class KeyboardTest extends Instrumentation {
                     throw new AssertionError("Unexpected unglossed reader content: " + detail);
                 press("返回候选");
             }
-            pressCandidate(example[1], false);
+            if (example[0].startsWith("ri")) {
+                Card day = visibleForm("日");
+                if (example[1].contains("，") && !day.name.contains(example[1].split("，")[0]))
+                    throw new AssertionError("Missing lexical meaning for " + example[0] + ": " + day.name);
+                tap(day.bounds.centerX(), day.bounds.centerY());
+            } else pressCandidate(example[1], false);
             committed.append(example[1].substring(example[1].lastIndexOf('，') + 1));
             expectText(host.second, committed.toString());
             assertJoinedRanges(host.second);
@@ -595,38 +600,20 @@ public final class KeyboardTest extends Instrumentation {
         newPredictionEditor();
         press("汉字记音");
         type("go");
-        Card pronoun = card("他，过");
-        if (!pronoun.lines.equals(Arrays.asList("他", "过"))) throw new AssertionError("Missing pronoun gloss");
+        Card pronoun = visibleForm("过");
+        assertNumberedCard(pronoun, "¹他²讨", "过");
         captureFrame("sense-go.png");
         openReader(pronoun);
-        if (!visibleControls().contains("汉义\n他\n\n待输入\n过")) throw new AssertionError("Missing full meaning for 他／过: " + visibleControls());
+        String detail = visibleControls();
+        if (!detail.contains("汉义") || !detail.contains("他") || !detail.contains("讨") || !detail.contains("过错") || !detail.contains("待输入"))
+            throw new AssertionError("Both meanings must remain available in the reader: " + detail);
         expectText(host.first, "");
         press("返回候选");
-
-        int pronouns = 0, faults = 0, page = 0;
-        while (true) {
-            List<Card> cards = pageCards("，");
-            for (Card item : cards) {
-                if (item.name.matches("(?:补全 |联想 |下一音节 )?他，.*")) {
-                    pronouns++;
-                    if (!item.name.endsWith("，过")) throw new AssertionError("Unmarked go offered other writing for 他: " + item.name);
-                }
-                if (item.name.equals("过错，过")) faults++;
-            }
-            page++;
-            Rect next = pollNode("下一页候选", false, 250);
-            if (next == null) break;
-            if (page > 100) throw new AssertionError("Unbounded go pagination");
-            String previous = visibleControls();
-            tap(next.centerX(), next.centerY());
-            long until = SystemClock.uptimeMillis() + WAIT_MS;
-            while (previous.equals(visibleControls()) && SystemClock.uptimeMillis() < until) SystemClock.sleep(50);
-            if (previous.equals(visibleControls())) throw new AssertionError("go page did not advance from " + page);
-        }
-        if (pronouns != 1 || faults != 1) throw new AssertionError("Across " + page + " go pages: 他=" + pronouns + ", 过错=" + faults);
-        stage("Across all " + page + " unmarked go pages: one 他／过 and one independent 过错／过");
+        int goPages = verifyUniqueFormsAcrossPages("过");
+        stage("Across all " + goPages + " go pages, one 过 card shows ¹他/²讨, with the loan 过错 kept in the reader");
         press("退格"); press("退格"); type("go");
-        pressCandidate("过错，过", false, "过错", "过");
+        pronoun = visibleForm("过");
+        tap(pronoun.bounds.centerX(), pronoun.bounds.centerY());
         expectText(host.first, "过");
         type("g"); holdTone("o", "ǒ");
         waitForNode("待选拼写 gǒ", false);
@@ -642,6 +629,82 @@ public final class KeyboardTest extends Instrumentation {
         press("输入这个候选");
         expectText(host.first, "过郭马");
         stage("g + held o / ǒ gives 他／郭; 马 shows once on the card and retains its lexical meaning in the reader");
+        type("ga");
+        assertMixedPage(fourCards());
+        int gaPages = verifyUniqueFormsAcrossPages("夹");
+        stage("Across all " + gaPages + " ga pages each form occurs once; 夹 shows ¹上/²干");
+    }
+
+    private void assertNumberedCard(Card card, String compactLabel, String form) {
+        if (card.lines.size() != 2 || !compactLabel.equals(card.lines.get(0).replace(" ", ""))
+                || !form.equals(outputLine(card))) throw new AssertionError("Unexpected meanings or form: " + card.lines);
+    }
+
+    private Card visibleForm(String output) {
+        waitForNode(output, false);
+        for (Card item : pageCards(output)) if (output.equals(outputLine(item))) return item;
+        throw new AssertionError("Missing visible form " + output + ": " + visibleControls());
+    }
+
+    private AccessibilityNodeInfo candidateRow(Card witness) {
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(witness.name)) {
+            try {
+                if (node.refresh() && node.isClickable() && node.isVisibleToUser()
+                        && android.text.TextUtils.equals(node.getContentDescription(), witness.name)
+                        && "android.widget.LinearLayout".contentEquals(node.getClassName())) {
+                    AccessibilityNodeInfo parent = node.getParent();
+                    if (parent != null && parent.refresh()) return parent;
+                    if (parent != null) parent.recycle();
+                }
+            } finally { node.recycle(); }
+        }
+        throw new AssertionError("Could not locate candidate row for " + witness.name);
+    }
+
+    private List<Card> rowCards(AccessibilityNodeInfo row) {
+        List<Card> cards = new ArrayList<>();
+        if (!row.refresh()) throw new AssertionError("Candidate row is no longer attached");
+        for (int i = 0; i < row.getChildCount(); i++) {
+            AccessibilityNodeInfo child = row.getChild(i);
+            if (child != null) {
+                try {
+                    Card item = readCard(child);
+                    if (item != null) cards.add(item);
+                } finally { child.recycle(); }
+            }
+        }
+        return cards;
+    }
+
+    private List<String> pageForms(AccessibilityNodeInfo row) {
+        List<String> forms = new ArrayList<>();
+        for (Card item : rowCards(row)) forms.add(outputLine(item));
+        return forms;
+    }
+
+    private int verifyUniqueFormsAcrossPages(String witness) {
+        java.util.Set<String> seen = new java.util.LinkedHashSet<>();
+        AccessibilityNodeInfo row = candidateRow(visibleForm(witness));
+        try {
+            List<String> forms = pageForms(row);
+            for (int page = 1; page <= 100; page++) {
+                if (forms.isEmpty()) throw new AssertionError("Empty candidate page for " + witness);
+                for (String form : forms) if (!seen.add(form))
+                    throw new AssertionError("Repeated form on candidate page " + page + ": " + form);
+                Rect next = pollNode("下一页候选", false, 250);
+                if (next == null) return page;
+                tap(next.centerX(), next.centerY());
+                List<String> previous = forms;
+                long until = SystemClock.uptimeMillis() + WAIT_MS;
+                do {
+                    SystemClock.sleep(70);
+                    forms = pageForms(row);
+                } while ((forms.isEmpty() || forms.equals(previous)) && SystemClock.uptimeMillis() < until);
+                if (forms.isEmpty() || forms.equals(previous))
+                    throw new AssertionError("Candidate page did not advance from " + page + ": " + previous);
+            }
+        } finally { row.recycle(); }
+        throw new AssertionError("Unbounded pagination for " + witness);
     }
 
     private void testLongWordCard() {
@@ -717,12 +780,14 @@ public final class KeyboardTest extends Instrumentation {
         pressCandidate("吃、咬，架", false);
         expectText(host.first, "正文架");
         type("rif");
-        pressCandidate("日", false, "日");
+        Card day = visibleForm("日");
+        tap(day.bounds.centerX(), day.bounds.centerY());
         expectText(host.first, "正文架日");
         waitForNode("待选拼写 ", false);
-        stage("Bare 日 consumes all of rif; unlike 做／日 it leaves no f in the draft");
+        stage("Default 日 consumes the whole rif");
         type("rif");
-        pressCandidate("做，日", false);
+        openReader(visibleForm("日"));
+        press("保留 f");
         expectText(host.first, "正文架日日");
         waitForNode("待选拼写 f", false);
         press("退格");
@@ -1010,31 +1075,36 @@ public final class KeyboardTest extends Instrumentation {
         List<Card> page = new ArrayList<>();
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(search)) {
             try {
-                if (!node.refresh() || !node.isVisibleToUser() || !node.isClickable()
-                        || !"android.widget.LinearLayout".contentEquals(node.getClassName())
-                        || node.getContentDescription() == null) continue;
-                Rect bounds = new Rect();
-                node.getBoundsInScreen(bounds);
-                Card found = new Card(node.getContentDescription().toString(), bounds);
-                for (int i = 0; i < node.getChildCount(); i++) {
-                    AccessibilityNodeInfo child = node.getChild(i);
-                    if (child == null) continue;
-                    try {
-                        if (child.isVisibleToUser() && child.getText() != null && child.getText().length() != 0) {
-                            found.lines.add(child.getText().toString());
-                            Rect line = new Rect();
-                            child.getBoundsInScreen(line);
-                            found.lineBounds.add(line);
-                        }
-                    } finally { child.recycle(); }
-                }
-                page.add(found);
+                Card item = readCard(node);
+                if (item != null) page.add(item);
             } finally { node.recycle(); }
         }
         Collections.sort(page, new Comparator<Card>() {
             @Override public int compare(Card a, Card b) { return Integer.compare(a.bounds.left, b.bounds.left); }
         });
         return page;
+    }
+
+    private Card readCard(AccessibilityNodeInfo node) {
+        if (!node.refresh() || !node.isVisibleToUser() || !node.isClickable()
+                || !"android.widget.LinearLayout".contentEquals(node.getClassName())
+                || node.getContentDescription() == null) return null;
+        Rect bounds = new Rect();
+        node.getBoundsInScreen(bounds);
+        Card found = new Card(node.getContentDescription().toString(), bounds);
+        for (int i = 0; i < node.getChildCount(); i++) {
+            AccessibilityNodeInfo child = node.getChild(i);
+            if (child == null) continue;
+            try {
+                if (child.refresh() && child.isVisibleToUser() && child.getText() != null && child.getText().length() != 0) {
+                    found.lines.add(child.getText().toString());
+                    Rect line = new Rect();
+                    child.getBoundsInScreen(line);
+                    found.lineBounds.add(line);
+                }
+            } finally { child.recycle(); }
+        }
+        return found;
     }
 
     private Card card(String name) {
@@ -1044,7 +1114,9 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     List<Card> fourCards() {
-        List<Card> page = pageCards("，");
+        List<Card> page;
+        AccessibilityNodeInfo row = candidateRow(visibleForm("架"));
+        try { page = rowCards(row); } finally { row.recycle(); }
         if (page.size() != 4) throw new AssertionError("Expected four candidates, saw " + page.size());
         for (int i = 1; i < page.size(); i++) {
             Rect left = page.get(i - 1).bounds, right = page.get(i).bounds;
@@ -1062,14 +1134,15 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void assertMixedPage(List<Card> page) {
-        // These three equally long matches have 39, 33 and 2 attested examples.
-        List<String> expected = Arrays.asList("吃、咬，架", "上，夹", "干、渴，夹");
-        for (int i = 0; i < expected.size(); i++) {
-            if (!expected.get(i).equals(page.get(i).name))
-                throw new AssertionError("Candidates out of language/frequency order: " + visibleControls());
-        }
+        // The first form is the more frequent lexical entry. The two senses of 夹 share its card.
         if (!page.get(0).lines.equals(Arrays.asList("吃", "架")))
-            throw new AssertionError("Expected the brief Tujia sense above the committed word");
+            throw new AssertionError("Unexpected top ga candidate: " + page.get(0).lines);
+        assertNumberedCard(page.get(1), "¹上²干", "夹");
+        openReader(page.get(1));
+        String detail = visibleControls();
+        if (!detail.contains("汉义") || !detail.contains("上") || !detail.contains("干、渴"))
+            throw new AssertionError("Merged 夹 lost a full sense: " + detail);
+        press("返回候选");
     }
 
     void stage(String name) {
