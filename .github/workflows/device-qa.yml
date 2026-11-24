@@ -1,27 +1,9 @@
 name: Android device QA
-run-name: Android API ${{ inputs.api_level || '35' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
+run-name: Mobile QA · wide handwriting pad
 
 on:
-  workflow_dispatch:
-    inputs:
-      api_level:
-        description: 'Android API level (28 for Android 9, 35 for Android 15)'
-        type: choice
-        default: '35'
-        options: ['35', '28']
-      suite:
-        description: 'Device suite'
-        type: choice
-        default: all
-        options: [all, core, host, web, window, sounds, compact, long-word, typography, han-senses, regional, hand-words]
-      release_tag:
-        description: 'Optional release tag (for example v0.3.0). Leave blank to build this commit.'
-        type: string
-        default: ''
-      apk_sha256:
-        description: 'Expected SHA-256 of the release APK. Required when testing a release.'
-        type: string
-        default: ''
+  push:
+    branches: [qa/mobile-f3e9952]
 
 permissions:
   contents: read
@@ -30,8 +12,18 @@ jobs:
   ime:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 35
+            target: default
+          - api: 28
+            target: google_apis
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: f3e995241644116e952d150767023b20fe1cbb2c
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -42,22 +34,10 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
           'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Build keyboard and test host
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          APK_SHA256: ${{ inputs.apk_sha256 }}
         run: |
           mkdir -p build
-          if [[ -n "$RELEASE_TAG" ]]; then
-            [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && "$APK_SHA256" =~ ^[0-9a-fA-F]{64}$ ]]
-            gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
-              --pattern "tujia-keyboard-${RELEASE_TAG#v}.apk" --output build/qa-keyboard.apk
-            echo "$APK_SHA256  build/qa-keyboard.apk" | sha256sum --check
-          else
-            [[ -z "$APK_SHA256" ]]
-            ./gradlew --no-daemon :app:assembleDebug
-            cp app/build/outputs/apk/debug/app-debug.apk build/qa-keyboard.apk
-          fi
+          ./gradlew --no-daemon :app:assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk build/qa-keyboard.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose build/qa-keyboard.apk
           ./tools/build-apk.sh --device-test build/fixture.apk
       - name: Enable hardware acceleration
@@ -67,11 +47,11 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - name: Exercise installed input method
         env:
-          TUJIA_E2E_SUITE: ${{ inputs.suite }}
+          TUJIA_E2E_SUITE: all
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ inputs.api_level || '35' }}
-          target: google_apis
+          api-level: ${{ matrix.api }}
+          target: ${{ matrix.target }}
           arch: x86_64
           profile: pixel_2
           disable-animations: true
@@ -79,6 +59,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: android-${{ inputs.api_level || '35' }}-device-evidence
+          name: android-${{ matrix.api }}-device-evidence
           path: build/device-qa/
           if-no-files-found: warn
