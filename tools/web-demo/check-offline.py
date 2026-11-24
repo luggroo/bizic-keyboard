@@ -122,13 +122,22 @@ with sync_playwright() as pw:
         if (width,percent) in [(390,100),(320,100),(320,160),(320,200)]:snap(page,'compact-toolbar-'+tag)
         page.locator('#kbMore').click()
         assert geometry()==base and page.locator('#kbMore').get_attribute('aria-expanded')=='true'
-        assert page.locator('#kbMorePanel').evaluate('e=>e.clientWidth>=e.scrollWidth && e.offsetTop+e.offsetHeight<=e.parentElement.clientHeight')
+        def check_picker():
+            panel=page.locator('#kbMorePanel')
+            assert panel.evaluate('e=>e.clientWidth>=e.scrollWidth && e.offsetTop+e.offsetHeight<=e.parentElement.clientHeight'),(width,percent)
+            keys=panel.locator('.formChoice')
+            assert keys.count()==3
+            for key in keys.all():
+                sample=key.locator('small').bounding_box()
+                label=key.locator('span').bounding_box()
+                assert sample['y']+sample['height']<=label['y']+1,(width,percent,sample,label)
+        check_picker()
         if (width,percent) in [(390,100),(320,160)]:snap(page,'more-menu-'+tag)
         page.keyboard.press('Escape')
         assert not page.locator('#kbMorePanel').is_visible() and geometry()==base
         page.locator('#result').press('k')
         assert page.locator('#draft').input_value()=='k' and text()=='' and geometry()==base
-        page.locator('#kbMore').click();page.locator('#menuHan').click()
+        page.locator('#kbMore').click();check_picker();page.locator('#menuHan').click()
         assert page.locator('#draft').input_value()=='k' and geometry()==base
         page.locator('#handMode').click()
         assert page.locator('#canvas').is_visible() and bounds('#keyboardPanel')==base[1]

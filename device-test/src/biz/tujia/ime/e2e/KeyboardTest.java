@@ -303,6 +303,17 @@ public final class KeyboardTest extends Instrumentation {
                 expectText(host.first, expected);
             }
             captureFrame("three-output-commits.png");
+            stage("App settings and the keyboard agree on each output choice");
+            for (String[] form : forms) {
+                setStyleFromLauncher(form[0]);
+                tapField(host.second);
+                press("打字");
+                tapControl("更多");
+                waitSelectedControl(outputButton(form[0]));
+                tapControl("更多");
+                waitAbsent(outputButton(form[0]));
+            }
+            tapField(host.first);
             press("手写");
             setHandwritingOutput("汉字谐音");
             for (String[] form : forms) {
