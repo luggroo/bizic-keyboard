@@ -309,7 +309,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         v.setTextColor(pressColors(RED));
         v.setBackground(pressable(shape(Color.TRANSPARENT, 0), 6));
         v.setContentDescription(description);
-        v.setOnClickListener(b -> action.run());
+        KeyboardTap.bind(v, action);
         v.setFocusable(true);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -1);
         params.setMargins(dp(1), dp(1), dp(1), dp(1));
@@ -322,7 +322,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         v.setTextColor(pressColors(RED));
         v.setBackground(pressable(shape(Color.TRANSPARENT, 0), 6));
         v.setContentDescription(description);
-        v.setOnClickListener(b -> {
+        KeyboardTap.bind(v, () -> {
             page += direction;
             showCandidates();
         });
@@ -920,7 +920,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             else text = mode == HAND ? "可以继续写" : "未找到词，可修改或选原拼写";
             TextView status = label(text, compact ? 15 : 18, MUTED);
             if (!direct && mode != VOICE && lexiconFailed) {
-                status.setOnClickListener(v -> {
+                KeyboardTap.bind(status, () -> {
                     lexiconFailed = false;
                     updateCandidates();
                     LexiconStore.load(this, this);
@@ -956,7 +956,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             text.setDuplicateParentStateEnabled(true);
             text.setTextColor(pressColors(tujia && i == 0 ? RED : INK));
             card.addView(text, new LinearLayout.LayoutParams(-1, Math.round(sp(compact ? 18 : 22) * 1.28f)));
-            card.setOnClickListener(v -> choose(c));
+            KeyboardTap.bind(card, () -> choose(c));
             card.setHapticFeedbackEnabled(false);
             card.setOnLongClickListener(v -> {
                 openReading(c);
@@ -1388,7 +1388,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         v.setContentDescription(desc);
         v.setSelected(selected);
         v.setFocusable(true);
-        v.setOnClickListener(b -> action.run());
+        KeyboardTap.bind(v, action);
         parent.addView(v, weighted(weight));
         return v;
     }
