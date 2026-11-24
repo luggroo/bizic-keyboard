@@ -62,6 +62,23 @@ void checkNasalReadings(const Lexicon& model) {
         });
     };
     check(mandarin("jia", "架") && mandarin("ga", "架") && mandarin("gá", "架"), "Regular and attested dialect readings stay Chinese");
+    for (std::string query : {"bizika", "bifzika", "bizixka", "bizikar", "bifzixka", "bizixkar", "bifzikar", "bifzixkar"})
+        check(offers(model.lookup(query, Mode::Pinyin, Orthography::Ye), "bifzixkar", "土家族", editorLength(query)),
+              "Independent Ye tone letters in " + query);
+    for (std::string query : {"bixzika", "bifzika"})
+        check(!offers(model.lookup(query, Mode::Pinyin, Orthography::Diacritic), "bízīkǎ", "土家族", editorLength(query)),
+              "Marked spelling rejects Ye tone letters");
+    check(!offers(model.lookup("bixzika", Mode::Pinyin, Orthography::Ye), "bifzixkar", "土家族", 7),
+          "Explicit Ye tone must match");
+    for (const auto& query : {"surufa", "shurufa"}) {
+        const auto choices = model.lookup(query, Mode::Pinyin, Orthography::Diacritic);
+        check(std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
+            return c.text == "输入法" && c.kind == CandidateKind::Chinese && c.consumed == editorLength(query);
+        }), "Complete Chinese word for su ru fa");
+    }
+    check(!offers(model.lookup("gaf", Mode::Pinyin, Orthography::Diacritic), "gá", "吃、咬", 3) &&
+          offers(model.lookup("ga", Mode::Pinyin, Orthography::Diacritic), "gá", "吃、咬", 2) &&
+          !tujia::matchesSpellingPrefix("gaf", "gaf", "gá", false), "Ignore Ye tone keys in marked mode");
     check(mandarin("fangan", "反感") && mandarin("fanggan", "反感") && !mandarin("fanan", "反感"),
           "Coda variation cannot remove the onset of gan");
     check(offers(model.lookup("ga", Mode::Han), "架", "吃、咬", 2) &&

@@ -62,7 +62,7 @@ final class SystemTypography {
     private int measure(String name, float scale, int density) throws Exception {
         setConfiguration(scale, density);
         test.newPredictionEditor();
-        test.press("汉字记音");
+        test.press("谐音字");
         test.runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
         test.type("ga");
         List<KeyboardTest.Card> cards = test.fourCards();
@@ -134,7 +134,7 @@ final class SystemTypography {
 
     private void checkNarrowNumberedWord() {
         test.newPredictionEditor();
-        test.press("汉字记音");
+        test.press("谐音字");
         test.type("go");
         KeyboardTest.Card word = test.visibleForm("过");
         test.assertNumberedCard(word, "¹他²讨", "过");
@@ -159,7 +159,7 @@ final class SystemTypography {
     private void activeInputChanges(int baseline, int narrow) throws Exception {
         setConfiguration(1f, baseline);
         test.newPredictionEditor();
-        test.press("汉字记音");
+        test.press("谐音字");
         test.runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
         test.type("marmardi");
         setConfiguration(1.6f, baseline);

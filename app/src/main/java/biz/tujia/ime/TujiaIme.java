@@ -403,10 +403,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     KeyLook.UTILITY, false, this::toggleHandOutput);
         } else {
             LinearLayout outputs = menuRow();
-            key(outputs, "土家语拼写", "土家语拼写", 1, KeyLook.TAB, typingMode == SPELL,
-                    () -> switchMode(SPELL));
-            key(outputs, "汉字记音", "汉字记音", 1, KeyLook.TAB, typingMode == HAN,
-                    () -> switchMode(HAN));
+            outputChoice(outputs, "叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE);
+            outputChoice(outputs, "调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC);
+            outputChoice(outputs, "谐音字", "币子咔", null);
         }
         LinearLayout tools = menuRow();
         key(tools, "语音", "语音", 1, KeyLook.PLAIN, false, () -> switchMode(VOICE));
@@ -426,6 +425,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 commitRaw();
             });
         }
+    }
+
+    private void outputChoice(LinearLayout row, String name, String example, CandidateEngine.Orthography style) {
+        boolean selected = style == null ? typingMode == HAN : typingMode == SPELL && orthography == style;
+        TextView choice = key(row, name + "\n" + example, name, 1, KeyLook.TAB, selected, () -> {
+            if (style != null) {
+                orthography = style;
+                KeyboardSettings.setSpelling(this, style);
+            }
+            switchMode(style == null ? HAN : SPELL);
+        });
+        choice.setSingleLine(false);
+        choice.setMaxLines(2);
     }
 
     private LinearLayout menuRow() {
@@ -703,6 +715,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (c.kind == CandidateEngine.Kind.TUJIA && !c.syllableOnly
                     && (typed.isEmpty() || c.consumed == typed.length())) addMatched(items, edits, forms, hanSenses, c);
         }
+        for (CandidateEngine.Candidate c : exact) {
+            if (c.kind == CandidateEngine.Kind.CHINESE && c.consumed == typed.length()
+                    && c.text.codePointCount(0, c.text.length()) > 1 && !forms.contains(c.consumed + "\u0000" + c.text)) items.add(c);
+        }
         for (CandidateEngine.Candidate c : completions) addMatched(items, edits, forms, hanSenses, c);
         for (CandidateEngine.Candidate c : exact) {
             if (c.syllableOnly && (typed.isEmpty() || c.consumed == typed.length())) addMatched(items, edits, forms, hanSenses, c);
@@ -713,7 +729,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         for (CandidateEngine.Candidate c : exact) {
             if (hanSenses != null && c.kind == CandidateEngine.Kind.CHINESE
                     && forms.contains(c.consumed + "\u0000" + c.text)) continue;
-            if (c.kind != CandidateEngine.Kind.TUJIA) items.add(c);
+            if (c.kind != CandidateEngine.Kind.TUJIA && !(c.kind == CandidateEngine.Kind.CHINESE
+                    && c.consumed == typed.length() && c.text.codePointCount(0, c.text.length()) > 1)) items.add(c);
         }
         Set<String> seen = new HashSet<>();
         for (CandidateEngine.Candidate c : items) {
@@ -735,17 +752,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             markedSounds = spellings(engine.nextSyllables(soundContext, CandidateEngine.Mode.PINYIN,
                     CandidateEngine.Orthography.DIACRITIC), true);
         }
+        boolean allowYe = output != CandidateEngine.Mode.PINYIN || orthography != CandidateEngine.Orthography.DIACRITIC;
         wordHints = allWordHints;
         for (CandidateEngine.Candidate c : wordHints) {
             if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, yeWords.get(c.lexemeIds),
-                    markedWords.get(c.lexemeIds))) continue;
+                    markedWords.get(c.lexemeIds), allowYe)) continue;
             if ((hanSenses != null || seen.add(lexicalKey(c))) && takeHanSense(hanSenses, c, typed.length())) {
                 items.add(c);
             }
         }
         syllableHints = allSoundHints;
         for (CandidateEngine.Candidate c : syllableHints) {
-            if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, c.lastSyllable, markedSounds.get(c.lastSyllable))) continue;
+            if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, c.lastSyllable, markedSounds.get(c.lastSyllable), allowYe)) continue;
             if (takeHanSense(hanSenses, c, typed.length())) items.add(c);
         }
         return items;

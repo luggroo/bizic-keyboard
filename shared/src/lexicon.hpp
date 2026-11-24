@@ -32,7 +32,7 @@ struct Candidate {
     std::string hanSenseId{};
 };
 
-bool matchesSpellingPrefix(const std::string& input, const std::string& ye, const std::string& marked);
+bool matchesSpellingPrefix(const std::string& input, const std::string& ye, const std::string& marked, bool allowYe = true);
 
 class Lexicon {
 public:

@@ -22,7 +22,7 @@ final class SystemCompatibility {
         launch(new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI).setPackage(CONTACTS));
         Rect field = appNode(CONTACTS, "editable", "");
         keys.tap(field.centerX(), field.centerY());
-        keys.press("汉字记音");
+        keys.press("谐音字");
         keys.type("bangricai");
         keys.pressCandidate("中午，半日猜", false);
         appNode(CONTACTS, "editable", "半日猜");

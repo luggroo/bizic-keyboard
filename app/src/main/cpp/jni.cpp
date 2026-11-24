@@ -152,9 +152,9 @@ Java_biz_tujia_ime_NativeCore_scoreHandwritingPrefix(JNIEnv* env, jclass, jlong 
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
-Java_biz_tujia_ime_NativeCore_matchesSpellingPrefix(JNIEnv* env, jclass, jbyteArray input, jbyteArray ye, jbyteArray marked) {
+Java_biz_tujia_ime_NativeCore_matchesSpellingPrefix(JNIEnv* env, jclass, jbyteArray input, jbyteArray ye, jbyteArray marked, jboolean allowYe) {
     return guarded<jboolean>(env, CALL_ERROR, [&] {
-        return tujia::matchesSpellingPrefix(bytes(env, input), bytes(env, ye), bytes(env, marked));
+        return tujia::matchesSpellingPrefix(bytes(env, input), bytes(env, ye), bytes(env, marked), allowYe);
     });
 }
 

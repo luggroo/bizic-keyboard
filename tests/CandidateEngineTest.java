@@ -180,8 +180,8 @@ public final class CandidateEngineTest {
         check(meal.get(0).text.equals("ngaf yer gaf。"), "Whole sentence");
         check(offers(meal, "ngaf", "我", 4), "Alternative shorter prefix");
         check(first(engine, "ngafyergafhxif。", Mode.PINYIN).text.equals("ngaf yer gaf hxif。"), "Dynamic fourth word");
-        Candidate markedSentence = engine.lookup("ngafyergaf。", Mode.PINYIN, CandidateEngine.Orthography.DIACRITIC).get(0);
-        check(markedSentence.text.equals("ngá yě gá。") && markedSentence.consumed == "ngafyergaf。".length(),
+        Candidate markedSentence = engine.lookup("ngayega。", Mode.PINYIN, CandidateEngine.Orthography.DIACRITIC).get(0);
+        check(markedSentence.text.equals("ngá yě gá。") && markedSentence.consumed == "ngayega。".length(),
               "Spelling output on a complete sentence");
         Candidate partial = first(engine, "俄耶尬尬。", Mode.HANDWRITING);
         check(partial.text.equals("ngaf yer gaf") && partial.consumed == 3, "Ambiguous fourth glyph");
