@@ -89,7 +89,9 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     echo "Android did not select the test IME (current: $selected)." >&2
     exit 1
 fi
-"$adb_bin" shell am instrument -w -r "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
+suite="${TUJIA_E2E_SUITE:-all}"
+case "$suite" in all|core|host|window|system) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window or system" >&2; exit 2 ;; esac
+"$adb_bin" shell am instrument -w -r -e suite "$suite" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 tr -d '\r' < "$work/raw-result" > "$work/result"
 grep -Fxq 'INSTRUMENTATION_RESULT: outcome=PASS' "$work/result"
 grep -Fxq 'INSTRUMENTATION_CODE: -1' "$work/result"

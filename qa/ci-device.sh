@@ -7,8 +7,8 @@ mkdir -p "$out"
     adb shell wm size
     adb shell wm density
     adb shell settings get secure navigation_mode
-    sha256sum app/build/outputs/apk/debug/app-debug.apk build/fixture.apk
-} > "$out/device.txt"
+    sha256sum build/qa-keyboard.apk build/fixture.apk
+} | tee "$out/device.txt"
 
 collect() {
     adb logcat -d -b crash > "$out/crash.log" || true
@@ -18,4 +18,4 @@ collect() {
 trap collect EXIT
 adb shell input keyevent KEYCODE_WAKEUP
 adb shell wm dismiss-keyguard
-./device-test/run.sh app/build/outputs/apk/debug/app-debug.apk build/fixture.apk 2>&1 | tee "$out/instrumentation.log"
+./device-test/run.sh build/qa-keyboard.apk build/fixture.apk 2>&1 | tee "$out/instrumentation.log"

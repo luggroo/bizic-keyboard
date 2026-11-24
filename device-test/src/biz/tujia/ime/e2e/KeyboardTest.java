@@ -36,9 +36,11 @@ public final class KeyboardTest extends Instrumentation {
     private UiAutomation ui;
     private AccessibilityNodeInfo imeRoot;
     private EditorActivity host;
+    private String suite;
 
     @Override public void onCreate(Bundle args) {
         super.onCreate(args);
+        suite = args.getString("suite", "all");
         start();
     }
 
@@ -58,17 +60,22 @@ public final class KeyboardTest extends Instrumentation {
             open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             host = (EditorActivity) startActivitySync(open);
             waitForIdleSync();
-            testFirstInput();
-            String originalStyle = setStyleFromLauncher("叶氏拼音");
-            try {
-                testEditor();
-                testSpellingStyle();
-                testJoinedForms();
-                testApicalVowels();
-                testContinuousHandwriting();
-            } finally {
-                setStyleFromLauncher(originalStyle);
+            if (suite.equals("all") || suite.equals("core")) {
+                testFirstInput();
+                String originalStyle = setStyleFromLauncher("叶氏拼音");
+                try {
+                    testEditor();
+                    testSpellingStyle();
+                    testJoinedForms();
+                    testApicalVowels();
+                    testContinuousHandwriting();
+                } finally {
+                    setStyleFromLauncher(originalStyle);
+                }
             }
+            if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
+            if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
+            if (suite.equals("system")) new SystemCompatibility(this).run();
             result.putString("outcome", "PASS");
             code = Activity.RESULT_OK;
         } catch (Throwable failure) {
@@ -429,7 +436,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, "原坡波俐再");
     }
 
-    private void setHandwritingOutput(boolean han) {
+    void setHandwritingOutput(boolean han) {
         String wanted = han ? "记音 ▾" : "拼写 ▾";
         if (pollNode(wanted, false, 150) == null) press("切换手写输出");
         waitForNode(wanted, false);
@@ -548,25 +555,41 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Expected a short Tujia sense and a word-only Chinese fallback");
     }
 
-    private void stage(String name) {
+    void stage(String name) {
         Bundle status = new Bundle();
         status.putString("step", name);
         sendStatus(1, status);
     }
 
-    private void type(String letters) {
+    void type(String letters) {
         for (int i = 0; i < letters.length(); i++) {
             press(letters.substring(i, i + 1));
             waitForNode("待选拼写 " + letters.substring(0, i + 1), false);
         }
     }
 
-    private void press(String label) {
+    void press(String label) {
         Rect rect = waitForNode(label, false);
         tap(rect.centerX(), rect.centerY());
     }
 
-    private void pressCandidate(String label, boolean suffix) {
+    void pressAction(String caption) {
+        waitForNode(caption, false);
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(caption)) {
+            try {
+                if (!node.refresh() || !node.isVisibleToUser() || !node.isClickable()
+                        || !caption.contentEquals(node.getText() == null ? "" : node.getText())
+                        || !caption.contentEquals(node.getContentDescription() == null ? "" : node.getContentDescription())) continue;
+                Rect rect = new Rect();
+                node.getBoundsInScreen(rect);
+                tap(rect.centerX(), rect.centerY());
+                return;
+            } finally { node.recycle(); }
+        }
+        throw new AssertionError("No action key with matching caption and accessibility label: " + caption);
+    }
+
+    void pressCandidate(String label, boolean suffix) {
         // Candidate controls can be repopulated after every key. Allow the UI time
         // to expose the current page before deciding the intended item is absent.
         for (int page = 0; page < 8; page++) {
@@ -587,7 +610,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Missing candidate: " + label + "; screen=" + visibleControls());
     }
 
-    private void tapField(EditText field) {
+    void tapField(EditText field) {
         AtomicReference<Rect> bounds = new AtomicReference<>();
         runOnMainSync(() -> {
             Rect visible = new Rect();
@@ -609,7 +632,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Editor did not receive input focus");
     }
 
-    private void assertEditorAboveKeyboard(EditText field, String control) {
+    void assertEditorAboveKeyboard(EditText field, String control) {
         Rect key = waitForNode(control, false);
         int[] bottom = new int[1];
         runOnMainSync(() -> {
@@ -623,7 +646,7 @@ public final class KeyboardTest extends Instrumentation {
         if (bottom[0] > key.top) throw new AssertionError("Keyboard overlaps editor");
     }
 
-    private void expectText(EditText field, String expected) {
+    void expectText(EditText field, String expected) {
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
         AtomicReference<String> actual = new AtomicReference<>();
         do {
@@ -634,7 +657,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Expected [" + expected + "], got [" + actual.get() + "]");
     }
 
-    private void drawThree(Rect pad) {
+    void drawThree(Rect pad) {
         drawStroke(pad, .23f, .20f, .77f, .20f);
         drawStroke(pad, .29f, .48f, .71f, .48f);
         drawStroke(pad, .10f, .80f, .90f, .80f);
@@ -681,7 +704,7 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
-    private void tap(float x, float y) {
+    void tap(float x, float y) {
         long start = SystemClock.uptimeMillis();
         inject(start, MotionEvent.ACTION_DOWN, x, y);
         SystemClock.sleep(30);
@@ -701,13 +724,13 @@ public final class KeyboardTest extends Instrumentation {
         if (!sent) throw new AssertionError("Touch injection rejected");
     }
 
-    private Rect waitForNode(String label, boolean suffix) {
+    Rect waitForNode(String label, boolean suffix) {
         Rect r = pollNode(label, suffix, WAIT_MS);
         if (r == null) throw new AssertionError("Missing keyboard control: " + label + "; screen=" + visibleControls());
         return r;
     }
 
-    private Rect pollNode(String label, boolean suffix, long timeout) {
+    Rect pollNode(String label, boolean suffix, long timeout) {
         long end = SystemClock.uptimeMillis() + timeout;
         do {
             Rect r = findNode(label, suffix);
@@ -717,7 +740,7 @@ public final class KeyboardTest extends Instrumentation {
         return null;
     }
 
-    private void waitAbsent(String label) {
+    void waitAbsent(String label) {
         long end = SystemClock.uptimeMillis() + WAIT_MS;
         do {
             if (findNode(label, false) == null) return;
@@ -726,7 +749,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Keyboard still exposes " + label + ": " + visibleControls());
     }
 
-    private String visibleControls() {
+    String visibleControls() {
         StringBuilder labels = new StringBuilder();
         for (AccessibilityWindowInfo window : ui.getWindows()) {
             AccessibilityNodeInfo root = window.getRoot();

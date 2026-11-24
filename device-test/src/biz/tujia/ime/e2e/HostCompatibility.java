@@ -1,0 +1,201 @@
+package biz.tujia.ime.e2e;
+
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.os.SystemClock;
+import android.text.InputType;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BooleanSupplier;
+
+/** Exercises public editor contracts through actual taps on the separately installed IME. */
+final class HostCompatibility {
+    private final KeyboardTest keys;
+    private final EditorActivity host;
+
+    HostCompatibility(KeyboardTest keys, EditorActivity host) {
+        this.keys = keys;
+        this.host = host;
+    }
+
+    void run() throws Exception {
+        editorAction(EditorInfo.IME_ACTION_SEARCH, "搜索");
+        editorAction(EditorInfo.IME_ACTION_SEND, "发送");
+        editorAction(EditorInfo.IME_ACTION_NEXT, "下一项");
+        editorAction(EditorInfo.IME_ACTION_PREVIOUS, "上一项");
+        passwordFields();
+        webEditors();
+    }
+
+    private void configure(int inputType, int action, boolean multiline) {
+        keys.runOnMainSync(() -> host.nativeScenario(inputType, action, multiline));
+        keys.waitForIdleSync();
+    }
+
+    private void commitEating() {
+        keys.press("汉字记音");
+        keys.type("ga");
+        keys.pressCandidate("吃、咬，架", false);
+    }
+
+    void window() {
+        keys.stage("Native multiline editor, newline, hide and reopen without losing content");
+        configure(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true);
+        keys.tapField(host.first);
+        commitEating();
+        keys.press("换行");
+        keys.type("bangricai");
+        keys.pressCandidate("中午，半日猜", false);
+        keys.expectText(host.first, "架\n半日猜");
+        keys.assertEditorAboveKeyboard(host.first, "汉字记音");
+        keys.press("隐藏键盘");
+        keys.waitAbsent("隐藏键盘");
+        keys.expectText(host.first, "架\n半日猜");
+        keys.tapField(host.first);
+        keys.waitForNode("隐藏键盘", false);
+        keys.stage("Landscape preserves an editable host above a fixed handwriting pad");
+        try {
+            rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, Configuration.ORIENTATION_LANDSCAPE);
+            keys.tapField(host.first);
+            keys.press("手写");
+            keys.setHandwritingOutput(true);
+            keys.assertEditorAboveKeyboard(host.first, "手写");
+            Rect before = keys.waitForNode("汉字手写区", false);
+            keys.drawThree(before);
+            keys.expectText(host.first, "架\n半日猜三");
+            if (!before.equals(keys.waitForNode("汉字手写区", false)))
+                throw new AssertionError("Landscape handwriting pad moved");
+        } finally {
+            rotate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, Configuration.ORIENTATION_PORTRAIT);
+        }
+        keys.expectText(host.first, "架\n半日猜三");
+    }
+
+    private void rotate(int requested, int expected) {
+        keys.runOnMainSync(() -> host.setRequestedOrientation(requested));
+        await("screen orientation " + expected, () -> host.getResources().getConfiguration().orientation == expected);
+        keys.waitForIdleSync();
+    }
+
+    private void editorAction(int action, String caption) {
+        keys.stage("Native editor action and accessibility label: " + caption);
+        configure(InputType.TYPE_CLASS_TEXT, action, false);
+        EditText active = action == EditorInfo.IME_ACTION_PREVIOUS ? host.second : host.first;
+        keys.tapField(active);
+        commitEating();
+        // The key must announce the same available action the host requested.
+        keys.pressAction(caption);
+        await(caption + " callback", () -> host.lastEditorAction == action);
+        if (!"架".equals(host.lastSubmitted)) throw new AssertionError(caption + " callback lost input");
+        if (action == EditorInfo.IME_ACTION_NEXT || action == EditorInfo.IME_ACTION_PREVIOUS) {
+            EditText destination = active == host.first ? host.second : host.first;
+            await(caption + " focus", destination::hasFocus);
+            keys.type("hxif");
+            keys.pressCandidate("走，诶", false);
+            keys.expectText(destination, "诶");
+            keys.expectText(active, "架");
+        }
+    }
+
+    private void passwordFields() {
+        keys.stage("Masked native text and numeric passwords use direct input");
+        for (boolean number : new boolean[] {false, true}) {
+            configure(number ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                    : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                    EditorInfo.IME_ACTION_DONE, false);
+            keys.tapField(host.first);
+            String first = number ? "1" : "g", second = number ? "2" : "a";
+            keys.press(first);
+            keys.press(second);
+            String expected = first + second;
+            keys.expectText(host.first, expected);
+            if (keys.pollNode("汉字记音", false, 200) != null || keys.pollNode("吃、咬，架", false, 200) != null)
+                throw new AssertionError("Lexical prediction visible on a password field");
+            AtomicReference<String> transformed = new AtomicReference<>();
+            keys.runOnMainSync(() -> transformed.set(host.first.getTransformationMethod()
+                    .getTransformation(host.first.getText(), host.first).toString()));
+            if (expected.equals(transformed.get())) throw new AssertionError("Native password is unmasked");
+        }
+    }
+
+    private void webEditors() throws Exception {
+        keys.stage("Android System WebView: input, textarea, DOM focus change and password");
+        keys.runOnMainSync(host::webScenario);
+        long deadline = SystemClock.uptimeMillis() + 20000;
+        while (!"true".equals(js("!!document.getElementById('secret')"))) {
+            if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("WebView document did not load");
+            SystemClock.sleep(80);
+        }
+        tapDom("word");
+        commitEating();
+        expectDom("word", "架");
+        keys.type("ga");
+        tapDom("note");
+        keys.waitAbsent("待选拼写 ga");
+        keys.press("汉字记音");
+        keys.type("bangricai");
+        keys.pressCandidate("中午，半日猜", false);
+        keys.press("换行");
+        keys.type("hxif");
+        keys.pressCandidate("走，诶", false);
+        expectDom("note", "半日猜\n诶");
+        expectDom("word", "架");
+        keys.press("隐藏键盘");
+        keys.waitAbsent("隐藏键盘");
+        tapDom("secret");
+        keys.press("g");
+        keys.press("a");
+        expectDom("secret", "ga");
+        if (keys.pollNode("汉字记音", false, 200) != null)
+            throw new AssertionError("Lexical mode on a WebView password");
+    }
+
+    private String js(String expression) throws Exception {
+        AtomicReference<String> value = new AtomicReference<>();
+        CountDownLatch complete = new CountDownLatch(1);
+        keys.runOnMainSync(() -> host.web.evaluateJavascript(expression, text -> {
+            value.set(text);
+            complete.countDown();
+        }));
+        if (!complete.await(5, TimeUnit.SECONDS)) throw new AssertionError("WebView evaluation timed out");
+        return value.get();
+    }
+
+    private void tapDom(String id) throws Exception {
+        String rect = js("(function(){var r=document.getElementById('" + id + "').getBoundingClientRect();"
+                + "return [(r.left+8)*devicePixelRatio,(r.top+r.height/2)*devicePixelRatio]})()");
+        JSONArray point = new JSONArray(rect);
+        int[] origin = new int[2];
+        keys.runOnMainSync(() -> host.web.getLocationOnScreen(origin));
+        keys.tap(origin[0] + (float)point.getDouble(0), origin[1] + (float)point.getDouble(1));
+    }
+
+    private void expectDom(String id, String text) throws Exception {
+        long deadline = SystemClock.uptimeMillis() + 8000;
+        String got;
+        do {
+            got = js("document.getElementById('" + id + "').value");
+            if (JSONObject.quote(text).equals(got)) return;
+            SystemClock.sleep(60);
+        } while (SystemClock.uptimeMillis() < deadline);
+        throw new AssertionError("Unexpected DOM value for " + id + ": " + got);
+    }
+
+    private void await(String message, BooleanSupplier condition) {
+        long deadline = SystemClock.uptimeMillis() + 10000;
+        do {
+            if (condition.getAsBoolean()) return;
+            SystemClock.sleep(60);
+        } while (SystemClock.uptimeMillis() < deadline);
+        throw new AssertionError("Timed out waiting for " + message);
+    }
+}

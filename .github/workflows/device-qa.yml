@@ -2,6 +2,15 @@ name: Android 15 device QA
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Optional release tag (for example v0.3.0). Leave blank to build this commit.'
+        type: string
+        default: ''
+      apk_sha256:
+        description: 'Expected SHA-256 of the release APK. Required when testing a release.'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -21,8 +30,23 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
           'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Build keyboard and test host
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          APK_SHA256: ${{ inputs.apk_sha256 }}
         run: |
-          ./gradlew --no-daemon :app:assembleDebug
+          mkdir -p build
+          if [[ -n "$RELEASE_TAG" ]]; then
+            [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && "$APK_SHA256" =~ ^[0-9a-fA-F]{64}$ ]]
+            gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+              --pattern "tujia-keyboard-${RELEASE_TAG#v}.apk" --output build/qa-keyboard.apk
+            echo "$APK_SHA256  build/qa-keyboard.apk" | sha256sum --check
+          else
+            [[ -z "$APK_SHA256" ]]
+            ./gradlew --no-daemon :app:assembleDebug
+            cp app/build/outputs/apk/debug/app-debug.apk build/qa-keyboard.apk
+          fi
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose build/qa-keyboard.apk
           ./tools/build-apk.sh --device-test build/fixture.apk
       - name: Enable hardware acceleration
         run: |
