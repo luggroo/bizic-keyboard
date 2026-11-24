@@ -1,0 +1,46 @@
+AOSP Android 9 / API28 / emulator-5562. Signed APK 1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6.
+Fixture 7fb44ff2c7bb0e87ff79667eea45d7c8e49ddd8c82dfc1598102ca9016e989a4.
+
+/data/app/biz.tujia.ime-VR1sQ8C2aSgcAbIjVdqVmA==/base.apk: 1 file pulled, 0 skipped. 96.6 MB/s (5887902 bytes in 0.058s)
+/data/app/biz.tujia.ime.e2e-pv5RIuzstIMB0_wNy-SXDQ==/base.apk: 1 file pulled, 0 skipped. 21.4 MB/s (98731 bytes in 0.004s)
+INSTRUMENTATION_STATUS: step=Across all 5 go pages, one 过 card shows ¹他/²讨, with the loan 过错 kept in the reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=g + held o / ǒ gives 他／郭; 马 shows once on the card and retains its lexical meaning in the reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Across all 4 ga pages each form occurs once; 夹 shows ¹上/²干
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=An ambiguous written 过 did not teach the host that the user had chosen 他
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typed ga and jia: only the ga card and its full reader gave 吃／吃、咬; both committed 架
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [中午, 半日猜] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [中午, 半日猜] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=gogo displayed the loan 哥哥 once; banricai/bangricai both selected the full word 中午／半日猜 with no remainder
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input ga committed plain 稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input jia committed plain 稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input zhuangga committed plain 庄稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input zhuangjia committed plain 庄稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input zuanga committed plain 庄稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input zuanjia committed plain 庄稼
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input gaikai committed plain 解开
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Regional Chinese input jianjie committed plain 讲解
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-go.png: 1 file pulled, 0 skipped. 0.6 MB/s (26841 bytes in 0.046s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-marked-go.png: 1 file pulled, 0 skipped. 4.8 MB/s (26844 bytes in 0.005s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-ga-native.png: 1 file pulled, 0 skipped. 0.5 MB/s (28144 bytes in 0.050s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-jia-mandarin.png: 1 file pulled, 0 skipped. 5.2 MB/s (26197 bytes in 0.005s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-gogo-loan.png: 1 file pulled, 0 skipped. 0.5 MB/s (26783 bytes in 0.048s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/regional-ga.png: 1 file pulled, 0 skipped. 4.5 MB/s (26269 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/regional-jia.png: 1 file pulled, 0 skipped. 4.9 MB/s (26476 bytes in 0.005s)
