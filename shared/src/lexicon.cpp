@@ -459,6 +459,14 @@ struct Lexicon::Impl {
             }
             entries.push_back(std::move(entry));
         }
+        // The LS-60 text originally split three contextual glosses into separate
+        // lexemes. Accept their saved IDs without reintroducing those word senses.
+        for (const auto& alias : {std::pair{"ls60-126", "ls60-119"},
+                                  std::pair{"ls60-155", "ls60-18"},
+                                  std::pair{"ls60-127", "ls60-51"}}) {
+            const auto target = lexicalIds.find(alias.second);
+            if (target != lexicalIds.end()) lexicalIds.emplace(alias.first, target->second);
+        }
         for (auto& group : chineseKeys) {
             auto& words = group.second;
             if (words.size() < 2) continue;
@@ -692,6 +700,15 @@ struct Lexicon::Impl {
         return out;
     }
 
+    std::vector<std::string> historyIds(const std::string& context) const {
+        auto ids = split(context, ' ');
+        for (auto& id : ids) {
+            const auto entry = lexicalIds.find(id);
+            if (entry != lexicalIds.end()) id = entries[entry->second].id;
+        }
+        return ids;
+    }
+
     void loadNgrams(const std::string& data) {
         std::string_view lines(data), line;
         if (!readLine(lines, line)) throw std::invalid_argument("Missing prediction header");
@@ -702,17 +719,25 @@ struct Lexicon::Impl {
         Fields fields{};
         while (readLine(lines, line)) {
             readFields(line, rankedPredictions ? 3 : 4, fields);
-            const std::string context(fields[0]);
-            const auto history = split(context, ' ');
+            const auto history = historyIds(std::string(fields[0]));
             if (history.empty() || history.size() > 2) throw std::invalid_argument("Invalid context length");
+            const auto context = history.size() == 1 ? history.front() : history.front() + " " + history.back();
             const bool special = rankedPredictions && (context == "<s>" || context == "@prior");
             if (!special) for (const auto& id : history)
                 if (!lexicalIds.count(id)) throw std::invalid_argument("Unknown context ID: " + id);
             const auto next = lexicalIds.find(std::string(fields[1]));
             const auto count = frequencyOf(fields[2]);
             if (next == lexicalIds.end() || !count) throw std::invalid_argument("Invalid following lexeme");
-            if (context == "@prior") predictionFrequency[next->second] = count;
-            else ngrams[context].push_back({next->second, count});
+            if (context == "@prior") {
+                auto& prior = predictionFrequency[next->second];
+                prior = std::max(prior, count);
+            } else {
+                auto& arcs = ngrams[context];
+                const auto existing = std::find_if(arcs.begin(), arcs.end(),
+                    [&](const Following& arc) { return arc.id == next->second; });
+                if (existing == arcs.end()) arcs.push_back({next->second, count});
+                else existing->count = std::max(existing->count, count);
+            }
         }
         for (auto& pair : ngrams) {
             auto& next = pair.second;
@@ -993,7 +1018,7 @@ struct Lexicon::Impl {
     }
 
     WordIds predictedIds(const std::string& history) const {
-        auto ids = split(history, ' ');
+        const auto ids = historyIds(history);
         if (ids.back() != "<s>" && !lexicalIds.count(ids.back())) return {};
         WordIds ranked;
         if (ids.size() >= 2) {
