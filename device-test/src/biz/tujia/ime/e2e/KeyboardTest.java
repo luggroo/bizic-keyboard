@@ -649,6 +649,65 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Unresolved 过 incorrectly trained the first sense 他");
         expectText(host.first, "叶过。叶过。叶");
         stage("An ambiguous written 过 did not teach the host that the user had chosen 他");
+        testReadingSpecificHan();
+    }
+
+    private void testReadingSpecificHan() {
+        newPredictionEditor();
+        press("汉字记音");
+        type("ga");
+        Card eating = visibleForm("架");
+        if (!eating.lines.equals(Arrays.asList("吃", "架")))
+            throw new AssertionError("The native ga reading lost its eating sense: " + eating.lines);
+        captureFrame("sense-ga-native.png");
+        openReader(eating);
+        if (!visibleControls().contains("吃、咬")) throw new AssertionError("Full ga sense missing");
+        press("输入这个候选");
+        expectText(host.first, "架");
+
+        type("jia");
+        waitForNode("待选拼写 jia", false);
+        List<Card> start = pageCards("，");
+        if (start.isEmpty()) throw new AssertionError("No jia candidates: " + visibleControls());
+        AccessibilityNodeInfo row = candidateRow(start.get(0));
+        Card mandarin = null;
+        try {
+            do {
+                for (Card c : rowCards(row)) if ("架".equals(outputLine(c))) mandarin = c;
+            } while (mandarin == null && advanceCandidatePage(row));
+        } finally { row.recycle(); }
+        if (mandarin == null || !mandarin.lines.equals(Collections.singletonList("架")))
+            throw new AssertionError("Mandarin jia should offer one plain 架: " + visibleControls());
+        captureFrame("sense-jia-mandarin.png");
+        openReader(mandarin);
+        String detail = visibleControls();
+        if (detail.contains("吃") || detail.contains("咬"))
+            throw new AssertionError("jia inherited an unrelated ga meaning: " + detail);
+        press("输入这个候选");
+        expectText(host.first, "架架");
+        stage("Typed ga and jia: only the ga card and its full reader gave 吃／吃、咬; both committed 架");
+
+        type("gogo");
+        Card brother = visibleForm("哥哥");
+        if (!brother.lines.equals(Collections.singletonList("哥哥")))
+            throw new AssertionError("Loan should use its Chinese form alone: " + brother.lines);
+        captureFrame("sense-gogo-loan.png");
+        openReader(brother);
+        detail = visibleControls();
+        if (!detail.contains("待输入\n哥哥") || detail.contains("汉义"))
+            throw new AssertionError("Loan repeated its form as a meaning: " + detail);
+        press("输入这个候选");
+        expectText(host.first, "架架哥哥");
+
+        String expected = "架架哥哥";
+        for (String spelling : new String[]{"banricai", "bangricai"}) {
+            type(spelling);
+            pressCandidate("中午，半日猜", false, "中午", "半日猜");
+            expected += "半日猜";
+            expectText(host.first, expected);
+            waitForNode("待选拼写 ", false);
+        }
+        stage("gogo displayed the loan 哥哥 once; banricai/bangricai both selected the full word 中午／半日猜 with no remainder");
     }
 
     void assertNumberedCard(Card card, String compactLabel, String form) {
@@ -707,20 +766,25 @@ public final class KeyboardTest extends Instrumentation {
                 if (forms.isEmpty()) throw new AssertionError("Empty candidate page for " + witness);
                 for (String form : forms) if (!seen.add(form))
                     throw new AssertionError("Repeated form on candidate page " + page + ": " + form);
-                Rect next = pollNode("下一页候选", false, 250);
-                if (next == null) return page;
-                tap(next.centerX(), next.centerY());
-                List<String> previous = forms;
-                long until = SystemClock.uptimeMillis() + WAIT_MS;
-                do {
-                    SystemClock.sleep(70);
-                    forms = pageForms(row);
-                } while ((forms.isEmpty() || forms.equals(previous)) && SystemClock.uptimeMillis() < until);
-                if (forms.isEmpty() || forms.equals(previous))
-                    throw new AssertionError("Candidate page did not advance from " + page + ": " + previous);
+                if (!advanceCandidatePage(row)) return page;
+                forms = pageForms(row);
             }
         } finally { row.recycle(); }
         throw new AssertionError("Unbounded pagination for " + witness);
+    }
+
+    private boolean advanceCandidatePage(AccessibilityNodeInfo row) {
+        Rect next = pollNode("下一页候选", false, 250);
+        if (next == null) return false;
+        List<String> previous = pageForms(row);
+        tap(next.centerX(), next.centerY());
+        long until = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            SystemClock.sleep(70);
+            List<String> forms = pageForms(row);
+            if (!forms.isEmpty() && !forms.equals(previous)) return true;
+        } while (SystemClock.uptimeMillis() < until);
+        throw new AssertionError("Candidate page did not advance from " + previous);
     }
 
     private void testLongWordCard() {
