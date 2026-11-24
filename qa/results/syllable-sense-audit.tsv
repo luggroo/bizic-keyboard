@@ -5,7 +5,7 @@ aif	also-bound-or-compound		1	19	0	二	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1EkBQ1p
 air	bound-or-compound-only		0	6	0				w177 yubao-60756-v-1151 yubao-60823-v-0590 yubao-60823-v-0908 yubao-60823-v-1123		
 aiv	bound-or-compound-only		0	7	0				w170 yubao-60756-v-0078 yubao-60756-v-1144 yubao-60756-v-1366 yubao-60756-v-2962		
 aix	multiple-senses		12	38	0	再/还 / 然后 / 然后；那时 / 那 / 那个 / 那些 / 那；那个	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1w-0oecUhi3MkzPM64qzGNWsm7WSNa_YF stedt-07898ef938 stedt-39f4cd9a6b stedt-610ab69a37 stedt-7fd6565400 stedt-cb523fc3dc yubao-60823	stedt-rn-289364 stedt-rn-393775 w168 w170 w172 w2984 w2985 w2986 yubao-60823-v-1144 yubao-60823-v-2962 yubao-60823-v-2963 yubao-60823-v-2964	stedt-rn-289365 stedt-rn-289388 stedt-rn-385405 stedt-rn-455206 stedt-rn-455292		
-anf	bound-or-compound-only		0	3	0				stedt-rn-194181 yubao-60757-v-1133 yubao-60757-v-1134	angf	阿岸
+anf	bound-or-compound-only		0	3	0				stedt-rn-194181 yubao-60757-v-1133 yubao-60757-v-1134	angf	岸
 angf	multiple-senses		3	9	0	我们 / 我们（第一人称复数）	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1w-0oecUhi3MkzPM64qzGNWsm7WSNa_YF stedt-07898ef938 stedt-39f4cd9a6b	stedt-rn-455168 w188 w3014	stedt-rn-194181 stedt-rn-455166 stedt-rn-455167 w166 w182		
 angr	bound-or-compound-only		0	2	0				stedt-rn-217590 w183		
 angv	no-complete-match		0	0	0						
@@ -943,7 +943,7 @@ sangf	multiple-senses		3	7	0	上 / 伞 / 散	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1
 sangr	bound-or-compound-only		0	1	0				w2567		
 sangv	no-complete-match		0	0	0						
 sangx	multiple-senses		2	23	1	三 / 山	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1EkBQ1pph-C7zHYTg9wuraMsM7cgCwnfE 1w-0oecUhi3MkzPM64qzGNWsm7WSNa_YF stedt-07898ef938	w1992 w1993	stedt-rn-183981 stedt-rn-184848 stedt-rn-185154 stedt-rn-204687 stedt-rn-288513		
-sanx	also-bound-or-compound		1	43	0	雨伞	yubao-60823	yubao-60823-v-0361	stedt-rn-183981 stedt-rn-184848 stedt-rn-185154 stedt-rn-204687 yubao-60756-v-0091	sangx	伤
+sanx	also-bound-or-compound		1	43	0	雨伞	yubao-60823	yubao-60823-v-0361	stedt-rn-183981 stedt-rn-184848 stedt-rn-185154 stedt-rn-204687 yubao-60756-v-0091	sangx	伞
 saof	bound-or-compound-only		0	3	0				yubao-60757-v-2382 yubao-60823-v-0216 yubao-60823-v-2528		
 saor	multiple-senses		3	12	0	(油炸声) / 甘薯 / 笨；愚蠢	165XnSc-ZLEptpsYT3_gGkCR2lMznvbIO 1EkBQ1pph-C7zHYTg9wuraMsM7cgCwnfE 1w-0oecUhi3MkzPM64qzGNWsm7WSNa_YF stedt-07898ef938 stedt-39f4cd9a6b stedt-610ab69a37 stedt-7fd6565400 stedt-cb523fc3dc	stedt-rn-401533 w2003 w2004	stedt-rn-289295 w1683 w1726 w2005 w4686		
 saov	no-complete-match		0	0	0						

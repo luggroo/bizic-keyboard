@@ -314,6 +314,7 @@ bool romanSeparator(char32_t c) { return space(c) || c == U'-' || c == U'\'' || 
 bool nasalA(char32_t c) { return c == U'a' || c == U'ā' || c == U'á' || c == U'ǎ' || c == U'à'; }
 
 constexpr char32_t optionalG = 0x110000; // an internal index edge, never a Unicode input character
+constexpr char32_t optionalU = 0x110001; // bo/buo and ko/kuo are alternate input spellings
 
 std::u32string plainSyllable(const std::u32string& ye) {
     return !ye.empty() && std::u32string_view(U"xfrv").find(ye.back()) != std::u32string_view::npos
@@ -322,7 +323,7 @@ std::u32string plainSyllable(const std::u32string& ye) {
 
 // Each optional g is at the end of an attested syllable, before its Ye tone
 // letter. In an+ga the initial of the SECOND syllable is always compulsory.
-std::u32string nasalPattern(const std::u32string& form, const Segments& segments) {
+std::u32string nasalPattern(const std::u32string& form, const Segments& segments, bool alternateO = true) {
     for (int style = 0; style < 3; ++style) {
         std::u32string pattern;
         size_t at = 0, matched = 0;
@@ -336,13 +337,18 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
             ++matched;
             const size_t end = style == 0 && syllable.size() > plain.size() ? syllable.size() - 1 : syllable.size();
             const size_t coda = end && syllable[end - 1] == U'g' ? end - 1 : end;
-            if (coda >= 2 && nasalA(syllable[coda - 2]) && syllable[coda - 1] == U'n') {
+            if (alternateO && (plain == U"bo" || plain == U"ko") && syllable.size() >= 2) {
+                pattern.push_back(syllable[0]);
+                pattern.push_back(optionalU);
+                pattern.append(syllable, 1, syllable.size() - 1);
+            } else if (coda >= 2 && nasalA(syllable[coda - 2]) && syllable[coda - 1] == U'n') {
                 pattern.append(syllable, 0, coda);
                 pattern.push_back(optionalG);
                 pattern.append(syllable, end, syllable.size() - end);
             } else pattern += syllable;
         }
-        if (matched == segments.size() && at == form.size() && pattern.find(optionalG) != pattern.npos) return pattern;
+        if (matched == segments.size() && at == form.size() &&
+            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos)) return pattern;
     }
     return {};
 }
@@ -352,7 +358,7 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
     for (size_t i = 0;; ++i) {
         for (size_t p = 0; p < positions.size(); ++p) {
             size_t pos = positions[p];
-            if (pos < pattern.size() && pattern[pos] == optionalG &&
+            if (pos < pattern.size() && (pattern[pos] == optionalG || pattern[pos] == optionalU) &&
                 std::find(positions.begin(), positions.end(), pos + 1) == positions.end())
                 positions.push_back(pos + 1);
         }
@@ -360,7 +366,8 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
                 (prefix || std::find(positions.begin(), positions.end(), pattern.size()) != positions.end());
         next.clear();
         for (size_t pos : positions) {
-            if (pos < pattern.size() && (pattern[pos] == input[i] || (pattern[pos] == optionalG && input[i] == U'g')))
+            if (pos < pattern.size() && (pattern[pos] == input[i] || (pattern[pos] == optionalG && input[i] == U'g') ||
+                                         (pattern[pos] == optionalU && input[i] == U'u')))
                 next.push_back(pos + 1);
         }
         if (next.empty()) return false;
@@ -373,8 +380,12 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
 std::string nasalBucket(std::u32string_view form) {
     std::string key;
     bool afterAn = false, previousA = false;
-    for (char32_t cp : form) {
-        if (cp == optionalG || (afterAn && cp == U'g')) continue;
+    for (size_t i = 0; i < form.size(); ++i) {
+        char32_t cp = form[i];
+        const bool afterStop = i > 0 && (form[i - 1] == U'b' || form[i - 1] == U'k');
+        const bool beforeO = i + 1 == form.size() || std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos;
+        if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') ||
+            (cp == U'u' && afterStop && beforeO)) continue;
         appendUtf8(key, cp);
         afterAn = previousA && cp == U'n';
         previousA = nasalA(cp);
@@ -400,10 +411,6 @@ struct NasalIndex {
     }
 
     void find(std::u32string_view input, WordIds& out, bool prefix = false) const {
-        // Before an has actually been typed, the ordinary spelling index suffices.
-        bool hasAn = false;
-        for (size_t i = 1; i < input.size(); ++i) if (input[i] == U'n' && nasalA(input[i-1])) { hasAn = true; break; }
-        if (!hasAn) return;
         for (size_t key : bucket(prefix ? prefixes : exact, nasalBucket(input))) {
             const auto& f = forms[key];
             if (patternMatches(f.pattern, input, prefix)) addUnique(out, f.id);
@@ -943,8 +950,8 @@ struct Lexicon::Impl {
         if (reading.find("an") == reading.npos && reading.find_first_not_of("abcdefghijklmnopqrstuvwxyz'") == reading.npos) return;
         Segments parts;
         for (const auto& syllable : split(reading, '\'')) parts.emplace_back(syllable, syllable);
-        nasalChinese.add(nasalPattern(dictionaryScalars(reading), parts), id, maxChinese, false);
-        if (splitReading) nasalChinese.add(nasalPattern(dictionaryScalars(compact), parts), id, maxChinese, false);
+        nasalChinese.add(nasalPattern(dictionaryScalars(reading), parts, false), id, maxChinese, false);
+        if (splitReading) nasalChinese.add(nasalPattern(dictionaryScalars(compact), parts, false), id, maxChinese, false);
     }
 
     static void index(WordIndex& map, const std::string& key, size_t id, size_t& longest) {

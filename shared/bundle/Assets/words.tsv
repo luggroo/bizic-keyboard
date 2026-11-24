@@ -1,7 +1,7 @@
 id	word	key	meaning	recommended	aliases	variants	frequency	kind	shortGloss	plain	diacritic	hanUnits	romanAliases	presentation
 w684	gaf	ga	吃、咬	架	嘎 噶 嫁 尬	嫁架稼夹蟹家甲加	39	tujia	吃	ga	gá	架		
 w687	gar	ga	干、渴	夹	嘎 噶 尬	夹甲嫁蟹家架加稼	2	tujia	干	ga	gǎ	夹		
-w1476	mangxmangx	mangmang	饭	慢慢	忙忙 芒芒	忙芒盲茫莽慢 忙芒盲茫莽慢	5	tujia	饭	mangmang	māngmāng	慢|慢		
+w1476	mangxmangx	mangmang	饭	满满	忙忙 芒芒	满忙芒盲茫莽慢 满忙芒盲茫莽慢	5	tujia	饭	mangmang	māngmāng	满|满		
 w1585	ngaf	e	我	讶	俄 压	压牙哑芽衙	105	tujia	我	nga	ngá	讶		
 w2548	yer	ye	饭	叶	月 耶	叶耶	10	tujia	饭	ye	yě	叶		
 w1216	laf	la	一	拉	那	那拉辣蜡拿哪喇腊呐挪纳	0	tujia	一	la	lá	拉		
@@ -12,7 +12,7 @@ w1298	laov	lao	老	老		老脑恼闹劳捞涝	1	tujia	老	lao	lào	老		plainHan
 w2619	zav	za	拿	揸	扎	扎闸杂炸渣蔗眨诈榨札栅铡	2	tujia	拿	za	zà	揸		
 w1746	poxlax	pola	多	坡拉		坡破婆泼扑颇 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	多	pola	pōlā	坡|拉		
 w1409	luf	lu	六	六	路 露	路露怒六绿鹿奴炉努录卢卤庐虏陆颅鲁	2	tujia	六	lu	lú	六		plainHanLoan
-w2433	xivcar	xica	跑	喜查	洗茶 洗擦	洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧 茶插擦察差叉择岔诧查搽	9	tujia	跑	xica	xìcǎ	喜|查		
+w2433	xivcar	xica	跑	希查	洗茶 洗擦	洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧 茶插擦察差叉择岔诧查搽	9	tujia	跑	xica	xìcǎ	希|查		
 w1222	lar	la	关	辣	辣 拉	辣蜡拿腊呐纳拉那哪喇挪	2	tujia	关	la	lǎ	辣		
 w1827	qief	qie	回、次	怯	缺 切	缺截切茄劫且怯捷	0	tujia	次	qie	qié	怯		
 w999	jianx	jian	尖	尖	尖 肩 江	尖肩奸见剪件建卷健剑江姜	0	tujia	尖	jian	jiān	尖		
@@ -20,43 +20,43 @@ w203	bav	ba	看	把		把靶八巴坝爸疤罢芭霸	120	tujia	看	ba	bà	把
 w1776	qif	qi	七	七	去 气	去气器契汽砌企弃吃七取骑曲棋溪起妻戚漆乞凄启岂栖讫迄趣娶歧其区旗脐齐祈蛆掘期驱渠倔奇屈拙祁趋	3	tujia	七	qi	qí	七		plainHanLoan
 w611	diex	die	慢、迟	爹	得 碟	得碟	1	tujia	慢	die	diē	爹		
 w1622	nier	nie	七	业	业 列	业列孽捏	0	tujia	七	nie	niě	业		
-w1089	kaxcax	kaca	草	咖差	菜差 卡擦	菜掐卡胯 差叉茶插擦择察岔诧查搽	0	tujia	草	kaca	kācā	咖|差		
+w1089	kaxcax	kaca	草	卡差	菜差 卡擦	菜掐卡胯 差叉茶插擦择察岔诧查搽	0	tujia	草	kaca	kācā	卡|差		
 w212	bartir	bati	下面	八提	八踢	八爸把巴坝疤罢芭霸靶 踢铁贴帖惕特剃梯体涕剔屉替隶提蹄啼题堤	19	tujia	下面	bati	bǎtǐ	八|提		
 w1529	miv	mi	米	米		米眉密没谜弥泌灭糜觅迷	0	tujia	米	mi	mì	米		plainHanLoan
 w221	baixdiex	baidie	孩子	摆爹	摆得 摆碟	摆拜败湃稗 得碟	9	tujia	孩子	baidie	bāidiē	摆|爹		
 w1767	purnir	puni	昨天	扑尼	脖犁 扑泥	脖卜仆勃扑曝瀑讣铺谱普捕浦甫脯萨蒲 犁力泥历梨立蚁艺律疑宜捏仪倪孽尼溺聂谊逆镊义女李你腻议	0	tujia	昨天	puni	pǔnǐ	扑|尼		
 w91	arbar	aba	石头	吖八	还八 阿八	还阿啊 八爸把巴坝疤罢芭霸靶	8	tujia	石头	aba	ǎbǎ	吖|八		
 w2092	sirkarcar	sikaca	草	石咔查	十掐茶 四卡擦	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 掐菜卡胯 茶插擦察差叉择岔诧查搽	0	tujia	草	sikaca	sǐkǎcǎ	石|咔|查		
-w2068	sixbax	siba	衣服	斯巴	师巴 丝把	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶	2	tujia	衣服	siba	sībā	斯|巴		
+w2068	sixbax	siba	衣服	使巴	师巴 丝把	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶	2	tujia	衣服	siba	sībā	使|巴		
 w355	caf	ca	好	岔	插 擦	插择岔诧茶擦差叉察查搽	54	tujia	好	ca	cá	岔		
 w2614	zax	za	背	渣	渣 扎	渣扎闸杂炸蔗眨诈榨札栅铡	0	tujia	背	za	zā	渣		
 w2252	tif	ti	答	替	剃	剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	答	ti	tí	替		
 w986	jiax	jia	家	家		家加茄佳嘉甲嫁假夹贾	0	tujia	家	jia	jiā	家		plainHanLoan
-w1027	jiefjiex	jiejie	袖子	借揭	借结 借姐	借结姐接节决杰绝介解截缀揭倔洁竭诀 结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	袖子	jiejie	jiéjiē	借|揭		
+w1027	jiefjiex	jiejie	袖子	借姐	借结 借姐	借结姐接节决杰绝介解截缀揭倔洁竭诀 结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	袖子	jiejie	jiéjiē	借|姐		
 w2458	xianv	xian	想	想	响 选 鲜	选显险鲜现线先县嫌响享	3	tujia	想	xian	xiàn	想		plainHanLoan
 w2213	taxniex	tanie	后面	他捏		他踏塔獭塌 捏业列孽	25	tujia	后面	tanie	tāniē	他|捏		
 w2315	tux	tu	读	土		土图吐兔突秃途屠徒涂	2	tujia	读	tu	tū	土		
 w1844	qiexsax	qiesa	山	且沙	缺沙 切沙	缺截切茄劫且怯捷 沙杉纱杀撒洒傻刹厦煞萨	1	tujia	山	qiesa	qiēsā	且|沙		
-w120	axjiex	ajie	熟	阿揭	阿结 啊姐	阿啊还 结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	熟	ajie	ājiē	阿|揭		
+w120	axjiex	ajie	熟	阿姐	阿结 啊姐	阿啊还 结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	熟	ajie	ājiē	阿|姐		
 w1783	qiv	qi	起	起	取	取起启岂去气器吃七骑曲棋契溪妻汽戚漆乞砌企凄弃栖讫迄娶歧其区旗脐齐祈蛆趣掘期驱渠倔奇屈拙祁趋	0	tujia	起	qi	qì	起		plainHanLoan
 w1619	niex	nie	二	捏		捏业列孽	0	tujia	二	nie	niē	捏		
 w2281	tief	tie	摘	帖	铁	铁贴跌特	9	tujia	摘	tie	tié	帖		
-w1626	niefbix	niebi	鸟	镍逼	业憋 捏比	业捏列孽 憋蓖鼻笔被比币壁逼闭弊必臂备彼敝毕毙碧秘蔽	0	tujia	鸟	niebi	niébī	镍|逼		
+w1626	niefbix	niebi	鸟	镍比	业憋 捏比	镍业捏列孽 憋蓖鼻笔被比币壁逼闭弊必臂备彼敝毕毙碧秘蔽	0	tujia	鸟	niebi	niébī	镍|比		
 w219	baix	bai	孩子	摆		摆拜败湃稗	0	tujia	孩子	bai	bāi	摆		
 w442	civ	ci	大	此		此齿侈耻刺尺池迟次匙雌伺痴秩赐词持瓷磁辞驰	4	tujia	大	ci	cì	此		
-w1086	kaxbiex	kabie	湿	咖憋	菜憋 卡别	菜掐卡胯 憋别	0	tujia	湿	kabie	kābiē	咖|憋		
+w1086	kaxbiex	kabie	湿	卡憋	菜憋 卡别	菜掐卡胯 憋别	0	tujia	湿	kabie	kābiē	卡|憋		
 w1740	pox	po	放	坡		坡破婆泼扑颇	18	tujia	放	po	pō	坡		
 w2457	xianr	xian	关	闲	嫌 线	嫌现线先选县显险鲜闲衔	3	tujia	关	xian	xiǎn	闲		
 w510	daf	da	穿（衣服）	褡	大	大打达搭答	1	tujia	穿衣	da	dá	褡		
 w322	bur	bu	生	不		不卜布步部补怖簿	0	tujia	生	bu	bǔ	不		
-w2643	zaovguxdiex	zaogudie	早晨	早箍爹	早箍得 早姑碟	早找爪澡蚤枣灶照罩糟招朝兆召昭沼肇赵遭 箍姑菇咕孤辜谷骨古鼓故股顾估贾雇 得碟	0	tujia	早晨	zaogudie	zàogūdiē	早|箍|爹		
+w2643	zaovguxdiex	zaogudie	早晨	早古爹	早箍得 早姑碟	早找爪澡蚤枣灶照罩糟招朝兆召昭沼肇赵遭 箍姑菇咕孤辜谷骨古鼓故股顾估贾雇 爹得碟	0	tujia	早晨	zaogudie	zàogūdiē	早|古|爹		
 w1811	qianv	qian	浅	抢	浅	浅前钱圈全欠牵钳劝权签遣	0	tujia	浅	qian	qiàn	抢		
-w1256	lavqixkux	laqiku	路边	喇栖枯	哪溪枯 拉妻裤	哪喇拉辣蜡那拿腊呐挪纳 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 枯哭苦裤库窟酷	0	tujia	路边	laqiku	làqīkū	喇|栖|枯		
+w1256	lavqixkux	laqiku	路边	拉起苦	哪溪枯 拉妻裤	哪喇拉辣蜡那拿腊呐挪纳 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 枯哭苦裤库窟酷	0	tujia	路边	laqiku	làqīkū	拉|起|苦		
 w84	af	a	写	啊	还	还阿啊	0	tujia	写	a	á	啊		
 w833	havrir	hari	知道	哈日	下日	下还瞎虾哈 日撕	3	tujia	知道	hari	hàrǐ	哈|日		
 w581	dixdix	didi	抬	低低		低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭 低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	8	tujia	抬	didi	dīdī	低|低		
 w471	cur	cu	粗	出	族 促	族锄畜除出束逐促浊触初处粗础醋拄楚厨雏储	5	tujia	粗	cu	cǔ	出		
-w779	gufbixtax	gubita	脸	固逼他	故憋他 故比他	故顾雇谷骨古箍姑鼓菇股咕估孤贾辜 憋蓖鼻笔被比币壁逼闭弊必臂备彼敝毕毙碧秘蔽 他踏塔獭塌	0	tujia	脸	gubita	gúbītā	固|逼|他		
+w779	gufbixtax	gubita	脸	固比他	故憋他 故比他	固故顾雇谷骨古箍姑鼓菇股咕估孤贾辜 憋蓖鼻笔被比币壁逼闭弊必臂备彼敝毕毙碧秘蔽 他踏塔獭塌	0	tujia	脸	gubita	gúbītā	固|比|他		
 w169	aixdux	aidu	那里	哎都	哎都 哎肚	哎 都毒读赌肚度渡堵杜妒独督镀	2	tujia	那里	aidu	āidū	哎|都		
 w959	jir	ji	下面	基	击 即	击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距	0	tujia	下面	ji	jǐ	基		
 w575	dix	di	低	低		低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	0	tujia	低	di	dī	低		plainHanLoan
@@ -69,17 +69,17 @@ w1764	puxcir	puci	少	铺尺	铺尺 铺次	铺谱脖卜普仆捕勃扑曝浦瀑�
 w1598	nix	ni	找	妮	义 你	义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	43	tujia	找	ni	nī	妮		
 w1993	sangx	sang	山	山	三 伤 桑	伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	山	sang	sāng	山		
 w847	haov	hao	好	好	号	好号豪毫浩耗	7	tujia	好	hao	hào	好		plainHanLoan
-w2747	zuxzuv	zuzu	站	珠主	猪主 租组	猪租蛛珠朱诛诸竹主住柱烛足卒助祖煮粥帚注筑组阻嘱著铸驻 主祖煮帚组阻猪竹住柱烛足卒租助粥蛛注珠筑朱嘱著诛诸铸驻	6	tujia	站	zuzu	zūzù	珠|主		
-w140	arpifpix	apipi	酸	吖譬批	还屁皮 阿皮皮	还阿啊 屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾 皮屁匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	酸	apipi	ǎpípī	吖|譬|批		
+w2747	zuxzuv	zuzu	站	珠珠	猪主 租组	猪租蛛珠朱诛诸竹主住柱烛足卒助祖煮粥帚注筑组阻嘱著铸驻 主祖煮帚组阻猪竹住柱烛足卒租助粥蛛注珠筑朱嘱著诛诸铸驻	6	tujia	站	zuzu	zūzù	珠|珠		
+w140	arpifpix	apipi	酸	吖譬匹	还屁皮 阿皮皮	吖还阿啊 屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾 皮屁匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	酸	apipi	ǎpípī	吖|譬|匹		
 w1333	liv	li	地	里		里理李礼鲤栗利犁猎裂力粒丽篱梨立厉烈狸肋离列厘痢例俐劣励勒吏璃荔莉黎	7	tujia	地	li	lì	里		
 w2078	sifgav	siga	毛	是尕	事夹 四家	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 夹嫁蟹家甲架加稼	0	tujia	毛	siga	sígà	是|尕		
 w1964	sav	sa	冷	飒	厦 撒	撒洒傻厦萨沙杉杀纱刹煞	2	tujia	冷	sa	sà	飒		
-w1304	laoxgax	laoga	老	捞嘎	老蟹 老家	老闹脑劳捞恼涝 蟹家加夹嫁甲架稼	0	tujia	老	laoga	lāogā	捞|嘎		
+w1304	laoxgax	laoga	老	老尕	老蟹 老家	老闹脑劳捞恼涝 尕蟹家加夹嫁甲架稼	0	tujia	老	laoga	lāogā	老|尕		
 w1754	pux	pu	买	铺		铺谱脖卜普仆捕勃扑曝浦瀑甫讣脯萨蒲	0	tujia	买	pu	pū	铺		
 w1280	langr	lang	臭	栏	廊 狼 蓝	狼囊廊郎浪朗蓝兰	0	tujia	臭	lang	lǎng	栏		
-w2125	sixsixmarzir	sisimazi	牙齿	斯斯麻直	师师麻直 丝丝麻紫	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 麻抹嘛马骂蚂妈码 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	1	tujia	牙齿	sisimazi	sīsīmǎzǐ	斯|斯|麻|直		
+w2125	sixsixmarzir	sisimazi	牙齿	使使麻直	师师麻直 丝丝麻紫	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 麻抹嘛马骂蚂妈码 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	1	tujia	牙齿	sisimazi	sīsīmǎzǐ	使|使|麻|直		
 w2426	xiv	xi	听	悉	洗	洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	1	tujia	听	xi	xì	悉		
-w2621	zafqix	zaqi	嘴	炸栖	炸溪 闸妻	炸蔗诈榨闸栅扎杂渣眨札铡 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	2	tujia	嘴	zaqi	záqī	炸|栖		
+w2621	zafqix	zaqi	嘴	炸起	炸溪 闸妻	炸蔗诈榨闸栅扎杂渣眨札铡 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	2	tujia	嘴	zaqi	záqī	炸|起		
 w1805	qianx	qian	千	纤	圈 签	圈牵签前钱全欠浅钳劝权	0	tujia	千	qian	qiān	纤		
 w165	aif	ai	二	唉	哎	哎	2	tujia	二	ai	ái	唉		
 w2167	sursur	susu	月亮	俗俗	叔叔 粟粟	叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏	2	tujia	月亮	susu	sǔsǔ	俗|俗		
@@ -89,29 +89,29 @@ w2058	sif	si	四	四	事	事四柿世市式试是士饲似侍示视嗜氏肆誓�
 w1577	mur	mu	木	木		木目母	0	tujia	木	mu	mǔ	木		plainHanLoan
 w233	bangfrixcaix	bangricai	中午	半日猜	棒撕猜 磅日猜 棒日衣猜	棒傍磅蚌帮绑榜梆谤邦半办 撕日 猜差菜柴财采彩睬蔡才材裁豺	0	tujia	中午	bangricai	bángrīcāi	半|日|猜		
 w1473	mangf	mang	慢	漫	忙 芒 慢	忙芒盲茫莽慢漫	0	tujia	慢	mang	máng	漫		
-w1284	langfgax	langga	黑	浪嘎	浪蟹 浪家	浪狼朗囊廊郎 蟹家加夹嫁甲架稼	0	tujia	黑	langga	lánggā	浪|嘎		
+w1284	langfgax	langga	黑	浪尕	浪蟹 浪家	浪狼朗囊廊郎 尕蟹家加夹嫁甲架稼	0	tujia	黑	langga	lánggā	浪|尕		
 w2685	zif	zi	哭	致	治 字	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰	5	tujia	哭	zi	zí	致		
 w439	cir	ci	出	尺	尺 次	尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	出	ci	cǐ	尺		
 w1229	lafbux	labu	盐	腊补	那布 拉补	那拉辣蜡拿哪喇腊呐挪纳 布步不部补卜怖簿	7	tujia	盐	labu	lábū	腊|补		
-w1294	langrsirsix	langsisi	臭	栏石斯	廊四丝 狼十师 蓝四丝	狼囊廊郎浪朗蓝兰 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	臭	langsisi	lǎngsǐsī	栏|石|斯		
+w1294	langrsirsix	langsisi	臭	栏石使	廊四丝 狼十师 蓝四丝	栏狼囊廊郎浪朗蓝兰 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	臭	langsisi	lǎngsǐsī	栏|石|使		
 w1568	mor	mo	猫	莫	磨 沫	磨末木模沫魔寞摩膜莫摸抹摹	0	tujia	猫	mo	mǒ	莫		
 w1283	langrcangr	langcang	地方	栏场	廊仓 狼长 蓝蚕	狼囊廊郎浪朗蓝兰 长尝唱仓厂苍场倡敞昌沧猖畅蚕	4	tujia	地方	langcang	lǎngcǎng	栏|场		
 w1224	lav	la	路	喇	哪 拉	哪喇拉辣蜡那拿腊呐挪纳	21	tujia	路	la	là	喇		
-w1469	mafnix	mani	我们	骂妮	骂义 马你	骂马麻蚂妈抹码嘛 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	2	tujia	我们	mani	mánī	骂|妮		
+w1469	mafnix	mani	我们	祃你	骂义 马你	祃骂马麻蚂妈抹码嘛 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	2	tujia	我们	mani	mánī	祃|你		
 w1721	pir	pi	皮	皮		皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	皮	pi	pǐ	皮		
 w1296	laor	lao	太阳	劳	劳 捞	劳捞涝老闹脑恼	4	tujia	太阳	lao	lǎo	劳		
 w698	garhaf	gaha	上面	夹吓	夹下 夹哈	夹甲嫁蟹家架加稼 下还瞎虾哈	9	tujia	上面	gaha	gǎhá	夹|吓		
-w1183	kuxzav	kuza	山	枯渣	枯扎 裤扎	枯哭苦裤库窟酷 扎闸杂炸渣蔗眨诈榨札栅铡	10	tujia	山	kuza	kūzà	枯|渣		
-w2203	tafcix	taci	多	拓雌	踏雌 獭雌	踏塔他獭塌 雌痴刺尺池迟次匙此齿伺侈秩耻赐词持瓷磁辞驰	1	tujia	多	taci	tácī	拓|雌		
+w1183	kuxzav	kuza	山	苦渣	枯扎 裤扎	枯哭苦裤库窟酷 扎闸杂炸渣蔗眨诈榨札栅铡	10	tujia	山	kuza	kūzà	苦|渣		
+w2203	tafcix	taci	多	拓此	踏雌 獭雌	拓踏塔他獭塌 雌痴刺尺池迟次匙此齿伺侈秩耻赐词持瓷磁辞驰	1	tujia	多	taci	tácī	拓|此		
 w271	bif	bi	儿子	币	被	被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖	0	tujia	儿子	bi	bí	币		
 w1933	rir	ri	多	日		日撕	1	tujia	多	ri	rǐ	日		
-w2434	xifgaxlax	xigala	细	细嘎拉	系蟹拉 戏家拉	系吸戏细西洗喜息席习锡许希徐惜稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀序绪遂隧须需墟戌嘘绥虚 蟹家加夹嫁甲架稼 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	细	xigala	xígālā	细|嘎|拉		
+w2434	xifgaxlax	xigala	细	细尕拉	系蟹拉 戏家拉	系吸戏细西洗喜息席习锡许希徐惜稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀序绪遂隧须需墟戌嘘绥虚 尕蟹家加夹嫁甲架稼 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	细	xigala	xígālā	细|尕|拉		
 w1774	qix	qi	起	起	妻 溪	溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	起	qi	qī	起		plainHanLoan
 w981	jirtar	jita	下面	吉踏	击踏 即獭	击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距 踏塔獭塌他	3	tujia	下面	jita	jǐtǎ	吉|踏		
-w1315	laofzix	laozi	明天	涝兹	闹知 老资	闹老脑劳捞恼涝 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	12	tujia	明天	laozi	láozī	涝|兹		
+w1315	laofzix	laozi	明天	涝子	闹知 老资	闹老脑劳捞恼涝 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	12	tujia	明天	laozi	láozī	涝|子		
 w1841	qievlir	qieli	进	且立	缺栗 切粒	缺截切茄且劫怯捷 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤	4	tujia	进	qieli	qièlǐ	且|立		
-w1291	langrqix	langqi	晚上	栏栖	廊妻 狼溪 蓝妻	狼囊廊郎浪朗蓝兰 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	晚上	langqi	lǎngqī	栏|栖		
-w1467	marmax	mama	姑母、女人	麻妈	麻马	麻抹嘛马骂蚂妈码 马妈骂麻蚂抹码嘛	0	tujia	姑母	mama	mǎmā	麻|妈		
+w1291	langrqix	langqi	晚上	栏起	廊妻 狼溪 蓝妻	栏狼囊廊郎浪朗蓝兰 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	晚上	langqi	lǎngqī	栏|起		
+w1467	marmax	mama	姑母、女人	麻吗	麻马	麻抹嘛马骂蚂妈码 吗马妈骂麻蚂抹码嘛	0	tujia	姑母	mama	mǎmā	麻|吗		
 w1932	rix	ri	做	日	撕 日衣	撕日	49	tujia	做	ri	rī	日		
 w134	axnier	anie	母亲	阿业	阿业 啊列	阿啊还 业列孽捏	22	tujia	母亲	anie	āniě	阿|业		
 w1468	marmardiex	mamadie	女人	麻麻爹	麻麻得 麻麻碟	麻抹嘛马骂蚂妈码 麻抹嘛马骂蚂妈码 得碟	0	tujia	女人	mamadie	mǎmǎdiē	麻|麻|爹		
@@ -119,136 +119,136 @@ w2694	ziv	zi	猪	子	子 紫	子指纸紫只脂趾止址直织治字知侄制资
 w110	axgar	aga	干	阿夹	阿夹 啊夹	阿啊还 夹甲嫁蟹家架加稼	1	tujia	干	aga	āgǎ	阿|夹		
 w2159	suf	su	熟	熟	树 素	树数竖诉术述素庶戍漱书鼠叔熟属输缩宿索赎梳续舒速酥俗枢殊淑疏粟肃苏	0	tujia	熟	su	sú	熟		plainHanLoan
 w217	barzif	bazi	土、泥	八致	八治 八字	八爸把巴坝疤罢芭霸靶 治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰	0	tujia	泥土	bazi	bǎzí	八|致		
-w2116	sixsix	sisi	牙齿	斯斯	师师 丝丝	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	牙齿	sisi	sīsī	斯|斯		
+w2116	sixsix	sisi	牙齿	使使	师师 丝丝	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	牙齿	sisi	sīsī	使|使		
 w2740	zuf	zu	起、出	住	住 足	住柱助注著铸驻猪竹主烛足卒租祖煮粥蛛帚珠筑朱组阻嘱诛诸	18	tujia	起	zu	zú	住		
 w1019	jief	jie	手	借		借结姐接节决杰绝介解截缀揭倔洁竭诀	8	tujia	手	jie	jié	借		
-w1244	lavkuxtur	lakutu	路边	喇枯突	哪枯图 拉裤图	哪喇拉辣蜡那拿腊呐挪纳 枯哭苦裤库窟酷 图突秃土吐兔途屠徒涂	2	tujia	路边	lakutu	làkūtǔ	喇|枯|突		
+w1244	lavkuxtur	lakutu	路边	拉苦突	哪枯图 拉裤图	哪喇拉辣蜡那拿腊呐挪纳 枯哭苦裤库窟酷 图突秃土吐兔途屠徒涂	2	tujia	路边	lakutu	làkūtǔ	拉|苦|突		
 w2166	sufsux	susu	雪	树书	树书 素苏	树数竖诉术述素庶戍漱书鼠叔熟属输缩宿索赎梳续舒速酥俗枢殊淑疏粟肃苏 书输梳舒酥枢殊疏苏树数鼠叔熟属竖缩宿索赎诉术续述速素俗庶戍淑漱粟肃	2	tujia	雪	susu	súsū	树|书		
 w2693	zir	zi	饭	直	直 紫	直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	饭	zi	zǐ	直		
 w776	guf	gu	脸	固	故	故顾雇谷骨古箍姑鼓菇股咕估孤贾辜	0	tujia	脸	gu	gú	固		
 w149	arsir	asi	白	吖石	还十 阿四	还阿啊 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	3	tujia	白	asi	ǎsǐ	吖|石		
 w2493	xievcax	xieca	三角架	写差	写差 写擦	写血雪斜协谢歇靴些鞋解穴泻泄卸屑懈薛蝎邪 差叉茶插擦择察岔诧查搽	0	tujia	三角架	xieca	xiècā	写|差		
 w2431	xirbuflix	xibuli	草籽	昔布里	息布栗 席布里	息席习锡徐惜媳膝泣婿夕携熄袭恤悉昔析西洗喜系吸许希戏细稀凄嘻熙牺犀戌绥须序需墟嘘绪虚遂隧 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	1	tujia	草籽	xibuli	xǐbúlī	昔|布|里		
-w1677	pafnix	pani	老妇人	怕妮	怕义 耙你	怕帕爬拔趴跋耙划琶 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	0	tujia	老妇人	pani	pánī	怕|妮		
+w1677	pafnix	pani	老妇人	怕你	怕义 耙你	怕帕爬拔趴跋耙划琶 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	0	tujia	老妇人	pani	pánī	怕|你		
 w2419	xix	xi	块	希	西	西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	0	tujia	块	xi	xī	希		
 w297	biefdix	biedi	别的	鳖低	别低	别憋 低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	0	tujia	别的	biedi	biédī	鳖|低		
 w2708	ziflax zaf	zilaza	纺纱	致拉炸	治拉炸 字拉闸	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰 拉挪辣蜡那拿哪喇腊呐纳 炸蔗诈榨闸栅扎杂渣眨札铡	0	tujia	纺纱	zilaza	zílā zá	致|拉|炸	ziflaxzaf zílāzá	
 w2216	tafpav	tapa	皮肤	拓啪	踏趴 獭耙	踏塔他獭塌 趴爬怕拔帕跋耙划琶	2	tujia	皮肤	tapa	tápà	拓|啪		
 w2130	sifxianx	sixian	实现	是香	事先 四先	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 先现线选县嫌显险鲜仙	0	tujia	实现	sixian	síxiān	是|香		
 w1236	laxgarpir	lagapi	裂开	拉夹皮		拉挪辣蜡那拿哪喇腊呐纳 夹甲嫁蟹家架加稼 皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	裂开	lagapi	lāgǎpǐ	拉|夹|皮		
-w1024	jiefdax	jieda	翅膀	借搭	借大 借打	借结姐接节决杰绝介解截缀揭倔洁竭诀 大打达搭答	0	tujia	翅膀	jieda	jiédā	借|搭		
-w1461	mavbianxzix	mabianzi	鞭子	马鞭兹	马变知 马扁资 马边资	马蚂码骂麻妈抹嘛 变扁便边编 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	鞭子	mabianzi	màbiānzī	马|鞭|兹		
+w1024	jiefdax	jieda	翅膀	借打	借大 借打	借结姐接节决杰绝介解截缀揭倔洁竭诀 大打达搭答	0	tujia	翅膀	jieda	jiédā	借|打		
+w1461	mavbianxzix	mabianzi	鞭子	吗编子	马变知 马扁资 马边资	吗马蚂码骂麻妈抹嘛 变扁便边编 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	鞭子	mabianzi	màbiānzī	吗|编|子		
 w1579	mufjianx	mujian	木匠	目尖	木肩 母尖 木江	母木目 尖肩奸见剪件建卷健剑江姜	0	tujia	木匠	mujian	mújiān	目|尖		
 w296	biev	bie	一些	憋	别	别憋	0	tujia	一些	bie	biè	憋		
 w596	dianf	dian	电	电	垫 店	垫店点典	0	tujia	电	dian	dián	电		
-w1531	mifdaxnier	midanie	大后天	谜搭业	没大业 迷打列	没谜米眉密弥泌灭糜觅迷 大打达搭答 业列孽捏	0	tujia	大后天	midanie	mídāniě	谜|搭|业		
+w1531	mifdaxnier	midanie	大后天	谜打业	没大业 迷打列	没谜米眉密弥泌灭糜觅迷 大打达搭答 业列孽捏	0	tujia	大后天	midanie	mídāniě	谜|打|业		
 w557	dangxsir	dangsi	当时	单石	当十 当四 担四	当党荡担单 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	1	tujia	当时	dangsi	dāngsǐ	单|石		
 w1035	jiefrix	jieri	劳动	借日	借撕 借日衣	借结姐接节决杰绝介解截缀揭倔洁竭诀 撕日	15	tujia	劳动	jieri	jiérī	借|日		
 w1983	sar rix	sari	做事	刹日	杀撕 沙日 刹日衣	杀刹煞沙杉撒纱洒傻厦萨 撕日	0	tujia	做事	sari	sǎ rī	刹|日	sarrix sǎrī	
 w2089	sirjier	sijie	时节	石节	十结 四节	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 结接节决杰绝姐借截缀洁竭诀解揭介倔	3	tujia	时节	sijie	sǐjiě	石|节		
 w2222	tartierbox	tatiebo	别出声	踏铁波	踏铁波 獭铁波	踏塔獭塌他 铁贴跌特 波玻菠薄剥拨簿博缚钵驳	1	tujia	别出声	tatiebo	tǎtiěbō	踏|铁|波		
 w2483	xiaorxiaof	xiaoxiao	学校	削笑	小笑 小校	小笑校孝酵宵效消啸嚣晓硝萧销霄学削 笑校孝酵效啸小宵消嚣晓硝萧销霄学削	0	tujia	学校	xiaoxiao	xiǎoxiáo	削|笑		
-w2724	zixzixbuflix	zizibuli	子弹	兹兹布里	知知布栗 资资布里	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	0	tujia	子弹	zizibuli	zīzībúlī	兹|兹|布|里		
-w2221	tafsix	tasi	懦弱	拓斯	踏师 獭丝	踏塔他獭塌 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	懦弱	tasi	tásī	拓|斯		
-w1534	mixmax	mima	蜜蜂	咪妈	米马 米妈	米眉密没谜弥泌灭糜觅迷 马妈骂麻蚂抹码嘛	0	tujia	蜜蜂	mima	mīmā	咪|妈		
+w2724	zixzixbuflix	zizibuli	子弹	子子布里	知知布栗 资资布里	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	0	tujia	子弹	zizibuli	zīzībúlī	子|子|布|里		
+w2221	tafsix	tasi	懦弱	拓使	踏师 獭丝	拓踏塔他獭塌 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	懦弱	tasi	tásī	拓|使		
+w1534	mixmax	mima	蜜蜂	米吗	米马 米妈	米眉密没谜弥泌灭糜觅迷 吗马妈骂麻蚂抹码嘛	0	tujia	蜜蜂	mima	mīmā	米|吗		
 w560	dangxzir	dangzi	胆子	单直	当直 当紫 担紫	当党荡担单 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	胆子	dangzi	dāngzǐ	单|直		
 w335	buv dar	buda	下船	补达		补布步不部卜怖簿 达搭答大打	0	tujia	下船	buda	bù dǎ	补|达	buvdar bùdǎ	
 w815	haf	ha	排	吓	下 哈	下还瞎虾哈	0	tujia	排	ha	há	吓		
 w2683	zix	zi	两	兹	知 资	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	两	zi	zī	兹		
 w367	cardirgar	cadiga	画眉	查的夹	茶笛夹 擦笛夹	茶插擦察差叉择岔诧查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 夹甲嫁蟹家架加稼	0	tujia	画眉	cadiga	cǎdǐgǎ	查|的|夹		
-w585	difdianx	didian	地点	地颠	地点 弟点	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 点垫店典	0	tujia	地点	didian	dídiān	地|颠		
-w2648	zaoxtav	zaota	糟蹋	糟塔	糟踏 早他	糟招朝召昭沼遭早找灶照罩爪澡蚤兆枣肇赵 踏塔他獭塌	0	tujia	糟蹋	zaota	zāotà	糟|塔		
-w2217	taxqixcax	taqica	织布机	他栖差	他溪差 他妻擦	他踏塔獭塌 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 差叉茶插擦择察岔诧查搽	0	tujia	织布机	taqica	tāqīcā	他|栖|差		
-w2080	sifgaix	sigai	世界	是该	事街 四盖	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 街该阶皆盖解改戒介届械芥诫钙	0	tujia	世界	sigai	sígāi	是|该		
+w585	difdianx	didian	地点	地点	地点 弟点	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 点垫店典	0	tujia	地点	didian	dídiān	地|点		
+w2648	zaoxtav	zaota	糟蹋	早他	糟踏 早他	糟招朝召昭沼遭早找灶照罩爪澡蚤兆枣肇赵 踏塔他獭塌	0	tujia	糟蹋	zaota	zāotà	早|他		
+w2217	taxqixcax	taqica	织布机	他起差	他溪差 他妻擦	他踏塔獭塌 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 差叉茶插擦择察岔诧查搽	0	tujia	织布机	taqica	tāqīcā	他|起|差		
+w2080	sifgaix	sigai	世界	是改	事街 四盖	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 街该阶皆盖解改戒介届械芥诫钙	0	tujia	世界	sigai	sígāi	是|改		
 w1021	jier	jie	醉	节	结	结接节决杰绝姐借截缀洁竭诀解揭介倔	2	tujia	醉	jie	jiě	节		
 w2707	zivjirpar	zijipa	猪脚	子吉爬	子击爬 紫即耙	子指纸紫只脂趾止址直织治字知侄制资寺这自植枝蜘翅殖之支志汁置芝值至巳掷肢致质兹咨姿峙执智柠滋炙痔稚窒职蛰 击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距 爬拔跋怕帕趴耙划琶	0	tujia	猪脚	zijipa	zìjǐpǎ	子|吉|爬		
 w2475	xiaof	xiao	挑	笑	笑 校	笑校孝酵效啸小宵消嚣晓硝萧销霄学削	0	tujia	挑	xiao	xiáo	笑		
-w2500	xief-max	xiema	有钱人	谢妈	谢马	谢写血雪斜协歇靴解泻泄卸懈些鞋穴屑薛蝎邪 马妈骂麻蚂抹码嘛	0	tujia	有钱人	xiema	xié-mā	谢|妈	xiefmax xiémā	
-w2698	ziv buf-max	zibuma	屠夫	子布妈	子布马 紫布妈	子指纸紫只脂趾止址直织治字知侄制资寺这自植枝蜘翅殖之支志汁置芝值至巳掷肢致质兹咨姿峙执智柠滋炙痔稚窒职蛰 布步部怖簿不补卜 马妈骂麻蚂抹码嘛	0	tujia	屠夫	zibuma	zì bú-mā	子|布|妈	zivbufmax zìbúmā	
+w2500	xief-max	xiema	有钱人	谢吗	谢马	谢写血雪斜协歇靴解泻泄卸懈些鞋穴屑薛蝎邪 吗马妈骂麻蚂抹码嘛	0	tujia	有钱人	xiema	xié-mā	谢|吗	xiefmax xiémā	
+w2698	ziv buf-max	zibuma	屠夫	子布吗	子布马 紫布妈	子指纸紫只脂趾止址直织治字知侄制资寺这自植枝蜘翅殖之支志汁置芝值至巳掷肢致质兹咨姿峙执智柠滋炙痔稚窒职蛰 布步部怖簿不补卜 吗马妈骂麻蚂抹码嘛	0	tujia	屠夫	zibuma	zì bú-mā	子|布|吗	zivbufmax zìbúmā	
 w2195	tax	ta	它	它	他	他踏塔獭塌	0	tujia	它	ta	tā	它		plainHanLoan
-w992	jiaxkax	jiaka	姓	家咖	家菜 家卡	家加茄佳嘉甲嫁假夹贾 菜掐卡胯	3	tujia	姓	jiaka	jiākā	家|咖		
+w992	jiaxkax	jiaka	姓	家卡	家菜 家卡	家加茄佳嘉甲嫁假夹贾 菜掐卡胯	3	tujia	姓	jiaka	jiākā	家|卡		
 w1368	liaor	liao	砍	辽	疗	疗僚潦燎聊辽了料廖撩略	0	tujia	砍	liao	liǎo	辽		
 w1261	laftux	latu	瓜	腊土	那土 拉土	那拉辣蜡拿哪喇腊呐挪纳 土图吐兔突秃途屠徒涂	0	tujia	瓜	latu	látū	腊|土		
 w1812	qianrbir	qianbi	墙壁	墙壁	前鼻 前臂 钱必	前钱全钳权圈欠牵浅劝签 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽	0	tujia	墙壁	qianbi	qiǎnbǐ	墙|壁		plainHanLoan
-w452	cifgax zir	cigazi	长疮	次嘎直	刺蟹直 次家紫	刺次伺秩赐尺池迟匙此齿雌侈痴耻词持瓷磁辞驰 蟹家加夹嫁甲架稼 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	长疮	cigazi	cígā zǐ	次|嘎|直	cifgaxzir cígāzǐ	
-w2070	sixbax daf	sibada	穿衣服	斯巴大	师巴大 丝把大	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 大打达搭答	0	tujia	穿衣服	sibada	sībā dá	斯|巴|大	sixbaxdaf sībādá	
+w452	cifgax zir	cigazi	长疮	次尕直	刺蟹直 次家紫	刺次伺秩赐尺池迟匙此齿雌侈痴耻词持瓷磁辞驰 尕蟹家加夹嫁甲架稼 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	长疮	cigazi	cígā zǐ	次|尕|直	cifgaxzir cígāzǐ	
+w2070	sixbax daf	sibada	穿衣服	使巴大	师巴大 丝把大	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 大打达搭答	0	tujia	穿衣服	sibada	sībā dá	使|巴|大	sixbaxdaf sībādá	
 w641	duv	du	沉重	堵	赌 肚	赌肚堵毒读度都渡杜妒独督镀	0	tujia	沉重	du	dù	堵		
-w382	caifzix	caizi	油菜	菜兹	菜知 菜资	菜蔡柴财猜差采彩睬才材裁豺 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	油菜	caizi	cáizī	菜|兹		
+w382	caifzix	caizi	油菜	菜子	菜知 菜资	菜蔡柴财猜差采彩睬才材裁豺 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	油菜	caizi	cáizī	菜|子		
 w1124	karzur	kazu	棍子	咔祝	掐竹 卡足	掐菜卡胯 竹烛足卒粥筑嘱猪主住柱租助祖煮蛛帚注珠朱组阻著诛诸铸驻	2	tujia	棍子	kazu	kǎzǔ	咔|祝		
-w1532	mixkartif	mikati	半烧的	咪咔替	米掐剃 米卡替	米眉密没谜弥泌灭糜觅迷 掐菜卡胯 剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	半烧的	mikati	mīkǎtí	咪|咔|替		
+w1532	mixkartif	mikati	半烧的	米咔替	米掐剃 米卡替	米眉密没谜弥泌灭糜觅迷 咔掐菜卡胯 剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	半烧的	mikati	mīkǎtí	米|咔|替		
 w716	gangx	gang	肝	肝	钢	钢刚肛缸冈岗纲讲虹杠港	0	tujia	肝	gang	gāng	肝		plainHanLoan
 w1351	livpufcir	lipuci	薅锄	里菩尺	里铺尺 里铺次	里理李礼鲤栗利犁猎裂力粒丽篱梨立厉烈狸肋离列厘痢例俐劣励勒吏璃荔莉黎 铺谱脖卜普仆捕勃扑曝浦瀑甫讣脯萨蒲 尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	薅锄	lipuci	lìpúcǐ	里|菩|尺		
-w2163	suxkux	suku	柴刀	书枯	书枯 苏裤	书输梳舒酥枢殊疏苏树数鼠叔熟属竖缩宿索赎诉术续述速素俗庶戍淑漱粟肃 枯哭苦裤库窟酷	8	tujia	柴刀	suku	sūkū	书|枯		
+w2163	suxkux	suku	柴刀	书苦	书枯 苏裤	书输梳舒酥枢殊疏苏树数鼠叔熟属竖缩宿索赎诉术续述速素俗庶戍淑漱粟肃 枯哭苦裤库窟酷	8	tujia	柴刀	suku	sūkū	书|苦		
 w370	carkur	caku	茶油渣滓	查窟	茶哭 擦裤	茶插擦察差叉择岔诧查搽 哭窟酷苦裤库枯	0	tujia	茶油渣滓	caku	cǎkǔ	查|窟		
 w1974	sar lir	sali	说话	刹立	杀栗 沙粒	杀刹煞沙杉撒纱洒傻厦萨 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤	10	tujia	说话	sali	sǎ lǐ	刹|立	sarlir sǎlǐ	
-w224	baixzix	baizi	跛子	摆兹	摆知 摆资	摆拜败湃稗 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	跛子	baizi	bāizī	摆|兹		
+w224	baixzix	baizi	跛子	摆子	摆知 摆资	摆拜败湃稗 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	跛子	baizi	bāizī	摆|子		
 w1258	laxsirlaxniex	lasilanie	时时刻刻	拉石拉捏	拉十拉捏 拉四拉捏	拉挪辣蜡那拿哪喇腊呐纳 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 拉挪辣蜡那拿哪喇腊呐纳 捏业列孽	0	tujia	时时刻刻	lasilanie	lāsǐlāniē	拉|石|拉|捏		
 w366	cafdircafgaf	cadicaga	很好	岔的岔尬	插笛插嫁 擦笛擦架	插择岔诧茶擦差叉察查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 插择岔诧茶擦差叉察查搽 嫁架稼夹蟹家甲加	0	tujia	很好	cadicaga	cádǐcágá	岔|的|岔|尬		
-w235	bangxzangx	bangzang	班长	邦章	帮张 邦张 班攒	帮梆邦绑棒榜傍磅蚌谤班搬 张章脏樟长藏掌丈帐涨仗葬杖障攒	2	tujia	班长	bangzang	bāngzāng	邦|章		
-w374	carqix	caqi	锦鸡	查栖	茶溪 擦妻	茶插擦察差叉择岔诧查搽 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	锦鸡	caqi	cǎqī	查|栖		
+w235	bangxzangx	bangzang	班长	班展	帮张 邦张 班攒	帮梆邦绑棒榜傍磅蚌谤班搬 展张章脏樟长藏掌丈帐涨仗葬杖障攒	2	tujia	班长	bangzang	bāngzāng	班|展		
+w374	carqix	caqi	锦鸡	查起	茶溪 擦妻	茶插擦察差叉择岔诧查搽 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	锦鸡	caqi	cǎqī	查|起		
 w1936	rirdifrirgaf	ridiriga	很多	日地日尬	日地日嫁 日弟日架	日撕 地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 日撕 嫁架稼夹蟹家甲加	0	tujia	很多	ridiriga	rǐdírǐgá	日|地|日|尬		
 w1743	pof	po	斗	破	破 坡	破婆泼坡扑颇	0	tujia	斗	po	pó	破		
 w127	axlar	ala	贴	阿辣	阿辣 啊拉	阿啊还 辣蜡拿腊呐纳拉那哪喇挪	0	tujia	贴	ala	ālǎ	阿|辣		
 w1170	kuvcaif	kucai	苦菜	苦菜	苦菜 裤菜	苦哭裤库枯窟酷 菜蔡柴财猜差采彩睬才材裁豺	0	tujia	苦菜	kucai	kùcái	苦|菜		
 w2324	tuxtux	tutu	拾	土土		土图吐兔突秃途屠徒涂 土图吐兔突秃途屠徒涂	0	tujia	拾	tutu	tūtū	土|土		
 w1466	marlif	mali	走得快	麻利	麻利 麻例	麻抹嘛马骂蚂妈码 利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎	1	tujia	走得快	mali	mǎlí	麻|利		
-w2074	sixbax zaf	sibaza	洗衣服	斯巴炸	师巴炸 丝把闸	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 炸蔗诈榨闸栅扎杂渣眨札铡	0	tujia	洗衣服	sibaza	sībā zá	斯|巴|炸	sixbaxzaf sībāzá	
-w1989	savzuf	sazu	冬季	洒住	撒住 厦足	撒洒傻厦萨沙杉杀纱刹煞 住柱助注著铸驻猪竹主烛足卒租祖煮粥蛛帚珠筑朱组阻嘱诛诸	0	tujia	冬季	sazu	sàzú	洒|住		
+w2074	sixbax zaf	sibaza	洗衣服	使巴炸	师巴炸 丝把闸	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 炸蔗诈榨闸栅扎杂渣眨札铡	0	tujia	洗衣服	sibaza	sībā zá	使|巴|炸	sixbaxzaf sībāzá	
+w1989	savzuf	sazu	冬季	沙住	撒住 厦足	撒洒傻厦萨沙杉杀纱刹煞 住柱助注著铸驻猪竹主烛足卒租祖煮粥蛛帚珠筑朱组阻嘱诛诸	0	tujia	冬季	sazu	sàzú	沙|住		
 w99	arbuflix	abuli	沙子	吖布里	还布栗 阿布里	还阿啊 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	0	tujia	沙子	abuli	ǎbúlī	吖|布|里		
-w543	davxiv	daxi	帮助	打喜	打洗	打大达搭答 洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	6	tujia	帮助	daxi	dàxì	打|喜		
+w543	davxiv	daxi	帮助	打希	打洗	打大达搭答 洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	6	tujia	帮助	daxi	dàxì	打|希		
 w379	caifkur	caiku	油菜渣滓	菜窟	菜哭 菜裤	菜蔡柴财猜差采彩睬才材裁豺 哭窟酷苦裤库枯	0	tujia	油菜渣滓	caiku	cáikǔ	菜|窟		
-w589	difsangx	disang	第三	地伤	地伤 弟桑 弟三	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	第三	disang	dísāng	地|伤		
+w589	difsangx	disang	第三	地伞	地伤 弟桑 弟三	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 伞伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	第三	disang	dísāng	地|伞		
 w238	baoxbux	baobu	玉米	苞补	包布 包补	包苞胞褒鲍抱饱宝刨豹保报暴爆堡 布步不部补卜怖簿	10	tujia	玉米	baobu	bāobū	苞|补		
-w1182	kuxsurgaf	kusuga	亮	枯俗尬	枯叔嫁 裤粟架	枯哭苦裤库窟酷 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 嫁架稼夹蟹家甲加	0	tujia	亮	kusuga	kūsǔgá	枯|俗|尬		
+w1182	kuxsurgaf	kusuga	亮	苦俗尬	枯叔嫁 裤粟架	枯哭苦裤库窟酷 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 尬嫁架稼夹蟹家甲加	0	tujia	亮	kusuga	kūsǔgá	苦|俗|尬		
 w90	arbax	aba	祖母	吖巴	还巴 阿把	还阿啊 巴疤芭把八坝爸罢霸靶	0	tujia	祖母	aba	ǎbā	吖|巴		
 w175	aixtax	aita	否则	哎他		哎 他踏塔獭塌	0	tujia	否则	aita	āitā	哎|他		
 w1987	saxtux	satu	虾	沙土		沙杉纱杀撒洒傻刹厦煞萨 土图吐兔突秃途屠徒涂	0	tujia	虾	satu	sātū	沙|土		
 w2632	zangf	zang	帐	丈	脏 藏 暂	脏藏丈帐仗葬杖障张章长掌涨樟暂	0	tujia	帐	zang	záng	丈		
-w2469	xianxzangx	xianzang	乡长	香章	先张 先攒	先现线选县嫌显险鲜仙 张章脏樟长藏掌丈帐涨仗葬杖障攒	5	tujia	乡长	xianzang	xiānzāng	香|章		
-w1975	sar lir-max	salima	说话者	刹立妈	杀栗马 沙粒妈	杀刹煞沙杉撒纱洒傻厦萨 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤 马妈骂麻蚂抹码嘛	0	tujia	说话者	salima	sǎ lǐ-mā	刹|立|妈	sarlirmax sǎlǐmā	
+w2469	xianxzangx	xianzang	乡长	香展	先张 先攒	香先现线选县嫌显险鲜仙 展张章脏樟长藏掌丈帐涨仗葬杖障攒	5	tujia	乡长	xianzang	xiānzāng	香|展		
+w1975	sar lir-max	salima	说话者	刹立吗	杀栗马 沙粒妈	杀刹煞沙杉撒纱洒傻厦萨 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤 吗马妈骂麻蚂抹码嘛	0	tujia	说话者	salima	sǎ lǐ-mā	刹|立|吗	sarlirmax sǎlǐmā	
 w129	aflix	ali	换	啊里	还栗	还阿啊 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	1	tujia	换	ali	álī	啊|里		
 w285	bifxix	bixi	必需	币希	被西 币西	被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖 西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	0	tujia	必需	bixi	bíxī	币|希		
-w1542	mivtangr	mitang	火坑	米堂	米糖	米眉密没谜弥泌灭糜觅迷 糖汤挡烫趟倘搪档躺	1	tujia	火坑	mitang	mìtǎng	米|堂		
+w1542	mivtangr	mitang	火坑	米弹	米糖	米眉密没谜弥泌灭糜觅迷 弹糖汤挡烫趟倘搪档躺	1	tujia	火坑	mitang	mìtǎng	米|弹		
 w1338	lifbux har	libuha	打谷子	利补蛤	利布还 例补哈	利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎 布步不部补卜怖簿 还瞎下虾哈	0	tujia	打谷子	libuha	líbū hǎ	利|补|蛤	lifbuxhar líbūhǎ	
 w2168	sufsux zif	susuzi	下雪	树书致	树书治 素苏字	树数竖诉术述素庶戍漱书鼠叔熟属输缩宿索赎梳续舒速酥俗枢殊淑疏粟肃苏 书输梳舒酥枢殊疏苏树数鼠叔熟属竖缩宿索赎诉术续述速素俗庶戍淑漱粟肃 治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰	0	tujia	下雪	susuzi	súsū zí	树|书|致	sufsuxzif súsūzí	
 w1336	lifbax	liba	老虎	利巴	利巴 例把	利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎 巴疤芭把八坝爸罢霸靶	1	tujia	老虎	liba	líbā	利|巴		
-w2207	tafkax	taka	坎	拓咖	踏菜 獭卡	踏塔他獭塌 菜掐卡胯	1	tujia	坎	taka	tákā	拓|咖		
-w1633	nievkax	nieka	过日子	捏咖	业菜 捏卡	业捏列孽 菜掐卡胯	15	tujia	过日子	nieka	nièkā	捏|咖		
+w2207	tafkax	taka	坎	拓卡	踏菜 獭卡	拓踏塔他獭塌 菜掐卡胯	1	tujia	坎	taka	tákā	拓|卡		
+w1633	nievkax	nieka	过日子	捏卡	业菜 捏卡	业捏列孽 菜掐卡胯	15	tujia	过日子	nieka	nièkā	捏|卡		
 w1678	parpax	papa	故事	爬啪	爬爬 耙耙	爬拔跋怕帕趴耙划琶 爬怕拔帕趴跋耙划琶	5	tujia	故事	papa	pǎpā	爬|啪		
 w2127	sirtief	sitie	桌子	石帖	十铁 四铁	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 铁贴跌特	0	tujia	桌子	sitie	sǐtié	石|帖		
 w1835	qierbifpangxlangx	qiebipanglang	餐具	切币攀朗	切币乓浪 缺被乓浪 切币攀览	缺截切茄劫怯捷且 被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖 乓胖耪攀潘 浪狼朗囊廊郎览揽	1	tujia	餐具	qiebipanglang	qiěbípānglāng	切|币|攀|朗		
-w2696	zir bangf	zibang	做饭	直棒	直棒 紫磅 紫半	直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒 棒傍磅蚌帮绑榜梆谤邦半办	0	tujia	做饭	zibang	zǐ báng	直|棒	zirbangf zǐbáng	
-w1341	lixgaxcir	ligaci	锄头	里嘎尺	栗蟹尺 里家次	栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎 蟹家加夹嫁甲架稼 尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	锄头	ligaci	līgācǐ	里|嘎|尺		
+w2696	zir bangf	zibang	做饭	直办	直棒 紫磅 紫半	直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒 棒傍磅蚌帮绑榜梆谤邦半办	0	tujia	做饭	zibang	zǐ báng	直|办	zirbangf zǐbáng	
+w1341	lixgaxcir	ligaci	锄头	里尕尺	栗蟹尺 里家次	栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎 尕蟹家加夹嫁甲架稼 尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	锄头	ligaci	līgācǐ	里|尕|尺		
 w2329	turzir	tuzi	头子	突直	图直 图紫	图突秃土吐兔途屠徒涂 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	头子	tuzi	tǔzǐ	突|直		
-w642	duvbir	dubi	蛆	堵必	赌鼻 肚臂	赌肚堵毒读度都渡杜妒独督镀 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽	0	tujia	蛆	dubi	dùbǐ	堵|必		
+w642	duvbir	dubi	蛆	都必	赌鼻 肚臂	赌肚堵毒读度都渡杜妒独督镀 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽	0	tujia	蛆	dubi	dùbǐ	都|必		
 w306	bor	bo	逃	博	薄 拨	薄剥拨簿博缚钵驳波玻菠	0	tujia	逃	bo	bǒ	博		
-w1085	kaxbaxsir	kabasi	麻雀	咖巴石	菜巴十 卡把四	菜掐卡胯 巴疤芭把八坝爸罢霸靶 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	0	tujia	麻雀	kabasi	kābāsǐ	咖|巴|石		
+w1085	kaxbaxsir	kabasi	麻雀	卡巴石	菜巴十 卡把四	菜掐卡胯 巴疤芭把八坝爸罢霸靶 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	0	tujia	麻雀	kabasi	kābāsǐ	卡|巴|石		
 w1230	lafbuxlafbux	labulabu	一个一个	腊补腊补	那布那布 拉补拉补	那拉辣蜡拿哪喇腊呐挪纳 布步不部补卜怖簿 那拉辣蜡拿哪喇腊呐挪纳 布步不部补卜怖簿	0	tujia	一个一个	labulabu	lábūlábū	腊|补|腊|补		
 w2488	xier	xie	熬	雪	血 斜	血雪斜协歇写谢靴鞋穴屑薛蝎邪些解泻泄卸懈	0	tujia	熬	xie	xiě	雪		
 w156	afxix	axi	新的	啊希	还西 啊西	还阿啊 西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	1	tujia	新的	axi	áxī	啊|希		
-w1003	jianfgax	jianga	手镯	见嘎	见蟹 剑家	见建健剑尖剪件肩卷奸 蟹家加夹嫁甲架稼	0	tujia	手镯	jianga	jián'gā	见|嘎		
-w1264	lafxiex	laxie	一会儿	腊些	那靴 拉写	那拉辣蜡拿哪喇腊呐挪纳 靴写血雪斜协谢歇些鞋解穴泻泄卸屑懈薛蝎邪	0	tujia	一会儿	laxie	láxiē	腊|些		
-w1629	nief-biextav	niebieta	睡不着	镍憋塔	业憋踏 捏别他	业捏列孽 憋别 踏塔他獭塌	0	tujia	睡不着	niebieta	nié-biētà	镍|憋|塔	niefbiextav niébiētà	
+w1003	jianfgax	jianga	手镯	见尕	见蟹 剑家	见建健剑尖剪件肩卷奸 尕蟹家加夹嫁甲架稼	0	tujia	手镯	jianga	jián'gā	见|尕		
+w1264	lafxiex	laxie	一会儿	腊写	那靴 拉写	那拉辣蜡拿哪喇腊呐挪纳 靴写血雪斜协谢歇些鞋解穴泻泄卸屑懈薛蝎邪	0	tujia	一会儿	laxie	láxiē	腊|写		
+w1629	nief-biextav	niebieta	睡不着	镍憋他	业憋踏 捏别他	镍业捏列孽 憋别 踏塔他獭塌	0	tujia	睡不着	niebieta	nié-biētà	镍|憋|他	niefbiextav niébiētà	
 w1331	lif	li	老虎	利	利 例	利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎	34	tujia	老虎	li	lí	利		
-w1031	jiefmixtirkaxpux	jiemitikapu	指甲花	借咪提咖铺	借米踢菜铺 借米踢卡铺	借结姐接节决杰绝介解截缀揭倔洁竭诀 米眉密没谜弥泌灭糜觅迷 踢铁贴帖惕特剃梯体涕剔屉替隶提蹄啼题堤 菜掐卡胯 铺谱脖卜普仆捕勃扑曝浦瀑甫讣脯萨蒲	0	tujia	指甲花	jiemitikapu	jiémītǐkāpū	借|咪|提|咖|铺		
+w1031	jiefmixtirkaxpux	jiemitikapu	指甲花	借米提卡铺	借米踢菜铺 借米踢卡铺	借结姐接节决杰绝介解截缀揭倔洁竭诀 米眉密没谜弥泌灭糜觅迷 踢铁贴帖惕特剃梯体涕剔屉替隶提蹄啼题堤 菜掐卡胯 铺谱脖卜普仆捕勃扑曝浦瀑甫讣脯萨蒲	0	tujia	指甲花	jiemitikapu	jiémītǐkāpū	借|米|提|卡|铺		
 w1676	paxkar	paka	汉族	啪咔	爬掐 耙卡	爬怕拔帕趴跋耙划琶 掐菜卡胯	0	tujia	汉族	paka	pākǎ	啪|咔		
 w2079	sirgar	siga	时候	石夹	十夹 四夹	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 夹甲嫁蟹家架加稼	0	tujia	时候	siga	sǐgǎ	石|夹		
 w1744	poxbox	pobo	放好	坡波		坡破婆泼扑颇 波玻菠薄剥拨簿博缚钵驳	0	tujia	放好	pobo	pōbō	坡|波		
-w2711	zifnixzix	zinizi	侄女	致妮兹	治义知 字你资	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	侄女	zinizi	zínīzī	致|妮|兹		
+w2711	zifnixzix	zinizi	侄女	致你子	治义知 字你资	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	侄女	zinizi	zínīzī	致|你|子		
 w142	arqiv	aqi	伯父	吖起	还取 阿起	还阿啊 取起启岂去气器吃七骑曲棋契溪妻汽戚漆乞砌企凄弃栖讫迄娶歧其区旗脐齐祈蛆趣掘期驱渠倔奇屈拙祁趋	1	tujia	伯父	aqi	ǎqì	吖|起		
-w230	bangfbianx	bangbian	半边	棒鞭	棒变 磅扁 半边	棒傍磅蚌帮绑榜梆谤邦半办 变扁便边编	2	tujia	半边	bangbian	bángbiān	棒|鞭		
+w230	bangfbianx	bangbian	半边	办编	棒变 磅扁 半边	棒傍磅蚌帮绑榜梆谤邦半办 变扁便边编	2	tujia	半边	bangbian	bángbiān	办|编		
 w961	jirbirtax	jibita	脚底	吉必他	击鼻他 即臂他	击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽 他踏塔獭塌	0	tujia	脚底	jibita	jǐbǐtā	吉|必|他		
-w2239	tangfzix	tangzi	探子	趟兹	烫知 烫资 炭资	烫趟搪糖汤挡倘档躺炭探 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	探子	tangzi	tángzī	趟|兹		
-w2098	sixlax	sila	爬	斯拉	师拉 丝拉	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	爬	sila	sīlā	斯|拉		
+w2239	tangfzix	tangzi	探子	炭子	烫知 烫资 炭资	烫趟搪糖汤挡倘档躺炭探 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	探子	tangzi	tángzī	炭|子		
+w2098	sixlax	sila	爬	使拉	师拉 丝拉	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	爬	sila	sīlā	使|拉		
 w336	bufdiex	budie	不得	不得	布得 布碟 布爹	布步部怖簿不补卜 得碟	1	tujia	不得	budie	búdiē	不|得		plainHanLoan
 w147	axsax	asa	连接	阿沙	阿沙 啊沙	阿啊还 沙杉纱杀撒洒傻刹厦煞萨	0	tujia	连接	asa	āsā	阿|沙		
 w1779	qir	qi	煎、炸	其	吃 棋	吃七骑曲棋戚漆乞讫迄去气器取契溪起妻汽砌企凄启岂弃栖歧其旗脐齐祈掘期渠倔奇屈拙祁娶区蛆趣驱趋	2	tujia	煎	qi	qǐ	其		
 w1044	jiefzux	jiezu	帕子、头巾	借珠	借猪 借租	借结姐接节决杰绝介解截缀揭倔洁竭诀 猪租蛛珠朱诛诸竹主住柱烛足卒助祖煮粥帚注筑组阻嘱著铸驻	0	tujia	头巾	jiezu	jiézū	借|珠		
 w237	baoxbaox	baobao	突出的	苞苞	包包	包苞胞褒鲍抱饱宝刨豹保报暴爆堡 包苞胞褒鲍抱饱宝刨豹保报暴爆堡	0	tujia	突出的	baobao	bāobāo	苞|苞		
-w1091	kaxcaxdax	kacada	不舒服	咖差搭	菜差大 卡擦打	菜掐卡胯 差叉茶插擦择察岔诧查搽 大打达搭答	0	tujia	不舒服	kacada	kācādā	咖|差|搭		
+w1091	kaxcaxdax	kacada	不舒服	卡差打	菜差大 卡擦打	菜掐卡胯 差叉茶插擦择察岔诧查搽 大打达搭答	0	tujia	不舒服	kacada	kācādā	卡|差|打		
 w1843	qierpaf	qiepa	农活	切怕	缺怕 切耙	缺截切茄劫怯捷且 怕帕爬拔趴跋耙划琶	0	tujia	农活	qiepa	qiěpá	切|怕		
 w2201	tav	ta	接	塔	踏 他	踏塔他獭塌	0	tujia	接	ta	tà	塔		
-w93	arbar cixbax	abaciba	大石头	吖八雌巴	还八雌巴 阿八雌把	还阿啊 八爸把巴坝疤罢芭霸靶 雌痴刺尺池迟次匙此齿伺侈秩耻赐词持瓷磁辞驰 巴疤芭把八坝爸罢霸靶	0	tujia	大石头	abaciba	ǎbǎ cībā	吖|八|雌|巴	arbarcixbax ǎbǎcībā	
+w93	arbar cixbax	abaciba	大石头	吖八此巴	还八雌巴 阿八雌把	吖还阿啊 八爸把巴坝疤罢芭霸靶 雌痴刺尺池迟次匙此齿伺侈秩耻赐词持瓷磁辞驰 巴疤芭把八坝爸罢霸靶	0	tujia	大石头	abaciba	ǎbǎ cībā	吖|八|此|巴	arbarcixbax ǎbǎcībā	
 w754	gir	gi	热、燃	给		给	5	tujia	热	gi	gǐ	给		
 w864	hif	hi	十	黑		黑	2	tujia	十	hi	hí	黑		
 w865	hif	hi	脱、解	黑		黑	0	tujia	脱	hi	hí	黑		
@@ -323,15 +323,15 @@ w513	daf	da	大	大		大打达搭答	1	tujia	大	da	dá	大		plainHanLoan
 w1720	pir	pi	分	劈		皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	3	tujia	分	pi	pǐ	劈		
 w624	dongr	dong	穿入、穿透	洞		东冬	0	tujia	穿透	dong	dǒng	洞		
 w625	dongr	dong	笛声	筒		东冬	0	tujia	笛声	dong	dǒng	筒		
-w440	cir	ci	梳通	齿		尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	梳通	ci	cǐ	齿		
+w440	cir	ci	梳通	尺		尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	梳通	ci	cǐ	尺		
 w441	cir	ci	尺（长度单位）	尺		尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	尺	ci	cǐ	尺		
-w954	jix	ji	打架	击		鸡	0	tujia	打架	ji	jī	击		
+w954	jix	ji	打架	挤		挤鸡	0	tujia	打架	ji	jī	挤		
 w955	jix	ji	几、若干	几		鸡	0	tujia	几	ji	jī	几		plainHanLoan
 w2651	zef	ze	窄	仄		着	0	tujia	窄	ze	zé	仄		
 w2652	zef	ze	嘴、口（量）	啧		着	2	tujia	嘴	ze	zé	啧		
 w1658	ongr	ong	坐	翁		哦	23	tujia	坐	ong	ǒng	翁	wunr wun wǔn wongr wǒng wong	
 w1659	ongr	ong	响	嗡		哦	1	tujia	响	ong	ǒng	嗡		
-w1334	liv	li	穿成串	缡		里理李礼鲤栗利犁猎裂力粒丽篱梨立厉烈狸肋离列厘痢例俐劣励勒吏璃荔莉黎	0	tujia	穿成串	li	lì	缡		
+w1334	liv	li	穿成串	理		里理李礼鲤栗利犁猎裂力粒丽篱梨立厉烈狸肋离列厘痢例俐劣励勒吏璃荔莉黎	0	tujia	穿成串	li	lì	理		
 w1218	laf	la	舔	喇		那拉辣蜡拿哪喇腊呐挪纳	0	tujia	舔	la	lá	喇		
 w2398	wuf	wu	牛	牾		雾务	15	tujia	牛	wu	wú	牾		
 w2399	wuf	wu	烧	焐		雾务	11	tujia	烧	wu	wú	焐		
@@ -347,8 +347,8 @@ w1718	pif	pi	墙（石墙）	坯		屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤�
 ls60-1	aixzux	aizu	从前	哎珠	哎租	哎 珠租	1	tujia	从前	aizu	āizū	哎|珠		
 ls60-2	cerjiarkar	cejiaka	陈姓	陈家卡		陈侧 家甲 卡	1	tujia	陈姓	cejiaka	cějiǎkǎ	陈|家|卡		
 ls60-3	aixcairzaifsax	aicaizaisa	那里寨上	哎才在沙	哎采在沙	哎 才采 在 沙	1	tujia	那里寨上	aicaizaisa	āicǎizáisā	哎|才|在|沙		
-ls60-4	qiargax	qiaga	弟兄	恰嘎	恰家	恰 嘎家	1	tujia	弟兄	qiaga	qiǎgā	恰|嘎		
-ls60-5	nianvhur	nianhu	两个	碾胡	捻壶	碾捻 胡壶	2	tujia	两个	nianhu	niànhǔ	碾|胡		
+ls60-4	qiargax	qiaga	弟兄	恰尕	恰家	恰 尕嘎家	1	tujia	弟兄	qiaga	qiǎgā	恰|尕		
+ls60-5	nianvhur	nianhu	两个	拈胡	捻壶	拈碾捻 胡壶	2	tujia	两个	nianhu	niànhǔ	拈|胡		
 ls60-6	jief	jie	有	借	节	借节	5	tujia	有	jie	jié	借		
 ls60-7	geivzair	geizai	他们	给再	给在	给 再在	3	tujia	他们	geizai	gèizǎi	给|再		
 ls60-8	axngairlair	angailai	弟弟呢	阿岩来	啊挨来	阿啊 岩挨 来	1	tujia	弟弟呢	angailai	āngǎilǎi	阿|岩|来		
@@ -360,21 +360,21 @@ ls60-13	gof	go	他	过	哥	过哥	18	tujia	他	go	gó	过
 ls60-14	aix	ai	那	哎		哎	123	tujia	那	ai	āi	哎		
 ls60-15	laxniex	lanie	一天	拉捏		拉 捏	2	tujia	一天	lanie	lāniē	拉|捏		
 ls60-16	tafmongx	tamong	突然	拓蒙	獭母	拓獭 蒙母	1	tujia	突然	tamong	támōng	拓|蒙	tafmunx tamun támūn	
-ls60-17	lavgaryifaxlair	lagayialai	走啊了	喇夹意阿来	拉夹余啊来	喇拉 夹 意余 阿啊 来	1	tujia	走啊了	lagayialai	làgǎyí'ālǎi	喇|夹|意|阿|来		
+ls60-17	lavgaryifaxlair	lagayialai	走啊了	拉夹意阿来	拉夹余啊来	喇拉 夹 意余 阿啊 来	1	tujia	走啊了	lagayialai	làgǎyí'ālǎi	拉|夹|意|阿|来		
 ls60-18	goxgox	gogo	哥哥	哥哥		哥 哥	4	tujia	哥哥	gogo	gōgō	哥|哥		plainHanLoan
-ls60-19	daxhar	daha	一起	搭蛤	打哈	搭打 蛤哈	4	tujia	一起	daha	dāhǎ	搭|蛤		
-ls60-20	arkox	ako	哥哥	吖科	阿科	吖阿 科	4	tujia	哥哥	ako	ǎkō	吖|科		
-ls60-21	arkoxar	akoa	哥哥啊	吖科吖	阿科阿	吖阿 科 吖阿	1	tujia	哥哥啊	akoa	ǎkō'ǎ	吖|科|吖		
-ls60-22	anfnianvhur	annianhu	我们两个	阿岸碾胡	岸捻壶	岸 碾捻 胡壶	1	tujia	我们两个	annianhu	ánniànhǔ	阿岸|碾|胡		
+ls60-19	daxhar	daha	一起	打蛤	打哈	搭打 蛤哈	4	tujia	一起	daha	dāhǎ	打|蛤		
+ls60-20	arkox	ako	哥哥	吖可	阿科	吖阿 可科	4	tujia	哥哥	ako	ǎkō	吖|可		
+ls60-21	arkoxar	akoa	哥哥啊	吖可吖	阿科阿	吖阿 可科 吖阿	1	tujia	哥哥啊	akoa	ǎkō'ǎ	吖|可|吖		
+ls60-22	anfnianvhur	annianhu	我们两个	岸拈胡	岸捻壶	岸 拈碾捻 胡壶	1	tujia	我们两个	annianhu	ánniànhǔ	岸|拈|胡		
 ls60-23	dar	da	一起	达		达	1	tujia	一起	da	dǎ	达		
-ls60-24	enrgeir	engei	那里	阿蒽格锿	迎给	迎 给	1	tujia	那里	engei	ěn'gěi	阿蒽|格锿		
+ls60-24	enrgeir	engei	那里	恩格锿	迎给	恩迎 给	1	tujia	那里	engei	ěn'gěi	恩|格锿		
 ls60-25	cerlirbor	celibo	城里往	策立博	侧粒拨	策侧 立粒 博拨	4	tujia	城里往	celibo	cělǐbǒ	策|立|博		
 ls60-26	yif	yi	去	意	余	意余	5	tujia	去	yi	yí	意		
 ls60-27	yar	ya	啊	呀	牙	呀牙	1	tujia	啊	ya	yǎ	呀	yiar yia yiǎ	
 ls60-28	laiv	lai	什么	莱	来	莱来	4	tujia	什么	lai	lài	莱		
 ls60-29	riv	ri	将做	日	日以	日	1	tujia	将做	ri	rì	日		
 ls60-30	yor	yo	啊	药		药	1	tujia	啊	yo	yǒ	药	yior yio yiǒ	
-ls60-31	anfnianxhux	annianhu	我们两个	阿岸拈呼	岸捻虎	岸 拈捻 呼虎	1	tujia	我们两个	annianhu	ánniānhū	阿岸|拈|呼		
+ls60-31	anfnianxhux	annianhu	我们两个	岸拈呼	岸捻虎	岸 拈捻 呼虎	1	tujia	我们两个	annianhu	ánniānhū	岸|拈|呼		
 ls60-32	dax	da	一起	搭	打	搭打	1	tujia	一起	da	dā	搭		
 ls60-33	nif	ni	你	腻	泥	腻泥	17	tujia	你	ni	ní	腻		
 ls60-34	mar	ma	呢	麻		麻	1	tujia	呢	ma	mǎ	麻		
@@ -383,24 +383,24 @@ ls60-37	nix	ni	你	妮	你	妮你	1	tujia	你	ni	nī	妮
 ls60-38	jiermar	jiema	喊的人	节麻		节 麻	9	tujia	喊的人	jiema	jiěmǎ	节|麻		
 ls60-39	dox	do	都	多		多	72	tujia	都	do	dō	多		
 ls60-40	tair	tai	没有	台		台	1	tujia	没有	tai	tǎi	台		
-ls60-41	anfmax	anma	我呢	阿岸妈	岸妈	岸 妈	2	tujia	我呢	anma	ánmā	阿岸|妈		
+ls60-41	anfmax	anma	我呢	岸吗	岸妈	岸 吗妈	2	tujia	我呢	anma	ánmā	岸|吗		
 ls60-42	anx	an	我	阿安	安	安	1	tujia	我	an	ān	阿安		
 ls60-43	hafsux	hasu	下数	吓书	哈苏	吓哈 书苏	1	tujia	下数	hasu	hásū	吓|书		
 ls60-44	taix	tai	没有	胎		胎	6	tujia	没有	tai	tāi	胎		
-ls60-45	anvreirsarlir	anreisali	鬼话讲	阿安热刹立	安热沙粒	安 热 刹沙 立粒	1	tujia	鬼话讲	anreisali	ànrěisǎlǐ	阿安|热|刹|立		
+ls60-45	anvreirsarlir	anreisali	鬼话讲	安热刹立	安热沙粒	安 热 刹沙 立粒	1	tujia	鬼话讲	anreisali	ànrěisǎlǐ	安|热|刹|立		
 ls60-46	anf	an	我们	阿岸	岸	岸	1	tujia	我们	an	án	阿岸		
-ls60-47	qiaxgax	qiaga	弟兄	欺鸦嘎	恰家	恰 嘎家	1	tujia	弟兄	qiaga	qiāgā	欺鸦|嘎		
-ls60-48	daxzeir	dazei	一样	搭资锿	打则	搭打 则	1	tujia	一样	dazei	dāzěi	搭|资锿		
-ls60-49	lavheif	lahei	路那么	喇黑欸	拉黑	喇拉 黑	1	tujia	路那么	lahei	làhéi	喇|黑欸		
+ls60-47	qiaxgax	qiaga	弟兄	起鸦尕	恰家	恰 尕嘎家	1	tujia	弟兄	qiaga	qiāgā	起鸦|尕		
+ls60-48	daxzeir	dazei	一样	打资锿	打则	搭打 则	1	tujia	一样	dazei	dāzěi	打|资锿		
+ls60-49	lavheif	lahei	路那么	拉黑欸	拉黑	喇拉 黑	1	tujia	路那么	lahei	làhéi	拉|黑欸		
 ls60-50	yir	yi	走	移	余	移余	1	tujia	走	yi	yǐ	移		
 ls60-51	ar	a	啊	吖	阿	吖阿	9	tujia	啊	a	ǎ	吖		
 ls60-52	max	ma	呢	妈		妈	1	tujia	呢	ma	mā	妈		
-ls60-53	yifmaxyifar	yimayia	走嘛走啊	意妈意吖	余妈余阿	意余 妈 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|妈|意|吖		
+ls60-53	yifmaxyifar	yimayia	走嘛走啊	意吗意吖	余妈余阿	意余 吗妈 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|吗|意|吖		
 ls60-54	laxbiex	labie	一些	拉憋	拉别	拉 憋别	1	tujia	一些	labie	lābiē	拉|憋		
-ls60-55	duvdor	dudo	赌要	堵夺	肚夺	堵肚 夺	2	tujia	赌要	dudo	dùdǒ	堵|夺		
-ls60-56	duvyor	duyo	赌啊	堵药	肚药	堵肚 药	1	tujia	赌啊	duyo	dùyǒ	堵|药	duvyior duyio dùyiǒ	
+ls60-55	duvdor	dudo	赌要	都夺	肚夺	都堵肚 夺	2	tujia	赌要	dudo	dùdǒ	都|夺		
+ls60-56	duvyor	duyo	赌啊	都药	肚药	都堵肚 药	1	tujia	赌啊	duyo	dùyǒ	都|药	duvyior duyio dùyiǒ	
 ls60-57	ngovwongvjir	ngowongji	五两银子	我翁吉	我翁即	我 翁 吉即	2	tujia	五两银子	ngowongji	ngòwòngjǐ	我|翁|吉	ngovwunvjir ngowunji ngòwùnjǐ	
-ls60-58	duvwar	duwa	赌啊	堵娃	肚袜	堵肚 娃袜	1	tujia	赌啊	duwa	dùwǎ	堵|娃	duvwuar duwua dùwuǎ	
+ls60-58	duvwar	duwa	赌啊	都娃	肚袜	都堵肚 娃袜	1	tujia	赌啊	duwa	dùwǎ	都|娃	duvwuar duwua dùwuǎ	
 ls60-59	aixlex	aile	那么	哎里		哎 里	8	tujia	那么	aile	āilē	哎|里		
 ls60-60	davhar	daha	一起	打蛤	打哈	打 蛤哈	4	tujia	一起	daha	dàhǎ	打|蛤		
 ls60-61	dif	di	第	第		第弟	2	tujia	第	di	dí	第		plainHanLoan
@@ -410,20 +410,20 @@ ls60-65	lar	la	像	辣	拉	辣拉	1	tujia	像	la	lǎ	辣
 ls60-66	davzeir	dazei	早	打资锿	打则	打 则	1	tujia	早	dazei	dàzěi	打|资锿		
 ls60-67	zaovlair	zaolai	早饭	早来		早 来	1	tujia	早饭	zaolai	zàolǎi	早|来		
 ls60-68	zaovzaovhuanrgaflaix	zaozaohuangalai	早早吃饭了	早早皇架莱	早早黄家来 早早黄架来	早 早 皇黄 架家 莱来	1	tujia	早早吃饭	zaozaohuangalai	zàozàohuǎn'gálāi	早|早|皇|架|莱		
-ls60-69	enrqief	enqie	去	阿蒽怯	迎切	迎 怯切	1	tujia	去	enqie	ěnqié	阿蒽|怯		
+ls60-69	enrqief	enqie	去	恩怯	迎切	恩迎 怯切	1	tujia	去	enqie	ěnqié	恩|怯		
 ls60-70	cereflar	ceela	陈二郎	陈二郎		陈侧 二姨 郎拉	7	tujia	陈二郎	ceela	cě'élǎ	陈|二|郎		
 ls60-71	lair	lai	呢	来		来	17	tujia	呢	lai	lǎi	来		
 ls60-72	jiur	jiu	就	就		就九	3	tujia	就	jiu	jiǔ	就		
-ls60-73	zixgeir	zigei	前头	兹格锿	资给	兹资 给	5	tujia	前头	zigei	zīgěi	兹|格锿		
+ls60-73	zixgeir	zigei	前头	子格锿	资给	子兹资 给	5	tujia	前头	zigei	zīgěi	子|格锿		
 ls60-74	yif	yi	走	意	余	意余	13	tujia	走	yi	yí	意		
 ls60-76	taxnier	tanie	后头	他业	他捏	他 业捏	3	tujia	后头	tanie	tāniě	他|业		
 ls60-77	max	ma	嘛	妈		妈	1	tujia	嘛	ma	mā	妈		
-ls60-78	maxhuif	mahui	嘛会	妈会	妈灰	妈 会灰	1	tujia	嘛会	mahui	māhuí	妈|会		
-ls60-79	loxexjiermarjief	loejiemajie	人硬喊的人有	倮阿婀节麻借	落医节麻节 倮医节麻节	倮落 医 节 麻 借节	1	tujia	有人喊	loejiemajie	lō'ējiěmǎjié	倮|阿婀|节|麻|借		
+ls60-78	maxhuif	mahui	嘛会	吗会	妈灰	吗妈 会灰	1	tujia	嘛会	mahui	māhuí	吗|会		
+ls60-79	loxexjiermarjief	loejiemajie	人硬喊的人有	倮婀节麻借	落医节麻节 倮医节麻节	倮落 婀医 节 麻 借节	1	tujia	有人喊	loejiemajie	lō'ējiěmǎjié	倮|婀|节|麻|借		
 ls60-80	wov	wo	啊	窝	握	窝握	1	tujia	啊	wo	wò	窝		
 ls60-81	lax	la	着	拉		拉	6	tujia	着	la	lā	拉		
 ls60-82	avngairmar	angaima	弟弟呢	阿岩麻	啊挨麻	阿啊 岩挨 麻	1	tujia	弟弟呢	angaima	àngǎimǎ	阿|岩|麻		
-ls60-83	tavnier	tanie	后面	塔业	他捏	塔他 业捏	1	tujia	后面	tanie	tàniě	塔|业		
+ls60-83	tavnier	tanie	后面	他业	他捏	塔他 业捏	1	tujia	后面	tanie	tàniě	他|业		
 ls60-84	yifaxlair	yialai	走啊了	意阿来	余啊来	意余 阿啊 来	2	tujia	走啊了	yialai	yí'ālǎi	意|阿|来		
 ls60-85	yev	ye	到	也	野	也野	30	tujia	到	ye	yè	也	yiev yie yiè	
 ls60-86	larhux	lahu	着了	辣呼	拉虎	辣拉 呼虎	2	tujia	着了	lahu	lǎhū	辣|呼		
@@ -437,26 +437,26 @@ ls60-94	loxdeix	lodei	人家	倮低	落低	倮落 低	7	tujia	人家	lodei	lōd�
 ls60-95	gor	go	他	郭	鸽	郭鸽	5	tujia	他	go	gǒ	郭		
 ls60-96	yev	ye	也	也	野	也野	18	tujia	也	ye	yè	也	yiev yie yiè	
 ls60-97	yifyif	yiyi	走走	意意	余余	意余 意余	1	tujia	走走	yiyi	yíyí	意|意		
-ls60-98	exdir	edi	这个	阿婀的	医笛	医 的笛	1	tujia	这个	edi	ēdǐ	阿婀|的		
+ls60-98	exdir	edi	这个	婀的	医笛	婀医 的笛	1	tujia	这个	edi	ēdǐ	婀|的		
 ls60-99	ngefzarsirdeir	ngezasidei	硬厉害	扼扎石笛	泥扎四笛	扼泥 扎 石四 笛	1	tujia	硬厉害	ngezasidei	ngézǎsǐděi	扼|扎|石|笛		
-ls60-100	zexdix	zedi	真的	遮低	资低	遮资 低	1	tujia	真的	zedi	zēdī	遮|低		
+ls60-100	zexdix	zedi	真的	者低	资低	者遮资 低	1	tujia	真的	zedi	zēdī	者|低		
 ls60-101	aixyouf	aiyou	那又	哎又	哎右	哎 又右	1	tujia	那又	aiyou	āiyóu	哎|又	aixyiuf aiyiu āiyiú	
-ls60-102	zixgeiv	zigei	前头	兹给	资给	兹资 给	2	tujia	前头	zigei	zīgèi	兹|给		
+ls60-102	zixgeiv	zigei	前头	子给	资给	子兹资 给	2	tujia	前头	zigei	zīgèi	子|给		
 ls60-103	bor	bo	往	博	拨	博拨	3	tujia	往	bo	bǒ	博		
 ls60-104	axlair	alai	啊了	阿来	啊来	阿啊 来	1	tujia	啊了	alai	ālǎi	阿|来		
 ls60-105	youf	you	又	又	右	又右	83	tujia	又	you	yóu	又	yiuf yiu yiú	
 ls60-106	gox	go	他	哥		哥	6	tujia	他	go	gō	哥		
 ls60-107	bovlir	boli	小孩儿	波俐	波粒	波 俐粒	1	tujia	小孩儿	boli	bòlǐ	波|俐		
 ls60-108	zair	zai	大人	再	在	再在	1	tujia	大人	zai	zǎi	再		
-ls60-109	lovcix	loci	都他	裸雌	落雌	裸落 雌	1	tujia	都他	loci	lòcī	裸|雌		
+ls60-109	lovcix	loci	都他	啰此	落雌	啰裸落 此雌	1	tujia	都他	loci	lòcī	啰|此		
 ls60-110	baxhuf	bahu	喊	巴互	把壶	巴把 互壶	1	tujia	喊	bahu	bāhú	巴|互		
-ls60-111	nixgox	nigo	着他	妮哥	你哥	妮你 哥	1	tujia	着他	nigo	nīgō	妮|哥		
+ls60-111	nixgox	nigo	着他	你哥	你哥	妮你 哥	1	tujia	着他	nigo	nīgō	你|哥		
 ls60-112	zirgeir	zigei	前头	直格锿	紫给	直紫 给	1	tujia	前头	zigei	zǐgěi	直|格锿		
-ls60-113	jiefmav	jiema	喊的人	借马	节马	借节 马	1	tujia	喊的人	jiema	jiémà	借|马		
-ls60-114	aixefyif	aieyi	那硬一天	哎阿饿意	哎姨姨	哎 姨 意姨	1	tujia	那硬一天	aieyi	āi'éyí	哎|阿饿|意		
+ls60-113	jiefmav	jiema	喊的人	借吗	节马	借节 吗马	1	tujia	喊的人	jiema	jiémà	借|吗		
+ls60-114	aixefyif	aieyi	那硬一天	哎饿意	哎姨姨	哎 饿姨 意姨	1	tujia	那硬一天	aieyi	āi'éyí	哎|饿|意		
 ls60-115	tianrwor	tianwo	啊	田沃	田握	田 沃握	1	tujia	啊	tianwo	tiǎnwǒ	田|沃		
 ls60-116	dor	do	都	夺		夺	2	tujia	都	do	dǒ	夺		
-ls60-117	jixliaox	jiliao	完了	机了	鸡辽	机鸡 了辽	2	tujia	完了	jiliao	jīliāo	机|了		
+ls60-117	jixliaox	jiliao	完了	几了	鸡辽	几机鸡 了辽	2	tujia	完了	jiliao	jīliāo	几|了		
 ls60-118	taif	tai	没有	太	泰	太泰	40	tujia	没有	tai	tái	太		
 ls60-119	goxgov	gogo	哥哥	哥哥		哥 哥	2	tujia	哥哥	gogo	gōgò	哥|哥		plainHanLoan
 ls60-120	eflar	ela	二郎	二郎		二姨 郎拉	1	tujia	二郎	ela	élǎ	二|郎		
@@ -470,23 +470,23 @@ ls60-129	manv	man	吧	满		满	1	tujia	吧	man	màn	满
 ls60-130	geivdir	geidi	多的是	给的	给笛	给 的笛	1	tujia	多的是	geidi	gèidǐ	给|的		
 ls60-131	manr	man	吧	忙	芒	忙芒	1	tujia	吧	man	mǎn	忙		
 ls60-132	jiaf	jia	先	嫁	家	嫁家	1	tujia	先	jia	jiá	嫁		
-ls60-133	qiafgaov	qiagao	怎么搞	欺亚搞	恰高	恰 搞高	2	tujia	怎么搞	qiagao	qiágào	欺亚|搞		
+ls60-133	qiafgaov	qiagao	怎么搞	起亚搞	恰高	恰 搞高	2	tujia	怎么搞	qiagao	qiágào	起亚|搞		
 ls60-134	bor	bo	着	博	拨	博拨	3	tujia	着	bo	bǒ	博		
 ls60-135	jif	ji	的	记		记	1	tujia	的	ji	jí	记		
-ls60-136	yaoxgax	yaoga	腰杆	邀嘎	腰家	邀腰 嘎家	1	tujia	腰杆	yaoga	yāogā	邀|嘎	yiaoxgax yiaoga yiāogā	
+ls60-136	yaoxgax	yaoga	腰杆	舀尕	腰家	舀邀腰 尕嘎家	1	tujia	腰杆	yaoga	yāogā	舀|尕	yiaoxgax yiaoga yiāogā	
 ls60-137	gar	ga	上	夹		夹	33	tujia	上	ga	gǎ	夹		
 ls60-140	huerbir	huebi	粉笔	壶必	壶臂	壶 必臂	1	tujia	粉笔	huebi	huěbǐ	壶|必		
 ls60-141	hor	ho	用	和	盒	和盒	1	tujia	用	ho	hǒ	和		
 ls60-142	haf	ha	那么	吓	哈	吓哈	1	tujia	那么	ha	há	吓		
-ls60-143	cixzix	cizi	字	雌兹	雌资	雌 兹资	1	tujia	字	cizi	cīzī	雌|兹		
+ls60-143	cixzix	cizi	字	此子	雌资	此雌 子兹资	1	tujia	字	cizi	cīzī	此|子		
 ls60-144	gafbur	gabu	几个	尬不	家不	尬家 不	1	tujia	几个	gabu	gábǔ	尬|不		
 ls60-145	afbox	abo	写着	啊波		啊 波	1	tujia	写着	abo	ábō	啊|波		
 ls60-146	lar	la	了	辣	拉	辣拉	1	tujia	了	la	lǎ	辣		
 ls60-147	jiernier	jienie	喊的	节业	节捏	节 业捏	2	tujia	喊的	jienie	jiěniě	节|业		
 ls60-148	jif	ji	呢	记		记	3	tujia	呢	ji	jí	记		
-ls60-149	bursix	busi	不是	不斯	不丝	不 斯丝	1	tujia	不是	busi	bǔsī	不|斯		
+ls60-149	bursix	busi	不是	不使	不丝	不 使斯丝	1	tujia	不是	busi	bǔsī	不|使		
 ls60-150	jiuf	jiu	就	就		就九	7	tujia	就	jiu	jiú	就		
-ls60-151	cixcix	cici	字	雌雌		雌 雌	2	tujia	字	cici	cīcī	雌|雌		
+ls60-151	cixcix	cici	字	此此		此雌 此雌	2	tujia	字	cici	cīcī	此|此		
 ls60-152	nianfniex	niannie	念的	念捏	捻捏	念捻 捏	1	tujia	念的	niannie	niánniē	念|捏		
 ls60-153	jir	ji	呢	吉	即	吉即	1	tujia	呢	ji	jǐ	吉		
 ls60-154	air	ai	那	哀	哎	哀哎	1	tujia	那	ai	ǎi	哀		
@@ -503,15 +503,15 @@ ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥		plainHanLoan
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了		
 ls60-168	jiufhaflar	jiuhala	就这样的	就吓辣	九哈拉	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|吓|辣		
-xu213-1-1	ngafnix	ngani	我们	讶妮		讶 妮	2	tujia	我们	ngani	ngánī	讶|妮		
-xu213-1-2	hufnix	huni	大家	互妮		互 妮	19	tujia	大家	huni	húnī	互|妮		
-xu213-1-3	bifzixkar	bizika	土家族	币兹咔		币 兹 咔	16	tujia	土家族	bizika	bízīkǎ	币|兹|咔		
+xu213-1-1	ngafnix	ngani	我们	讶你		讶 你妮	2	tujia	我们	ngani	ngánī	讶|你		
+xu213-1-2	hufnix	huni	大家	互你		互 你妮	19	tujia	大家	huni	húnī	互|你		
+xu213-1-3	bifzixkar	bizika	土家族	币子咔		币 子兹 咔	16	tujia	土家族	bizika	bízīkǎ	币|子|咔		
 xu213-1-4	ox	o	语气词	喔		喔	18	tujia	语气词	o	ō	喔		
 xu213-2-1	sangxgox	sanggo	山歌	山歌	伤哥	伤 哥	2	tujia	山歌	sanggo	sānggō	山|歌		plainHanLoan
 xu213-2-2	cangf	cang	唱	唱		唱	3	tujia	唱	cang	cáng	唱		
 xu213-2-3	diex	die	强调	爹		爹	12	tujia	强调	die	diē	爹		
-xu213-2-4	bifzixsar	bizisa	土家语	币兹刹		币 兹 刹	1	tujia	土家语	bizisa	bízīsǎ	币|兹|刹		
-xu213-3-1	bifzix	bizi	土家的	币兹		币 兹	1	tujia	土家的	bizi	bízī	币|兹		
+xu213-2-4	bifzixsar	bizisa	土家语	币子刹		币 子兹 刹	1	tujia	土家语	bizisa	bízīsǎ	币|子|刹		
+xu213-3-1	bifzix	bizi	土家的	币子		币 子兹	1	tujia	土家的	bizi	bízī	币|子		
 xu213-3-3	nax	na	一	哪		哪	176	tujia	一	na	nā	哪		
 xu213-3-4	zex	ze	句	遮		遮	1	tujia	句	ze	zē	遮		
 xu213-4-2	xix	xi	状态助词	兮		兮	79	tujia	状态助词	xi	xī	兮		
@@ -523,7 +523,7 @@ xu213-4-8	lex	le	陈述语气	里		里	3	tujia	陈述语气	le	lē	里
 w802	gof	go	讨	过		过	1	tujia	讨	go	gó	过		
 w1102	karmongr	kamong	树	咔萌		咔 萌	31	tujia	树	kamong	kǎmǒng	咔|萌		
 w2302	tongxmongr	tongmong	呻吟	通萌		通 萌	0	tujia	呻吟	tongmong	tōngmǒng	通|萌		
-w2303	tongvmongr	tongmong	线	统萌		统 萌	0	tujia	线	tongmong	tòngmǒng	统|萌		
+w2303	tongvmongr	tongmong	线	通萌		通统 萌	0	tujia	线	tongmong	tòngmǒng	通|萌		
 yubao-60757-v-2498	mongr	mong	午（地支）	萌		萌	0	tujia	地支午	mong	mǒng	萌		
 ortho-ax	ax	a	音节	阿			0	syllable	音节	a	ā	阿		
 ortho-af	af	a	音节	啊			0	syllable	音节	a	á	啊		
@@ -533,34 +533,34 @@ ortho-aix	aix	ai	音节	哎			0	syllable	音节	ai	āi	哎
 ortho-aif	aif	ai	音节	唉			0	syllable	音节	ai	ái	唉		
 ortho-air	air	ai	音节	哀			0	syllable	音节	ai	ǎi	哀		
 ortho-aiv	aiv	ai	音节	哎			0	syllable	音节	ai	ài	哎		
-ortho-angx	angx	ang	音节	阿安			0	syllable	音节	ang	āng	阿安		
-ortho-angf	angf	ang	音节	阿岸			0	syllable	音节	ang	áng	阿岸		
-ortho-angr	angr	ang	音节	阿昂			0	syllable	音节	ang	ǎng	阿昂		
-ortho-angv	angv	ang	音节	阿安			0	syllable	音节	ang	àng	阿安		
+ortho-angx	angx	ang	音节	安			0	syllable	音节	ang	āng	安		
+ortho-angf	angf	ang	音节	岸			0	syllable	音节	ang	áng	岸		
+ortho-angr	angr	ang	音节	昂			0	syllable	音节	ang	ǎng	昂		
+ortho-angv	angv	ang	音节	安			0	syllable	音节	ang	àng	安		
 ortho-aox	aox	ao	音节	凹			0	syllable	音节	ao	āo	凹		
-ortho-aof	aof	ao	音节	阿傲			0	syllable	音节	ao	áo	阿傲		
-ortho-aor	aor	ao	音节	噢			0	syllable	音节	ao	ǎo	噢		
+ortho-aof	aof	ao	音节	傲			0	syllable	音节	ao	áo	傲		
+ortho-aor	aor	ao	音节	敖			0	syllable	音节	ao	ǎo	敖		
 ortho-aov	aov	ao	音节	凹			0	syllable	音节	ao	ào	凹		
-ortho-ex	ex	e	音节	阿婀			0	syllable	音节	e	ē	阿婀		
-ortho-ef	ef	e	音节	阿饿			0	syllable	音节	e	é	阿饿		
-ortho-er	er	e	音节	阿鹅			0	syllable	音节	e	ě	阿鹅		
-ortho-ev	ev	e	音节	阿婀			0	syllable	音节	e	è	阿婀		
-ortho-eix	eix	ei	音节	阿诶			0	syllable	音节	ei	ēi	阿诶		
-ortho-eif	eif	ei	音节	阿欸			0	syllable	音节	ei	éi	阿欸		
-ortho-eir	eir	ei	音节	阿锿			0	syllable	音节	ei	ěi	阿锿		
-ortho-eiv	eiv	ei	音节	阿诶			0	syllable	音节	ei	èi	阿诶		
+ortho-ex	ex	e	音节	婀			0	syllable	音节	e	ē	婀		
+ortho-ef	ef	e	音节	饿			0	syllable	音节	e	é	饿		
+ortho-er	er	e	音节	鹅			0	syllable	音节	e	ě	鹅		
+ortho-ev	ev	e	音节	婀			0	syllable	音节	e	è	婀		
+ortho-eix	eix	ei	音节	诶			0	syllable	音节	ei	ēi	诶		
+ortho-eif	eif	ei	音节	诶			0	syllable	音节	ei	éi	诶		
+ortho-eir	eir	ei	音节	诶			0	syllable	音节	ei	ěi	诶		
+ortho-eiv	eiv	ei	音节	诶			0	syllable	音节	ei	èi	诶		
 ortho-enx	enx	en	音节	嗯			0	syllable	音节	en	ēn	嗯		
 ortho-enf	enf	en	音节	摁			0	syllable	音节	en	én	摁		
-ortho-enr	enr	en	音节	阿蒽			0	syllable	音节	en	ěn	阿蒽		
+ortho-enr	enr	en	音节	恩			0	syllable	音节	en	ěn	恩		
 ortho-env	env	en	音节	嗯			0	syllable	音节	en	èn	嗯		
 ortho-ix	ix	i	音节	伊			0	syllable	音节	i	ī	伊		
 ortho-if	if	i	音节	亿			0	syllable	音节	i	í	亿		
 ortho-ir	ir	i	音节	夷			0	syllable	音节	i	ǐ	夷		
-ortho-iv	iv	i	音节	已			0	syllable	音节	i	ì	已		
+ortho-iv	iv	i	音节	伊			0	syllable	音节	i	ì	伊		
 ortho-ox	ox	o	音节	喔			0	syllable	音节	o	ō	喔		
-ortho-of	of	o	音节	喔卧			0	syllable	音节	o	ó	喔卧		
-ortho-or	or	o	音节	喔沃			0	syllable	音节	o	ǒ	喔沃		
-ortho-ov	ov	o	音节	哦			0	syllable	音节	o	ò	哦		
+ortho-of	of	o	音节	卧			0	syllable	音节	o	ó	卧		
+ortho-or	or	o	音节	沃			0	syllable	音节	o	ǒ	沃		
+ortho-ov	ov	o	音节	喔			0	syllable	音节	o	ò	喔		
 ortho-ongx	ongx	ong	音节	翁			0	syllable	音节	ong	ōng	翁		
 ortho-ongf	ongf	ong	音节	瓮			0	syllable	音节	ong	óng	瓮		
 ortho-ongr	ongr	ong	音节	嗡			0	syllable	音节	ong	ǒng	嗡		
@@ -568,7 +568,7 @@ ortho-ongv	ongv	ong	音节	翁			0	syllable	音节	ong	òng	翁
 ortho-bax	bax	ba	音节	巴			0	syllable	音节	ba	bā	巴		
 ortho-baf	baf	ba	音节	坝			0	syllable	音节	ba	bá	坝		
 ortho-bar	bar	ba	音节	八			0	syllable	音节	ba	bǎ	八		
-ortho-bav	bav	ba	音节	把			0	syllable	音节	ba	bà	把		
+ortho-bav	bav	ba	音节	巴			0	syllable	音节	ba	bà	巴		
 ortho-baix	baix	bai	音节	摆			0	syllable	音节	bai	bāi	摆		
 ortho-baif	baif	bai	音节	拜			0	syllable	音节	bai	bái	拜		
 ortho-bair	bair	bai	音节	败			0	syllable	音节	bai	bǎi	败		
@@ -576,15 +576,15 @@ ortho-baiv	baiv	bai	音节	摆			0	syllable	音节	bai	bài	摆
 ortho-banx	banx	ban	音节	班			0	syllable	音节	ban	bān	班		
 ortho-banf	banf	ban	音节	办			0	syllable	音节	ban	bán	办		
 ortho-banr	banr	ban	音节	半			0	syllable	音节	ban	bǎn	半		
-ortho-banv	banv	ban	音节	板			0	syllable	音节	ban	bàn	板		
-ortho-bangx	bangx	bang	音节	邦			0	syllable	音节	bang	bāng	邦		
-ortho-bangf	bangf	bang	音节	棒			0	syllable	音节	bang	báng	棒		
-ortho-bangr	bangr	bang	音节	帮			0	syllable	音节	bang	bǎng	帮		
-ortho-bangv	bangv	bang	音节	榜			0	syllable	音节	bang	bàng	榜		
+ortho-banv	banv	ban	音节	班			0	syllable	音节	ban	bàn	班		
+ortho-bangx	bangx	bang	音节	班			0	syllable	音节	bang	bāng	班		
+ortho-bangf	bangf	bang	音节	办			0	syllable	音节	bang	báng	办		
+ortho-bangr	bangr	bang	音节	半			0	syllable	音节	bang	bǎng	半		
+ortho-bangv	bangv	bang	音节	班			0	syllable	音节	bang	bàng	班		
 ortho-baox	baox	bao	音节	苞			0	syllable	音节	bao	bāo	苞		
 ortho-baof	baof	bao	音节	抱			0	syllable	音节	bao	báo	抱		
 ortho-baor	baor	bao	音节	包			0	syllable	音节	bao	bǎo	包		
-ortho-baov	baov	bao	音节	宝			0	syllable	音节	bao	bào	宝		
+ortho-baov	baov	bao	音节	苞			0	syllable	音节	bao	bào	苞		
 ortho-bex	bex	be	音节	柏			0	syllable	音节	be	bē	柏		
 ortho-bef	bef	be	音节	百			0	syllable	音节	be	bé	百		
 ortho-ber	ber	be	音节	白			0	syllable	音节	be	bě	白		
@@ -593,23 +593,23 @@ ortho-beix	beix	bei	音节	杯			0	syllable	音节	bei	bēi	杯
 ortho-beif	beif	bei	音节	背			0	syllable	音节	bei	béi	背		
 ortho-beir	beir	bei	音节	北			0	syllable	音节	bei	běi	北		
 ortho-beiv	beiv	bei	音节	杯			0	syllable	音节	bei	bèi	杯		
-ortho-benx	benx	ben	音节	奔			0	syllable	音节	ben	bēn	奔		
+ortho-benx	benx	ben	音节	本			0	syllable	音节	ben	bēn	本		
 ortho-benf	benf	ben	音节	波摁			0	syllable	音节	ben	bén	波摁		
 ortho-benr	benr	ben	音节	波蒽			0	syllable	音节	ben	běn	波蒽		
 ortho-benv	benv	ben	音节	本			0	syllable	音节	ben	bèn	本		
-ortho-bix	bix	bi	音节	逼			0	syllable	音节	bi	bī	逼		
+ortho-bix	bix	bi	音节	比			0	syllable	音节	bi	bī	比		
 ortho-bif	bif	bi	音节	币			0	syllable	音节	bi	bí	币		
 ortho-bir	bir	bi	音节	必			0	syllable	音节	bi	bǐ	必		
 ortho-biv	biv	bi	音节	比			0	syllable	音节	bi	bì	比		
 ortho-biax	biax	bia	音节	比鸦			0	syllable	音节	bia	biā	比鸦		
 ortho-biaf	biaf	bia	音节	比亚			0	syllable	音节	bia	biá	比亚		
 ortho-biar	biar	bia	音节	比呀			0	syllable	音节	bia	biǎ	比呀		
-ortho-biav	biav	bia	音节	比雅			0	syllable	音节	bia	bià	比雅		
-ortho-bianx	bianx	bian	音节	鞭			0	syllable	音节	bian	biān	鞭		
+ortho-biav	biav	bia	音节	比鸦			0	syllable	音节	bia	bià	比鸦		
+ortho-bianx	bianx	bian	音节	编			0	syllable	音节	bian	biān	编		
 ortho-bianf	bianf	bian	音节	变			0	syllable	音节	bian	bián	变		
 ortho-bianr	bianr	bian	音节	边			0	syllable	音节	bian	biǎn	边		
-ortho-bianv	bianv	bian	音节	贬			0	syllable	音节	bian	biàn	贬		
-ortho-biaox	biaox	biao	音节	标			0	syllable	音节	biao	biāo	标		
+ortho-bianv	bianv	bian	音节	编			0	syllable	音节	bian	biàn	编		
+ortho-biaox	biaox	biao	音节	表			0	syllable	音节	biao	biāo	表		
 ortho-biaof	biaof	biao	音节	比要			0	syllable	音节	biao	biáo	比要		
 ortho-biaor	biaor	biao	音节	比摇			0	syllable	音节	biao	biǎo	比摇		
 ortho-biaov	biaov	biao	音节	表			0	syllable	音节	biao	biào	表		
@@ -624,8 +624,8 @@ ortho-biiv	biiv	bii	音节	杯			0	syllable	音节	bii	biì	杯
 ortho-binx	binx	bin	音节	兵			0	syllable	音节	bin	bīn	兵		
 ortho-binf	binf	bin	音节	并			0	syllable	音节	bin	bín	并		
 ortho-binr	binr	bin	音节	彬			0	syllable	音节	bin	bǐn	彬		
-ortho-binv	binv	bin	音节	饼			0	syllable	音节	bin	bìn	饼		
-ortho-biux	biux	biu	音节	比优			0	syllable	音节	biu	biū	比优		
+ortho-binv	binv	bin	音节	兵			0	syllable	音节	bin	bìn	兵		
+ortho-biux	biux	biu	音节	比友			0	syllable	音节	biu	biū	比友		
 ortho-biuf	biuf	biu	音节	比右			0	syllable	音节	biu	biú	比右		
 ortho-biur	biur	biu	音节	比由			0	syllable	音节	biu	biǔ	比由		
 ortho-biuv	biuv	biu	音节	比友			0	syllable	音节	biu	biù	比友		
@@ -633,7 +633,7 @@ ortho-box	box	bo	音节	波			0	syllable	音节	bo	bō	波
 ortho-bof	bof	bo	音节	播			0	syllable	音节	bo	bó	播		
 ortho-bor	bor	bo	音节	博			0	syllable	音节	bo	bǒ	博		
 ortho-bov	bov	bo	音节	波			0	syllable	音节	bo	bò	波		
-ortho-bongx	bongx	bong	音节	崩			0	syllable	音节	bong	bōng	崩		
+ortho-bongx	bongx	bong	音节	甭			0	syllable	音节	bong	bōng	甭		
 ortho-bongf	bongf	bong	音节	蹦			0	syllable	音节	bong	bóng	蹦		
 ortho-bongr	bongr	bong	音节	波嗡			0	syllable	音节	bong	bǒng	波嗡		
 ortho-bongv	bongv	bong	音节	甭			0	syllable	音节	bong	bòng	甭		
@@ -656,7 +656,7 @@ ortho-pangv	pangv	pang	音节	攀			0	syllable	音节	pang	pàng	攀
 ortho-paox	paox	pao	音节	抛			0	syllable	音节	pao	pāo	抛		
 ortho-paof	paof	pao	音节	炮			0	syllable	音节	pao	páo	炮		
 ortho-paor	paor	pao	音节	刨			0	syllable	音节	pao	pǎo	刨		
-ortho-paov	paov	pao	音节	跑			0	syllable	音节	pao	pào	跑		
+ortho-paov	paov	pao	音节	抛			0	syllable	音节	pao	pào	抛		
 ortho-pex	pex	pe	音节	拍			0	syllable	音节	pe	pē	拍		
 ortho-pef	pef	pe	音节	泊			0	syllable	音节	pe	pé	泊		
 ortho-per	per	pe	音节	迫			0	syllable	音节	pe	pě	迫		
@@ -664,27 +664,27 @@ ortho-pev	pev	pe	音节	拍			0	syllable	音节	pe	pè	拍
 ortho-peix	peix	pei	音节	胚			0	syllable	音节	pei	pēi	胚		
 ortho-peif	peif	pei	音节	配			0	syllable	音节	pei	péi	配		
 ortho-peir	peir	pei	音节	陪			0	syllable	音节	pei	pěi	陪		
-ortho-peiv	peiv	pei	音节	呸			0	syllable	音节	pei	pèi	呸		
+ortho-peiv	peiv	pei	音节	胚			0	syllable	音节	pei	pèi	胚		
 ortho-penx	penx	pen	音节	烹			0	syllable	音节	pen	pēn	烹		
 ortho-penf	penf	pen	音节	喷			0	syllable	音节	pen	pén	喷		
 ortho-penr	penr	pen	音节	盆			0	syllable	音节	pen	pěn	盆		
 ortho-penv	penv	pen	音节	烹			0	syllable	音节	pen	pèn	烹		
-ortho-pix	pix	pi	音节	批			0	syllable	音节	pi	pī	批		
+ortho-pix	pix	pi	音节	匹			0	syllable	音节	pi	pī	匹		
 ortho-pif	pif	pi	音节	譬			0	syllable	音节	pi	pí	譬		
 ortho-pir	pir	pi	音节	皮			0	syllable	音节	pi	pǐ	皮		
 ortho-piv	piv	pi	音节	匹			0	syllable	音节	pi	pì	匹		
 ortho-piax	piax	pia	音节	皮鸦			0	syllable	音节	pia	piā	皮鸦		
 ortho-piaf	piaf	pia	音节	皮亚			0	syllable	音节	pia	piá	皮亚		
 ortho-piar	piar	pia	音节	皮呀			0	syllable	音节	pia	piǎ	皮呀		
-ortho-piav	piav	pia	音节	皮雅			0	syllable	音节	pia	pià	皮雅		
+ortho-piav	piav	pia	音节	皮鸦			0	syllable	音节	pia	pià	皮鸦		
 ortho-pianx	pianx	pian	音节	篇			0	syllable	音节	pian	piān	篇		
-ortho-pianf	pianf	pian	音节	骗			0	syllable	音节	pian	pián	骗		
+ortho-pianf	pianf	pian	音节	片			0	syllable	音节	pian	pián	片		
 ortho-pianr	pianr	pian	音节	便			0	syllable	音节	pian	piǎn	便		
-ortho-pianv	pianv	pian	音节	片			0	syllable	音节	pian	piàn	片		
+ortho-pianv	pianv	pian	音节	篇			0	syllable	音节	pian	piàn	篇		
 ortho-piaox	piaox	piao	音节	飘			0	syllable	音节	piao	piāo	飘		
 ortho-piaof	piaof	piao	音节	票			0	syllable	音节	piao	piáo	票		
 ortho-piaor	piaor	piao	音节	瓢			0	syllable	音节	piao	piǎo	瓢		
-ortho-piaov	piaov	piao	音节	漂			0	syllable	音节	piao	piào	漂		
+ortho-piaov	piaov	piao	音节	飘			0	syllable	音节	piao	piào	飘		
 ortho-piex	piex	pie	音节	瞥			0	syllable	音节	pie	piē	瞥		
 ortho-pief	pief	pie	音节	皮夜			0	syllable	音节	pie	pié	皮夜		
 ortho-pier	pier	pie	音节	撇			0	syllable	音节	pie	piě	撇		
@@ -692,40 +692,40 @@ ortho-piev	piev	pie	音节	瞥			0	syllable	音节	pie	piè	瞥
 ortho-piix	piix	pii	音节	胚			0	syllable	音节	pii	piī	胚		
 ortho-piif	piif	pii	音节	配			0	syllable	音节	pii	pií	配		
 ortho-piir	piir	pii	音节	陪			0	syllable	音节	pii	piǐ	陪		
-ortho-piiv	piiv	pii	音节	呸			0	syllable	音节	pii	piì	呸		
+ortho-piiv	piiv	pii	音节	胚			0	syllable	音节	pii	piì	胚		
 ortho-pinx	pinx	pin	音节	拼			0	syllable	音节	pin	pīn	拼		
 ortho-pinf	pinf	pin	音节	聘			0	syllable	音节	pin	pín	聘		
 ortho-pinr	pinr	pin	音节	平			0	syllable	音节	pin	pǐn	平		
-ortho-pinv	pinv	pin	音节	品			0	syllable	音节	pin	pìn	品		
-ortho-piux	piux	piu	音节	皮优			0	syllable	音节	piu	piū	皮优		
+ortho-pinv	pinv	pin	音节	拼			0	syllable	音节	pin	pìn	拼		
+ortho-piux	piux	piu	音节	皮友			0	syllable	音节	piu	piū	皮友		
 ortho-piuf	piuf	piu	音节	皮右			0	syllable	音节	piu	piú	皮右		
 ortho-piur	piur	piu	音节	皮由			0	syllable	音节	piu	piǔ	皮由		
 ortho-piuv	piuv	piu	音节	皮友			0	syllable	音节	piu	più	皮友		
 ortho-pox	pox	po	音节	坡			0	syllable	音节	po	pō	坡		
 ortho-pof	pof	po	音节	破			0	syllable	音节	po	pó	破		
 ortho-por	por	po	音节	婆			0	syllable	音节	po	pǒ	婆		
-ortho-pov	pov	po	音节	颇			0	syllable	音节	po	pò	颇		
+ortho-pov	pov	po	音节	坡			0	syllable	音节	po	pò	坡		
 ortho-pongx	pongx	pong	音节	蓬			0	syllable	音节	pong	pōng	蓬		
 ortho-pongf	pongf	pong	音节	碰			0	syllable	音节	pong	póng	碰		
 ortho-pongr	pongr	pong	音节	朋			0	syllable	音节	pong	pǒng	朋		
-ortho-pongv	pongv	pong	音节	捧			0	syllable	音节	pong	pòng	捧		
+ortho-pongv	pongv	pong	音节	蓬			0	syllable	音节	pong	pòng	蓬		
 ortho-pux	pux	pu	音节	铺			0	syllable	音节	pu	pū	铺		
 ortho-puf	puf	pu	音节	菩			0	syllable	音节	pu	pú	菩		
 ortho-pur	pur	pu	音节	扑			0	syllable	音节	pu	pǔ	扑		
-ortho-puv	puv	pu	音节	普			0	syllable	音节	pu	pù	普		
-ortho-max	max	ma	音节	妈			0	syllable	音节	ma	mā	妈		
-ortho-maf	maf	ma	音节	骂			0	syllable	音节	ma	má	骂		
+ortho-puv	puv	pu	音节	铺			0	syllable	音节	pu	pù	铺		
+ortho-max	max	ma	音节	吗			0	syllable	音节	ma	mā	吗		
+ortho-maf	maf	ma	音节	祃			0	syllable	音节	ma	má	祃		
 ortho-mar	mar	ma	音节	麻			0	syllable	音节	ma	mǎ	麻		
-ortho-mav	mav	ma	音节	马			0	syllable	音节	ma	mà	马		
+ortho-mav	mav	ma	音节	吗			0	syllable	音节	ma	mà	吗		
 ortho-maix	maix	mai	音节	买			0	syllable	音节	mai	māi	买		
 ortho-maif	maif	mai	音节	迈			0	syllable	音节	mai	mái	迈		
 ortho-mair	mair	mai	音节	卖			0	syllable	音节	mai	mǎi	卖		
 ortho-maiv	maiv	mai	音节	买			0	syllable	音节	mai	mài	买		
-ortho-mangx	mangx	mang	音节	慢			0	syllable	音节	mang	māng	慢		
+ortho-mangx	mangx	mang	音节	满			0	syllable	音节	mang	māng	满		
 ortho-mangf	mangf	mang	音节	漫			0	syllable	音节	mang	máng	漫		
 ortho-mangr	mangr	mang	音节	忙			0	syllable	音节	mang	mǎng	忙		
 ortho-mangv	mangv	mang	音节	满			0	syllable	音节	mang	màng	满		
-ortho-maox	maox	mao	音节	猫			0	syllable	音节	mao	māo	猫		
+ortho-maox	maox	mao	音节	卯			0	syllable	音节	mao	māo	卯		
 ortho-maof	maof	mao	音节	冒			0	syllable	音节	mao	máo	冒		
 ortho-maor	maor	mao	音节	毛			0	syllable	音节	mao	mǎo	毛		
 ortho-maov	maov	mao	音节	卯			0	syllable	音节	mao	mào	卯		
@@ -741,7 +741,7 @@ ortho-menx	menx	men	音节	闷			0	syllable	音节	men	mēn	闷
 ortho-menf	menf	men	音节	们			0	syllable	音节	men	mén	们		
 ortho-menr	menr	men	音节	门			0	syllable	音节	men	měn	门		
 ortho-menv	menv	men	音节	闷			0	syllable	音节	men	mèn	闷		
-ortho-mix	mix	mi	音节	咪			0	syllable	音节	mi	mī	咪		
+ortho-mix	mix	mi	音节	米			0	syllable	音节	mi	mī	米		
 ortho-mif	mif	mi	音节	谜			0	syllable	音节	mi	mí	谜		
 ortho-mir	mir	mi	音节	迷			0	syllable	音节	mi	mǐ	迷		
 ortho-miv	miv	mi	音节	米			0	syllable	音节	mi	mì	米		
@@ -749,7 +749,7 @@ ortho-mianx	mianx	mian	音节	免			0	syllable	音节	mian	miān	免
 ortho-mianf	mianf	mian	音节	面			0	syllable	音节	mian	mián	面		
 ortho-mianr	mianr	mian	音节	棉			0	syllable	音节	mian	miǎn	棉		
 ortho-mianv	mianv	mian	音节	免			0	syllable	音节	mian	miàn	免		
-ortho-miaox	miaox	miao	音节	喵			0	syllable	音节	miao	miāo	喵		
+ortho-miaox	miaox	miao	音节	秒			0	syllable	音节	miao	miāo	秒		
 ortho-miaof	miaof	miao	音节	妙			0	syllable	音节	miao	miáo	妙		
 ortho-miaor	miaor	miao	音节	瞄			0	syllable	音节	miao	miǎo	瞄		
 ortho-miaov	miaov	miao	音节	秒			0	syllable	音节	miao	miào	秒		
@@ -768,12 +768,12 @@ ortho-mov	mov	mo	音节	摸			0	syllable	音节	mo	mò	摸
 ortho-mongx	mongx	mong	音节	蒙			0	syllable	音节	mong	mōng	蒙		
 ortho-mongf	mongf	mong	音节	梦			0	syllable	音节	mong	móng	梦		
 ortho-mongr	mongr	mong	音节	萌			0	syllable	音节	mong	mǒng	萌		
-ortho-mongv	mongv	mong	音节	猛			0	syllable	音节	mong	mòng	猛		
-ortho-mux	mux	mu	音节	哞			0	syllable	音节	mu	mū	哞		
+ortho-mongv	mongv	mong	音节	蒙			0	syllable	音节	mong	mòng	蒙		
+ortho-mux	mux	mu	音节	母			0	syllable	音节	mu	mū	母		
 ortho-muf	muf	mu	音节	目			0	syllable	音节	mu	mú	目		
 ortho-mur	mur	mu	音节	木			0	syllable	音节	mu	mǔ	木		
 ortho-muv	muv	mu	音节	母			0	syllable	音节	mu	mù	母		
-ortho-wax	wax	wa	音节	挖			0	syllable	音节	wa	wā	挖		
+ortho-wax	wax	wa	音节	瓦			0	syllable	音节	wa	wā	瓦		
 ortho-waf	waf	wa	音节	哇			0	syllable	音节	wa	wá	哇		
 ortho-war	war	wa	音节	娃			0	syllable	音节	wa	wǎ	娃		
 ortho-wav	wav	wa	音节	瓦			0	syllable	音节	wa	wà	瓦		
@@ -784,15 +784,15 @@ ortho-waiv	waiv	wai	音节	歪			0	syllable	音节	wai	wài	歪
 ortho-wanx	wanx	wan	音节	弯			0	syllable	音节	wan	wān	弯		
 ortho-wanf	wanf	wan	音节	旺			0	syllable	音节	wan	wán	旺		
 ortho-wanr	wanr	wan	音节	王			0	syllable	音节	wan	wǎn	王		
-ortho-wanv	wanv	wan	音节	往			0	syllable	音节	wan	wàn	往		
+ortho-wanv	wanv	wan	音节	弯			0	syllable	音节	wan	wàn	弯		
 ortho-weix	weix	wei	音节	威			0	syllable	音节	wei	wēi	威		
 ortho-weif	weif	wei	音节	味			0	syllable	音节	wei	wéi	味		
 ortho-weir	weir	wei	音节	微			0	syllable	音节	wei	wěi	微		
-ortho-weiv	weiv	wei	音节	尾			0	syllable	音节	wei	wèi	尾		
+ortho-weiv	weiv	wei	音节	威			0	syllable	音节	wei	wèi	威		
 ortho-wenx	wenx	wen	音节	温			0	syllable	音节	wen	wēn	温		
 ortho-wenf	wenf	wen	音节	问			0	syllable	音节	wen	wén	问		
 ortho-wenr	wenr	wen	音节	纹			0	syllable	音节	wen	wěn	纹		
-ortho-wenv	wenv	wen	音节	稳			0	syllable	音节	wen	wèn	稳		
+ortho-wenv	wenv	wen	音节	温			0	syllable	音节	wen	wèn	温		
 ortho-wox	wox	wo	音节	窝			0	syllable	音节	wo	wō	窝		
 ortho-wof	wof	wo	音节	卧			0	syllable	音节	wo	wó	卧		
 ortho-wor	wor	wo	音节	沃			0	syllable	音节	wo	wǒ	沃		
@@ -800,8 +800,8 @@ ortho-wov	wov	wo	音节	窝			0	syllable	音节	wo	wò	窝
 ortho-wux	wux	wu	音节	乌			0	syllable	音节	wu	wū	乌		
 ortho-wuf	wuf	wu	音节	务			0	syllable	音节	wu	wú	务		
 ortho-wur	wur	wu	音节	吾			0	syllable	音节	wu	wǔ	吾		
-ortho-wuv	wuv	wu	音节	午			0	syllable	音节	wu	wù	午		
-ortho-dax	dax	da	音节	搭			0	syllable	音节	da	dā	搭		
+ortho-wuv	wuv	wu	音节	乌			0	syllable	音节	wu	wù	乌		
+ortho-dax	dax	da	音节	打			0	syllable	音节	da	dā	打		
 ortho-daf	daf	da	音节	大			0	syllable	音节	da	dá	大		
 ortho-dar	dar	da	音节	达			0	syllable	音节	da	dǎ	达		
 ortho-dav	dav	da	音节	打			0	syllable	音节	da	dà	打		
@@ -812,11 +812,11 @@ ortho-daiv	daiv	dai	音节	歹			0	syllable	音节	dai	dài	歹
 ortho-dangx	dangx	dang	音节	单			0	syllable	音节	dang	dāng	单		
 ortho-dangf	dangf	dang	音节	当			0	syllable	音节	dang	dáng	当		
 ortho-dangr	dangr	dang	音节	旦			0	syllable	音节	dang	dǎng	旦		
-ortho-dangv	dangv	dang	音节	胆			0	syllable	音节	dang	dàng	胆		
+ortho-dangv	dangv	dang	音节	单			0	syllable	音节	dang	dàng	单		
 ortho-daox	daox	dao	音节	刀			0	syllable	音节	dao	dāo	刀		
 ortho-daof	daof	dao	音节	到			0	syllable	音节	dao	dáo	到		
 ortho-daor	daor	dao	音节	道			0	syllable	音节	dao	dǎo	道		
-ortho-daov	daov	dao	音节	倒			0	syllable	音节	dao	dào	倒		
+ortho-daov	daov	dao	音节	刀			0	syllable	音节	dao	dào	刀		
 ortho-dex	dex	de	音节	嘚			0	syllable	音节	de	dē	嘚		
 ortho-def	def	de	音节	德			0	syllable	音节	de	dé	德		
 ortho-der	der	de	音节	得			0	syllable	音节	de	dě	得		
@@ -824,12 +824,12 @@ ortho-dev	dev	de	音节	嘚			0	syllable	音节	de	dè	嘚
 ortho-denx	denx	den	音节	灯			0	syllable	音节	den	dēn	灯		
 ortho-denf	denf	den	音节	凳			0	syllable	音节	den	dén	凳		
 ortho-denr	denr	den	音节	登			0	syllable	音节	den	děn	登		
-ortho-denv	denv	den	音节	等			0	syllable	音节	den	dèn	等		
+ortho-denv	denv	den	音节	灯			0	syllable	音节	den	dèn	灯		
 ortho-dix	dix	di	音节	低			0	syllable	音节	di	dī	低		
 ortho-dif	dif	di	音节	地			0	syllable	音节	di	dí	地		
 ortho-dir	dir	di	音节	的			0	syllable	音节	di	dǐ	的		
-ortho-div	div	di	音节	底			0	syllable	音节	di	dì	底		
-ortho-dianx	dianx	dian	音节	颠			0	syllable	音节	dian	diān	颠		
+ortho-div	div	di	音节	低			0	syllable	音节	di	dì	低		
+ortho-dianx	dianx	dian	音节	点			0	syllable	音节	dian	diān	点		
 ortho-dianf	dianf	dian	音节	电			0	syllable	音节	dian	dián	电		
 ortho-dianr	dianr	dian	音节	碘			0	syllable	音节	dian	diǎn	碘		
 ortho-dianv	dianv	dian	音节	点			0	syllable	音节	dian	diàn	点		
@@ -848,23 +848,23 @@ ortho-diuv	diuv	diu	音节	丢			0	syllable	音节	diu	diù	丢
 ortho-dox	dox	do	音节	多			0	syllable	音节	do	dō	多		
 ortho-dof	dof	do	音节	剁			0	syllable	音节	do	dó	剁		
 ortho-dor	dor	do	音节	夺			0	syllable	音节	do	dǒ	夺		
-ortho-dov	dov	do	音节	朵			0	syllable	音节	do	dò	朵		
+ortho-dov	dov	do	音节	多			0	syllable	音节	do	dò	多		
 ortho-dongx	dongx	dong	音节	东			0	syllable	音节	dong	dōng	东		
 ortho-dongf	dongf	dong	音节	动			0	syllable	音节	dong	dóng	动		
 ortho-dongr	dongr	dong	音节	洞			0	syllable	音节	dong	dǒng	洞		
-ortho-dongv	dongv	dong	音节	董			0	syllable	音节	dong	dòng	董		
-ortho-doux	doux	dou	音节	兜			0	syllable	音节	dou	dōu	兜		
+ortho-dongv	dongv	dong	音节	东			0	syllable	音节	dong	dòng	东		
+ortho-doux	doux	dou	音节	斗			0	syllable	音节	dou	dōu	斗		
 ortho-douf	douf	dou	音节	豆			0	syllable	音节	dou	dóu	豆		
 ortho-dour	dour	dou	音节	逗			0	syllable	音节	dou	dǒu	逗		
 ortho-douv	douv	dou	音节	斗			0	syllable	音节	dou	dòu	斗		
 ortho-dux	dux	du	音节	都			0	syllable	音节	du	dū	都		
 ortho-duf	duf	du	音节	杜			0	syllable	音节	du	dú	杜		
 ortho-dur	dur	du	音节	独			0	syllable	音节	du	dǔ	独		
-ortho-duv	duv	du	音节	堵			0	syllable	音节	du	dù	堵		
+ortho-duv	duv	du	音节	都			0	syllable	音节	du	dù	都		
 ortho-duanx	duanx	duan	音节	端			0	syllable	音节	duan	duān	端		
-ortho-duanf	duanf	duan	音节	缎			0	syllable	音节	duan	duán	缎		
+ortho-duanf	duanf	duan	音节	段			0	syllable	音节	duan	duán	段		
 ortho-duanr	duanr	duan	音节	断			0	syllable	音节	duan	duǎn	断		
-ortho-duanv	duanv	duan	音节	短			0	syllable	音节	duan	duàn	短		
+ortho-duanv	duanv	duan	音节	端			0	syllable	音节	duan	duàn	端		
 ortho-duix	duix	dui	音节	堆			0	syllable	音节	dui	duī	堆		
 ortho-duif	duif	dui	音节	队			0	syllable	音节	dui	duí	队		
 ortho-duir	duir	dui	音节	对			0	syllable	音节	dui	duǐ	对		
@@ -876,23 +876,23 @@ ortho-dunv	dunv	dun	音节	敦			0	syllable	音节	dun	dùn	敦
 ortho-tax	tax	ta	音节	他			0	syllable	音节	ta	tā	他		
 ortho-taf	taf	ta	音节	拓			0	syllable	音节	ta	tá	拓		
 ortho-tar	tar	ta	音节	踏			0	syllable	音节	ta	tǎ	踏		
-ortho-tav	tav	ta	音节	塔			0	syllable	音节	ta	tà	塔		
+ortho-tav	tav	ta	音节	他			0	syllable	音节	ta	tà	他		
 ortho-taix	taix	tai	音节	胎			0	syllable	音节	tai	tāi	胎		
 ortho-taif	taif	tai	音节	太			0	syllable	音节	tai	tái	太		
 ortho-tair	tair	tai	音节	台			0	syllable	音节	tai	tǎi	台		
 ortho-taiv	taiv	tai	音节	胎			0	syllable	音节	tai	tài	胎		
-ortho-tanx	tanx	tan	音节	滩			0	syllable	音节	tan	tān	滩		
+ortho-tanx	tanx	tan	音节	坦			0	syllable	音节	tan	tān	坦		
 ortho-tanf	tanf	tan	音节	炭			0	syllable	音节	tan	tán	炭		
 ortho-tanr	tanr	tan	音节	弹			0	syllable	音节	tan	tǎn	弹		
 ortho-tanv	tanv	tan	音节	坦			0	syllable	音节	tan	tàn	坦		
-ortho-tangx	tangx	tang	音节	汤			0	syllable	音节	tang	tāng	汤		
-ortho-tangf	tangf	tang	音节	趟			0	syllable	音节	tang	táng	趟		
-ortho-tangr	tangr	tang	音节	堂			0	syllable	音节	tang	tǎng	堂		
-ortho-tangv	tangv	tang	音节	倘			0	syllable	音节	tang	tàng	倘		
+ortho-tangx	tangx	tang	音节	坦			0	syllable	音节	tang	tāng	坦		
+ortho-tangf	tangf	tang	音节	炭			0	syllable	音节	tang	táng	炭		
+ortho-tangr	tangr	tang	音节	弹			0	syllable	音节	tang	tǎng	弹		
+ortho-tangv	tangv	tang	音节	坦			0	syllable	音节	tang	tàng	坦		
 ortho-taox	taox	tao	音节	滔			0	syllable	音节	tao	tāo	滔		
 ortho-taof	taof	tao	音节	套			0	syllable	音节	tao	táo	套		
 ortho-taor	taor	tao	音节	涛			0	syllable	音节	tao	tǎo	涛		
-ortho-taov	taov	tao	音节	讨			0	syllable	音节	tao	tào	讨		
+ortho-taov	taov	tao	音节	滔			0	syllable	音节	tao	tào	滔		
 ortho-tex	tex	te	音节	特婀			0	syllable	音节	te	tē	特婀		
 ortho-tef	tef	te	音节	特饿			0	syllable	音节	te	té	特饿		
 ortho-ter	ter	te	音节	特			0	syllable	音节	te	tě	特		
@@ -901,14 +901,14 @@ ortho-tenx	tenx	ten	音节	吞			0	syllable	音节	ten	tēn	吞
 ortho-tenf	tenf	ten	音节	腾			0	syllable	音节	ten	tén	腾		
 ortho-tenr	tenr	ten	音节	藤			0	syllable	音节	ten	těn	藤		
 ortho-tenv	tenv	ten	音节	吞			0	syllable	音节	ten	tèn	吞		
-ortho-tix	tix	ti	音节	梯			0	syllable	音节	ti	tī	梯		
+ortho-tix	tix	ti	音节	体			0	syllable	音节	ti	tī	体		
 ortho-tif	tif	ti	音节	替			0	syllable	音节	ti	tí	替		
 ortho-tir	tir	ti	音节	提			0	syllable	音节	ti	tǐ	提		
 ortho-tiv	tiv	ti	音节	体			0	syllable	音节	ti	tì	体		
 ortho-tianx	tianx	tian	音节	添			0	syllable	音节	tian	tiān	添		
 ortho-tianf	tianf	tian	音节	天			0	syllable	音节	tian	tián	天		
 ortho-tianr	tianr	tian	音节	田			0	syllable	音节	tian	tiǎn	田		
-ortho-tianv	tianv	tian	音节	舔			0	syllable	音节	tian	tiàn	舔		
+ortho-tianv	tianv	tian	音节	添			0	syllable	音节	tian	tiàn	添		
 ortho-tiaox	tiaox	tiao	音节	挑			0	syllable	音节	tiao	tiāo	挑		
 ortho-tiaof	tiaof	tiao	音节	跳			0	syllable	音节	tiao	tiáo	跳		
 ortho-tiaor	tiaor	tiao	音节	条			0	syllable	音节	tiao	tiǎo	条		
@@ -920,19 +920,19 @@ ortho-tiev	tiev	tie	音节	贴			0	syllable	音节	tie	tiè	贴
 ortho-tinx	tinx	tin	音节	厅			0	syllable	音节	tin	tīn	厅		
 ortho-tinf	tinf	tin	音节	听			0	syllable	音节	tin	tín	听		
 ortho-tinr	tinr	tin	音节	停			0	syllable	音节	tin	tǐn	停		
-ortho-tinv	tinv	tin	音节	挺			0	syllable	音节	tin	tìn	挺		
-ortho-tiux	tiux	tiu	音节	提优			0	syllable	音节	tiu	tiū	提优		
+ortho-tinv	tinv	tin	音节	厅			0	syllable	音节	tin	tìn	厅		
+ortho-tiux	tiux	tiu	音节	提友			0	syllable	音节	tiu	tiū	提友		
 ortho-tiuf	tiuf	tiu	音节	提右			0	syllable	音节	tiu	tiú	提右		
 ortho-tiur	tiur	tiu	音节	提由			0	syllable	音节	tiu	tiǔ	提由		
 ortho-tiuv	tiuv	tiu	音节	提友			0	syllable	音节	tiu	tiù	提友		
 ortho-tox	tox	to	音节	拖			0	syllable	音节	to	tō	拖		
 ortho-tof	tof	to	音节	脱			0	syllable	音节	to	tó	脱		
 ortho-tor	tor	to	音节	托			0	syllable	音节	to	tǒ	托		
-ortho-tov	tov	to	音节	妥			0	syllable	音节	to	tò	妥		
+ortho-tov	tov	to	音节	拖			0	syllable	音节	to	tò	拖		
 ortho-tongx	tongx	tong	音节	通			0	syllable	音节	tong	tōng	通		
 ortho-tongf	tongf	tong	音节	筒			0	syllable	音节	tong	tóng	筒		
 ortho-tongr	tongr	tong	音节	铜			0	syllable	音节	tong	tǒng	铜		
-ortho-tongv	tongv	tong	音节	统			0	syllable	音节	tong	tòng	统		
+ortho-tongv	tongv	tong	音节	通			0	syllable	音节	tong	tòng	通		
 ortho-toux	toux	tou	音节	投			0	syllable	音节	tou	tōu	投		
 ortho-touf	touf	tou	音节	透			0	syllable	音节	tou	tóu	透		
 ortho-tour	tour	tou	音节	头			0	syllable	音节	tou	tǒu	头		
@@ -941,14 +941,14 @@ ortho-tux	tux	tu	音节	土			0	syllable	音节	tu	tū	土
 ortho-tuf	tuf	tu	音节	兔			0	syllable	音节	tu	tú	兔		
 ortho-tur	tur	tu	音节	突			0	syllable	音节	tu	tǔ	突		
 ortho-tuv	tuv	tu	音节	土			0	syllable	音节	tu	tù	土		
-ortho-tuanx	tuanx	tuan	音节	突弯			0	syllable	音节	tuan	tuān	突弯		
-ortho-tuanf	tuanf	tuan	音节	突万			0	syllable	音节	tuan	tuán	突万		
+ortho-tuanx	tuanx	tuan	音节	湍			0	syllable	音节	tuan	tuān	湍		
+ortho-tuanf	tuanf	tuan	音节	湍			0	syllable	音节	tuan	tuán	湍		
 ortho-tuanr	tuanr	tuan	音节	团			0	syllable	音节	tuan	tuǎn	团		
-ortho-tuanv	tuanv	tuan	音节	突碗			0	syllable	音节	tuan	tuàn	突碗		
+ortho-tuanv	tuanv	tuan	音节	湍			0	syllable	音节	tuan	tuàn	湍		
 ortho-tuix	tuix	tui	音节	推			0	syllable	音节	tui	tuī	推		
 ortho-tuif	tuif	tui	音节	退			0	syllable	音节	tui	tuí	退		
 ortho-tuir	tuir	tui	音节	褪			0	syllable	音节	tui	tuǐ	褪		
-ortho-tuiv	tuiv	tui	音节	腿			0	syllable	音节	tui	tuì	腿		
+ortho-tuiv	tuiv	tui	音节	推			0	syllable	音节	tui	tuì	推		
 ortho-nax	nax	na	音节	哪			0	syllable	音节	na	nā	哪		
 ortho-naf	naf	na	音节	那			0	syllable	音节	na	ná	那		
 ortho-nar	nar	na	音节	拿			0	syllable	音节	na	nǎ	拿		
@@ -969,18 +969,18 @@ ortho-nenx	nenx	nen	音节	讷恩			0	syllable	音节	nen	nēn	讷恩
 ortho-nenf	nenf	nen	音节	嫩			0	syllable	音节	nen	nén	嫩		
 ortho-nenr	nenr	nen	音节	能			0	syllable	音节	nen	něn	能		
 ortho-nenv	nenv	nen	音节	讷恩			0	syllable	音节	nen	nèn	讷恩		
-ortho-nix	nix	ni	音节	妮			0	syllable	音节	ni	nī	妮		
-ortho-nif	nif	ni	音节	腻			0	syllable	音节	ni	ní	腻		
+ortho-nix	nix	ni	音节	你			0	syllable	音节	ni	nī	你		
+ortho-nif	nif	ni	音节	艺			0	syllable	音节	ni	ní	艺		
 ortho-nir	nir	ni	音节	尼			0	syllable	音节	ni	nǐ	尼		
 ortho-niv	niv	ni	音节	你			0	syllable	音节	ni	nì	你		
 ortho-niax	niax	nia	音节	尼鸦			0	syllable	音节	nia	niā	尼鸦		
 ortho-niaf	niaf	nia	音节	尼亚			0	syllable	音节	nia	niá	尼亚		
 ortho-niar	niar	nia	音节	尼呀			0	syllable	音节	nia	niǎ	尼呀		
-ortho-niav	niav	nia	音节	尼雅			0	syllable	音节	nia	nià	尼雅		
+ortho-niav	niav	nia	音节	尼鸦			0	syllable	音节	nia	nià	尼鸦		
 ortho-nianx	nianx	nian	音节	拈			0	syllable	音节	nian	niān	拈		
 ortho-nianf	nianf	nian	音节	念			0	syllable	音节	nian	nián	念		
 ortho-nianr	nianr	nian	音节	娘			0	syllable	音节	nian	niǎn	娘		
-ortho-nianv	nianv	nian	音节	碾			0	syllable	音节	nian	niàn	碾		
+ortho-nianv	nianv	nian	音节	拈			0	syllable	音节	nian	niàn	拈		
 ortho-niaox	niaox	niao	音节	鸟			0	syllable	音节	niao	niāo	鸟		
 ortho-niaof	niaof	niao	音节	尼要			0	syllable	音节	niao	niáo	尼要		
 ortho-niaor	niaor	niao	音节	尼摇			0	syllable	音节	niao	niǎo	尼摇		
@@ -989,14 +989,14 @@ ortho-niex	niex	nie	音节	捏			0	syllable	音节	nie	niē	捏
 ortho-nief	nief	nie	音节	镍			0	syllable	音节	nie	nié	镍		
 ortho-nier	nier	nie	音节	业			0	syllable	音节	nie	niě	业		
 ortho-niev	niev	nie	音节	捏			0	syllable	音节	nie	niè	捏		
-ortho-niongx	niongx	niong	音节	尼雍			0	syllable	音节	niong	niōng	尼雍		
+ortho-niongx	niongx	niong	音节	尼勇			0	syllable	音节	niong	niōng	尼勇		
 ortho-niongf	niongf	niong	音节	尼用			0	syllable	音节	niong	nióng	尼用		
 ortho-niongr	niongr	niong	音节	尼庸			0	syllable	音节	niong	niǒng	尼庸		
 ortho-niongv	niongv	niong	音节	尼勇			0	syllable	音节	niong	niòng	尼勇		
 ortho-niux	niux	niu	音节	妞			0	syllable	音节	niu	niū	妞		
 ortho-niuf	niuf	niu	音节	拗			0	syllable	音节	niu	niú	拗		
 ortho-niur	niur	niu	音节	牛			0	syllable	音节	niu	niǔ	牛		
-ortho-niuv	niuv	niu	音节	扭			0	syllable	音节	niu	niù	扭		
+ortho-niuv	niuv	niu	音节	妞			0	syllable	音节	niu	niù	妞		
 ortho-nongx	nongx	nong	音节	浓			0	syllable	音节	nong	nōng	浓		
 ortho-nongf	nongf	nong	音节	弄			0	syllable	音节	nong	nóng	弄		
 ortho-nongr	nongr	nong	音节	农			0	syllable	音节	nong	nǒng	农		
@@ -1004,7 +1004,7 @@ ortho-nongv	nongv	nong	音节	浓			0	syllable	音节	nong	nòng	浓
 ortho-lax	lax	la	音节	拉			0	syllable	音节	la	lā	拉		
 ortho-laf	laf	la	音节	腊			0	syllable	音节	la	lá	腊		
 ortho-lar	lar	la	音节	辣			0	syllable	音节	la	lǎ	辣		
-ortho-lav	lav	la	音节	喇			0	syllable	音节	la	là	喇		
+ortho-lav	lav	la	音节	拉			0	syllable	音节	la	là	拉		
 ortho-laix	laix	lai	音节	莱			0	syllable	音节	lai	lāi	莱		
 ortho-laif	laif	lai	音节	赖			0	syllable	音节	lai	lái	赖		
 ortho-lair	lair	lai	音节	来			0	syllable	音节	lai	lǎi	来		
@@ -1013,15 +1013,15 @@ ortho-langx	langx	lang	音节	朗			0	syllable	音节	lang	lāng	朗
 ortho-langf	langf	lang	音节	浪			0	syllable	音节	lang	láng	浪		
 ortho-langr	langr	lang	音节	栏			0	syllable	音节	lang	lǎng	栏		
 ortho-langv	langv	lang	音节	朗			0	syllable	音节	lang	làng	朗		
-ortho-laox	laox	lao	音节	捞			0	syllable	音节	lao	lāo	捞		
+ortho-laox	laox	lao	音节	老			0	syllable	音节	lao	lāo	老		
 ortho-laof	laof	lao	音节	涝			0	syllable	音节	lao	láo	涝		
 ortho-laor	laor	lao	音节	劳			0	syllable	音节	lao	lǎo	劳		
 ortho-laov	laov	lao	音节	老			0	syllable	音节	lao	lào	老		
 ortho-leix	leix	lei	音节	肋			0	syllable	音节	lei	lēi	肋		
-ortho-leif	leif	lei	音节	勒欸			0	syllable	音节	lei	léi	勒欸		
+ortho-leif	leif	lei	音节	累			0	syllable	音节	lei	léi	累		
 ortho-leir	leir	lei	音节	勒			0	syllable	音节	lei	lěi	勒		
 ortho-leiv	leiv	lei	音节	肋			0	syllable	音节	lei	lèi	肋		
-ortho-lenx	lenx	len	音节	棱			0	syllable	音节	len	lēn	棱		
+ortho-lenx	lenx	len	音节	冷			0	syllable	音节	len	lēn	冷		
 ortho-lenf	lenf	len	音节	愣			0	syllable	音节	len	lén	愣		
 ortho-lenr	lenr	len	音节	楞			0	syllable	音节	len	lěn	楞		
 ortho-lenv	lenv	len	音节	冷			0	syllable	音节	len	lèn	冷		
@@ -1045,19 +1045,19 @@ ortho-linx	linx	lin	音节	凛			0	syllable	音节	lin	līn	凛
 ortho-linf	linf	lin	音节	吝			0	syllable	音节	lin	lín	吝		
 ortho-linr	linr	lin	音节	林			0	syllable	音节	lin	lǐn	林		
 ortho-linv	linv	lin	音节	凛			0	syllable	音节	lin	lìn	凛		
-ortho-liux	liux	liu	音节	溜			0	syllable	音节	liu	liū	溜		
+ortho-liux	liux	liu	音节	柳			0	syllable	音节	liu	liū	柳		
 ortho-liuf	liuf	liu	音节	刘			0	syllable	音节	liu	liú	刘		
 ortho-liur	liur	liu	音节	留			0	syllable	音节	liu	liǔ	留		
 ortho-liuv	liuv	liu	音节	柳			0	syllable	音节	liu	liù	柳		
 ortho-lox	lox	lo	音节	啰			0	syllable	音节	lo	lō	啰		
 ortho-lof	lof	lo	音节	箩			0	syllable	音节	lo	ló	箩		
 ortho-lor	lor	lo	音节	罗			0	syllable	音节	lo	lǒ	罗		
-ortho-lov	lov	lo	音节	裸			0	syllable	音节	lo	lò	裸		
+ortho-lov	lov	lo	音节	啰			0	syllable	音节	lo	lò	啰		
 ortho-longx	longx	long	音节	垄			0	syllable	音节	long	lōng	垄		
 ortho-longf	longf	long	音节	隆			0	syllable	音节	long	lóng	隆		
 ortho-longr	longr	long	音节	龙			0	syllable	音节	long	lǒng	龙		
 ortho-longv	longv	long	音节	垄			0	syllable	音节	long	lòng	垄		
-ortho-lux	lux	lu	音节	噜			0	syllable	音节	lu	lū	噜		
+ortho-lux	lux	lu	音节	鲁			0	syllable	音节	lu	lū	鲁		
 ortho-luf	luf	lu	音节	路			0	syllable	音节	lu	lú	路		
 ortho-lur	lur	lu	音节	录			0	syllable	音节	lu	lǔ	录		
 ortho-luv	luv	lu	音节	鲁			0	syllable	音节	lu	lù	鲁		
@@ -1077,19 +1077,19 @@ ortho-zax	zax	za	音节	渣			0	syllable	音节	za	zā	渣
 ortho-zaf	zaf	za	音节	炸			0	syllable	音节	za	zá	炸		
 ortho-zar	zar	za	音节	扎			0	syllable	音节	za	zǎ	扎		
 ortho-zav	zav	za	音节	渣			0	syllable	音节	za	zà	渣		
-ortho-zaix	zaix	zai	音节	哉			0	syllable	音节	zai	zāi	哉		
+ortho-zaix	zaix	zai	音节	仔			0	syllable	音节	zai	zāi	仔		
 ortho-zaif	zaif	zai	音节	在			0	syllable	音节	zai	zái	在		
 ortho-zair	zair	zai	音节	再			0	syllable	音节	zai	zǎi	再		
 ortho-zaiv	zaiv	zai	音节	仔			0	syllable	音节	zai	zài	仔		
-ortho-zangx	zangx	zang	音节	章			0	syllable	音节	zang	zāng	章		
+ortho-zangx	zangx	zang	音节	展			0	syllable	音节	zang	zāng	展		
 ortho-zangf	zangf	zang	音节	丈			0	syllable	音节	zang	záng	丈		
 ortho-zangr	zangr	zang	音节	张			0	syllable	音节	zang	zǎng	张		
 ortho-zangv	zangv	zang	音节	展			0	syllable	音节	zang	zàng	展		
-ortho-zaox	zaox	zao	音节	糟			0	syllable	音节	zao	zāo	糟		
+ortho-zaox	zaox	zao	音节	早			0	syllable	音节	zao	zāo	早		
 ortho-zaof	zaof	zao	音节	照			0	syllable	音节	zao	záo	照		
 ortho-zaor	zaor	zao	音节	枣			0	syllable	音节	zao	zǎo	枣		
 ortho-zaov	zaov	zao	音节	早			0	syllable	音节	zao	zào	早		
-ortho-zex	zex	ze	音节	遮			0	syllable	音节	ze	zē	遮		
+ortho-zex	zex	ze	音节	者			0	syllable	音节	ze	zē	者		
 ortho-zef	zef	ze	音节	泽			0	syllable	音节	ze	zé	泽		
 ortho-zer	zer	ze	音节	则			0	syllable	音节	ze	zě	则		
 ortho-zev	zev	ze	音节	者			0	syllable	音节	ze	zè	者		
@@ -1097,11 +1097,11 @@ ortho-zeix	zeix	zei	音节	资诶			0	syllable	音节	zei	zēi	资诶
 ortho-zeif	zeif	zei	音节	资欸			0	syllable	音节	zei	zéi	资欸		
 ortho-zeir	zeir	zei	音节	资锿			0	syllable	音节	zei	zěi	资锿		
 ortho-zeiv	zeiv	zei	音节	资诶			0	syllable	音节	zei	zèi	资诶		
-ortho-zenx	zenx	zen	音节	曾			0	syllable	音节	zen	zēn	曾		
+ortho-zenx	zenx	zen	音节	诊			0	syllable	音节	zen	zēn	诊		
 ortho-zenf	zenf	zen	音节	正			0	syllable	音节	zen	zén	正		
 ortho-zenr	zenr	zen	音节	真			0	syllable	音节	zen	zěn	真		
 ortho-zenv	zenv	zen	音节	诊			0	syllable	音节	zen	zèn	诊		
-ortho-zix	zix	zi	音节	兹			0	syllable	音节	zi	zī	兹		
+ortho-zix	zix	zi	音节	子			0	syllable	音节	zi	zī	子		
 ortho-zif	zif	zi	音节	致			0	syllable	音节	zi	zí	致		
 ortho-zir	zir	zi	音节	直			0	syllable	音节	zi	zǐ	直		
 ortho-ziv	ziv	zi	音节	子			0	syllable	音节	zi	zì	子		
@@ -1112,32 +1112,32 @@ ortho-zov	zov	zo	音节	左			0	syllable	音节	zo	zò	左
 ortho-zongx	zongx	zong	音节	中			0	syllable	音节	zong	zōng	中		
 ortho-zongf	zongf	zong	音节	仲			0	syllable	音节	zong	zóng	仲		
 ortho-zongr	zongr	zong	音节	众			0	syllable	音节	zong	zǒng	众		
-ortho-zongv	zongv	zong	音节	肿			0	syllable	音节	zong	zòng	肿		
+ortho-zongv	zongv	zong	音节	中			0	syllable	音节	zong	zòng	中		
 ortho-zoux	zoux	zou	音节	舟			0	syllable	音节	zou	zōu	舟		
 ortho-zouf	zouf	zou	音节	咒			0	syllable	音节	zou	zóu	咒		
 ortho-zour	zour	zou	音节	周			0	syllable	音节	zou	zǒu	周		
-ortho-zouv	zouv	zou	音节	走			0	syllable	音节	zou	zòu	走		
+ortho-zouv	zouv	zou	音节	舟			0	syllable	音节	zou	zòu	舟		
 ortho-zux	zux	zu	音节	珠			0	syllable	音节	zu	zū	珠		
 ortho-zuf	zuf	zu	音节	住			0	syllable	音节	zu	zú	住		
 ortho-zur	zur	zu	音节	祝			0	syllable	音节	zu	zǔ	祝		
-ortho-zuv	zuv	zu	音节	主			0	syllable	音节	zu	zù	主		
-ortho-zuax	zuax	zua	音节	抓			0	syllable	音节	zua	zuā	抓		
+ortho-zuv	zuv	zu	音节	珠			0	syllable	音节	zu	zù	珠		
+ortho-zuax	zuax	zua	音节	爪			0	syllable	音节	zua	zuā	爪		
 ortho-zuaf	zuaf	zua	音节	租哇			0	syllable	音节	zua	zuá	租哇		
 ortho-zuar	zuar	zua	音节	租娃			0	syllable	音节	zua	zuǎ	租娃		
 ortho-zuav	zuav	zua	音节	爪			0	syllable	音节	zua	zuà	爪		
-ortho-zuaix	zuaix	zuai	音节	租歪			0	syllable	音节	zuai	zuāi	租歪		
+ortho-zuaix	zuaix	zuai	音节	拽			0	syllable	音节	zuai	zuāi	拽		
 ortho-zuaif	zuaif	zuai	音节	拽			0	syllable	音节	zuai	zuái	拽		
-ortho-zuair	zuair	zuai	音节	租崴			0	syllable	音节	zuai	zuǎi	租崴		
-ortho-zuaiv	zuaiv	zuai	音节	租歪			0	syllable	音节	zuai	zuài	租歪		
+ortho-zuair	zuair	zuai	音节	拽			0	syllable	音节	zuai	zuǎi	拽		
+ortho-zuaiv	zuaiv	zuai	音节	拽			0	syllable	音节	zuai	zuài	拽		
 ortho-zuanx	zuanx	zuan	音节	庄			0	syllable	音节	zuan	zuān	庄		
 ortho-zuanf	zuanf	zuan	音节	赚			0	syllable	音节	zuan	zuán	赚		
 ortho-zuanr	zuanr	zuan	音节	装			0	syllable	音节	zuan	zuǎn	装		
-ortho-zuanv	zuanv	zuan	音节	转			0	syllable	音节	zuan	zuàn	转		
+ortho-zuanv	zuanv	zuan	音节	庄			0	syllable	音节	zuan	zuàn	庄		
 ortho-zuix	zuix	zui	音节	追			0	syllable	音节	zui	zuī	追		
 ortho-zuif	zuif	zui	音节	坠			0	syllable	音节	zui	zuí	坠		
 ortho-zuir	zuir	zui	音节	缀			0	syllable	音节	zui	zuǐ	缀		
-ortho-zuiv	zuiv	zui	音节	嘴			0	syllable	音节	zui	zuì	嘴		
-ortho-zunx	zunx	zun	音节	尊			0	syllable	音节	zun	zūn	尊		
+ortho-zuiv	zuiv	zui	音节	追			0	syllable	音节	zui	zuì	追		
+ortho-zunx	zunx	zun	音节	准			0	syllable	音节	zun	zūn	准		
 ortho-zunf	zunf	zun	音节	租问			0	syllable	音节	zun	zún	租问		
 ortho-zunr	zunr	zun	音节	租文			0	syllable	音节	zun	zǔn	租文		
 ortho-zunv	zunv	zun	音节	准			0	syllable	音节	zun	zùn	准		
@@ -1145,42 +1145,42 @@ ortho-cax	cax	ca	音节	差			0	syllable	音节	ca	cā	差
 ortho-caf	caf	ca	音节	岔			0	syllable	音节	ca	cá	岔		
 ortho-car	car	ca	音节	查			0	syllable	音节	ca	cǎ	查		
 ortho-cav	cav	ca	音节	差			0	syllable	音节	ca	cà	差		
-ortho-caix	caix	cai	音节	猜			0	syllable	音节	cai	cāi	猜		
+ortho-caix	caix	cai	音节	采			0	syllable	音节	cai	cāi	采		
 ortho-caif	caif	cai	音节	菜			0	syllable	音节	cai	cái	菜		
 ortho-cair	cair	cai	音节	才			0	syllable	音节	cai	cǎi	才		
 ortho-caiv	caiv	cai	音节	采			0	syllable	音节	cai	cài	采		
 ortho-cangx	cangx	cang	音节	昌			0	syllable	音节	cang	cāng	昌		
 ortho-cangf	cangf	cang	音节	唱			0	syllable	音节	cang	cáng	唱		
 ortho-cangr	cangr	cang	音节	场			0	syllable	音节	cang	cǎng	场		
-ortho-cangv	cangv	cang	音节	厂			0	syllable	音节	cang	càng	厂		
-ortho-caox	caox	cao	音节	操			0	syllable	音节	cao	cāo	操		
+ortho-cangv	cangv	cang	音节	昌			0	syllable	音节	cang	càng	昌		
+ortho-caox	caox	cao	音节	超			0	syllable	音节	cao	cāo	超		
 ortho-caof	caof	cao	音节	糙			0	syllable	音节	cao	cáo	糙		
 ortho-caor	caor	cao	音节	朝			0	syllable	音节	cao	cǎo	朝		
-ortho-caov	caov	cao	音节	草			0	syllable	音节	cao	cào	草		
+ortho-caov	caov	cao	音节	超			0	syllable	音节	cao	cào	超		
 ortho-cex	cex	ce	音节	车			0	syllable	音节	ce	cē	车		
 ortho-cef	cef	ce	音节	册			0	syllable	音节	ce	cé	册		
 ortho-cer	cer	ce	音节	策			0	syllable	音节	ce	cě	策		
-ortho-cev	cev	ce	音节	扯			0	syllable	音节	ce	cè	扯		
-ortho-ceix	ceix	cei	音节	雌诶			0	syllable	音节	cei	cēi	雌诶		
-ortho-ceif	ceif	cei	音节	雌欸			0	syllable	音节	cei	céi	雌欸		
-ortho-ceir	ceir	cei	音节	雌锿			0	syllable	音节	cei	cěi	雌锿		
-ortho-ceiv	ceiv	cei	音节	雌诶			0	syllable	音节	cei	cèi	雌诶		
+ortho-cev	cev	ce	音节	车			0	syllable	音节	ce	cè	车		
+ortho-ceix	ceix	cei	音节	此			0	syllable	音节	cei	cēi	此		
+ortho-ceif	ceif	cei	音节	次			0	syllable	音节	cei	céi	次		
+ortho-ceir	ceir	cei	音节	尺			0	syllable	音节	cei	cěi	尺		
+ortho-ceiv	ceiv	cei	音节	此			0	syllable	音节	cei	cèi	此		
 ortho-cenx	cenx	cen	音节	撑			0	syllable	音节	cen	cēn	撑		
 ortho-cenf	cenf	cen	音节	衬			0	syllable	音节	cen	cén	衬		
 ortho-cenr	cenr	cen	音节	橙			0	syllable	音节	cen	cěn	橙		
-ortho-cenv	cenv	cen	音节	惩			0	syllable	音节	cen	cèn	惩		
-ortho-cix	cix	ci	音节	雌			0	syllable	音节	ci	cī	雌		
+ortho-cenv	cenv	cen	音节	撑			0	syllable	音节	cen	cèn	撑		
+ortho-cix	cix	ci	音节	此			0	syllable	音节	ci	cī	此		
 ortho-cif	cif	ci	音节	次			0	syllable	音节	ci	cí	次		
 ortho-cir	cir	ci	音节	尺			0	syllable	音节	ci	cǐ	尺		
 ortho-civ	civ	ci	音节	此			0	syllable	音节	ci	cì	此		
 ortho-cox	cox	co	音节	搓			0	syllable	音节	co	cō	搓		
-ortho-cof	cof	co	音节	错			0	syllable	音节	co	có	错		
+ortho-cof	cof	co	音节	措			0	syllable	音节	co	có	措		
 ortho-cor	cor	co	音节	撮			0	syllable	音节	co	cǒ	撮		
-ortho-cov	cov	co	音节	挫			0	syllable	音节	co	cò	挫		
+ortho-cov	cov	co	音节	搓			0	syllable	音节	co	cò	搓		
 ortho-congx	congx	cong	音节	充			0	syllable	音节	cong	cōng	充		
 ortho-congf	congf	cong	音节	冲			0	syllable	音节	cong	cóng	冲		
 ortho-congr	congr	cong	音节	从			0	syllable	音节	cong	cǒng	从		
-ortho-congv	congv	cong	音节	宠			0	syllable	音节	cong	còng	宠		
+ortho-congv	congv	cong	音节	充			0	syllable	音节	cong	còng	充		
 ortho-coux	coux	cou	音节	抽			0	syllable	音节	cou	cōu	抽		
 ortho-couf	couf	cou	音节	凑			0	syllable	音节	cou	cóu	凑		
 ortho-cour	cour	cou	音节	仇			0	syllable	音节	cou	cǒu	仇		
@@ -1188,8 +1188,8 @@ ortho-couv	couv	cou	音节	抽			0	syllable	音节	cou	còu	抽
 ortho-cux	cux	cu	音节	初			0	syllable	音节	cu	cū	初		
 ortho-cuf	cuf	cu	音节	处			0	syllable	音节	cu	cú	处		
 ortho-cur	cur	cu	音节	出			0	syllable	音节	cu	cǔ	出		
-ortho-cuv	cuv	cu	音节	础			0	syllable	音节	cu	cù	础		
-ortho-cuax	cuax	cua	音节	粗蛙			0	syllable	音节	cua	cuā	粗蛙		
+ortho-cuv	cuv	cu	音节	初			0	syllable	音节	cu	cù	初		
+ortho-cuax	cuax	cua	音节	粗瓦			0	syllable	音节	cua	cuā	粗瓦		
 ortho-cuaf	cuaf	cua	音节	粗哇			0	syllable	音节	cua	cuá	粗哇		
 ortho-cuar	cuar	cua	音节	粗娃			0	syllable	音节	cua	cuǎ	粗娃		
 ortho-cuav	cuav	cua	音节	粗瓦			0	syllable	音节	cua	cuà	粗瓦		
@@ -1200,7 +1200,7 @@ ortho-cuaiv	cuaiv	cuai	音节	揣			0	syllable	音节	cuai	cuài	揣
 ortho-cuanx	cuanx	cuan	音节	川			0	syllable	音节	cuan	cuān	川		
 ortho-cuanf	cuanf	cuan	音节	串			0	syllable	音节	cuan	cuán	串		
 ortho-cuanr	cuanr	cuan	音节	船			0	syllable	音节	cuan	cuǎn	船		
-ortho-cuanv	cuanv	cuan	音节	闯			0	syllable	音节	cuan	cuàn	闯		
+ortho-cuanv	cuanv	cuan	音节	川			0	syllable	音节	cuan	cuàn	川		
 ortho-cuix	cuix	cui	音节	吹			0	syllable	音节	cui	cuī	吹		
 ortho-cuif	cuif	cui	音节	翠			0	syllable	音节	cui	cuí	翠		
 ortho-cuir	cuir	cui	音节	垂			0	syllable	音节	cui	cuǐ	垂		
@@ -1212,20 +1212,20 @@ ortho-cunv	cunv	cun	音节	春			0	syllable	音节	cun	cùn	春
 ortho-sax	sax	sa	音节	沙			0	syllable	音节	sa	sā	沙		
 ortho-saf	saf	sa	音节	萨			0	syllable	音节	sa	sá	萨		
 ortho-sar	sar	sa	音节	刹			0	syllable	音节	sa	sǎ	刹		
-ortho-sav	sav	sa	音节	洒			0	syllable	音节	sa	sà	洒		
+ortho-sav	sav	sa	音节	沙			0	syllable	音节	sa	sà	沙		
 ortho-saix	saix	sai	音节	筛			0	syllable	音节	sai	sāi	筛		
 ortho-saif	saif	sai	音节	赛			0	syllable	音节	sai	sái	赛		
 ortho-sair	sair	sai	音节	腮			0	syllable	音节	sai	sǎi	腮		
 ortho-saiv	saiv	sai	音节	筛			0	syllable	音节	sai	sài	筛		
-ortho-sangx	sangx	sang	音节	伤			0	syllable	音节	sang	sāng	伤		
+ortho-sangx	sangx	sang	音节	伞			0	syllable	音节	sang	sāng	伞		
 ortho-sangf	sangf	sang	音节	上			0	syllable	音节	sang	sáng	上		
 ortho-sangr	sangr	sang	音节	闪			0	syllable	音节	sang	sǎng	闪		
 ortho-sangv	sangv	sang	音节	伞			0	syllable	音节	sang	sàng	伞		
 ortho-saox	saox	sao	音节	稍			0	syllable	音节	sao	sāo	稍		
 ortho-saof	saof	sao	音节	少			0	syllable	音节	sao	sáo	少		
 ortho-saor	saor	sao	音节	烧			0	syllable	音节	sao	sǎo	烧		
-ortho-saov	saov	sao	音节	嫂			0	syllable	音节	sao	sào	嫂		
-ortho-sex	sex	se	音节	奢			0	syllable	音节	se	sē	奢		
+ortho-saov	saov	sao	音节	稍			0	syllable	音节	sao	sào	稍		
+ortho-sex	sex	se	音节	舍			0	syllable	音节	se	sē	舍		
 ortho-sef	sef	se	音节	社			0	syllable	音节	se	sé	社		
 ortho-ser	ser	se	音节	色			0	syllable	音节	se	sě	色		
 ortho-sev	sev	se	音节	舍			0	syllable	音节	se	sè	舍		
@@ -1236,12 +1236,12 @@ ortho-seiv	seiv	sei	音节	塞			0	syllable	音节	sei	sèi	塞
 ortho-senx	senx	sen	音节	生			0	syllable	音节	sen	sēn	生		
 ortho-senf	senf	sen	音节	胜			0	syllable	音节	sen	sén	胜		
 ortho-senr	senr	sen	音节	神			0	syllable	音节	sen	sěn	神		
-ortho-senv	senv	sen	音节	审			0	syllable	音节	sen	sèn	审		
-ortho-six	six	si	音节	斯			0	syllable	音节	si	sī	斯		
+ortho-senv	senv	sen	音节	生			0	syllable	音节	sen	sèn	生		
+ortho-six	six	si	音节	使			0	syllable	音节	si	sī	使		
 ortho-sif	sif	si	音节	是			0	syllable	音节	si	sí	是		
 ortho-sir	sir	si	音节	石			0	syllable	音节	si	sǐ	石		
 ortho-siv	siv	si	音节	使			0	syllable	音节	si	sì	使		
-ortho-sox	sox	so	音节	梭			0	syllable	音节	so	sō	梭		
+ortho-sox	sox	so	音节	所			0	syllable	音节	so	sō	所		
 ortho-sof	sof	so	音节	唆			0	syllable	音节	so	só	唆		
 ortho-sor	sor	so	音节	索			0	syllable	音节	so	sǒ	索		
 ortho-sov	sov	so	音节	所			0	syllable	音节	so	sò	所		
@@ -1252,31 +1252,31 @@ ortho-songv	songv	song	音节	松			0	syllable	音节	song	sòng	松
 ortho-soux	soux	sou	音节	收			0	syllable	音节	sou	sōu	收		
 ortho-souf	souf	sou	音节	受			0	syllable	音节	sou	sóu	受		
 ortho-sour	sour	sou	音节	手			0	syllable	音节	sou	sǒu	手		
-ortho-souv	souv	sou	音节	守			0	syllable	音节	sou	sòu	守		
+ortho-souv	souv	sou	音节	收			0	syllable	音节	sou	sòu	收		
 ortho-sux	sux	su	音节	书			0	syllable	音节	su	sū	书		
 ortho-suf	suf	su	音节	树			0	syllable	音节	su	sú	树		
 ortho-sur	sur	su	音节	俗			0	syllable	音节	su	sǔ	俗		
-ortho-suv	suv	su	音节	暑			0	syllable	音节	su	sù	暑		
+ortho-suv	suv	su	音节	书			0	syllable	音节	su	sù	书		
 ortho-suax	suax	sua	音节	耍			0	syllable	音节	sua	suā	耍		
 ortho-suaf	suaf	sua	音节	苏哇			0	syllable	音节	sua	suá	苏哇		
 ortho-suar	suar	sua	音节	刷			0	syllable	音节	sua	suǎ	刷		
 ortho-suav	suav	sua	音节	耍			0	syllable	音节	sua	suà	耍		
-ortho-suaix	suaix	suai	音节	衰			0	syllable	音节	suai	suāi	衰		
+ortho-suaix	suaix	suai	音节	甩			0	syllable	音节	suai	suāi	甩		
 ortho-suaif	suaif	suai	音节	帅			0	syllable	音节	suai	suái	帅		
 ortho-suair	suair	suai	音节	摔			0	syllable	音节	suai	suǎi	摔		
 ortho-suaiv	suaiv	suai	音节	甩			0	syllable	音节	suai	suài	甩		
 ortho-suanx	suanx	suan	音节	双			0	syllable	音节	suan	suān	双		
 ortho-suanf	suanf	suan	音节	算			0	syllable	音节	suan	suán	算		
 ortho-suanr	suanr	suan	音节	栓			0	syllable	音节	suan	suǎn	栓		
-ortho-suanv	suanv	suan	音节	爽			0	syllable	音节	suan	suàn	爽		
-ortho-suix	suix	sui	音节	虽			0	syllable	音节	sui	suī	虽		
+ortho-suanv	suanv	suan	音节	双			0	syllable	音节	suan	suàn	双		
+ortho-suix	suix	sui	音节	水			0	syllable	音节	sui	suī	水		
 ortho-suif	suif	sui	音节	岁			0	syllable	音节	sui	suí	岁		
 ortho-suir	suir	sui	音节	随			0	syllable	音节	sui	suǐ	随		
 ortho-suiv	suiv	sui	音节	水			0	syllable	音节	sui	suì	水		
 ortho-sunx	sunx	sun	音节	孙			0	syllable	音节	sun	sūn	孙		
 ortho-sunf	sunf	sun	音节	顺			0	syllable	音节	sun	sún	顺		
 ortho-sunr	sunr	sun	音节	旬			0	syllable	音节	sun	sǔn	旬		
-ortho-sunv	sunv	sun	音节	损			0	syllable	音节	sun	sùn	损		
+ortho-sunv	sunv	sun	音节	孙			0	syllable	音节	sun	sùn	孙		
 ortho-rax	rax	ra	音节	日阿			0	syllable	音节	ra	rā	日阿		
 ortho-raf	raf	ra	音节	日啊			0	syllable	音节	ra	rá	日啊		
 ortho-rar	rar	ra	音节	日锕			0	syllable	音节	ra	rǎ	日锕		
@@ -1284,7 +1284,7 @@ ortho-rav	rav	ra	音节	日阿			0	syllable	音节	ra	rà	日阿
 ortho-raix	raix	rai	音节	日哎			0	syllable	音节	rai	rāi	日哎		
 ortho-raif	raif	rai	音节	日爱			0	syllable	音节	rai	rái	日爱		
 ortho-rair	rair	rai	音节	日挨			0	syllable	音节	rai	rǎi	日挨		
-ortho-raiv	raiv	rai	音节	日矮			0	syllable	音节	rai	rài	日矮		
+ortho-raiv	raiv	rai	音节	日哎			0	syllable	音节	rai	rài	日哎		
 ortho-rangx	rangx	rang	音节	冉			0	syllable	音节	rang	rāng	冉		
 ortho-rangf	rangf	rang	音节	让			0	syllable	音节	rang	ráng	让		
 ortho-rangr	rangr	rang	音节	然			0	syllable	音节	rang	rǎng	然		
@@ -1317,13 +1317,13 @@ ortho-rux	rux	ru	音节	汝			0	syllable	音节	ru	rū	汝
 ortho-ruf	ruf	ru	音节	入			0	syllable	音节	ru	rú	入		
 ortho-rur	rur	ru	音节	如			0	syllable	音节	ru	rǔ	如		
 ortho-ruv	ruv	ru	音节	汝			0	syllable	音节	ru	rù	汝		
-ortho-ruax	ruax	rua	音节	如蛙			0	syllable	音节	rua	ruā	如蛙		
+ortho-ruax	ruax	rua	音节	如瓦			0	syllable	音节	rua	ruā	如瓦		
 ortho-ruaf	ruaf	rua	音节	如哇			0	syllable	音节	rua	ruá	如哇		
 ortho-ruar	ruar	rua	音节	如娃			0	syllable	音节	rua	ruǎ	如娃		
 ortho-ruav	ruav	rua	音节	如瓦			0	syllable	音节	rua	ruà	如瓦		
 ortho-ruanx	ruanx	ruan	音节	软			0	syllable	音节	ruan	ruān	软		
-ortho-ruanf	ruanf	ruan	音节	如万			0	syllable	音节	ruan	ruán	如万		
-ortho-ruanr	ruanr	ruan	音节	如完			0	syllable	音节	ruan	ruǎn	如完		
+ortho-ruanf	ruanf	ruan	音节	阮			0	syllable	音节	ruan	ruán	阮		
+ortho-ruanr	ruanr	ruan	音节	阮			0	syllable	音节	ruan	ruǎn	阮		
 ortho-ruanv	ruanv	ruan	音节	软			0	syllable	音节	ruan	ruàn	软		
 ortho-ruix	ruix	rui	音节	锐			0	syllable	音节	rui	ruī	锐		
 ortho-ruif	ruif	rui	音节	蕊			0	syllable	音节	rui	ruí	蕊		
@@ -1333,51 +1333,51 @@ ortho-runx	runx	run	音节	润			0	syllable	音节	run	rūn	润
 ortho-runf	runf	run	音节	闰			0	syllable	音节	run	rún	闰		
 ortho-runr	runr	run	音节	如文			0	syllable	音节	run	rǔn	如文		
 ortho-runv	runv	run	音节	润			0	syllable	音节	run	rùn	润		
-ortho-jix	jix	ji	音节	机			0	syllable	音节	ji	jī	机		
+ortho-jix	jix	ji	音节	几			0	syllable	音节	ji	jī	几		
 ortho-jif	jif	ji	音节	记			0	syllable	音节	ji	jí	记		
 ortho-jir	jir	ji	音节	吉			0	syllable	音节	ji	jǐ	吉		
 ortho-jiv	jiv	ji	音节	几			0	syllable	音节	ji	jì	几		
 ortho-jiax	jiax	jia	音节	家			0	syllable	音节	jia	jiā	家		
 ortho-jiaf	jiaf	jia	音节	嫁			0	syllable	音节	jia	jiá	嫁		
 ortho-jiar	jiar	jia	音节	甲			0	syllable	音节	jia	jiǎ	甲		
-ortho-jiav	jiav	jia	音节	假			0	syllable	音节	jia	jià	假		
+ortho-jiav	jiav	jia	音节	家			0	syllable	音节	jia	jià	家		
 ortho-jianx	jianx	jian	音节	尖			0	syllable	音节	jian	jiān	尖		
 ortho-jianf	jianf	jian	音节	见			0	syllable	音节	jian	jián	见		
 ortho-jianr	jianr	jian	音节	件			0	syllable	音节	jian	jiǎn	件		
-ortho-jianv	jianv	jian	音节	讲			0	syllable	音节	jian	jiàn	讲		
+ortho-jianv	jianv	jian	音节	尖			0	syllable	音节	jian	jiàn	尖		
 ortho-jiaox	jiaox	jiao	音节	交			0	syllable	音节	jiao	jiāo	交		
 ortho-jiaof	jiaof	jiao	音节	叫			0	syllable	音节	jiao	jiáo	叫		
 ortho-jiaor	jiaor	jiao	音节	脚			0	syllable	音节	jiao	jiǎo	脚		
-ortho-jiaov	jiaov	jiao	音节	搅			0	syllable	音节	jiao	jiào	搅		
-ortho-jiex	jiex	jie	音节	揭			0	syllable	音节	jie	jiē	揭		
+ortho-jiaov	jiaov	jiao	音节	交			0	syllable	音节	jiao	jiào	交		
+ortho-jiex	jiex	jie	音节	姐			0	syllable	音节	jie	jiē	姐		
 ortho-jief	jief	jie	音节	借			0	syllable	音节	jie	jié	借		
 ortho-jier	jier	jie	音节	节			0	syllable	音节	jie	jiě	节		
 ortho-jiev	jiev	jie	音节	姐			0	syllable	音节	jie	jiè	姐		
 ortho-jinx	jinx	jin	音节	经			0	syllable	音节	jin	jīn	经		
 ortho-jinf	jinf	jin	音节	进			0	syllable	音节	jin	jín	进		
 ortho-jinr	jinr	jin	音节	金			0	syllable	音节	jin	jǐn	金		
-ortho-jinv	jinv	jin	音节	紧			0	syllable	音节	jin	jìn	紧		
+ortho-jinv	jinv	jin	音节	经			0	syllable	音节	jin	jìn	经		
 ortho-jiox	jiox	jio	音节	机哟			0	syllable	音节	jio	jiō	机哟		
 ortho-jiof	jiof	jio	音节	机要			0	syllable	音节	jio	jió	机要		
 ortho-jior	jior	jio	音节	机药			0	syllable	音节	jio	jiǒ	机药		
-ortho-jiov	jiov	jio	音节	机舀			0	syllable	音节	jio	jiò	机舀		
-ortho-jiux	jiux	jiu	音节	究			0	syllable	音节	jiu	jiū	究		
+ortho-jiov	jiov	jio	音节	机哟			0	syllable	音节	jio	jiò	机哟		
+ortho-jiux	jiux	jiu	音节	久			0	syllable	音节	jiu	jiū	久		
 ortho-jiuf	jiuf	jiu	音节	就			0	syllable	音节	jiu	jiú	就		
 ortho-jiur	jiur	jiu	音节	救			0	syllable	音节	jiu	jiǔ	救		
 ortho-jiuv	jiuv	jiu	音节	久			0	syllable	音节	jiu	jiù	久		
-ortho-qix	qix	qi	音节	栖			0	syllable	音节	qi	qī	栖		
+ortho-qix	qix	qi	音节	起			0	syllable	音节	qi	qī	起		
 ortho-qif	qif	qi	音节	气			0	syllable	音节	qi	qí	气		
 ortho-qir	qir	qi	音节	其			0	syllable	音节	qi	qǐ	其		
 ortho-qiv	qiv	qi	音节	起			0	syllable	音节	qi	qì	起		
-ortho-qiax	qiax	qia	音节	欺鸦			0	syllable	音节	qia	qiā	欺鸦		
-ortho-qiaf	qiaf	qia	音节	欺亚			0	syllable	音节	qia	qiá	欺亚		
+ortho-qiax	qiax	qia	音节	起鸦			0	syllable	音节	qia	qiā	起鸦		
+ortho-qiaf	qiaf	qia	音节	起亚			0	syllable	音节	qia	qiá	起亚		
 ortho-qiar	qiar	qia	音节	恰			0	syllable	音节	qia	qiǎ	恰		
-ortho-qiav	qiav	qia	音节	欺雅			0	syllable	音节	qia	qià	欺雅		
+ortho-qiav	qiav	qia	音节	起鸦			0	syllable	音节	qia	qià	起鸦		
 ortho-qianx	qianx	qian	音节	纤			0	syllable	音节	qian	qiān	纤		
 ortho-qianf	qianf	qian	音节	欠			0	syllable	音节	qian	qián	欠		
 ortho-qianr	qianr	qian	音节	钱			0	syllable	音节	qian	qiǎn	钱		
-ortho-qianv	qianv	qian	音节	抢			0	syllable	音节	qian	qiàn	抢		
-ortho-qiaox	qiaox	qiao	音节	悄			0	syllable	音节	qiao	qiāo	悄		
+ortho-qianv	qianv	qian	音节	纤			0	syllable	音节	qian	qiàn	纤		
+ortho-qiaox	qiaox	qiao	音节	巧			0	syllable	音节	qiao	qiāo	巧		
 ortho-qiaof	qiaof	qiao	音节	俏			0	syllable	音节	qiao	qiáo	俏		
 ortho-qiaor	qiaor	qiao	音节	桥			0	syllable	音节	qiao	qiǎo	桥		
 ortho-qiaov	qiaov	qiao	音节	巧			0	syllable	音节	qiao	qiào	巧		
@@ -1388,13 +1388,13 @@ ortho-qiev	qiev	qie	音节	且			0	syllable	音节	qie	qiè	且
 ortho-qinx	qinx	qin	音节	钦			0	syllable	音节	qin	qīn	钦		
 ortho-qinf	qinf	qin	音节	庆			0	syllable	音节	qin	qín	庆		
 ortho-qinr	qinr	qin	音节	琴			0	syllable	音节	qin	qǐn	琴		
-ortho-qinv	qinv	qin	音节	请			0	syllable	音节	qin	qìn	请		
-ortho-qiox	qiox	qio	音节	欺哟			0	syllable	音节	qio	qiō	欺哟		
-ortho-qiof	qiof	qio	音节	欺要			0	syllable	音节	qio	qió	欺要		
-ortho-qior	qior	qio	音节	欺药			0	syllable	音节	qio	qiǒ	欺药		
-ortho-qiov	qiov	qio	音节	欺舀			0	syllable	音节	qio	qiò	欺舀		
+ortho-qinv	qinv	qin	音节	钦			0	syllable	音节	qin	qìn	钦		
+ortho-qiox	qiox	qio	音节	起哟			0	syllable	音节	qio	qiō	起哟		
+ortho-qiof	qiof	qio	音节	起要			0	syllable	音节	qio	qió	起要		
+ortho-qior	qior	qio	音节	起药			0	syllable	音节	qio	qiǒ	起药		
+ortho-qiov	qiov	qio	音节	起哟			0	syllable	音节	qio	qiò	起哟		
 ortho-qiongx	qiongx	qiong	音节	琼			0	syllable	音节	qiong	qiōng	琼		
-ortho-qiongf	qiongf	qiong	音节	欺用			0	syllable	音节	qiong	qióng	欺用		
+ortho-qiongf	qiongf	qiong	音节	起用			0	syllable	音节	qiong	qióng	起用		
 ortho-qiongr	qiongr	qiong	音节	穷			0	syllable	音节	qiong	qiǒng	穷		
 ortho-qiongv	qiongv	qiong	音节	琼			0	syllable	音节	qiong	qiòng	琼		
 ortho-qiux	qiux	qiu	音节	秋			0	syllable	音节	qiu	qiū	秋		
@@ -1404,7 +1404,7 @@ ortho-qiuv	qiuv	qiu	音节	秋			0	syllable	音节	qiu	qiù	秋
 ortho-xix	xix	xi	音节	希			0	syllable	音节	xi	xī	希		
 ortho-xif	xif	xi	音节	细			0	syllable	音节	xi	xí	细		
 ortho-xir	xir	xi	音节	昔			0	syllable	音节	xi	xǐ	昔		
-ortho-xiv	xiv	xi	音节	喜			0	syllable	音节	xi	xì	喜		
+ortho-xiv	xiv	xi	音节	希			0	syllable	音节	xi	xì	希		
 ortho-xiax	xiax	xia	音节	虾			0	syllable	音节	xia	xiā	虾		
 ortho-xiaf	xiaf	xia	音节	下			0	syllable	音节	xia	xiá	下		
 ortho-xiar	xiar	xia	音节	霞			0	syllable	音节	xia	xiǎ	霞		
@@ -1412,88 +1412,88 @@ ortho-xiav	xiav	xia	音节	虾			0	syllable	音节	xia	xià	虾
 ortho-xianx	xianx	xian	音节	香			0	syllable	音节	xian	xiān	香		
 ortho-xianf	xianf	xian	音节	向			0	syllable	音节	xian	xián	向		
 ortho-xianr	xianr	xian	音节	闲			0	syllable	音节	xian	xiǎn	闲		
-ortho-xianv	xianv	xian	音节	鲜			0	syllable	音节	xian	xiàn	鲜		
-ortho-xiaox	xiaox	xiao	音节	萧			0	syllable	音节	xiao	xiāo	萧		
+ortho-xianv	xianv	xian	音节	香			0	syllable	音节	xian	xiàn	香		
+ortho-xiaox	xiaox	xiao	音节	小			0	syllable	音节	xiao	xiāo	小		
 ortho-xiaof	xiaof	xiao	音节	笑			0	syllable	音节	xiao	xiáo	笑		
 ortho-xiaor	xiaor	xiao	音节	削			0	syllable	音节	xiao	xiǎo	削		
 ortho-xiaov	xiaov	xiao	音节	小			0	syllable	音节	xiao	xiào	小		
-ortho-xiex	xiex	xie	音节	些			0	syllable	音节	xie	xiē	些		
+ortho-xiex	xiex	xie	音节	写			0	syllable	音节	xie	xiē	写		
 ortho-xief	xief	xie	音节	谢			0	syllable	音节	xie	xié	谢		
 ortho-xier	xier	xie	音节	雪			0	syllable	音节	xie	xiě	雪		
 ortho-xiev	xiev	xie	音节	写			0	syllable	音节	xie	xiè	写		
 ortho-xinx	xinx	xin	音节	新			0	syllable	音节	xin	xīn	新		
 ortho-xinf	xinf	xin	音节	信			0	syllable	音节	xin	xín	信		
 ortho-xinr	xinr	xin	音节	行			0	syllable	音节	xin	xǐn	行		
-ortho-xinv	xinv	xin	音节	醒			0	syllable	音节	xin	xìn	醒		
+ortho-xinv	xinv	xin	音节	新			0	syllable	音节	xin	xìn	新		
 ortho-xiongx	xiongx	xiong	音节	兄			0	syllable	音节	xiong	xiōng	兄		
 ortho-xiongf	xiongf	xiong	音节	胸			0	syllable	音节	xiong	xióng	胸		
 ortho-xiongr	xiongr	xiong	音节	雄			0	syllable	音节	xiong	xiǒng	雄		
-ortho-xiongv	xiongv	xiong	音节	熊			0	syllable	音节	xiong	xiòng	熊		
+ortho-xiongv	xiongv	xiong	音节	兄			0	syllable	音节	xiong	xiòng	兄		
 ortho-xiux	xiux	xiu	音节	休			0	syllable	音节	xiu	xiū	休		
 ortho-xiuf	xiuf	xiu	音节	秀			0	syllable	音节	xiu	xiú	秀		
 ortho-xiur	xiur	xiu	音节	修			0	syllable	音节	xiu	xiǔ	修		
-ortho-xiuv	xiuv	xiu	音节	朽			0	syllable	音节	xiu	xiù	朽		
+ortho-xiuv	xiuv	xiu	音节	休			0	syllable	音节	xiu	xiù	休		
 ortho-yax	yax	ya	音节	鸦			0	syllable	音节	ya	yā	鸦		
 ortho-yaf	yaf	ya	音节	亚			0	syllable	音节	ya	yá	亚		
 ortho-yar	yar	ya	音节	呀			0	syllable	音节	ya	yǎ	呀		
-ortho-yav	yav	ya	音节	雅			0	syllable	音节	ya	yà	雅		
-ortho-yanx	yanx	yan	音节	焉			0	syllable	音节	yan	yān	焉		
+ortho-yav	yav	ya	音节	鸦			0	syllable	音节	ya	yà	鸦		
+ortho-yanx	yanx	yan	音节	央			0	syllable	音节	yan	yān	央		
 ortho-yanf	yanf	yan	音节	样			0	syllable	音节	yan	yán	样		
 ortho-yanr	yanr	yan	音节	扬			0	syllable	音节	yan	yǎn	扬		
-ortho-yanv	yanv	yan	音节	演			0	syllable	音节	yan	yàn	演		
-ortho-yaox	yaox	yao	音节	邀			0	syllable	音节	yao	yāo	邀		
+ortho-yanv	yanv	yan	音节	央			0	syllable	音节	yan	yàn	央		
+ortho-yaox	yaox	yao	音节	舀			0	syllable	音节	yao	yāo	舀		
 ortho-yaof	yaof	yao	音节	要			0	syllable	音节	yao	yáo	要		
 ortho-yaor	yaor	yao	音节	摇			0	syllable	音节	yao	yǎo	摇		
 ortho-yaov	yaov	yao	音节	舀			0	syllable	音节	yao	yào	舀		
-ortho-yex	yex	ye	音节	耶			0	syllable	音节	ye	yē	耶		
+ortho-yex	yex	ye	音节	也			0	syllable	音节	ye	yē	也		
 ortho-yef	yef	ye	音节	夜			0	syllable	音节	ye	yé	夜		
 ortho-yer	yer	ye	音节	叶			0	syllable	音节	ye	yě	叶		
 ortho-yev	yev	ye	音节	也			0	syllable	音节	ye	yè	也		
-ortho-yix	yix	yi	音节	衣			0	syllable	音节	yi	yī	衣		
+ortho-yix	yix	yi	音节	以			0	syllable	音节	yi	yī	以		
 ortho-yif	yif	yi	音节	意			0	syllable	音节	yi	yí	意		
 ortho-yir	yir	yi	音节	移			0	syllable	音节	yi	yǐ	移		
 ortho-yiv	yiv	yi	音节	以			0	syllable	音节	yi	yì	以		
 ortho-yinx	yinx	yin	音节	因			0	syllable	音节	yin	yīn	因		
 ortho-yinf	yinf	yin	音节	印			0	syllable	音节	yin	yín	印		
 ortho-yinr	yinr	yin	音节	吟			0	syllable	音节	yin	yǐn	吟		
-ortho-yinv	yinv	yin	音节	饮			0	syllable	音节	yin	yìn	饮		
+ortho-yinv	yinv	yin	音节	因			0	syllable	音节	yin	yìn	因		
 ortho-yox	yox	yo	音节	哟			0	syllable	音节	yo	yō	哟		
 ortho-yof	yof	yo	音节	约			0	syllable	音节	yo	yó	约		
 ortho-yor	yor	yo	音节	药			0	syllable	音节	yo	yǒ	药		
 ortho-yov	yov	yo	音节	哟			0	syllable	音节	yo	yò	哟		
-ortho-yongx	yongx	yong	音节	雍			0	syllable	音节	yong	yōng	雍		
+ortho-yongx	yongx	yong	音节	勇			0	syllable	音节	yong	yōng	勇		
 ortho-yongf	yongf	yong	音节	用			0	syllable	音节	yong	yóng	用		
 ortho-yongr	yongr	yong	音节	容			0	syllable	音节	yong	yǒng	容		
 ortho-yongv	yongv	yong	音节	勇			0	syllable	音节	yong	yòng	勇		
-ortho-youx	youx	you	音节	幽			0	syllable	音节	you	yōu	幽		
+ortho-youx	youx	you	音节	友			0	syllable	音节	you	yōu	友		
 ortho-youf	youf	you	音节	又			0	syllable	音节	you	yóu	又		
 ortho-your	your	you	音节	油			0	syllable	音节	you	yǒu	油		
 ortho-youv	youv	you	音节	友			0	syllable	音节	you	yòu	友		
 ortho-yux	yux	yu	音节	迂			0	syllable	音节	yu	yū	迂		
 ortho-yuf	yuf	yu	音节	玉			0	syllable	音节	yu	yú	玉		
 ortho-yur	yur	yu	音节	于			0	syllable	音节	yu	yǔ	于		
-ortho-yuv	yuv	yu	音节	雨			0	syllable	音节	yu	yù	雨		
-ortho-yunx	yunx	yun	音节	晕			0	syllable	音节	yun	yūn	晕		
+ortho-yuv	yuv	yu	音节	迂			0	syllable	音节	yu	yù	迂		
+ortho-yunx	yunx	yun	音节	允			0	syllable	音节	yun	yūn	允		
 ortho-yunf	yunf	yun	音节	运			0	syllable	音节	yun	yún	运		
 ortho-yunr	yunr	yun	音节	云			0	syllable	音节	yun	yǔn	云		
 ortho-yunv	yunv	yun	音节	允			0	syllable	音节	yun	yùn	允		
-ortho-gax	gax	ga	音节	嘎			0	syllable	音节	ga	gā	嘎		
+ortho-gax	gax	ga	音节	尕			0	syllable	音节	ga	gā	尕		
 ortho-gaf	gaf	ga	音节	尬			0	syllable	音节	ga	gá	尬		
 ortho-gar	gar	ga	音节	夹			0	syllable	音节	ga	gǎ	夹		
 ortho-gav	gav	ga	音节	尕			0	syllable	音节	ga	gà	尕		
-ortho-gaix	gaix	gai	音节	该			0	syllable	音节	gai	gāi	该		
+ortho-gaix	gaix	gai	音节	改			0	syllable	音节	gai	gāi	改		
 ortho-gaif	gaif	gai	音节	盖			0	syllable	音节	gai	gái	盖		
 ortho-gair	gair	gai	音节	钙			0	syllable	音节	gai	gǎi	钙		
 ortho-gaiv	gaiv	gai	音节	改			0	syllable	音节	gai	gài	改		
 ortho-ganx	ganx	gan	音节	甘			0	syllable	音节	gan	gān	甘		
 ortho-ganf	ganf	gan	音节	赣			0	syllable	音节	gan	gán	赣		
 ortho-ganr	ganr	gan	音节	干			0	syllable	音节	gan	gǎn	干		
-ortho-ganv	ganv	gan	音节	敢			0	syllable	音节	gan	gàn	敢		
-ortho-gangx	gangx	gang	音节	刚			0	syllable	音节	gang	gāng	刚		
-ortho-gangf	gangf	gang	音节	杠			0	syllable	音节	gang	gáng	杠		
-ortho-gangr	gangr	gang	音节	钢			0	syllable	音节	gang	gǎng	钢		
-ortho-gangv	gangv	gang	音节	岗			0	syllable	音节	gang	gàng	岗		
-ortho-gaox	gaox	gao	音节	篙			0	syllable	音节	gao	gāo	篙		
+ortho-ganv	ganv	gan	音节	甘			0	syllable	音节	gan	gàn	甘		
+ortho-gangx	gangx	gang	音节	甘			0	syllable	音节	gang	gāng	甘		
+ortho-gangf	gangf	gang	音节	赣			0	syllable	音节	gang	gáng	赣		
+ortho-gangr	gangr	gang	音节	干			0	syllable	音节	gang	gǎng	干		
+ortho-gangv	gangv	gang	音节	甘			0	syllable	音节	gang	gàng	甘		
+ortho-gaox	gaox	gao	音节	搞			0	syllable	音节	gao	gāo	搞		
 ortho-gaof	gaof	gao	音节	告			0	syllable	音节	gao	gáo	告		
 ortho-gaor	gaor	gao	音节	高			0	syllable	音节	gao	gǎo	高		
 ortho-gaov	gaov	gao	音节	搞			0	syllable	音节	gao	gào	搞		
@@ -1505,47 +1505,47 @@ ortho-geix	geix	gei	音节	给			0	syllable	音节	gei	gēi	给
 ortho-geif	geif	gei	音节	格欸			0	syllable	音节	gei	géi	格欸		
 ortho-geir	geir	gei	音节	格锿			0	syllable	音节	gei	gěi	格锿		
 ortho-geiv	geiv	gei	音节	给			0	syllable	音节	gei	gèi	给		
-ortho-genx	genx	gen	音节	跟			0	syllable	音节	gen	gēn	跟		
+ortho-genx	genx	gen	音节	耿			0	syllable	音节	gen	gēn	耿		
 ortho-genf	genf	gen	音节	更			0	syllable	音节	gen	gén	更		
 ortho-genr	genr	gen	音节	根			0	syllable	音节	gen	gěn	根		
 ortho-genv	genv	gen	音节	耿			0	syllable	音节	gen	gèn	耿		
-ortho-gix	gix	gi	音节	格衣			0	syllable	音节	gi	gī	格衣		
+ortho-gix	gix	gi	音节	格以			0	syllable	音节	gi	gī	格以		
 ortho-gif	gif	gi	音节	格意			0	syllable	音节	gi	gí	格意		
 ortho-gir	gir	gi	音节	格移			0	syllable	音节	gi	gǐ	格移		
 ortho-giv	giv	gi	音节	格以			0	syllable	音节	gi	gì	格以		
-ortho-giex	giex	gie	音节	格椰			0	syllable	音节	gie	giē	格椰		
+ortho-giex	giex	gie	音节	格也			0	syllable	音节	gie	giē	格也		
 ortho-gief	gief	gie	音节	格夜			0	syllable	音节	gie	gié	格夜		
 ortho-gier	gier	gie	音节	格叶			0	syllable	音节	gie	giě	格叶		
 ortho-giev	giev	gie	音节	格也			0	syllable	音节	gie	giè	格也		
 ortho-gox	gox	go	音节	哥			0	syllable	音节	go	gō	哥		
 ortho-gof	gof	go	音节	过			0	syllable	音节	go	gó	过		
 ortho-gor	gor	go	音节	郭			0	syllable	音节	go	gǒ	郭		
-ortho-gov	gov	go	音节	果			0	syllable	音节	go	gò	果		
+ortho-gov	gov	go	音节	哥			0	syllable	音节	go	gò	哥		
 ortho-gongx	gongx	gong	音节	公			0	syllable	音节	gong	gōng	公		
 ortho-gongf	gongf	gong	音节	共			0	syllable	音节	gong	góng	共		
 ortho-gongr	gongr	gong	音节	功			0	syllable	音节	gong	gǒng	功		
-ortho-gongv	gongv	gong	音节	巩			0	syllable	音节	gong	gòng	巩		
+ortho-gongv	gongv	gong	音节	公			0	syllable	音节	gong	gòng	公		
 ortho-goux	goux	gou	音节	勾			0	syllable	音节	gou	gōu	勾		
 ortho-gouf	gouf	gou	音节	构			0	syllable	音节	gou	góu	构		
 ortho-gour	gour	gou	音节	沟			0	syllable	音节	gou	gǒu	沟		
-ortho-gouv	gouv	gou	音节	苟			0	syllable	音节	gou	gòu	苟		
-ortho-gux	gux	gu	音节	箍			0	syllable	音节	gu	gū	箍		
+ortho-gouv	gouv	gou	音节	勾			0	syllable	音节	gou	gòu	勾		
+ortho-gux	gux	gu	音节	古			0	syllable	音节	gu	gū	古		
 ortho-guf	guf	gu	音节	固			0	syllable	音节	gu	gú	固		
 ortho-gur	gur	gu	音节	谷			0	syllable	音节	gu	gǔ	谷		
 ortho-guv	guv	gu	音节	古			0	syllable	音节	gu	gù	古		
 ortho-guax	guax	gua	音节	瓜			0	syllable	音节	gua	guā	瓜		
 ortho-guaf	guaf	gua	音节	挂			0	syllable	音节	gua	guá	挂		
 ortho-guar	guar	gua	音节	刮			0	syllable	音节	gua	guǎ	刮		
-ortho-guav	guav	gua	音节	寡			0	syllable	音节	gua	guà	寡		
+ortho-guav	guav	gua	音节	瓜			0	syllable	音节	gua	guà	瓜		
 ortho-guaix	guaix	guai	音节	乖			0	syllable	音节	guai	guāi	乖		
 ortho-guaif	guaif	guai	音节	怪			0	syllable	音节	guai	guái	怪		
 ortho-guair	guair	guai	音节	姑崴			0	syllable	音节	guai	guǎi	姑崴		
-ortho-guaiv	guaiv	guai	音节	拐			0	syllable	音节	guai	guài	拐		
+ortho-guaiv	guaiv	guai	音节	乖			0	syllable	音节	guai	guài	乖		
 ortho-guanx	guanx	guan	音节	光			0	syllable	音节	guan	guān	光		
 ortho-guanf	guanf	guan	音节	贯			0	syllable	音节	guan	guán	贯		
 ortho-guanr	guanr	guan	音节	惯			0	syllable	音节	guan	guǎn	惯		
-ortho-guanv	guanv	guan	音节	管			0	syllable	音节	guan	guàn	管		
-ortho-guix	guix	gui	音节	规			0	syllable	音节	gui	guī	规		
+ortho-guanv	guanv	guan	音节	光			0	syllable	音节	guan	guàn	光		
+ortho-guix	guix	gui	音节	轨			0	syllable	音节	gui	guī	轨		
 ortho-guif	guif	gui	音节	贵			0	syllable	音节	gui	guí	贵		
 ortho-guir	guir	gui	音节	归			0	syllable	音节	gui	guǐ	归		
 ortho-guiv	guiv	gui	音节	轨			0	syllable	音节	gui	guì	轨		
@@ -1553,15 +1553,15 @@ ortho-gunx	gunx	gun	音节	滚			0	syllable	音节	gun	gūn	滚
 ortho-gunf	gunf	gun	音节	棍			0	syllable	音节	gun	gún	棍		
 ortho-gunr	gunr	gun	音节	姑文			0	syllable	音节	gun	gǔn	姑文		
 ortho-gunv	gunv	gun	音节	滚			0	syllable	音节	gun	gùn	滚		
-ortho-kax	kax	ka	音节	咖			0	syllable	音节	ka	kā	咖		
+ortho-kax	kax	ka	音节	卡			0	syllable	音节	ka	kā	卡		
 ortho-kaf	kaf	ka	音节	克啊			0	syllable	音节	ka	ká	克啊		
 ortho-kar	kar	ka	音节	咔			0	syllable	音节	ka	kǎ	咔		
 ortho-kav	kav	ka	音节	卡			0	syllable	音节	ka	kà	卡		
 ortho-kaix	kaix	kai	音节	开			0	syllable	音节	kai	kāi	开		
 ortho-kaif	kaif	kai	音节	克爱			0	syllable	音节	kai	kái	克爱		
 ortho-kair	kair	kai	音节	克挨			0	syllable	音节	kai	kǎi	克挨		
-ortho-kaiv	kaiv	kai	音节	慨			0	syllable	音节	kai	kài	慨		
-ortho-kangx	kangx	kang	音节	堪			0	syllable	音节	kang	kāng	堪		
+ortho-kaiv	kaiv	kai	音节	开			0	syllable	音节	kai	kài	开		
+ortho-kangx	kangx	kang	音节	坎			0	syllable	音节	kang	kāng	坎		
 ortho-kangf	kangf	kang	音节	看			0	syllable	音节	kang	káng	看		
 ortho-kangr	kangr	kang	音节	抗			0	syllable	音节	kang	kǎng	抗		
 ortho-kangv	kangv	kang	音节	坎			0	syllable	音节	kang	kàng	坎		
@@ -1577,38 +1577,38 @@ ortho-keix	keix	kei	音节	克诶			0	syllable	音节	kei	kēi	克诶
 ortho-keif	keif	kei	音节	克欸			0	syllable	音节	kei	kéi	克欸		
 ortho-keir	keir	kei	音节	克锿			0	syllable	音节	kei	kěi	克锿		
 ortho-keiv	keiv	kei	音节	克诶			0	syllable	音节	kei	kèi	克诶		
-ortho-kenx	kenx	ken	音节	坑			0	syllable	音节	ken	kēn	坑		
+ortho-kenx	kenx	ken	音节	肯			0	syllable	音节	ken	kēn	肯		
 ortho-kenf	kenf	ken	音节	啃			0	syllable	音节	ken	kén	啃		
 ortho-kenr	kenr	ken	音节	垦			0	syllable	音节	ken	kěn	垦		
 ortho-kenv	kenv	ken	音节	肯			0	syllable	音节	ken	kèn	肯		
-ortho-kix	kix	ki	音节	克衣			0	syllable	音节	ki	kī	克衣		
+ortho-kix	kix	ki	音节	克以			0	syllable	音节	ki	kī	克以		
 ortho-kif	kif	ki	音节	克意			0	syllable	音节	ki	kí	克意		
 ortho-kir	kir	ki	音节	克移			0	syllable	音节	ki	kǐ	克移		
 ortho-kiv	kiv	ki	音节	克以			0	syllable	音节	ki	kì	克以		
-ortho-kiex	kiex	kie	音节	克椰			0	syllable	音节	kie	kiē	克椰		
+ortho-kiex	kiex	kie	音节	克也			0	syllable	音节	kie	kiē	克也		
 ortho-kief	kief	kie	音节	克夜			0	syllable	音节	kie	kié	克夜		
 ortho-kier	kier	kie	音节	克叶			0	syllable	音节	kie	kiě	克叶		
 ortho-kiev	kiev	kie	音节	克也			0	syllable	音节	kie	kiè	克也		
-ortho-kox	kox	ko	音节	科			0	syllable	音节	ko	kō	科		
+ortho-kox	kox	ko	音节	可			0	syllable	音节	ko	kō	可		
 ortho-kof	kof	ko	音节	课			0	syllable	音节	ko	kó	课		
 ortho-kor	kor	ko	音节	阔			0	syllable	音节	ko	kǒ	阔		
 ortho-kov	kov	ko	音节	可			0	syllable	音节	ko	kò	可		
-ortho-kongx	kongx	kong	音节	空			0	syllable	音节	kong	kōng	空		
+ortho-kongx	kongx	kong	音节	孔			0	syllable	音节	kong	kōng	孔		
 ortho-kongf	kongf	kong	音节	控			0	syllable	音节	kong	kóng	控		
 ortho-kongr	kongr	kong	音节	恐			0	syllable	音节	kong	kǒng	恐		
 ortho-kongv	kongv	kong	音节	孔			0	syllable	音节	kong	kòng	孔		
-ortho-koux	koux	kou	音节	抠			0	syllable	音节	kou	kōu	抠		
+ortho-koux	koux	kou	音节	口			0	syllable	音节	kou	kōu	口		
 ortho-kouf	kouf	kou	音节	扣			0	syllable	音节	kou	kóu	扣		
 ortho-kour	kour	kou	音节	克讴			0	syllable	音节	kou	kǒu	克讴		
 ortho-kouv	kouv	kou	音节	口			0	syllable	音节	kou	kòu	口		
-ortho-kux	kux	ku	音节	枯			0	syllable	音节	ku	kū	枯		
+ortho-kux	kux	ku	音节	苦			0	syllable	音节	ku	kū	苦		
 ortho-kuf	kuf	ku	音节	库			0	syllable	音节	ku	kú	库		
 ortho-kur	kur	ku	音节	窟			0	syllable	音节	ku	kǔ	窟		
 ortho-kuv	kuv	ku	音节	苦			0	syllable	音节	ku	kù	苦		
 ortho-kuax	kuax	kua	音节	夸			0	syllable	音节	kua	kuā	夸		
 ortho-kuaf	kuaf	kua	音节	跨			0	syllable	音节	kua	kuá	跨		
 ortho-kuar	kuar	kua	音节	胯			0	syllable	音节	kua	kuǎ	胯		
-ortho-kuav	kuav	kua	音节	垮			0	syllable	音节	kua	kuà	垮		
+ortho-kuav	kuav	kua	音节	夸			0	syllable	音节	kua	kuà	夸		
 ortho-kuaix	kuaix	kuai	音节	块			0	syllable	音节	kuai	kuāi	块		
 ortho-kuaif	kuaif	kuai	音节	快			0	syllable	音节	kuai	kuái	快		
 ortho-kuair	kuair	kuai	音节	筷			0	syllable	音节	kuai	kuǎi	筷		
@@ -1616,7 +1616,7 @@ ortho-kuaiv	kuaiv	kuai	音节	块			0	syllable	音节	kuai	kuài	块
 ortho-kuanx	kuanx	kuan	音节	宽			0	syllable	音节	kuan	kuān	宽		
 ortho-kuanf	kuanf	kuan	音节	况			0	syllable	音节	kuan	kuán	况		
 ortho-kuanr	kuanr	kuan	音节	狂			0	syllable	音节	kuan	kuǎn	狂		
-ortho-kuanv	kuanv	kuan	音节	款			0	syllable	音节	kuan	kuàn	款		
+ortho-kuanv	kuanv	kuan	音节	宽			0	syllable	音节	kuan	kuàn	宽		
 ortho-kuix	kuix	kui	音节	亏			0	syllable	音节	kui	kuī	亏		
 ortho-kuif	kuif	kui	音节	溃			0	syllable	音节	kui	kuí	溃		
 ortho-kuir	kuir	kui	音节	葵			0	syllable	音节	kui	kuǐ	葵		
@@ -1624,7 +1624,7 @@ ortho-kuiv	kuiv	kui	音节	亏			0	syllable	音节	kui	kuì	亏
 ortho-kunx	kunx	kun	音节	昆			0	syllable	音节	kun	kūn	昆		
 ortho-kunf	kunf	kun	音节	困			0	syllable	音节	kun	kún	困		
 ortho-kunr	kunr	kun	音节	枯文			0	syllable	音节	kun	kǔn	枯文		
-ortho-kunv	kunv	kun	音节	捆			0	syllable	音节	kun	kùn	捆		
+ortho-kunv	kunv	kun	音节	昆			0	syllable	音节	kun	kùn	昆		
 ortho-ngax	ngax	nga	音节	桠			0	syllable	音节	nga	ngā	桠		
 ortho-ngaf	ngaf	nga	音节	讶			0	syllable	音节	nga	ngá	讶		
 ortho-ngar	ngar	nga	音节	伢			0	syllable	音节	nga	ngǎ	伢		
@@ -1632,7 +1632,7 @@ ortho-ngav	ngav	nga	音节	桠			0	syllable	音节	nga	ngà	桠
 ortho-ngaix	ngaix	ngai	音节	挨			0	syllable	音节	ngai	ngāi	挨		
 ortho-ngaif	ngaif	ngai	音节	艾			0	syllable	音节	ngai	ngái	艾		
 ortho-ngair	ngair	ngai	音节	岩			0	syllable	音节	ngai	ngǎi	岩		
-ortho-ngaiv	ngaiv	ngai	音节	矮			0	syllable	音节	ngai	ngài	矮		
+ortho-ngaiv	ngaiv	ngai	音节	挨			0	syllable	音节	ngai	ngài	挨		
 ortho-ngangx	ngangx	ngang	音节	安			0	syllable	音节	ngang	ngāng	安		
 ortho-ngangf	ngangf	ngang	音节	岸			0	syllable	音节	ngang	ngáng	岸		
 ortho-ngangr	ngangr	ngang	音节	昂			0	syllable	音节	ngang	ngǎng	昂		
@@ -1660,7 +1660,7 @@ ortho-ngov	ngov	ngo	音节	我			0	syllable	音节	ngo	ngò	我
 ortho-ngoux	ngoux	ngou	音节	欧			0	syllable	音节	ngou	ngōu	欧		
 ortho-ngouf	ngouf	ngou	音节	沤			0	syllable	音节	ngou	ngóu	沤		
 ortho-ngour	ngour	ngou	音节	呕			0	syllable	音节	ngou	ngǒu	呕		
-ortho-ngouv	ngouv	ngou	音节	藕			0	syllable	音节	ngou	ngòu	藕		
+ortho-ngouv	ngouv	ngou	音节	欧			0	syllable	音节	ngou	ngòu	欧		
 ortho-hax	hax	ha	音节	哈			0	syllable	音节	ha	hā	哈		
 ortho-haf	haf	ha	音节	吓			0	syllable	音节	ha	há	吓		
 ortho-har	har	ha	音节	蛤			0	syllable	音节	ha	hǎ	蛤		
@@ -1672,7 +1672,7 @@ ortho-haiv	haiv	hai	音节	海			0	syllable	音节	hai	hài	海
 ortho-hangx	hangx	hang	音节	酣			0	syllable	音节	hang	hāng	酣		
 ortho-hangf	hangf	hang	音节	汉			0	syllable	音节	hang	háng	汉		
 ortho-hangr	hangr	hang	音节	含			0	syllable	音节	hang	hǎng	含		
-ortho-hangv	hangv	hang	音节	喊			0	syllable	音节	hang	hàng	喊		
+ortho-hangv	hangv	hang	音节	酣			0	syllable	音节	hang	hàng	酣		
 ortho-haox	haox	hao	音节	好			0	syllable	音节	hao	hāo	好		
 ortho-haof	haof	hao	音节	号			0	syllable	音节	hao	háo	号		
 ortho-haor	haor	hao	音节	毫			0	syllable	音节	hao	hǎo	毫		
@@ -1685,26 +1685,26 @@ ortho-heix	heix	hei	音节	黑诶			0	syllable	音节	hei	hēi	黑诶
 ortho-heif	heif	hei	音节	黑欸			0	syllable	音节	hei	héi	黑欸		
 ortho-heir	heir	hei	音节	黑			0	syllable	音节	hei	hěi	黑		
 ortho-heiv	heiv	hei	音节	黑诶			0	syllable	音节	hei	hèi	黑诶		
-ortho-henx	henx	hen	音节	哼			0	syllable	音节	hen	hēn	哼		
+ortho-henx	henx	hen	音节	很			0	syllable	音节	hen	hēn	很		
 ortho-henf	henf	hen	音节	恨			0	syllable	音节	hen	hén	恨		
 ortho-henr	henr	hen	音节	痕			0	syllable	音节	hen	hěn	痕		
 ortho-henv	henv	hen	音节	很			0	syllable	音节	hen	hèn	很		
-ortho-hix	hix	hi	音节	黑衣			0	syllable	音节	hi	hī	黑衣		
+ortho-hix	hix	hi	音节	黑以			0	syllable	音节	hi	hī	黑以		
 ortho-hif	hif	hi	音节	黑意			0	syllable	音节	hi	hí	黑意		
 ortho-hir	hir	hi	音节	黑移			0	syllable	音节	hi	hǐ	黑移		
 ortho-hiv	hiv	hi	音节	黑以			0	syllable	音节	hi	hì	黑以		
-ortho-hiex	hiex	hie	音节	黑椰			0	syllable	音节	hie	hiē	黑椰		
+ortho-hiex	hiex	hie	音节	黑也			0	syllable	音节	hie	hiē	黑也		
 ortho-hief	hief	hie	音节	黑夜			0	syllable	音节	hie	hié	黑夜		
 ortho-hier	hier	hie	音节	黑叶			0	syllable	音节	hie	hiě	黑叶		
 ortho-hiev	hiev	hie	音节	黑也			0	syllable	音节	hie	hiè	黑也		
 ortho-hox	hox	ho	音节	喝			0	syllable	音节	ho	hō	喝		
 ortho-hof	hof	ho	音节	贺			0	syllable	音节	ho	hó	贺		
 ortho-hor	hor	ho	音节	和			0	syllable	音节	ho	hǒ	和		
-ortho-hov	hov	ho	音节	火			0	syllable	音节	ho	hò	火		
+ortho-hov	hov	ho	音节	喝			0	syllable	音节	ho	hò	喝		
 ortho-hongx	hongx	hong	音节	轰			0	syllable	音节	hong	hōng	轰		
 ortho-hongf	hongf	hong	音节	奉			0	syllable	音节	hong	hóng	奉		
 ortho-hongr	hongr	hong	音节	红			0	syllable	音节	hong	hǒng	红		
-ortho-hongv	hongv	hong	音节	哄			0	syllable	音节	hong	hòng	哄		
+ortho-hongv	hongv	hong	音节	轰			0	syllable	音节	hong	hòng	轰		
 ortho-houx	houx	hou	音节	吼			0	syllable	音节	hou	hōu	吼		
 ortho-houf	houf	hou	音节	后			0	syllable	音节	hou	hóu	后		
 ortho-hour	hour	hou	音节	喉			0	syllable	音节	hou	hǒu	喉		
@@ -1712,7 +1712,7 @@ ortho-houv	houv	hou	音节	吼			0	syllable	音节	hou	hòu	吼
 ortho-hux	hux	hu	音节	呼			0	syllable	音节	hu	hū	呼		
 ortho-huf	huf	hu	音节	互			0	syllable	音节	hu	hú	互		
 ortho-hur	hur	hu	音节	胡			0	syllable	音节	hu	hǔ	胡		
-ortho-huv	huv	hu	音节	虎			0	syllable	音节	hu	hù	虎		
+ortho-huv	huv	hu	音节	呼			0	syllable	音节	hu	hù	呼		
 ortho-huax	huax	hua	音节	花			0	syllable	音节	hua	huā	花		
 ortho-huaf	huaf	hua	音节	化			0	syllable	音节	hua	huá	化		
 ortho-huar	huar	hua	音节	哗			0	syllable	音节	hua	huǎ	哗		
@@ -1724,11 +1724,11 @@ ortho-huaiv	huaiv	huai	音节	槐			0	syllable	音节	huai	huài	槐
 ortho-huanx	huanx	huan	音节	欢			0	syllable	音节	huan	huān	欢		
 ortho-huanf	huanf	huan	音节	换			0	syllable	音节	huan	huán	换		
 ortho-huanr	huanr	huan	音节	皇			0	syllable	音节	huan	huǎn	皇		
-ortho-huanv	huanv	huan	音节	缓			0	syllable	音节	huan	huàn	缓		
+ortho-huanv	huanv	huan	音节	欢			0	syllable	音节	huan	huàn	欢		
 ortho-huix	huix	hui	音节	灰			0	syllable	音节	hui	huī	灰		
 ortho-huif	huif	hui	音节	会			0	syllable	音节	hui	huí	会		
 ortho-huir	huir	hui	音节	回			0	syllable	音节	hui	huǐ	回		
-ortho-huiv	huiv	hui	音节	悔			0	syllable	音节	hui	huì	悔		
+ortho-huiv	huiv	hui	音节	灰			0	syllable	音节	hui	huì	灰		
 ortho-hunx	hunx	hun	音节	荤			0	syllable	音节	hun	hūn	荤		
 ortho-hunf	hunf	hun	音节	混			0	syllable	音节	hun	hún	混		
 ortho-hunr	hunr	hun	音节	浑			0	syllable	音节	hun	hǔn	浑		
@@ -1745,11 +1745,11 @@ ortho-hxenx	hxenx	hxen	音节	呃恩			0	syllable	音节	hxen	hxēn	呃恩
 ortho-hxenf	hxenf	hxen	音节	呃摁			0	syllable	音节	hxen	hxén	呃摁		
 ortho-hxenr	hxenr	hxen	音节	呃蒽			0	syllable	音节	hxen	hxěn	呃蒽		
 ortho-hxenv	hxenv	hxen	音节	呃恩			0	syllable	音节	hxen	hxèn	呃恩		
-ortho-hxix	hxix	hxi	音节	呃衣			0	syllable	音节	hxi	hxī	呃衣		
-ortho-hxif	hxif	hxi	音节	呃意			0	syllable	音节	hxi	hxí	呃意		
-ortho-hxir	hxir	hxi	音节	呃移			0	syllable	音节	hxi	hxǐ	呃移		
-ortho-hxiv	hxiv	hxi	音节	呃以			0	syllable	音节	hxi	hxì	呃以		
-ortho-hxiex	hxiex	hxie	音节	呃椰			0	syllable	音节	hxie	hxiē	呃椰		
+ortho-hxix	hxix	hxi	音节	诶			0	syllable	音节	hxi	hxī	诶		
+ortho-hxif	hxif	hxi	音节	诶			0	syllable	音节	hxi	hxí	诶		
+ortho-hxir	hxir	hxi	音节	诶			0	syllable	音节	hxi	hxǐ	诶		
+ortho-hxiv	hxiv	hxi	音节	诶			0	syllable	音节	hxi	hxì	诶		
+ortho-hxiex	hxiex	hxie	音节	呃也			0	syllable	音节	hxie	hxiē	呃也		
 ortho-hxief	hxief	hxie	音节	呃夜			0	syllable	音节	hxie	hxié	呃夜		
 ortho-hxier	hxier	hxie	音节	呃叶			0	syllable	音节	hxie	hxiě	呃叶		
 ortho-hxiev	hxiev	hxie	音节	呃也			0	syllable	音节	hxie	hxiè	呃也		

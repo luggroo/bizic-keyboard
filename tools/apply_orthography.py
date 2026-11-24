@@ -40,7 +40,10 @@ def main():
             e['meaningForm'] = ''.join(revision['hanUnits'])
             e['formNote'] = revision['formNote']
             keep = True
-        units = table.units(parts, old, override=revision['hanUnits'] if revision else old if keep else None)
+        # Lexical decisions use their reviewed units, which may be newer than
+        # legacyHanUnits. The latter records historical forms for input aliases.
+        reviewed = e.get('hanUnits', old) if e.get('meaningForm') else old
+        units = table.units(parts, old, override=revision['hanUnits'] if revision else reviewed if keep else None)
         previous = ''.join(old)
         e['hanUnits'] = units; e['recommended'] = ''.join(units)
         for lookup in [previous, REVISIONS['previousWordForms'].get(e['id'])]:

@@ -13,8 +13,8 @@
     "spelling-boundaries.js": "1e6a513bca1eb2c8b5820e1e0e0b8b1af05e11d382bf921a20fddf8dd54a71e1"
   },
   "inputSHA256": {
-    "words.js": "dbc1164b0782be846aa051b5ba6e7b016e33373b5a6727a2828a4ef7fe3b239c",
-    "story-words.tsv": "4d2e4ef43615367d906d487ecfb2851eb8ae99bf7ac98e6026f3696e65830b68",
+    "words.js": "9c17f471f012648c00b5b90363fa6d6ae6814ebada477b72949372a3884d2cff",
+    "story-words.tsv": "4b6f8b859a720a87d794a48d2d768879956d2a780d936b9a60866f9eae7ccd40",
     "context-words.tsv": "fa24177b8ce3cba8a27a9eabb28bf28a1853a990c132fcd830d0479dee036842",
     "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
     "plain-han-loans.tsv": "52c865a5cdd2f8365e2b9cb807e012d03537a97795c300047ced1baa153ef23b",
