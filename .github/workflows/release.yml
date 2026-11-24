@@ -1,0 +1,48 @@
+name: Publish signed Android preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag (for example v0.3.0)'
+        required: true
+      bundle_commit:
+        description: 'Full commit SHA from the distribution branch containing release-assets/'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    env:
+      VERSION: ${{ inputs.version }}
+      BUNDLE: ${{ inputs.bundle_commit }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify the signed APK against its source
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && "$BUNDLE" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse "refs/remotes/origin/dist/$VERSION")" = "$BUNDLE"
+          test "$(git rev-parse "$BUNDLE^")" = "$GITHUB_SHA"
+          git restore --source="$BUNDLE" --worktree -- release-assets
+          cd release-assets
+          sha256sum -c SHA256SUMS
+          apk="tujia-keyboard-${VERSION#v}.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
+          python3 ../qa/verify-apk.py "$apk"
+      - name: Publish release attachments
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          gh release create "$VERSION" --target "$GITHUB_SHA" --title "北部土家语输入法 ${VERSION#v}" \
+            --notes-file NOTES.md "tujia-keyboard-${VERSION#v}.apk" shange-demo.mp4 \
+            continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS
