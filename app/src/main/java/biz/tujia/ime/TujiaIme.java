@@ -996,7 +996,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             String hint = nextSound ? "下一音节 " : handCompletes.contains(c) ? "续写 " :
                     wordHints.contains(c) ? "联想 " : "";
             int glossSize = compact ? 14 : 16;
-            TextView meaning = cardLine(hasGloss ? hint + c.shortMeaning : "", glossSize, 13, MUTED, false);
+            TextView meaning = cardLine(hasGloss ? c.shortMeaning : "", glossSize, 13, MUTED, false);
             meaning.setDuplicateParentStateEnabled(true);
             meaning.setTextColor(pressColors(MUTED));
             if (!hasGloss) {
@@ -1004,7 +1004,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 meaning.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             card.addView(meaning, new LinearLayout.LayoutParams(-1, Math.round(sp(glossSize) * 1.28f)));
-            TextView text = cardLine(nextSound ? "→ " + c.text : HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges), compact ? 18 : 22, 16, tujia && i == 0 ? RED : INK, true);
+            TextView text = cardLine(HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges), compact ? 18 : 22, 16, tujia && i == 0 ? RED : INK, true);
             text.setDuplicateParentStateEnabled(true);
             text.setTextColor(pressColors(tujia && i == 0 ? RED : INK));
             card.addView(text, new LinearLayout.LayoutParams(-1, Math.round(sp(compact ? 18 : 22) * 1.28f)));
