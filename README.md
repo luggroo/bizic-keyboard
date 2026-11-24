@@ -4,7 +4,7 @@
 
 ## 安装与试打
 
-1. 在 Android 6.0 或以上的手机上下载并安装试用 APK，打开「土家语输入法」。[下载安卓安装包](https://github.com/luggroo/bizic-keyboard/releases/latest)
+1. 在 Android 7.0 或以上的手机上下载并安装试用 APK，打开「土家语输入法」。[下载安卓安装包](https://github.com/luggroo/bizic-keyboard/releases/latest)
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
 3. 点应用里的试打框，或在记事本里新建一条笔记。键盘上方可以直接切换「打字」「手写」。点「更多」选拼写输出，输入 `bizika`，点汉义为“土家族”的候选。正文按设置写入 `bízīkǎ`（带调号）或 `bifzixkar`（叶氏拼音）。在「更多」里选汉字记音，再打一次，就能选出「币兹咔」。
 
