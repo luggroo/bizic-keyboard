@@ -124,6 +124,12 @@ with sync_playwright() as pw:
             card=page.locator('#candidates .word[data-han-count="3"] strong').filter(has_text='麻麻爹').first
             assert card.evaluate('e=>e.scrollWidth<=e.clientWidth'),(percent,card.bounding_box())
             if percent in [100,160,200]:snap(page,'three-han-'+tag)
+            if percent==200:
+                page.locator('#draft').fill('ga')
+                card=page.locator('#candidates button').filter(has=page.get_by_text('夹吓',exact=True))
+                assert card.locator('small').inner_text()=='上面'
+                assert card.locator('strong').evaluate('e=>e.scrollWidth<=e.clientWidth')
+                card.click();assert text()=='夹吓'
         page.locator('#hideKeyboard').click();assert not page.locator('#keyboardPanel').is_visible()
         page.locator('#result').click();page.wait_for_timeout(220);assert geometry()==base,(width,percent,base,geometry())
         metrics.append((width,percent,round(key_font,1),round(base[3]['height'],1),round(base[1]['height'],1)))
