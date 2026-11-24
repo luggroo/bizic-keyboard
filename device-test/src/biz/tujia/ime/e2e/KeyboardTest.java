@@ -429,14 +429,23 @@ public final class KeyboardTest extends Instrumentation {
         drawBo(pad);
         expectText(host.first, "首波");
         waitForNode("续写 小孩、儿童，波俐", false);
-        waitForNode("波  →  俐", false);
+        Rect preview = waitForNode("待选拼写 波", false);
+        boolean previewMatches = false;
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 波")) {
+            try {
+                Rect bounds = new Rect();
+                node.getBoundsInScreen(bounds);
+                if (preview.equals(bounds) && android.text.TextUtils.equals(node.getText(), "波俐")) previewMatches = true;
+            } finally { node.recycle(); }
+        }
+        if (!previewMatches) throw new AssertionError("Expected the handwritten prefix and next character together");
         drawLi(pad);
         expectText(host.first, "首波俐");
         if (!pad.equals(waitForNode("汉字手写区", false)))
             throw new AssertionError("Writing the next character moved the pad");
         pressCandidate("小孩、儿童，波俐", false);
         expectText(host.first, "首波俐");
-        pressCandidate("联想 没有，太", false);
+        pressCandidate("联想 没有，太", false, "没有", "太");
         expectText(host.first, "首波俐太");
 
         stage("Correct a handwritten character, then accept a word completion and its next word");
@@ -451,9 +460,9 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.second);
         drawBo(pad);
         expectText(host.second, corrected + "波");
-        pressCandidate("续写 小孩儿，波俐", false);
+        pressCandidate("续写 小孩儿，波俐", false, "小孩儿", "波俐");
         expectText(host.second, corrected + "波俐");
-        pressCandidate("联想 大人，再", false);
+        pressCandidate("联想 大人，再", false, "大人", "再");
         expectText(host.second, corrected + "波俐再");
 
         stage("Pending strokes and correction cannot cross editor or cursor changes");
@@ -509,7 +518,7 @@ public final class KeyboardTest extends Instrumentation {
                     android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
             tapField(host.first);
             press("汉字记音");
-            pressCandidate("下一音节 gof", false);
+            pressCandidate("下一音节 gof", false, "gof");
             waitForNode("待选读音 gof", false);
             expectText(host.first, "");
             press("返回联想");
@@ -518,12 +527,18 @@ public final class KeyboardTest extends Instrumentation {
             pressCandidate("他，过", false);
             expectText(host.first, "过");
 
+            type("ye");
+            pressCandidate("饭，叶", false);
+            expectText(host.first, "过叶");
+            pressCandidate("联想 吃、咬，架", false, "吃", "架");
+            expectText(host.first, "过叶架");
+
             tapField(host.second);
             type("ye");
             pressCandidate("饭，叶", false);
             expectText(host.second, "叶");
             waitForNode("联想 吃、咬，架", false);
-            pressCandidate("下一音节 gaf", false);
+            pressCandidate("下一音节 gaf", false, "gaf");
             waitForNode("待选读音 gaf", false);
             expectText(host.second, "叶");
             pressCandidate("吃、咬，架", false);
@@ -766,7 +781,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("No action key with matching caption and accessibility label: " + caption);
     }
 
-    void pressCandidate(String label, boolean suffix) {
+    void pressCandidate(String label, boolean suffix, String... visibleLines) {
         // Candidate controls can be repopulated after every key. Allow the UI time
         // to expose the current page before deciding the intended item is absent.
         for (int page = 0; page < 8; page++) {
@@ -777,6 +792,12 @@ public final class KeyboardTest extends Instrumentation {
                 for (Card item : pageCards(label)) if (label.equals(item.name)) { match = item.bounds; break; }
             }
             if (match != null) {
+                if (visibleLines.length > 0) {
+                    List<String> lines = card(label).lines;
+                    if (!lines.equals(Arrays.asList(visibleLines)))
+                        throw new AssertionError("Unexpected visible candidate lines for " + label + ": " + lines);
+                    stage("Visible candidate rows " + lines + " before selection");
+                }
                 tap(match.centerX(), match.centerY());
                 return;
             }
