@@ -668,17 +668,7 @@ public final class KeyboardTest extends Instrumentation {
 
         type("jia");
         waitForNode("待选拼写 jia", false);
-        List<Card> start = pageCards("，");
-        if (start.isEmpty()) throw new AssertionError("No jia candidates: " + visibleControls());
-        AccessibilityNodeInfo row = candidateRow(start.get(0));
-        Card mandarin = null;
-        try {
-            do {
-                for (Card c : rowCards(row)) if ("架".equals(outputLine(c))) mandarin = c;
-            } while (mandarin == null && advanceCandidatePage(row));
-        } finally { row.recycle(); }
-        if (mandarin == null || !mandarin.lines.equals(Collections.singletonList("架")))
-            throw new AssertionError("Mandarin jia should offer one plain 架: " + visibleControls());
+        Card mandarin = findPlainHan("架");
         captureFrame("sense-jia-mandarin.png");
         openReader(mandarin);
         String detail = visibleControls();
@@ -709,6 +699,42 @@ public final class KeyboardTest extends Instrumentation {
             waitForNode("待选拼写 ", false);
         }
         stage("gogo displayed the loan 哥哥 once; banricai/bangricai both selected the full word 中午／半日猜 with no remainder");
+
+        newPredictionEditor();
+        expected = "";
+        String[][] regional = {{"ga","稼"}, {"jia","稼"}, {"zhuangga","庄稼"}, {"zhuangjia","庄稼"},
+                {"zuanga","庄稼"}, {"zuanjia","庄稼"}, {"gaikai","解开"}, {"jianjie","讲解"}};
+        for (String[] example : regional) {
+            type(example[0]);
+            Card chosen = findPlainHan(example[1]);
+            if (example[1].equals("稼")) captureFrame("regional-" + example[0] + ".png");
+            tap(chosen.bounds.centerX(), chosen.bounds.centerY());
+            expected += example[1];
+            expectText(host.first, expected);
+            waitForNode("待选拼写 ", false);
+            stage("Regional Chinese input " + example[0] + " committed plain " + example[1]);
+        }
+    }
+
+    private Card findPlainHan(String form) {
+        Card candidate = findPagedCard(form, false);
+        if (!candidate.lines.equals(Collections.singletonList(form)))
+            throw new AssertionError(form + " has unexpected annotation " + candidate.lines);
+        return candidate;
+    }
+
+    private Card findPagedCard(String wanted, boolean byName) {
+        List<Card> start = pageCards("，");
+        if (start.isEmpty()) throw new AssertionError("No candidates: " + visibleControls());
+        AccessibilityNodeInfo row = candidateRow(start.get(0));
+        try {
+            do {
+                for (Card candidate : rowCards(row)) {
+                    if (wanted.equals(byName ? candidate.name : outputLine(candidate))) return candidate;
+                }
+            } while (advanceCandidatePage(row));
+        } finally { row.recycle(); }
+        throw new AssertionError("Could not find " + wanted + " across candidate pages");
     }
 
     void assertNumberedCard(Card card, String compactLabel, String form) {
@@ -966,7 +992,7 @@ public final class KeyboardTest extends Instrumentation {
             tapField(host.second);
             type("j");
             holdTone("i", "ì");
-            Card oneSense = card("下一音节 紧，jìn");
+            Card oneSense = findPagedCard("下一音节 紧，jìn", true);
             if (!oneSense.lines.equals(Arrays.asList("紧", "jìn")))
                 throw new AssertionError("Expected the verified sole sense above jìn: " + oneSense.lines);
             captureFrame("prediction-jin-before.png");

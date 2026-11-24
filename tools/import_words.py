@@ -279,19 +279,26 @@ def main():
         row["frequency"] = overrides.get(row["id"], counts[row["id"]])
     mandarin = defaultdict(list)
     with args.mandarin_readings.open(encoding="utf-8") as stream:
-        chinese_readings = {r["han"]: r["romanAliases"] for r in csv.DictReader(stream, delimiter="\t")}
+        reading_rows = list(csv.DictReader(stream, delimiter="\t"))
+    chinese_readings = {r["han"]: r["romanAliases"] for r in reading_rows}
+    if len(chinese_readings) != len(reading_rows):
+        raise ValueError("Duplicate form in Chinese reading aliases")
+    supplemental = [(r["supplementalMandarinKey"], r["han"], 0) for r in reading_rows if r.get("supplementalMandarinKey")]
+    with args.mandarin.open(encoding="utf-8") as stream:
+        measured = list(csv.reader(stream, delimiter="\t"))
+    measured_han = {han for _, han, _ in measured}
+    if any(han in measured_han for _, han, _ in supplemental):
+        raise ValueError("A supplemental Han character already has a measured frequency")
     args.out.mkdir(parents=True, exist_ok=True)
     with (args.out/"words.tsv").open("w",encoding="utf-8",newline="") as out:
         writer = csv.DictWriter(out, FIELDS, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_NONE)
         writer.writeheader()
         writer.writerows(rows)
         writer.writerows(reference)
-        with args.mandarin.open(encoding="utf-8") as stream:
-            for line in stream:
-                key, han, zipf100 = line.rstrip("\n").split("\t")
-                writer.writerow(dict(id="zh-"+han, word=key, key=key, recommended=han, kind="zh",
-                                     frequency=zipf100, romanAliases=chinese_readings.get(han, "")))
-                mandarin[key].append([han, int(zipf100)])
+        for key, han, zipf100 in [*measured, *supplemental]:
+            writer.writerow(dict(id="zh-"+han, word=key, key=key, recommended=han, kind="zh",
+                                 frequency=zipf100, romanAliases=chinese_readings.get(han, "")))
+            mandarin[key].append([han, int(zipf100)])
     copyfile(args.demo/"dialect-data-LICENSE.txt",args.out/"dialect-data-LICENSE.txt")
     if args.web:
         meta = {r["id"]:[r["frequency"],r["shortGloss"],r["plain"],r["diacritic"],r["word"],r["romanAliases"].split()] for r in rows}
@@ -310,10 +317,12 @@ def main():
         "mandarinReadingSources": {
             "local": ["https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/吉首.tsv",
                       "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/重慶.tsv"],
-            "method": "Regional input aliases use translate-tujia's modern Jishou character readings, supplemented per missing reading by Chongqing. Regional phrase alternatives require an attested example. Pypinyin 0.55.0 supplies boundaries for the pre-existing standard Chinese fallback.",
+            "book": "李启群《吉首方言研究》，民族出版社，2002，第37–40页。ISBN 9787105050574。",
+            "method": "Use modern Jishou and Chongqing local readings, including Li (2002) register examples. Phrase alternatives are based on explicit examples. Mixed keys retain surrounding Mandarin syllables; local-only keys use attested character readings in the same city. A missing single character with distinct colloquial and literary readings in one city receives a Mandarin key from pypinyin 0.55.0 and an unobserved frequency of zero.",
         },
         "stats":dict(stats), "tujiaRows":len(rows), "referenceRows":len(reference), "observedRows":observed_rows,
         "mandarinRows":sum(map(len, mandarin.values())),
+        "measuredMandarinRows":len(measured), "unrankedRegisterCharacters":len(supplemental),
     }
     if args.tujia_frequencies:
         provenance["frequencyOverrides"] = {

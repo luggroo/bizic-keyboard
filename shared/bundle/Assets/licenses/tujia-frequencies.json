@@ -19,14 +19,15 @@
     "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
     "plain-han-loans.tsv": "52c865a5cdd2f8365e2b9cb807e012d03537a97795c300047ced1baa153ef23b",
     "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703",
-    "mandarin-reading-aliases.tsv": "d6281e02de39cb3fd1056cfed2caca3ac5a8f3d92f9c36fe52c67a100da09fa4"
+    "mandarin-reading-aliases.tsv": "c4e97297e76f3c79a97962c9d790eab840518e03f7cdf5834300c76505e57553"
   },
   "mandarinReadingSources": {
     "local": [
       "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/吉首.tsv",
       "https://github.com/osfans/MCPDict/blob/da0bd03ec9417f0edfdf7aeba6c21cf693df43cf/tools/tables/output/重慶.tsv"
     ],
-    "method": "Regional input aliases use translate-tujia's modern Jishou character readings, supplemented per missing reading by Chongqing. Regional phrase alternatives require an attested example. Pypinyin 0.55.0 supplies boundaries for the pre-existing standard Chinese fallback."
+    "book": "李启群《吉首方言研究》，民族出版社，2002，第37–40页。ISBN 9787105050574。",
+    "method": "Use modern Jishou and Chongqing local readings, including Li (2002) register examples. Phrase alternatives are based on explicit examples. Mixed keys retain surrounding Mandarin syllables; local-only keys use attested character readings in the same city. A missing single character with distinct colloquial and literary readings in one city receives a Mandarin key from pypinyin 0.55.0 and an unobserved frequency of zero."
   },
   "stats": {
     "annotatedTexts": 14,
@@ -42,5 +43,7 @@
   "tujiaRows": 526,
   "referenceRows": 1243,
   "observedRows": 298,
-  "mandarinRows": 35916
+  "mandarinRows": 35925,
+  "measuredMandarinRows": 35916,
+  "unrankedRegisterCharacters": 9
 }

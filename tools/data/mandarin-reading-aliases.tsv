@@ -1,4 +1,4 @@
-han	romanAliases
+han	romanAliases	supplementalMandarinKey
 一	yǐ
 一丁点	yi'ding'dian
 一万	yi'wan
@@ -455,7 +455,7 @@ han	romanAliases
 上空	shang'kong
 上级	shang'ji
 上线	shang'xian
-上缴	shang'jiao
+上缴	san'jiao shang'jiao
 上网	shang'wang
 上能	shang'neng
 上船	shang'chuan
@@ -498,6 +498,7 @@ han	romanAliases
 下岗	xia'gang
 下放	xia'fang
 下方	xia'fang
+下来	ha'lai
 下潜	xia'qian
 下班	xia'ban
 下线	xia'xian
@@ -505,6 +506,7 @@ han	romanAliases
 下葬	xia'zang
 下议院	xia'yi'yuan
 下贱	xia'jian
+下车	ha'che
 下边	xia'bian
 下降	xia'jian xia'jiang
 下限	xia'xian
@@ -655,6 +657,7 @@ han	romanAliases
 世界观	shi'jie'guan
 世界遗产	shi'jie'yi'chan
 世界银行	shi'jie'yin'hang
+世纪	si'ji
 世间	shi'jian
 丘	qiū
 丙	bin bìn
@@ -862,11 +865,13 @@ han	romanAliases
 中专	zhong'zhuan
 中产	zhong'chan
 中产阶级	zhong'chan'jie'ji
+中介	zong'jie
 中伤	zhong'shang
 中共中央	zhong'gong'zhong'yang
 中共中央办公厅	zhong'gong'zhong'yang'ban'gong'ting
 中共中央政治局	zhong'gong'zhong'yang'zheng'zhi'ju
 中关村	zhong'guan'cun
+中华	zong'hua
 中南	zhong'nan
 中南海	zhong'nan'hai
 中南部	zhong'nan'bu
@@ -938,7 +943,7 @@ han	romanAliases
 中轴线	zhong'zhou'xian
 中选	zhong'xuan
 中长期	zhong'chang'qi
-中间	zhong'gan zhong'jian
+中间	zhong'gan zhong'jian zong'gan
 中间人	zhong'jian'ren
 中间体	zhong'jian'ti
 中间派	zhong'jian'pai
@@ -1094,6 +1099,7 @@ han	romanAliases
 书	su sū
 书上	shu'shang
 书刊	shu'kan
+书呆子	su'dai'zi
 书展	shu'zhan
 书店	shu'dian
 书房	shu'fang
@@ -1299,6 +1305,7 @@ han	romanAliases
 人员	ren'yuan
 人员伤亡	ren'yuan'shang'wang
 人大常委会	ren'da'chang'wei'hui
+人家	ren'ga
 人寿保险	ren'shou'bao'xian
 人山人海	ren'shan'ren'hai
 人想	ren'xiang
@@ -1319,6 +1326,7 @@ han	romanAliases
 人生观	ren'sheng'guan
 人缘	ren'yuan
 人脸	ren'lian
+人行道	ren'xin'dao
 人身安全	ren'shen'an'quan
 人选	ren'xuan
 人间	ren'jian
@@ -1353,7 +1361,7 @@ han	romanAliases
 今年夏天	jin'nian'xia'tian
 今晚	jin'wan
 介	gai gái jié
-介绍	gai'shao
+介绍	gai'sao gai'shao
 介面	jie'mian
 仍	ren rén rěn
 仍然	reng'ran
@@ -1363,6 +1371,7 @@ han	romanAliases
 从今天起	cong'jin'tian'qi
 从前	cong'qian
 从天而降	cong'tian'er'jiang
+从容	cong'yong
 从未见过	cong'wei'jian'guo
 从根本上	cong'gen'ben'shang
 仑	len lēn lǔn
@@ -1479,7 +1488,7 @@ han	romanAliases
 伙	ho hò
 伙伴	huo'ban
 伙伴关系	huo'ban'guan'xi
-会	huí kuai kuái
+会	hei huí héi kuai kuái
 会上	hui'shang
 会先	hui'xian
 会变	hui'bian
@@ -1634,7 +1643,7 @@ han	romanAliases
 佛山	fo'shan
 佛山市	fo'shan'shi
 作	zo zǒ
-作为	zuo'wi
+作为	zo'wi zuo'wi
 作乱	zuo'luan
 作伴	zuo'ban
 作响	zuo'xiang
@@ -1675,6 +1684,7 @@ han	romanAliases
 侧面	ce'mian
 侨	qiǎo
 侬	long lǒng
+侮	hu hù wū	wu
 侯	hǒu
 侵	qín
 侵占	qin'zhan
@@ -1687,7 +1697,7 @@ han	romanAliases
 便利商店	bian'li'shang'dian
 便利店	bian'li'dian
 便士	bian'shi
-便宜	pian'yi
+便宜	pian'ni pian'yi
 便当	bian'dang
 便捷	bian'jie
 便携	bian'xie
@@ -1762,7 +1772,7 @@ han	romanAliases
 倍感	bei'gan
 倒	dào dáo
 倒转	dao'zhuan
-倔强	jue'jian jue'jiang qi'jiang
+倔强	jue'jian jue'jiang qi'jian qi'jiang
 倘若	tang'ruo
 候	hóu
 候补委员	hou'bu'wei'yuan
@@ -1849,11 +1859,11 @@ han	romanAliases
 偿	san sàn
 偿付	chang'fu
 偿还	chang'huan
-傀儡	kui'lui
+傀儡	kuai'lui kui'lui
 傅	hu hú hū
 傍晚	bang'wan
 储	cu cǔ
-储蓄	chu'xiu cu'xu
+储蓄	chu'xiu cu'xiu cu'xu
 储藏	chu'cang
 储量	chu'liang
 催	cuī
@@ -2279,8 +2289,8 @@ han	romanAliases
 兴办	xing'ban
 兴安	xing'an
 兴建	xing'jian
-兴旺	xin'wang xing'wan xing'wang
-兴盛	xing'sen
+兴旺	xin'wan xin'wang xing'wan xing'wang
+兴盛	xin'sen xing'sen
 兵	bin bīn
 兵变	bing'bian
 兵员	bing'yuan
@@ -2392,7 +2402,7 @@ han	romanAliases
 农行	nong'hang
 冠	guán guān
 冠以	guan'yi
-冠军	guan'jun
+冠军	guan'jin guan'jun
 冠军赛	guan'jun'sai
 冠名	guan'ming
 冠状病毒	guan'zhuang'bing'du
@@ -2444,6 +2454,7 @@ han	romanAliases
 冻	dóng
 净	jin jín
 净资产	jing'zi'chan
+凄	qī xi xī	qi
 凄凉	qi'liang
 凄惨	qi'can
 准	zen zun zèn zùn
@@ -2488,6 +2499,7 @@ han	romanAliases
 凝望	ning'wang
 几	jì jī
 几万	ji'wan
+几个	ji'go
 几件	ji'jian
 几件事	ji'jian'shi
 几十万	ji'shi'wan
@@ -2539,7 +2551,7 @@ han	romanAliases
 出口量	chu'kou'liang
 出场	chu'chang
 出山	chu'shan
-出差	chu'cai
+出差	chu'cai cu'cai
 出战	chu'zhan
 出汗	chu'han
 出演	chu'yan
@@ -2573,12 +2585,13 @@ han	romanAliases
 刃	rèn
 分	huen huēn
 分享	fen'xiang
-分娩	fen'mian
+分别	huen'bie
+分娩	fen'mian huen'mian
 分子量	fen'zi'liang
 分店	fen'dian
 分担	fen'dan
 分摊	fen'tan
-分散	fen'san
+分散	fen'san huen'san
 分散式	fen'san'shi
 分数线	fen'shu'xian
 分期付款	fen'qi'fu'kuan
@@ -2594,7 +2607,7 @@ han	romanAliases
 分量	fen'liang
 分钱	fen'qian
 分院	fen'yuan
-切	qiě
+切	cei cěi qiě
 切入点	qie'ru'dian
 切换	qie'huan
 切断	qie'duan
@@ -2696,7 +2709,7 @@ han	romanAliases
 刨	bao báo pǎo
 利	lí
 利剑	li'jian
-别	biě pie piē
+别	biē biě pie piē
 别忘了	bie'wang'le
 别想	bie'xiang
 别无选择	bie'wu'xuan'ze
@@ -2985,7 +2998,7 @@ han	romanAliases
 匪	huei huèi
 匹	pǐ
 区	ngou ngōu qi qī
-区分	qi'fen
+区分	qi'fen qi'huen
 区县	qu'xian
 区段	qu'duan
 区长	qu'zhang
@@ -3250,16 +3263,17 @@ han	romanAliases
 占	zan zán zān
 占上风	zhan'shang'feng
 占便宜	zhan'pian'yi
-占卜	zan'bu zhan'bu zhan'pu
+占卜	zan'bu zan'pu zhan'bu zhan'pu
 占地	zhan'di
 占地面积	zhan'di'mian'ji
 占多数	zhan'duo'shu
 占据	zhan'ju
-占有	zan'you zhan'you
+占有	zan'you zan'yu zhan'you
 占用	zhan'yong
 占领	zhan'ling
 占领区	zhan'ling'qu
 卡	kà
+卡住	ka'zu
 卡片	ka'pian
 卡萨布兰卡	ka'sa'bu'lan'ka
 卢	lǔ
@@ -3333,7 +3347,7 @@ han	romanAliases
 厌恶	yan'wu
 厌烦	yan'fan
 厕	cei cěi si sī sǐ
-厕所	cei'suo
+厕所	cei'so cei'suo
 厘	lǐ
 厚	hóu
 原	yan yǎn
@@ -3407,12 +3421,13 @@ han	romanAliases
 厦	hia hiá sa sua suà sà xia xià
 厨	cu cǔ
 厨房	chu'fang
-去	qi qí
+去	kei kéi qi qí
 去向	qu'xiang
 去年	qu'nian
 去年同期	qu'nian'tong'qi
 去年底	qu'nian'di
 去往	qu'wang
+去掉	qi'diao
 县	xián
 县令	xian'ling
 县城	xian'cheng
@@ -3550,13 +3565,13 @@ han	romanAliases
 反法西斯	fan'fa'xi'si
 反派	fan'pai
 反潜	fan'qian
-反省	fan'sen fan'xing
+反省	fan'sen fan'xing huan'sen
 反美	fan'mei
 反而	fan'er
 反胃	fan'wei
 反腐	fan'fu
 反腐败	fan'fu'bai
-反覆	fan'fu
+反覆	fan'fu fan'hu huan'hu
 反观	fan'guan
 反贪	fan'tan
 反贼	fan'zei
@@ -3573,7 +3588,7 @@ han	romanAliases
 发亮	fa'liang
 发光	fa'guang
 发动战争	fa'dong'zhan'zheng
-发展	fa'zhan hua'zhan
+发展	fa'zhan hua'zan hua'zhan
 发展中国家	fa'zhan'zhong'guo'jia
 发展史	fa'zhan'shi
 发展局	fa'zhan'ju
@@ -3707,7 +3722,7 @@ han	romanAliases
 叩	kóu
 只	zi zì zǐ
 只想	zhi'xiang
-只有	zi'you
+只有	zi'you zi'yu
 只管	zhi'guan
 只见	zhi'jian
 只限	zhi'xian
@@ -3721,6 +3736,7 @@ han	romanAliases
 可	ko kò
 可变	ke'bian
 可怜	ke'lian
+可恶	ko'wu
 可想而知	ke'xiang'er'zhi
 可望	ke'wang
 可汗	ke'han
@@ -3893,12 +3909,13 @@ han	romanAliases
 吴县	wu'xian
 吴江	wu'jiang
 吵	cao cào
+吵架	cao'jia
 吸	ji jǐ xǐ
 吸烟	xi'yan
 吸管	xi'guan
 吹	cui cuī
 吹响	chui'xiang
-吹嘘	chui'xi
+吹嘘	chui'xi cui'xi
 吻	wun wùn
 吼	hòu
 吾	wǔ
@@ -3914,6 +3931,7 @@ han	romanAliases
 呐	la lǎ
 呐喊	na'han
 呕	ngou ngòu
+呕吐	ngou'tu
 员	yan yǎn
 员工	yuan'gong
 员警	yuan'jing
@@ -3958,6 +3976,7 @@ han	romanAliases
 咱们	zan'men
 咱俩	zan'lia
 咳	kei kěi
+咳嗽	kei'sou
 咸	han hǎn xiǎn
 咸丰	xian'feng
 咸宁	xian'ning
@@ -4022,6 +4041,7 @@ han	romanAliases
 唱腔	chang'qiang
 啃	kèn
 啄	zo zua zuǎ zǒ
+啄木鸟	zo'mu'niao
 商	san sān
 商丘	shang'qiu
 商业	shang'ye
@@ -4081,7 +4101,7 @@ han	romanAliases
 善后	shan'hou
 善待	shan'dai
 善心	shan'xin
-善恶	shan'e shan'ngo
+善恶	san'ngo shan'e shan'ngo
 善意	shan'yi
 善款	shan'kuan
 善用	shan'yong
@@ -4104,7 +4124,7 @@ han	romanAliases
 喝	ho hō hǒ
 喝完	he'wan
 喝彩	ho'cai
-喝水	ho'shui
+喝水	ho'shui ho'sui
 喝点	he'dian
 喧哗	xuan'hua
 喧嚣	xuan'xiao
@@ -4168,13 +4188,14 @@ han	romanAliases
 四项	si'xiang
 回	huǐ wi wǐ
 回乡	hui'xiang
-回去	wi'qu
+回去	hui'kei hui'qi wi'kei wi'qi wi'qu
 回响	hui'xiang
 回廊	hui'lang
 回想	hui'xiang
 回放	hui'fang
 回旋	hui'xuan
 回暖	hui'nuan
+回来	wi'lai
 回荡	hui'dang
 回访	hui'fang
 回转	hui'zhuan
@@ -4214,6 +4235,7 @@ han	romanAliases
 围	wi wǐ
 围墙	wei'qiang
 围栏	wei'lan
+围绕	wi'rao
 围观	wei'guan
 固	gú
 固定资产	gu'ding'zi'chan
@@ -4403,6 +4425,7 @@ han	romanAliases
 坦诚	tan'cheng
 坨	to tǒ
 坪	pin pǐn
+坳	ngao ngáo áo	ao
 垂	cui cuǐ
 垃圾场	la'ji'chang
 垄断	long'duan
@@ -4429,6 +4452,7 @@ han	romanAliases
 埠	bú
 培	pěi
 培养	pei'yang
+培育	pei'yi
 培训班	pei'xun'ban
 基	jī
 基团	ji'tuan
@@ -4488,6 +4512,7 @@ han	romanAliases
 增	zen zēn
 增产	zeng'chan
 增减	zeng'jian
+增加	zen'jia
 增强	zeng'qiang
 增援	zeng'yuan
 增添	zeng'tian
@@ -4520,7 +4545,7 @@ han	romanAliases
 壳	ko kǒ
 壶	hǔ
 处	cu cù cú
-处所	cu'suo
+处所	cu'so cu'suo
 处方	chu'fang
 处方药	chu'fang'yao
 处理厂	chu'li'chang
@@ -4574,7 +4599,7 @@ han	romanAliases
 多变	duo'bian
 多场	duo'chang
 多天	duo'tian
-多少	duo'sao
+多少	do'sao duo'sao
 多巴胺	duo'ba'an
 多年	duo'nian
 多年生	duo'nian'sheng
@@ -4628,6 +4653,7 @@ han	romanAliases
 大唐	da'tang
 大喊	da'han
 大堂	da'tang
+大夫	da'hu
 大奖	da'jiang
 大奖赛	da'jiang'sai
 大娘	da'niang
@@ -4673,7 +4699,7 @@ han	romanAliases
 大自然	da'zi'ran
 大船	da'chuan
 大蒜	da'suan
-大街小巷	da'jie'xiao'xiang
+大街小巷	da'jie'xiao'xian da'jie'xiao'xiang
 大西洋	da'xi'yang
 大观	da'guan
 大象	da'xiang
@@ -4855,7 +4881,7 @@ han	romanAliases
 头衔	tou'xian
 夷	yǐ
 夸	kuà kuā
-夸奖	kua'jiang
+夸奖	kua'jian kua'jiang
 夸张	kua'zhang
 夹	ga gǎ jiǎ
 夹子	ga'zi
@@ -4878,6 +4904,7 @@ han	romanAliases
 奏	cou cóu zóu
 契	qí
 契丹	qi'dan
+契约	qi'yao
 奔	bén bēn
 奔放	ben'fang
 奖	jian jiàn
@@ -4902,7 +4929,7 @@ han	romanAliases
 奠基	dian'ji
 奠基人	dian'ji'ren
 奠定	dian'ding
-奢侈	she'ci
+奢侈	sei'ci she'ci
 奢望	she'wang
 奥	ngao ngáo
 奥克兰	ao'ke'lan
@@ -4916,7 +4943,7 @@ han	romanAliases
 女单	nv'dan
 女同性恋	nv'tong'xing'lian
 女团	nv'tuan
-女婿	nv'xi
+女婿	ni'xi nv'xi
 女子监狱	nv'zi'jian'yu
 女将	nv'jiang
 女强人	nv'qiang'ren
@@ -4932,6 +4959,7 @@ han	romanAliases
 女郎	nv'lang
 奴	lu lǔ
 奶	lai lài lái lāi
+奶粉	lai'fen lai'huen
 奸	jiān
 奸淫	jian'yin
 奸细	jian'xi
@@ -5087,6 +5115,7 @@ han	romanAliases
 学堂	xue'tang
 学年	xue'nian
 学术研究	xue'shu'yan'jiu
+学校	xiao'xiao
 学联	xue'lian
 学长	xue'zhang
 学院	xue'yuan
@@ -5139,7 +5168,7 @@ han	romanAliases
 安好	an'hao
 安妮	an'ni
 安娜	an'na
-安宁	an'nin an'ning
+安宁	an'nin an'ning ngan'nin
 安安静静	an'an'jing'jing
 安定	an'ding
 安家	an'jia
@@ -5155,7 +5184,7 @@ han	romanAliases
 安心	an'xin
 安息	an'xi
 安息日	an'xi'ri
-安慰	an'wei an'wi
+安慰	an'wei an'wi ngan'wi
 安抚	an'fu
 安拉	an'la
 安排	an'pai
@@ -5196,7 +5225,7 @@ han	romanAliases
 完婚	wan'hun
 完完全全	wan'wan'quan'quan
 完工	wan'gong
-完成	wan'cheng
+完成	wan'cen wan'cheng
 完成率	wan'cheng'lv
 完整	wan'zheng
 完整性	wan'zheng'xing
@@ -5326,6 +5355,7 @@ han	romanAliases
 家园	jia'yuan
 家常	jia'chang
 家常便饭	jia'chang'bian'fan
+家庭	jia'ten
 家庭成员	jia'ting'cheng'yuan
 家当	jia'dang
 家用电器	jia'yong'dian'qi
@@ -5335,6 +5365,7 @@ han	romanAliases
 家装	jia'zhuang
 家长	jia'zhang
 容	yong yǒng
+容易	yong'yi
 容量	rong'liang
 容颜	rong'yan
 宽	kuān
@@ -5353,6 +5384,7 @@ han	romanAliases
 宾	bīn
 宾馆	bin'guan
 宿	sǔ xiu xiú
+宿舍	su'sei
 寄	jí
 寄养	ji'yang
 寄望	ji'wang
@@ -5416,7 +5448,7 @@ han	romanAliases
 封锁线	feng'suo'xian
 封面	feng'mian
 射	sei séi
-射中	she'zong
+射中	sei'zong she'zong
 射箭	she'jian
 射线	she'xian
 将	jian jián jiān
@@ -5470,7 +5502,7 @@ han	romanAliases
 尖端	jian'duan
 尖锐	jian'rui
 尘	cen cěn
-尘埃	chen'ngai
+尘埃	cen'ngai chen'ngai
 尚	san sán
 尚且	shang'qie
 尚书	shang'shu
@@ -5702,7 +5734,7 @@ han	romanAliases
 巫山	wu'shan
 差	ca cai ci cā cāi cī
 差一点	cha'yi'dian
-差不多	ca'bu'duo
+差不多	ca'bu'do ca'bu'duo
 差别	ca'bie
 差点	cha'dian
 差点儿	cha'dian'er
@@ -5962,7 +5994,7 @@ han	romanAliases
 幼	yu yú
 幼儿园	you'er'yuan
 幼年	you'nian
-幼稚	you'zi
+幼稚	you'zi yu'zi
 幼稚园	you'zhi'yuan
 幽	yu yū
 幽默感	you'mo'gan
@@ -6005,7 +6037,7 @@ han	romanAliases
 庄园	zhuang'yuan
 庄子	zhuang'zi
 庄家	zhuang'jia
-庄稼	zhuang'jia
+庄稼	zhuang'ga zhuang'jia zuan'ga zuan'jia
 庄重	zhuang'zhong
 庆	qin qín
 庆典	qing'dian
@@ -6319,7 +6351,7 @@ han	romanAliases
 归还	gui'huan
 当	dan dán dān
 当下	dang'xia
-当中	dang'zhong dang'zong
+当中	dan'zong dang'zhong dang'zong
 当之无愧	dang'zhi'wu'kui
 当事	dang'shi
 当事人	dang'shi'ren
@@ -6329,7 +6361,7 @@ han	romanAliases
 当代	dang'dai
 当代艺术	dang'dai'yi'shu
 当众	dang'zhong
-当作	dan'zuo dang'zuo
+当作	dan'zo dan'zuo dang'zuo
 当值	dang'zhi
 当做	dang'zuo
 当兵	dang'bing
@@ -6355,7 +6387,7 @@ han	romanAliases
 当成	dang'cheng
 当政	dang'zheng
 当日	dang'ri
-当时	dan'shi dang'shi
+当时	dan'shi dan'si dang'shi
 当晚	dang'wan
 当月	dang'yue
 当有	dang'you
@@ -6521,6 +6553,7 @@ han	romanAliases
 忧	yu yū
 忧伤	you'shang
 忧患	you'huan
+忧郁	you'yi yu'yi
 快	kuái
 快乐	kuai'lo
 快感	kuai'gan
@@ -6672,6 +6705,7 @@ han	romanAliases
 惊慌	jing'huang
 惊慌失措	jing'huang'shi'cuo
 惊艳	jing'yan
+惊讶	jin'ya
 惊险	jing'xian
 惋惜	wan'xi
 惑	huai huǎi
@@ -6806,12 +6840,13 @@ han	romanAliases
 慧	huí
 慰	wi wí yi yí
 慰安妇	wei'an'fu
-慰问	yi'wen
+慰问	yi'wen yi'wun
 慵懒	yong'lan
 慷慨	kan'kai kang'kai
 憋	bi bī
 憨	hān
 懂	dòng
+懈	hai hái xié	xie
 懊悔	ngao'hui
 懒	làn
 懒人	lan'ren
@@ -6824,7 +6859,7 @@ han	romanAliases
 戎	rǒng
 戏	xí
 戏院	xi'yuan
-成	cen cěn
+成	cen cěn qin qǐn
 成交量	cheng'jiao'liang
 成像	cheng'xiang
 成全	cheng'quan
@@ -7008,7 +7043,7 @@ han	romanAliases
 扫	sào sáo
 扫盲	sao'mang
 扫荡	sao'dang
-扫黄	sao'huang
+扫黄	sao'huan sao'huang
 扬	yan yǎn
 扬声器	yang'sheng'qi
 扬州	yang'zhou
@@ -7040,6 +7075,7 @@ han	romanAliases
 承	cen cěn sen sěn
 承办	cheng'ban
 承包商	cheng'bao'shang
+承受	cen'shou cen'sou
 承建	cheng'jian
 承担	cheng'dan
 承担责任	cheng'dan'ze'ren
@@ -7051,6 +7087,7 @@ han	romanAliases
 抄	cao cāo
 把	bà bá
 把关	ba'guan
+把握	ba'o
 抑	yǐ
 抓	ya yà zua zuā
 抓狂	zhua'kuang
@@ -7138,6 +7175,7 @@ han	romanAliases
 押	yǎ
 抽	cou cōu
 抽奖	chou'jiang
+抽屉	cou'ti
 抽样	chou'yang
 抽烟	chou'yan
 抽签	chou'qian
@@ -7181,7 +7219,7 @@ han	romanAliases
 拖欠	tuo'qian
 拘	ji jī
 拚	pán pān
-拚命	pan'ming
+拚命	pan'min pan'ming
 招	zao zāo
 招商	zhao'shang
 招商引资	zhao'shang'yin'zi
@@ -7208,6 +7246,7 @@ han	romanAliases
 择	ca cei cá cěi
 括	gua guǎ kua kuǎ
 拱	gòng góng
+拱手	gong'sou
 拳	qian qiǎn
 拳击	quan'ji
 拳击手	quan'ji'shou
@@ -7243,7 +7282,7 @@ han	romanAliases
 指挥权	zhi'hui'quan
 指望	zhi'wang
 指点	zhi'dian
-指甲	zhi'ga zi'jia
+指甲	zhi'ga zi'ga zi'jia
 按	ngan ngán
 按下	an'xia
 按住	an'zhu
@@ -7265,7 +7304,7 @@ han	romanAliases
 挑战性	tiao'zhan'xing
 挑战者	tiao'zhan'zhe
 挑战赛	tiao'zhan'sai
-挑选	tiao'xuan
+挑选	tiao'xian tiao'xuan
 挖	wā
 挖矿	wa'kuang
 挠	rao rǎo
@@ -7511,6 +7550,7 @@ han	romanAliases
 摊牌	tan'pai
 摊贩	tan'fan
 摔	suai suài suāi zuai zuāi
+摔跤	suai'jiao
 摘	zei zěi
 摧残	cui'can
 摩	mō mǒ
@@ -7549,6 +7589,7 @@ han	romanAliases
 擅自	shan'zi
 擅长	shan'chang
 操	cāo
+操作	cao'zo
 操作员	cao'zuo'yuan
 操办	cao'ban
 操场	cao'chang
@@ -7614,7 +7655,7 @@ han	romanAliases
 放	huan huán
 放下	fang'xia
 放任	fang'ren
-放假	fang'jia
+放假	fang'jia huan'jia
 放入	fang'ru
 放出	fang'chu
 放到	fang'dao
@@ -7649,7 +7690,7 @@ han	romanAliases
 放置	fang'zhi
 放羊	fang'yang
 放肆	fang'si
-放荡	fang'dan fang'dang
+放荡	fang'dan fang'dang huan'dan
 放行	fang'xing
 放贷	fang'dai
 放过	fang'guo
@@ -7689,7 +7730,8 @@ han	romanAliases
 救援	jiu'yuan
 救援队	jiu'yuan'dui
 敖	ngao ngǎo
-教	jiáo jiāo
+教	gao gáo jiáo jiāo
+教书	jiao'su
 教养	jiao'yang
 教员	jiao'yuan
 教堂	jiao'tang
@@ -7740,14 +7782,15 @@ han	romanAliases
 数千名	shu'qian'ming
 数千年	shu'qian'nian
 数天	shu'tian
-数学	su'xue
+数学	su'xiao su'xue
 数年	shu'nian
 数百万	shu'bai'wan
 数百年	shu'bai'nian
 数码相机	shu'ma'xiang'ji
-数量	shu'lian shu'liang
+数量	shu'lian shu'liang su'lian
 敲	kao kāo qiāo
 敲响	qiao'xiang
+敲门	kao'men
 整	zen zèn
 整件事	zheng'jian'shi
 整场	zheng'chang
@@ -7791,6 +7834,7 @@ han	romanAliases
 斑纹	ban'wen
 斑马	ban'ma
 斗	dòu dóu
+斗争	dou'zen
 料	liáo
 斜	qia qiǎ xia xiě xiǎ
 斡旋	wo'xuan
@@ -7866,7 +7910,7 @@ han	romanAliases
 方	huan huān
 方丈	fang'zhang
 方位	fang'wei
-方便	fang'bian
+方便	fang'bian huan'bian
 方便面	fang'bian'mian
 方兴未艾	fang'xing'wei'ai
 方可	fang'ke
@@ -7998,10 +8042,11 @@ han	romanAliases
 时	si sǐ
 时代广场	shi'dai'guang'chang
 时光	shi'guang
-时刻	shi'kei
+时刻	shi'kei si'kei
 时半	shi'ban
 时尚	shi'shang
 时常	shi'chang
+时期	si'qi
 时段	shi'duan
 时装	shi'zhuang
 时装周	shi'zhuang'zhou
@@ -8049,6 +8094,7 @@ han	romanAliases
 映	yin yín
 春	cun cūn
 春光	chun'guang
+春夏	cun'xia
 春天	chun'tian
 春晚	chun'wan
 春暖花开	chun'nuan'hua'kai
@@ -8167,14 +8213,14 @@ han	romanAliases
 暴乱	bao'luan
 暴力事件	bao'li'shi'jian
 暴涨	bao'zhang
-暴躁	pao'zao
+暴躁	pao'cao pao'zao
 暹罗	xian'luo
 曙光	shu'guang
 曝	pǔ
 曝光	bao'guang
 曰	ye yě
 曲	qi qǐ
-曲折	qi'zhe
+曲折	qi'zei qi'zhe
 曲线	qu'xian
 曲面	qu'mian
 更	gen gén gēn jin jīn
@@ -8200,7 +8246,7 @@ han	romanAliases
 曼谷	man'gu
 曾	cen cěn zen zēn
 曾国藩	ceng'guo'fan
-曾经	cen'jing
+曾经	cen'jin cen'jing
 曾荫权	ceng'yin'quan
 替	tí
 替换	ti'huan
@@ -8300,6 +8346,7 @@ han	romanAliases
 未成年人	wei'cheng'nian'ren
 未满	wei'man
 未见	wei'jian
+未遂	wei'xi wi'sui wi'xi
 末	mǒ
 末年	mo'nian
 末端	mo'duan
@@ -8598,6 +8645,7 @@ han	romanAliases
 桑托斯	sang'tuo'si
 桑拿	sang'na
 桓	huǎn
+桠	nga ngā yā	ya
 档	dan dán tan tàn
 档期	dang'qi
 档案	dang'an
@@ -8721,7 +8769,7 @@ han	romanAliases
 模仿	mo'fang
 模板	mu'ban
 模样	mu'yang
-模范	mo'fan
+模范	mo'fan mo'huan
 横	hen huan hun huǎn hén hǔn
 横冲直撞	heng'chong'zhi'zhuang
 横向	heng'xiang
@@ -8777,8 +8825,8 @@ han	romanAliases
 欧洲央行	ou'zhou'yang'hang
 欧盟委员会	ou'meng'wei'yuan'hui
 欧阳	ou'yang
-欲	yi yí
-欲望	yu'wang
+欲	yi yí yú
+欲望	yi'wan yi'wang yu'wan yu'wang
 欺	qī
 欺骗	qi'pian
 款	kuàn
@@ -8792,7 +8840,7 @@ han	romanAliases
 歌剧院	ge'ju'yuan
 歌唱	ge'chang
 歌坛	ge'tan
-歌曲	ge'qi
+歌曲	ge'qi go'qi
 止	zi zì
 正	zen zén zēn
 正义感	zheng'yi'gan
@@ -8806,7 +8854,7 @@ han	romanAliases
 正当	zheng'dang
 正当性	zheng'dang'xing
 正方形	zheng'fang'xing
-正月	zen'yue
+正月	zen'ye zen'yue
 正殿	zheng'dian
 正点	zheng'dian
 正版	zheng'ban
@@ -8849,7 +8897,7 @@ han	romanAliases
 死难	si'nan
 死难者	si'nan'zhe
 歼	jiān qian qiān
-歼灭	jian'mie qian'mie
+歼灭	jian'mie qian'mi qian'mie
 殉难	xun'nan
 殊	su sū
 残	cǎn
@@ -9069,7 +9117,7 @@ han	romanAliases
 污点	wu'dian
 汤	tan tān
 汤加	tang'jia
-汤匙	tang'chi tang'ci
+汤匙	tan'ci tang'chi tang'ci
 汤圆	tang'yuan
 汤姆	tang'mu
 汤普森	tang'pu'sen
@@ -9086,12 +9134,13 @@ han	romanAliases
 沈	sen sèn
 沈阳	shen'yang
 沈阳市	shen'yang'shi
-沉	cen cěn
+沉	cen cěn zen zén
 沉没	chen'mei
 沉淀	chen'dian
 沉船	chen'chuan
 沉降	chen'jiang
 沉香	chen'xiang
+沉默	cen'mei cen'mo
 沐	mong mǒng mǔ
 沙	sa sā
 沙县	sha'xian
@@ -9106,7 +9155,7 @@ han	romanAliases
 没完	mei'wan
 没完没了	mei'wan'mei'liao
 没想到	mei'xiang'dao
-没有	mi'you
+没有	mi'you mi'yu
 沦	len lěn lǔn
 沦丧	lun'sang
 沦陷	lun'xian
@@ -9277,7 +9326,9 @@ han	romanAliases
 浏览器	liu'lan'qi
 浏阳	liu'yang
 浑	hūn hǔn
+浑身	hun'sen
 浓	long lǒng niong niǒng
+浓厚	long'hou
 浓烟	nong'yan
 浙	zei zěi
 浙江	zhe'jiang
@@ -9300,6 +9351,7 @@ han	romanAliases
 浮现	fu'xian
 浴	yi yí yú
 浴场	yu'chang
+浴室	yu'si
 浴缸	yu'gang
 海	hài
 海上	hai'shang
@@ -9476,7 +9528,7 @@ han	romanAliases
 游船	you'chuan
 游荡	you'dang
 游览	you'lan
-游说	you'sui
+游说	you'sui yu'sui
 渺茫	miao'mang
 湖	hǔ
 湖上	hu'shang
@@ -9513,6 +9565,7 @@ han	romanAliases
 溪	qi qī
 溯源	su'yuan
 溶	yong yǒng
+溺爱	ni'ngai
 滋	zī
 滋养	zi'yang
 滋长	zi'zhang
@@ -9561,7 +9614,8 @@ han	romanAliases
 滩涂	tan'tu
 滴	dia diǎ dǐ
 漂	piào piáo piāo
-漂亮	piao'liang
+漂亮	piao'lian piao'liang
+漂白	piao'bei
 漆	qǐ
 漏	lóu
 演	yàn
@@ -9585,7 +9639,7 @@ han	romanAliases
 演绎	yan'yi
 演艺	yan'yi
 演艺圈	yan'yi'quan
-演讲	yan'jiang
+演讲	yan'jian yan'jiang
 演说	yan'shuo
 演进	yan'jin
 漠	mǒ
@@ -9729,7 +9783,7 @@ han	romanAliases
 点球	dian'qiu
 点着	dian'zhao
 点穴	dian'xue
-点缀	dian'jie dian'zhui
+点缀	dian'jie dian'zhui dian'zui
 点菜	dian'cai
 点评	dian'ping
 点赞	dian'zan
@@ -9815,7 +9869,7 @@ han	romanAliases
 照相机	zhao'xiang'ji
 照看	zhao'kan
 煮	zu zù
-煮熟	zhu'su
+煮熟	zhu'su zu'su
 煮饭	zhu'fan
 煽动	shan'dong
 煽情	shan'qing
@@ -9838,7 +9892,7 @@ han	romanAliases
 燃起	ran'qi
 燎原	liao'yuan
 燕	yán yān
-燕京	yan'jing
+燕京	yan'jin yan'jing
 燕子	yan'zi
 燕山	yan'shan
 燕窝	yan'wo
@@ -9849,7 +9903,7 @@ han	romanAliases
 爆炸事件	bao'zha'shi'jian
 爆炸案	bao'zha'an
 爪	ya yà zao zua zuà zào
-爪子	ya'zi
+爪子	ya'zi zua'zi
 爪牙	zao'ya
 爬	ba bā pǎ
 爬山	pa'shan
@@ -9898,6 +9952,9 @@ han	romanAliases
 牌	pǎi
 牌坊	pai'fang
 牙	nga ngǎ yǎ
+牙刷	ya'sua
+牙科	ya'ko
+牙齿	nga'chi nga'ci
 牛	liu niǔ
 牛皮癣	niu'pi'xuan
 牛羊	niu'yang
@@ -9989,7 +10046,8 @@ han	romanAliases
 独断	du'duan
 独立战争	du'li'zhan'zheng
 独裁政权	du'cai'zheng'quan
-狭	xiǎ
+狭	ha hǎ xiǎ
+狭窄	xia'zei
 狭长	xia'chang
 狮	si sī
 狮子山	shi'zi'shan
@@ -10027,7 +10085,7 @@ han	romanAliases
 玄武	xuan'wu
 率	lu lui luǐ lǔ so suai suái sǒ
 率先	shuai'xian
-率领	so'ling
+率领	so'len so'ling
 玉	yi yí
 玉兰	yu'lan
 玉山	yu'shan
@@ -10269,7 +10327,7 @@ han	romanAliases
 生物圈	sheng'wu'quan
 生还	sheng'huan
 生还者	sheng'huan'zhe
-生长	sheng'zan sheng'zhang
+生长	sen'zan sheng'zan sheng'zhang
 用	yóng
 用枪	yong'qiang
 用电	yong'dian
@@ -10423,7 +10481,7 @@ han	romanAliases
 男装	nan'zhuang
 画	huá
 画上	hua'shang
-画像	hua'xiang
+画像	hua'xian hua'xiang
 画卷	hua'juan
 画展	hua'zhan
 画廊	hua'lang
@@ -10458,7 +10516,7 @@ han	romanAliases
 疆界	jiang'jie
 疏	su sū
 疏散	shu'san
-疏远	shu'yuan su'yuan
+疏远	shu'yuan su'yan su'yuan
 疑	li lǐ ni nǐ
 疑点	yi'dian
 疑犯	yi'fan
@@ -10555,7 +10613,7 @@ han	romanAliases
 皇室	huang'shi
 皇宫	huang'gong
 皇家	huang'jia
-皇帝	huang'di
+皇帝	huan'di huang'di
 皇族	huang'zu
 皇朝	huang'chao
 皇权	huang'quan
@@ -10627,6 +10685,7 @@ han	romanAliases
 目光	mu'guang
 目前	mu'qian
 目前为止	mu'qian'wei'zhi
+目的	mong'di
 盯	den děn
 盯上	ding'shang
 盲	man mǎn
@@ -10650,7 +10709,7 @@ han	romanAliases
 相互作用	xiang'hu'zuo'yong
 相交	xiang'jiao
 相亲	xiang'qin
-相仿	xiang'fang xiang'huan
+相仿	xian'huan xiang'fang xiang'huan
 相会	xiang'hui
 相传	xiang'chuan
 相伴	xiang'ban
@@ -10661,7 +10720,7 @@ han	romanAliases
 相依	xiang'yi
 相依为命	xiang'yi'wei'ming
 相信	xiang'xin
-相像	xiang'qian xiang'xiang
+相像	xian'qian xiang'qian xiang'xiang
 相公	xiang'gong
 相关	xiang'guan
 相关性	xiang'guan'xing
@@ -10672,7 +10731,7 @@ han	romanAliases
 相同	xiang'tong
 相向	xiang'xiang
 相声	xiang'sheng
-相处	xiang'chu xiang'cu
+相处	xian'cu xiang'chu xiang'cu
 相容	xiang'rong
 相对	xiang'dui
 相对论	xiang'dui'lun
@@ -10697,7 +10756,7 @@ han	romanAliases
 相比之下	xiang'bi'zhi'xia
 相爱	xiang'ai
 相片	xiang'pian
-相称	xiang'cen xiang'chen
+相称	xian'cen xiang'cen xiang'chen
 相符	xiang'fu
 相等	xiang'deng
 相簿	xiang'bu
@@ -10782,6 +10841,7 @@ han	romanAliases
 看门	kan'men
 看齐	kan'qi
 真	zen zēn
+真假	zen'jia
 真像	zhen'xiang
 真可怜	zhen'ke'lian
 真善美	zhen'shan'mei
@@ -10815,7 +10875,7 @@ han	romanAliases
 眼看	yan'kan
 眼眶	yan'kuang
 眼睁睁	yan'zheng'zheng
-眼睛	ngan'jing yan'jing
+眼睛	ngan'jin ngan'jing yan'jing
 眼神	yan'shen
 眼科	yan'ke
 眼罩	yan'zhao
@@ -10825,10 +10885,10 @@ han	romanAliases
 眼角	yan'jiao
 眼部	yan'bu
 眼里	yan'li
-眼镜	yan'jing
+眼镜	yan'jin yan'jing
 眼镜蛇	yan'jing'she
 着	co có cō cǒ dao dào zao zo zǎo zǒ
-着凉	co'liang zhao'liang
+着凉	co'lian co'liang zhao'liang
 着想	zhuo'xiang
 着眼	zhuo'yan
 着眼于	zhuo'yan'yu
@@ -10897,6 +10957,7 @@ han	romanAliases
 石川	shi'chuan
 石板	shi'ban
 石棉	shi'mian
+石榴	si'liu
 石灰岩	shi'hui'yan
 矿	gong gòng kuan kuán
 矿业	kuang'ye
@@ -10962,7 +11023,8 @@ han	romanAliases
 硬汉	ying'han
 硬盘	ying'pan
 确	ko kǒ qiao qiǎo
-确实	ko'shi
+确定	qiao'den qiao'ding
+确实	ko'shi ko'si
 碍	ngai ngái
 碎	suí
 碎片	sui'pian
@@ -10985,6 +11047,7 @@ han	romanAliases
 磁	cǐ
 磁场	ci'chang
 磁盘	ci'pan
+磁铁	ci'ti
 磅	ban bán
 磋商	cuo'shang
 磐	pǎn
@@ -11067,7 +11130,7 @@ han	romanAliases
 离间	li'jian
 禽	qǐn
 禽流感	qin'liu'gan
-禾	ho hǒ
+禾	ho hǒ o ǒ
 秀	xiú
 私	sī
 私房	si'fang
@@ -11080,7 +11143,7 @@ han	romanAliases
 种	zong zòng zóng
 种植园	zhong'zhi'yuan
 种田	zhong'tian
-种类	zong'lei
+种类	zong'lei zong'lui
 科	ko kō
 科学实验	ke'xue'shi'yan
 科学研究	ke'xue'yan'jiu
@@ -11124,13 +11187,14 @@ han	romanAliases
 程	cen cěn
 程序员	cheng'xu'yuan
 稍	sao sāo
-稍微	sao'wei
+稍微	sao'wei sao'wi
 税	sui suí
 税款	shui'kuan
 稳	wun wùn
 稳健	wen'jian
 稻	dáo
 稻田	dao'tian
+稼	ga gá jiá jiā	jia
 稽	jī jǐ
 稿	gào
 稿件	gao'jian
@@ -11147,7 +11211,9 @@ han	romanAliases
 空旷	kong'kuang
 空气污染	kong'qi'wu'ran
 空气质量	kong'qi'zhi'liang
+空缺	kong'qie
 空荡荡	kong'dang'dang
+空虚	kong'xi
 空谈	kong'tan
 空闲	kong'xian
 空间	kong'jian
@@ -11175,7 +11241,7 @@ han	romanAliases
 突然	tu'ran
 窄	zei zěi
 窑	yǎo
-窖	gao gáo
+窖	gao gáo jiáo
 窗	can cuan cuān cān
 窗口	chuang'kou
 窗外	chuang'wai
@@ -11318,6 +11384,7 @@ han	romanAliases
 策	cei cěi
 筛	sai sāi
 筛选	shai'xuan
+筝	den dēn zen zēn	zheng
 筹	cou cǒu
 筹办	chou'ban
 筹建	chou'jian
@@ -11514,7 +11581,7 @@ han	romanAliases
 繁重	fan'zhong
 纂	zuán
 纠	jiū
-纠缠	jiu'chan
+纠缠	jiu'can jiu'chan
 红	hǒng
 红光	hong'guang
 红场	hong'chang
@@ -11526,7 +11593,7 @@ han	romanAliases
 红莲	hong'lian
 红颜	hong'yan
 纤细	xian'xi
-纤维	qian'wei xian'wei
+纤维	qian'wei qian'wi xian'wei
 纤维素	xian'wei'su
 约	yao yǎo
 约旦	yue'dan
@@ -11539,6 +11606,7 @@ han	romanAliases
 纪元	ji'yuan
 纪年	ji'nian
 纪录片	ji'lu'pian
+纪律	ji'lui
 纪念	ji'nian
 纪念品	ji'nian'pin
 纪念堂	ji'nian'tang
@@ -11550,6 +11618,7 @@ han	romanAliases
 纪检组	ji'jian'zu
 纬	wi wì
 纯	sun sǔn
+纯粹	sun'cui
 纱	sa sā
 纲	gan gān
 纲要	gang'yao
@@ -11673,7 +11742,7 @@ han	romanAliases
 续	su sǔ
 续航	xu'hang
 绳	sun sǔn
-绳索	sheng'so
+绳索	sheng'so sun'so
 维	wi wǐ
 维权	wei'quan
 绵延	mian'yan
@@ -11740,6 +11809,7 @@ han	romanAliases
 缘起	yuan'qi
 缚	bo bǒ
 缝	huong huóng huǒng
+缝纫	huong'ren
 缠	can cǎn
 缠住	chan'zhu
 缠绕	chan'rao
@@ -12065,7 +12135,7 @@ han	romanAliases
 肩膀	jian'bang
 肩负	jian'fu
 肮	ngan ngān
-肮脏	ang'zan ang'zang ngan'zang
+肮脏	ang'zan ang'zang ngan'zan ngan'zang
 肯	kèn
 育	yi yí yú
 肺	huei huéi
@@ -12123,7 +12193,7 @@ han	romanAliases
 能见度	neng'jian'du
 能量	neng'liang
 脂	zi zì zī
-脂肪	zhi'fang zhi'huan
+脂肪	zhi'fang zhi'huan zi'huan
 脂肪酸	zhi'fang'suan
 脆	cuí
 脉	mei měi
@@ -12314,11 +12384,11 @@ han	romanAliases
 良种	liang'zhong
 良药	liang'yao
 艰	gan gān jiān
-艰巨	jian'ju
+艰巨	jian'ji jian'ju
 艰苦	jian'ku
 艰苦奋斗	jian'ku'fen'dou
 艰辛	jian'xin
-艰难	gan'nan jian'nan
+艰难	gan'lan gan'nan jian'nan
 色	sei sěi
 色情片	se'qing'pian
 色情网站	se'qing'wang'zhan
@@ -12342,7 +12412,7 @@ han	romanAliases
 芒	man mǎn
 芒果	mang'guo
 芙	hu hǔ
-芙蓉	hu'rong
+芙蓉	hu'rong hu'yong
 芝	zi zī
 芥	gai gái
 芦苇	lu'wi
@@ -12435,6 +12505,7 @@ han	romanAliases
 茫茫	mang'mang
 茬	ca cǎ
 茶	ca cǎ
+茶几	ca'ji
 茶园	cha'yuan
 茶馆	cha'guan
 荆	jin jīn
@@ -12457,6 +12528,7 @@ han	romanAliases
 荒诞	huang'dan
 荒谬	huang'miu
 荒野	huang'ye
+荔枝	li'zi
 荡	dan dán
 荡妇	dang'fu
 荣	yin yǐn
@@ -12621,6 +12693,7 @@ han	romanAliases
 虾	ha hā xiā xiǎ
 蚀	si sǐ
 蚁	ni ní yǐ
+蚂蚁	ma'ni
 蚊	wun wǔn
 蚌	ban bán
 蚕食	can'shi
@@ -12647,7 +12720,7 @@ han	romanAliases
 蜀	su sǔ
 蜂	huong huōng
 蜕变	tui'bian
-蜘蛛	zi'zhu
+蜘蛛	zi'zhu zi'zu
 蜜	mǐ
 蜡	lǎ
 蜷缩	quan'suo
@@ -12687,7 +12760,7 @@ han	romanAliases
 衅	xín
 行	han hen hěn hǎn xin xǐn
 行业	han'ye hang'ye
-行为	xin'wei
+行为	xin'wei xin'wi
 行列	hang'lie
 行动党	xing'dong'dang
 行善	xing'shan
@@ -12705,7 +12778,7 @@ han	romanAliases
 衍生	yan'sheng
 衍生物	yan'sheng'wu
 衔	han hǎn xiǎn
-衔接	xian'jie
+衔接	han'jie xian'jie
 街	gai gāi
 街上	jie'shang
 街坊	jie'fang
@@ -12847,7 +12920,7 @@ han	romanAliases
 要点	yao'dian
 要犯	yao'fan
 要钱	yao'qian
-覆	hu hǔ
+覆	hu hǔ pu pǔ
 覆盖面	fu'gai'mian
 见	jián
 见不得人	jian'bu'de'ren
@@ -12915,7 +12988,7 @@ han	romanAliases
 角	go gǒ jiǎo
 角度看	jiao'du'kan
 角色扮演	jue'se'ban'yan
-角落	go'luo
+角落	go'lo go'luo
 解	gai gài gái jiè xie xié
 解决办法	jie'jue'ban'fa
 解决方案	jie'jue'fang'an
@@ -12985,6 +13058,7 @@ han	romanAliases
 议会选举	yi'hui'xuan'ju
 议员	yi'yuan
 议案	yi'an
+议论	ni'lun
 议长	yi'zhang
 议院	yi'yuan
 讯	xin xín
@@ -13011,9 +13085,9 @@ han	romanAliases
 讲理	jiang'li
 讲稿	jiang'gao
 讲究	jiang'jiu
-讲解	jiang'jie
+讲解	jian'jie jiang'jie
 讲讲	jiang'jiang
-讲话	jiang'hua
+讲话	gan'hua jiang'hua
 讲课	jiang'ke
 讲过	jiang'guo
 讲述	jiang'shu
@@ -13029,6 +13103,7 @@ han	romanAliases
 论战	lun'zhan
 论断	lun'duan
 论点	lun'dian
+论语	lun'yi
 论辩	lun'bian
 讼	sóng
 讽	huong huòng
@@ -13158,6 +13233,7 @@ han	romanAliases
 谁	sui suǐ
 调	diáo tiao tiǎo
 调侃	tiao'kan
+调和	tiao'ho
 调换	diao'huan
 调查	diao'ca
 调查员	diao'cha'yuan
@@ -13441,6 +13517,7 @@ han	romanAliases
 趾	zi zì
 跃	yao yáo yǎo
 跃上	yue'shang
+跃进	yao'jin
 跆拳道	tai'quan'dao
 跋	pa pǎ
 跌	di dǐ
@@ -13465,6 +13542,7 @@ han	romanAliases
 跳	tiáo tiǎo
 跳伞	tiao'san
 跳板	tiao'ban
+跳跃	tiao'yao
 跳转	tiao'zhuan
 践	jián qian qiàn
 践行	jian'xing
@@ -13497,6 +13575,7 @@ han	romanAliases
 身边	shen'bian
 身长	shen'chang
 身陷	shen'xian
+躬	gōng jiong jiōng	gong
 躯干	qu'gan
 躲藏	duo'cang
 躺	tan tàn
@@ -13536,7 +13615,7 @@ han	romanAliases
 转向	zhuan'xiang
 转告	zhuan'gao
 转回	zhuan'hui
-转圈	zhuan'quan zuan'quan
+转圈	zhuan'quan zuan'qian zuan'quan
 转型	zhuan'xing
 转基因	zhuan'ji'yin
 转头	zhuan'tou
@@ -13607,7 +13686,7 @@ han	romanAliases
 轻描淡写	qing'miao'dan'xie
 轻点	qing'dian
 轻装	qing'zhuang
-轻重	qing'zong
+轻重	qin'zong qing'zong
 轻量	qing'liang
 轻量级	qing'liang'ji
 载	zài zái
@@ -13629,7 +13708,7 @@ han	romanAliases
 辑	jǐ
 输	su sú sū
 输电	shu'dian
-输赢	su'ying
+输赢	su'yin su'ying
 输钱	shu'qian
 辖	xiǎ
 辗转	zhan'zhuan
@@ -13706,7 +13785,7 @@ han	romanAliases
 运营商	yun'ying'shang
 运转	yun'zhuan
 运载火箭	yun'zai'huo'jian
-运输	yun'su
+运输	yin'su yun'su
 运量	yun'liang
 近	jín
 近两年	jin'liang'nian
@@ -13726,14 +13805,14 @@ han	romanAliases
 返程	fan'cheng
 返航	fan'hang
 返还	fan'huan
-还	a huan huǎn hǎi ǎ
+还	a huan huǎn hǎi wan wǎn ǎ
 还俗	huan'su
 还债	huan'zhai
 还击	huan'ji
 还原	huan'yuan
 还手	huan'shou
 还敢	hai'gan
-还有	a'you
+还有	a'you a'yu
 还款	hai'kuan
 还清	huan'qing
 还给	huan'gei
@@ -13899,7 +13978,7 @@ han	romanAliases
 选手	xuan'shou
 选拔	xuan'ba
 选拔赛	xuan'ba'sai
-选择	xuan'cei xuan'ze
+选择	xian'cei xuan'cei xuan'ze
 选择性	xuan'ze'xing
 选择权	xuan'ze'quan
 选择题	xuan'ze'ti
@@ -13919,7 +13998,7 @@ han	romanAliases
 透	tóu
 逐	cu cǔ zu zǔ
 逐年	zhu'nian
-逐渐	zhu'jian
+逐渐	cu'zan zhu'jian zhu'zan
 递	dí
 递减	di'jian
 途	tǔ
@@ -14065,6 +14144,7 @@ han	romanAliases
 部长级	bu'zhang'ji
 郭	go gǒ
 都	du dōu dū
+都城	du'cen
 都察院	du'cha'yuan
 都江堰	du'jiang'yan
 鄂	ngo ngǒ
@@ -14119,7 +14199,7 @@ han	romanAliases
 重	cong cǒng zong zóng
 重伤	zhong'shang
 重创	zhong'chuang
-重复	cong'fu
+重复	cong'fu cong'hu
 重大事件	zhong'da'shi'jian
 重建	chong'jian
 重担	zhong'dan
@@ -14173,7 +14253,7 @@ han	romanAliases
 鉴	gan gán jián
 鉴于	jian'yu
 鉴别	jian'bie
-鉴定	jian'ding
+鉴定	gan'den gan'ding jian'den jian'ding
 鉴证	jian'zheng
 鉴赏	jian'shang
 针	zen zēn
@@ -14252,7 +14332,7 @@ han	romanAliases
 银川	yin'chuan
 银监会	yin'jian'hui
 银联	yin'lian
-银行	yin'han yin'hang
+银行	nin'han yin'han yin'hang
 银行业	yin'hang'ye
 银行卡	yin'hang'ka
 银行家	yin'hang'jia
@@ -14261,6 +14341,7 @@ han	romanAliases
 铺上	pu'shang
 铺垫	pu'dian
 铺天盖地	pu'tian'gai'di
+铺设	pu'sei
 链	lián
 链子	lian'zi
 链接	lian'jie
@@ -14393,7 +14474,7 @@ han	romanAliases
 长长的	chang'chang'de
 长门	chang'men
 长青	chang'qing
-长颈鹿	chang'jing'lu
+长颈鹿	chang'jin'lu chang'jing'lu
 门	měn
 门上	men'shang
 门前	men'qian
@@ -14450,9 +14531,10 @@ han	romanAliases
 间谍	jian'die
 间谍活动	jian'die'huo'dong
 间距	jian'ju
-间隔	jian'ge
+间隔	jian'ge jian'gei
 间隙	jian'xi
 闷	mén mēn
+闷热	men'rei
 闸	za zá zǎ
 闹	lao láo
 闹着玩	nao'zhe'wan
@@ -14552,7 +14634,7 @@ han	romanAliases
 阿姆斯特朗	a'mu'si'te'lang
 阿富汗	a'fu'han
 阿尔卑斯山	a'er'bei'si'shan
-阿弥陀佛	o'mi'tuo'fo
+阿弥陀佛	o'mi'to'hu o'mi'tuo'fo
 阿拉伯半岛	a'la'bo'ban'dao
 阿曼	a'man
 阿联酋	a'lian'qiu
@@ -14561,7 +14643,7 @@ han	romanAliases
 附	hu hú
 附上	fu'shang
 附件	fu'jian
-附着	fu'zo
+附着	fu'zo hu'zo
 际	jí
 陆	lǔ
 陆上	lu'shang
@@ -14571,7 +14653,7 @@ han	romanAliases
 陈先生	chen'xian'sheng
 陈年	chen'nian
 陈水扁	chen'shui'bian
-降	jian jián xian xiǎn
+降	gan gán jian jián xian xiǎn
 降下	jiang'xia
 降临	jiang'lin
 降价	jiang'jia
@@ -14586,7 +14668,7 @@ han	romanAliases
 降生	jiang'sheng
 降级	jiang'ji
 降落	jiang'luo
-降落伞	jiang'luo'san
+降落伞	jian'lo'san jian'luo'san jiang'luo'san
 降解	jiang'jie
 降雨	jiang'yu
 降雨量	jiang'yu'liang
@@ -14667,6 +14749,7 @@ han	romanAliases
 障碍	zhang'ai
 障碍物	zhang'ai'wu
 障碍者	zhang'ai'zhe
+隧	suí xi xí	sui
 隶	di dí ti tí
 难	lan lán lǎn
 难不成	nan'bu'cheng
@@ -14738,6 +14821,7 @@ han	romanAliases
 雪上加霜	xue'shang'jia'shuang
 雪佛兰	xue'fu'lan
 雪山	xue'shan
+雪茄	xie'jia
 零	len lěn
 零件	ling'jian
 零售商	ling'shou'shang
@@ -14890,11 +14974,11 @@ han	romanAliases
 顶端	ding'duan
 顷	qin qìn qīn
 项	han hán xian xián
-项圈	han'quan xiang'quan
+项圈	han'qian han'quan xiang'quan
 项目	xiang'mu
 项目管理	xiang'mu'guan'li
 项羽	xiang'yu
-项链	xiang'lian
+项链	xian'lian xiang'lian
 顺	sun sún
 顺便	shun'bian
 顺其自然	shun'qi'zi'ran
@@ -14951,7 +15035,7 @@ han	romanAliases
 颐和园	yi'he'yuan
 频	pǐn
 频段	pin'duan
-频繁	pin'fan
+频繁	pin'fan pin'huan
 颖	yin yìn
 颗	ko kò
 题	tǐ
@@ -14959,7 +15043,7 @@ han	romanAliases
 颜值	yan'zhi
 颜射	yan'she
 颜料	ngan'liao yan'liao
-颜色	yan'se
+颜色	yan'se yan'sei
 颜面	yan'mian
 额	ngai ngǎi
 颠	diān
@@ -14979,6 +15063,7 @@ han	romanAliases
 风扇	feng'shan
 风景线	feng'jing'xian
 风浪	feng'lang
+风筝	feng'den feng'zen huong'den huong'zen
 风范	feng'fan
 风间	feng'jian
 风险	feng'xian
@@ -15014,6 +15099,7 @@ han	romanAliases
 餐馆	can'guan
 饥	jī
 饥荒	ji'huang
+饥饿	ji'ngo
 饭	huan huán man mān
 饭后	fan'hou
 饭局	fan'ju
@@ -15035,6 +15121,7 @@ han	romanAliases
 饼	bin bìn
 饼干	bing'gan
 饿	ngo ngó o ó
+馄饨	hun'dun
 馅	xián
 馅饼	xian'bing
 馆	guàn
@@ -15081,7 +15168,7 @@ han	romanAliases
 香肠	xiang'chang
 香草	xiang'cao
 香菇	xiang'gu
-香蕉	xiang'jiao
+香蕉	xian'jiao xiang'jiao
 马	mà mā
 马上	ma'shang
 马哈拉施特拉邦	ma'ha'la'shi'te'la'bang
@@ -15226,10 +15313,11 @@ han	romanAliases
 鹊	qiao qiǎo
 鹏	pong pǒng
 鹤	ho hǒ
+鹦鹉	yin'wu
 鹰	yin yīn
 鹿	lǔ
 鹿晗	lu'han
-麝香	sei'xiang she'xiang
+麝香	sei'xian sei'xiang she'xiang
 麦	mei měi
 麦当劳	mai'dang'lao
 麦片	mai'pian

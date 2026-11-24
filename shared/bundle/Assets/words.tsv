@@ -1982,7 +1982,7 @@ zh-盎司	angsi	angsi		盎司			327	zh					ang'si
 zh-按规定	anguiding	anguiding		按规定			306	zh					an'gui'ding	
 zh-安国	anguo	anguo		安国			320	zh					an'guo	
 zh-昂扬	angyang	angyang		昂扬			302	zh					ang'yang	
-zh-肮脏	angzang	angzang		肮脏			412	zh					ang'zan ang'zang ngan'zang	
+zh-肮脏	angzang	angzang		肮脏			412	zh					ang'zan ang'zang ngan'zan ngan'zang	
 zh-暗号	anhao	anhao		暗号			363	zh					an'hao	
 zh-安好	anhao	anhao		安好			333	zh					an'hao	
 zh-暗黑	anhei	anhei		暗黑			352	zh					an'hei	
@@ -2017,7 +2017,7 @@ zh-按摩师	anmoshi	anmoshi		按摩师			319	zh					an'mo'shi
 zh-安娜	anna	anna		安娜			429	zh					an'na	
 zh-安南	annan	annan		安南			360	zh					an'nan	
 zh-安妮	anni	anni		安妮			400	zh					an'ni	
-zh-安宁	anning	anning		安宁			393	zh					an'nin an'ning	
+zh-安宁	anning	anning		安宁			393	zh					an'nin an'ning ngan'nin	
 zh-按钮	anniu	anniu		按钮			406	zh					an'niu	
 zh-安排	anpai	anpai		安排			503	zh					an'pai	
 zh-安培	anpei	anpei		安培			324	zh					an'pei	
@@ -2054,7 +2054,7 @@ zh-按说	anshuo	anshuo		按说			305	zh					an'shuo
 zh-暗算	ansuan	ansuan		暗算			305	zh					an'suan	
 zh-阿诺	anuo	anuo		阿诺			321	zh						
 zh-阿诺德	anuode	anuode		阿诺德			313	zh						
-zh-安慰	anwei	anwei		安慰			422	zh					an'wei an'wi	
+zh-安慰	anwei	anwei		安慰			422	zh					an'wei an'wi ngan'wi	
 zh-安危	anwei	anwei		安危			363	zh					an'wei	
 zh-安稳	anwen	anwen		安稳			367	zh					an'wen	
 zh-暗物质	anwuzhi	anwuzhi		暗物质			305	zh					an'wu'zhi	
@@ -2742,7 +2742,7 @@ zh-宝玉	baoyu	baoyu		宝玉			333	zh
 zh-抱怨	baoyuan	baoyuan		抱怨			440	zh					bao'yuan	
 zh-包扎	baoza	baoza		包扎			312	zh						
 zh-宝藏	baozang	baozang		宝藏			389	zh					bao'zang	
-zh-暴躁	baozao	baozao		暴躁			342	zh					pao'zao	
+zh-暴躁	baozao	baozao		暴躁			342	zh					pao'cao pao'zao	
 zh-爆炸	baozha	baozha		爆炸			483	zh					bao'za	
 zh-爆炸案	baozhaan	baozhaan		爆炸案			368	zh					bao'zha'an	
 zh-保障	baozhang	baozhang		保障			497	zh					bao'zan bao'zhang	
@@ -2801,7 +2801,7 @@ zh-巴托	batuo	batuo		巴托			326	zh
 zh-八万	bawan	bawan		八万			317	zh					ba'wan	
 zh-霸王	bawang	bawang		霸王			360	zh					ba'wang	
 zh-八位	bawei	bawei		八位			322	zh						
-zh-把握	bawo	bawo		把握			444	zh						
+zh-把握	bawo	bawo		把握			444	zh					ba'o	
 zh-八五	bawu	bawu		八五			323	zh						
 zh-巴西	baxi	baxi		巴西			483	zh						
 zh-把戏	baxi	baxi		把戏			374	zh						
@@ -3333,7 +3333,7 @@ zh-必定	biding	biding		必定			415	zh
 zh-必定会	bidinghui	bidinghui		必定会			312	zh						
 zh-必读	bidu	bidu		必读			336	zh						
 zh-弊端	biduan	biduan		弊端			363	zh					bi'duan	
-zh-别	bie	bie		别			538	zh					biě pie piē	
+zh-别	bie	bie		别			538	zh					biē biě pie piē	
 zh-憋	bie	bie		憋			379	zh					bi bī	
 zh-鳖	bie	bie		鳖			341	zh						
 zh-别称	biecheng	biecheng		别称			314	zh						
@@ -4400,7 +4400,7 @@ zh-草药	caoyao	caoyao		草药			350	zh
 zh-草原	caoyuan	caoyuan		草原			422	zh					cao'yuan	
 zh-嘈杂	caoza	caoza		嘈杂			342	zh						
 zh-操纵	caozong	caozong		操纵			429	zh						
-zh-操作	caozuo	caozuo		操作			491	zh						
+zh-操作	caozuo	caozuo		操作			491	zh					cao'zo	
 zh-操作系统	caozuoxitong	caozuoxitong		操作系统			403	zh						
 zh-操作员	caozuoyuan	caozuoyuan		操作员			303	zh					cao'zuo'yuan	
 zh-擦拭	cashi	cashi		擦拭			309	zh						
@@ -4432,7 +4432,7 @@ zh-曾多次	cengduoci	cengduoci		曾多次			370	zh
 zh-曾国藩	cengguofan	cengguofan		曾国藩			311	zh					ceng'guo'fan	
 zh-层级	cengji	cengji		层级			378	zh						
 zh-曾几何时	cengjiheshi	cengjiheshi		曾几何时			306	zh						
-zh-曾经	cengjing	cengjing		曾经			522	zh					cen'jing	
+zh-曾经	cengjing	cengjing		曾经			522	zh					cen'jin cen'jing	
 zh-层楼	cenglou	cenglou		层楼			321	zh						
 zh-层面	cengmian	cengmian		层面			454	zh					ceng'mian	
 zh-曾任	cengren	cengren		曾任			371	zh						
@@ -4443,7 +4443,7 @@ zh-曾于	cengyu	cengyu		曾于			337	zh
 zh-测评	ceping	ceping		测评			371	zh						
 zh-测试	ceshi	ceshi		测试			491	zh						
 zh-测算	cesuan	cesuan		测算			360	zh					ce'suan	
-zh-厕所	cesuo	cesuo		厕所			470	zh					cei'suo	
+zh-厕所	cesuo	cesuo		厕所			470	zh					cei'so cei'suo	
 zh-测验	ceyan	ceyan		测验			405	zh					ce'yan	
 zh-侧翼	ceyi	ceyi		侧翼			320	zh						
 zh-侧重	cezhong	cezhong		侧重			358	zh						
@@ -4458,7 +4458,7 @@ zh-茬	cha	cha		茬			317	zh					ca cǎ
 zh-查办	chaban	chaban		查办			314	zh					cha'ban	
 zh-差别	chabie	chabie		差别			454	zh					ca'bie	
 zh-插播	chabo	chabo		插播			317	zh						
-zh-差不多	chabuduo	chabuduo		差不多			461	zh					ca'bu'duo	
+zh-差不多	chabuduo	chabuduo		差不多			461	zh					ca'bu'do ca'bu'duo	
 zh-查处	chachu	chachu		查处			396	zh						
 zh-查出	chachu	chachu		查出			390	zh						
 zh-差错	chacuo	chacuo		差错			362	zh						
@@ -4493,7 +4493,7 @@ zh-差事	chaishi	chaishi		差事			306	zh
 zh-拆卸	chaixie	chaixie		拆卸			325	zh						
 zh-柴油	chaiyou	chaiyou		柴油			387	zh						
 zh-柴油机	chaiyouji	chaiyouji		柴油机			410	zh						
-zh-茶几	chaji	chaji		茶几			305	zh						
+zh-茶几	chaji	chaji		茶几			305	zh					ca'ji	
 zh-差价	chajia	chajia		差价			338	zh						
 zh-插件	chajian	chajian		插件			372	zh					cha'jian	
 zh-差劲	chajin	chajin		差劲			372	zh						
@@ -4581,7 +4581,7 @@ zh-长江	changjiang	changjiang		长江			444	zh					chang'jiang
 zh-长江流域	changjiangliuyu	changjiangliuyu		长江流域			310	zh					chang'jiang'liu'yu	
 zh-常见于	changjianyu	changjianyu		常见于			332	zh					chang'jian'yu	
 zh-场景	changjing	changjing		场景			456	zh					chang'jing	
-zh-长颈鹿	changjinglu	changjinglu		长颈鹿			328	zh					chang'jing'lu	
+zh-长颈鹿	changjinglu	changjinglu		长颈鹿			328	zh					chang'jin'lu chang'jing'lu	
 zh-长久	changjiu	changjiu		长久			419	zh					chang'jiu	
 zh-长久以来	changjiuyilai	changjiuyilai		长久以来			327	zh					chang'jiu'yi'lai	
 zh-猖獗	changjue	changjue		猖獗			343	zh					chang'jue	
@@ -4728,7 +4728,7 @@ zh-炒股	chaogu	chaogu		炒股			309	zh
 zh-超过	chaoguo	chaoguo		超过			543	zh						
 zh-超乎	chaohu	chaohu		超乎			349	zh						
 zh-超级	chaoji	chaoji		超级			495	zh						
-zh-吵架	chaojia	chaojia		吵架			403	zh						
+zh-吵架	chaojia	chaojia		吵架			403	zh					cao'jia	
 zh-抄家	chaojia	chaojia		抄家			316	zh						
 zh-潮间带	chaojiandai	chaojiandai		潮间带			315	zh					chao'jian'dai	
 zh-超级大国	chaojidaguo	chaojidaguo		超级大国			322	zh						
@@ -4845,7 +4845,7 @@ zh-车轮	chelun	chelun		车轮			373	zh
 zh-车门	chemen	chemen		车门			371	zh						
 zh-陈	chen	chen		陈			494	zh					cen cěn	
 zh-趁	chen	chen		趁			423	zh					cen cén	
-zh-沉	chen	chen		沉			422	zh					cen cěn	
+zh-沉	chen	chen		沉			422	zh					cen cěn zen zén	
 zh-臣	chen	chen		臣			396	zh					cen cěn	
 zh-尘	chen	chen		尘			359	zh					cen cěn	
 zh-辰	chen	chen		辰			352	zh					sen sěn	
@@ -4853,7 +4853,7 @@ zh-晨	chen	chen		晨			343	zh					sen sěn
 zh-琛	chen	chen		琛			342	zh						
 zh-衬	chen	chen		衬			311	zh					cen cén	
 zh-谶	chen	chen		谶			304	zh						
-zh-尘埃	chenai	chenai		尘埃			359	zh					chen'ngai	
+zh-尘埃	chenai	chenai		尘埃			359	zh					cen'ngai chen'ngai	
 zh-尘埃落定	chenailuoding	chenailuoding		尘埃落定			304	zh						
 zh-晨报	chenbao	chenbao		晨报			348	zh						
 zh-沉船	chenchuan	chenchuan		沉船			349	zh					chen'chuan	
@@ -4861,7 +4861,7 @@ zh-沉淀	chendian	chendian		沉淀			373	zh					chen'dian
 zh-陈独秀	chenduxiu	chenduxiu		陈独秀			367	zh						
 zh-臣服	chenfu	chenfu		臣服			319	zh						
 zh-陈腐	chenfu	chenfu		陈腐			304	zh						
-zh-成	cheng	cheng		成			561	zh					cen cěn	
+zh-成	cheng	cheng		成			561	zh					cen cěn qin qǐn	
 zh-称	cheng	cheng		称			551	zh					cen cén cēn	
 zh-城	cheng	cheng		城			510	zh					cen cěn	
 zh-呈	cheng	cheng		呈			464	zh					cen cěn	
@@ -4976,7 +4976,7 @@ zh-城市规划	chengshiguihua	chengshiguihua		城市规划			325	zh
 zh-城市化	chengshihua	chengshihua		城市化			346	zh						
 zh-城市居民	chengshijumin	chengshijumin		城市居民			307	zh						
 zh-城市群	chengshiqun	chengshiqun		城市群			322	zh						
-zh-承受	chengshou	chengshou		承受			450	zh						
+zh-承受	chengshou	chengshou		承受			450	zh					cen'shou cen'sou	
 zh-成熟	chengshu	chengshu		成熟			479	zh						
 zh-成书	chengshu	chengshu		成书			343	zh						
 zh-称颂	chengsong	chengsong		称颂			311	zh						
@@ -5050,7 +5050,7 @@ zh-沉闷	chenmen	chenmen		沉闷			327	zh
 zh-沉迷	chenmi	chenmi		沉迷			368	zh						
 zh-臣民	chenmin	chenmin		臣民			336	zh						
 zh-沉迷于	chenmiyu	chenmiyu		沉迷于			323	zh						
-zh-沉默	chenmo	chenmo		沉默			451	zh						
+zh-沉默	chenmo	chenmo		沉默			451	zh					cen'mei cen'mo	
 zh-沉没	chenmo	chenmo		沉没			366	zh					chen'mei	
 zh-陈年	chennian	chennian		陈年			336	zh					chen'nian	
 zh-沉入	chenru	chenru		沉入			335	zh						
@@ -5214,7 +5214,7 @@ zh-冲锋	chongfeng	chongfeng		冲锋			360	zh
 zh-重逢	chongfeng	chongfeng		重逢			351	zh						
 zh-冲锋枪	chongfengqiang	chongfengqiang		冲锋枪			332	zh					chong'feng'qiang	
 zh-充分利用	chongfenliyong	chongfenliyong		充分利用			301	zh						
-zh-重复	chongfu	chongfu		重复			463	zh					cong'fu	
+zh-重复	chongfu	chongfu		重复			463	zh					cong'fu cong'hu	
 zh-崇高	chonggao	chonggao		崇高			384	zh						
 zh-充公	chonggong	chonggong		充公			302	zh						
 zh-重合	chonghe	chonghe		重合			327	zh						
@@ -5312,7 +5312,7 @@ zh-抽身	choushen	choushen		抽身			307	zh
 zh-仇视	choushi	choushi		仇视			355	zh						
 zh-丑事	choushi	choushi		丑事			317	zh						
 zh-抽水	choushui	choushui		抽水			323	zh						
-zh-抽屉	chouti	chouti		抽屉			369	zh						
+zh-抽屉	chouti	chouti		抽屉			369	zh					cou'ti	
 zh-臭味	chouwei	chouwei		臭味			329	zh						
 zh-筹委会	chouweihui	chouweihui		筹委会			333	zh						
 zh-丑闻	chouwen	chouwen		丑闻			425	zh						
@@ -5490,7 +5490,7 @@ zh-出兵	chubing	chubing		出兵			385	zh
 zh-初步	chubu	chubu		初步			448	zh						
 zh-出彩	chucai	chucai		出彩			301	zh						
 zh-储藏	chucang	chucang		储藏			338	zh					chu'cang	
-zh-出差	chuchai	chuchai		出差			389	zh					chu'cai	
+zh-出差	chuchai	chuchai		出差			389	zh					chu'cai cu'cai	
 zh-出产	chuchan	chuchan		出产			375	zh					chu'chan	
 zh-出场	chuchang	chuchang		出场			416	zh					chu'chang	
 zh-出厂	chuchang	chuchang		出厂			362	zh					chu'chang	
@@ -5549,7 +5549,7 @@ zh-吹捧	chuipeng	chuipeng		吹捧			321	zh
 zh-垂死	chuisi	chuisi		垂死			332	zh						
 zh-吹响	chuixiang	chuixiang		吹响			317	zh					chui'xiang	
 zh-吹箫	chuixiao	chuixiao		吹箫			308	zh						
-zh-吹嘘	chuixu	chuixu		吹嘘			356	zh					chui'xi	
+zh-吹嘘	chuixu	chuixu		吹嘘			356	zh					chui'xi cui'xi	
 zh-垂直	chuizhi	chuizhi		垂直			413	zh						
 zh-锤子	chuizi	chuizi		锤子			353	zh						
 zh-初级	chuji	chuji		初级			426	zh						
@@ -5602,7 +5602,7 @@ zh-醇	chun	chun		醇			360	zh					sun sǔn
 zh-椿	chun	chun		椿			315	zh					cun cūn	
 zh-淳	chun	chun		淳			312	zh					sun sǔn	
 zh-出纳	chuna	chuna		出纳			311	zh						
-zh-纯粹	chuncui	chuncui		纯粹			439	zh						
+zh-纯粹	chuncui	chuncui		纯粹			439	zh					sun'cui	
 zh-纯度	chundu	chundu		纯度			312	zh						
 zh-春风	chunfeng	chunfeng		春风			364	zh						
 zh-唇膏	chungao	chungao		唇膏			329	zh						
@@ -5627,7 +5627,7 @@ zh-处女	chunv	chunv		处女			412	zh
 zh-处女膜	chunvmo	chunvmo		处女膜			326	zh						
 zh-处女作	chunvzuo	chunvzuo		处女作			306	zh						
 zh-春晚	chunwan	chunwan		春晚			357	zh					chun'wan	
-zh-春夏	chunxia	chunxia		春夏			314	zh						
+zh-春夏	chunxia	chunxia		春夏			314	zh					cun'xia	
 zh-春药	chunyao	chunyao		春药			333	zh						
 zh-春雨	chunyu	chunyu		春雨			317	zh						
 zh-春运	chunyun	chunyun		春运			327	zh						
@@ -5685,7 +5685,7 @@ zh-触手	chushou	chushou		触手			342	zh
 zh-出书	chushu	chushu		出书			326	zh						
 zh-出水	chushui	chushui		出水			328	zh						
 zh-处死	chusi	chusi		处死			394	zh						
-zh-处所	chusuo	chusuo		处所			332	zh					cu'suo	
+zh-处所	chusuo	chusuo		处所			332	zh					cu'so cu'suo	
 zh-出台	chutai	chutai		出台			441	zh						
 zh-出逃	chutao	chutao		出逃			334	zh						
 zh-出题	chuti	chuti		出题			306	zh						
@@ -5707,7 +5707,7 @@ zh-出新	chuxin	chuxin		出新			369	zh
 zh-出行	chuxing	chuxing		出行			387	zh						
 zh-雏形	chuxing	chuxing		雏形			345	zh						
 zh-处刑	chuxing	chuxing		处刑			312	zh						
-zh-储蓄	chuxu	chuxu		储蓄			386	zh					chu'xiu cu'xu	
+zh-储蓄	chuxu	chuxu		储蓄			386	zh					chu'xiu cu'xiu cu'xu	
 zh-初选	chuxuan	chuxuan		初选			336	zh					chu'xuan	
 zh-初学	chuxue	chuxue		初学			310	zh						
 zh-初学者	chuxuezhe	chuxuezhe		初学者			323	zh						
@@ -5818,7 +5818,7 @@ zh-此书	cishu	cishu		此书			364	zh
 zh-刺探	citan	citan		刺探			301	zh					ci'tan	
 zh-祠堂	citang	citang		祠堂			335	zh					ci'tang	
 zh-词条	citiao	citiao		词条			326	zh						
-zh-磁铁	citie	citie		磁铁			335	zh						
+zh-磁铁	citie	citie		磁铁			335	zh					ci'ti	
 zh-刺痛	citong	citong		刺痛			320	zh						
 zh-辞退	citui	citui		辞退			356	zh						
 zh-此外	ciwai	ciwai		此外			516	zh						
@@ -5874,7 +5874,7 @@ zh-聪明	congming	congming		聪明			465	zh
 zh-聪明人	congmingren	congmingren		聪明人			352	zh						
 zh-从那时起	congnashiqi	congnashiqi		从那时起			309	zh						
 zh-从前	congqian	congqian		从前			440	zh					cong'qian	
-zh-从容	congrong	congrong		从容			356	zh						
+zh-从容	congrong	congrong		从容			356	zh					cong'yong	
 zh-丛生	congsheng	congsheng		丛生			319	zh						
 zh-从事	congshi	congshi		从事			498	zh						
 zh-丛书	congshu	congshu		丛书			385	zh						
@@ -6121,7 +6121,7 @@ zh-打分	dafen	dafen		打分			330	zh
 zh-大风	dafeng	dafeng		大风			370	zh						
 zh-达芬奇	dafenqi	dafenqi		达芬奇			307	zh						
 zh-大幅	dafu	dafu		大幅			456	zh						
-zh-大夫	dafu	dafu		大夫			418	zh						
+zh-大夫	dafu	dafu		大夫			418	zh					da'hu	
 zh-答复	dafu	dafu		答复			403	zh						
 zh-答覆	dafu	dafu		答覆			320	zh						
 zh-大佛	dafu	dafu		大佛			319	zh						
@@ -6291,7 +6291,7 @@ zh-大街	dajie	dajie		大街			443	zh
 zh-大姐	dajie	dajie		大姐			395	zh						
 zh-打劫	dajie	dajie		打劫			349	zh						
 zh-大结局	dajieju	dajieju		大结局			326	zh						
-zh-大街小巷	dajiexiaoxiang	dajiexiaoxiang		大街小巷			324	zh					da'jie'xiao'xiang	
+zh-大街小巷	dajiexiaoxiang	dajiexiaoxiang		大街小巷			324	zh					da'jie'xiao'xian da'jie'xiao'xiang	
 zh-大惊小怪	dajingxiaoguai	dajingxiaoguai		大惊小怪			353	zh						
 zh-搭救	dajiu	dajiu		搭救			314	zh						
 zh-大酒店	dajiudian	dajiudian		大酒店			363	zh					da'jiu'dian	
@@ -6474,7 +6474,7 @@ zh-当然	dangran	dangran		当然			550	zh					dang'ran
 zh-党人	dangren	dangren		党人			347	zh					dang'ren	
 zh-当人	dangren	dangren		当人			324	zh					dang'ren	
 zh-当日	dangri	dangri		当日			435	zh					dang'ri	
-zh-当时	dangshi	dangshi		当时			557	zh					dan'shi dang'shi	
+zh-当时	dangshi	dangshi		当时			557	zh					dan'shi dan'si dang'shi	
 zh-当事	dangshi	dangshi		当事			328	zh					dang'shi	
 zh-党史	dangshi	dangshi		党史			325	zh					dang'shi	
 zh-当事人	dangshiren	dangshiren		当事人			441	zh					dang'shi'ren	
@@ -6510,12 +6510,12 @@ zh-党政军	dangzhengjun	dangzhengjun		党政军			341	zh					dang'zheng'jun
 zh-当值	dangzhi	dangzhi		当值			305	zh					dang'zhi	
 zh-党支部	dangzhibu	dangzhibu		党支部			374	zh					dang'zhi'bu	
 zh-当之无愧	dangzhiwukui	dangzhiwukui		当之无愧			344	zh					dang'zhi'wu'kui	
-zh-当中	dangzhong	dangzhong		当中			485	zh					dang'zhong dang'zong	
+zh-当中	dangzhong	dangzhong		当中			485	zh					dan'zong dang'zhong dang'zong	
 zh-当众	dangzhong	dangzhong		当众			367	zh					dang'zhong	
 zh-党中央	dangzhongyang	dangzhongyang		党中央			416	zh					dang'zhong'yang	
 zh-挡住	dangzhu	dangzhu		挡住			385	zh					dang'zhu	
 zh-党组	dangzu	dangzu		党组			410	zh					dang'zu	
-zh-当作	dangzuo	dangzuo		当作			455	zh					dan'zuo dang'zuo	
+zh-当作	dangzuo	dangzuo		当作			455	zh					dan'zo dan'zuo dang'zuo	
 zh-当做	dangzuo	dangzuo		当做			419	zh					dang'zuo	
 zh-党组书记	dangzushuji	dangzushuji		党组书记			336	zh					dang'zu'shu'ji	
 zh-党组织	dangzuzhi	dangzuzhi		党组织			393	zh					dang'zu'zhi	
@@ -7182,7 +7182,7 @@ zh-店长	dianzhang	dianzhang		店长			334	zh					dian'zhang
 zh-点着	dianzhao	dianzhao		点着			313	zh					dian'zhao	
 zh-点钟	dianzhong	dianzhong		点钟			323	zh					dian'zhong	
 zh-店主	dianzhu	dianzhu		店主			370	zh					dian'zhu	
-zh-点缀	dianzhui	dianzhui		点缀			345	zh					dian'jie dian'zhui	
+zh-点缀	dianzhui	dianzhui		点缀			345	zh					dian'jie dian'zhui dian'zui	
 zh-电子	dianzi	dianzi		电子			519	zh					dian'zi	
 zh-点子	dianzi	dianzi		点子			402	zh					dian'zi	
 zh-电子版	dianziban	dianziban		电子版			311	zh					dian'zi'ban	
@@ -7868,7 +7868,7 @@ zh-兜售	doushou	doushou		兜售			319	zh
 zh-都行	douxing	douxing		都行			371	zh						
 zh-抖音	douyin	douyin		抖音			323	zh						
 zh-斗鱼	douyu	douyu		斗鱼			331	zh						
-zh-斗争	douzheng	douzheng		斗争			493	zh						
+zh-斗争	douzheng	douzheng		斗争			493	zh					dou'zen	
 zh-斗志	douzhi	douzhi		斗志			357	zh						
 zh-豆子	douzi	douzi		豆子			340	zh						
 zh-读	du	du		读			505	zh					dǔ	
@@ -7957,7 +7957,7 @@ zh-赌场	duchang	duchang		赌场			439	zh					du'chang
 zh-独唱	duchang	duchang		独唱			313	zh					du'chang	
 zh-都察院	duchayuan	duchayuan		都察院			316	zh					du'cha'yuan	
 zh-堵车	duche	duche		堵车			319	zh						
-zh-都城	ducheng	ducheng		都城			360	zh						
+zh-都城	ducheng	ducheng		都城			360	zh					du'cen	
 zh-赌城	ducheng	ducheng		赌城			320	zh						
 zh-独处	duchu	duchu		独处			358	zh						
 zh-读出	duchu	duchu		读出			317	zh						
@@ -8191,7 +8191,7 @@ zh-多人	duoren	duoren		多人			440	zh
 zh-多日	duori	duori		多日			333	zh						
 zh-多肉	duorou	duorou		多肉			301	zh						
 zh-堕入	duoru	duoru		堕入			335	zh						
-zh-多少	duoshao	duoshao		多少			544	zh					duo'sao	
+zh-多少	duoshao	duoshao		多少			544	zh					do'sao duo'sao	
 zh-多时	duoshi	duoshi		多时			330	zh						
 zh-多事	duoshi	duoshi		多事			323	zh						
 zh-多数	duoshu	duoshu		多数			505	zh						
@@ -8339,7 +8339,7 @@ zh-俄罗斯政府	eluosizhengfu	eluosizhengfu		俄罗斯政府			306	zh
 zh-噩梦	emeng	emeng		噩梦			385	zh						
 zh-恶梦	emeng	emeng		恶梦			380	zh						
 zh-恶名	eming	eming		恶名			339	zh						
-zh-阿弥陀佛	emituofo	emituofo		阿弥陀佛			334	zh					o'mi'tuo'fo	
+zh-阿弥陀佛	emituofo	emituofo		阿弥陀佛			334	zh					o'mi'to'hu o'mi'tuo'fo	
 zh-恶魔	emo	emo		恶魔			425	zh						
 zh-恩	en	en		恩			450	zh					ngen ngēn	
 zh-摁	en	en		摁			311	zh						
@@ -8684,7 +8684,7 @@ zh-翻番	fanfan	fanfan		翻番			307	zh					fan'fan
 zh-翻翻	fanfan	fanfan		翻翻			306	zh					fan'fan	
 zh-反法西斯	fanfaxisi	fanfaxisi		反法西斯			313	zh					fan'fa'xi'si	
 zh-反复	fanfu	fanfu		反复			435	zh					fan'fu	
-zh-反覆	fanfu	fanfu		反覆			377	zh					fan'fu	
+zh-反覆	fanfu	fanfu		反覆			377	zh					fan'fu fan'hu huan'hu	
 zh-反腐	fanfu	fanfu		反腐			344	zh					fan'fu	
 zh-翻覆	fanfu	fanfu		翻覆			311	zh					fan'fu	
 zh-繁复	fanfu	fanfu		繁复			304	zh					fan'fu	
@@ -8704,7 +8704,7 @@ zh-反感	fangan	fangan		反感			398	zh					fan'gan
 zh-梵高	fangao	fangao		梵高			306	zh					fan'gao	
 zh-防暴警察	fangbaojingcha	fangbaojingcha		防暴警察			306	zh					fang'bao'jing'cha	
 zh-防备	fangbei	fangbei		防备			362	zh					fang'bei	
-zh-方便	fangbian	fangbian		方便			482	zh					fang'bian	
+zh-方便	fangbian	fangbian		方便			482	zh					fang'bian huan'bian	
 zh-方便面	fangbianmian	fangbianmian		方便面			317	zh					fang'bian'mian	
 zh-方才	fangcai	fangcai		方才			336	zh					fang'cai	
 zh-房产	fangchan	fangchan		房产			411	zh					fang'chan	
@@ -8717,7 +8717,7 @@ zh-房贷	fangdai	fangdai		房贷			367	zh					fang'dai
 zh-放贷	fangdai	fangdai		放贷			302	zh					fang'dai	
 zh-放大镜	fangdajing	fangdajing		放大镜			301	zh					fang'da'jing	
 zh-防弹	fangdan	fangdan		防弹			342	zh					fang'dan	
-zh-放荡	fangdang	fangdang		放荡			351	zh					fang'dan fang'dang	
+zh-放荡	fangdang	fangdang		放荡			351	zh					fang'dan fang'dang huan'dan	
 zh-放到	fangdao	fangdao		放到			416	zh					fang'dao	
 zh-防盗	fangdao	fangdao		防盗			323	zh					fang'dao	
 zh-放大器	fangdaqi	fangdaqi		放大器			326	zh					fang'da'qi	
@@ -8746,7 +8746,7 @@ zh-防火	fanghuo	fanghuo		防火			385	zh					fang'huo
 zh-放火	fanghuo	fanghuo		放火			366	zh					fang'huo	
 zh-防火墙	fanghuoqiang	fanghuoqiang		防火墙			355	zh					fang'huo'qiang	
 zh-房价	fangjia	fangjia		房价			415	zh					fang'jia	
-zh-放假	fangjia	fangjia		放假			394	zh					fang'jia	
+zh-放假	fangjia	fangjia		放假			394	zh					fang'jia huan'jia	
 zh-房间	fangjian	fangjian		房间			473	zh					fang'jian	
 zh-坊间	fangjian	fangjian		坊间			304	zh					fang'jian	
 zh-方济各	fangjige	fangjige		方济各			313	zh					fang'ji'ge	
@@ -8926,7 +8926,7 @@ zh-返乡	fanxiang	fanxiang		返乡			354	zh					fan'xiang
 zh-反向	fanxiang	fanxiang		反向			346	zh					fan'xiang	
 zh-返校	fanxiao	fanxiao		返校			314	zh					fan'xiao	
 zh-翻新	fanxin	fanxin		翻新			359	zh					fan'xin	
-zh-反省	fanxing	fanxing		反省			401	zh					fan'sen fan'xing	
+zh-反省	fanxing	fanxing		反省			401	zh					fan'sen fan'xing huan'sen	
 zh-繁星	fanxing	fanxing		繁星			327	zh					fan'xing	
 zh-翻修	fanxiu	fanxiu		翻修			342	zh					fan'xiu	
 zh-繁衍	fanyan	fanyan		繁衍			355	zh					fan'yan	
@@ -9041,7 +9041,7 @@ zh-法院	fayuan	fayuan		法院			500	zh					fa'yuan
 zh-发源	fayuan	fayuan		发源			363	zh					fa'yuan	
 zh-发源地	fayuandi	fayuandi		发源地			349	zh					fa'yuan'di	
 zh-法则	faze	faze		法则			414	zh						
-zh-发展	fazhan	fazhan		发展			603	zh					fa'zhan hua'zhan	
+zh-发展	fazhan	fazhan		发展			603	zh					fa'zhan hua'zan hua'zhan	
 zh-发展部	fazhanbu	fazhanbu		发展部			316	zh					fa'zhan'bu	
 zh-发展观	fazhanguan	fazhanguan		发展观			309	zh					fa'zhan'guan	
 zh-发展局	fazhanju	fazhanju		发展局			342	zh					fa'zhan'ju	
@@ -9207,7 +9207,7 @@ zh-粉笔	fenbi	fenbi		粉笔			319	zh
 zh-分辨	fenbian	fenbian		分辨			403	zh					fen'bian	
 zh-粪便	fenbian	fenbian		粪便			346	zh					fen'bian	
 zh-分辨率	fenbianlv	fenbianlv		分辨率			367	zh					fen'bian'lv	
-zh-分别	fenbie	fenbie		分别			529	zh						
+zh-分别	fenbie	fenbie		分别			529	zh					huen'bie	
 zh-分布	fenbu	fenbu		分布			501	zh						
 zh-分部	fenbu	fenbu		分部			366	zh						
 zh-奋不顾身	fenbugushen	fenbugushen		奋不顾身			307	zh						
@@ -9323,7 +9323,7 @@ zh-风琴	fengqin	fengqin		风琴			308	zh
 zh-风情	fengqing	fengqing		风情			399	zh						
 zh-风起云涌	fengqiyunyong	fengqiyunyong		风起云涌			317	zh						
 zh-风趣	fengqu	fengqu		风趣			352	zh						
-zh-缝纫	fengren	fengren		缝纫			302	zh						
+zh-缝纫	fengren	fengren		缝纫			302	zh					huong'ren	
 zh-缝纫机	fengrenji	fengrenji		缝纫机			312	zh						
 zh-疯人院	fengrenyuan	fengrenyuan		疯人院			306	zh					feng'ren'yuan	
 zh-锋锐	fengrui	fengrui		锋锐			303	zh						
@@ -9373,7 +9373,7 @@ zh-风云榜	fengyunbang	fengyunbang		风云榜			308	zh					feng'yun'bang
 zh-风云人物	fengyunrenwu	fengyunrenwu		风云人物			324	zh						
 zh-冯玉祥	fengyuxiang	fengyuxiang		冯玉祥			342	zh					feng'yu'xiang	
 zh-风灾	fengzai	fengzai		风灾			309	zh						
-zh-风筝	fengzheng	fengzheng		风筝			376	zh						
+zh-风筝	fengzheng	fengzheng		风筝			376	zh					feng'den feng'zen huong'den huong'zen	
 zh-峰值	fengzhi	fengzhi		峰值			344	zh						
 zh-风中	fengzhong	fengzhong		风中			304	zh						
 zh-封装	fengzhuang	fengzhuang		封装			341	zh					feng'zhuang	
@@ -9407,7 +9407,7 @@ zh-分裂	fenlie	fenlie		分裂			458	zh
 zh-分流	fenliu	fenliu		分流			382	zh						
 zh-纷乱	fenluan	fenluan		纷乱			309	zh					fen'luan	
 zh-分泌	fenmi	fenmi		分泌			386	zh						
-zh-分娩	fenmian	fenmian		分娩			372	zh					fen'mian	
+zh-分娩	fenmian	fenmian		分娩			372	zh					fen'mian huen'mian	
 zh-分明	fenming	fenming		分明			384	zh						
 zh-分泌物	fenmiwu	fenmiwu		分泌物			319	zh						
 zh-粉末	fenmo	fenmo		粉末			359	zh						
@@ -9427,7 +9427,7 @@ zh-分清	fenqing	fenqing		分清			329	zh
 zh-分区	fenqu	fenqu		分区			395	zh						
 zh-分权	fenquan	fenquan		分权			311	zh					fen'quan	
 zh-纷扰	fenrao	fenrao		纷扰			318	zh						
-zh-分散	fensan	fensan		分散			426	zh					fen'san	
+zh-分散	fensan	fensan		分散			426	zh					fen'san huen'san	
 zh-分散式	fensanshi	fensanshi		分散式			304	zh					fen'san'shi	
 zh-粉色	fense	fense		粉色			370	zh						
 zh-焚烧	fenshao	fenshao		焚烧			388	zh						
@@ -9518,7 +9518,7 @@ zh-腹	fu	fu		腹			364	zh					hu hǔ
 zh-甫	fu	fu		甫			363	zh					pu pù	
 zh-浮	fu	fu		浮			361	zh					hu huou huǒu hǔ	
 zh-俘	fu	fu		俘			352	zh					hu hǔ	
-zh-覆	fu	fu		覆			351	zh					hu hǔ	
+zh-覆	fu	fu		覆			351	zh					hu hǔ pu pǔ	
 zh-氟	fu	fu		氟			350	zh						
 zh-傅	fu	fu		傅			349	zh					hu hú hū	
 zh-腐	fu	fu		腐			348	zh					hu hù	
@@ -9666,7 +9666,7 @@ zh-富饶	furao	furao		富饶			320	zh
 zh-夫人	furen	furen		夫人			473	zh						
 zh-富人	furen	furen		富人			392	zh						
 zh-妇人	furen	furen		妇人			375	zh						
-zh-芙蓉	furong	furong		芙蓉			356	zh					hu'rong	
+zh-芙蓉	furong	furong		芙蓉			356	zh					hu'rong hu'yong	
 zh-妇孺	furu	furu		妇孺			341	zh						
 zh-肤色	fuse	fuse		肤色			400	zh						
 zh-釜山	fushan	fushan		釜山			354	zh					fu'shan	
@@ -9798,7 +9798,7 @@ zh-付诸	fuzhu	fuzhu		付诸			311	zh
 zh-附注	fuzhu	fuzhu		附注			304	zh						
 zh-服装	fuzhuang	fuzhuang		服装			461	zh					fu'zhuang	
 zh-服装店	fuzhuangdian	fuzhuangdian		服装店			301	zh					fu'zhuang'dian	
-zh-附着	fuzhuo	fuzhuo		附着			327	zh					fu'zo	
+zh-附着	fuzhuo	fuzhuo		附着			327	zh					fu'zo hu'zo	
 zh-父子	fuzi	fuzi		父子			409	zh						
 zh-副总	fuzong	fuzong		副总			371	zh						
 zh-副总裁	fuzongcai	fuzongcai		副总裁			374	zh						
@@ -10450,7 +10450,7 @@ zh-根子	genzi	genzi		根子			302	zh
 zh-跟踪	genzong	genzong		跟踪			438	zh						
 zh-各派	gepai	gepai		各派			325	zh						
 zh-搁浅	geqian	geqian		搁浅			353	zh					ge'qian	
-zh-歌曲	gequ	gequ		歌曲			468	zh					ge'qi	
+zh-歌曲	gequ	gequ		歌曲			468	zh					ge'qi go'qi	
 zh-各区	gequ	gequ		各区			360	zh						
 zh-割让	gerang	gerang		割让			327	zh					ge'rang	
 zh-隔热	gere	gere		隔热			313	zh						
@@ -10726,7 +10726,7 @@ zh-共事	gongshi	gongshi		共事			356	zh
 zh-公事	gongshi	gongshi		公事			326	zh						
 zh-工事	gongshi	gongshi		工事			326	zh						
 zh-贡士	gongshi	gongshi		贡士			320	zh						
-zh-拱手	gongshou	gongshou		拱手			313	zh						
+zh-拱手	gongshou	gongshou		拱手			313	zh					gong'sou	
 zh-公署	gongshu	gongshu		公署			331	zh						
 zh-供述	gongshu	gongshu		供述			309	zh						
 zh-供水	gongshui	gongshui		供水			391	zh						
@@ -11077,7 +11077,7 @@ zh-管教	guanjiao	guanjiao		管教			341	zh					guan'jiao
 zh-关节	guanjie	guanjie		关节			385	zh					guan'jie	
 zh-关节炎	guanjieyan	guanjieyan		关节炎			325	zh					guan'jie'yan	
 zh-关进	guanjin	guanjin		关进			359	zh					guan'jin	
-zh-冠军	guanjun	guanjun		冠军			487	zh					guan'jun	
+zh-冠军	guanjun	guanjun		冠军			487	zh					guan'jin guan'jun	
 zh-冠军赛	guanjunsai	guanjunsai		冠军赛			334	zh					guan'jun'sai	
 zh-观看	guankan	guankan		观看			472	zh					guan'kan	
 zh-管控	guankong	guankong		管控			388	zh					guan'kong	
@@ -11644,7 +11644,7 @@ zh-哈哈	haha	haha		哈哈			432	zh
 zh-哈哈大笑	hahadaxiao	hahadaxiao		哈哈大笑			338	zh						
 zh-哈哈哈	hahaha	hahaha		哈哈哈			376	zh						
 zh-哈哈哈哈	hahahaha	hahahaha		哈哈哈哈			312	zh						
-zh-还	hai	hai		还			638	zh					a huan huǎn hǎi ǎ	
+zh-还	hai	hai		还			638	zh					a huan huǎn hǎi wan wǎn ǎ	
 zh-海	hai	hai		海			486	zh					hài	
 zh-害	hai	hai		害			456	zh					hái	
 zh-嗨	hai	hai		嗨			425	zh						
@@ -11750,7 +11750,7 @@ zh-海洋	haiyang	haiyang		海洋			473	zh					hai'yang
 zh-海洋生物	haiyangshengwu	haiyangshengwu		海洋生物			331	zh					hai'yang'sheng'wu	
 zh-还要	haiyao	haiyao		还要			511	zh						
 zh-还应	haiying	haiying		还应			312	zh						
-zh-还有	haiyou	haiyou		还有			577	zh					a'you	
+zh-还有	haiyou	haiyou		还有			577	zh					a'you a'yu	
 zh-海域	haiyu	haiyu		海域			426	zh						
 zh-海员	haiyuan	haiyuan		海员			326	zh					hai'yuan	
 zh-海运	haiyun	haiyun		海运			389	zh						
@@ -12034,7 +12034,7 @@ zh-盒	he	he		盒			404	zh					ho hǒ
 zh-贺	he	he		贺			404	zh					ho hó	
 zh-呵	he	he		呵			403	zh						
 zh-赫	he	he		赫			398	zh					hei hěi	
-zh-禾	he	he		禾			364	zh					ho hǒ	
+zh-禾	he	he		禾			364	zh					ho hǒ o ǒ	
 zh-鹤	he	he		鹤			351	zh					ho hǒ	
 zh-褐	he	he		褐			332	zh						
 zh-颌	he	he		颌			315	zh						
@@ -12300,7 +12300,7 @@ zh-何事	heshi	heshi		何事			334	zh
 zh-核试	heshi	heshi		核试			327	zh						
 zh-核试验	heshiyan	heshiyan		核试验			366	zh					he'shi'yan	
 zh-河水	heshui	heshui		河水			384	zh						
-zh-喝水	heshui	heshui		喝水			365	zh					ho'shui	
+zh-喝水	heshui	heshui		喝水			365	zh					ho'shui ho'sui	
 zh-赫斯特	hesite	hesite		赫斯特			309	zh						
 zh-核算	hesuan	hesuan		核算			357	zh					he'suan	
 zh-核酸	hesuan	hesuan		核酸			341	zh					he'suan	
@@ -12681,7 +12681,7 @@ zh-谎称	huangcheng	huangcheng		谎称			339	zh					huang'cheng
 zh-蝗虫	huangchong	huangchong		蝗虫			325	zh					huang'chong	
 zh-荒诞	huangdan	huangdan		荒诞			352	zh					huang'dan	
 zh-荒岛	huangdao	huangdao		荒岛			323	zh					huang'dao	
-zh-皇帝	huangdi	huangdi		皇帝			476	zh					huang'di	
+zh-皇帝	huangdi	huangdi		皇帝			476	zh					huan'di huang'di	
 zh-荒地	huangdi	huangdi		荒地			349	zh					huang'di	
 zh-黄帝	huangdi	huangdi		黄帝			314	zh					huang'di	
 zh-晃动	huangdong	huangdong		晃动			330	zh					huang'dong	
@@ -12868,7 +12868,7 @@ zh-化武	huawu	huawu		化武			319	zh
 zh-华西	huaxi	huaxi		华西			328	zh						
 zh-华夏	huaxia	huaxia		华夏			407	zh						
 zh-化纤	huaxian	huaxian		化纤			360	zh					hua'xian	
-zh-画像	huaxiang	huaxiang		画像			386	zh					hua'xiang	
+zh-画像	huaxiang	huaxiang		画像			386	zh					hua'xian hua'xiang	
 zh-花香	huaxiang	huaxiang		花香			325	zh					hua'xiang	
 zh-花心	huaxin	huaxin		花心			352	zh						
 zh-滑行	huaxing	huaxing		滑行			313	zh						
@@ -12929,7 +12929,7 @@ zh-呼呼	huhu	huhu		呼呼			341	zh
 zh-呼唤	huhuan	huhuan		呼唤			400	zh					hu'huan	
 zh-互换	huhuan	huhuan		互换			359	zh					hu'huan	
 zh-互惠	huhui	huhui		互惠			341	zh						
-zh-会	hui	hui		会			648	zh					huí kuai kuái	
+zh-会	hui	hui		会			648	zh					hei huí héi kuai kuái	
 zh-回	hui	hui		回			538	zh					huǐ wi wǐ	
 zh-毁	hui	hui		毁			459	zh					huì	
 zh-汇	hui	hui		汇			433	zh					huí wi wí	
@@ -13018,7 +13018,7 @@ zh-会考	huikao	huikao		会考			319	zh
 zh-回扣	huikou	huikou		回扣			351	zh						
 zh-汇款	huikuan	huikuan		汇款			369	zh					hui'kuan	
 zh-回馈	huikui	huikui		回馈			374	zh						
-zh-回来	huilai	huilai		回来			523	zh						
+zh-回来	huilai	huilai		回来			523	zh					wi'lai	
 zh-回廊	huilang	huilang		回廊			304	zh					hui'lang	
 zh-回老家	huilaojia	huilaojia		回老家			335	zh						
 zh-会令	huiling	huiling		会令			343	zh						
@@ -13039,7 +13039,7 @@ zh-会派	huipai	huipai		会派			306	zh
 zh-汇票	huipiao	huipiao		汇票			334	zh						
 zh-惠普	huipu	huipu		惠普			352	zh						
 zh-会期	huiqi	huiqi		会期			311	zh						
-zh-回去	huiqu	huiqu		回去			472	zh					wi'qu	
+zh-回去	huiqu	huiqu		回去			472	zh					hui'kei hui'qi wi'kei wi'qi wi'qu	
 zh-汇入	huiru	huiru		汇入			349	zh						
 zh-挥洒	huisa	huisa		挥洒			303	zh						
 zh-灰色	huise	huise		灰色			407	zh						
@@ -13160,11 +13160,11 @@ zh-魂魄	hunpo	hunpo		魂魄			306	zh
 zh-婚前	hunqian	hunqian		婚前			364	zh					hun'qian	
 zh-混入	hunru	hunru		混入			337	zh						
 zh-婚纱	hunsha	hunsha		婚纱			378	zh						
-zh-浑身	hunshen	hunshen		浑身			387	zh						
+zh-浑身	hunshen	hunshen		浑身			387	zh					hun'sen	
 zh-婚事	hunshi	hunshi		婚事			331	zh						
 zh-混双	hunshuang	hunshuang		混双			328	zh					hun'shuang	
 zh-昏睡	hunshui	hunshui		昏睡			317	zh						
-zh-馄饨	huntun	huntun		馄饨			314	zh						
+zh-馄饨	huntun	huntun		馄饨			314	zh					hun'dun	
 zh-婚外情	hunwaiqing	hunwaiqing		婚外情			327	zh						
 zh-混为一谈	hunweiyitan	hunweiyitan		混为一谈			336	zh					hun'wei'yi'tan	
 zh-混淆	hunxiao	hunxiao		混淆			396	zh						
@@ -13623,7 +13623,7 @@ zh-剪掉	jiandiao	jiandiao		剪掉			319	zh					jian'diao
 zh-间谍	jiandie	jiandie		间谍			437	zh					jian'die	
 zh-间谍活动	jiandiehuodong	jiandiehuodong		间谍活动			302	zh					jian'die'huo'dong	
 zh-坚定	jianding	jianding		坚定			443	zh					jian'ding	
-zh-鉴定	jianding	jianding		鉴定			432	zh					jian'ding	
+zh-鉴定	jianding	jianding		鉴定			432	zh					gan'den gan'ding jian'den jian'ding	
 zh-检定	jianding	jianding		检定			322	zh					jian'ding	
 zh-坚定不移	jiandingbuyi	jiandingbuyi		坚定不移			344	zh					jian'ding'bu'yi	
 zh-监督	jiandu	jiandu		监督			509	zh					gan'du jian'du	
@@ -13644,7 +13644,7 @@ zh-肩负	jianfu	jianfu		肩负			363	zh					jian'fu
 zh-将	jiang	jiang		将			629	zh					jian jián jiān	
 zh-讲	jiang	jiang		讲			536	zh					gan gàn jian jiàn	
 zh-奖	jiang	jiang		奖			506	zh					jian jiàn	
-zh-降	jiang	jiang		降			460	zh					jian jián xian xiǎn	
+zh-降	jiang	jiang		降			460	zh					gan gán jian jián xian xiǎn	
 zh-江	jiang	jiang		江			440	zh					jian jiān	
 zh-蒋	jiang	jiang		蒋			414	zh					jian jiàn	
 zh-酱	jiang	jiang		酱			412	zh					jian jián	
@@ -13670,7 +13670,7 @@ zh-奖得主	jiangdezhu	jiangdezhu		奖得主			364	zh					jiang'de'zhu
 zh-降低	jiangdi	jiangdi		降低			492	zh					jiang'di	
 zh-降低成本	jiangdichengben	jiangdichengben		降低成本			307	zh					jiang'di'cheng'ben	
 zh-江东	jiangdong	jiangdong		江东			331	zh					jiang'dong	
-zh-间隔	jiange	jiange		间隔			385	zh					jian'ge	
+zh-间隔	jiange	jiange		间隔			385	zh					jian'ge jian'gei	
 zh-降幅	jiangfu	jiangfu		降幅			312	zh					jiang'fu	
 zh-讲稿	jianggao	jianggao		讲稿			307	zh					jiang'gao	
 zh-将官	jiangguan	jiangguan		将官			311	zh					jiang'guan	
@@ -13681,14 +13681,14 @@ zh-江汉	jianghan	jianghan		江汉			303	zh					jiang'han
 zh-江河	jianghe	jianghe		江河			345	zh					jiang'he	
 zh-江湖	jianghu	jianghu		江湖			408	zh					jiang'hu	
 zh-江户	jianghu	jianghu		江户			338	zh					jiang'hu	
-zh-讲话	jianghua	jianghua		讲话			481	zh					jiang'hua	
+zh-讲话	jianghua	jianghua		讲话			481	zh					gan'hua jiang'hua	
 zh-僵化	jianghua	jianghua		僵化			336	zh					jiang'hua	
 zh-江淮	jianghuai	jianghuai		江淮			340	zh					jiang'huai	
 zh-将会	jianghui	jianghui		将会			475	zh					jiang'hui	
 zh-降级	jiangji	jiangji		降级			365	zh					jiang'ji	
 zh-降价	jiangjia	jiangjia		降价			392	zh					jiang'jia	
 zh-讲讲	jiangjiang	jiangjiang		讲讲			342	zh					jiang'jiang	
-zh-讲解	jiangjie	jiangjie		讲解			392	zh					jiang'jie	
+zh-讲解	jiangjie	jiangjie		讲解			392	zh					jian'jie jiang'jie	
 zh-降解	jiangjie	jiangjie		降解			312	zh					jiang'jie	
 zh-疆界	jiangjie	jiangjie		疆界			311	zh					jiang'jie	
 zh-蒋介石	jiangjieshi	jiangjieshi		蒋介石			434	zh					jiang'jie'shi	
@@ -13707,7 +13707,7 @@ zh-降临	jianglin	jianglin		降临			411	zh					jiang'lin
 zh-将领	jiangling	jiangling		将领			430	zh					jiang'ling	
 zh-江陵	jiangling	jiangling		江陵			344	zh					jiang'ling	
 zh-降落	jiangluo	jiangluo		降落			418	zh					jiang'luo	
-zh-降落伞	jiangluosan	jiangluosan		降落伞			321	zh					jiang'luo'san	
+zh-降落伞	jiangluosan	jiangluosan		降落伞			321	zh					jian'lo'san jian'luo'san jiang'luo'san	
 zh-江门	jiangmen	jiangmen		江门			324	zh					jiang'men	
 zh-江南	jiangnan	jiangnan		江南			425	zh					jiang'nan	
 zh-江宁	jiangning	jiangning		江宁			340	zh					jiang'ning	
@@ -13789,7 +13789,7 @@ zh-简洁	jianjie	jianjie		简洁			392	zh					jian'jie
 zh-剪接	jianjie	jianjie		剪接			302	zh					jian'jie	
 zh-监禁	jianjin	jianjin		监禁			421	zh					jian'jin	
 zh-渐进	jianjin	jianjin		渐进			345	zh					jian'jin	
-zh-艰巨	jianju	jianju		艰巨			372	zh					jian'ju	
+zh-艰巨	jianju	jianju		艰巨			372	zh					jian'ji jian'ju	
 zh-检举	jianju	jianju		检举			369	zh					jian'ju	
 zh-兼具	jianju	jianju		兼具			343	zh					jian'ju	
 zh-间距	jianju	jianju		间距			330	zh					jian'ju	
@@ -13816,12 +13816,12 @@ zh-健美	jianmei	jianmei		健美			333	zh					jian'mei
 zh-见面	jianmian	jianmian		见面			466	zh					jian'mian	
 zh-减免	jianmian	jianmian		减免			370	zh					jian'mian	
 zh-见面会	jianmianhui	jianmianhui		见面会			321	zh					jian'mian'hui	
-zh-歼灭	jianmie	jianmie		歼灭			380	zh					jian'mie qian'mie	
+zh-歼灭	jianmie	jianmie		歼灭			380	zh					jian'mie qian'mi qian'mie	
 zh-贱民	jianmin	jianmin		贱民			334	zh					jian'min	
 zh-简明	jianming	jianming		简明			362	zh					jian'ming	
 zh-建模	jianmo	jianmo		建模			338	zh					jian'mo	
 zh-缄默	jianmo	jianmo		缄默			331	zh					jian'mo	
-zh-艰难	jiannan	jiannan		艰难			444	zh					gan'nan jian'nan	
+zh-艰难	jiannan	jiannan		艰难			444	zh					gan'lan gan'nan jian'nan	
 zh-建宁	jianning	jianning		建宁			302	zh					jian'ning	
 zh-键盘	jianpan	jianpan		键盘			408	zh					jian'pan	
 zh-舰炮	jianpao	jianpao		舰炮			312	zh					jian'pao	
@@ -13953,7 +13953,7 @@ zh-建筑学	jianzhuxue	jianzhuxue		建筑学			311	zh					jian'zhu'xue
 zh-建筑业	jianzhuye	jianzhuye		建筑业			354	zh					jian'zhu'ye	
 zh-较	jiao	jiao		较			565	zh					jiào jiáo	
 zh-叫	jiao	jiao		叫			558	zh					gao gáo jiáo	
-zh-教	jiao	jiao		教			507	zh					jiáo jiāo	
+zh-教	jiao	jiao		教			507	zh					gao gáo jiáo jiāo	
 zh-脚	jiao	jiao		脚			486	zh					jiǎo	
 zh-交	jiao	jiao		交			485	zh					jiāo	
 zh-角	jiao	jiao		角			444	zh					go gǒ jiǎo	
@@ -13973,7 +13973,7 @@ zh-郊	jiao	jiao		郊			313	zh					jiāo
 zh-骄	jiao	jiao		骄			311	zh					jiāo	
 zh-剿	jiao	jiao		剿			308	zh					jiào	
 zh-蕉	jiao	jiao		蕉			306	zh					jiāo	
-zh-窖	jiao	jiao		窖			304	zh					gao gáo	
+zh-窖	jiao	jiao		窖			304	zh					gao gáo jiáo	
 zh-教案	jiaoan	jiaoan		教案			315	zh					jiao'an	
 zh-骄傲	jiaoao	jiaoao		骄傲			455	zh						
 zh-搅拌	jiaoban	jiaoban		搅拌			363	zh					jiao'ban	
@@ -14055,7 +14055,7 @@ zh-教练员	jiaolianyuan	jiaolianyuan		教练员			306	zh					jiao'lian'yuan
 zh-交流	jiaoliu	jiaoliu		交流			512	zh						
 zh-交流会	jiaoliuhui	jiaoliuhui		交流会			331	zh						
 zh-搅乱	jiaoluan	jiaoluan		搅乱			302	zh					jiao'luan	
-zh-角落	jiaoluo	jiaoluo		角落			418	zh					go'luo	
+zh-角落	jiaoluo	jiaoluo		角落			418	zh					go'lo go'luo	
 zh-角落里	jiaoluoli	jiaoluoli		角落里			322	zh						
 zh-焦虑	jiaolv	jiaolv		焦虑			424	zh						
 zh-叫卖	jiaomai	jiaomai		叫卖			313	zh						
@@ -14086,7 +14086,7 @@ zh-礁石	jiaoshi	jiaoshi		礁石			311	zh
 zh-教师节	jiaoshijie	jiaoshijie		教师节			338	zh						
 zh-教授	jiaoshou	jiaoshou		教授			511	zh						
 zh-交手	jiaoshou	jiaoshou		交手			346	zh						
-zh-教书	jiaoshu	jiaoshu		教书			369	zh						
+zh-教书	jiaoshu	jiaoshu		教书			369	zh					jiao'su	
 zh-浇水	jiaoshui	jiaoshui		浇水			327	zh						
 zh-缴税	jiaoshui	jiaoshui		缴税			324	zh						
 zh-交税	jiaoshui	jiaoshui		交税			320	zh						
@@ -14228,7 +14228,7 @@ zh-迦太基	jiataiji	jiataiji		迦太基			324	zh
 zh-加泰隆	jiatailong	jiatailong		加泰隆			312	zh						
 zh-加泰罗尼亚	jiatailuoniya	jiatailuoniya		加泰罗尼亚			353	zh						
 zh-加藤	jiateng	jiateng		加藤			368	zh						
-zh-家庭	jiating	jiating		家庭			540	zh						
+zh-家庭	jiating	jiating		家庭			540	zh					jia'ten	
 zh-家庭暴力	jiatingbaoli	jiatingbaoli		家庭暴力			320	zh						
 zh-家庭成员	jiatingchengyuan	jiatingchengyuan		家庭成员			327	zh					jia'ting'cheng'yuan	
 zh-家庭教育	jiatingjiaoyu	jiatingjiaoyu		家庭教育			321	zh						
@@ -14406,7 +14406,7 @@ zh-解	jie	jie		解			461	zh					gai gài gái jiè xie xié
 zh-阶	jie	jie		阶			415	zh					gai gāi	
 zh-杰	jie	jie		杰			414	zh					jiě	
 zh-姐	jie	jie		姐			407	zh					jiè	
-zh-饥饿	jie	jie		饥饿			407	zh						
+zh-饥饿	jie	jie		饥饿			407	zh					ji'ngo	
 zh-戒	jie	jie		戒			399	zh					gai gái	
 zh-介	jie	jie		介			393	zh					gai gái jié	
 zh-劫	jie	jie		劫			387	zh					qie qiě	
@@ -14584,7 +14584,7 @@ zh-解散	jiesan	jiesan		解散			426	zh					jie'san
 zh-杰森	jiesen	jiesen		杰森			327	zh						
 zh-街上	jieshang	jieshang		街上			440	zh					jie'shang	
 zh-接上	jieshang	jieshang		接上			348	zh					jie'shang	
-zh-介绍	jieshao	jieshao		介绍			527	zh					gai'shao	
+zh-介绍	jieshao	jieshao		介绍			527	zh					gai'sao gai'shao	
 zh-结社	jieshe	jieshe		结社			353	zh						
 zh-节省	jiesheng	jiesheng		节省			416	zh					jie'sen	
 zh-接生	jiesheng	jiesheng		接生			303	zh						
@@ -14696,7 +14696,7 @@ zh-给付	jifu	jifu		给付			359	zh
 zh-继父	jifu	jifu		继父			348	zh						
 zh-极富	jifu	jifu		极富			340	zh						
 zh-极高	jigao	jigao		极高			372	zh						
-zh-几个	jige	jige		几个			536	zh						
+zh-几个	jige	jige		几个			536	zh					ji'go	
 zh-及格	jige	jige		及格			348	zh						
 zh-寄给	jigei	jigei		寄给			369	zh						
 zh-几根	jigen	jigen		几根			329	zh						
@@ -14817,7 +14817,7 @@ zh-击落	jiluo	jiluo		击落			391	zh
 zh-纪录片	jilupian	jilupian		纪录片			431	zh					ji'lu'pian	
 zh-记录片	jilupian	jilupian		记录片			327	zh					ji'lu'pian	
 zh-记录下来	jiluxialai	jiluxialai		记录下来			328	zh						
-zh-纪律	jilv	jilv		纪律			426	zh						
+zh-纪律	jilv	jilv		纪律			426	zh					ji'lui	
 zh-机率	jilv	jilv		机率			385	zh						
 zh-几率	jilv	jilv		几率			371	zh						
 zh-挤满	jiman	jiman		挤满			342	zh					ji'man	
@@ -15142,7 +15142,7 @@ zh-警醒	jingxing	jingxing		警醒			307	zh
 zh-竞选	jingxuan	jingxuan		竞选			457	zh					jing'xuan	
 zh-精选	jingxuan	jingxuan		精选			418	zh					jing'xuan	
 zh-警讯	jingxun	jingxun		警讯			309	zh						
-zh-惊讶	jingya	jingya		惊讶			444	zh						
+zh-惊讶	jingya	jingya		惊讶			444	zh					jin'ya	
 zh-经验	jingyan	jingyan		经验			533	zh					jing'yan	
 zh-惊艳	jingyan	jingyan		惊艳			367	zh					jing'yan	
 zh-经验丰富	jingyanfengfu	jingyanfengfu		经验丰富			326	zh					jing'yan'feng'fu	
@@ -15534,7 +15534,7 @@ zh-旧部	jiubu	jiubu		旧部			301	zh
 zh-韭菜	jiucai	jiucai		韭菜			314	zh						
 zh-就餐	jiucan	jiucan		就餐			302	zh					jiu'can	
 zh-纠察队	jiuchadui	jiuchadui		纠察队			303	zh						
-zh-纠缠	jiuchan	jiuchan		纠缠			386	zh					jiu'chan	
+zh-纠缠	jiuchan	jiuchan		纠缠			386	zh					jiu'can jiu'chan	
 zh-酒厂	jiuchang	jiuchang		酒厂			330	zh					jiu'chang	
 zh-旧城	jiucheng	jiucheng		旧城			353	zh						
 zh-九成	jiucheng	jiucheng		九成			342	zh						
@@ -15870,7 +15870,7 @@ zh-绝非	juefei	juefei		绝非			375	zh
 zh-绝技	jueji	jueji		绝技			354	zh						
 zh-绝迹	jueji	jueji		绝迹			338	zh						
 zh-绝佳	juejia	juejia		绝佳			358	zh						
-zh-倔强	juejiang	juejiang		倔强			341	zh					jue'jian jue'jiang qi'jiang	
+zh-倔强	juejiang	juejiang		倔强			341	zh					jue'jian jue'jiang qi'jian qi'jiang	
 zh-掘金	juejin	juejin		掘金			302	zh						
 zh-绝境	juejing	juejing		绝境			343	zh						
 zh-角力	jueli	jueli		角力			329	zh						
@@ -16445,7 +16445,7 @@ zh-卡通	katong	katong		卡通			414	zh
 zh-卡瓦	kawa	kawa		卡瓦			330	zh						
 zh-卡西	kaxi	kaxi		卡西			342	zh						
 zh-卡扎菲	kazhafei	kazhafei		卡扎菲			334	zh						
-zh-卡住	kazhu	kazhu		卡住			328	zh						
+zh-卡住	kazhu	kazhu		卡住			328	zh					ka'zu	
 zh-可	ke	ke		可			598	zh					ko kò	
 zh-科	ke	ke		科			498	zh					ko kō	
 zh-克	ke	ke		克			495	zh					kai kei kài kěi	
@@ -16620,7 +16620,7 @@ zh-可说是	keshuoshi	keshuoshi		可说是			375	zh
 zh-克斯	kesi	kesi		克斯			408	zh						
 zh-科斯	kesi	kesi		科斯			352	zh						
 zh-克思	kesi	kesi		克思			304	zh						
-zh-咳嗽	kesou	kesou		咳嗽			392	zh						
+zh-咳嗽	kesou	kesou		咳嗽			392	zh					kei'sou	
 zh-科索沃	kesuowo	kesuowo		科索沃			385	zh						
 zh-可塑性	kesuxing	kesuxing		可塑性			312	zh						
 zh-课堂	ketang	ketang		课堂			418	zh					ke'tang	
@@ -16640,7 +16640,7 @@ zh-科维奇	keweiqi	keweiqi		科维奇			323	zh
 zh-科威特	keweite	keweite		科威特			374	zh						
 zh-课文	kewen	kewen		课文			342	zh						
 zh-柯文	kewen	kewen		柯文			336	zh						
-zh-可恶	kewu	kewu		可恶			398	zh						
+zh-可恶	kewu	kewu		可恶			398	zh					ko'wu	
 zh-可惜	kexi	kexi		可惜			471	zh						
 zh-可喜	kexi	kexi		可喜			339	zh						
 zh-克西	kexi	kexi		克西			336	zh						
@@ -16729,7 +16729,7 @@ zh-空气	kongqi	kongqi		空气			475	zh
 zh-空前	kongqian	kongqian		空前			399	zh					kong'qian	
 zh-空气污染	kongqiwuran	kongqiwuran		空气污染			343	zh					kong'qi'wu'ran	
 zh-空气质量	kongqizhiliang	kongqizhiliang		空气质量			333	zh					kong'qi'zhi'liang	
-zh-空缺	kongque	kongque		空缺			357	zh						
+zh-空缺	kongque	kongque		空缺			357	zh					kong'qie	
 zh-孔雀	kongque	kongque		孔雀			347	zh						
 zh-空手	kongshou	kongshou		空手			326	zh						
 zh-空手道	kongshoudao	kongshoudao		空手道			328	zh						
@@ -16745,7 +16745,7 @@ zh-空隙	kongxi	kongxi		空隙			341	zh
 zh-空闲	kongxian	kongxian		空闲			351	zh					kong'xian	
 zh-空想	kongxiang	kongxiang		空想			339	zh					kong'xiang	
 zh-空心	kongxin	kongxin		空心			327	zh						
-zh-空虚	kongxu	kongxu		空虚			384	zh						
+zh-空虚	kongxu	kongxu		空虚			384	zh					kong'xi	
 zh-空域	kongyu	kongyu		空域			327	zh						
 zh-空运	kongyun	kongyun		空运			364	zh						
 zh-空战	kongzhan	kongzhan		空战			345	zh					kong'zhan	
@@ -16856,7 +16856,7 @@ zh-快讯	kuaixun	kuaixun		快讯			324	zh
 zh-快要	kuaiyao	kuaiyao		快要			405	zh						
 zh-快照	kuaizhao	kuaizhao		快照			333	zh						
 zh-筷子	kuaizi	kuaizi		筷子			356	zh						
-zh-夸奖	kuajiang	kuajiang		夸奖			349	zh					kua'jiang	
+zh-夸奖	kuajiang	kuajiang		夸奖			349	zh					kua'jian kua'jiang	
 zh-跨界	kuajie	kuajie		跨界			334	zh						
 zh-跨境	kuajing	kuajing		跨境			369	zh						
 zh-款	kuan	kuan		款			474	zh					kuàn	
@@ -16942,7 +16942,7 @@ zh-匮乏	kuifa	kuifa		匮乏			372	zh
 zh-盔甲	kuijia	kuijia		盔甲			337	zh						
 zh-愧疚	kuijiu	kuijiu		愧疚			332	zh						
 zh-亏了	kuile	kuile		亏了			336	zh						
-zh-傀儡	kuilei	kuilei		傀儡			385	zh					kui'lui	
+zh-傀儡	kuilei	kuilei		傀儡			385	zh					kuai'lui kui'lui	
 zh-亏欠	kuiqian	kuiqian		亏欠			323	zh					kui'qian	
 zh-窥视	kuishi	kuishi		窥视			310	zh						
 zh-亏损	kuisun	kuisun		亏损			424	zh						
@@ -18432,7 +18432,7 @@ zh-力争	lizheng	lizheng		力争			392	zh
 zh-例证	lizheng	lizheng		例证			346	zh						
 zh-理智	lizhi	lizhi		理智			419	zh						
 zh-离职	lizhi	lizhi		离职			391	zh						
-zh-荔枝	lizhi	lizhi		荔枝			364	zh						
+zh-荔枝	lizhi	lizhi		荔枝			364	zh					li'zi	
 zh-立志	lizhi	lizhi		立志			361	zh						
 zh-励志	lizhi	lizhi		励志			338	zh						
 zh-理直气壮	lizhiqizhuang	lizhiqizhuang		理直气壮			339	zh					li'zhi'qi'zhuang	
@@ -18630,7 +18630,7 @@ zh-沦为	lunwei	lunwei		沦为			412	zh
 zh-论文	lunwen	lunwen		论文			461	zh						
 zh-沦陷	lunxian	lunxian		沦陷			390	zh					lun'xian	
 zh-轮椅	lunyi	lunyi		轮椅			381	zh						
-zh-论语	lunyu	lunyu		论语			339	zh						
+zh-论语	lunyu	lunyu		论语			339	zh					lun'yi	
 zh-论战	lunzhan	lunzhan		论战			365	zh					lun'zhan	
 zh-论者	lunzhe	lunzhe		论者			365	zh						
 zh-论证	lunzheng	lunzheng		论证			420	zh						
@@ -19158,7 +19158,7 @@ zh-马戏团	maxituan	maxituan		马戏团			364	zh					ma'xi'tuan
 zh-马修	maxiu	maxiu		马修			325	zh						
 zh-玛雅	maya	maya		玛雅			377	zh						
 zh-妈呀	maya	maya		妈呀			322	zh						
-zh-蚂蚁	mayi	mayi		蚂蚁			394	zh						
+zh-蚂蚁	mayi	mayi		蚂蚁			394	zh					ma'ni	
 zh-马尾	mayi	mayi		马尾			341	zh						
 zh-麻衣	mayi	mayi		麻衣			320	zh						
 zh-马英九	mayingjiu	mayingjiu		马英九			355	zh						
@@ -19349,7 +19349,7 @@ zh-每一刻	meiyike	meiyike		每一刻			302	zh
 zh-美英	meiying	meiying		美英			335	zh						
 zh-没意思	meiyisi	meiyisi		没意思			337	zh						
 zh-没用	meiyong	meiyong		没用			440	zh						
-zh-没有	meiyou	meiyou		没有			638	zh					mi'you	
+zh-没有	meiyou	meiyou		没有			638	zh					mi'you mi'yu	
 zh-煤油	meiyou	meiyou		煤油			326	zh						
 zh-没有勇气	meiyouyongqi	meiyouyongqi		没有勇气			318	zh						
 zh-美誉	meiyu	meiyu		美誉			344	zh						
@@ -19441,7 +19441,7 @@ zh-门面	menmian	menmian		门面			324	zh					men'mian
 zh-门派	menpai	menpai		门派			315	zh						
 zh-门票	menpiao	menpiao		门票			412	zh						
 zh-门前	menqian	menqian		门前			418	zh					men'qian	
-zh-闷热	menre	menre		闷热			334	zh						
+zh-闷热	menre	menre		闷热			334	zh					men'rei	
 zh-门人	menren	menren		门人			340	zh						
 zh-门上	menshang	menshang		门上			345	zh					men'shang	
 zh-门生	mensheng	mensheng		门生			302	zh						
@@ -19882,7 +19882,7 @@ zh-默尔	moer	moer		默尔			311	zh
 zh-墨尔本	moerben	moerben		墨尔本			389	zh						
 zh-摩尔多瓦	moerduowa	moerduowa		摩尔多瓦			327	zh						
 zh-魔法	mofa	mofa		魔法			433	zh						
-zh-模范	mofan	mofan		模范			419	zh					mo'fan	
+zh-模范	mofan	mofan		模范			419	zh					mo'fan mo'huan	
 zh-模仿	mofang	mofang		模仿			434	zh					mo'fang	
 zh-魔方	mofang	mofang		魔方			330	zh					mo'fang	
 zh-磨坊	mofang	mofang		磨坊			313	zh					mo'fang	
@@ -20032,7 +20032,7 @@ zh-牡丹	mudan	mudan		牡丹			360	zh					mu'dan
 zh-牡丹江	mudanjiang	mudanjiang		牡丹江			328	zh					mu'dan'jiang	
 zh-穆德	mude	mude		穆德			312	zh						
 zh-目瞪口呆	mudengkoudai	mudengkoudai		目瞪口呆			309	zh						
-zh-目的	mudi	mudi		目的			521	zh						
+zh-目的	mudi	mudi		目的			521	zh					mong'di	
 zh-墓地	mudi	mudi		墓地			410	zh						
 zh-穆迪	mudi	mudi		穆迪			307	zh						
 zh-木雕	mudiao	mudiao		木雕			337	zh						
@@ -20154,7 +20154,7 @@ zh-耐	nai	nai		耐			389	zh					lai lái
 zh-氖	nai	nai		氖			309	zh						
 zh-奶茶	naicha	naicha		奶茶			349	zh						
 zh-奈尔	naier	naier		奈尔			308	zh						
-zh-奶粉	naifen	naifen		奶粉			407	zh						
+zh-奶粉	naifen	naifen		奶粉			407	zh					lai'fen lai'huen	
 zh-奈何	naihe	naihe		奈何			344	zh						
 zh-耐克	naike	naike		耐克			317	zh						
 zh-奶酪	nailao	nailao		奶酪			346	zh						
@@ -20507,7 +20507,7 @@ zh-倪	ni	ni		倪			335	zh					li lǐ nǐ
 zh-暱	ni	ni		暱			324	zh					nǐ	
 zh-匿	ni	ni		匿			305	zh					li lǐ	
 zh-霓	ni	ni		霓			303	zh						
-zh-溺爱	niai	niai		溺爱			318	zh						
+zh-溺爱	niai	niai		溺爱			318	zh					ni'ngai	
 zh-年	nian	nian		年			664	zh					lian liǎn niǎn	
 zh-念	nian	nian		念			453	zh					lian lián nián	
 zh-黏	nian	nian		黏			331	zh					lian liǎn	
@@ -20729,7 +20729,7 @@ zh-农副产品	nongfuchanpin	nongfuchanpin		农副产品			321	zh					nong'fu'c
 zh-农耕	nonggeng	nonggeng		农耕			349	zh						
 zh-农工	nonggong	nonggong		农工			324	zh						
 zh-农行	nonghang	nonghang		农行			333	zh					nong'hang	
-zh-浓厚	nonghou	nonghou		浓厚			402	zh						
+zh-浓厚	nonghou	nonghou		浓厚			402	zh					long'hou	
 zh-农户	nonghu	nonghu		农户			382	zh						
 zh-农活	nonghuo	nonghuo		农活			301	zh						
 zh-农机	nongji	nongji		农机			351	zh						
@@ -20861,7 +20861,7 @@ zh-女巫	nvwu	nvwu		女巫			366	zh
 zh-女侠	nvxia	nvxia		女侠			306	zh						
 zh-女性	nvxing	nvxing		女性			530	zh						
 zh-女星	nvxing	nvxing		女星			371	zh						
-zh-女婿	nvxu	nvxu		女婿			401	zh					nv'xi	
+zh-女婿	nvxu	nvxu		女婿			401	zh					ni'xi nv'xi	
 zh-女演员	nvyanyuan	nvyanyuan		女演员			385	zh					nv'yan'yuan	
 zh-女婴	nvying	nvying		女婴			332	zh						
 zh-女英雄	nvyingxiong	nvyingxiong		女英雄			316	zh						
@@ -20902,7 +20902,7 @@ zh-欧佩克	oupeike	oupeike		欧佩克			302	zh
 zh-偶然	ouran	ouran		偶然			422	zh					ou'ran	
 zh-欧式	oushi	oushi		欧式			320	zh						
 zh-偶数	oushu	oushu		偶数			305	zh						
-zh-呕吐	outu	outu		呕吐			381	zh						
+zh-呕吐	outu	outu		呕吐			381	zh					ngou'tu	
 zh-欧文	ouwen	ouwen		欧文			366	zh						
 zh-偶像	ouxiang	ouxiang		偶像			443	zh					ou'xiang	
 zh-欧亚	ouya	ouya		欧亚			360	zh						
@@ -21052,7 +21052,7 @@ zh-叛军	panjun	panjun		叛军			374	zh					pan'jun
 zh-判例	panli	panli		判例			342	zh					pan'li	
 zh-叛乱	panluan	panluan		叛乱			412	zh					pan'luan	
 zh-盘面	panmian	panmian		盘面			304	zh					pan'mian	
-zh-拚命	panming	panming		拚命			325	zh					pan'ming	
+zh-拚命	panming	panming		拚命			325	zh					pan'min pan'ming	
 zh-叛逆	panni	panni		叛逆			366	zh					pan'ni	
 zh-攀爬	panpa	panpa		攀爬			327	zh					pan'pa	
 zh-蹒跚	panshan	panshan		蹒跚			312	zh					pan'shan	
@@ -21167,7 +21167,7 @@ zh-培训班	peixunban	peixunban		培训班			377	zh					pei'xun'ban
 zh-培养	peiyang	peiyang		培养			491	zh					pei'yang	
 zh-配音	peiyin	peiyin		配音			386	zh						
 zh-配有	peiyou	peiyou		配有			365	zh						
-zh-培育	peiyu	peiyu		培育			432	zh						
+zh-培育	peiyu	peiyu		培育			432	zh					pei'yi	
 zh-配乐	peiyue	peiyue		配乐			363	zh						
 zh-陪葬	peizang	peizang		陪葬			319	zh					pei'zang	
 zh-配置	peizhi	peizhi		配置			462	zh						
@@ -21274,7 +21274,7 @@ zh-篇文章	pianwenzhang	pianwenzhang		篇文章			394	zh					pian'wen'zhang
 zh-偏向	pianxiang	pianxiang		偏向			389	zh					pian'xiang	
 zh-偏心	pianxin	pianxin		偏心			304	zh					pian'xin	
 zh-偏要	pianyao	pianyao		偏要			320	zh					pian'yao	
-zh-便宜	pianyi	pianyi		便宜			457	zh					pian'yi	
+zh-便宜	pianyi	pianyi		便宜			457	zh					pian'ni pian'yi	
 zh-偏远	pianyuan	pianyuan		偏远			366	zh					pian'yuan	
 zh-片源	pianyuan	pianyuan		片源			316	zh					pian'yuan	
 zh-篇章	pianzhang	pianzhang		篇章			359	zh					pian'zhang	
@@ -21288,7 +21288,7 @@ zh-票	piao	piao		票			476	zh					piáo
 zh-飘	piao	piao		飘			375	zh					piāo	
 zh-嫖	piao	piao		嫖			346	zh					piǎo	
 zh-漂	piao	piao		漂			331	zh					piào piáo piāo	
-zh-漂白	piaobai	piaobai		漂白			323	zh						
+zh-漂白	piaobai	piaobai		漂白			323	zh					piao'bei	
 zh-漂泊	piaobo	piaobo		漂泊			328	zh						
 zh-嫖娼	piaochang	piaochang		嫖娼			315	zh					piao'chang	
 zh-飘荡	piaodang	piaodang		飘荡			301	zh					piao'dang	
@@ -21298,7 +21298,7 @@ zh-飘浮	piaofu	piaofu		飘浮			312	zh
 zh-票价	piaojia	piaojia		票价			397	zh						
 zh-票据	piaoju	piaoju		票据			371	zh						
 zh-嫖客	piaoke	piaoke		嫖客			318	zh						
-zh-漂亮	piaoliang	piaoliang		漂亮			502	zh					piao'liang	
+zh-漂亮	piaoliang	piaoliang		漂亮			502	zh					piao'lian piao'liang	
 zh-漂流	piaoliu	piaoliu		漂流			366	zh						
 zh-飘飘	piaopiao	piaopiao		飘飘			310	zh						
 zh-剽窃	piaoqie	piaoqie		剽窃			317	zh						
@@ -21361,7 +21361,7 @@ zh-品德	pinde	pinde		品德			376	zh
 zh-频段	pinduan	pinduan		频段			323	zh					pin'duan	
 zh-贫乏	pinfa	pinfa		贫乏			354	zh						
 zh-频发	pinfa	pinfa		频发			315	zh						
-zh-频繁	pinfan	pinfan		频繁			440	zh					pin'fan	
+zh-频繁	pinfan	pinfan		频繁			440	zh					pin'fan pin'huan	
 zh-贫富	pinfu	pinfu		贫富			346	zh						
 zh-贫富差距	pinfuchaju	pinfuchaju		贫富差距			339	zh						
 zh-平	ping	ping		平			478	zh					pin pǐn	
@@ -21637,7 +21637,7 @@ zh-谱曲	puqu	puqu		谱曲			308	zh
 zh-仆人	puren	puren		仆人			394	zh						
 zh-菩萨	pusa	pusa		菩萨			414	zh						
 zh-铺上	pushang	pushang		铺上			303	zh					pu'shang	
-zh-铺设	pushe	pushe		铺设			364	zh						
+zh-铺设	pushe	pushe		铺设			364	zh					pu'sei	
 zh-普世	pushi	pushi		普世			357	zh						
 zh-朴实	pushi	pushi		朴实			340	zh						
 zh-朴素	pusu	pusu		朴素			363	zh						
@@ -22010,7 +22010,7 @@ zh-侨居	qiaoju	qiaoju		侨居			306	zh
 zh-巧克力	qiaokeli	qiaokeli		巧克力			423	zh						
 zh-桥梁	qiaoliang	qiaoliang		桥梁			448	zh					qiao'liang	
 zh-荞麦	qiaomai	qiaomai		荞麦			311	zh						
-zh-敲门	qiaomen	qiaomen		敲门			370	zh						
+zh-敲门	qiaomen	qiaomen		敲门			370	zh					kao'men	
 zh-窍门	qiaomen	qiaomen		窍门			343	zh						
 zh-桥面	qiaomian	qiaomian		桥面			329	zh					qiao'mian	
 zh-巧妙	qiaomiao	qiaomiao		巧妙			392	zh						
@@ -22076,7 +22076,7 @@ zh-启动	qidong	qidong		启动			479	zh
 zh-起动	qidong	qidong		起动			332	zh						
 zh-气动	qidong	qidong		气动			331	zh						
 zh-且	qie	qie		且			521	zh					qiè	
-zh-切	qie	qie		切			444	zh					qiě	
+zh-切	qie	qie		切			444	zh					cei cěi qiě	
 zh-企鹅	qie	qie		企鹅			399	zh						
 zh-妾	qie	qie		妾			365	zh					qiě	
 zh-窃	qie	qie		窃			365	zh						
@@ -22408,7 +22408,7 @@ zh-清真	qingzhen	qingzhen		清真			325	zh
 zh-清正	qingzheng	qingzheng		清正			304	zh						
 zh-清政府	qingzhengfu	qingzhengfu		清政府			363	zh						
 zh-清真寺	qingzhensi	qingzhensi		清真寺			401	zh						
-zh-轻重	qingzhong	qingzhong		轻重			369	zh					qing'zong	
+zh-轻重	qingzhong	qingzhong		轻重			369	zh					qin'zong qing'zong	
 zh-青州	qingzhou	qingzhou		青州			315	zh						
 zh-庆祝	qingzhu	qingzhu		庆祝			468	zh						
 zh-倾注	qingzhu	qingzhu		倾注			327	zh						
@@ -22653,7 +22653,7 @@ zh-奇缘	qiyuan	qiyuan		奇缘			328	zh					qi'yuan
 zh-祈愿	qiyuan	qiyuan		祈愿			311	zh					qi'yuan	
 zh-起源于	qiyuanyu	qiyuanyu		起源于			358	zh					qi'yuan'yu	
 zh-七月	qiyue	qiyue		七月			432	zh						
-zh-契约	qiyue	qiyue		契约			425	zh						
+zh-契约	qiyue	qiyue		契约			425	zh					qi'yao	
 zh-器乐	qiyue	qiyue		器乐			310	zh						
 zh-欺诈	qizha	qizha		欺诈			399	zh						
 zh-骑着	qizhe	qizhe		骑着			321	zh						
@@ -22670,7 +22670,7 @@ zh-棋子	qizi	qizi		棋子			368	zh
 zh-其子	qizi	qizi		其子			333	zh						
 zh-旗子	qizi	qizi		旗子			328	zh						
 zh-七座	qizuo	qizuo		七座			302	zh						
-zh-去	qu	qu		去			616	zh					qi qí	
+zh-去	qu	qu		去			616	zh					kei kéi qi qí	
 zh-区	qu	qu		区			564	zh					ngou ngōu qi qī	
 zh-取	qu	qu		取			491	zh					qi qì	
 zh-娶	qu	qu		娶			437	zh					qi qì	
@@ -22837,7 +22837,7 @@ zh-取得	qude	qude		取得			526	zh
 zh-取得成功	qudechenggong	qudechenggong		取得成功			316	zh						
 zh-取得胜利	qudeshengli	qudeshengli		取得胜利			314	zh						
 zh-取缔	qudi	qudi		取缔			393	zh						
-zh-去掉	qudiao	qudiao		去掉			381	zh						
+zh-去掉	qudiao	qudiao		去掉			381	zh					qi'diao	
 zh-曲调	qudiao	qudiao		曲调			342	zh						
 zh-驱动	qudong	qudong		驱动			433	zh						
 zh-驱动器	qudongqi	qudongqi		驱动器			323	zh						
@@ -22852,7 +22852,7 @@ zh-鹊	que	que		鹊			307	zh					qiao qiǎo
 zh-雀斑	queban	queban		雀斑			304	zh					que'ban	
 zh-确保	quebao	quebao		确保			490	zh						
 zh-缺点	quedian	quedian		缺点			435	zh					que'dian	
-zh-确定	queding	queding		确定			530	zh						
+zh-确定	queding	queding		确定			530	zh					qiao'den qiao'ding	
 zh-确定性	quedingxing	quedingxing		确定性			309	zh						
 zh-缺乏	quefa	quefa		缺乏			500	zh						
 zh-缺憾	quehan	quehan		缺憾			307	zh					que'han	
@@ -22865,7 +22865,7 @@ zh-确切	queqie	queqie		确切			425	zh
 zh-取而代之	querdaizhi	querdaizhi		取而代之			359	zh						
 zh-确认	queren	queren		确认			486	zh						
 zh-缺少	queshao	queshao		缺少			439	zh						
-zh-确实	queshi	queshi		确实			521	zh					ko'shi	
+zh-确实	queshi	queshi		确实			521	zh					ko'shi ko'si	
 zh-却是	queshi	queshi		却是			461	zh						
 zh-缺失	queshi	queshi		缺失			393	zh						
 zh-确是	queshi	queshi		确是			325	zh						
@@ -22878,7 +22878,7 @@ zh-缺氧	queyang	queyang		缺氧			330	zh					que'yang
 zh-确有	queyou	queyou		确有			374	zh						
 zh-确凿	quezao	quezao		确凿			331	zh						
 zh-确诊	quezhen	quezhen		确诊			396	zh						
-zh-区分	qufen	qufen		区分			436	zh					qi'fen	
+zh-区分	qufen	qufen		区分			436	zh					qi'fen qi'huen	
 zh-曲风	qufeng	qufeng		曲风			308	zh						
 zh-屈服	qufu	qufu		屈服			386	zh						
 zh-曲阜	qufu	qufu		曲阜			306	zh						
@@ -22961,7 +22961,7 @@ zh-屈原	quyuan	quyuan		屈原			338	zh					qu'yuan
 zh-取悦	quyue	quyue		取悦			362	zh						
 zh-区域性	quyuxing	quyuxing		区域性			352	zh						
 zh-区长	quzhang	quzhang		区长			358	zh					qu'zhang	
-zh-曲折	quzhe	quzhe		曲折			386	zh					qi'zhe	
+zh-曲折	quzhe	quzhe		曲折			386	zh					qi'zei qi'zhe	
 zh-取证	quzheng	quzheng		取证			343	zh						
 zh-区政府	quzhengfu	quzhengfu		区政府			322	zh						
 zh-去职	quzhi	quzhi		去职			320	zh						
@@ -23101,7 +23101,7 @@ zh-人会	renhui	renhui		人会			445	zh
 zh-人祸	renhuo	renhuo		人祸			309	zh						
 zh-人及	renji	renji		人及			324	zh						
 zh-人际	renji	renji		人际			324	zh						
-zh-人家	renjia	renjia		人家			478	zh						
+zh-人家	renjia	renjia		人家			478	zh					ren'ga	
 zh-人间	renjian	renjian		人间			441	zh					ren'jian	
 zh-任教	renjiao	renjiao		任教			387	zh						
 zh-人际关系	renjiguanxi	renjiguanxi		人际关系			358	zh					ren'ji'guan'xi	
@@ -23214,7 +23214,7 @@ zh-任性	renxing	renxing		任性			367	zh
 zh-人形	renxing	renxing		人形			353	zh						
 zh-韧性	renxing	renxing		韧性			344	zh						
 zh-人行	renxing	renxing		人行			338	zh						
-zh-人行道	renxingdao	renxingdao		人行道			380	zh						
+zh-人行道	renxingdao	renxingdao		人行道			380	zh					ren'xin'dao	
 zh-人性化	renxinghua	renxinghua		人性化			342	zh						
 zh-仁兄	renxiong	renxiong		仁兄			303	zh						
 zh-人选	renxuan	renxuan		人选			433	zh					ren'xuan	
@@ -23376,7 +23376,7 @@ zh-容颜	rongyan	rongyan		容颜			337	zh					rong'yan
 zh-熔岩	rongyan	rongyan		熔岩			333	zh					rong'yan	
 zh-荣耀	rongyao	rongyao		荣耀			435	zh						
 zh-溶液	rongye	rongye		溶液			385	zh						
-zh-容易	rongyi	rongyi		容易			525	zh						
+zh-容易	rongyi	rongyi		容易			525	zh					yong'yi	
 zh-荣膺	rongying	rongying		荣膺			302	zh						
 zh-荣誉	rongyu	rongyu		荣誉			461	zh						
 zh-溶于	rongyu	rongyu		溶于			346	zh						
@@ -23789,7 +23789,7 @@ zh-扫除	saochu	saochu		扫除			371	zh
 zh-扫荡	saodang	saodang		扫荡			361	zh					sao'dang	
 zh-扫地	saodi	saodi		扫地			355	zh						
 zh-骚动	saodong	saodong		骚动			372	zh						
-zh-扫黄	saohuang	saohuang		扫黄			326	zh					sao'huang	
+zh-扫黄	saohuang	saohuang		扫黄			326	zh					sao'huan sao'huang	
 zh-骚货	saohuo	saohuo		骚货			393	zh						
 zh-骚乱	saoluan	saoluan		骚乱			398	zh					sao'luan	
 zh-扫码	saoma	saoma		扫码			314	zh						
@@ -23904,7 +23904,7 @@ zh-煽动	shandong	shandong		煽动			419	zh					shan'dong
 zh-山洞	shandong	shandong		山洞			356	zh					shan'dong	
 zh-山东大学	shandongdaxue	shandongdaxue		山东大学			306	zh					shan'dong'da'xue	
 zh-山东省	shandongsheng	shandongsheng		山东省			411	zh					shan'dong'sheng	
-zh-善恶	shane	shane		善恶			353	zh					shan'e shan'ngo	
+zh-善恶	shane	shane		善恶			353	zh					san'ngo shan'e shan'ngo	
 zh-山峰	shanfeng	shanfeng		山峰			386	zh					shan'feng	
 zh-上	shang	shang		上			655	zh					san sàn sán	
 zh-伤	shang	shang		伤			469	zh					san sān	
@@ -23989,7 +23989,7 @@ zh-商家	shangjia	shangjia		商家			418	zh					shang'jia
 zh-上架	shangjia	shangjia		上架			349	zh					shang'jia	
 zh-上将	shangjiang	shangjiang		上将			401	zh					shang'jiang	
 zh-上交	shangjiao	shangjiao		上交			339	zh					shang'jiao	
-zh-上缴	shangjiao	shangjiao		上缴			335	zh					shang'jiao	
+zh-上缴	shangjiao	shangjiao		上缴			335	zh					san'jiao shang'jiao	
 zh-上街	shangjie	shangjie		上街			416	zh					shang'jie	
 zh-商界	shangjie	shangjie		商界			365	zh					shang'jie	
 zh-上届	shangjie	shangjie		上届			333	zh					shang'jie	
@@ -24220,7 +24220,7 @@ zh-少数	shaoshu	shaoshu		少数			500	zh
 zh-少数几个	shaoshujige	shaoshujige		少数几个			317	zh						
 zh-少数民族	shaoshuminzu	shaoshuminzu		少数民族			418	zh						
 zh-烧死	shaosi	shaosi		烧死			375	zh						
-zh-稍微	shaowei	shaowei		稍微			429	zh					sao'wei	
+zh-稍微	shaowei	shaowei		稍微			429	zh					sao'wei sao'wi	
 zh-少尉	shaowei	shaowei		少尉			321	zh						
 zh-少校	shaoxiao	shaoxiao		少校			359	zh						
 zh-绍兴	shaoxing	shaoxing		绍兴			383	zh						
@@ -24278,7 +24278,7 @@ zh-设备	shebei	shebei		设备			524	zh
 zh-舍不得	shebude	shebude		舍不得			380	zh						
 zh-设厂	shechang	shechang		设厂			315	zh					she'chang	
 zh-射程	shecheng	shecheng		射程			376	zh						
-zh-奢侈	shechi	shechi		奢侈			381	zh					she'ci	
+zh-奢侈	shechi	shechi		奢侈			381	zh					sei'ci she'ci	
 zh-奢侈品	shechipin	shechipin		奢侈品			369	zh						
 zh-舍得	shede	shede		舍得			375	zh						
 zh-设定	sheding	sheding		设定			447	zh						
@@ -24523,7 +24523,7 @@ zh-生死	shengsi	shengsi		生死			416	zh
 zh-生死存亡	shengsicunwang	shengsicunwang		生死存亡			301	zh					sheng'si'cun'wang	
 zh-胜诉	shengsu	shengsu		胜诉			344	zh						
 zh-胜算	shengsuan	shengsuan		胜算			334	zh					sheng'suan	
-zh-绳索	shengsuo	shengsuo		绳索			357	zh					sheng'so	
+zh-绳索	shengsuo	shengsuo		绳索			357	zh					sheng'so sun'so	
 zh-圣塔	shengta	shengta		圣塔			303	zh						
 zh-生态	shengtai	shengtai		生态			492	zh						
 zh-生态环境	shengtaihuanjing	shengtaihuanjing		生态环境			342	zh					sheng'tai'huan'jing	
@@ -24576,7 +24576,7 @@ zh-声乐	shengyue	shengyue		声乐			355	zh
 zh-生育率	shengyulv	shengyulv		生育率			303	zh						
 zh-盛赞	shengzan	shengzan		盛赞			319	zh					sheng'zan	
 zh-圣战	shengzhan	shengzhan		圣战			359	zh					sheng'zhan	
-zh-生长	shengzhang	shengzhang		生长			470	zh					sheng'zan sheng'zhang	
+zh-生长	shengzhang	shengzhang		生长			470	zh					sen'zan sheng'zan sheng'zhang	
 zh-省长	shengzhang	shengzhang		省长			414	zh					sheng'zhang	
 zh-胜仗	shengzhang	shengzhang		胜仗			306	zh					sheng'zhang	
 zh-胜者	shengzhe	shengzhe		胜者			328	zh						
@@ -24772,7 +24772,7 @@ zh-涉嫌	shexian	shexian		涉嫌			430	zh					she'xian
 zh-射线	shexian	shexian		射线			388	zh					she'xian	
 zh-设想	shexiang	shexiang		设想			423	zh					she'xiang	
 zh-摄像	shexiang	shexiang		摄像			353	zh					she'xiang	
-zh-麝香	shexiang	shexiang		麝香			301	zh					sei'xiang she'xiang	
+zh-麝香	shexiang	shexiang		麝香			301	zh					sei'xian sei'xiang she'xiang	
 zh-摄像机	shexiangji	shexiangji		摄像机			370	zh					she'xiang'ji	
 zh-摄像头	shexiangtou	shexiangtou		摄像头			405	zh					she'xiang'tou	
 zh-摄影	sheying	sheying		摄影			476	zh						
@@ -24790,7 +24790,7 @@ zh-摄政	shezheng	shezheng		摄政			321	zh
 zh-摄政王	shezhengwang	shezhengwang		摄政王			305	zh					she'zheng'wang	
 zh-设置	shezhi	shezhi		设置			504	zh						
 zh-摄制	shezhi	shezhi		摄制			337	zh						
-zh-射中	shezhong	shezhong		射中			341	zh					she'zong	
+zh-射中	shezhong	shezhong		射中			341	zh					sei'zong she'zong	
 zh-涉足	shezu	shezu		涉足			368	zh						
 zh-是	shi	shi		是			717	zh					si sí	
 zh-时	shi	shi		时			618	zh					si sǐ	
@@ -24995,7 +24995,7 @@ zh-事会	shihui	shihui		事会			315	zh
 zh-石灰石	shihuishi	shihuishi		石灰石			303	zh						
 zh-石灰岩	shihuiyan	shihuiyan		石灰岩			318	zh					shi'hui'yan	
 zh-失火	shihuo	shihuo		失火			347	zh						
-zh-世纪	shiji	shiji		世纪			541	zh						
+zh-世纪	shiji	shiji		世纪			541	zh					si'ji	
 zh-实际	shiji	shiji		实际			525	zh						
 zh-时机	shiji	shiji		时机			443	zh						
 zh-事迹	shiji	shiji		事迹			405	zh						
@@ -25073,7 +25073,7 @@ zh-视觉	shijue	shijue		视觉			445	zh
 zh-视觉效果	shijuexiaoguo	shijuexiaoguo		视觉效果			307	zh						
 zh-试看	shikan	shikan		试看			311	zh					shi'kan	
 zh-史考特	shikaote	shikaote		史考特			323	zh						
-zh-时刻	shike	shike		时刻			486	zh					shi'kei	
+zh-时刻	shike	shike		时刻			486	zh					shi'kei si'kei	
 zh-石刻	shike	shike		石刻			329	zh						
 zh-食客	shike	shike		食客			317	zh						
 zh-时刻表	shikebiao	shikebiao		时刻表			326	zh						
@@ -25107,7 +25107,7 @@ zh-石林	shilin	shilin		石林			332	zh
 zh-失灵	shiling	shiling		失灵			359	zh						
 zh-适龄	shiling	shiling		适龄			327	zh						
 zh-十六	shiliu	shiliu		十六			406	zh						
-zh-石榴	shiliu	shiliu		石榴			348	zh						
+zh-石榴	shiliu	shiliu		石榴			348	zh					si'liu	
 zh-十六个	shiliuge	shiliuge		十六个			302	zh						
 zh-十六年	shiliunian	shiliunian		十六年			346	zh					shi'liu'nian	
 zh-十六日	shiliuri	shiliuri		十六日			312	zh						
@@ -25151,7 +25151,7 @@ zh-时评	shiping	shiping		时评			344	zh
 zh-食品药品	shipinyaopin	shipinyaopin		食品药品			331	zh						
 zh-识破	shipo	shipo		识破			341	zh						
 zh-食谱	shipu	shipu		食谱			371	zh						
-zh-时期	shiqi	shiqi		时期			547	zh						
+zh-时期	shiqi	shiqi		时期			547	zh					si'qi	
 zh-十七	shiqi	shiqi		十七			383	zh						
 zh-士气	shiqi	shiqi		士气			370	zh						
 zh-石器	shiqi	shiqi		石器			360	zh						
@@ -25776,12 +25776,12 @@ zh-摔倒	shuaidao	shuaidao		摔倒			380	zh
 zh-甩掉	shuaidiao	shuaidiao		甩掉			324	zh						
 zh-帅哥	shuaige	shuaige		帅哥			423	zh						
 zh-衰减	shuaijian	shuaijian		衰减			335	zh					shuai'jian	
-zh-摔跤	shuaijiao	shuaijiao		摔跤			375	zh						
+zh-摔跤	shuaijiao	shuaijiao		摔跤			375	zh					suai'jiao	
 zh-摔角	shuaijiao	shuaijiao		摔角			310	zh						
 zh-衰竭	shuaijie	shuaijie		衰竭			353	zh						
 zh-甩开	shuaikai	shuaikai		甩开			301	zh						
 zh-衰老	shuailao	shuailao		衰老			356	zh						
-zh-率领	shuailing	shuailing		率领			433	zh					so'ling	
+zh-率领	shuailing	shuailing		率领			433	zh					so'len so'ling	
 zh-衰落	shuailuo	shuailuo		衰落			386	zh						
 zh-帅气	shuaiqi	shuaiqi		帅气			366	zh						
 zh-衰弱	shuairuo	shuairuo		衰弱			338	zh						
@@ -25853,7 +25853,7 @@ zh-舒畅	shuchang	shuchang		舒畅			344	zh					shu'chang
 zh-输出	shuchu	shuchu		输出			460	zh						
 zh-数次	shuci	shuci		数次			394	zh						
 zh-树丛	shucong	shucong		树丛			324	zh						
-zh-书呆子	shudaizi	shudaizi		书呆子			319	zh						
+zh-书呆子	shudaizi	shudaizi		书呆子			319	zh					su'dai'zi	
 zh-疏导	shudao	shudao		疏导			341	zh						
 zh-属地	shudi	shudi		属地			352	zh						
 zh-书店	shudian	shudian		书店			419	zh					shu'dian	
@@ -26032,7 +26032,7 @@ zh-数理	shuli	shuli		数理			341	zh
 zh-书里	shuli	shuli		书里			331	zh						
 zh-疏离	shuli	shuli		疏离			311	zh						
 zh-熟练	shulian	shulian		熟练			398	zh					shu'lian	
-zh-数量	shuliang	shuliang		数量			508	zh					shu'lian shu'liang	
+zh-数量	shuliang	shuliang		数量			508	zh					shu'lian shu'liang su'lian	
 zh-数列	shulie	shulie		数列			307	zh						
 zh-树林	shulin	shulin		树林			399	zh						
 zh-疏漏	shulou	shulou		疏漏			310	zh						
@@ -26183,12 +26183,12 @@ zh-属下	shuxia	shuxia		属下			368	zh
 zh-书写	shuxie	shuxie		书写			433	zh						
 zh-书信	shuxin	shuxin		书信			368	zh						
 zh-属性	shuxing	shuxing		属性			437	zh						
-zh-数学	shuxue	shuxue		数学			479	zh					su'xue	
+zh-数学	shuxue	shuxue		数学			479	zh					su'xiao su'xue	
 zh-输血	shuxue	shuxue		输血			351	zh						
 zh-数学家	shuxuejia	shuxuejia		数学家			391	zh						
 zh-树叶	shuye	shuye		树叶			355	zh						
 zh-数以	shuyi	shuyi		数以			304	zh						
-zh-输赢	shuying	shuying		输赢			360	zh					su'ying	
+zh-输赢	shuying	shuying		输赢			360	zh					su'yin su'ying	
 zh-数以千计	shuyiqianji	shuyiqianji		数以千计			322	zh					shu'yi'qian'ji	
 zh-数一数二	shuyishuer	shuyishuer		数一数二			318	zh						
 zh-数以万计	shuyiwanji	shuyiwanji		数以万计			330	zh					shu'yi'wan'ji	
@@ -26196,7 +26196,7 @@ zh-属于	shuyu	shuyu		属于			534	zh
 zh-术语	shuyu	shuyu		术语			406	zh						
 zh-疏于	shuyu	shuyu		疏于			311	zh						
 zh-书院	shuyuan	shuyuan		书院			374	zh					shu'yuan	
-zh-疏远	shuyuan	shuyuan		疏远			366	zh					shu'yuan su'yuan	
+zh-疏远	shuyuan	shuyuan		疏远			366	zh					shu'yuan su'yan su'yuan	
 zh-数月	shuyue	shuyue		数月			377	zh						
 zh-书展	shuzhan	shuzhan		书展			337	zh					shu'zhan	
 zh-舒展	shuzhan	shuzhan		舒展			312	zh					shu'zhan	
@@ -26714,7 +26714,7 @@ zh-诉求	suqiu	suqiu		诉求			418	zh
 zh-苏区	suqu	suqu		苏区			360	zh						
 zh-素人	suren	suren		素人			313	zh						
 zh-苏珊	sushan	sushan		苏珊			344	zh					su'shan	
-zh-宿舍	sushe	sushe		宿舍			431	zh						
+zh-宿舍	sushe	sushe		宿舍			431	zh					su'sei	
 zh-素食	sushi	sushi		素食			360	zh						
 zh-苏轼	sushi	sushi		苏轼			319	zh						
 zh-速食	sushi	sushi		速食			302	zh						
@@ -26948,7 +26948,7 @@ zh-膛	tang	tang		膛			320	zh					tan tǎn
 zh-淌	tang	tang		淌			308	zh						
 zh-弹钢琴	tangangqin	tangangqin		弹钢琴			313	zh					tan'gang'qin	
 zh-唐朝	tangchao	tangchao		唐朝			373	zh					tang'chao	
-zh-汤匙	tangchi	tangchi		汤匙			311	zh					tang'chi tang'ci	
+zh-汤匙	tangchi	tangchi		汤匙			311	zh					tan'ci tang'chi tang'ci	
 zh-唐代	tangdai	tangdai		唐代			391	zh					tang'dai	
 zh-探戈	tange	tange		探戈			316	zh					tan'ge	
 zh-塘沽	tanggu	tanggu		塘沽			321	zh					tang'gu	
@@ -27346,7 +27346,7 @@ zh-跳动	tiaodong	tiaodong		跳动			378	zh
 zh-挑动	tiaodong	tiaodong		挑动			308	zh						
 zh-挑逗	tiaodou	tiaodou		挑逗			354	zh						
 zh-跳过	tiaoguo	tiaoguo		跳过			351	zh						
-zh-调和	tiaohe	tiaohe		调和			374	zh						
+zh-调和	tiaohe	tiaohe		调和			374	zh					tiao'ho	
 zh-调剂	tiaoji	tiaoji		调剂			368	zh						
 zh-调价	tiaojia	tiaojia		调价			315	zh						
 zh-条件	tiaojian	tiaojian		条件			532	zh					tiao'jian	
@@ -27386,9 +27386,9 @@ zh-条纹	tiaowen	tiaowen		条纹			372	zh
 zh-跳舞	tiaowu	tiaowu		跳舞			435	zh						
 zh-调戏	tiaoxi	tiaoxi		调戏			342	zh						
 zh-挑衅	tiaoxin	tiaoxin		挑衅			398	zh						
-zh-挑选	tiaoxuan	tiaoxuan		挑选			427	zh					tiao'xuan	
+zh-挑选	tiaoxuan	tiaoxuan		挑选			427	zh					tiao'xian tiao'xuan	
 zh-条约	tiaoyue	tiaoyue		条约			471	zh						
-zh-跳跃	tiaoyue	tiaoyue		跳跃			382	zh						
+zh-跳跃	tiaoyue	tiaoyue		跳跃			382	zh					tiao'yao	
 zh-挑战	tiaozhan	tiaozhan		挑战			498	zh					tiao'zhan	
 zh-挑战赛	tiaozhansai	tiaozhansai		挑战赛			341	zh					tiao'zhan'sai	
 zh-挑战性	tiaozhanxing	tiaozhanxing		挑战性			337	zh					tiao'zhan'xing	
@@ -28328,7 +28328,7 @@ zh-腕表	wanbiao	wanbiao		腕表			324	zh					wan'biao
 zh-万博	wanbo	wanbo		万博			320	zh					wan'bo	
 zh-万部	wanbu	wanbu		万部			317	zh					wan'bu	
 zh-晚餐	wancan	wancan		晚餐			410	zh					wan'can	
-zh-完成	wancheng	wancheng		完成			552	zh					wan'cheng	
+zh-完成	wancheng	wancheng		完成			552	zh					wan'cen wan'cheng	
 zh-完成率	wanchenglv	wanchenglv		完成率			301	zh					wan'cheng'lv	
 zh-万次	wanci	wanci		万次			348	zh					wan'ci	
 zh-万达	wanda	wanda		万达			372	zh					wan'da	
@@ -28781,7 +28781,7 @@ zh-委屈	weiqu	weiqu		委屈			373	zh
 zh-维权	weiquan	weiquan		维权			395	zh					wei'quan	
 zh-威权	weiquan	weiquan		威权			343	zh					wei'quan	
 zh-围裙	weiqun	weiqun		围裙			311	zh						
-zh-围绕	weirao	weirao		围绕			465	zh						
+zh-围绕	weirao	weirao		围绕			465	zh					wi'rao	
 zh-委任	weiren	weiren		委任			361	zh						
 zh-伟人	weiren	weiren		伟人			357	zh						
 zh-为荣	weirong	weirong		为荣			353	zh						
@@ -28821,7 +28821,7 @@ zh-为数不多	weishubuduo	weishubuduo		为数不多			342	zh
 zh-维斯	weisi	weisi		维斯			341	zh						
 zh-威斯	weisi	weisi		威斯			323	zh						
 zh-韦斯特	weisite	weisite		韦斯特			311	zh						
-zh-未遂	weisui	weisui		未遂			350	zh						
+zh-未遂	weisui	weisui		未遂			350	zh					wei'xi wi'sui wi'xi	
 zh-尾随	weisui	weisui		尾随			337	zh						
 zh-萎缩	weisuo	weisuo		萎缩			389	zh						
 zh-猥琐	weisuo	weisuo		猥琐			341	zh						
@@ -28835,7 +28835,7 @@ zh-委婉	weiwan	weiwan		委婉			332	zh					wei'wan
 zh-威望	weiwang	weiwang		威望			364	zh					wei'wang	
 zh-微微	weiwei	weiwei		微微			369	zh						
 zh-喂喂	weiwei	weiwei		喂喂			304	zh						
-zh-慰问	weiwen	weiwen		慰问			390	zh					yi'wen	
+zh-慰问	weiwen	weiwen		慰问			390	zh					yi'wen yi'wun	
 zh-维稳	weiwen	weiwen		维稳			304	zh						
 zh-为伍	weiwu	weiwu		为伍			352	zh						
 zh-威武	weiwu	weiwu		威武			335	zh						
@@ -29556,7 +29556,7 @@ zh-夏	xia	xia		夏			442	zh					xiá
 zh-瞎	xia	xia		瞎			422	zh					ha hǎ xiǎ	
 zh-虾	xia	xia		虾			417	zh					ha hā xiā xiǎ	
 zh-侠	xia	xia		侠			413	zh					xiǎ	
-zh-狭	xia	xia		狭			348	zh					xiǎ	
+zh-狭	xia	xia		狭			348	zh					ha hǎ xiǎ	
 zh-匣	xia	xia		匣			332	zh					xiǎ	
 zh-峡	xia	xia		峡			329	zh					xiǎ	
 zh-瑕	xia	xia		瑕			318	zh					xiǎ	
@@ -29574,7 +29574,7 @@ zh-下部	xiabu	xiabu		下部			370	zh
 zh-下层	xiaceng	xiaceng		下层			385	zh						
 zh-下场	xiachang	xiachang		下场			400	zh					xia'chang	
 zh-狭长	xiachang	xiachang		狭长			318	zh					xia'chang	
-zh-下车	xiache	xiache		下车			409	zh						
+zh-下车	xiache	xiache		下车			409	zh					ha'che	
 zh-下沉	xiachen	xiachen		下沉			351	zh						
 zh-下称	xiacheng	xiacheng		下称			301	zh						
 zh-下厨	xiachu	xiachu		下厨			304	zh						
@@ -29620,7 +29620,7 @@ zh-下结论	xiajielun	xiajielun		下结论			305	zh
 zh-下决心	xiajuexin	xiajuexin		下决心			316	zh						
 zh-下课	xiake	xiake		下课			346	zh						
 zh-侠客	xiake	xiake		侠客			307	zh						
-zh-下来	xialai	xialai		下来			517	zh						
+zh-下来	xialai	xialai		下来			517	zh					ha'lai	
 zh-吓了一跳	xialeyitiao	xialeyitiao		吓了一跳			302	zh						
 zh-下列	xialie	xialie		下列			431	zh						
 zh-下令	xialing	xialing		下令			446	zh						
@@ -29741,9 +29741,9 @@ zh-相册	xiangce	xiangce		相册			362	zh					xiang'ce
 zh-相差	xiangcha	xiangcha		相差			395	zh					xiang'cha	
 zh-香肠	xiangchang	xiangchang		香肠			346	zh					xiang'chang	
 zh-乡长	xiangchang	xiangchang		乡长			329	zh					xiang'chang	
-zh-相称	xiangchen	xiangchen		相称			357	zh					xiang'cen xiang'chen	
+zh-相称	xiangchen	xiangchen		相称			357	zh					xian'cen xiang'cen xiang'chen	
 zh-乡愁	xiangchou	xiangchou		乡愁			316	zh					xiang'chou	
-zh-相处	xiangchu	xiangchu		相处			432	zh					xiang'chu xiang'cu	
+zh-相处	xiangchu	xiangchu		相处			432	zh					xian'cu xiang'chu xiang'cu	
 zh-相传	xiangchuan	xiangchuan		相传			377	zh					xiang'chuan	
 zh-乡村	xiangcun	xiangcun		乡村			480	zh					xiang'cun	
 zh-相待	xiangdai	xiangdai		相待			304	zh					xiang'dai	
@@ -29762,7 +29762,7 @@ zh-相对论	xiangduilun	xiangduilun		相对论			363	zh					xiang'dui'lun
 zh-献给	xiangei	xiangei		献给			413	zh					xian'gei	
 zh-想法	xiangfa	xiangfa		想法			491	zh					xiang'fa	
 zh-相反	xiangfan	xiangfan		相反			467	zh					xiang'fan	
-zh-相仿	xiangfang	xiangfang		相仿			327	zh					xiang'fang xiang'huan	
+zh-相仿	xiangfang	xiangfang		相仿			327	zh					xian'huan xiang'fang xiang'huan	
 zh-厢房	xiangfang	xiangfang		厢房			304	zh					xiang'fang	
 zh-想方设法	xiangfangshefa	xiangfangshefa		想方设法			347	zh					xiang'fang'she'fa	
 zh-相逢	xiangfeng	xiangfeng		相逢			320	zh					xiang'feng	
@@ -29799,7 +29799,7 @@ zh-乡间	xiangjian	xiangjian		乡间			349	zh					xiang'jian
 zh-相间	xiangjian	xiangjian		相间			319	zh					xiang'jian	
 zh-湘江	xiangjiang	xiangjiang		湘江			307	zh					xiang'jiang	
 zh-香江	xiangjiang	xiangjiang		香江			305	zh					xiang'jiang	
-zh-香蕉	xiangjiao	xiangjiao		香蕉			416	zh					xiang'jiao	
+zh-香蕉	xiangjiao	xiangjiao		香蕉			416	zh					xian'jiao xiang'jiao	
 zh-橡胶	xiangjiao	xiangjiao		橡胶			405	zh					xiang'jiao	
 zh-相交	xiangjiao	xiangjiao		相交			357	zh					xiang'jiao	
 zh-相接	xiangjie	xiangjie		相接			343	zh					xiang'jie	
@@ -29818,7 +29818,7 @@ zh-想来	xianglai	xianglai		想来			390	zh					xiang'lai
 zh-享乐	xiangle	xiangle		享乐			362	zh					xiang'le	
 zh-乡里	xiangli	xiangli		乡里			310	zh					xiang'li	
 zh-相连	xianglian	xianglian		相连			418	zh					xiang'lian	
-zh-项链	xianglian	xianglian		项链			350	zh					xiang'lian	
+zh-项链	xianglian	xianglian		项链			350	zh					xian'lian xiang'lian	
 zh-相恋	xianglian	xianglian		相恋			320	zh					xiang'lian	
 zh-响亮	xiangliang	xiangliang		响亮			346	zh					xiang'liang	
 zh-向量	xiangliang	xiangliang		向量			327	zh					xiang'liang	
@@ -29847,7 +29847,7 @@ zh-相亲	xiangqin	xiangqin		相亲			364	zh					xiang'qin
 zh-乡亲	xiangqin	xiangqin		乡亲			346	zh					xiang'qin	
 zh-详情	xiangqing	xiangqing		详情			416	zh					xiang'qing	
 zh-详情请	xiangqingqing	xiangqingqing		详情请			335	zh					xiang'qing'qing	
-zh-项圈	xiangquan	xiangquan		项圈			309	zh					han'quan xiang'quan	
+zh-项圈	xiangquan	xiangquan		项圈			309	zh					han'qian han'quan xiang'quan	
 zh-向日葵	xiangrikui	xiangrikui		向日葵			336	zh					xiang'ri'kui	
 zh-相容	xiangrong	xiangrong		相容			326	zh					xiang'rong	
 zh-香山	xiangshan	xiangshan		香山			344	zh					xiang'shan	
@@ -29893,7 +29893,7 @@ zh-向下	xiangxia	xiangxia		向下			380	zh					xiang'xia
 zh-想象	xiangxiang	xiangxiang		想象			472	zh					xiang'xiang	
 zh-想想	xiangxiang	xiangxiang		想想			458	zh					xiang'xiang	
 zh-想像	xiangxiang	xiangxiang		想像			430	zh					xiang'xiang	
-zh-相像	xiangxiang	xiangxiang		相像			327	zh					xiang'qian xiang'xiang	
+zh-相像	xiangxiang	xiangxiang		相像			327	zh					xian'qian xiang'qian xiang'xiang	
 zh-相向	xiangxiang	xiangxiang		相向			303	zh					xiang'xiang	
 zh-想想看	xiangxiangkan	xiangxiangkan		想想看			352	zh					xiang'xiang'kan	
 zh-想象力	xiangxiangli	xiangxiangli		想象力			361	zh					xiang'xiang'li	
@@ -29943,7 +29943,7 @@ zh-献祭	xianji	xianji		献祭			327	zh					xian'ji
 zh-先机	xianji	xianji		先机			315	zh					xian'ji	
 zh-仙剑	xianjian	xianjian		仙剑			306	zh					xian'jian	
 zh-显见	xianjian	xianjian		显见			301	zh					xian'jian	
-zh-衔接	xianjie	xianjie		衔接			392	zh					xian'jie	
+zh-衔接	xianjie	xianjie		衔接			392	zh					han'jie xian'jie	
 zh-现阶段	xianjieduan	xianjieduan		现阶段			370	zh					xian'jie'duan	
 zh-先进	xianjin	xianjin		先进			505	zh					xian'jin	
 zh-现金	xianjin	xianjin		现金			463	zh					xian'jin	
@@ -30030,7 +30030,7 @@ zh-先天	xiantian	xiantian		先天			376	zh					xian'tian
 zh-先天性	xiantianxing	xiantianxing		先天性			333	zh					xian'tian'xing	
 zh-线条	xiantiao	xiantiao		线条			385	zh					xian'tiao	
 zh-县委	xianwei	xianwei		县委			418	zh					xian'wei	
-zh-纤维	xianwei	xianwei		纤维			411	zh					qian'wei xian'wei	
+zh-纤维	xianwei	xianwei		纤维			411	zh					qian'wei qian'wi xian'wei	
 zh-现为	xianwei	xianwei		现为			344	zh					xian'wei	
 zh-显微镜	xianweijing	xianweijing		显微镜			354	zh					xian'wei'jing	
 zh-鲜为人知	xianweirenzhi	xianweirenzhi		鲜为人知			319	zh					xian'wei'ren'zhi	
@@ -30402,7 +30402,7 @@ zh-下狱	xiayu	xiayu		下狱			317	zh
 zh-下院	xiayuan	xiayuan		下院			309	zh					xia'yuan	
 zh-下载	xiazai	xiazai		下载			504	zh						
 zh-下葬	xiazang	xiazang		下葬			333	zh					xia'zang	
-zh-狭窄	xiazhai	xiazhai		狭窄			393	zh						
+zh-狭窄	xiazhai	xiazhai		狭窄			393	zh					xia'zei	
 zh-下肢	xiazhi	xiazhi		下肢			318	zh						
 zh-下周	xiazhou	xiazhou		下周			392	zh						
 zh-下注	xiazhu	xiazhu		下注			358	zh						
@@ -30813,7 +30813,7 @@ zh-形容	xingrong	xingrong		形容			447	zh
 zh-形容词	xingrongci	xingrongci		形容词			350	zh						
 zh-性骚扰	xingsaorao	xingsaorao		性骚扰			409	zh						
 zh-行善	xingshan	xingshan		行善			317	zh					xing'shan	
-zh-兴盛	xingsheng	xingsheng		兴盛			373	zh					xing'sen	
+zh-兴盛	xingsheng	xingsheng		兴盛			373	zh					xin'sen xing'sen	
 zh-行省	xingsheng	xingsheng		行省			360	zh						
 zh-性生活	xingshenghuo	xingshenghuo		性生活			389	zh						
 zh-形式	xingshi	xingshi		形式			517	zh						
@@ -30843,8 +30843,8 @@ zh-星团	xingtuan	xingtuan		星团			316	zh					xing'tuan
 zh-新股	xingu	xingu		新股			343	zh						
 zh-新冠	xinguan	xinguan		新冠			339	zh					xin'guan	
 zh-新规	xingui	xingui		新规			318	zh						
-zh-兴旺	xingwang	xingwang		兴旺			365	zh					xin'wang xing'wan xing'wang	
-zh-行为	xingwei	xingwei		行为			543	zh					xin'wei	
+zh-兴旺	xingwang	xingwang		兴旺			365	zh					xin'wan xin'wang xing'wan xing'wang	
+zh-行为	xingwei	xingwei		行为			543	zh					xin'wei xin'wi	
 zh-行文	xingwen	xingwen		行文			321	zh						
 zh-醒悟	xingwu	xingwu		醒悟			333	zh						
 zh-星系	xingxi	xingxi		星系			391	zh						
@@ -31420,7 +31420,7 @@ zh-悬疑	xuanyi	xuanyi		悬疑			328	zh					xuan'yi
 zh-选用	xuanyong	xuanyong		选用			404	zh					xuan'yong	
 zh-轩辕	xuanyuan	xuanyuan		轩辕			304	zh					xuan'yuan	
 zh-眩晕	xuanyun	xuanyun		眩晕			303	zh					xuan'yun	
-zh-选择	xuanze	xuanze		选择			555	zh					xuan'cei xuan'ze	
+zh-选择	xuanze	xuanze		选择			555	zh					xian'cei xuan'cei xuan'ze	
 zh-选择权	xuanzequan	xuanzequan		选择权			338	zh					xuan'ze'quan	
 zh-选择题	xuanzeti	xuanzeti		选择题			322	zh					xuan'ze'ti	
 zh-选择性	xuanzexing	xuanzexing		选择性			379	zh					xuan'ze'xing	
@@ -31465,7 +31465,7 @@ zh-学会	xuehui	xuehui		学会			495	zh
 zh-血迹	xueji	xueji		血迹			356	zh						
 zh-学籍	xueji	xueji		学籍			327	zh						
 zh-学家	xuejia	xuejia		学家			380	zh						
-zh-雪茄	xuejia	xuejia		雪茄			331	zh						
+zh-雪茄	xuejia	xuejia		雪茄			331	zh					xie'jia	
 zh-削减	xuejian	xuejian		削减			408	zh					xue'jian	
 zh-血浆	xuejiang	xuejiang		血浆			342	zh					xue'jiang	
 zh-学界	xuejie	xuejie		学界			393	zh						
@@ -31516,7 +31516,7 @@ zh-穴位	xuewei	xuewei		穴位			311	zh
 zh-学问	xuewen	xuewen		学问			400	zh						
 zh-学习	xuexi	xuexi		学习			548	zh						
 zh-学系	xuexi	xuexi		学系			315	zh						
-zh-学校	xuexiao	xuexiao		学校			562	zh						
+zh-学校	xuexiao	xuexiao		学校			562	zh					xiao'xiao	
 zh-血小板	xuexiaoban	xuexiaoban		血小板			305	zh					xue'xiao'ban	
 zh-血腥	xuexing	xuexing		血腥			423	zh						
 zh-血型	xuexing	xuexing		血型			387	zh						
@@ -31673,7 +31673,7 @@ zh-雅安	yaan	yaan		雅安			305	zh					ya'an
 zh-哑巴	yaba	yaba		哑巴			335	zh						
 zh-亚伯	yabo	yabo		亚伯			309	zh						
 zh-亚伯拉罕	yabolahan	yabolahan		亚伯拉罕			323	zh					ya'bo'la'han	
-zh-牙齿	yachi	yachi		牙齿			426	zh						
+zh-牙齿	yachi	yachi		牙齿			426	zh					nga'chi nga'ci	
 zh-亚当	yadang	yadang		亚当			391	zh					ya'dang	
 zh-亚当斯	yadangsi	yadangsi		亚当斯			348	zh					ya'dang'si	
 zh-压倒	yadao	yadao		压倒			359	zh						
@@ -31699,7 +31699,7 @@ zh-押金	yajin	yajin		押金			339	zh
 zh-亚军	yajun	yajun		亚军			378	zh						
 zh-亚科	yake	yake		亚科			352	zh						
 zh-雅克	yake	yake		雅克			352	zh						
-zh-牙科	yake	yake		牙科			328	zh						
+zh-牙科	yake	yake		牙科			328	zh					ya'ko	
 zh-亚克	yake	yake		亚克			311	zh						
 zh-哑口无言	yakouwuyan	yakouwuyan		哑口无言			313	zh					ya'kou'wu'yan	
 zh-压垮	yakua	yakua		压垮			306	zh						
@@ -31878,7 +31878,7 @@ zh-烟火	yanhuo	yanhuo		烟火			376	zh					yan'huo
 zh-演技	yanji	yanji		演技			379	zh					yan'ji	
 zh-严加	yanjia	yanjia		严加			312	zh					yan'jia	
 zh-眼见	yanjian	yanjian		眼见			378	zh					yan'jian	
-zh-演讲	yanjiang	yanjiang		演讲			459	zh					yan'jiang	
+zh-演讲	yanjiang	yanjiang		演讲			459	zh					yan'jian yan'jiang	
 zh-岩浆	yanjiang	yanjiang		岩浆			348	zh					yan'jiang	
 zh-沿江	yanjiang	yanjiang		沿江			335	zh					yan'jiang	
 zh-眼角	yanjiao	yanjiao		眼角			314	zh					yan'jiao	
@@ -31886,9 +31886,9 @@ zh-眼界	yanjie	yanjie		眼界			363	zh					yan'jie
 zh-严谨	yanjin	yanjin		严谨			402	zh					yan'jin	
 zh-严禁	yanjin	yanjin		严禁			393	zh					yan'jin	
 zh-演进	yanjin	yanjin		演进			362	zh					yan'jin	
-zh-眼睛	yanjing	yanjing		眼睛			495	zh					ngan'jing yan'jing	
-zh-眼镜	yanjing	yanjing		眼镜			435	zh					yan'jing	
-zh-燕京	yanjing	yanjing		燕京			323	zh					yan'jing	
+zh-眼睛	yanjing	yanjing		眼睛			495	zh					ngan'jin ngan'jing yan'jing	
+zh-眼镜	yanjing	yanjing		眼镜			435	zh					yan'jin yan'jing	
+zh-燕京	yanjing	yanjing		燕京			323	zh					yan'jin yan'jing	
 zh-眼镜蛇	yanjingshe	yanjingshe		眼镜蛇			308	zh					yan'jing'she	
 zh-研究	yanjiu	yanjiu		研究			569	zh					yan'jiu	
 zh-烟酒	yanjiu	yanjiu		烟酒			327	zh					yan'jiu	
@@ -31936,7 +31936,7 @@ zh-延庆	yanqing	yanqing		延庆			320	zh					yan'qing
 zh-眼球	yanqiu	yanqiu		眼球			377	zh					yan'qiu	
 zh-俨然	yanran	yanran		俨然			343	zh					yan'ran	
 zh-炎热	yanre	yanre		炎热			373	zh					yan're	
-zh-颜色	yanse	yanse		颜色			484	zh					yan'se	
+zh-颜色	yanse	yanse		颜色			484	zh					yan'se yan'sei	
 zh-眼色	yanse	yanse		眼色			316	zh					yan'se	
 zh-燕山	yanshan	yanshan		燕山			318	zh					yan'shan	
 zh-延烧	yanshao	yanshao		延烧			302	zh					yan'shao	
@@ -32133,7 +32133,7 @@ zh-压迫	yapo	yapo		压迫			445	zh
 zh-亚热带	yaredai	yaredai		亚热带			369	zh						
 zh-亚瑟	yase	yase		亚瑟			363	zh						
 zh-亚述	yashu	yashu		亚述			310	zh						
-zh-牙刷	yashua	yashua		牙刷			323	zh						
+zh-牙刷	yashua	yashua		牙刷			323	zh					ya'sua	
 zh-亚斯	yasi	yasi		亚斯			340	zh						
 zh-雅思	yasi	yasi		雅思			337	zh						
 zh-压死	yasi	yasi		压死			331	zh						
@@ -32674,7 +32674,7 @@ zh-遗留	yiliu	yiliu		遗留			393	zh
 zh-遗漏	yilou	yilou		遗漏			382	zh						
 zh-一楼	yilou	yilou		一楼			355	zh						
 zh-一路	yilu	yilu		一路			468	zh						
-zh-议论	yilun	yilun		议论			407	zh						
+zh-议论	yilun	yilun		议论			407	zh					ni'lun	
 zh-一轮	yilun	yilun		一轮			401	zh						
 zh-议论纷纷	yilunfenfen	yilunfenfen		议论纷纷			317	zh						
 zh-一路上	yilushang	yilushang		一路上			369	zh					yi'lu'shang	
@@ -32894,7 +32894,7 @@ zh-英文	yingwen	yingwen		英文			498	zh
 zh-英文版	yingwenban	yingwenban		英文版			367	zh					ying'wen'ban	
 zh-英文名	yingwenming	yingwenming		英文名			304	zh						
 zh-英文字母	yingwenzimu	yingwenzimu		英文字母			312	zh						
-zh-鹦鹉	yingwu	yingwu		鹦鹉			368	zh						
+zh-鹦鹉	yingwu	yingwu		鹦鹉			368	zh					yin'wu	
 zh-影响	yingxiang	yingxiang		影响			574	zh					ying'xiang	
 zh-影像	yingxiang	yingxiang		影像			442	zh					ying'xiang	
 zh-影响力	yingxiangli	yingxiangli		影响力			453	zh					ying'xiang'li	
@@ -32941,7 +32941,7 @@ zh-营长	yingzhang	yingzhang		营长			332	zh					ying'zhang
 zh-应征	yingzheng	yingzheng		应征			339	zh						
 zh-影子	yingzi	yingzi		影子			412	zh						
 zh-隐含	yinhan	yinhan		隐含			353	zh					yin'han	
-zh-银行	yinhang	yinhang		银行			534	zh					yin'han yin'hang	
+zh-银行	yinhang	yinhang		银行			534	zh					nin'han yin'han yin'hang	
 zh-银行家	yinhangjia	yinhangjia		银行家			361	zh					yin'hang'jia	
 zh-银行卡	yinhangka	yinhangka		银行卡			381	zh					yin'hang'ka	
 zh-银行业	yinhangye	yinhangye		银行业			375	zh					yin'hang'ye	
@@ -33764,7 +33764,7 @@ zh-有时候	youshihou	youshihou		有时候			462	zh
 zh-有史以来	youshiyilai	youshiyilai		有史以来			394	zh						
 zh-右手	youshou	youshou		右手			409	zh						
 zh-有数	youshu	youshu		有数			357	zh						
-zh-游说	youshui	youshui		游说			374	zh					you'sui	
+zh-游说	youshui	youshui		游说			374	zh					you'sui yu'sui	
 zh-油水	youshui	youshui		油水			310	zh						
 zh-有水	youshui	youshui		有水			301	zh						
 zh-有损	yousun	yousun		有损			330	zh						
@@ -33848,7 +33848,7 @@ zh-悠悠	youyou	youyou		悠悠			336	zh
 zh-幼幼	youyou	youyou		幼幼			312	zh						
 zh-由于	youyu	youyu		由于			563	zh						
 zh-犹豫	youyu	youyu		犹豫			414	zh						
-zh-忧郁	youyu	youyu		忧郁			395	zh						
+zh-忧郁	youyu	youyu		忧郁			395	zh					you'yi yu'yi	
 zh-优于	youyu	youyu		优于			364	zh						
 zh-鱿鱼	youyu	youyu		鱿鱼			354	zh						
 zh-有余	youyu	youyu		有余			342	zh						
@@ -33865,7 +33865,7 @@ zh-邮政	youzheng	youzheng		邮政			412	zh
 zh-邮政编码	youzhengbianma	youzhengbianma		邮政编码			357	zh					you'zheng'bian'ma	
 zh-邮政局	youzhengju	youzhengju		邮政局			307	zh						
 zh-优质	youzhi	youzhi		优质			454	zh						
-zh-幼稚	youzhi	youzhi		幼稚			410	zh					you'zi	
+zh-幼稚	youzhi	youzhi		幼稚			410	zh					you'zi yu'zi	
 zh-油脂	youzhi	youzhi		油脂			365	zh						
 zh-有志	youzhi	youzhi		有志			334	zh						
 zh-幼稚园	youzhiyuan	youzhiyuan		幼稚园			317	zh					you'zhi'yuan	
@@ -33884,7 +33884,7 @@ zh-与	yu	yu		与			664	zh					yi yì
 zh-于	yu	yu		于			631	zh					yi yǐ	
 zh-语	yu	yu		语			499	zh					yi yì	
 zh-鱼	yu	yu		鱼			481	zh					yi yǐ	
-zh-欲	yu	yu		欲			471	zh					yi yí	
+zh-欲	yu	yu		欲			471	zh					yi yí yú	
 zh-余	yu	yu		余			463	zh					yi yǐ	
 zh-逾	yu	yu		逾			452	zh					yi yǐ	
 zh-雨	yu	yu		雨			449	zh					yi yì	
@@ -34176,7 +34176,7 @@ zh-约合	yuehe	yuehe		约合			366	zh
 zh-约会	yuehui	yuehui		约会			430	zh						
 zh-月间	yuejian	yuejian		月间			356	zh					yue'jian	
 zh-越界	yuejie	yuejie		越界			320	zh						
-zh-跃进	yuejin	yuejin		跃进			328	zh						
+zh-跃进	yuejin	yuejin		跃进			328	zh					yao'jin	
 zh-月经	yuejing	yuejing		月经			383	zh						
 zh-月刊	yuekan	yuekan		月刊			378	zh					yue'kan	
 zh-约克	yueke	yueke		约克			334	zh						
@@ -34348,7 +34348,7 @@ zh-运气	yunqi	yunqi		运气			427	zh
 zh-孕期	yunqi	yunqi		孕期			314	zh						
 zh-陨石	yunshi	yunshi		陨石			369	zh						
 zh-运势	yunshi	yunshi		运势			343	zh						
-zh-运输	yunshu	yunshu		运输			492	zh					yun'su	
+zh-运输	yunshu	yunshu		运输			492	zh					yin'su yun'su	
 zh-运输车	yunshuche	yunshuche		运输车			305	zh						
 zh-运输机	yunshuji	yunshuji		运输机			365	zh						
 zh-运输业	yunshuye	yunshuye		运输业			324	zh						
@@ -34399,7 +34399,7 @@ zh-预审	yushen	yushen		预审			325	zh
 zh-余生	yusheng	yusheng		余生			332	zh						
 zh-与生俱来	yushengjulai	yushengjulai		与生俱来			326	zh						
 zh-于是	yushi	yushi		于是			506	zh						
-zh-浴室	yushi	yushi		浴室			419	zh						
+zh-浴室	yushi	yushi		浴室			419	zh					yu'si	
 zh-预示	yushi	yushi		预示			382	zh						
 zh-御史	yushi	yushi		御史			337	zh						
 zh-玉石	yushi	yushi		玉石			320	zh						
@@ -34414,7 +34414,7 @@ zh-寓所	yusuo	yusuo		寓所			341	zh
 zh-雨天	yutian	yutian		雨天			332	zh					yu'tian	
 zh-羽田	yutian	yutian		羽田			318	zh					yu'tian	
 zh-余万	yuwan	yuwan		余万			325	zh					yu'wan	
-zh-欲望	yuwang	yuwang		欲望			445	zh					yu'wang	
+zh-欲望	yuwang	yuwang		欲望			445	zh					yi'wan yi'wang yu'wan yu'wang	
 zh-渔网	yuwang	yuwang		渔网			325	zh					yu'wang	
 zh-余万元	yuwanyuan	yuwanyuan		余万元			316	zh					yu'wan'yuan	
 zh-誉为	yuwei	yuwei		誉为			325	zh						
@@ -34701,7 +34701,7 @@ zh-增发	zengfa	zengfa		增发			336	zh
 zh-增幅	zengfu	zengfu		增幅			379	zh						
 zh-增高	zenggao	zenggao		增高			345	zh						
 zh-憎恨	zenghen	zenghen		憎恨			380	zh						
-zh-增加	zengjia	zengjia		增加			541	zh						
+zh-增加	zengjia	zengjia		增加			541	zh					zen'jia	
 zh-增减	zengjian	zengjian		增减			324	zh					zeng'jian	
 zh-增加值	zengjiazhi	zengjiazhi		增加值			349	zh						
 zh-增进	zengjin	zengjin		增进			417	zh						
@@ -34806,7 +34806,7 @@ zh-毡	zhan	zhan		毡			311	zh					zan zān
 zh-崭	zhan	zhan		崭			302	zh						
 zh-战败	zhanbai	zhanbai		战败			379	zh					zhan'bai	
 zh-战备	zhanbei	zhanbei		战备			337	zh					zhan'bei	
-zh-占卜	zhanbu	zhanbu		占卜			331	zh					zan'bu zhan'bu zhan'pu	
+zh-占卜	zhanbu	zhanbu		占卜			331	zh					zan'bu zan'pu zhan'bu zhan'pu	
 zh-站不住脚	zhanbuzhujiao	zhanbuzhujiao		站不住脚			303	zh					zhan'bu'zhu'jiao	
 zh-战场	zhanchang	zhanchang		战场			450	zh					zhan'chang	
 zh-战车	zhanche	zhanche		战车			402	zh					zhan'che	
@@ -35008,7 +35008,7 @@ zh-粘性	zhanxing	zhanxing		粘性			305	zh					zhan'xing
 zh-展演	zhanyan	zhanyan		展演			334	zh					zhan'yan	
 zh-战役	zhanyi	zhanyi		战役			459	zh					zhan'yi	
 zh-占用	zhanyong	zhanyong		占用			398	zh					zhan'yong	
-zh-占有	zhanyou	zhanyou		占有			439	zh					zan'you zhan'you	
+zh-占有	zhanyou	zhanyou		占有			439	zh					zan'you zan'yu zhan'you	
 zh-战友	zhanyou	zhanyou		战友			405	zh					zhan'you	
 zh-站长	zhanzhang	zhanzhang		站长			363	zh					zhan'zhang	
 zh-战争	zhanzheng	zhanzheng		战争			548	zh					zhan'zheng	
@@ -35067,7 +35067,7 @@ zh-招来	zhaolai	zhaolai		招来			362	zh
 zh-招揽	zhaolan	zhaolan		招揽			326	zh					zhao'lan	
 zh-照例	zhaoli	zhaoli		照例			317	zh						
 zh-照亮	zhaoliang	zhaoliang		照亮			366	zh					zhao'liang	
-zh-着凉	zhaoliang	zhaoliang		着凉			304	zh					co'liang zhao'liang	
+zh-着凉	zhaoliang	zhaoliang		着凉			304	zh					co'lian co'liang zhao'liang	
 zh-照料	zhaoliao	zhaoliao		照料			377	zh						
 zh-诏令	zhaoling	zhaoling		诏令			302	zh						
 zh-赵丽颖	zhaoliying	zhaoliying		赵丽颖			322	zh						
@@ -35424,7 +35424,7 @@ zh-正因	zhengyin	zhengyin		正因			302	zh
 zh-正因如此	zhengyinruci	zhengyinruci		正因如此			303	zh						
 zh-争议性	zhengyixing	zhengyixing		争议性			312	zh						
 zh-征用	zhengyong	zhengyong		征用			346	zh						
-zh-正月	zhengyue	zhengyue		正月			353	zh					zen'yue	
+zh-正月	zhengyue	zhengyue		正月			353	zh					zen'ye zen'yue	
 zh-正在	zhengzai	zhengzai		正在			547	zh						
 zh-挣扎	zhengzha	zhengzha		挣扎			427	zh						
 zh-征战	zhengzhan	zhengzhan		征战			369	zh					zheng'zhan	
@@ -35464,7 +35464,7 @@ zh-震撼	zhenhan	zhenhan		震撼			417	zh					zhen'han
 zh-真话	zhenhua	zhenhua		真话			380	zh						
 zh-振华	zhenhua	zhenhua		振华			314	zh						
 zh-震级	zhenji	zhenji		震级			314	zh						
-zh-真假	zhenjia	zhenjia		真假			379	zh						
+zh-真假	zhenjia	zhenjia		真假			379	zh					zen'jia	
 zh-镇江	zhenjiang	zhenjiang		镇江			374	zh					zhen'jiang	
 zh-震惊	zhenjing	zhenjing		震惊			440	zh						
 zh-镇静	zhenjing	zhenjing		镇静			347	zh						
@@ -35708,7 +35708,7 @@ zh-之恶	zhie	zhie		之恶			305	zh
 zh-之二	zhier	zhier		之二			343	zh						
 zh-侄儿	zhier	zhier		侄儿			329	zh						
 zh-执法	zhifa	zhifa		执法			458	zh						
-zh-脂肪	zhifang	zhifang		脂肪			404	zh					zhi'fang zhi'huan	
+zh-脂肪	zhifang	zhifang		脂肪			404	zh					zhi'fang zhi'huan zi'huan	
 zh-脂肪酸	zhifangsuan	zhifangsuan		脂肪酸			327	zh					zhi'fang'suan	
 zh-执法人员	zhifarenyuan	zhifarenyuan		执法人员			344	zh					zhi'fa'ren'yuan	
 zh-执法者	zhifazhe	zhifazhe		执法者			303	zh						
@@ -35758,7 +35758,7 @@ zh-至极	zhiji	zhiji		至极			376	zh
 zh-制剂	zhiji	zhiji		制剂			345	zh						
 zh-知己	zhiji	zhiji		知己			344	zh						
 zh-直击	zhiji	zhiji		直击			322	zh						
-zh-指甲	zhijia	zhijia		指甲			379	zh					zhi'ga zi'jia	
+zh-指甲	zhijia	zhijia		指甲			379	zh					zhi'ga zi'ga zi'jia	
 zh-支架	zhijia	zhijia		支架			336	zh						
 zh-芝加哥	zhijiage	zhijiage		芝加哥			419	zh						
 zh-芝加哥大学	zhijiagedaxue	zhijiagedaxue		芝加哥大学			316	zh						
@@ -35997,7 +35997,7 @@ zh-知音	zhiyin	zhiyin		知音			335	zh
 zh-之音	zhiyin	zhiyin		之音			319	zh						
 zh-只用	zhiyong	zhiyong		只用			386	zh						
 zh-之用	zhiyong	zhiyong		之用			374	zh						
-zh-只有	zhiyou	zhiyou		只有			567	zh					zi'you	
+zh-只有	zhiyou	zhiyou		只有			567	zh					zi'you zi'yu	
 zh-挚友	zhiyou	zhiyou		挚友			349	zh						
 zh-之友	zhiyou	zhiyou		之友			326	zh						
 zh-至于	zhiyu	zhiyu		至于			483	zh						
@@ -36045,7 +36045,7 @@ zh-纸质	zhizhi	zhizhi		纸质			331	zh
 zh-置之不理	zhizhibuli	zhizhibuli		置之不理			327	zh						
 zh-指指点点	zhizhidiandian	zhizhidiandian		指指点点			309	zh					zhi'zhi'dian'dian	
 zh-之中	zhizhong	zhizhong		之中			494	zh						
-zh-蜘蛛	zhizhu	zhizhu		蜘蛛			409	zh					zi'zhu	
+zh-蜘蛛	zhizhu	zhizhu		蜘蛛			409	zh					zi'zhu zi'zu	
 zh-支柱	zhizhu	zhizhu		支柱			402	zh						
 zh-植株	zhizhu	zhizhu		植株			325	zh						
 zh-只准	zhizhun	zhizhun		只准			302	zh						
@@ -36176,7 +36176,7 @@ zh-中国证监会	zhongguozhengjianhui	zhongguozhengjianhui		中国证监会			
 zh-中国足协	zhongguozuxie	zhongguozuxie		中国足协			316	zh						
 zh-中行	zhonghang	zhonghang		中行			324	zh					zhong'hang	
 zh-中后期	zhonghouqi	zhonghouqi		中后期			306	zh						
-zh-中华	zhonghua	zhonghua		中华			498	zh						
+zh-中华	zhonghua	zhonghua		中华			498	zh					zong'hua	
 zh-中华民国	zhonghuaminguo	zhonghuaminguo		中华民国			426	zh						
 zh-中华民族	zhonghuaminzu	zhonghuaminzu		中华民族			425	zh						
 zh-中环	zhonghuan	zhonghuan		中环			349	zh					zhong'huan	
@@ -36189,7 +36189,7 @@ zh-终极	zhongji	zhongji		终极			418	zh
 zh-重击	zhongji	zhongji		重击			326	zh						
 zh-中继	zhongji	zhongji		中继			307	zh						
 zh-中加	zhongjia	zhongjia		中加			311	zh						
-zh-中间	zhongjian	zhongjian		中间			483	zh					zhong'gan zhong'jian	
+zh-中间	zhongjian	zhongjian		中间			483	zh					zhong'gan zhong'jian zong'gan	
 zh-中坚	zhongjian	zhongjian		中坚			338	zh					zhong'jian	
 zh-中建	zhongjian	zhongjian		中建			306	zh					zhong'jian	
 zh-中将	zhongjiang	zhongjiang		中将			405	zh					zhong'jiang	
@@ -36199,7 +36199,7 @@ zh-中间派	zhongjianpai	zhongjianpai		中间派			310	zh					zhong'jian'pai
 zh-中间人	zhongjianren	zhongjianren		中间人			339	zh					zhong'jian'ren	
 zh-中间体	zhongjianti	zhongjianti		中间体			310	zh					zhong'jian'ti	
 zh-终结	zhongjie	zhongjie		终结			430	zh						
-zh-中介	zhongjie	zhongjie		中介			424	zh						
+zh-中介	zhongjie	zhongjie		中介			424	zh					zong'jie	
 zh-仲介	zhongjie	zhongjie		仲介			303	zh						
 zh-终结者	zhongjiezhe	zhongjiezhe		终结者			338	zh						
 zh-重金	zhongjin	zhongjin		重金			347	zh						
@@ -36216,7 +36216,7 @@ zh-中空	zhongkong	zhongkong		中空			310	zh
 zh-重口	zhongkou	zhongkou		重口			312	zh						
 zh-中来	zhonglai	zhonglai		中来			337	zh						
 zh-中老年	zhonglaonian	zhonglaonian		中老年			311	zh					zhong'lao'nian	
-zh-种类	zhonglei	zhonglei		种类			457	zh					zong'lei	
+zh-种类	zhonglei	zhonglei		种类			457	zh					zong'lei zong'lui	
 zh-中立	zhongli	zhongli		中立			411	zh						
 zh-重力	zhongli	zhongli		重力			386	zh						
 zh-中坜	zhongli	zhongli		中坜			303	zh						
@@ -36544,7 +36544,7 @@ zh-撞击	zhuangji	zhuangji		撞击			400	zh					zhuang'ji
 zh-装机	zhuangji	zhuangji		装机			338	zh					zhuang'ji	
 zh-装甲	zhuangjia	zhuangjia		装甲			415	zh					zhuang'jia	
 zh-庄家	zhuangjia	zhuangjia		庄家			366	zh					zhuang'jia	
-zh-庄稼	zhuangjia	zhuangjia		庄稼			310	zh					zhuang'jia	
+zh-庄稼	zhuangjia	zhuangjia		庄稼			310	zh					zhuang'ga zhuang'jia zuan'ga zuan'jia	
 zh-装甲车	zhuangjiache	zhuangjiache		装甲车			376	zh					zhuang'jia'che	
 zh-撞见	zhuangjian	zhuangjian		撞见			321	zh					zhuang'jian	
 zh-装甲师	zhuangjiashi	zhuangjiashi		装甲师			336	zh					zhuang'jia'shi	
@@ -36627,7 +36627,7 @@ zh-赚钱	zhuanqian	zhuanqian		赚钱			467	zh					zhuan'qian
 zh-专区	zhuanqu	zhuanqu		专区			420	zh					zhuan'qu	
 zh-赚取	zhuanqu	zhuanqu		赚取			370	zh					zhuan'qu	
 zh-专权	zhuanquan	zhuanquan		专权			327	zh					zhuan'quan	
-zh-转圈	zhuanquan	zhuanquan		转圈			303	zh					zhuan'quan zuan'quan	
+zh-转圈	zhuanquan	zhuanquan		转圈			303	zh					zhuan'quan zuan'qian zuan'quan	
 zh-转让	zhuanrang	zhuanrang		转让			425	zh					zhuan'rang	
 zh-专人	zhuanren	zhuanren		专人			354	zh					zhuan'ren	
 zh-专任	zhuanren	zhuanren		专任			331	zh					zhuan'ren	
@@ -36689,7 +36689,7 @@ zh-转子	zhuanzi	zhuanzi		转子			328	zh					zhuan'zi
 zh-转自	zhuanzi	zhuanzi		转自			304	zh					zhuan'zi	
 zh-抓起	zhuaqi	zhuaqi		抓起			345	zh						
 zh-抓住	zhuazhu	zhuazhu		抓住			451	zh						
-zh-爪子	zhuazi	zhuazi		爪子			330	zh					ya'zi	
+zh-爪子	zhuazi	zhuazi		爪子			330	zh					ya'zi zua'zi	
 zh-抓走	zhuazou	zhuazou		抓走			364	zh						
 zh-主办	zhuban	zhuban		主办			455	zh					zhu'ban	
 zh-主板	zhuban	zhuban		主板			352	zh					zhu'ban	
@@ -36793,7 +36793,7 @@ zh-追逐	zhuizhu	zhuizhu		追逐			396	zh
 zh-追踪	zhuizong	zhuizong		追踪			432	zh						
 zh-主机	zhuji	zhuji		主机			409	zh						
 zh-住家	zhujia	zhujia		住家			338	zh						
-zh-逐渐	zhujian	zhujian		逐渐			512	zh					zhu'jian	
+zh-逐渐	zhujian	zhujian		逐渐			512	zh					cu'zan zhu'jian zhu'zan	
 zh-主见	zhujian	zhujian		主见			306	zh					zhu'jian	
 zh-珠江	zhujiang	zhujiang		珠江			373	zh					zhu'jiang	
 zh-主讲	zhujiang	zhujiang		主讲			337	zh					zhu'jiang	
@@ -36857,7 +36857,7 @@ zh-着落	zhuoluo	zhuoluo		着落			301	zh
 zh-桌面	zhuomian	zhuomian		桌面			381	zh					zhuo'mian	
 zh-琢磨	zhuomo	zhuomo		琢磨			367	zh						
 zh-捉摸	zhuomo	zhuomo		捉摸			302	zh						
-zh-啄木鸟	zhuomuniao	zhuomuniao		啄木鸟			311	zh						
+zh-啄木鸟	zhuomuniao	zhuomuniao		啄木鸟			311	zh					zo'mu'niao	
 zh-捉拿	zhuona	zhuona		捉拿			323	zh						
 zh-捉弄	zhuonong	zhuonong		捉弄			324	zh						
 zh-桌前	zhuoqian	zhuoqian		桌前			304	zh					zhuo'qian	
@@ -36909,7 +36909,7 @@ zh-株式会社	zhushihuishe	zhushihuishe		株式会社			367	zh
 zh-助手	zhushou	zhushou		助手			427	zh						
 zh-驻守	zhushou	zhushou		驻守			376	zh						
 zh-著述	zhushu	zhushu		著述			356	zh						
-zh-煮熟	zhushu	zhushu		煮熟			305	zh					zhu'su	
+zh-煮熟	zhushu	zhushu		煮熟			305	zh					zhu'su zu'su	
 zh-著书	zhushu	zhushu		著书			304	zh						
 zh-主帅	zhushuai	zhushuai		主帅			365	zh						
 zh-蛛丝马迹	zhusimaji	zhusimaji		蛛丝马迹			326	zh						
@@ -37619,7 +37619,7 @@ zh-昨天	zuotian	zuotian		昨天			493	zh					zuo'tian
 zh-昨天晚上	zuotianwanshang	zuotianwanshang		昨天晚上			344	zh					zuo'tian'wan'shang	
 zh-昨天下午	zuotianxiawu	zuotianxiawu		昨天下午			317	zh					zuo'tian'xia'wu	
 zh-昨晚	zuowan	zuowan		昨晚			454	zh					zuo'wan	
-zh-作为	zuowei	zuowei		作为			572	zh					zuo'wi	
+zh-作为	zuowei	zuowei		作为			572	zh					zo'wi zuo'wi	
 zh-座位	zuowei	zuowei		座位			426	zh						
 zh-作文	zuowen	zuowen		作文			388	zh						
 zh-作物	zuowu	zuowu		作物			426	zh						
@@ -37684,3 +37684,12 @@ zh-诅咒	zuzhou	zuzhou		诅咒			406	zh
 zh-组装	zuzhuang	zuzhuang		组装			381	zh					zu'zhuang	
 zh-祖宗	zuzong	zuzong		祖宗			371	zh						
 zh-足足	zuzu	zuzu		足足			357	zh						
+zh-侮	wu	wu		侮			0	zh					hu hù wū	
+zh-凄	qi	qi		凄			0	zh					qī xi xī	
+zh-坳	ao	ao		坳			0	zh					ngao ngáo áo	
+zh-懈	xie	xie		懈			0	zh					hai hái xié	
+zh-桠	ya	ya		桠			0	zh					nga ngā yā	
+zh-稼	jia	jia		稼			0	zh					ga gá jiá jiā	
+zh-筝	zheng	zheng		筝			0	zh					den dēn zen zēn	
+zh-躬	gong	gong		躬			0	zh					gōng jiong jiōng	
+zh-隧	sui	sui		隧			0	zh					suí xi xí	
