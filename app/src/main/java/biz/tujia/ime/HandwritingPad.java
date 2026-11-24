@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +36,7 @@ public final class HandwritingPad extends View {
 
     private static final int NONE = -1;
     private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
-    private static OchWRecognizer recognizer; // Accessed only on WORKER.
+    private static IsmanticRecognizer recognizer; // Accessed only on WORKER.
     private final AssetManager assets;
     private final Listener listener;
     private final Paint ink = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -263,14 +265,21 @@ public final class HandwritingPad extends View {
         cancelAccept();
         // Completed arrays are immutable; the next stroke writes to a separate buffer.
         final List<float[]> snapshot = new ArrayList<>(strokes);
+        final int padWidth = getWidth(), padHeight = getHeight();
         WORKER.execute(() -> {
             if (generation != request) return;
             try {
-                if (recognizer == null)
-                    recognizer = new OchWRecognizer(assets.open("ochwpro/model.onnx"),
-                            assets.open("ochwpro/characters.txt"), assets.open("handwriting/medians.tsv"));
+                if (recognizer == null) {
+                    try (InputStream first = assets.open("ismantic/mobilenet-v2.onnx.0");
+                         InputStream second = assets.open("ismantic/mobilenet-v2.onnx.1");
+                         InputStream model = new SequenceInputStream(first, second);
+                         InputStream labels = assets.open("ismantic/characters.txt");
+                         InputStream templates = assets.open("handwriting/medians.tsv")) {
+                        recognizer = new IsmanticRecognizer(model, labels, templates);
+                    }
+                }
                 if (generation != request) return;
-                final List<String> results = recognizer.recognize(snapshot, 12);
+                final List<String> results = recognizer.recognize(snapshot, 12, padWidth, padHeight);
                 main.post(() -> {
                     if (generation != request) return;
                     message = results.isEmpty() ? "请继续写或重写" : "";
@@ -285,7 +294,7 @@ public final class HandwritingPad extends View {
                     invalidate();
                 });
             } catch (IOException | RuntimeException ex) {
-                Log.e("TujiaHandwriting","Unable to load or match handwriting templates",ex);
+                Log.e("TujiaHandwriting","Unable to load or run handwriting recognition",ex);
                 main.post(() -> {
                     if (generation != request) return;
                     message = "手写字形未能读取";

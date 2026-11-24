@@ -1,0 +1,6 @@
+Ismantic / Handwritten (Apache License 2.0; see LICENSE.txt).
+Model source: https://huggingface.co/Ismantic/Handwritten/tree/99fe1300705f0d2446c057e041d99d3a2cff2419
+Android reference: https://github.com/Ismantic/Handwritten/tree/0e83ffe972b71ddbc4a099d06ada2302245cee1d
+The bundled model converts the released FP32 best.pt (SHA-256 151f32b03c49dbed77f3b8076035d28ce050d70a1a102e12581274a44cb10460) to ONNX with PyTorch 2.6.0, opset 14.
+characters.txt is the source ncnn/charset.json in output-index order. Android preprocessing adapts the reference 360px pad and grayscale normalization.
+Concatenate mobilenet-v2.onnx.0 and mobilenet-v2.onnx.1 in that order to recover the ONNX file.
