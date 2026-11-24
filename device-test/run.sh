@@ -91,7 +91,16 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
 case "$suite" in all|core|host|window|web|system|sounds) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system or sounds" >&2; exit 2 ;; esac
-"$adb_bin" shell am instrument -w -r -e suite "$suite" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
+capture=0
+if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
+    capture=1
+    mkdir -p "$TUJIA_E2E_EVIDENCE"
+    "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/failure.png"
+fi
+"$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
+if [[ "$capture" == 1 ]] && "$adb_bin" shell test -f "/sdcard/Android/data/$fixture_pkg/files/failure.png"; then
+    "$adb_bin" pull "/sdcard/Android/data/$fixture_pkg/files/failure.png" "$TUJIA_E2E_EVIDENCE/failure.png"
+fi
 tr -d '\r' < "$work/raw-result" > "$work/result"
 grep -Fxq 'INSTRUMENTATION_RESULT: outcome=PASS' "$work/result"
 grep -Fxq 'INSTRUMENTATION_CODE: -1' "$work/result"

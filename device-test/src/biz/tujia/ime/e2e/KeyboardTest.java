@@ -37,10 +37,12 @@ public final class KeyboardTest extends Instrumentation {
     private AccessibilityNodeInfo imeRoot;
     private EditorActivity host;
     private String suite;
+    private boolean captureFailure;
 
     @Override public void onCreate(Bundle args) {
         super.onCreate(args);
         suite = args == null ? "all" : args.getString("suite", "all");
+        captureFailure = args != null && "1".equals(args.getString("captureFailure"));
         start();
     }
 
@@ -83,6 +85,16 @@ public final class KeyboardTest extends Instrumentation {
         } catch (Throwable failure) {
             result.putString("outcome", "FAIL");
             result.putString("failure", Log.getStackTraceString(failure));
+            if (captureFailure && ui != null) {
+                android.graphics.Bitmap shot = ui.takeScreenshot();
+                if (shot != null) {
+                    java.io.File dir = getTargetContext().getExternalFilesDir(null);
+                    try (java.io.FileOutputStream output = new java.io.FileOutputStream(new java.io.File(dir, "failure.png"))) {
+                        shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output);
+                    } catch (java.io.IOException e) { result.putString("screenshotError", e.toString()); }
+                    finally { shot.recycle(); }
+                }
+            }
         } finally {
             if (imeRoot != null) imeRoot.recycle();
             if (host != null) runOnMainSync(host::finish);
@@ -637,6 +649,7 @@ public final class KeyboardTest extends Instrumentation {
                         || !caption.contentEquals(node.getContentDescription() == null ? "" : node.getContentDescription())) continue;
                 Rect rect = new Rect();
                 node.getBoundsInScreen(rect);
+                stage("Tap editor action " + caption + " at " + rect.toShortString());
                 tap(rect.centerX(), rect.centerY());
                 return;
             } finally { node.recycle(); }

@@ -18,4 +18,4 @@ collect() {
 trap collect EXIT
 adb shell input keyevent KEYCODE_WAKEUP
 adb shell wm dismiss-keyguard
-./device-test/run.sh build/qa-keyboard.apk build/fixture.apk 2>&1 | tee "$out/instrumentation.log"
+TUJIA_E2E_EVIDENCE="$out" ./device-test/run.sh build/qa-keyboard.apk build/fixture.apk 2>&1 | tee "$out/instrumentation.log"

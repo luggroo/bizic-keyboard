@@ -3,6 +3,11 @@ name: Android 15 device QA
 on:
   workflow_dispatch:
     inputs:
+      suite:
+        description: 'Device suite'
+        type: choice
+        default: all
+        options: [all, core, host, web, window, sounds]
       release_tag:
         description: 'Optional release tag (for example v0.3.0). Leave blank to build this commit.'
         type: string
@@ -54,6 +59,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - name: Exercise installed input method
+        env:
+          TUJIA_E2E_SUITE: ${{ inputs.suite }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35

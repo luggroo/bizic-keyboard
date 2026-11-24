@@ -91,6 +91,7 @@ final class HostCompatibility {
         EditText active = action == EditorInfo.IME_ACTION_PREVIOUS ? host.second : host.first;
         keys.tapField(active);
         commitEating();
+        keys.expectText(active, "架");
         // The key must announce the same available action the host requested.
         keys.pressAction(caption);
         await(caption + " callback", () -> host.lastEditorAction == action);
