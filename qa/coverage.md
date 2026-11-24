@@ -6,13 +6,13 @@
 
 - Android 9 AOSP 模拟器为 x86_64 和 x86。x86_64 的系统指纹为 `Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys`，实查 480 × 800 像素、160 dpi。记事本录制使用另一台模拟器。设备测试结果与复现命令见[宿主专项](device.md)。
 - GitHub 的 Android 15 / API 35 测试从全新 Google APIs x86_64 镜像开始。设备记录为 Android 15、1080 × 1920 像素、420 dpi、手势导航（navigation_mode=2）。提交 `5735a6d` 的首次实跑通过了按键、整句、四列候选、长按声调、富文本和连续手写回归，instrumentation 返回 `outcome=PASS` 和 `-1`。运行页保留实际提交、镜像和测试输出。[Android 15 首次实跑](https://github.com/luggroo/bizic-keyboard/actions/runs/45358576723)
-- Android 15 在同一次全量运行中安装并校验了 0.3.1 正式发布包。拼写及手写、语音占位页返回、四列候选、两种拼写输出、四种宿主动作、数字与文本密码、WebView、横屏手写、收起重开及下一音节联想均通过，结果为 `outcome=PASS`。网页多行字段实际内容为「半日猜」换行后接「诶」。[正式包全量记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45368409500) · [网页专项](https://github.com/luggroo/bizic-keyboard/actions/runs/45367803570) · [音节联想专项](https://github.com/luggroo/bizic-keyboard/actions/runs/45368117663)
+- Android 15 下载并核验了 0.3.2 正式 APK，设备全套返回 `outcome=PASS`、`INSTRUMENTATION_CODE=-1`。实测候选卡的可见文字、音节与词分两步选择、手写续字、整句、四列候选及两种拼写输出。搜索、发送、上一项、下一项、文本与数字密码、收起重开、横屏固定手写区也通过。WebView 正文读回「半日猜」换行后接「诶」。[0.3.2 正式包全量记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45370171168) · [0.3.1 对照记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45368409500)
 - 键盘布局关闭系统全屏提取模式，选择候选后通过宿主的 `InputConnection` 提交。密码、网址、邮箱和数字控件走直输路径。打包的清单没有申请联网、录音权限。TalkBack 的朗读以及银行自带安全键盘接管仍须在对应环境里单独操作。
 - Android 9 预装联系人（`com.android.contacts`）在新建草稿中回读了「半日猜」。Chromium WebView Shell（`org.chromium.webview_shell`）的真实地址栏直接写入了 `ga`。这两项都通过，用本仓库的 `TUJIA_E2E_SUITE=system` 复验。浏览器壳单列于此，表中的 Chrome 仍待独立安装验证。
 - Android 15 的手势导航在 IME 右下角提供系统输入法切换器。0.3.0 的“搜索”按键延伸到该区域，点按会打开系统选择框。0.3.1 按 IME 窗口的实际边界避让。在同一台 1080 × 1920 的模拟器上，底行 6 个键从最下方 1912 px 收至 1849 px，系统导航区从 1857 px 起，点击“搜索”“发送”“下一项”“上一项”均到达宿主，切换到相邻输入框后还能写入「诶」。[旧包触摸现场](https://github.com/luggroo/bizic-keyboard/actions/runs/45363293975) · [修复后动作与边界记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45366706190)
 - 在 Android 9 的系统 WebView 66 中，模拟按键换行后立刻输入下一词，曾触发迟到的选区通知，清掉下一词的首字母。发布包改为用标准文本提交处理多行换行，并跟踪该次光标移动；复测从网页正文读取到完整的 `半日猜\n诶`。第二台 Android 9 模拟器的横屏专项也已通过。[设备复测](device.md)
 - 此次检查发现，回车键曾在“搜索”“发送”等按钮上统一朗读“回车”，上一步还显示“换行”。手写和字母键盘现共用宿主的动作标签，上一步单列为“上一项”。验收时同时查可见文本、无障碍名称和宿主收到的动作。
-- 对 SHA-256 为 `059e2930521f1855272d8432c0002447a90543dada86e695fcfa08e31912077b` 的 0.3.1 发布包逐一解析了四个 ABI 的 ELF。每个库三个 PT_LOAD 段的对齐量都是 16,384 字节，库均以不压缩方式打包，文件数据在 ZIP 中的起始偏移也能被 16,384 整除。`zipalign -c -P 16 4` 通过。实际 16 KB 分页 ARM64 设备上的运行仍待验证。
+- 对 SHA-256 为 `7dc2f1e150b355e032eac0d99d6bbac95265385d491adfa02383c61e967256e7` 的 0.3.2 发布包逐一解析了四个 ABI 的 ELF。每个库三个 PT_LOAD 段的对齐量都是 16,384 字节，库均以不压缩方式打包，文件数据在 ZIP 中的起始偏移也能被 16,384 整除。`zipalign -c -P 16 4` 通过。实际 16 KB 分页 ARM64 设备上的运行仍待验证。
 - 排序、分词和拼写准确率见[词库评测](lexicon.md)，计时方法和设备帧率见[性能评测](performance.md)。软件模拟器时延不能换算成用户真机上的触屏响应。
 
 ## 50 个优先宿主
