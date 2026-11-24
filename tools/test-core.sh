@@ -24,14 +24,15 @@ core=(shared/src/lexicon.cpp shared/src/strokes.cpp shared/src/edit.cpp)
     "$jni" "${core[@]}" -o "$work/libtujia_core.$extension"
 src=app/src/main/java/biz/tujia/ime
 "$JAVA_HOME/bin/javac" -encoding UTF-8 -d "$work" \
-    "$src/NativeCore.java" "$src/CandidateEngine.java" "$src/HanChoice.java" "$src/StrokeRecognizer.java" \
-    tests/CandidateEngineTest.java tests/HanChoiceTest.java tests/StrokeRecognizerTest.java
+    "$src/NativeCore.java" "$src/CandidateEngine.java" "$src/HanChoice.java" "$src/HanUnitStyle.java" "$src/StrokeRecognizer.java" \
+    tests/CandidateEngineTest.java tests/HanChoiceTest.java tests/HanUnitStyleTest.java tests/StrokeRecognizerTest.java
 java=("$JAVA_HOME/bin/java" -Xcheck:jni "-Djava.library.path=$work" -cp "$work")
 if [[ "$suite" != strokes ]]; then
     "$cxx" -std=c++17 -O2 -Ishared/src shared/src/lexicon.cpp shared/tests/lexicon_test.cpp -o "$work/words"
     "$work/words" shared/bundle/Assets/words.tsv
     "${java[@]}" CandidateEngineTest shared/bundle/Assets/words.tsv
     "${java[@]}" biz.tujia.ime.HanChoiceTest shared/bundle/Assets/words.tsv
+    "${java[@]}" biz.tujia.ime.HanUnitStyleTest
 fi
 if [[ "$suite" != words ]]; then
     "$cxx" -std=c++17 -O2 -Ishared/src shared/src/strokes.cpp shared/tests/strokes_test.cpp -o "$work/strokes"

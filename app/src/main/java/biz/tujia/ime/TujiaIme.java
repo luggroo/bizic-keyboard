@@ -1014,9 +1014,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 else if (replace) ic.finishComposingText();
                 return false;
             }
-            if (start >= 0) expect(start + written.length());
+            if (start >= 0) expect(start + styled.length());
             handStart = start;
-            handOwned = written;
+            handOwned = styled.toString();
             handOutput = out;
             handEditor = ic;
             return true;
@@ -1533,7 +1533,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         CharSequence output = HanUnitStyle.forEditor(text, joinedRanges, offset);
         if (!ic.commitText(output, 1)) return false;
         CrashReports.event(getCurrentInputEditorInfo(), "上屏", text);
-        if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + text.length());
+        if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + output.length());
         return true;
     }
 
@@ -1562,10 +1562,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (ic.commitText("", 1)) { expect(Math.min(selStart, selEnd)); readSentenceBoundary(); updateCandidates(); }
             return;
         }
-        CharSequence before = ic.getTextBeforeCursor(2, 0);
+        CharSequence before = ic.getTextBeforeCursor(8, 0);
         if (before == null) { sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL); return; }
         if (before.length() == 0) { readSentenceBoundary(); updateCandidates(); return; }
         int len = Character.charCount(Character.codePointBefore(before, before.length()));
+        if (before.charAt(before.length() - 1) == '˼') {
+            String prefix = before.toString();
+            int start = prefix.lastIndexOf('˻');
+            if (start >= 0) {
+                String inner = prefix.substring(start + 1, prefix.length() - 1);
+                if (inner.codePointCount(0, inner.length()) == 2 && inner.codePoints().allMatch(Character::isIdeographic))
+                    len = prefix.length() - start;
+            }
+        }
         if (ic.deleteSurroundingText(len, 0) && selStart >= 0) {
             expect(Math.max(0, selStart - len));
             readSentenceBoundary();

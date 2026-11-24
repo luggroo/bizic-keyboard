@@ -159,7 +159,21 @@ public final class TujiaDictionary {
             tji_space_word($0, before.utf16.last ?? 0, after.utf16.first ?? 0)
         }) else { return nil }
         defer { tji_text_free(text) }
-        return SelectedWord(text: String(cString: text), remainingInput: String(cString: rest))
+        let spaced = String(cString: text)
+        let offset = spaced.hasPrefix(choice.text) ? 0 : 1
+        let source = spaced as NSString
+        var result = ""
+        var previous = 0
+        for index in stride(from: 0, to: choice.joinedHanRanges.count - 1, by: 2) {
+            let first = choice.joinedHanRanges[index] + offset
+            let last = choice.joinedHanRanges[index + 1] + offset
+            guard first >= previous, last > first, last <= source.length else { continue }
+            result += source.substring(with: NSRange(location: previous, length: first - previous))
+            result += "˻" + source.substring(with: NSRange(location: first, length: last - first)) + "˼"
+            previous = last
+        }
+        result += source.substring(from: previous)
+        return SelectedWord(text: result, remainingInput: String(cString: rest))
     }
 }
 
