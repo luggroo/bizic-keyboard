@@ -241,6 +241,7 @@ with sync_playwright() as pw:
     for raw,form in [('jiazi','夹子'),('gazi','夹子'),('xie','鞋'),('hai','鞋'),
                      ('ga','稼'),('jia','稼'),('gá','稼'),('jiá','稼'),('gao','教'),('jiao','教'),('gang','降'),('jiang','降'),
                      ('zhuangga','庄稼'),('zhuangjia','庄稼')]:
+        if raw=='zhuangga':keyboard(1)
         page.locator('#draft').fill(raw)
         common=visible_form(form)
         assert common.locator('small').text_content()=='',(raw,form)
