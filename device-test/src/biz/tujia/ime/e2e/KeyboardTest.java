@@ -1241,22 +1241,14 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private Card nextSoundCard() {
-        String previous = "";
-        for (int page = 0; page < 48; page++) {
-            List<Card> sounds = pageCards("下一音节 ");
-            if (!sounds.isEmpty()) {
-                Card found = sounds.get(0);
-                stage("Read single-tap syllable candidate " + found.name + " " + found.lines);
-                return found;
-            }
-            String current = visibleControls();
-            if (current.equals(previous)) break;
-            previous = current;
-            Rect next = pollNode("下一页候选", false, 500);
-            if (next == null) break;
-            tap(next.centerX(), next.centerY());
-            SystemClock.sleep(100);
-        }
+        List<Card> sounds = pageCards("下一音节 ");
+        if (!sounds.isEmpty()) return sounds.get(0);
+        AccessibilityNodeInfo row = rowBesidePager();
+        try {
+            do {
+                for (Card card : rowCards(row)) if (card.name.startsWith("下一音节 ")) return card;
+            } while (advanceCandidatePage(row));
+        } finally { row.recycle(); }
         throw new AssertionError("No writable syllable prediction: " + visibleControls());
     }
 
