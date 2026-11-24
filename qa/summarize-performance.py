@@ -19,7 +19,11 @@ for metric, values in samples.items():
     values.sort()
     ranks = [values[math.ceil(len(values) * p) - 1] for p in (.5, .95, .99)]
     print(metric, len(values), *ranks, values[-1], sum(v <= 30 for v in values))
-for pattern in (r'^Total frames rendered:.*$', r'^Janky frames:.*$',
-                r'^\d+th percentile:.*$', r'^\s*TOTAL\s+[\d\s]+$'):
+frames = re.search(r'^Total frames rendered:\s*(\d+)', data, re.M)
+patterns = [r'^Total frames rendered:.*$']
+if frames and int(frames.group(1)) > 0:
+    patterns.extend((r'^Janky frames:.*$', r'^\d+th percentile:.*$'))
+patterns.append(r'^\s*TOTAL\s+[\d\s]+$')
+for pattern in patterns:
     for match in re.findall(pattern, data, re.M):
         print(match.strip())

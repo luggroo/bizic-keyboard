@@ -8,10 +8,10 @@
 - GitHub 的 Android 15 / API 35 测试从全新 Google APIs x86_64 镜像开始。设备记录为 Android 15、1080 × 1920 像素、420 dpi、手势导航（navigation_mode=2）。提交 `5735a6d` 的首次实跑通过了按键、整句、四列候选、长按声调、富文本和连续手写回归，instrumentation 返回 `outcome=PASS` 和 `-1`。运行页保留实际提交、镜像和测试输出。[Android 15 首次实跑](https://github.com/luggroo/bizic-keyboard/actions/runs/45358576723)
 - 键盘布局关闭系统全屏提取模式，选择候选后通过宿主的 `InputConnection` 提交。密码、网址、邮箱和数字控件走直输路径。打包的清单没有申请联网、录音权限。TalkBack 的朗读以及银行自带安全键盘接管仍须在对应环境里单独操作。
 - Android 9 预装联系人（`com.android.contacts`）在新建草稿中回读了「半日猜」。Chromium WebView Shell（`org.chromium.webview_shell`）的真实地址栏直接写入了 `ga`。这两项都通过，用本仓库的 `TUJIA_E2E_SUITE=system` 复验。浏览器壳单列于此，表中的 Chrome 仍待独立安装验证。
-- Android 15 的手势导航在 IME 右下角提供系统输入法切换器。0.3.0 的“搜索”按键延伸到该区域，点按会打开系统选择框。0.3.1 按 IME 窗口的实际边界避让。在同一台 1080 × 1920 的模拟器上，底行 6 个键从最下方 1912 px 收至 1849 px，系统导航区从 1857 px 起，点击“搜索”和“发送”均到达宿主。[旧包触摸现场](https://github.com/luggroo/bizic-keyboard/actions/runs/45363293975) · [修复后动作与边界记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45364237986)
+- Android 15 的手势导航在 IME 右下角提供系统输入法切换器。0.3.0 的“搜索”按键延伸到该区域，点按会打开系统选择框。0.3.1 按 IME 窗口的实际边界避让。在同一台 1080 × 1920 的模拟器上，底行 6 个键从最下方 1912 px 收至 1849 px，系统导航区从 1857 px 起，点击“搜索”“发送”“下一项”“上一项”均到达宿主，切换到相邻输入框后还能写入「诶」。[旧包触摸现场](https://github.com/luggroo/bizic-keyboard/actions/runs/45363293975) · [修复后动作与边界记录](https://github.com/luggroo/bizic-keyboard/actions/runs/45366706190)
 - 在 Android 9 的系统 WebView 66 中，模拟按键换行后立刻输入下一词，曾触发迟到的选区通知，清掉下一词的首字母。发布包改为用标准文本提交处理多行换行，并跟踪该次光标移动；复测从网页正文读取到完整的 `半日猜\n诶`。第二台 Android 9 模拟器的横屏专项也已通过。[设备复测](device.md)
 - 此次检查发现，回车键曾在“搜索”“发送”等按钮上统一朗读“回车”，上一步还显示“换行”。手写和字母键盘现共用宿主的动作标签，上一步单列为“上一项”。验收时同时查可见文本、无障碍名称和宿主收到的动作。
-- 对 SHA-256 为 `c9f35807d76b1eb056d3bb1f8f7c5271801bfc53614be92f0782e360c99d31ab` 的发布包逐一解析了四个 ABI 的 ELF。每个库三个 PT_LOAD 段的对齐量都是 16,384 字节，库均以不压缩方式打包，文件数据在 ZIP 中的起始偏移也能被 16,384 整除。`zipalign -c -P 16 4` 通过。实际 16 KB 分页 ARM64 设备上的运行仍待验证。
+- 对 SHA-256 为 `059e2930521f1855272d8432c0002447a90543dada86e695fcfa08e31912077b` 的 0.3.1 发布包逐一解析了四个 ABI 的 ELF。每个库三个 PT_LOAD 段的对齐量都是 16,384 字节，库均以不压缩方式打包，文件数据在 ZIP 中的起始偏移也能被 16,384 整除。`zipalign -c -P 16 4` 通过。实际 16 KB 分页 ARM64 设备上的运行仍待验证。
 - 排序、分词和拼写准确率见[词库评测](lexicon.md)，计时方法和设备帧率见[性能评测](performance.md)。软件模拟器时延不能换算成用户真机上的触屏响应。
 
 ## 50 个优先宿主
