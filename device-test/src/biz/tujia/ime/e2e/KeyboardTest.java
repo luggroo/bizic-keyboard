@@ -295,6 +295,15 @@ public final class KeyboardTest extends Instrumentation {
         pressCandidate("汉语，中国", false);
         expectText(host.first, prefix + "gá中国");
 
+        type("surufa");
+        pressCandidate("汉语，输入法", false);
+        prefix += "gá中国输入法";
+        expectText(host.first, prefix);
+        type("siribuli");
+        pressCandidate("星星，sīrǐbǔlǐ", false);
+        prefix += "sīrǐbǔlǐ";
+        expectText(host.first, prefix);
+
         stage("Actual long-press tone entry");
         holdTone("a", "ā");
         waitForNode("待选拼写 ā", false);
@@ -305,7 +314,7 @@ public final class KeyboardTest extends Instrumentation {
         holdTone("u", "ū");
         waitForNode("待选拼写 āizū", false);
         pressCandidate("从前，āizū", false);
-        expectText(host.first, prefix + "gá中国āizū");
+        expectText(host.first, prefix + " āizū");
 
         stage("A Chinese loan shows its original Han form and keeps a gloss for romanized output");
         press("汉字记音");
@@ -314,14 +323,14 @@ public final class KeyboardTest extends Instrumentation {
         if (!hanLoan.lines.equals(Collections.singletonList("山歌")))
             throw new AssertionError("Unexpected Han loan display: " + hanLoan.lines);
         pressCandidate("山歌", false);
-        expectText(host.first, prefix + "gá中国āizū山歌");
+        expectText(host.first, prefix + " āizū山歌");
         press("土家语拼写");
         type("sanggo");
         Card romanLoan = card("山歌，sānggō");
         if (!romanLoan.lines.equals(Arrays.asList("山歌", "sānggō")))
             throw new AssertionError("Unexpected romanized loan display: " + romanLoan.lines);
         pressCandidate("山歌，sānggō", false);
-        expectText(host.first, prefix + "gá中国āizū山歌sānggō");
+        expectText(host.first, prefix + " āizū山歌sānggō");
     }
 
     private void holdTone(String base, String marked) {

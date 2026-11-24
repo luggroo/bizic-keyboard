@@ -115,8 +115,12 @@ public final class CandidateEngine implements AutoCloseable {
     }
 
     public static boolean matchesSpellingPrefix(String input, String ye, String marked) {
+        return matchesSpellingPrefix(input, ye, marked, true);
+    }
+
+    public static boolean matchesSpellingPrefix(String input, String ye, String marked, boolean allowYe) {
         if (input == null || ye == null || marked == null) return false;
-        return NativeCore.matchesSpellingPrefix(NativeCore.encode(input), NativeCore.encode(ye), NativeCore.encode(marked));
+        return NativeCore.matchesSpellingPrefix(NativeCore.encode(input), NativeCore.encode(ye), NativeCore.encode(marked), allowYe);
     }
 
     public static String suffixAfterChoice(String draft, int consumedUTF16) {
