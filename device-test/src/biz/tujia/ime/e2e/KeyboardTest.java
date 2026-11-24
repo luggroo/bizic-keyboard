@@ -570,7 +570,9 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("板栗，树希布里");
         runOnMainSync(() -> { host.first.setText("前阿安后"); host.first.setSelection(3); });
         press("已写成词");
-        tapForm("˻阿安˼");
+        Card pronoun = visibleForm("˻阿安˼");
+        if (pageCards("阿安").size() != 1) throw new AssertionError("The two suffix boundaries must share a card");
+        tap(pronoun.bounds.centerX(), pronoun.bounds.centerY());
         waitForNode("已写「阿安」", false);
         for (int i = 0; i < 8 && findNode("已写「安」", false) == null; i++) press("切换匹配或义项");
         waitForNode("已写「安」", false);
@@ -864,7 +866,9 @@ public final class KeyboardTest extends Instrumentation {
 
     Card visibleForm(String output) {
         waitForNode(output, false);
-        for (Card item : pageCards(output)) if (output.equals(outputLine(item))) return item;
+        // The spoken form omits the two visible syllable delimiters.
+        String spoken = output.replace("˻", "").replace("˼", "");
+        for (Card item : pageCards(spoken)) if (output.equals(outputLine(item))) return item;
         throw new AssertionError("Missing visible form " + output + ": " + visibleControls());
     }
 
