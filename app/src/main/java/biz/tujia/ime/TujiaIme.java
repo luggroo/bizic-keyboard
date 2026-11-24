@@ -1170,7 +1170,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 (info.imeOptions & EditorInfo.IME_FLAG_NO_ENTER_ACTION) == 0) {
             ic.performEditorAction(info.actionId);
         } else if (!sendDefaultEditorAction(true)) {
-            sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER);
+            // WebView may deliver the newline's cursor update after the next key.
+            // Register it like any other edit so that callback preserves the new draft.
+            boolean multiline = info != null && (info.inputType & InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_TEXT
+                    && (info.inputType & InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0;
+            if (!multiline || !commit("\n", false)) sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER);
             if (!direct && mode != VOICE) { previousSyllable = "<s>"; updateCandidates(); }
         }
     }

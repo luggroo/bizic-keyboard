@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="biz.tujia.ime.perf">
+    <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
+    <application android:label="土家语键盘性能测试" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false">
+        <activity android:name=".PerfEditor" android:exported="false" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+    </application>
+    <instrumentation android:name=".PerformanceTest" android:targetPackage="biz.tujia.ime.perf" />
+</manifest>

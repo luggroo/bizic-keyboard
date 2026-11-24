@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BooleanSupplier;
 
 /** Exercises public editor contracts through actual taps on the separately installed IME. */
 final class HostCompatibility {
@@ -127,7 +126,7 @@ final class HostCompatibility {
         }
     }
 
-    private void webEditors() throws Exception {
+    void webEditors() throws Exception {
         keys.stage("Android System WebView: input, textarea, DOM focus change and password");
         keys.runOnMainSync(host::webScenario);
         long deadline = SystemClock.uptimeMillis() + 20000;
@@ -144,6 +143,7 @@ final class HostCompatibility {
         keys.press("汉字记音");
         keys.type("bangricai");
         keys.pressCandidate("中午，半日猜", false);
+        expectDom("note", "半日猜");
         keys.press("换行");
         keys.type("hxif");
         keys.pressCandidate("走，诶", false);
@@ -177,6 +177,12 @@ final class HostCompatibility {
         int[] origin = new int[2];
         keys.runOnMainSync(() -> host.web.getLocationOnScreen(origin));
         keys.tap(origin[0] + (float)point.getDouble(0), origin[1] + (float)point.getDouble(1));
+        long deadline = SystemClock.uptimeMillis() + 6500;
+        while (!JSONObject.quote(id).equals(js("document.activeElement.id"))) {
+            if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("Touch did not focus DOM " + id
+                    + " at " + rect + " origin " + origin[0] + "," + origin[1] + ", focus=" + js("document.activeElement.id"));
+            SystemClock.sleep(65);
+        }
     }
 
     private void expectDom(String id, String text) throws Exception {
@@ -187,13 +193,16 @@ final class HostCompatibility {
             if (JSONObject.quote(text).equals(got)) return;
             SystemClock.sleep(60);
         } while (SystemClock.uptimeMillis() < deadline);
-        throw new AssertionError("Unexpected DOM value for " + id + ": " + got);
+        throw new AssertionError("Unexpected DOM value for " + id + ": " + got + "; DOM focus/content="
+                + js("[document.activeElement.id, document.getElementById('word').value, document.getElementById('note').value]"));
     }
 
-    private void await(String message, BooleanSupplier condition) {
+    private interface Condition { boolean ready(); }
+
+    private void await(String message, Condition condition) {
         long deadline = SystemClock.uptimeMillis() + 10000;
         do {
-            if (condition.getAsBoolean()) return;
+            if (condition.ready()) return;
             SystemClock.sleep(60);
         } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("Timed out waiting for " + message);

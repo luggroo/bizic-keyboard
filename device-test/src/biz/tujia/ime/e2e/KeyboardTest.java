@@ -40,7 +40,7 @@ public final class KeyboardTest extends Instrumentation {
 
     @Override public void onCreate(Bundle args) {
         super.onCreate(args);
-        suite = args.getString("suite", "all");
+        suite = args == null ? "all" : args.getString("suite", "all");
         start();
     }
 
@@ -75,7 +75,9 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
+            if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
+            if (suite.equals("sounds") || suite.equals("core") || suite.equals("all")) testNextSounds();
             result.putString("outcome", "PASS");
             code = Activity.RESULT_OK;
         } catch (Throwable failure) {
@@ -440,6 +442,37 @@ public final class KeyboardTest extends Instrumentation {
         String wanted = han ? "记音 ▾" : "拼写 ▾";
         if (pollNode(wanted, false, 150) == null) press("切换手写输出");
         waitForNode(wanted, false);
+    }
+
+    private void testNextSounds() {
+        stage("Predicted syllables open lexical choices before committing any host text");
+        String oldStyle = setStyleFromLauncher("叶氏拼音");
+        try {
+            runOnMainSync(() -> { host.first.setText(""); host.second.setText(""); });
+            tapField(host.first);
+            press("汉字记音");
+            pressCandidate("下一音节 gof", false);
+            waitForNode("待选读音 gof", false);
+            expectText(host.first, "");
+            press("返回联想");
+            expectText(host.first, "");
+            pressCandidate("下一音节 gof", false);
+            pressCandidate("他，过", false);
+            expectText(host.first, "过");
+
+            tapField(host.second);
+            type("ye");
+            pressCandidate("饭，叶", false);
+            expectText(host.second, "叶");
+            waitForNode("联想 吃、咬，架", false);
+            pressCandidate("下一音节 gaf", false);
+            waitForNode("待选读音 gaf", false);
+            expectText(host.second, "叶");
+            pressCandidate("吃、咬，架", false);
+            expectText(host.second, "叶架");
+        } finally {
+            setStyleFromLauncher(oldStyle);
+        }
     }
 
     private void assertJoinedRanges(EditText field, int... limits) {

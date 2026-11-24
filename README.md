@@ -19,7 +19,7 @@
 | 唱一句土家山歌， | bízī sānggō nā zē cáng， | 币兹伤哥哪遮唱， |
 | 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖里。 |
 
-[逐词试打清单](tools/story-demo/shange-spelling.tsv) · [安卓演示录像](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.0/shange-demo.mp4)
+[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.0/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [安卓演示录像](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.0/shange-demo.mp4)
 
 「记音」输出词表的推荐汉字。候选区每页四格。先看一条常用汉义，长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
@@ -30,6 +30,8 @@
 「敢」「钢」「肝」分别按词义选本字。「诶」「给」「尅」「黑」等常用写法在相应词条保留。hxe 四调依次写作「呃、轭、额、呃」。名物化 xi 写作「兮」，xi ge 写作「兮膈」。源表 `tools/data/orthography-defaults.tsv` 的 `review` 栏记录照片中需要复核的字形。
 
 在「手写」里写下「波」，停笔后首选字会进入正文。可以接着写「俐」，也可以点“小孩”对应的整词「波俐」补全。认错字时，点其他字形即可改选。遇到「尬」这样有多种记音用法的字，可以点“吃”选中相应词条。切到手写的拼写输出后，选词会使用设置中指定的拼写形式。
+
+选词时优先显示词库里匹配的词和可以补全的词。其后是语料中的整词联想与「下一音节」。音节提示取自按顺序收录的 1,000 组相邻音节，其中 175 组表示句首。例如「吃」的读音 `gaf` 后有 `liex`（liē）。点「下一音节」先查看这个音的字形与汉义，再选要写入正文的词。[按原排名查看音节对](tools/data/syllable-bigrams-ranked.txt)
 
 ## 安卓和 iOS 如何共用
 
@@ -93,6 +95,8 @@ final class KeyboardController: UIInputViewController {
 本地构建脚本使用本机的 Android 调试签名。可用 `TUJIA_DEBUG_KEYSTORE` 指定测试密钥位置。
 
 ## 测试
+
+设备实测、兼容性矩阵、词库命中率和输入延迟的口径见[安卓输入法 QA 报告](qa/README.md)。
 
 在有 C++17 编译器和 JDK 的 Linux 或 macOS 上运行核心与 JNI 测试。在有 Swift 5.9 或更新版本的环境中运行 Swift 包测试。
 
