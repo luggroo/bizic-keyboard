@@ -1,0 +1,119 @@
+AOSP Android 9 / API 28 / emulator-5562
+0.3.1 to 0.3.2 in-place upgrade
+emulator-5562
+Android/sdk_phone_x86_64/generic_x86_64:9/PSR1.180720.012/4923214:userdebug/test-keys
+7dc2f1e150b355e032eac0d99d6bbac95265385d491adfa02383c61e967256e7  /tmp/tujia-device-release032/ime.apk
+81278c65d67b03f1774be586b7dac25dac76ea6fed13b5ef1df5273d7dfda8d0  /tmp/tujia-device-release032/fixture.apk
+/data/app/biz.tujia.ime-cUPrERRxNGtp209S4n7WGw==/base.apk: 1 file pulled, 0 skipped. 82.6 MB/s (5490518 bytes in 0.063s)
+Installed before update
+059e2930521f1855272d8432c0002447a90543dada86e695fcfa08e31912077b  /tmp/tujia-device-release032/previous.apk
+    versionCode=6 minSdk=23 targetSdk=35
+    versionName=0.3.1
+Performing Streamed Install
+Success
+Installed after update
+    versionCode=7 minSdk=23 targetSdk=35
+    versionName=0.3.2
+Performing Streamed Install
+Success
+Cold start: no IME PID before first focus
+
+core
+/data/app/biz.tujia.ime-bb0njJj5FZAdotE11QfgzA==/base.apk: 1 file pulled, 0 skipped. 109.4 MB/s (5490518 bytes in 0.048s)
+/data/app/biz.tujia.ime.e2e-GnNn6hDgbpUGVf0Piq_qyg==/base.apk: 1 file pulled, 0 skipped. 15.9 MB/s (70059 bytes in 0.004s)
+INSTRUMENTATION_STATUS: step=First input after IME startup
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=First draft committed; loading visible at first key=false, after typing=false
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Longest prefix and uncommitted suffix
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Whole sentence
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Automatic handwriting in spelling output
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Handwrite 尬, distinguish the eating sense, commit the recommended Han form
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Voice placeholder
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Four candidate columns, Tujia priority and Mandarin fallback
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Brief sense and full reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Toneless input, Ye spelling and persistent tone-mark spelling
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Actual long-press tone entry
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=A Chinese loan shows its original Han form and keeps a gloss for romanized output
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Single-syllable Han pairs keep clean text and rich-editor spans
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Noon and standalone apical syllables use full-width, unjoined Han characters
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Real meaning above noon; unglossed Han spelling in candidate and reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Candidate 雌 missing on page 0:  [土家语拼写] [拼写] [汉字记音] [记音] [手写] [手写] [语音] [语音] [隐藏键盘] [收起] [上一页候选] [‹] [待选拼写 cix] [cix] [长按候选看全文] [全文] [确定拼写] [原拼写] [下一页候选] [›] [大，此] [大] [此] [出，尺] [出] [尺] [梳通，齿] [梳通] [齿] [尺（长度单位），尺] [尺] [尺] [q] [Q] [w] [W] [e] [E] [r] [R] [t] [T] [y] [Y] [u] [U] [i] [I] [o] [O] [p] [P] [a] [A] [s] [S] [d] [D] [f] [F] [g] [G] [h] [H] [j] [J] [k] [K] [l] [L] [切换大小写] [⇧] [z] [Z] [x] [X] [c] [C] [v] [V] [b] [B] [n] [N] [m] [M] [退格] [⌫] [字母或符号] [123] [切换输入法] [换] [逗号] [，] [空格] [空格] [句号] [。] [完成] [完成]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Two handwritten characters reach the editor with no confirmation taps
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [没有, 太] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Correct a handwritten character, then accept a word completion and its next word
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Corrected 波 to the visible alternative 坡
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [小孩儿, 波俐] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [大人, 再] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Pending strokes and correction cannot cross editor or cursor changes
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Predicted syllables open lexical choices before committing any host text
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [gof] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [吃, 架] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [gaf] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=A focused host cleared externally returns to sentence-start predictions
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+
+host
+/data/app/biz.tujia.ime-bb0njJj5FZAdotE11QfgzA==/base.apk: 1 file pulled, 0 skipped. 89.1 MB/s (5490518 bytes in 0.059s)
+/data/app/biz.tujia.ime.e2e-GnNn6hDgbpUGVf0Piq_qyg==/base.apk: 1 file pulled, 0 skipped. 14.5 MB/s (70059 bytes in 0.005s)
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 搜索
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 搜索 at [394,749][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 发送
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 发送 at [394,749][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 下一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 下一项 at [394,749][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Native editor action and accessibility label: 上一项
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Tap editor action 上一项 at [394,749][475,797]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Masked native text and numeric passwords use direct input
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Android System WebView: input, textarea, DOM focus change and password
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+
+system
+/data/app/biz.tujia.ime-bb0njJj5FZAdotE11QfgzA==/base.apk: 1 file pulled, 0 skipped. 113.0 MB/s (5490518 bytes in 0.046s)
+/data/app/biz.tujia.ime.e2e-GnNn6hDgbpUGVf0Piq_qyg==/base.apk: 1 file pulled, 0 skipped. 12.3 MB/s (70059 bytes in 0.005s)
+INSTRUMENTATION_STATUS: step=Preinstalled AOSP Contacts: enter a name in an unsaved new contact
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Preinstalled Chromium WebView Shell: direct text into the browser address bar
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=System checks completed without submitting, navigating or saving
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
