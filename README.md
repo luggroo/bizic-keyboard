@@ -1,6 +1,6 @@
 # 北部土家语输入法 · 安卓键盘与 iOS 共用核心
 
-这是一个可在其他安卓应用里使用的系统键盘。键盘收录 526 个北部土家语词和词组，另有 35,916 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。语音入口已预留。
+这是一个可在其他安卓应用里使用的系统键盘。键盘收录 526 个北部土家语词和词组，另有 35,925 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。语音入口已预留。
 
 ## 安装与试打
 
@@ -29,7 +29,7 @@
 
 「哥哥」和「山歌」这样的本字词在汉字候选中只占一行。词表把 `gōgō` 释为“哥哥”。故事里的汉译保留原句语气。呼语 `ǎkō’ǎ` 多一个音节，可以选出“哥哥啊”。[学堂“哥哥”词条](https://tujia.biz/?id=w809#dictionary) · [龙山故事原文](https://tujia.biz/?id=tlp-longshan-stories-02-01#corpus)
 
-`an`、`ang` 在音节末尾可以互用。输入 `banricai` 和 `bangricai` 都能选“中午”下的「半日猜」。打 `ga` 能看到“吃”下的「架」。打 `jia` 也能选「架」，字上方留白。吉首原表记录了「葡萄架」的白读，重庆字表收有另一读。[文白异读全表](https://github.com/luggroo/bizic-translator/blob/main/data/han-registers.xlsx) · [词库借词来源](qa/han-source-review.md)
+`an`、`ang` 在音节末尾可以互用。输入 `banricai` 和 `bangricai` 都能选“中午”下的「半日猜」。打 `ga` 能看到“吃”下的「架」。打 `jia` 也能选「架」，字上方留白。李启群《吉首方言研究》第 39 页给「架」的吉首白读 `ka5` 举「十字架儿」，给文读 `tɕia5` 举「吵架」。同页的「庄稼」两读都有，输入 `zhuangga` 或 `zhuangjia` 都可选整个词。[文白异读对照表](https://github.com/luggroo/bizic-translator/blob/main/data/han-registers.xlsx) · [词库借词来源](qa/han-source-review.md)
 
 也可以直接打调号。长按 A、E、I、O、U 会出现四个带调元音，点一个即可输入。例如输入 `bízīkǎ` 可以查到“土家族”。输出仍按设置里选择的拼写方案。
 
