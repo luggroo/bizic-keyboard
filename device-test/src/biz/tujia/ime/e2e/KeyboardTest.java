@@ -70,6 +70,7 @@ public final class KeyboardTest extends Instrumentation {
                     testSpellingStyle();
                     testJoinedForms();
                     testApicalVowels();
+                    testHanSenses();
                     testContinuousHandwriting();
                     testCompactControls();
                 } catch (Throwable failure) {
@@ -83,6 +84,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
+            if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("typography")) new SystemTypography(this, host).run();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
@@ -587,6 +589,59 @@ public final class KeyboardTest extends Instrumentation {
             SystemClock.sleep(100);
         } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("No stable IME toolbar with four sibling controls: " + Arrays.toString(previous) + visibleControls());
+    }
+
+    private void testHanSenses() {
+        newPredictionEditor();
+        press("汉字记音");
+        type("go");
+        Card pronoun = card("他，过");
+        if (!pronoun.lines.equals(Arrays.asList("他", "过"))) throw new AssertionError("Missing pronoun gloss");
+        captureFrame("sense-go.png");
+        openReader(pronoun);
+        if (!visibleControls().contains("汉义\n他\n\n待输入\n过")) throw new AssertionError("Missing full meaning for 他／过: " + visibleControls());
+        expectText(host.first, "");
+        press("返回候选");
+
+        int pronouns = 0, faults = 0, page = 0;
+        while (true) {
+            List<Card> cards = pageCards("，");
+            for (Card item : cards) {
+                if (item.name.matches("(?:补全 |联想 |下一音节 )?他，.*")) {
+                    pronouns++;
+                    if (!item.name.endsWith("，过")) throw new AssertionError("Unmarked go offered other writing for 他: " + item.name);
+                }
+                if (item.name.equals("过错，过")) faults++;
+            }
+            page++;
+            Rect next = pollNode("下一页候选", false, 250);
+            if (next == null) break;
+            if (page > 100) throw new AssertionError("Unbounded go pagination");
+            String previous = visibleControls();
+            tap(next.centerX(), next.centerY());
+            long until = SystemClock.uptimeMillis() + WAIT_MS;
+            while (previous.equals(visibleControls()) && SystemClock.uptimeMillis() < until) SystemClock.sleep(50);
+            if (previous.equals(visibleControls())) throw new AssertionError("go page did not advance from " + page);
+        }
+        if (pronouns != 1 || faults != 1) throw new AssertionError("Across " + page + " go pages: 他=" + pronouns + ", 过错=" + faults);
+        stage("Across all " + page + " unmarked go pages: one 他／过 and one independent 过错／过");
+        press("退格"); press("退格"); type("go");
+        pressCandidate("过错，过", false, "过错", "过");
+        expectText(host.first, "过");
+        type("g"); holdTone("o", "ǒ");
+        waitForNode("待选拼写 gǒ", false);
+        Card marked = card("他，郭");
+        captureFrame("sense-marked-go.png");
+        tap(marked.bounds.centerX(), marked.bounds.centerY());
+        expectText(host.first, "过郭");
+        type("mav");
+        Card horse = card("马");
+        if (!horse.lines.equals(Collections.singletonList("马"))) throw new AssertionError("Repeated same label for 马: " + horse.lines);
+        openReader(horse);
+        if (!visibleControls().contains("汉义\n马\n\n待输入\n马")) throw new AssertionError("Full lexical meaning of 马 gone: " + visibleControls());
+        press("输入这个候选");
+        expectText(host.first, "过郭马");
+        stage("g + held o / ǒ gives 他／郭; 马 shows once on the card and retains its lexical meaning in the reader");
     }
 
     private void testLongWordCard() {
