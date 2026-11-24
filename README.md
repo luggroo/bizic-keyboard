@@ -8,6 +8,8 @@
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
 3. 点应用里的试打框，或在记事本里新建一条笔记。键盘上方可以直接切换「打字」「手写」。点「更多」选拼写输出，输入 `bizika`，点汉义为“土家族”的候选。正文按设置写入 `bízīkǎ`（带调号）或 `bifzixkar`（叶氏拼音）。在「更多」里选汉字记音，再打一次，就能选出「币兹咔」。
 
+打字、手写和「更多」共用固定的键盘区域。当前拼写就在工具栏中，正文留在上方。480 × 800 的安卓测试屏上，字母键的可点高度从 48 dp 增至 54–55 dp。[打字画面](qa/results/api28-033-compact-typing.png) · [手写画面](qa/results/api28-033-compact-handwriting.png) · [更多选项](qa/results/api28-033-compact-more.png)
+
 ## 在记事本里写山歌
 
 演示用的是毕兹学堂收录的龙山《山歌两首》第一首。下面按原文的四行排版。第三列是键盘按词输出的试用记音字，汉义显示在候选上方。[毕兹学堂原文，第 190–191 页](https://tujia.biz/?id=xu-tujia-annotated-2-13#corpus?corpusCollection=xu-tujia-annotated-texts)
