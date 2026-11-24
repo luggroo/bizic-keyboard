@@ -1,5 +1,5 @@
 name: Android device QA
-run-name: Android API ${{ inputs.api_level || '35' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
+run-name: Android API ${{ inputs.api_level || '37' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
 
 on:
   pull_request:
@@ -71,15 +71,16 @@ jobs:
           TUJIA_E2E_SUITE: ${{ inputs.suite || 'core' }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ inputs.api_level || '35' }}
+          api-level: ${{ inputs.api_level || '37' }}
           target: google_apis
           arch: x86_64
           profile: pixel_2
+          ram-size: 4096M
           disable-animations: true
           script: bash qa/ci-device.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: android-${{ inputs.api_level || '35' }}-device-evidence
+          name: android-${{ inputs.api_level || '37' }}-device-evidence
           path: build/device-qa/
           if-no-files-found: warn
