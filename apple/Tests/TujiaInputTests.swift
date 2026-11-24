@@ -198,7 +198,7 @@ final class TujiaInputTests: XCTestCase {
 
     func testHandwritingAndVariantLookup() throws {
         let pen = try TujiaHandwriting()
-        XCTAssertEqual(pen.glyphCount, 3561)
+        XCTAssertEqual(pen.glyphCount, 3565)
         let strokes = [[CGPoint(x: 20,y: 20), CGPoint(x: 70,y: 20)],
                        [CGPoint(x: 25,y: 49), CGPoint(x: 75,y: 49)],
                        [CGPoint(x: 10,y: 80), CGPoint(x: 90,y: 80)]]

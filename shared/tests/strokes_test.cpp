@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     std::ifstream input(argv[1]);
     const std::string tsv{std::istreambuf_iterator<char>(input), {}};
     const tujia::Strokes model(tsv);
-    expect(model.size() == 3561, "Incomplete handwriting vocabulary");
+    expect(model.size() == 3565, "Incomplete handwriting vocabulary");
     expect(model.recognize({}, 12).empty(), "Empty pen input");
     expect(model.recognize({{5,5}}, 12).empty(), "Single tap");
     expect(model.recognize({{5,5,6}}, 12).empty(), "Odd coordinate count");
