@@ -109,7 +109,11 @@ public final class SetupActivity extends Activity {
         record = new android.widget.CheckBox(this);
         record.setText("记录本次试打，供崩溃时排查");
         record.setSaveEnabled(false);
-        record.setOnCheckedChangeListener((button, checked) -> CrashReports.recordTrial(checked));
+        record.setChecked(KeyboardSettings.trialRecording(this));
+        record.setOnCheckedChangeListener((button, checked) -> {
+            KeyboardSettings.setTrialRecording(this, checked);
+            CrashReports.recordTrial(checked);
+        });
         addSpaced(editor, record, 8);
         addSpaced(editor, label("仅记录此框内最近 64 次输入、选词等操作。崩溃时保存在本机，可在分享前查看。", 14, MUTED, false), 4);
         addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
@@ -120,8 +124,13 @@ public final class SetupActivity extends Activity {
         if (state == null) body.requestFocus();
     }
 
+    @Override protected void onStart() {
+        super.onStart();
+        CrashReports.recordTrial(record.isChecked());
+    }
+
     @Override protected void onStop() {
-        record.setChecked(false);
+        CrashReports.recordTrial(false);
         super.onStop();
     }
 
