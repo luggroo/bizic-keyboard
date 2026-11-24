@@ -44,6 +44,12 @@ def main():
     assert song["zh"] == "山歌" and song["term"] == "sã⁵⁵ko⁵⁵"
     selected["xu213-2-1"] = ["xu213-2-1", "sangxgox", song["zh"], song["id"], song["term"],
                              " / ".join(",".join(readings[c]) for c in song["zh"]), "词典及龙山歌例，约定本字"]
+    texts = json.loads((args.site / "annotated-books.json").read_text(encoding="utf-8"))
+    verse = next(text for text in texts if text["id"] == "xu-tujia-annotated-2-13")
+    fault = next(gloss for gloss in verse["blocks"][3]["glosses"] if gloss["zh"] == "过错")
+    assert fault["ipa"] == "ko³⁵"
+    selected["xu213-4-5"] = ["xu213-4-5", "gof", "过", "", fault["ipa"], "/".join(readings["过"]),
+                              "龙山《山歌两首》第一首第四行，约定借词本字"]
     with (ROOT/"tools/data/plain-han-loans.tsv").open("w", encoding="utf-8", newline="") as fp:
         writer = csv.writer(fp, delimiter="\t", lineterminator="\n")
         writer.writerow(["id", "ye", "han", "dictionaryId", "attested", "localReading", "basis"])
