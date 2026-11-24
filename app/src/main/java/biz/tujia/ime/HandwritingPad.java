@@ -116,10 +116,6 @@ public final class HandwritingPad extends View {
             canvas.drawLine(x, y, x + (right ? -mark : mark), y, guide);
             canvas.drawLine(x, y, x, y + (bottom ? -mark : mark), guide);
         }
-        float middleY = (getHeight() - label.ascent() - label.descent()) / 2;
-        if (strokes.isEmpty() && currentPath == null) {
-            canvas.drawText("在这里写一个记音字",getWidth()/2f,middleY,label);
-        }
         for (int i = 0; i < paths.size(); i++) {
             canvas.drawPath(paths.get(i),ink);
             float[] points = strokes.get(i);

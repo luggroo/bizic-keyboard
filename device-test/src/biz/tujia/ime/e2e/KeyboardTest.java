@@ -71,6 +71,7 @@ public final class KeyboardTest extends Instrumentation {
                     testJoinedForms();
                     testApicalVowels();
                     testContinuousHandwriting();
+                    testCompactControls();
                 } catch (Throwable failure) {
                     saveFailureFrame(result);
                     throw failure;
@@ -80,6 +81,7 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
+            if (suite.equals("compact")) testCompactControls();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
             if (suite.equals("sounds") || suite.equals("core") || suite.equals("all")) testNextSounds();
@@ -140,7 +142,7 @@ public final class KeyboardTest extends Instrumentation {
     private void testEditor() {
         tapField(host.first);
         press("汉字记音");
-        assertEditorAboveKeyboard(host.first, "土家语拼写");
+        assertEditorAboveKeyboard(host.first, "打字");
 
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
         type("marmardiexhxif");
@@ -176,7 +178,7 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("隐藏键盘");
         tapField(host.second);
         press("汉字记音");
-        assertEditorAboveKeyboard(host.second, "土家语拼写");
+        assertEditorAboveKeyboard(host.second, "打字");
         type("hxif");
         pressCandidate("走，诶", false);
         expectText(host.second, "ngaf yer ga诶");
@@ -520,8 +522,106 @@ public final class KeyboardTest extends Instrumentation {
 
     void setHandwritingOutput(boolean han) {
         String wanted = han ? "记音 ▾" : "拼写 ▾";
-        if (pollNode(wanted, false, 150) == null) press("切换手写输出");
+        tapControl("更多");
+        waitForNode("切换手写输出", false);
+        if (findNode(wanted, false) == null) {
+            tapControl("切换手写输出");
+            waitAbsent("切换手写输出");
+            tapControl("更多");
+        }
         waitForNode(wanted, false);
+        tapControl("更多");
+        waitAbsent("切换手写输出");
+    }
+
+    private void testCompactControls() {
+        stage("Compact toolbar, fixed host field, actual letter-key bounds and text size");
+        newPredictionEditor();
+        press("汉字记音");
+        runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
+        Rect typing = waitForNode("打字", false);
+        Rect handwriting = waitForNode("手写", false);
+        Rect more = waitForNode("更多", false);
+        Rect hide = waitForNode("隐藏键盘", false);
+        if (typing.top != handwriting.top || typing.top != more.top || typing.top != hide.top
+                || typing.right > handwriting.left || handwriting.right > more.left || more.right > hide.left)
+            throw new AssertionError("The four toolbar controls are not on one ordered line");
+        for (String extra : new String[]{"土家语拼写", "汉字记音", "语音", "确定拼写"}) waitAbsent(extra);
+        assertEditorAboveKeyboard(host.first, "打字");
+        waitForNode("待选拼写 ", false);
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 ")) {
+            try {
+                if (node.refresh() && node.isVisibleToUser() && android.text.TextUtils.equals("待选拼写 ", node.getContentDescription())
+                        && !android.text.TextUtils.isEmpty(node.getText()))
+                    throw new AssertionError("An empty draft showed a visible instruction: " + node.getText());
+            } finally { node.recycle(); }
+        }
+        Rect q = waitForNode("q", false), a = waitForNode("a", false), z = waitForNode("z", false);
+        float density = host.getResources().getDisplayMetrics().density;
+        android.content.res.Configuration config = host.getResources().getConfiguration();
+        int minKeyHeight = Math.round(Math.min(q.height(), Math.min(a.height(), z.height())) / density);
+        if (config.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+                && config.screenHeightDp >= 600 && config.fontScale <= 1.15f) {
+            int minimum = config.screenWidthDp >= 460 ? 54 : 48;
+            if (minKeyHeight < minimum) throw new AssertionError("Letter key height " + minKeyHeight + "dp, expected " + minimum);
+        }
+        for (String letter : new String[]{"q", "w", "a", "z", "m"}) {
+            waitForNode(letter, false);
+            boolean caption = false;
+            for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(letter)) {
+                try {
+                    if (node.refresh() && node.isVisibleToUser() && android.text.TextUtils.equals(letter, node.getContentDescription())
+                            && letter.toUpperCase(java.util.Locale.ROOT).contentEquals(node.getText() == null ? "" : node.getText())) caption = true;
+                } finally { node.recycle(); }
+            }
+            if (!caption) throw new AssertionError("Missing visible letter caption: " + letter);
+        }
+        stage("Letter keys Q=" + q.toShortString() + " A=" + a.toShortString() + " Z=" + z.toShortString()
+                + "; minHeight=" + minKeyHeight + "dp; viewport=" + config.screenWidthDp + "dp; fontScale=" + config.fontScale);
+        captureFrame("compact-idle.png");
+        type("ga");
+        List<Card> cards = fourCards();
+        if (!cards.get(0).lines.equals(Arrays.asList("吃", "架"))) throw new AssertionError("Missing first lexical gloss in compact mode");
+        assertEditorAboveKeyboard(host.first, "打字");
+        captureFrame("compact-typing.png");
+        tapControl("更多");
+        waitSelectedControl("更多");
+        waitSelectedControl("汉字记音");
+        waitForNode("土家语拼写", false);
+        waitForNode("语音", false);
+        waitForNode("确定拼写", false);
+        expectText(host.first, "正文");
+        captureFrame("compact-more.png");
+        tapControl("更多");
+        waitAbsent("确定拼写");
+        waitForNode("待选拼写 ga", false);
+        pressCandidate("吃、咬，架", false);
+        expectText(host.first, "正文架");
+        type("rif");
+        pressCandidate("日", false, "日");
+        expectText(host.first, "正文架日");
+        waitForNode("待选拼写 ", false);
+        stage("Bare 日 consumes all of rif; unlike 做／日 it leaves no f in the draft");
+        type("rif");
+        pressCandidate("做，日", false);
+        expectText(host.first, "正文架日日");
+        waitForNode("待选拼写 f", false);
+        press("退格");
+        waitForNode("待选拼写 ", false);
+        press("手写");
+        Rect pad = waitForNode("汉字手写区", false);
+        assertEditorAboveKeyboard(host.first, "手写");
+        setHandwritingOutput(true);
+        if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Output settings moved the handwriting pad");
+        captureFrame("compact-handwriting.png");
+        drawThree(pad);
+        expectText(host.first, "正文架日日三");
+        press("打字");
+        tapControl("更多");
+        waitSelectedControl("汉字记音");
+        tapControl("更多");
+        waitAbsent("土家语拼写");
+        assertEditorAboveKeyboard(host.first, "打字");
     }
 
     private void testNextSounds() {
@@ -896,28 +996,55 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
-    void press(String label) {
-        boolean mode = "土家语拼写".equals(label) || "汉字记音".equals(label)
-                || "手写".equals(label) || "语音".equals(label);
-        if (mode) awaitKeyboardAtRest();
+    private void tapControl(String label) {
         Rect rect = waitForNode(label, false);
         tap(rect.centerX(), rect.centerY());
-        if (!mode) return;
+    }
+
+    private boolean isSelectedControl(String label) {
+        if (findNode(label, false) == null) return false;
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(label)) {
+            try {
+                if (node.refresh() && node.isVisibleToUser() && node.isSelected()
+                        && android.text.TextUtils.equals(label, node.getContentDescription())) return true;
+            } finally { node.recycle(); }
+        }
+        return false;
+    }
+
+    private void waitSelectedControl(String label) {
         long until = SystemClock.uptimeMillis() + WAIT_MS;
         do {
-            if (findNode(label, false) != null) {
-                for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(label)) {
-                    try {
-                        if (node.refresh() && node.isSelected() && android.text.TextUtils.equals(label, node.getContentDescription())) {
-                            awaitKeyboardAtRest();
-                            return;
-                        }
-                    } finally { node.recycle(); }
-                }
-            }
+            if (isSelectedControl(label)) return;
             SystemClock.sleep(40);
         } while (SystemClock.uptimeMillis() < until);
         throw new AssertionError("Mode selection did not take effect: " + label);
+    }
+
+    void press(String label) {
+        boolean typingOutput = "土家语拼写".equals(label) || "汉字记音".equals(label);
+        if (typingOutput || "语音".equals(label)) {
+            awaitKeyboardAtRest();
+            if (typingOutput && !isSelectedControl("打字")) {
+                tapControl("打字");
+                waitSelectedControl("打字");
+            }
+            tapControl("更多");
+            tapControl(label);
+            waitAbsent(label);
+            if (typingOutput) waitSelectedControl("打字");
+            else waitForNode("语音模型尚未上线", false);
+            awaitKeyboardAtRest();
+            return;
+        }
+        if ("手写".equals(label) || "打字".equals(label)) {
+            awaitKeyboardAtRest();
+            tapControl(label);
+            waitSelectedControl(label);
+            awaitKeyboardAtRest();
+            return;
+        }
+        tapControl(label);
     }
 
     @android.annotation.TargetApi(30)

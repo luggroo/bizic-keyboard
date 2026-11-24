@@ -42,7 +42,7 @@ final class SystemCompatibility {
         keys.press("g");
         keys.press("a");
         appNode(BROWSER, "editable", "ga");
-        if (keys.pollNode("汉字记音", false, 250) != null)
+        if (keys.pollNode("更多", false, 250) != null)
             throw new AssertionError("URL field exposed lexical conversion mode");
         keys.press("隐藏键盘");
         keys.stage("System checks completed without submitting, navigating or saving");
