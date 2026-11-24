@@ -83,6 +83,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
+            if (suite.equals("typography")) new SystemTypography(this, host).run();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
             if (suite.equals("sounds") || suite.equals("core") || suite.equals("all")) testNextSounds();
@@ -104,7 +105,7 @@ public final class KeyboardTest extends Instrumentation {
         if (captureFrame("failure.png")) result.putString("failureFrame", "failure.png");
     }
 
-    private boolean captureFrame(String name) {
+    boolean captureFrame(String name) {
         if (!captureFailure || ui == null) return false;
         android.graphics.Bitmap shot = ui.takeScreenshot();
         if (shot == null) return false;
@@ -625,8 +626,8 @@ public final class KeyboardTest extends Instrumentation {
         int minKeyHeight = Math.round(Math.min(q.height(), Math.min(a.height(), z.height())) / density);
         if (config.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
                 && config.screenHeightDp >= 600 && config.fontScale <= 1.15f) {
-            int minimum = config.screenWidthDp >= 460 ? 54 : 48;
-            if (minKeyHeight < minimum) throw new AssertionError("Letter key height " + minKeyHeight + "dp, expected " + minimum);
+            if (minKeyHeight < 44 || minKeyHeight > 48)
+                throw new AssertionError("Expected a standard 44–48dp letter key at ordinary scale, got " + minKeyHeight + "dp");
         }
         for (String letter : new String[]{"q", "w", "a", "z", "m"}) {
             waitForNode(letter, false);
@@ -868,7 +869,7 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
-    private void newPredictionEditor() {
+    void newPredictionEditor() {
         runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
                 android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
         tapField(host.first);
@@ -929,7 +930,7 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
-    private static final class Card {
+    static final class Card {
         final String name;
         final Rect bounds;
         final List<String> lines = new ArrayList<>();
@@ -982,7 +983,7 @@ public final class KeyboardTest extends Instrumentation {
         throw new AssertionError("Missing card on current page: " + name);
     }
 
-    private List<Card> fourCards() {
+    List<Card> fourCards() {
         List<Card> page = pageCards("，");
         if (page.size() != 4) throw new AssertionError("Expected four candidates, saw " + page.size());
         for (int i = 1; i < page.size(); i++) {

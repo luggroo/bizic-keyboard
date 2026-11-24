@@ -6,6 +6,7 @@ mkdir -p "$out"
     adb shell getprop ro.build.fingerprint
     adb shell wm size
     adb shell wm density
+    adb shell settings get system font_scale
     adb shell settings get secure navigation_mode
     sha256sum build/qa-keyboard.apk build/fixture.apk
 } | tee "$out/device.txt"

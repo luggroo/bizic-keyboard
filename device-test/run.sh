@@ -38,6 +38,7 @@ done
 added_ime=false
 added_fixture=false
 changed=false
+restore_typography=false
 cleanup() {
     local status=$? failed=0
     trap - EXIT
@@ -49,6 +50,14 @@ cleanup() {
             "$adb_bin" shell settings delete secure show_ime_with_hard_keyboard >/dev/null || failed=1
         else
             "$adb_bin" shell settings put secure show_ime_with_hard_keyboard "$previous_hardware" >/dev/null || failed=1
+        fi
+    fi
+    if $restore_typography; then
+        "$adb_bin" shell wm density "${previous_density:-reset}" >/dev/null || failed=1
+        if [[ "$previous_font" == null ]]; then
+            "$adb_bin" shell settings delete system font_scale >/dev/null || failed=1
+        else
+            "$adb_bin" shell settings put system font_scale "$previous_font" >/dev/null || failed=1
         fi
     fi
     if $added_fixture; then "$adb_bin" uninstall "$fixture_pkg" >/dev/null || failed=1; fi
@@ -90,18 +99,23 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     exit 1
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
-case "$suite" in all|core|host|window|web|system|sounds|compact|long-word) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system, sounds, compact or long-word" >&2; exit 2 ;; esac
+case "$suite" in all|core|host|window|web|system|sounds|compact|long-word|typography) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system, sounds, compact, long-word or typography" >&2; exit 2 ;; esac
+if [[ "$suite" == typography ]]; then
+    previous_density=$("$adb_bin" shell wm density | tr -d '\r' | sed -n 's/^Override density: //p')
+    previous_font=$("$adb_bin" shell settings get system font_scale | tr -d '\r')
+    restore_typography=true
+fi
 capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand}; do
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand}; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
         if "$adb_bin" shell test -f "$remote"; then
             "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"
