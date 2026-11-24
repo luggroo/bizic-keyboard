@@ -234,7 +234,8 @@ public final class KeyboardTest extends Instrumentation {
             press("下一页候选");
             pages++;
         }
-        if (mandarin.size() < 2 || !mandarin.subList(0, 2).equals(Arrays.asList("汉语，嘎", "汉语，伽")))
+        // The dialect reading ga also retrieves 家 (564) and 加 (522), ahead of 嘎 (375).
+        if (mandarin.size() < 2 || !mandarin.subList(0, 2).equals(Arrays.asList("汉语，家", "汉语，加")))
             throw new AssertionError("Mandarin alternatives out of frequency order: " + mandarin);
         for (int i = 0; i < pages; i++) press("上一页候选");
         expectFirst(mixed.get(0).name);
