@@ -32,6 +32,8 @@ struct Candidate {
     std::string hanSenseId{};
 };
 
+bool matchesSpellingPrefix(const std::string& input, const std::string& ye, const std::string& marked);
+
 class Lexicon {
 public:
     explicit Lexicon(const std::string& tsv, const std::string& ngrams = {},

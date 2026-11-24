@@ -51,6 +51,11 @@ TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyph
     try { return new TJIChoices{words->model.handwritingSuggestions(glyphs, static_cast<tujia::Mode>(mode), static_cast<tujia::Orthography>(style))}; }
     catch (...) { return nullptr; }
 }
+int32_t tji_matches_spelling_prefix(const char *input, const char *ye, const char *marked) {
+    if (!input || !ye || !marked) return 0;
+    try { return tujia::matchesSpellingPrefix(input, ye, marked); }
+    catch (...) { return 0; }
+}
 TJIChoices *tji_spelling_completions(const TJIWords *words, const char *prefix, const char *ids, int32_t mode, int32_t style) {
     if (!words || !prefix || !ids) return nullptr;
     try { return new TJIChoices{words->model.spellingCompletions(prefix, ids, static_cast<tujia::Mode>(mode),

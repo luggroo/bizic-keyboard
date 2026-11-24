@@ -31,6 +31,8 @@ TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input
 /* Strict lexical completions consume the supplied glyphs. Next-word suggestions consume zero.
    Context is the last one or two selected word IDs, separated by an ASCII space. */
 TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyphs, int32_t mode, int32_t orthography);
+/* Test a typed prefix of an attested Ye/diacritic spelling pair, including syllable-final an/ang. */
+int32_t tji_matches_spelling_prefix(const char *input, const char *ye, const char *marked);
 TJIChoices *tji_spelling_completions(const TJIWords *words, const char *prefix, const char *previous_ids, int32_t mode, int32_t style);
 TJIChoices *tji_next_words(const TJIWords *words, const char *context, int32_t mode, int32_t orthography);
 /* Use the literal "<s>" only at a known sentence start. Context is one exact toned syllable. */

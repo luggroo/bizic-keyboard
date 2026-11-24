@@ -114,6 +114,11 @@ public final class CandidateEngine implements AutoCloseable {
         return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(input), mode.ordinal(), orthography.ordinal(), operation, null));
     }
 
+    public static boolean matchesSpellingPrefix(String input, String ye, String marked) {
+        if (input == null || ye == null || marked == null) return false;
+        return NativeCore.matchesSpellingPrefix(NativeCore.encode(input), NativeCore.encode(ye), NativeCore.encode(marked));
+    }
+
     public static String suffixAfterChoice(String draft, int consumedUTF16) {
         return NativeCore.suffix(NativeCore.encode(draft), consumedUTF16);
     }

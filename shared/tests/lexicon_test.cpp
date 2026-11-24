@@ -44,6 +44,36 @@ bool offers(const std::vector<Candidate>& choices, const std::string& text,
     });
 }
 
+void checkNasalReadings(const Lexicon& model) {
+    for (const std::string q : {"banricai", "bangricai", "bánrīcāi", "bánrīcāi", "banfrixcaix"}) {
+        check(offers(model.lookup(q, Mode::Han), "半日猜", "中午", editorLength(q)), "Nasal noon " + q);
+        check(offers(model.lookup(q + "gaf", Mode::Han), "半日猜", "中午", editorLength(q)), "Original prefix boundary " + q);
+    }
+    for (const std::string q : {"manxmanx", "manxmangx", "mangxmanx", "mangxmangx"})
+        check(offers(model.lookup(q, Mode::Han), "慢慢", "饭", editorLength(q)), "Both nasal positions vary independently");
+    check(offers(model.lookup("angfnianxhux", Mode::Han), "阿岸拈呼", "我们两个", editorLength("angfnianxhux")), "Source an can be entered as ang");
+    const auto partial = model.spellingCompletions("banri", "", Mode::Han, Orthography::Ye);
+    check(offers(partial, "半日猜", "中午", 5), "Nasal word completion");
+    const auto mandarin = [&](const std::string& input, const std::string& form) {
+        auto choices = model.lookup(input, Mode::Han);
+        return std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
+            return c.kind == CandidateKind::Chinese && c.text == form && c.consumed == editorLength(input)
+                    && c.meaning.empty() && c.lexemeIds.empty();
+        });
+    };
+    check(mandarin("jia", "架") && mandarin("ga", "架") && mandarin("gá", "架"), "Regular and attested dialect readings stay Chinese");
+    check(mandarin("fangan", "反感") && mandarin("fanggan", "反感") && !mandarin("fanan", "反感"),
+          "Coda variation cannot remove the onset of gan");
+    check(offers(model.lookup("ga", Mode::Han), "架", "吃、咬", 2) &&
+          !offers(model.lookup("jia", Mode::Han), "架", "吃、咬", 3), "Tujia meanings belong to their actual readings");
+    check(tujia::matchesSpellingPrefix("áng", "anf", "án") && tujia::matchesSpellingPrefix("banri", "bangfrixcaix", "bángrīcāi")
+          && tujia::matchesSpellingPrefix("jiangga", "jianfgax", "jián'gā")
+          && !tujia::matchesSpellingPrefix("tangie", "taxniex", "tāniē")
+          && !tujia::matchesSpellingPrefix("jiana", "jianfgax", "jián'gā")
+          && !tujia::matchesSpellingPrefix("iǎn", "enr", "ěn")
+          && !tujia::matchesSpellingPrefix("ǎng", "anf", "án"), "Syllable boundaries and explicit tone in predictions");
+}
+
 void checkHanSenses(const Lexicon& lexicon) {
     const auto untoned = lexicon.lookup("go", Mode::Han);
     const auto toned = lexicon.lookup("gǒ", Mode::Han);
@@ -63,6 +93,14 @@ void checkHanSenses(const Lexicon& lexicon) {
           "Merge identity must not replace the selected word's actual history");
     const auto written = lexicon.lookup("郭", Mode::Handwriting, Orthography::Diacritic);
     check(offers(written, "gǒ", "他", 1), "Handwriting can still find the specific source reading");
+    for (const auto& alias : {std::pair{"ls60-126", "ls60-119"}, std::pair{"ls60-155", "ls60-18"},
+                              std::pair{"ls60-127", "ls60-51"}}) {
+        const auto history = std::string("w309 ") + alias.first + " w309";
+        const auto local = lexicon.nextWords(history, Mode::Han, Orthography::Ye);
+        check(std::any_of(local.begin(), local.end(), [&](const Candidate& c) {
+            return c.lexemeIds == alias.second;
+        }), "Old story ID maps to its surviving lexeme in editor history");
+    }
 }
 
 Candidate first(const Lexicon& lexicon, const std::string& query, Mode mode) {
@@ -534,6 +572,7 @@ int main(int argc, char** argv) {
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
         checkDirectSyllableCommit();
         checkMongContexts(lexicon);
+        checkNasalReadings(lexicon);
         checkHanSenses(lexicon);
         checkSyllableBigrams(lexicon, sounds.str());
         checkSyllableFixture(asset);

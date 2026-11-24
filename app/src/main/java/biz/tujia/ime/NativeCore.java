@@ -27,6 +27,7 @@ final class NativeCore {
     static native long loadLexicon(byte[] data, byte[] ngrams, byte[] syllableBigrams, byte[] syllableSenses) throws IOException;
     static native void freeLexicon(long model);
     static native CandidateEngine.Candidate[] lookup(long model, byte[] input, int mode, int orthography, int operation, byte[] history);
+    static native boolean matchesSpellingPrefix(byte[] input, byte[] ye, byte[] marked);
     static native int scoreHandwritingPrefix(long model, byte[] glyphs);
     static native String suffix(byte[] draft, int consumedUTF16);
     static native String space(byte[] candidate, char before, char after);

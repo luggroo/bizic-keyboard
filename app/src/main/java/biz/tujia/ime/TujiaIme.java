@@ -34,7 +34,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.Normalizer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -670,22 +669,6 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         return forms;
     }
 
-    private static String folded(String source) {
-        return source == null ? "" : Normalizer.normalize(source.toLowerCase(Locale.ROOT).replace(" ", ""), Normalizer.Form.NFC);
-    }
-
-    private static boolean startsWithSpelling(String typed, String ye, String marked) {
-        if (folded(ye).startsWith(typed) || folded(marked).startsWith(typed)) return true;
-        // Genuinely unmarked input can match a marked vowel; an explicit tone stays significant.
-        String decomposed = Normalizer.normalize(folded(marked), Normalizer.Form.NFD);
-        StringBuilder bare = new StringBuilder(decomposed.length());
-        for (int i = 0; i < decomposed.length(); i++) {
-            char c = decomposed.charAt(i);
-            if (Character.getType(c) != Character.NON_SPACING_MARK) bare.append(c);
-        }
-        return bare.toString().startsWith(typed);
-    }
-
     private static void addMatched(List<CandidateEngine.Candidate> items, Set<String> edits,
             Set<String> forms, Map<String, String> hanSenses, CandidateEngine.Candidate c) {
         String form = c.consumed + "\u0000" + c.text;
@@ -743,7 +726,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             return items;
         }
         loadHints(wordContext, soundContext, output);
-        String prefix = folded(typed);
+        String prefix = typed.trim();
         if (!prefix.isEmpty() && markedWords == null) {
             markedWords = spellings(engine.nextWords(wordContext, CandidateEngine.Mode.PINYIN,
                     CandidateEngine.Orthography.DIACRITIC), false);
@@ -754,7 +737,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         wordHints = allWordHints;
         for (CandidateEngine.Candidate c : wordHints) {
-            if (!prefix.isEmpty() && !startsWithSpelling(prefix, yeWords.get(c.lexemeIds),
+            if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, yeWords.get(c.lexemeIds),
                     markedWords.get(c.lexemeIds))) continue;
             if ((hanSenses != null || seen.add(lexicalKey(c))) && takeHanSense(hanSenses, c, typed.length())) {
                 items.add(c); visible.add(c.text);
@@ -762,7 +745,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         syllableHints = allSoundHints;
         for (CandidateEngine.Candidate c : syllableHints) {
-            if (!prefix.isEmpty() && !startsWithSpelling(prefix, c.lastSyllable, markedSounds.get(c.lastSyllable))) continue;
+            if (!prefix.isEmpty() && !CandidateEngine.matchesSpellingPrefix(prefix, c.lastSyllable, markedSounds.get(c.lastSyllable))) continue;
             if ((hanSenses != null || visible.add(c.text)) && takeHanSense(hanSenses, c, typed.length())) items.add(c);
         }
         return items;
@@ -1172,7 +1155,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             boolean nextSound = syllableHints.contains(c);
             HanChoice group = hanChoices.get(c);
             String shortText = group != null ? HanChoice.gloss(group.primary.shortMeanings, true) : hasMeaning(c) ? c.shortMeaning : "";
-            String fullText = group != null ? group.primary.fullMeanings() : hasMeaning(c) ? c.meaning : "";
+            String fullText = group != null ? (group.primary.meanings.isEmpty() ? "" : group.primary.fullMeanings()) : hasMeaning(c) ? c.meaning : "";
             boolean hasGloss = !shortText.isEmpty() && !shortText.equals(c.text);
             String hint = nextSound ? "下一音节 " : wordCompletions.contains(c) ? (mode == HAND ? "续写 " : "补全 ") :
                     wordHints.contains(c) ? "联想 " : "";
@@ -1311,8 +1294,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int contentWidth = keyboardFrame.getWidth() - readingPanel.getPaddingLeft() - readingPanel.getPaddingRight();
         String header;
         boolean soundHint = syllableHints.contains(candidate);
-        if (group != null && !group.primary.fullMeanings().isEmpty()
-                && (!group.primary.meanings.isEmpty() || !group.primary.fullMeanings().equals(candidate.text)))
+        if (group != null && !group.primary.meanings.isEmpty())
             header = "汉义\n" + group.primary.fullMeanings() + "\n\n待输入\n";
         else if (group != null && group.primary.candidate.kind == CandidateEngine.Kind.TUJIA)
             header = "待输入\n";

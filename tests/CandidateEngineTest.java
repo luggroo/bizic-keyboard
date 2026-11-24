@@ -40,6 +40,18 @@ public final class CandidateEngineTest {
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_senses.tsv").toFile()));
+        String decomposed = "bánrīcāi";
+        List<Candidate> nasalSentence = engine.lookup(decomposed + "gaf", Mode.HAN);
+        Candidate noon = nasalSentence.stream().filter(c -> c.text.equals("半日猜") && c.meaning.equals("中午")).findFirst().get();
+        check(noon.consumed == decomposed.length() && CandidateEngine.suffixAfterChoice(decomposed + "gaf", noon.consumed).equals("gaf"),
+              "Folded nasal coda consumes the original UTF-16 prefix including its combining accent");
+        check(CandidateEngine.matchesSpellingPrefix("áng", "anf", "án") && !CandidateEngine.matchesSpellingPrefix("ang", "enr", "ěn")
+                && !CandidateEngine.matchesSpellingPrefix("jia", "gaf", "gá"), "Shared nasal filter keeps distinct readings apart");
+        List<Candidate> jia = engine.lookup("jia", Mode.HAN);
+        check(jia.stream().anyMatch(c -> c.text.equals("架") && c.kind == CandidateEngine.Kind.CHINESE && c.lexemeIds.isEmpty() && c.meaning.isEmpty())
+                && jia.stream().noneMatch(c -> c.lexemeIds.equals("w684")) &&
+                engine.spellingCompletions("jia", "w2548", Mode.HAN, Orthography.YE).stream().noneMatch(c -> c.lexemeIds.equals("w684")),
+              "Mandarin jia has no eating sense; a meal context cannot assign it through the shared glyph");
         Candidate song = engine.lookup("伤哥", Mode.HAN).stream().filter(c -> c.lexemeIds.equals("xu213-2-1")).findFirst().get();
         check(song.text.equals("山歌") && song.plainHanLoan && song.shortMeaning.isEmpty() && song.meaning.equals("山歌") && song.kind == CandidateEngine.Kind.TUJIA,
               "Handwritten loan uses Chinese original with native priority");

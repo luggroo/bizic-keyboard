@@ -151,6 +151,13 @@ Java_biz_tujia_ime_NativeCore_scoreHandwritingPrefix(JNIEnv* env, jclass, jlong 
     return guarded<jint>(env, CALL_ERROR, [&] { return model<tujia::Lexicon>(handle)->scoreHandwritingPrefix(bytes(env, raw)); });
 }
 
+extern "C" JNIEXPORT jboolean JNICALL
+Java_biz_tujia_ime_NativeCore_matchesSpellingPrefix(JNIEnv* env, jclass, jbyteArray input, jbyteArray ye, jbyteArray marked) {
+    return guarded<jboolean>(env, CALL_ERROR, [&] {
+        return tujia::matchesSpellingPrefix(bytes(env, input), bytes(env, ye), bytes(env, marked));
+    });
+}
+
 extern "C" JNIEXPORT jstring JNICALL
 Java_biz_tujia_ime_NativeCore_suffix(JNIEnv* env, jclass, jbyteArray raw, jint consumed) {
     return guarded<jstring>(env, CALL_ERROR, [&] {
