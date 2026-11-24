@@ -37,7 +37,7 @@ jobs:
           path: build/main-apk
       - name: Build test host
         run: |
-          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
           cp build/main-apk/app-debug.apk build/qa-keyboard.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose build/qa-keyboard.apk
           ./tools/build-apk.sh --device-test build/fixture.apk

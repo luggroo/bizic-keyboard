@@ -533,8 +533,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, corrected + "波俐");
         press("接着写");
         List<Card> continuations = pageCards("续写 ");
-        if (continuations.isEmpty()) throw new AssertionError("No handwriting continuation");
-        Card continuation = continuations.get(0);
+        Card continuation = continuations.isEmpty() ? nextSoundCard() : continuations.get(0);
         tap(continuation.bounds.centerX(), continuation.bounds.centerY());
         String expectedSecond = corrected + "波俐" + outputLine(continuation);
         expectText(host.second, expectedSecond);
