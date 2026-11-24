@@ -24,6 +24,10 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Test shared input engine
         run: ./tools/test-core.sh
+      - name: Test offline handwriting model
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/onnxruntime.jar" https://repo.maven.apache.org/maven2/com/microsoft/onnxruntime/onnxruntime/1.20.0/onnxruntime-1.20.0.jar
+          ./tools/test-ochwpro.sh "$RUNNER_TEMP/onnxruntime.jar"
       - name: Check prediction training and reviewed syllable meanings
         run: |
           python3 qa/test_prediction_training.py

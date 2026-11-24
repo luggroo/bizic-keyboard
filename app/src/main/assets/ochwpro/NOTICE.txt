@@ -1,0 +1,11 @@
+ochwpro handwriting model and character index
+
+Source: https://github.com/ximeiorg/ochwpro
+Model: https://www.modelscope.cn/models/bikeand/ochwpro
+Version: xime-index ochwpro v1.0
+Model SHA-256: eb04d62a314c7d7bac4e34d6ce0c24137474d30ff94b929115a621385420ce13
+Character index SHA-256 (upstream JSON): 171cf2ac23731428ac9dd28f64be82dece5f66a0ca3d674ffb3b567b51532176
+The character index was converted from JSON to one UTF-8 character per line.
+Copyright (c) 2026 ochwpro. MIT license: see LICENSE.txt.
+The model is trained on CASIA-OLHWDB, according to the model's documentation.
+ONNX Runtime: https://github.com/microsoft/onnxruntime (MIT license).

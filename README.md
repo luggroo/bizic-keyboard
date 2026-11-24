@@ -37,6 +37,8 @@
 
 「敢」「钢」「肝」分别按词义选本字。「诶」「给」「尅」「黑」等常用写法在相应词条保留。hxe 四调依次写作「呃、轭、额、呃」。名物化 xi 写作「兮」，xi ge 写作「兮膈」。源表 `tools/data/orthography-defaults.tsv` 的 `review` 栏记录照片中需要复核的字形。
 
+安卓手写模型随安装包提供，无需联网。模型源自 [ochwpro](https://github.com/ximeiorg/ochwpro)，使用 ONNX Runtime 在设备上运行。
+
 在「手写」里写下「波」，停笔后首选字会进入正文。可以接着写「俐」，也可以点“小孩”对应的整词「波俐」补全。认错字时，点其他字形即可改选。遇到「尬」这样有多种记音用法的字，可以点“吃”选中相应词条。切到手写的拼写输出后，选词会使用设置中指定的拼写形式。
 
 ### 试试自由输入
@@ -51,7 +53,7 @@
 
 ## 安卓和 iOS 如何共用
 
-两端读取同一份词表、记音变体和手写字形，通过同一个 C++17 引擎做分词、候选排序、同音选义和笔画匹配。选中部分候选后截取剩余拼写、在相邻拼写间补空格，也都由核心处理。改动 `shared/bundle/Assets` 后重新构建两端，即可一起更新词表。
+两端读取同一份词表和记音变体，通过同一个 C++17 引擎做分词、候选排序和同音选义。安卓手写使用本机 ochwpro 模型；模型字表以外的字由原有笔画模板补充。iOS 核心继续使用笔画模板。选中部分候选后截取剩余拼写、在相邻拼写间补空格，也都由核心处理。改动 `shared/bundle/Assets` 后重新构建两端，即可一起更新词表。
 
 | 目录 | 用途 |
 | --- | --- |
@@ -104,7 +106,7 @@ final class KeyboardController: UIInputViewController {
 ./gradlew :app:assembleDebug
 ```
 
-也可以直接用 SDK 工具生成、对齐并签名测试包。此脚本用到 Bash、Python 3 和 zip。先将 `ANDROID_HOME` 指向 SDK，再运行以下命令。
+也可以用构建脚本生成测试包。先将 `ANDROID_HOME` 指向 SDK，再运行以下命令。
 
 ```sh
 ./tools/build-apk.sh build/tujia-keyboard.apk
@@ -112,7 +114,7 @@ final class KeyboardController: UIInputViewController {
 
 提交到 main 或打开拉取请求后，GitHub Actions 会运行核心测试、构建 APK 并校验签名。每次成功构建的页面都能下载 `bizic-keyboard-debug`。手机上连续升级试用版，请使用 Releases 中由同一证书签名的 APK。[构建记录](https://github.com/luggroo/bizic-keyboard/actions/workflows/android.yml)
 
-本地构建脚本使用本机的 Android 调试签名。可用 `TUJIA_DEBUG_KEYSTORE` 指定测试密钥位置。
+本地构建脚本使用 Gradle 的 Android 调试签名。
 
 ## 测试
 
