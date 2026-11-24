@@ -1,0 +1,9 @@
+AOSP Android 9 (API 28/x86_64), emulator-5562, 480x800 physical pixels.
+APK SHA256 d51fc78ef8504d34b38a083ac1c66ac5de83a2be22797f1e03cf8b6dd01111c5
+Fixture SHA256 d16a78dbf2bd1fe7f8281615e2d78dd1a8ec54c5fb09d6f950e67e425a66c767
+Visible Q height sampled inside the real key; host text and candidate checks ran before this trace. Android system_server exited during the following 115% reconfiguration. Only two samples from this run are used.
+
+INSTRUMENTATION_STATUS: step=Typography small font=0.85 dpi=160 viewport=480dp keyHeight=46.0dp platform14sp=11.90px platform20sp=17.00px Qink=13px glossInk=10px wordInk=12px toolbarY=518px editorBottom=66px
+INSTRUMENTATION_STATUS: step=Typography default font=1.00 dpi=160 viewport=480dp keyHeight=46.0dp platform14sp=14.00px platform20sp=20.00px Qink=16px glossInk=12px wordInk=14px toolbarY=518px editorBottom=70px
+onError: commandError=false message=INSTRUMENTATION_ABORTED: System has crashed.
+INSTRUMENTATION_ABORTED: System has crashed.
