@@ -29,8 +29,8 @@ function openTujiaCore(data){
     const heap=new Uint8Array(api.memory.buffer);
     return decoder.decode(heap.subarray(addr,heap.indexOf(0,addr)));
   }
-  const dict=withBuffers([data.words,data.ngrams,data.sounds,...(data.senses?[data.senses]:[])],bufs=>{
-    const fn=bufs.length===4?api.tji_words_open_with_senses:api.tji_words_open_full;
+  const dict=withBuffers([data.words,data.ngrams,data.sounds,...(data.senses?[data.senses]:[]),...(data.readings?[data.readings]:[])],bufs=>{
+    const fn=bufs.length===5?api.tji_words_open_with_readings:bufs.length===4?api.tji_words_open_with_senses:api.tji_words_open_full;
     return fn(...bufs.flatMap(b=>[b.addr,b.size]));
   });
   if(!dict)throw Error('无法载入离线词库');
@@ -88,5 +88,6 @@ function openTujiaCore(data){
     spellingCompletions:(prefix,history,mode,style)=>withBuffers([prefix,history],([s,h])=>
       choices(api.tji_spelling_completions(dict,s.addr,h.addr,mode,style))),
     handPrefix:raw=>withBuffers([raw],([s])=>api.tji_score_handwriting_prefix(dict,s.addr)),
+    handwrittenWords:(...p)=>words('tji_handwritten_words',...p),
     completions:(...p)=>words('tji_handwriting_suggestions',...p),recognize,suffix,space};
 }

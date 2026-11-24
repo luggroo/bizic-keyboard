@@ -13,10 +13,11 @@ let orthography='ye', demoSpelling=null, tonePlayback=false;
 try{orthography=localStorage.getItem('tujia-orthography')==='diacritic'?'diacritic':'ye'}catch{}
 function spelling(e){return (demoSpelling || orthography)==='diacritic'?e.diacritic:e.word}
 function saveOrthography(form){
+  if(form==='han'){selectOutput(true);return}
   orthography=form;demoSpelling=null;
   try{localStorage.setItem('tujia-orthography',form)}catch{}
   $('orthography').value=form;
-  candidates();
+  selectOutput(false);
 }
 const names=['土家语拼音','汉字记音','手写记音','语音输入'];
 const hints=['输入字母，选择土家语词','用汉字的读音找词','手写汉字，继续记音','待上线'];
@@ -198,8 +199,9 @@ function submit(value,remainder='',units,choice,previous=editorContext()){
   const start=output.selectionStart,end=output.selectionEnd;
   handSession=null;
   const old=output.value;
-  const spaced=core.space(value,old.charCodeAt(start-1)||0,old.charCodeAt(end)||0);
-  output.setRangeText(spaced,start,end,'end',units);
+  const formatted=bracketHanUnits(core.space(value,old.charCodeAt(start-1)||0,old.charCodeAt(end)||0),units);
+  const spaced=formatted.text;
+  output.setRangeText(spaced,start,end,'end',formatted.units);
   if(end===old.length)output.scrollTop=output.scrollHeight;
   editRevision++;
   const at=start+spaced.length,closed=/[。！？.!?\n]\s*$/u.test(value);
@@ -234,6 +236,7 @@ let readingChoice=null;
 function openReading(item){
   if(reading.open)return;
   readingChoice=item;
+  $('readChoose').textContent=item.source==='hand-match'?'完成':'输入这个词';
   putHanUnits($('readForm'),item.form,item.units);
   const meanings=item.readerLines||[item.fullGloss].filter(Boolean);
   $('readMeaning').replaceChildren(...meanings.map(text=>node('p',text)));
@@ -249,7 +252,7 @@ function openReading(item){
 $('readBack').onclick=()=>reading.close();
 $('readChoose').onclick=()=>{
   const choice=readingChoice;
-  reading.close();choice?.commit();
+  reading.close();if(choice?.source!=='hand-match')choice?.commit();
 };
 reading.addEventListener('close',()=>{readingChoice=null});
 function allowReading(el,item){
@@ -422,6 +425,19 @@ function candidates(){
     for(const c of exact)if(c.kind===0&&(mode===1||!c.syllable||!forms.has(c.form+'\0'+c.length)))offer(c,'exact');
     for(const c of exact)if(c.kind!==0)offer(c,'exact');
   }
+  if(mode===2 && handHan && !draft.value && output.selectionStart===output.selectionEnd){
+    const before=output.value.slice(0,output.selectionStart);
+    const romans=new Map(core.handwrittenWords(before,2,style).map(c=>[c.ids,c.form]));
+    const matches=core.handwrittenWords(before,1,style).map(c=>{
+      const actual=before.slice(-c.length), roman=romans.get(c.ids)||'';
+      const item={form:actual,short:c.short,meaning:c.meaning,fullGloss:c.meaning,
+        readerLines:[roman,c.meaning].filter(Boolean),source:'hand-match',id:c.ids,
+        kind:c.kind,consumed:c.length,commit:()=>{}};
+      item.commit=()=>openReading({...item,commit:()=>{}});
+      return item;
+    });
+    candidateItems.unshift(...matches);
+  }
   if(!speaking){
     const prefix=mode===2?'':val;
     const words=ids?core.nextWords(ids,outputMode,style):[];
@@ -453,7 +469,10 @@ output.addEventListener('keydown',event=>{
 function editKey(key){
   if(key==='⌫'&&!draft.value){
     let from=output.selectionStart;const to=output.selectionEnd;
-    if(from===to && from)from-=Array.from(output.value.slice(0,from)).at(-1).length;
+    if(from===to && from){
+      const before=output.value.slice(0,from), pair=before.match(/˻\p{Script=Han}{2}˼$/u);
+      from-=pair?pair[0].length:Array.from(before).at(-1).length;
+    }
     if(from!==to){output.setRangeText('',from,to,'end');output.dispatchEvent(new Event('input'))}
     return;
   }
@@ -575,10 +594,12 @@ function recognizeInk(){
   const revision=++inkRevision;
   if(!strokes.length){glyphButtons();return}
   const at=output.selectionStart,end=output.selectionEnd,revisionAtStart=editRevision;
-  handTimer=setTimeout(()=>{
+  handTimer=setTimeout(async()=>{
     if(mode!==2||drawingPointer!==null||revision!==inkRevision)return;
     const paths=strokes.map(path=>path.map(([x,y])=>[x*canvas.clientWidth,y*canvas.clientHeight]));
-    const glyphs=core.recognize(paths);
+    let glyphs;
+    try{glyphs=await recognizeHand(paths,canvas.clientWidth,canvas.clientHeight)}catch{glyphs=core.recognize(paths)}
+    if(mode!==2||revision!==inkRevision||revisionAtStart!==editRevision||at!==output.selectionStart||end!==output.selectionEnd)return;
     glyphButtons(glyphs);
     if(glyphs.length)handTimer=setTimeout(()=>{
       if(mode!==2||revision!==inkRevision||revisionAtStart!==editRevision||at!==output.selectionStart||end!==output.selectionEnd)return;
@@ -742,7 +763,7 @@ const settings=$('settingsPanel');$('orthography').value=orthography;
 let resumeAfterSettings=false;
 $('kbSettings').onclick=$('openSettings').onclick=()=>{
   setMore(false);
-  $('orthography').value=demoSpelling || orthography;
+  $('orthography').value=compositionMode()===1?'han':demoSpelling || orthography;
   resumeAfterSettings=playing;
   clearTimeout(timer);playing=false;mark(null);
   if(settings.showModal)settings.showModal();else settings.setAttribute('open','');
@@ -782,8 +803,6 @@ function renderLibrary(){
     }else{
       evidence.append(node('p','逐音节写法　'+entry.hanUnits.join(' · ')));
     }
-    const tableLink=node('a','对照四调正字与词义用字');
-    tableLink.href='orthography.html?q='+encodeURIComponent(entry.word);evidence.append(tableLink);
     entry.sounds.forEach(([target,place,raw],i)=>{
       if(raw)evidence.append(node('p','旧字音依据　'+entry.legacyHanUnits[i]+' · '+(place==='jishou'?'吉首':'永顺')+' '+raw+' · 土家语 '+target));
     });
