@@ -52,14 +52,15 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     shot(1)
     if args.readings:
         press(page.locator('#kbMore'));shot(.5);press(page.locator('#menuHan'));shot(.7)
-        examples=[('ga','架','吃'),('jia','架',''),('gaf','架','吃'),('banricai','半日猜','中午'),('sanggo','山歌',''),('gazi','夹子',''),('hai','鞋','')]
+        examples=[('ga','架','吃'),('jia','架',''),('gaf','架','吃'),('banricai','半日猜','中午'),('sanggo','山歌',''),('gazi','夹子',''),('hai','鞋',''),
+                  ('ga','稼',''),('zhuangga','庄稼','')]
         for i,(raw,form,meaning) in enumerate(examples):
             if i:newline();shot(.4)
             type_raw(raw)
             card=find_card(form,'exact')
             assert card.locator('small').inner_text()==meaning,(raw,form)
             shot(1.5)
-            if raw in ['ga','jia','sanggo']:
+            if form=='架' and raw in ['ga','jia'] or raw=='sanggo':
                 rect=card.bounding_box();page.mouse.move(rect['x']+rect['width']/2,rect['y']+rect['height']/2)
                 page.mouse.down();page.locator('#candidateReading').wait_for(state='visible');page.mouse.up()
                 assert page.locator('#readMeaning').is_visible()==bool(meaning)

@@ -32,4 +32,4 @@ python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3 --re
 
 汉字记音把相同的写入形式合为一张卡。输入 go，可以看到「¹他 ²讨／过」；长按可查“过错（借词本字）”。点击只写入一个「过」，词义不确定时不记入某个词条。如果同一张卡有不同消耗长度，默认使用最长拼写，长按可保留尾串。浏览器回归同时检查同形不同音的「萌」、明确调号、手写多义和三种山歌回放。
 
-拼写比较调用共用引擎的前缀接口。回归会实际试打 an/ang 的成词与连打、对应的文白读字（如 jiazi/gazi 与 xie/hai），并在长按时核对实际读音是否有土家语释义。可另录专项操作，命令为 `python3 tools/web-demo/film-prediction.py build/artifacts/shange-demo.zip reading-input-demo.mp4 --readings`。
+拼写比较调用共用引擎的前缀接口。回归会实际试打 an/ang 的成词与连打、对应的文白读字（如 jiazi/gazi 与 xie/hai），以及李启群《吉首方言研究》第 39 页的教、降、稼和庄稼，并在长按时核对实际读音是否有土家语释义。可另录专项操作，命令为 `python3 tools/web-demo/film-prediction.py build/artifacts/shange-demo.zip reading-input-demo.mp4 --readings`。

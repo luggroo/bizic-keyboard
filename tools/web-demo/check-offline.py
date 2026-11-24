@@ -223,25 +223,28 @@ with sync_playwright() as pw:
     page.mouse.down();page.locator('#candidateReading').wait_for(state='visible',timeout=2500);page.mouse.up()
     assert page.locator('#candidateReading').is_visible() and not page.locator('#readMeaning').is_visible()
     page.locator('#readBack').click();assert text()==before and page.locator('#draft').input_value()=='mav'
-    for raw in ['ga','jia','gaf']:
+    for raw in ['ga','jia','gaf','gá','jiá']:
         page.locator('#draft').fill(raw)
         frame=visible_form('架')
-        assert frame.locator('small').text_content()==('' if raw=='jia' else '吃'),raw
+        assert frame.locator('small').text_content()==('' if raw.startswith('ji') else '吃'),raw
         snap(page,'matched-'+raw)
         frame.focus();page.keyboard.press('F2')
-        if raw=='jia':
+        if raw.startswith('ji'):
             assert not page.locator('#readMeaning').is_visible()
             snap(page,'reader-jia')
         else:assert '吃、咬' in page.locator('#readMeaning').inner_text()
         page.locator('#readChoose').click()
         assert text().endswith('架') and page.locator('#draft').input_value()==''
-        if raw=='jia':assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
+        if raw.startswith('ji'):assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
         else:assert page.evaluate("editorContext().ids.split(' ').at(-1)==='w684' && editorContext().sound==='gaf'")
     keyboard(1)
-    for raw,form in [('jiazi','夹子'),('gazi','夹子'),('xie','鞋'),('hai','鞋')]:
+    for raw,form in [('jiazi','夹子'),('gazi','夹子'),('xie','鞋'),('hai','鞋'),
+                     ('ga','稼'),('jia','稼'),('gá','稼'),('jiá','稼'),('gao','教'),('jiao','教'),('gang','降'),('jiang','降'),
+                     ('zhuangga','庄稼'),('zhuangjia','庄稼')]:
         page.locator('#draft').fill(raw)
         common=visible_form(form)
-        assert common.locator('small').text_content()==''
+        assert common.locator('small').text_content()=='',(raw,form)
+        if raw=='zhuangga':snap(page,'jishou-zhuangjia')
         common.focus();page.keyboard.press('F2')
         assert not page.locator('#readMeaning').is_visible()
         page.locator('#readChoose').click();assert text().endswith(form) and not page.locator('#draft').input_value()
@@ -359,4 +362,14 @@ with sync_playwright() as pw:
         }""")
         assert counts['rows']>=526 and counts['forms']>=1000,counts
         print('All dictionary spellings produce unique written cards:',counts)
+        # Verify the shipped stroke data for the nine additional register-table characters.
+        recognized=page.evaluate(r"""()=>{
+            const templates=new Map(tujiaCoreData.pen.trim().split('\n').map(row=>row.split('\t')));
+            return Array.from('侮凄坳懈桠稼筝躬隧',glyph=>{
+                const strokes=templates.get(glyph).split(';').map(path=>path.split(' ').map(p=>p.split(',').map(Number)));
+                return core.recognize(strokes)[0];
+            }).join('');
+        }""")
+        assert recognized=='侮凄坳懈桠稼筝躬隧',recognized
+        print('Nine additional characters are recognized from their registered strokes:',recognized)
     assert not errors,errors
