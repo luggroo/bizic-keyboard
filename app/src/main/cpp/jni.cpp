@@ -70,9 +70,9 @@ constexpr auto CALL_ERROR = "java/lang/IllegalStateException";
 } // namespace
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams) {
+Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams, jbyteArray syllableBigrams) {
     return guarded<jlong>(env, LOAD_ERROR, [&] {
-        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams));
+        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams), bytes(env, syllableBigrams));
         return static_cast<jlong>(reinterpret_cast<uintptr_t>(value.release()));
     });
 }
@@ -94,11 +94,12 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             case 0: found = lexicon->lookup(input, form, style); break;
             case 1: found = lexicon->handwritingSuggestions(input, form, style); break;
             case 2: found = lexicon->nextWords(input, form, style); break;
+            case 3: found = lexicon->nextSyllables(input, style); break;
             default: throw std::invalid_argument("Unknown candidate operation");
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
         if (!item) return nullptr;
-        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;)V");
+        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;)V");
         if (!init) return nullptr;
         jobjectArray result = env->NewObjectArray(lengthOf(found.size()), item, nullptr);
         if (!result) return nullptr;
@@ -120,13 +121,16 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             }
             jstring ids = stringToJava(env, candidate.lexemeIds);
             if (!ids) return nullptr;
+            jstring syllable = stringToJava(env, candidate.lastSyllable);
+            if (!syllable) return nullptr;
             jobject value = env->NewObject(item, init, text, meaning, shortMeaning,
                                             static_cast<jint>(candidate.kind), static_cast<jint>(candidate.consumed),
-                                            ranges, static_cast<jboolean>(candidate.syllableOnly), ids);
+                                            ranges, static_cast<jboolean>(candidate.syllableOnly), ids, syllable);
             if (!value) return nullptr;
             env->SetObjectArrayElement(result, static_cast<jsize>(i), value);
             env->DeleteLocalRef(value);
             env->DeleteLocalRef(ids);
+            env->DeleteLocalRef(syllable);
             env->DeleteLocalRef(ranges);
             if (shortMeaning != meaning) env->DeleteLocalRef(shortMeaning);
             env->DeleteLocalRef(meaning);

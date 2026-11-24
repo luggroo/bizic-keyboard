@@ -17,9 +17,14 @@ TJIWords *tji_words_open(const uint8_t *data, size_t length) {
     return tji_words_open_with_ngrams(data, length, nullptr, 0);
 }
 TJIWords *tji_words_open_with_ngrams(const uint8_t *data, size_t length, const uint8_t *grams, size_t size) {
-    if (!data || !length || (size && !grams)) return nullptr;
+    return tji_words_open_full(data, length, grams, size, nullptr, 0);
+}
+TJIWords *tji_words_open_full(const uint8_t *data, size_t length, const uint8_t *grams, size_t size,
+                              const uint8_t *sounds, size_t soundSize) {
+    if (!data || !length || (size && !grams) || (soundSize && !sounds)) return nullptr;
     try { return new TJIWords{tujia::Lexicon(std::string(reinterpret_cast<const char*>(data), length),
-                                             size ? std::string(reinterpret_cast<const char*>(grams), size) : "")}; }
+                                             size ? std::string(reinterpret_cast<const char*>(grams), size) : "",
+                                             soundSize ? std::string(reinterpret_cast<const char*>(sounds), soundSize) : "")}; }
     catch (...) { return nullptr; }
 }
 void tji_words_close(TJIWords *words) { delete words; }
@@ -44,6 +49,11 @@ TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyph
 TJIChoices *tji_next_words(const TJIWords *words, const char *ids, int32_t mode, int32_t style) {
     if (!words || !ids) return nullptr;
     try { return new TJIChoices{words->model.nextWords(ids, static_cast<tujia::Mode>(mode), static_cast<tujia::Orthography>(style))}; }
+    catch (...) { return nullptr; }
+}
+TJIChoices *tji_next_syllables(const TJIWords *words, const char *context, int32_t style) {
+    if (!words || !context) return nullptr;
+    try { return new TJIChoices{words->model.nextSyllables(context, static_cast<tujia::Orthography>(style))}; }
     catch (...) { return nullptr; }
 }
 int32_t tji_score_handwriting_prefix(const TJIWords *words, const char *glyphs) {
@@ -91,6 +101,12 @@ const char *tji_choice_short_meaning(const TJIChoices *r, size_t i) {
 }
 const char *tji_choice_lexeme_ids(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() ? r->items[i].lexemeIds.c_str() : nullptr;
+}
+const char *tji_choice_last_syllable(const TJIChoices *r, size_t i) {
+    return r && i < r->items.size() ? r->items[i].lastSyllable.c_str() : nullptr;
+}
+int32_t tji_choice_is_syllable(const TJIChoices *r, size_t i) {
+    return r && i < r->items.size() && r->items[i].syllableOnly;
 }
 int32_t tji_choice_kind(const TJIChoices *r, size_t i) {
     return r && i < r->items.size() ? static_cast<int32_t>(r->items[i].kind) : -1;

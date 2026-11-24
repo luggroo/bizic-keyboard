@@ -91,7 +91,7 @@ public final class SetupActivity extends Activity {
         editor.addView(label("试打", 22, INK, true));
         addSpaced(editor, label("在「记音」里输入 bizika，点“土家族”下面的「币兹咔」，就写出了《山歌两首》第一行里的一个词。", 17, MUTED, false), 6);
         trial = new EditText(this);
-        trial.setId(0x101010);
+        trial.setId(R.id.trial_editor);
         trial.setTextSize(24);
         trial.setTextColor(0xff223541);
         trial.setHintTextColor(0xff536671);

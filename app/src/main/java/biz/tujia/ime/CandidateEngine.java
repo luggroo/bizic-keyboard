@@ -22,11 +22,14 @@ public final class CandidateEngine implements AutoCloseable {
         public final boolean syllableOnly;
         /** Source IDs in commit order. Empty for punctuation, defaults and Chinese fallback. */
         public final String lexemeIds;
+        /** Canonical Ye spelling of the last syllable, for the syllable-level context table. */
+        public final String lastSyllable;
         /** Flattened UTF-16 start/end-exclusive ranges of two-Han syllables in text. */
         public final int[] joinedHanRanges;
 
         private Candidate(String text, String meaning, String shortMeaning, int kind, int consumed,
-                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds) {
+                          int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable) {
+            this.lastSyllable = lastSyllable;
             this.lexemeIds = lexemeIds;
             this.syllableOnly = syllableOnly;
             this.text = text;
@@ -45,8 +48,14 @@ public final class CandidateEngine implements AutoCloseable {
     }
 
     public CandidateEngine(InputStream input, InputStream ngrams) throws IOException {
-        try (InputStream context = ngrams) {
-            model = NativeCore.loadLexicon(NativeCore.readAsset(input), context == null ? new byte[0] : NativeCore.readAsset(context));
+        this(input, ngrams, null);
+    }
+
+    public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams) throws IOException {
+        try (InputStream context = ngrams; InputStream sounds = syllableBigrams) {
+            model = NativeCore.loadLexicon(NativeCore.readAsset(input),
+                    context == null ? new byte[0] : NativeCore.readAsset(context),
+                    sounds == null ? new byte[0] : NativeCore.readAsset(sounds));
         }
     }
 
@@ -64,6 +73,11 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> nextWords(String previousIds, Mode outputMode, Orthography style) {
         return candidates(previousIds, outputMode, style, 2);
+    }
+
+    /** Pass "<s>" only at a known sentence start. Empty or ambiguous context has no suggestions. */
+    public List<Candidate> nextSyllables(String previousSyllable, Orthography style) {
+        return candidates(previousSyllable, Mode.PINYIN, style, 3);
     }
 
     public synchronized int scoreHandwritingPrefix(String acceptedHan) {

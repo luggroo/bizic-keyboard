@@ -4,6 +4,7 @@
 #include <climits>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 
@@ -297,6 +298,17 @@ void checkContext(const Lexicon& lex) {
     check(lex.nextWords("w2548 。",han,ye).empty() && lex.nextWords("unknown",han,ye).empty(), "No cross-boundary inference");
     check(lex.lookup("ngafyergaf。", Mode::Pinyin).front().lexemeIds.empty() &&
           lex.lookup("ngafyergaf", Mode::Pinyin).front().lexemeIds == "w1585 w2548 w684", "Sentence context reset after punctuation");
+    for (const auto& input : {std::string("rixi"), std::string("xixian")}) {
+        const auto possibilities = lex.lookup(input, Mode::Han);
+        const std::string id = input == "rixi" ? "w1932" : "xu213-4-2";
+        check(std::any_of(possibilities.begin(), possibilities.end(), [&](const Candidate& c) {
+            return c.lexemeIds == id && c.consumed == 2;
+        }), "Do not consume the next syllable's x: " + input);
+    }
+    const auto completeTone = lex.lookup("ngaf", Mode::Han);
+    check(std::none_of(completeTone.begin(), completeTone.end(), [](const Candidate& c) {
+        return c.lexemeIds == "w1585" && c.consumed == 3;
+    }), "A terminal tone letter stays with its syllable");
     Lexicon fixture("id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\n"
                     "one\ta\ta\t甲\t甲\t\t甲\t1\ttujia\t甲\ta\ta\t甲\talf\n"
                     "two\tb\tb\t乙\t乙\t\t乙\t20\ttujia\t乙\tb\tb\t乙\t\n"
@@ -310,6 +322,53 @@ void checkContext(const Lexicon& lex) {
           fixture.scoreHandwritingPrefix("𠀀") == 1, "Half of two-Han unit is a strict completion, UTF-16");
     check(fixture.scoreHandwritingPrefix("见") == 1 && fixture.scoreHandwritingPrefix("山人") == 2, "Historical alias and mixed alternatives");
     check(fixture.lookup("alf",Mode::Pinyin).front().lexemeIds == "one", "Source roman aliases retain canonical output");
+}
+
+void checkSyllableBigrams(const Lexicon& lex, const std::string& data) {
+    struct Arc { int rank; std::string next, accent; };
+    std::map<std::string, std::vector<Arc>> wanted;
+    std::istringstream stream(data);
+    std::string line;
+    std::getline(stream, line);
+    size_t edgeCount = 0;
+    while (std::getline(stream, line)) {
+        const auto f = split(line, '\t');
+        check(f.size() == 6, "Source rows carry both accent spellings");
+        wanted[f[0]].push_back({std::stoi(f[3]), f[1], f[5]});
+        ++edgeCount;
+    }
+    check(edgeCount == 1000 && wanted["<s>"].size() == 175, "Published syllable ranking and sentence starts");
+    for (auto& pair : wanted) {
+        std::stable_sort(pair.second.begin(), pair.second.end(), [](const Arc& x, const Arc& y) { return x.rank < y.rank; });
+        const auto ye = lex.nextSyllables(pair.first, Orthography::Ye);
+        const auto marked = lex.nextSyllables(pair.first, Orthography::Diacritic);
+        check(ye.size() == pair.second.size() && marked.size() == ye.size(), "Full ranked coverage for " + pair.first);
+        for (size_t i=0; i<ye.size(); ++i) {
+            const auto& expected = pair.second[i];
+            check(ye[i].text == expected.next && marked[i].lastSyllable == expected.next &&
+                  marked[i].text == expected.accent && ye[i].consumed == 0 && ye[i].lexemeIds.empty() &&
+                  ye[i].syllableOnly && ye[i].meaning == "音节", "Syllable rank/style: " + pair.first + " " + expected.next);
+        }
+    }
+    check(lex.nextSyllables("", Orthography::Ye).empty() && lex.nextSyllables("。", Orthography::Ye).empty() &&
+          lex.nextSyllables("ngaf yer", Orthography::Ye).empty(), "Only an explicit boundary or ONE known prior syllable predicts");
+    for (const auto& p : std::vector<std::pair<std::string,std::string>>{{"boxlir","lir"},{"bangfrixcaix","caix"},{"arciex","ciex"}}) {
+        const auto result = lex.lookup(p.first, Mode::Pinyin);
+        check(!result.empty() && result.front().lastSyllable == p.second, "Multisyllabic source ending for " + p.first);
+    }
+    check(lex.lookup("ngafyergaf。",Mode::Pinyin).front().lastSyllable.empty(), "Sentence stop clears syllable context");
+    check(lex.lookup("ngafyergaf",Mode::Pinyin).front().lastSyllable == "gaf", "Composed sentence last syllable");
+}
+
+void checkSyllableFixture(const std::string& words) {
+    const auto table="context\tnext\tcount\trank\n<s>\tgaf\t\t3\n<s>\tyer\t4\t1\n<s>\tngaf\t1\t3\n"
+                     "<s>\tgaf\t\t5\nlir\tgaf\t\t2\nlir\tyer\t\t1\n";
+    Lexicon sample(words, "", table);
+    const auto start=sample.nextSyllables("<s>",Orthography::Ye);
+    check(start.size()==3 && start[0].text=="yer" && start[1].text=="gaf" && start[2].text=="ngaf", "Rank, equal-rank source order and distinct next syllables");
+    const auto toned=sample.nextSyllables("LI\u030c",Orthography::Diacritic);
+    check(toned.size()==2 && toned[0].text=="yě" && toned[1].text=="gá", "Decomposed/uppercase syllable context");
+    check(sample.nextWords("w2548",Mode::Han,Orthography::Ye).empty(), "Syllable arcs never create word pairs");
 }
 
 } // namespace
@@ -326,7 +385,12 @@ int main(int argc, char** argv) {
         std::ifstream gramFile(assetPath.substr(0,assetPath.find_last_of("/\\")+1)+"ngrams.tsv");
         check(gramFile.good(), "Cannot open ngram data");
         std::ostringstream ngrams; ngrams << gramFile.rdbuf();
-        Lexicon lexicon(asset, ngrams.str());
+        std::ifstream soundFile(assetPath.substr(0,assetPath.find_last_of("/\\")+1)+"syllable_bigrams.tsv");
+        check(soundFile.good(), "Cannot open syllable ranking");
+        std::ostringstream sounds; sounds << soundFile.rdbuf();
+        Lexicon lexicon(asset, ngrams.str(), sounds.str());
+        checkSyllableBigrams(lexicon, sounds.str());
+        checkSyllableFixture(asset);
         checkContext(lexicon);
         checkCorpus(lexicon, asset);
         checkSentences(lexicon);

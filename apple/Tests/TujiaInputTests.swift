@@ -16,6 +16,19 @@ final class TujiaInputTests: XCTestCase {
         XCTAssertTrue(dictionary.nextWords(after: "w2548 。", form: .spelling).isEmpty)
     }
 
+    func testRankedSyllableContext() throws {
+        let dictionary = try TujiaDictionary()
+        let start = dictionary.nextSyllables(after: "<s>", orthography: .diacritic)
+        XCTAssertEqual(start.count, 175)
+        let hint = try XCTUnwrap(start.first)
+        XCTAssertTrue(hint.syllableOnly)
+        XCTAssertEqual(hint.consumedUTF16, 0)
+        XCTAssertFalse(hint.lastSyllable.isEmpty)
+        XCTAssertNil(dictionary.selection(hint, in: ""))
+        XCTAssertTrue(dictionary.nextSyllables(after: "").isEmpty)
+        XCTAssertEqual(dictionary.candidates(for: "boxlir", form: .recommendedHan).first?.lastSyllable, "lir")
+    }
+
     func testContinuousSelectionAndDifferentOutputs() throws {
         let dic = try TujiaDictionary()
         let input = "marmardiexhxif"

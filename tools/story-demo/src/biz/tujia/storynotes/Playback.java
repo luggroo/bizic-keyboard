@@ -101,7 +101,10 @@ public final class Playback extends Instrumentation {
     private boolean captureStates;
     private void shot(String tag) {
         if (!captureStates) return;
-        android.graphics.Bitmap frame=ui.takeScreenshot();
+        saveShot(tag,ui.takeScreenshot());
+    }
+
+    private void saveShot(String tag,android.graphics.Bitmap frame) {
         if (frame==null) throw new AssertionError("Could not capture the device screen");
         File dir=file("recorded-frames");
         if (!dir.isDirectory() && !dir.mkdirs()) throw new IllegalStateException("Cannot create frame directory");
@@ -509,7 +512,20 @@ public final class Playback extends Instrumentation {
                 shot("tones");
                 SystemClock.sleep(700);
                 tap(tone,180);
-            } else press(symbol,readingPace ? 310 : 155);
+            } else {
+                Rect key=keyPositions.get(symbol);
+                if (key==null) {
+                    key=require(symbol);
+                    keyPositions.put(symbol,key);
+                }
+                tap(key,readingPace ? 100 : 155);
+                String prefix=raw.substring(0,i+1);
+                if (!waitDraft(prefix,1800)) {
+                    Rect cancel=lookupKeyboard("取消选声调");
+                    if (cancel!=null) tap(cancel,45);
+                    if (raw.substring(0,i).equals(draft())) tap(key,45);
+                }
+            }
             trace("letter-released",raw.substring(0,i+1));
             require("待选拼写 " + raw.substring(0,i+1));
             shot("draft");
@@ -813,7 +829,7 @@ public final class Playback extends Instrumentation {
             switch(ch) {
                 case '，': key="逗号"; break;
                 case '。': key="句号"; break;
-                case '\n': key="回车"; break;
+                case '\n': key="换行"; break;
                 case ' ': key="空格"; break;
                 default: key=String.valueOf(ch);
             }
@@ -899,8 +915,9 @@ public final class Playback extends Instrumentation {
         if (readingPace) injectStroke(down,MotionEvent.ACTION_DOWN,x,y);
         else inject(down,MotionEvent.ACTION_DOWN,x,y);
         SystemClock.sleep(hold);
-        shot("press");
+        android.graphics.Bitmap frame=captureStates ? ui.takeScreenshot() : null;
         inject(down,MotionEvent.ACTION_UP,x,y);
+        if (captureStates) saveShot("press",frame);
     }
 
     private void inject(long down,int action,float x,float y) {

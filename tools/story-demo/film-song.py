@@ -41,7 +41,7 @@ with script.open('w',encoding='utf-8',newline='') as stream:
         if r'\n' in after:line+=1
 assert line==3 and words[-1].endswith('。')
 if not a.render_only:
-    subprocess.run([sys.executable,str(HERE/'record.py'),str(script),str(out),'--reading-pace','--input','touch','--keyframes','--chunk','4','--adb',a.adb],check=True)
+    subprocess.run([sys.executable,str(HERE/'record.py'),str(script),str(out),'--reading-pace','--input','touch','--keyframes','--dry','--chunk','4','--adb',a.adb],check=True)
 assert (out/'saved-note.txt').read_text()==''.join(words)
 frames=sorted((out/'frames').glob('*.png')); tags=[p.stem.split('-',1)[1] for p in frames]
 items=[]; chapter_starts=[]
@@ -63,9 +63,10 @@ for i, syllables in enumerate(syl):
     else:
         choice=tags.index('choices'+str(i));first=tags.index('press',begin,choice)
         sample(begin,first,3)
-        budget=40*syllables
-        review=min(30,max(12,budget//3));review=max(review,commit-choice)
-        play(first,choice,budget-review);play(choice,commit,review)
+        # Three syllables per four seconds, plus independent time to read the gloss.
+        play(first,choice,40*syllables)
+        items.extend([choice]*47)
+        play(choice+1,commit,max(8,commit-choice-1))
     sample(commit,after,8);next_begin=tags.index('begin'+str(i+1)) if i+1<len(syl) else tags.index('saved')
     line_end=i+1==len(syl) or source_lines[i+1]!=source_lines[i]
     sample(after,next_begin,23 if line_end else 5)

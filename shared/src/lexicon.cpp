@@ -194,6 +194,7 @@ struct Entry {
     std::vector<int> joinedRanges{};
     int hanLength = 0;
     std::vector<std::string> writtenForms{};
+    std::string lastSyllable{};
 
     void setUnits(const std::string& field) {
         std::string combined;
@@ -317,10 +318,14 @@ struct Lexicon::Impl {
     std::unordered_map<std::string, std::vector<Following>> ngrams;
     std::unordered_set<std::string> chineseWritten;
     std::vector<ChineseWord> chineseWords;
+    struct SyllableArc { std::string next; uint64_t rank; };
+    std::unordered_map<std::string, std::vector<SyllableArc>> syllableArcs;
+    std::unordered_map<std::string, std::string> accents, contextForms;
+    size_t maxToneBytes = 0;
     size_t maxChinese = 0, maxWritten = 0;
     size_t maxKey = 0, maxSyllable = 0;
 
-    explicit Impl(const std::string& tsv, const std::string& ngramData) {
+    explicit Impl(const std::string& tsv, const std::string& ngramData, const std::string& syllableData) {
         std::string_view lines(tsv), line;
         const std::string legacyHeader = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants";
         if (!readLine(lines, line)) throw std::invalid_argument("Empty dictionary");
@@ -368,6 +373,7 @@ struct Lexicon::Impl {
             dictionaryScalars(entry.shortMeaning);
             if (collectedUnits) entry.setUnits(f[12]);
             else for (auto cp : dictionaryScalars(entry.han)) entry.hanLength += cp >= 0x10000 ? 2 : 1;
+            if (syllable || (entry.units.size() == 1 && !grammar)) addSyllable(entry.word, entry.diacritic);
             if (syllable) {
                 for (const auto& form : {entry.word, tones ? f[10] : std::string(), entry.diacritic, entry.han}) {
                     Query normalized;
@@ -433,7 +439,152 @@ struct Lexicon::Impl {
                 return !forms.insert(chineseWords[id].text).second;
             }), words.end());
         }
+        for (auto& entry : entries) {
+            if (entry.units.size() <= 1) continue;
+            const auto aligned = sourceSyllables(entry);
+            for (const auto& syllable : aligned) addSyllable(syllable.first, syllable.second);
+            if (!aligned.empty()) entry.lastSyllable = aligned.back().first;
+        }
+        for (auto& entry : entries) if (entry.lastSyllable.empty()) entry.lastSyllable = finalSyllable(entry);
         if (!ngramData.empty()) loadNgrams(ngramData);
+        if (!syllableData.empty()) loadSyllableBigrams(syllableData);
+    }
+
+    void addSyllable(const std::string& ye, const std::string& accent) {
+        // Only actual tone-marked lexical readings create contexts. Bound grammar signs
+        // such as -i and -u retain an empty context. Never infer tones from Han initials.
+        if (ye.size() < 2 || accent.empty() || ye.find_first_not_of("abcdefghijklmnopqrstuvwxyz") != ye.npos ||
+            std::string_view("xfrv").find(ye.back()) == std::string_view::npos) return;
+        addSourceForm(ye, accent);
+    }
+
+    void addSourceForm(const std::string& ye, const std::string& accent) {
+        // The explicit source column also documents untoned syllables such as a/le.
+        if (ye.empty() || accent.empty() || ye.front() == '<') return;
+        accents.emplace(ye, accent); // the lexical spelling has first priority
+        contextForms.emplace(ye, ye);
+        Query marked;
+        if (marked.read(accent)) contextForms.emplace(marked.folded, ye);
+        maxToneBytes = std::max(maxToneBytes, ye.size());
+    }
+
+    // Read tonic syllables directly from a lexeme's TWO attested spellings. Each
+    // letter of the underlying base must align; each tone letter must correspond
+    // to the actual accent in that syllable. This also recovers source ciex/ciē
+    // in 茶 and the documented Longshan forms not in the 308-base reference list.
+    static std::vector<std::pair<std::string, std::string>> sourceSyllables(const Entry& entry) {
+        Query ye, marked;
+        if (!ye.read(entry.word) || !marked.read(entry.diacritic)) return {};
+        constexpr std::u32string_view marks = U"\u0304\u0301\u030c\u0300";
+        constexpr std::u32string_view letters = U"xfrv";
+        const auto delimiter = [](char32_t c) { return space(c) || c == U'-' || c == U'\'' || c == 0x2019; };
+        std::vector<std::pair<std::string, std::string>> result;
+        size_t y = 0, a = 0;
+        while (y < ye.scalars.size()) {
+            while (y < ye.scalars.size() && delimiter(ye.scalars[y])) ++y;
+            while (a < marked.scalars.size() && delimiter(marked.scalars[a])) ++a;
+            const size_t yStart = y, aStart = a;
+            char32_t tone = 0;
+            while (y < ye.scalars.size() && ye.scalars[y] != tone) {
+                if (a == marked.scalars.size() || delimiter(ye.scalars[y]) || delimiter(marked.scalars[a])) return {};
+                const auto base = ye.scalars[y++], accented = marked.scalars[a++];
+                if (base == accented) continue;
+                if (tone) return {};
+                for (size_t i = 0; i < marks.size(); ++i) {
+                    if (composedVowel(base, marks[i]) == accented) tone = letters[i];
+                }
+                if (!tone) return {};
+            }
+            if (!tone || y == ye.scalars.size()) return {};
+            ++y; // consume the matched tone letter
+            result.emplace_back(ye.slice(yStart, y), marked.slice(aStart, a));
+        }
+        if (a != marked.scalars.size() || result.size() != entry.units.size()) return {};
+        return result;
+    }
+
+    std::string finalSyllable(const Entry& entry) const {
+        const auto& word = entry.word;
+        const size_t count = entry.units.size();
+        if (count <= 1) return accents.count(word) ? word : "";
+        // Use the attested number of syllables and spelling boundaries. A tone
+        // letter such as x can itself open the next syllable; splitting at every
+        // x/f/r/v or choosing the longest suffix would confuse those two uses.
+        std::vector<size_t> positions{0};
+        std::string terminal;
+        for (size_t i = 0; i < count; ++i) {
+            std::vector<size_t> next;
+            for (auto pos : positions) {
+                while (pos < word.size() && (word[pos] == ' ' || word[pos] == '-' || word[pos] == '\'')) ++pos;
+                for (size_t end = pos + 1; end <= std::min(word.size(), pos + maxToneBytes); ++end) {
+                    const auto reading = word.substr(pos, end-pos);
+                    auto it = accents.find(reading);
+                    if (it == accents.end()) continue;
+                    if (i + 1 < count) next.push_back(end);
+                    else if (end == word.size()) {
+                        if (!terminal.empty() && terminal != reading) return {}; // unresolved source segmentation
+                        terminal = reading;
+                    }
+                }
+            }
+            std::sort(next.begin(), next.end());
+            next.erase(std::unique(next.begin(), next.end()), next.end());
+            positions.swap(next);
+        }
+        return terminal;
+    }
+
+    void loadSyllableBigrams(const std::string& data) {
+        std::string_view lines(data), line;
+        if (!readLine(lines, line)) throw std::invalid_argument("Missing syllable bigram header");
+        const bool sourceForms = line == "context\tnext\tcount\trank\tcontextAccent\tnextAccent";
+        if (!sourceForms && line != "context\tnext\tcount\trank")
+            throw std::invalid_argument("Unexpected syllable bigram header");
+        Fields fields{};
+        while (readLine(lines, line)) {
+            readFields(line, sourceForms ? 6 : 4, fields);
+            const std::string context(fields[0]), next(fields[1]);
+            const uint64_t rank = frequencyOf(fields[3]);
+            if (!rank || context.empty() || next.empty()) throw std::invalid_argument("Invalid syllable bigram");
+            if (!fields[2].empty()) frequencyOf(fields[2]); // omitted counts are valid
+            if (sourceForms) {
+                addSourceForm(context, std::string(fields[4]));
+                addSourceForm(next, std::string(fields[5]));
+            }
+            // The table may include an end marker or readings yet to be documented
+            // in the dictionary. Only offer syllables with a known written form.
+            if (!accents.count(next) || (context != "<s>" && !accents.count(context))) continue;
+            syllableArcs[context].push_back({next, rank});
+        }
+        for (auto& group : syllableArcs) {
+            auto& arcs = group.second;
+            std::stable_sort(arcs.begin(), arcs.end(), [](const SyllableArc& a, const SyllableArc& b) { return a.rank < b.rank; });
+            std::unordered_set<std::string> used;
+            arcs.erase(std::remove_if(arcs.begin(), arcs.end(), [&](const SyllableArc& a) {
+                return !used.insert(a.next).second;
+            }), arcs.end());
+        }
+    }
+
+    std::vector<Candidate> nextSyllables(const std::string& input, Orthography style) const {
+        std::string context = input;
+        if (input != "<s>") {
+            Query query;
+            if (!query.read(input)) return {};
+            const auto it = contextForms.find(query.folded);
+            if (it == contextForms.end()) return {};
+            context = it->second;
+        }
+        const auto found = syllableArcs.find(context);
+        if (found == syllableArcs.end()) return {};
+        std::vector<Candidate> out;
+        for (const auto& arc : found->second) {
+            Candidate c{style == Orthography::Ye ? arc.next : accents.at(arc.next), "音节", 0, "音节"};
+            c.lastSyllable = arc.next;
+            c.syllableOnly = true;
+            out.push_back(std::move(c));
+        }
+        return out;
     }
 
     void loadNgrams(const std::string& data) {
@@ -523,12 +674,13 @@ struct Lexicon::Impl {
             if (!out.shortMeaning.empty()) out.shortMeaning += " · ";
             if (!out.lexemeIds.empty()) out.lexemeIds += ' ';
             out.lexemeIds += entries[id].id;
+            out.lastSyllable = entries[id].lastSyllable;
             out.text += entries[id].output(mode, orthography);
             out.meaning += entries[id].meaning;
             out.shortMeaning += entries[id].shortMeaning;
         }
         out.text += tail;
-        if (!tail.empty()) out.lexemeIds.clear();
+        if (!tail.empty()) { out.lexemeIds.clear(); out.lastSyllable.clear(); }
         return out;
     }
 
@@ -593,6 +745,15 @@ struct Lexicon::Impl {
         return true;
     }
 
+    bool startsAnotherWord(const Query& query, size_t start, Mode mode) const {
+        start = query.skipSpaces(start);
+        if (start == query.scalars.size() || punctuation(query.scalars[start])) return false;
+        for (size_t end = std::min(start + maxKey, query.scalars.size()); end > start; --end) {
+            if (!match(query, start, end, mode).empty()) return true;
+        }
+        return false;
+    }
+
     std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography) const {
         Query q;
         if (!q.read(input)) return {};
@@ -605,18 +766,38 @@ struct Lexicon::Impl {
 
         std::vector<Candidate> result;
         std::unordered_set<int> lexicalLengths;
-        // Several input forms can name the same lexeme. In "ngaf", committing
-        // the "nga" alias would leave the tone letter stranded in the editor.
-        std::unordered_set<size_t> offered;
+        // When two spellings consume different lengths for the same lexeme, resolve
+        // their boundary against the next word. ri|xi leaves a real word, rix|i does
+        // not. A terminal tone letter in ngaf always stays with its own syllable.
+        struct Prefix { size_t end; WordIds choices; bool validBoundary = false; };
+        std::vector<Prefix> prefixes;
+        std::unordered_set<size_t> seen, repeated, withBoundary;
         for (size_t end = std::min(start + maxKey, q.scalars.size()); end > start; --end) {
-            const size_t batchStart = result.size();
             auto choices = match(q, start, end, mode);
-            if (!choices.empty()) lexicalLengths.insert(q.utf16At[q.skipSpaces(end)]);
+            if (choices.empty()) continue;
+            for (auto id : choices) if (!seen.insert(id).second) repeated.insert(id);
+            prefixes.push_back({end, std::move(choices)});
+        }
+        for (auto& prefix : prefixes) {
+            if (std::none_of(prefix.choices.begin(), prefix.choices.end(), [&](size_t id) { return repeated.count(id); })) continue;
+            const size_t next = q.skipSpaces(prefix.end);
+            prefix.validBoundary = next == q.scalars.size() || punctuation(q.scalars[next]) || startsAnotherWord(q, next, mode);
+            if (prefix.validBoundary) {
+                for (auto id : prefix.choices) if (repeated.count(id)) withBoundary.insert(id);
+            }
+        }
+        std::unordered_set<size_t> offered;
+        for (auto& prefix : prefixes) {
+            const size_t end = prefix.end, batchStart = result.size();
+            auto& choices = prefix.choices;
+            lexicalLengths.insert(q.utf16At[q.skipSpaces(end)]);
             std::stable_sort(choices.begin(), choices.end(), [&](size_t a, size_t b) {
                 return entries[a].frequency > entries[b].frequency;
             });
             for (size_t id : choices) {
-                if (!offered.insert(id).second) continue;
+                if (withBoundary.count(id)) {
+                    if (!prefix.validBoundary) continue;
+                } else if (!offered.insert(id).second) continue;
                 const auto& entry = entries[id];
                 const auto& text = entry.output(mode, orthography);
                 auto duplicate = std::find_if(result.begin() + batchStart, result.end(), [&](const Candidate& c) {
@@ -625,6 +806,7 @@ struct Lexicon::Impl {
                 if (duplicate == result.end()) {
                     result.push_back({text, entry.meaning, q.utf16At[q.skipSpaces(end)], entry.shortMeaning});
                     result.back().lexemeIds = entry.id;
+                    result.back().lastSyllable = entry.lastSyllable;
                     if (mode == Mode::Han) result.back().joinedHanRanges = entry.joinedRanges;
                 }
             }
@@ -650,6 +832,7 @@ struct Lexicon::Impl {
         const auto& e = entries[id];
         Candidate c{e.output(output, style), e.meaning, consumed, e.shortMeaning};
         c.lexemeIds = e.id;
+        c.lastSyllable = e.lastSyllable;
         if (output == Mode::Han) c.joinedHanRanges = e.joinedRanges;
         return c;
     }
@@ -725,6 +908,7 @@ struct Lexicon::Impl {
                     })) continue;
                 result.push_back({text, e.meaning, consumed, e.shortMeaning});
                 result.back().syllableOnly = true;
+                result.back().lastSyllable = e.lastSyllable;
                 if (mode == Mode::Han) result.back().joinedHanRanges = e.joinedRanges;
             }
         }
@@ -748,7 +932,8 @@ struct Lexicon::Impl {
     }
 };
 
-Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams) : impl_(new Impl(tsv, ngrams)) {}
+Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams, const std::string& sounds)
+    : impl_(new Impl(tsv, ngrams, sounds)) {}
 Lexicon::~Lexicon() = default;
 
 std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orthography orthography) const {
@@ -760,6 +945,11 @@ std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orth
 std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input, Mode mode, Orthography style) const {
     if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
     return impl_->handwritingSuggestions(input, mode, style);
+}
+
+std::vector<Candidate> Lexicon::nextSyllables(const std::string& context, Orthography style) const {
+    if (style != Orthography::Ye && style != Orthography::Diacritic) return {};
+    return impl_->nextSyllables(context, style);
 }
 
 int Lexicon::scoreHandwritingPrefix(const std::string& glyphs) const {

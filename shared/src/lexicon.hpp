@@ -23,17 +23,21 @@ struct Candidate {
     bool syllableOnly = false;
     // Space-delimited source IDs in selection order. Empty ends lexical context.
     std::string lexemeIds{};
+    // Canonical Ye tone-letter spelling of the selected final syllable.
+    std::string lastSyllable{};
 };
 
 class Lexicon {
 public:
-    explicit Lexicon(const std::string& tsv, const std::string& ngrams = {});
+    explicit Lexicon(const std::string& tsv, const std::string& ngrams = {},
+                     const std::string& syllableBigrams = {});
     ~Lexicon();
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode,
                                   Orthography orthography = Orthography::Ye) const;
 
     std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;
+    std::vector<Candidate> nextSyllables(const std::string& context, Orthography style) const;
     int scoreHandwritingPrefix(const std::string& glyphs) const;
     std::vector<Candidate> nextWords(const std::string& previousIds, Mode output, Orthography style) const;
 

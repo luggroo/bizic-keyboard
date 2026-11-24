@@ -37,7 +37,12 @@ public final class CandidateEngineTest {
 
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
-        CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()));
+        CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
+                new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()));
+        List<Candidate> startSounds = engine.nextSyllables("<s>", Orthography.DIACRITIC);
+        check(startSounds.size() == 175 && startSounds.stream().allMatch(c -> c.syllableOnly && c.consumed == 0 && !c.lastSyllable.isEmpty()), "Attested sentence-start syllables");
+        check(engine.nextSyllables("", Orthography.YE).isEmpty(), "Unknown context is not sentence start");
+        check(engine.lookup("arciex", Mode.HAN).get(0).lastSyllable.equals("ciex"), "Attested ending outside default table");
         check(engine.scoreHandwritingPrefix("波俐") == 2, "Complete handwriting path");
         check(engine.handwritingSuggestions("玻", Mode.HAN, Orthography.YE).stream().anyMatch(c ->
                 c.text.equals("波俐") && c.lexemeIds.equals("w309") && c.consumed == 1), "Handwritten initial alias completes whole word");

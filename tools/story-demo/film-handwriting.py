@@ -15,7 +15,7 @@ parser.add_argument('--adb',default=os.environ.get('ADB','adb'))
 parser.add_argument('--render-only',action='store_true')
 a=parser.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=True)
 if not a.render_only:
-    subprocess.run([sys.executable,str(here/'record.py'),str(here/'continuous-handwriting.tsv'),str(out),'--reading-pace','--input','touch','--keyframes','--adb',a.adb],check=True)
+    subprocess.run([sys.executable,str(here/'record.py'),str(here/'continuous-handwriting.tsv'),str(out),'--reading-pace','--input','touch','--keyframes','--dry','--adb',a.adb],check=True)
 assert (out/'saved-note.txt').read_text()=='波俐'
 raw=sorted((out/'frames').glob('*.png'));tags=[p.stem.split('-',1)[1] for p in raw];seq=[]
 def span(first,last,n):

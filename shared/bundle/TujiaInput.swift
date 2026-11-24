@@ -20,6 +20,8 @@ public struct WordCandidate: Equatable {
     public let kind: CandidateKind
     /// Space-separated source IDs in commit order. Empty ends lexical context.
     public let lexemeIds: String
+    public let lastSyllable: String
+    public let syllableOnly: Bool
     public let consumedUTF16: Int
     /// Flattened UTF-16 start/end-exclusive pairs for two-Han syllables in text.
     public let joinedHanRanges: [Int]
@@ -48,14 +50,17 @@ public final class TujiaDictionary {
     private let handle: OpaquePointer
 
     public convenience init() throws {
-        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"))
+        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"), syllableBigrams: asset("syllable_bigrams.tsv"))
     }
 
-    public init(data: Data, ngrams: Data = Data()) throws {
+    public init(data: Data, ngrams: Data = Data(), syllableBigrams: Data = Data()) throws {
         guard let loaded = data.withUnsafeBytes({ bytes in
             ngrams.withUnsafeBytes { context in
-                tji_words_open_with_ngrams(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
-                                           context.bindMemory(to: UInt8.self).baseAddress, context.count)
+                syllableBigrams.withUnsafeBytes { sounds in
+                    tji_words_open_full(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
+                                        context.bindMemory(to: UInt8.self).baseAddress, context.count,
+                                        sounds.bindMemory(to: UInt8.self).baseAddress, sounds.count)
+                }
             }
         }) else { throw TujiaInputError.invalidDictionary }
         handle = loaded
@@ -93,6 +98,13 @@ public final class TujiaDictionary {
         return readCandidates(choices, input: "")
     }
 
+    /// Supply "<s>" at a known start or an exact Ye/diacritic syllable from a selected word.
+    public func nextSyllables(after context: String, orthography: SpellingOrthography = .ye) -> [WordCandidate] {
+        guard !context.utf8.contains(0) else { return [] }
+        let choices = context.withCString { tji_next_syllables(handle, $0, orthography.rawValue) }
+        return readCandidates(choices, input: "")
+    }
+
     private func readCandidates(_ choices: OpaquePointer?, input: String) -> [WordCandidate] {
         guard let result = choices else { return [] }
         defer { tji_choices_close(result) }
@@ -105,6 +117,8 @@ public final class TujiaDictionary {
                           shortMeaning: String(cString: tji_choice_short_meaning(result, i)),
                           kind: CandidateKind(rawValue: tji_choice_kind(result, i)) ?? .tujia,
                           lexemeIds: String(cString: tji_choice_lexeme_ids(result, i)),
+                          lastSyllable: String(cString: tji_choice_last_syllable(result, i)),
+                          syllableOnly: tji_choice_is_syllable(result, i) != 0,
                           consumedUTF16: Int(tji_choice_consumed_utf16(result, i)), joinedHanRanges: ranges, input: input)
         }
     }
@@ -114,7 +128,8 @@ public final class TujiaDictionary {
     public func selection(_ choice: WordCandidate, in input: String,
                           before: String = "", after: String = "") -> SelectedWord? {
         // NFC and NFD compare equal as Swift strings, but have different editor offsets.
-        guard choice.input.utf8.elementsEqual(input.utf8),
+        guard !(choice.syllableOnly && choice.consumedUTF16 == 0),
+              choice.input.utf8.elementsEqual(input.utf8),
               let rest = input.withCString({ tji_suffix_after_choice($0, Int32(choice.consumedUTF16)) })
         else { return nil }
         defer { tji_text_free(rest) }
