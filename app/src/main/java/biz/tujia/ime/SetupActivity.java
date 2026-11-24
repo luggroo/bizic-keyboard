@@ -191,7 +191,7 @@ public final class SetupActivity extends Activity {
 
     private void showSources() {
         new AlertDialog.Builder(this).setTitle("词库与手写字形")
-                .setMessage("北部土家语词条来自毕兹学堂试用词表。候选上方显示汉义，点选后写入选中的拼写或记音字。\n\n手写字形采用 Hanzi Writer Data 笔画资料；识别和候选匹配在设备上运行。")
+                .setMessage("北部土家语词条来自tujia.biz 北部词典及补充语料。候选上方显示汉义，点选后写入选中的拼写或记音字。\n\n手写字形采用 Hanzi Writer Data 笔画资料；识别和候选匹配在设备上运行。")
                 .setNeutralButton("字形授权", (p,b) -> showAsset("手写字形授权", "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"))
                 .setNegativeButton("方言字音授权", (p,b) -> showAsset("方言字音授权", "dialect-data-LICENSE.txt"))
                 .setPositiveButton("关闭", null).show();
