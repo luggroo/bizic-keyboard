@@ -28,6 +28,12 @@
 
 [0.3.3 覆盖升级、大字键、词语预测与宿主测试记录](results/api28-device-0.3.3.log) · [0.3.2 覆盖升级、候选可见行、输入和宿主原始记录](results/api28-device-0.3.2.log) · [0.3.1 原始记录](results/api28-device-0.3.1.log)
 
+## 同一个字的不同读音
+
+在 Android 15 模拟器的外部输入框里键入 `ga`，「架」上方显示「吃」，长按能读到「吃、咬」。键入 `jia` 并翻页找到「架」，这张普通汉字候选只显示「架」。先后选入这两张卡，正文字面都是「架」。[输入 ga](results/api35-033-sense-ga-native.png) · [输入 jia](results/api35-033-sense-jia-mandarin.png)
+
+键入 `gogo` 时，「哥哥」在候选里只出现一行，长按也只显示要写入的「哥哥」。同一输入框里先打 `banricai` 再打 `bangricai`，两次都能选「中午／半日猜」，整词上屏。此次 Android 15 测试由工作流从提交 `3ef1307` 构建。[输入 gogo](results/api35-033-sense-gogo-loan.png) · [设备、APK 摘要和逐项结果](results/api35-033-reading-specific.log)
+
 ## 0.3.3 联想与输入框
 
 在 480 × 800、160 dpi 的 Android 9 竖屏上，「打字」「手写」各点一次就能切换。打字和手写的输出设置保存在各自模式。顶栏只在输入时显示当前草稿，拼写输出、语音和键盘设置在「更多」里。键盘展开后，系统编辑框仍在上方。默认字号下，字母与候选词形为 20 sp，候选上方的汉义为 14 sp。字母 Q 的实际触区高度为 46 dp，系统字号从 85% 调到 100% 后，Q 字形由 13 px 增至 16 px，触区保持 46 dp。系统的字体大小和显示大小可以分别调整。[系统字号和显示大小](system-type.md) 在 320 dp 宽、系统字号 160% 的屏幕上，候选「女人／麻麻爹」的三个汉字在一格内完整可见。[空闲键盘](results/api28-033-compact-idle.png) · [输入 ga 与四个候选](results/api28-033-compact-typing.png) · [更多选项](results/api28-033-compact-more.png) · [手写区](results/api28-033-compact-handwriting.png) · [窄屏、大字号与复测](compact.md)

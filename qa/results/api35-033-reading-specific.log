@@ -1,0 +1,40 @@
+https://github.com/luggroo/bizic-keyboard/actions/runs/45449844073
+Source 3ef1307 (source-built test APK)
+google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
+Physical size: 1080x1920
+Physical density: 420
+1.0
+2
+94fa111cc582ff8684aa49da662333a780a687883bb1a2c3f1560e6e9b8be79d  build/qa-keyboard.apk
+d9276beb3fa85e8105492577b28644a8644f82c4cb6f5c9e69624fa03b793687  build/fixture.apk
+aca5ed0a3e58ac52ad672d2a89c35159bf4f6456ab562e28a5f65b170dd4275e  api35-033-sense-ga-native.png
+4eb45e406fe2746eb293254a652b537e3cdb98d92d90630b9c4cf27ebb4378c6  api35-033-sense-jia-mandarin.png
+616867b3f924d609138c9dc1962dba42297531c6a6c0800765c7cf31566896a2  api35-033-sense-gogo-loan.png
+
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+INSTRUMENTATION_STATUS: step=Across all 5 go pages, one 过 card shows ¹他/²讨, with the loan 过错 kept in the reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=g + held o / ǒ gives 他／郭; 马 shows once on the card and retains its lexical meaning in the reader
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Across all 4 ga pages each form occurs once; 夹 shows ¹上/²干
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=An ambiguous written 过 did not teach the host that the user had chosen 他
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typed ga and jia: only the ga card and its full reader gave 吃／吃、咬; both committed 架
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [中午, 半日猜] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Visible candidate rows [中午, 半日猜] before selection
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=gogo displayed the loan 哥哥 once; banricai/bangricai both selected the full word 中午／半日猜 with no remainder
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-go.png: 1 file pulled, 0 skipped. 18.1 MB/s (75117 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-marked-go.png: 1 file pulled, 0 skipped. 20.0 MB/s (75522 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-ga-native.png: 1 file pulled, 0 skipped. 13.2 MB/s (78943 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-jia-mandarin.png: 1 file pulled, 0 skipped. 27.0 MB/s (73335 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/sense-gogo-loan.png: 1 file pulled, 0 skipped. 13.0 MB/s (75595 bytes in 0.006s)
