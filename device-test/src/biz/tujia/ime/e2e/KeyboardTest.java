@@ -73,6 +73,7 @@ public final class KeyboardTest extends Instrumentation {
                     testApicalVowels();
                     testHanSenses();
                     testContinuousHandwriting();
+                    testHandwrittenSuffixes();
                     testCompactControls();
                 } catch (Throwable failure) {
                     saveFailureFrame(result);
@@ -87,6 +88,10 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("regional")) testModernRegisterCharacters();
+            if (suite.equals("hand-words")) {
+                testHandwrittenSuffixes();
+                testContinuousHandwriting();
+            }
             if (suite.equals("typography")) new SystemTypography(this, host).run();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
@@ -468,23 +473,15 @@ public final class KeyboardTest extends Instrumentation {
         Rect pad = waitForNode("汉字手写区", false);
         drawBo(pad);
         expectText(host.first, "首波");
-        waitForNode("续写 小孩、儿童，波俐", false);
-        Rect preview = waitForNode("待选拼写 波", false);
-        boolean previewMatches = false;
-        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 波")) {
-            try {
-                Rect bounds = new Rect();
-                node.getBoundsInScreen(bounds);
-                if (preview.equals(bounds) && android.text.TextUtils.equals(node.getText(), "波俐")) previewMatches = true;
-            } finally { node.recycle(); }
-        }
-        if (!previewMatches) throw new AssertionError("Expected the handwritten prefix and next character together");
+        waitForNode("已写成词", false);
         drawLi(pad);
         expectText(host.first, "首波俐");
         if (!pad.equals(waitForNode("汉字手写区", false)))
             throw new AssertionError("Writing the next character moved the pad");
-        pressCandidate("小孩、儿童，波俐", false);
+        tapForm("波俐");
+        press("保留原写法");
         expectText(host.first, "首波俐");
+        press("接着写");
         pressCandidate("联想 一，哪", false, "一", "哪");
         expectText(host.first, "首波俐哪");
 
@@ -500,16 +497,20 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.second);
         drawBo(pad);
         expectText(host.second, corrected + "波");
-        pressCandidate("续写 小孩儿，波俐", false, "小孩儿", "波俐");
+        press("接着写");
+        tapForm("俐");
         expectText(host.second, corrected + "波俐");
-        pressCandidate("联想 那，哎", false, "那", "哎");
-        expectText(host.second, corrected + "波俐哎");
+        press("接着写");
+        Card prediction = nextSoundCard();
+        tap(prediction.bounds.centerX(), prediction.bounds.centerY());
+        String expectedSecond = corrected + "波俐" + outputLine(prediction);
+        expectText(host.second, expectedSecond);
 
         stage("Pending strokes and correction cannot cross editor or cursor changes");
         drawThree(pad);
         tapField(host.first);
         SystemClock.sleep(1600);
-        expectText(host.second, corrected + "波俐哎");
+        expectText(host.second, expectedSecond);
         expectText(host.first, "首波俐哪");
         drawBo(pad);
         expectText(host.first, "首波俐哪波");
@@ -521,7 +522,49 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("手写字形 三");
         drawThree(pad);
         expectText(host.first, "首三三哪波");
-        expectText(host.second, corrected + "波俐哎");
+        expectText(host.second, expectedSecond);
+    }
+
+    private void tapForm(String value) {
+        Card item = visibleForm(value);
+        tap(item.bounds.centerX(), item.bounds.centerY());
+    }
+
+    private void testHandwrittenSuffixes() {
+        stage("Dialect homophones and every matching suffix of the last four written characters");
+        runOnMainSync(() -> host.first.setText("前树稀步李以后"));
+        tapField(host.first);
+        press("手写");
+        setHandwritingOutput(true);
+        runOnMainSync(() -> host.first.setSelection(5));
+        press("已写成词");
+        Rect pad = waitForNode("汉字手写区", false);
+        List<Card> row = pageCards("，");
+        visibleForm("树希布里");
+        if (row.size() < 4) row = pageCards("，");
+        List<String> forms = new ArrayList<>();
+        for (Card c : row) forms.add(outputLine(c));
+        if (!forms.equals(Arrays.asList("树希布里", "希布里", "昔布里", "布里")))
+            throw new AssertionError("Expected overlapping dialect matches in order: " + forms);
+        tapForm("希布里");
+        expectText(host.first, "前树稀步李以后");
+        press("用调号拼音");
+        expectText(host.first, "前树xìbúlī以后");
+        if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting panel resized");
+        runOnMainSync(() -> { host.first.setText("前波粒后"); host.first.setSelection(3); });
+        press("已写成词");
+        visibleForm("波立");
+        tapForm("波俐");
+        press("用推荐字");
+        expectText(host.first, "前波俐后");
+        runOnMainSync(() -> { host.first.setText("借米提卡铺"); host.first.setSelection(5); });
+        press("已写成词");
+        visibleForm("卡铺");
+        waitAbsent("指甲花，借米提卡铺");
+        runOnMainSync(() -> { host.first.setText("树稀。步李"); host.first.setSelection(5); });
+        press("已写成词");
+        visibleForm("布里");
+        waitAbsent("板栗，树希布里");
     }
 
     private String chooseAlternateGlyph(String recognized) {
@@ -1072,7 +1115,9 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "波");
             drawLi(pad);
             expectText(host.first, "波俐");
-            pressCandidate("小孩、儿童，波俐", false);
+            tapForm("波俐");
+            press("保留原写法");
+            press("接着写");
             Card hand = nextSoundCard();
             String afterChild = outputLine(hand);
             if (!Character.isIdeographic(afterChild.codePointAt(0)))

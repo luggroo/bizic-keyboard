@@ -23,6 +23,9 @@ TJIWords *tji_words_open_full(const uint8_t *data, size_t length, const uint8_t 
                               const uint8_t *syllable_bigrams, size_t syllable_length);
 TJIWords *tji_words_open_with_senses(const uint8_t *data, size_t length, const uint8_t *ngrams, size_t ngram_length,
                                      const uint8_t *sounds, size_t sound_length, const uint8_t *senses, size_t sense_length);
+TJIWords *tji_words_open_with_readings(const uint8_t *data, size_t length, const uint8_t *ngrams, size_t ngram_length,
+                                       const uint8_t *sounds, size_t sound_length, const uint8_t *senses, size_t sense_length,
+                                       const uint8_t *readings, size_t readings_length);
 void tji_words_close(TJIWords *words);
 TJIChoices *tji_lookup(const TJIWords *words, const char *input, int32_t mode);
 TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input,
@@ -31,6 +34,10 @@ TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input
 /* Strict lexical completions consume the supplied glyphs. Next-word suggestions consume zero.
    Context is the last one or two selected word IDs, separated by an ASCII space. */
 TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyphs, int32_t mode, int32_t orthography);
+/* Words ending at the caret. Consumed UTF-16 units count backwards from the caret. */
+TJIChoices *tji_handwritten_words(const TJIWords *words, const char *before_caret, int32_t mode, int32_t orthography);
+TJIChoices *tji_next_handwritten_glyphs(const TJIWords *words, const char *before_caret);
+int32_t tji_handwriting_context_length(const TJIWords *words);
 /* Test a typed prefix of an attested Ye/diacritic spelling pair, including syllable-final an/ang. */
 int32_t tji_matches_spelling_prefix(const char *input, const char *ye, const char *marked);
 TJIChoices *tji_spelling_completions(const TJIWords *words, const char *prefix, const char *previous_ids, int32_t mode, int32_t style);

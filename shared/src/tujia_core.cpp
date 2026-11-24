@@ -25,11 +25,18 @@ TJIWords *tji_words_open_full(const uint8_t *data, size_t length, const uint8_t 
 }
 TJIWords *tji_words_open_with_senses(const uint8_t *data, size_t length, const uint8_t *grams, size_t size,
                                      const uint8_t *sounds, size_t soundSize, const uint8_t *senses, size_t senseSize) {
-    if (!data || !length || (size && !grams) || (soundSize && !sounds) || (senseSize && !senses)) return nullptr;
+    return tji_words_open_with_readings(data, length, grams, size, sounds, soundSize, senses, senseSize, nullptr, 0);
+}
+TJIWords *tji_words_open_with_readings(const uint8_t *data, size_t length, const uint8_t *grams, size_t size,
+                                       const uint8_t *sounds, size_t soundSize, const uint8_t *senses, size_t senseSize,
+                                       const uint8_t *readings, size_t readingsSize) {
+    if (!data || !length || (size && !grams) || (soundSize && !sounds) || (senseSize && !senses) ||
+        (readingsSize && !readings)) return nullptr;
     try { return new TJIWords{tujia::Lexicon(std::string(reinterpret_cast<const char*>(data), length),
                                              size ? std::string(reinterpret_cast<const char*>(grams), size) : "",
                                              soundSize ? std::string(reinterpret_cast<const char*>(sounds), soundSize) : "",
-                                             senseSize ? std::string(reinterpret_cast<const char*>(senses), senseSize) : "")}; }
+                                             senseSize ? std::string(reinterpret_cast<const char*>(senses), senseSize) : "",
+                                             readingsSize ? std::string(reinterpret_cast<const char*>(readings), readingsSize) : "")}; }
     catch (...) { return nullptr; }
 }
 void tji_words_close(TJIWords *words) { delete words; }
@@ -50,6 +57,19 @@ TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyph
     if (!words || !glyphs) return nullptr;
     try { return new TJIChoices{words->model.handwritingSuggestions(glyphs, static_cast<tujia::Mode>(mode), static_cast<tujia::Orthography>(style))}; }
     catch (...) { return nullptr; }
+}
+TJIChoices *tji_handwritten_words(const TJIWords *words, const char *before, int32_t mode, int32_t style) {
+    if (!words || !before) return nullptr;
+    try { return new TJIChoices{words->model.handwrittenWords(before, static_cast<tujia::Mode>(mode), static_cast<tujia::Orthography>(style))}; }
+    catch (...) { return nullptr; }
+}
+TJIChoices *tji_next_handwritten_glyphs(const TJIWords *words, const char *before) {
+    if (!words || !before) return nullptr;
+    try { return new TJIChoices{words->model.nextHandwrittenGlyphs(before)}; }
+    catch (...) { return nullptr; }
+}
+int32_t tji_handwriting_context_length(const TJIWords *words) {
+    return words ? words->model.handwritingContextLength() : 0;
 }
 int32_t tji_matches_spelling_prefix(const char *input, const char *ye, const char *marked) {
     if (!input || !ye || !marked) return 0;

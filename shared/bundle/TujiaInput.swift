@@ -38,6 +38,12 @@ public struct SelectedWord: Equatable {
     public let remainingInput: String
 }
 
+public struct HandwrittenWord: Equatable {
+    public let candidate: WordCandidate
+    /// UTF-16 range in the supplied text before the caret.
+    public let range: NSRange
+}
+
 public enum TujiaInputError: Error {
     case missingAsset(String), invalidDictionary, invalidStrokeModel
 }
@@ -53,19 +59,24 @@ public final class TujiaDictionary {
     private let handle: OpaquePointer
 
     public convenience init() throws {
-        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"), syllableBigrams: asset("syllable_bigrams.tsv"),
-                      syllableSenses: asset("syllable_senses.tsv"))
+        try self.init(data: asset("words.tsv") + asset("northern-words.tsv"), ngrams: asset("ngrams.tsv"),
+                      syllableBigrams: asset("syllable_bigrams.tsv"), syllableSenses: asset("syllable_senses.tsv"),
+                      regionalReadings: asset("handwriting-readings.tsv"))
     }
 
-    public init(data: Data, ngrams: Data = Data(), syllableBigrams: Data = Data(), syllableSenses: Data = Data()) throws {
+    public init(data: Data, ngrams: Data = Data(), syllableBigrams: Data = Data(), syllableSenses: Data = Data(),
+                regionalReadings: Data = Data()) throws {
         guard let loaded = data.withUnsafeBytes({ bytes in
             ngrams.withUnsafeBytes { context in
                 syllableBigrams.withUnsafeBytes { sounds in
                     syllableSenses.withUnsafeBytes { senses in
-                        tji_words_open_with_senses(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
+                        regionalReadings.withUnsafeBytes { readings in
+                            tji_words_open_with_readings(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
                                                    context.bindMemory(to: UInt8.self).baseAddress, context.count,
                                                    sounds.bindMemory(to: UInt8.self).baseAddress, sounds.count,
-                                                   senses.bindMemory(to: UInt8.self).baseAddress, senses.count)
+                                                   senses.bindMemory(to: UInt8.self).baseAddress, senses.count,
+                                                   readings.bindMemory(to: UInt8.self).baseAddress, readings.count)
+                        }
                     }
                 }
             }
@@ -98,6 +109,25 @@ public final class TujiaDictionary {
         return Int(glyphs.withCString { tji_score_handwriting_prefix(handle, $0) })
     }
 
+    public var handwritingContextLength: Int { Int(tji_handwriting_context_length(handle)) }
+
+    public func handwrittenWords(beforeCaret text: String, form: InputForm = .recommendedHan,
+                                 orthography: SpellingOrthography = .diacritic) -> [HandwrittenWord] {
+        let context = String(text.unicodeScalars.suffix(4))
+        guard !context.utf8.contains(0) else { return [] }
+        let result = context.withCString { tji_handwritten_words(handle, $0, form.rawValue, orthography.rawValue) }
+        let length = text.utf16.count
+        return readCandidates(result, input: context, fromEnd: true).map {
+            HandwrittenWord(candidate: $0, range: NSRange(location: length - $0.consumedUTF16, length: $0.consumedUTF16))
+        }
+    }
+
+    public func nextHandwrittenGlyphs(beforeCaret text: String) -> [WordCandidate] {
+        let context = String(text.unicodeScalars.suffix(4))
+        guard !context.utf8.contains(0) else { return [] }
+        return readCandidates(context.withCString { tji_next_handwritten_glyphs(handle, $0) }, input: "")
+    }
+
     /// Complete a partially typed word using the confirmed context and chosen output spelling.
     public func spellingCompletions(_ prefix: String, after previousIds: String = "", form: InputForm,
                                     orthography: SpellingOrthography = .ye) -> [WordCandidate] {
@@ -126,13 +156,15 @@ public final class TujiaDictionary {
         return readCandidates(choices, input: "")
     }
 
-    private func readCandidates(_ choices: OpaquePointer?, input: String) -> [WordCandidate] {
+    private func readCandidates(_ choices: OpaquePointer?, input: String, fromEnd: Bool = false) -> [WordCandidate] {
         guard let result = choices else { return [] }
         defer { tji_choices_close(result) }
         return (0..<tji_choices_count(result)).map { i in
             var rangeCount = 0
             let offsets = tji_choice_joined_han_ranges(result, i, &rangeCount)
             let ranges = UnsafeBufferPointer(start: offsets, count: rangeCount).map(Int.init)
+            let consumed = Int(tji_choice_consumed_utf16(result, i))
+            let matched = fromEnd ? String(decoding: input.utf16.suffix(consumed), as: UTF16.self) : input
             return WordCandidate(text: String(cString: tji_choice_text(result, i)),
                           meaning: String(cString: tji_choice_meaning(result, i)),
                           shortMeaning: String(cString: tji_choice_short_meaning(result, i)),
@@ -142,7 +174,7 @@ public final class TujiaDictionary {
                           lastSyllable: String(cString: tji_choice_last_syllable(result, i)),
                           syllableOnly: tji_choice_is_syllable(result, i) != 0,
                           plainHanLoan: tji_choice_plain_han_loan(result, i) != 0,
-                          consumedUTF16: Int(tji_choice_consumed_utf16(result, i)), joinedHanRanges: ranges, input: input)
+                          consumedUTF16: consumed, joinedHanRanges: ranges, input: matched)
         }
     }
 

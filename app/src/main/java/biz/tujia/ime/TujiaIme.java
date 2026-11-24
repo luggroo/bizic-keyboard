@@ -81,6 +81,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private boolean selectingTone;
     private HandwritingPad pad;
     private HandAnchor strokeAnchor;
+    private HandAnchor matchedAt;
+    private boolean handNext;
+    private TextView wordsTab, nextTab;
+    private LinearLayout handDetail;
+    private final Map<CandidateEngine.Candidate, List<CandidateEngine.Candidate>> handSenses = new HashMap<>();
     private InputConnection handEditor;
     private int handStart = -1;
     private boolean handLocked;
@@ -243,6 +248,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void resetDraft() {
+        closeHandDetail();
+        handNext = false;
         closeReading();
         closeMore();
         selectingTone = false;
@@ -283,6 +290,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void layoutKeyboard() {
         if (surface == null) return;
+        closeHandDetail();
         closeReading();
         closeMore();
         handPanelActive = false;
@@ -388,6 +396,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void toggleMore() {
+        closeHandDetail();
         if (morePanel != null) { closeMore(); return; }
         if (selectingTone) updateCandidates();
         for (int i = 0; i < body.getChildCount(); i++) body.getChildAt(i).setVisibility(View.GONE);
@@ -450,7 +459,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handAsHan = !handAsHan;
         getSharedPreferences("keyboard", MODE_PRIVATE).edit().putBoolean("hand_as_han", handAsHan).apply();
         closeMore();
-        updateCandidates();
+        clearHandSession();
+        glyphs = Collections.emptyList();
+        handNext = false;
+        layoutKeyboard();
     }
 
     private void closeMore() {
@@ -494,6 +506,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         toneCancel = null;
         boolean choosing = !direct && mode != VOICE;
         preview = label("", compact ? 14 : 16, INK);
+        wordsTab = nextTab = null;
+        if (choosing && mode == HAND && handAsHan) {
+            wordsTab = handTab("已写成词", false);
+            nextTab = handTab("接着写", true);
+            return;
+        }
         preview.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         preview.setPadding(dp(2), 0, dp(2), 0);
         preview.setEllipsize(TextUtils.TruncateAt.START);
@@ -502,6 +520,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             toneCancel = textControl("取消", "取消选声调", this::updateCandidates);
             toneCancel.setVisibility(View.GONE);
         }
+    }
+
+    private TextView handTab(String name, boolean next) {
+        TextView tab = key(composition, name, name, next ? 3 : 4, false, () -> {
+            closeHandDetail();
+            handNext = next;
+            refreshHandCandidates();
+        });
+        tab.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
+                fitTextWidth(tab, name, r - l - dp(2), .65f));
+        return tab;
     }
 
     private TextView textControl(String title, String description, Runnable action) {
@@ -575,12 +604,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             start = extracted.startOffset + extracted.selectionStart;
             end = extracted.startOffset + extracted.selectionEnd;
         }
-        CharSequence left = ic.getTextBeforeCursor(12, 0);
+        int limit = engine == null ? 2 * CandidateEngine.HANDWRITING_WINDOW : Math.max(1, engine.handwritingContextLength);
+        CharSequence left = ic.getTextBeforeCursor(limit, 0);
         CharSequence right = ic.getTextAfterCursor(12, 0);
-        return new HandAnchor(ic, start, end, left == null ? "" : left.toString(), right == null ? "" : right.toString());
+        String before = CandidateEngine.handwritingTail(left == null ? "" : left.toString());
+        return new HandAnchor(ic, start, end, before, right == null ? "" : right.toString());
     }
 
     private void clearHandSession() {
+        matchedAt = null;
+        handSenses.clear();
+        closeHandDetail();
         handRaw = handOwned = handPrefix = handPrefixOutput = handOutput = handHistory = "";
         handStart = -1;
         handLocked = false;
@@ -796,11 +830,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private boolean extendsHandWord(String glyph) {
-        return !handLocked && !handRaw.isEmpty() && engine != null && engine.scoreHandwritingPrefix(handRaw + glyph) > 0;
+        String extended = handRaw + glyph;
+        return !handLocked && !handRaw.isEmpty() && engine != null
+                && extended.codePointCount(0, extended.length()) <= CandidateEngine.HANDWRITING_WINDOW
+                && engine.scoreHandwritingPrefix(extended) > 0;
     }
 
     private void refreshHandCandidates() {
         hanChoices.clear();
+        if (handAsHan) {
+            refreshCommittedWords();
+            return;
+        }
         String pending = strokeAnchor != null && !glyphs.isEmpty() ? glyphs.get(0) : "";
         boolean combined = !pending.isEmpty() && extendsHandWord(pending);
         String raw = pending.isEmpty() ? handRaw : combined ? handRaw + pending : pending;
@@ -836,6 +877,50 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         showCandidates();
     }
 
+    private void refreshCommittedWords() {
+        handSenses.clear();
+        wordHints = syllableHints = wordCompletions = Collections.emptyList();
+        matchedAt = handAnchor();
+        boolean available = engine != null && matchedAt != null && matchedAt.start >= 0 && matchedAt.start == matchedAt.end;
+        String before = available ? matchedAt.before : "";
+        List<CandidateEngine.Candidate> matches = available
+                ? engine.handwrittenWords(before, CandidateEngine.Mode.HAN, orthography) : Collections.emptyList();
+        Map<String, CandidateEngine.Candidate> visible = new LinkedHashMap<>();
+        if (handNext && available) {
+            wordCompletions = engine.nextHandwrittenGlyphs(before);
+            for (CandidateEngine.Candidate c : wordCompletions) visible.put(c.text, c);
+            CandidateEngine.Candidate last = matches.isEmpty() ? null : matches.get(0);
+            loadHints(recentWords.isEmpty() && last != null ? last.lexemeIds : recentWords,
+                    previousSyllable.isEmpty() && last != null ? last.lastSyllable : previousSyllable, CandidateEngine.Mode.HAN);
+            wordHints = allWordHints;
+            syllableHints = allSoundHints;
+            for (CandidateEngine.Candidate c : wordHints) visible.putIfAbsent(c.text, c);
+            for (CandidateEngine.Candidate c : syllableHints) visible.putIfAbsent(c.text, c);
+        } else {
+            for (CandidateEngine.Candidate c : matches) {
+                String key = c.consumed + "\t" + c.text;
+                CandidateEngine.Candidate first = visible.get(key);
+                if (first == null) {
+                    first = c;
+                    visible.put(key, first);
+                    handSenses.put(first, new ArrayList<>());
+                    hanChoices.put(first, new HanChoice(first));
+                }
+                handSenses.get(first).add(c);
+                hanChoices.get(first).add(c, c.consumed, hasMeaning(c));
+            }
+        }
+        if (wordsTab != null) {
+            wordsTab.setSelected(!handNext);
+            wordsTab.setTextColor(pressColors(handNext ? MUTED : RED));
+            nextTab.setSelected(handNext);
+            nextTab.setTextColor(pressColors(handNext ? RED : MUTED));
+        }
+        candidates = new ArrayList<>(visible.values());
+        page = 0;
+        showCandidates();
+    }
+
     private void buildHandwriting() {
         handPanelActive = true;
         glyphRow = row();
@@ -862,7 +947,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 glyphPage = 0;
                 if (!pad.hasInk()) strokeAnchor = null;
                 showGlyphs();
-                refreshHandCandidates();
+                if (!handAsHan || strokeAnchor == null) refreshHandCandidates();
             }
             @Override public void onSettled() {
                 if (handPanelActive && !glyphs.isEmpty() && strokeAnchor != null) acceptGlyph(glyphs.get(0), false);
@@ -914,7 +999,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             discardHandWork();
             return;
         }
-        boolean combined = !correction && extendsHandWord(glyph);
+        String oldHandGlyph = handOwned;
+        boolean combined = !handAsHan && !correction && extendsHandWord(glyph);
         String prefix = correction ? handPrefix : combined ? handRaw : "";
         String previousOutput = correction ? handPrefixOutput : combined ? handOutput : "";
         String raw = prefix + glyph;
@@ -932,11 +1018,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         String history = correction || combined ? handHistory : recentWords;
         int[] ranges = handAsHan && best != null && out.equals(best.text) ? best.joinedHanRanges : null;
         if (!writeHand(cursor, out, ranges, combined || correction)) { discardHandWork(); return; }
+        handNext = false;
         handRaw = raw;
         handLocked = false;
         handPrefix = prefix;
         handPrefixOutput = previousOutput;
         handHistory = history;
+        if (handAsHan && engine != null) {
+            String preceding = cursor.before;
+            if (correction && preceding.endsWith(oldHandGlyph))
+                preceding = preceding.substring(0, preceding.length() - oldHandGlyph.length());
+            List<CandidateEngine.Candidate> ending = engine.handwrittenWords(preceding + glyph, CandidateEngine.Mode.HAN, orthography);
+            best = ending.isEmpty() ? null : ending.get(0);
+        }
         remember(history, best);
         strokeAnchor = null;
         pad.clearInk();
@@ -955,6 +1049,25 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void chooseHand(CandidateEngine.Candidate c) {
         CrashReports.event(getCurrentInputEditorInfo(), "手写选词", c.text);
+        if (handAsHan) {
+            if (strokeAnchor != null) {
+                if (!glyphs.isEmpty()) acceptGlyph(glyphs.get(0), false);
+                return;
+            }
+            HandAnchor cursor = handAnchor();
+            if (matchedAt == null || !matchedAt.matches(cursor)) { discardHandWork(); return; }
+            if (!handNext) {
+                openHandDetail(c, 0);
+            } else if (writeHand(cursor, c.text, c.joinedHanRanges, false)) {
+                remember(recentWords, c);
+                handNext = false;
+                glyphs = Collections.emptyList();
+                clearHandSession();
+                showGlyphs();
+                refreshHandCandidates();
+            }
+            return;
+        }
         boolean predicting = wordHints.contains(c) || syllableHints.contains(c);
         boolean completing = wordCompletions.contains(c);
         if (!candidates.contains(c)) return;
@@ -993,9 +1106,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     /** Replace only this session's confirmed previous output, as a single editor operation. */
     private boolean writeHand(HandAnchor cursor, String out, int[] ranges, boolean replace) {
         if (out.isEmpty() || (replace && !ownsHandOutput(cursor))) return false;
-        InputConnection ic = cursor.editor;
         int start = replace ? handStart : Math.min(cursor.start, cursor.end);
         int oldLength = replace ? handOwned.length() : 0;
+        return writeHandRange(cursor, out, ranges, start, oldLength);
+    }
+
+    private boolean writeHandRange(HandAnchor cursor, String out, int[] ranges, int start, int oldLength) {
+        InputConnection ic = cursor.editor;
         CharSequence before = ic.getTextBeforeCursor(oldLength + 1, 0);
         CharSequence after = ic.getTextAfterCursor(1, 0);
         char left = before == null || before.length() <= oldLength ? 0 : before.charAt(before.length() - oldLength - 1);
@@ -1005,13 +1122,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         ic.beginBatchEdit();
         try {
             boolean selected = false;
-            if (replace && !ic.setComposingRegion(start, start + oldLength)) {
+            if (oldLength > 0 && !ic.setComposingRegion(start, start + oldLength)) {
                 if (!ic.setSelection(start, start + oldLength)) return false;
                 selected = true;
             }
             if (!ic.commitText(styled, 1)) {
                 if (selected) ic.setSelection(cursor.end, cursor.end);
-                else if (replace) ic.finishComposingText();
+                else if (oldLength > 0) ic.finishComposingText();
                 return false;
             }
             if (start >= 0) expect(start + written.length());
@@ -1023,6 +1140,73 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         } finally {
             ic.endBatchEdit();
         }
+    }
+
+    private void closeHandDetail() {
+        if (handDetail == null) return;
+        body.removeView(handDetail);
+        handDetail = null;
+        for (int i = 0; i < body.getChildCount(); i++) body.getChildAt(i).setVisibility(View.VISIBLE);
+    }
+
+    private void openHandDetail(CandidateEngine.Candidate first, int index) {
+        List<CandidateEngine.Candidate> senses = handSenses.get(first);
+        HandAnchor anchor = matchedAt;
+        if (senses == null || anchor == null || !anchor.matches(handAnchor()) || first.consumed > anchor.before.length()) {
+            discardHandWork();
+            return;
+        }
+        Map<String, CandidateEngine.Candidate> spellings = new HashMap<>();
+        for (CandidateEngine.Candidate roman : engine.handwrittenWords(anchor.before, CandidateEngine.Mode.HANDWRITING,
+                CandidateEngine.Orthography.DIACRITIC)) {
+            if (roman.consumed == first.consumed) spellings.put(roman.lexemeIds, roman);
+        }
+        List<CandidateEngine.Candidate> distinct = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
+        for (CandidateEngine.Candidate c : senses) {
+            CandidateEngine.Candidate spelling = spellings.get(c.lexemeIds);
+            if (spelling != null && seen.add(spelling.text + "\t" + c.meaning)) distinct.add(c);
+        }
+        if (distinct.isEmpty()) return;
+        int current = index % distinct.size();
+        CandidateEngine.Candidate c = distinct.get(current), roman = spellings.get(c.lexemeIds);
+        String raw = anchor.before.substring(anchor.before.length() - c.consumed);
+        closeHandDetail();
+        for (int i = 0; i < body.getChildCount(); i++) body.getChildAt(i).setVisibility(View.GONE);
+        handDetail = column();
+        handDetail.setBackgroundColor(PAPER);
+        body.addView(handDetail, new LinearLayout.LayoutParams(-1, -1));
+        LinearLayout top = row();
+        handDetail.addView(top, lineWithMinimum(compact ? 29 : 35, compact ? 14 : 16));
+        top.addView(label("已写「" + raw + "」", compact ? 14 : 16, MUTED), weighted(2));
+        if (distinct.size() > 1) {
+            String count = "义项 " + (current + 1) + "/" + distinct.size();
+            key(top, count, "切换" + count, 1.3f, false, () -> openHandDetail(first, current + 1));
+        }
+        key(top, "返回", "返回手写", 1, false, this::closeHandDetail);
+        TextView definition = label("", compact ? 16 : 18, INK);
+        definition.setSingleLine(false);
+        definition.setText(new SpannableStringBuilder(HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges))
+                .append("　").append(roman.text).append(c.plainHanLoan || c.meaning.equals(c.text) ? "" : "\n" + c.meaning));
+        handDetail.addView(definition, new LinearLayout.LayoutParams(-1, 0, 1));
+        LinearLayout actions = row();
+        handDetail.addView(actions, lineWithMinimum(compact ? 33 : 41, compact ? 14 : 16));
+        String hanLabel = raw.equals(c.text) ? "保留原写法" : "用推荐字";
+        key(actions, hanLabel, hanLabel, 1, false, () -> applyHandWord(anchor, c, c, raw));
+        key(actions, "用调号拼音", "用调号拼音", 1, true, () -> applyHandWord(anchor, c, roman, raw));
+    }
+
+    private void applyHandWord(HandAnchor shown, CandidateEngine.Candidate lexical, CandidateEngine.Candidate form, String raw) {
+        HandAnchor cursor = handAnchor();
+        if (!shown.matches(cursor) || cursor.start != cursor.end || cursor.end < raw.length()
+                || !cursor.before.endsWith(raw)) { discardHandWork(); return; }
+        if (!form.text.equals(raw) && !writeHandRange(cursor, form.text, form.joinedHanRanges,
+                cursor.end - raw.length(), raw.length())) { discardHandWork(); return; }
+        remember(handHistory, lexical);
+        clearHandSession();
+        glyphs = Collections.emptyList();
+        showGlyphs();
+        refreshHandCandidates();
     }
 
     private void buildKeys() {
@@ -1176,7 +1360,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             boolean tujia = c.kind == CandidateEngine.Kind.TUJIA;
             boolean nextSound = syllableHints.contains(c);
             HanChoice group = hanChoices.get(c);
-            String shortText = group != null ? HanChoice.gloss(group.primary.shortMeanings, true) : hasMeaning(c) ? c.shortMeaning : "";
+            int glossLimit = mode == HAND ? 2 : Integer.MAX_VALUE;
+            String shortText = group != null ? HanChoice.gloss(group.primary.shortMeanings, true, glossLimit) : hasMeaning(c) ? c.shortMeaning : "";
             String fullText = group != null ? (group.primary.meanings.isEmpty() ? "" : group.primary.fullMeanings()) : hasMeaning(c) ? c.meaning : "";
             boolean hasGloss = !shortText.isEmpty() && !shortText.equals(c.text);
             String hint = nextSound ? "下一音节 " : wordCompletions.contains(c) ? (mode == HAND ? "续写 " : "补全 ") :
@@ -1184,7 +1369,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             int glossSize = glossSp();
             TextView meaning;
             if (group != null && group.primary.shortMeanings.size() > 1) {
-                meaning = numberedGloss(shortText, HanChoice.gloss(group.primary.shortMeanings, false));
+                meaning = numberedGloss(shortText, HanChoice.gloss(group.primary.shortMeanings, false, glossLimit));
             } else meaning = cardLine(hasGloss ? shortText : "", glossSize, 13, MUTED, false);
             meaning.setDuplicateParentStateEnabled(true);
             meaning.setTextColor(pressColors(MUTED));
@@ -1297,6 +1482,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void openReading(CandidateEngine.Candidate candidate) { openReading(candidate, 0); }
 
     private void openReading(CandidateEngine.Candidate candidate, int alternateIndex) {
+        if (mode == HAND && handAsHan && !handNext) { openHandDetail(candidate, 0); return; }
         closeMore();
         closeReading();
         inspectedCandidate = candidate;
@@ -1574,6 +1760,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     @Override public boolean onKeyDown(int code, KeyEvent ev) {
+        if (handDetail != null && (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE)) {
+            closeHandDetail();
+            return true;
+        }
         if (morePanel != null) {
             if (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE) { closeMore(); return true; }
             if (ev.getUnicodeChar() > 0 || code == KeyEvent.KEYCODE_DEL) closeMore();

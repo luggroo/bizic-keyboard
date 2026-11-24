@@ -1,4 +1,5 @@
 #include "lexicon.hpp"
+#include "handwords.hpp"
 
 #include <algorithm>
 #include <array>
@@ -531,6 +532,7 @@ bool matchesSpellingPrefix(const std::string& input, const std::string& ye, cons
 
 struct Lexicon::Impl {
     std::vector<Entry> entries;
+    HandwordIndex handwriting;
     WordIndex spellings, shortKeys, hanWords, aliases, spellingPrefixes;
     WordIndex markedWords, markedPrefixes, markedSyllables;
     OptionalIndex markedNasalWords, markedNasalSyllables;
@@ -561,7 +563,22 @@ struct Lexicon::Impl {
     size_t maxKey = 0, maxSyllable = 0;
 
     explicit Impl(const std::string& tsv, const std::string& ngramData, const std::string& syllableData,
-                  const std::string& senseData) {
+                  const std::string& senseData, const std::string& handData) {
+        if (!handData.empty()) {
+            std::string_view rows(handData), row;
+            if (!readLine(rows, row) || row != "han\tjishou\tchongqing\tnasal")
+                throw std::invalid_argument("Unexpected handwriting readings header");
+            Fields columns{};
+            while (readLine(rows, row)) {
+                readFields(row, 4, columns);
+                auto c = dictionaryScalars(std::string(columns[0]));
+                if (c.size() != 1) throw std::invalid_argument("Invalid regional character");
+                auto& groups = handwriting.readings[c.front()];
+                for (size_t i = 0; i < groups.size(); ++i) {
+                    if (columns[i + 1] != "-") groups[i] = dictionaryScalars(std::string(columns[i + 1]));
+                }
+            }
+        }
         std::string_view lines(tsv), line;
         const std::string legacyHeader = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants";
         if (!readLine(lines, line)) throw std::invalid_argument("Empty dictionary");
@@ -700,6 +717,12 @@ struct Lexicon::Impl {
                 if (!entry.variants.empty() && entry.units.size() != entry.variants.size())
                     throw std::invalid_argument("Variant groups do not align with Han units: " + entry.id);
                 addUnique(variantInitials[entry.units.front().front()], id);
+            }
+            if (!phrase) {
+                std::vector<std::u32string> written;
+                for (size_t i = 1; i < entry.writtenForms.size(); ++i)
+                    written.push_back(dictionaryScalars(entry.writtenForms[i]));
+                handwriting.add(id, frequency, dictionaryScalars(entry.han), entry.units, entry.variants, std::move(written));
             }
             entries.push_back(std::move(entry));
         }
@@ -1248,6 +1271,33 @@ struct Lexicon::Impl {
                std::all_of(q.scalars.begin(), q.scalars.end(), hanCharacter);
     }
 
+    std::vector<Candidate> handSuffixes(const std::string& input, Mode mode, Orthography style, bool next) const {
+        size_t byteStart = input.size();
+        for (size_t n = 0; n < HandwordIndex::contextCharacters && byteStart > 0; ++n) {
+            --byteStart;
+            while (byteStart > 0 && (static_cast<unsigned char>(input[byteStart]) & 0xc0) == 0x80) --byteStart;
+        }
+        Query q;
+        if (!q.read(input.substr(byteStart)) || q.scalars.empty()) return {};
+        size_t start = q.scalars.size();
+        while (start > 0 && q.scalars.size() - start < HandwordIndex::contextCharacters && hanCharacter(q.scalars[start - 1])) --start;
+        const auto hits = handwriting.lookup(std::u32string_view(q.scalars).substr(start), next);
+        std::vector<Candidate> result;
+        std::unordered_set<char32_t> emitted;
+        for (const auto& hit : hits) {
+            if (next) {
+                if (!hanCharacter(hit.next) || !emitted.insert(hit.next).second) continue;
+                Candidate c{"", "", 0};
+                appendUtf8(c.text, hit.next);
+                result.push_back(std::move(c));
+            } else {
+                const int consumed = q.utf16At.back() - q.utf16At[q.scalars.size() - hit.length];
+                result.push_back(lexical(hit.id, mode, style, consumed));
+            }
+        }
+        return result;
+    }
+
     WordIds completions(const Query& q) const {
         WordIds matches;
         auto it = variantInitials.find(q.scalars.front());
@@ -1421,8 +1471,9 @@ struct Lexicon::Impl {
     }
 };
 
-Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams, const std::string& sounds, const std::string& senses)
-    : impl_(new Impl(tsv, ngrams, sounds, senses)) {}
+Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams, const std::string& sounds,
+                 const std::string& senses, const std::string& readings)
+    : impl_(new Impl(tsv, ngrams, sounds, senses, readings)) {}
 Lexicon::~Lexicon() = default;
 
 std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orthography orthography) const {
@@ -1434,6 +1485,20 @@ std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orth
 std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input, Mode mode, Orthography style) const {
     if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
     return impl_->handwritingSuggestions(input, mode, style);
+}
+
+std::vector<Candidate> Lexicon::handwrittenWords(const std::string& before, Mode mode, Orthography style) const {
+    if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
+    return impl_->handSuffixes(before, mode, style, false);
+}
+
+std::vector<Candidate> Lexicon::nextHandwrittenGlyphs(const std::string& before) const {
+    return impl_->handSuffixes(before, Mode::Han, Orthography::Ye, true);
+}
+
+int Lexicon::handwritingContextLength() const {
+    // A regional homophone may be outside the BMP even when its canonical graph is not.
+    return static_cast<int>(std::min(impl_->handwriting.longest, HandwordIndex::contextCharacters) * 2);
 }
 
 std::vector<Candidate> Lexicon::nextSyllables(const std::string& context, Orthography style) const {
