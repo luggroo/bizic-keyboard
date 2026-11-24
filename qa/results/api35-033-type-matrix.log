@@ -1,0 +1,55 @@
+https://github.com/luggroo/bizic-keyboard/actions/runs/45442651162
+Commit 4a7fe6b, source-built APK. The nine size profiles finished successfully. Subsequent live handwriting test is separately reported below.
+google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
+Physical size: 1080x1920
+Physical density: 420
+1.0
+2
+11b15fe81eb5c58822f41a76cf06dd581fa78edce5d7541ab1805e4fb96914b1  build/qa-keyboard.apk
+077f73c04cf28959fabfd39b0daebaea9edfdfee090a0c9695a0d2e6d6749ce7  build/fixture.apk
+
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+INSTRUMENTATION_STATUS: step=Typography small font=0.85 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=31.24px platform20sp=44.63px Qink=37px glossInk=27px wordInk=42px toolbarY=1117px editorBottom=176px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography default font=1.00 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=36.75px platform20sp=52.50px Qink=44px glossInk=32px wordInk=50px toolbarY=1116px editorBottom=187px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 115 font=1.15 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=43.05px platform20sp=57.22px Qink=47px glossInk=39px wordInk=55px toolbarY=1102px editorBottom=193px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography large font=1.30 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=49.35px platform20sp=61.95px Qink=52px glossInk=44px wordInk=59px toolbarY=1088px editorBottom=200px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 160 font=1.60 dpi=420 viewport=411dp keyHeight=45.7dp platform14sp=59.85px platform20sp=72.45px Qink=60px glossInk=54px wordInk=69px toolbarY=1062px editorBottom=214px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography largest font=2.00 dpi=420 viewport=411dp keyHeight=47.6dp platform14sp=68.25px platform20sp=89.25px Qink=74px glossInk=61px wordInk=86px toolbarY=1002px editorBottom=233px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography default-dense font=1.00 dpi=540 viewport=320dp keyHeight=46.2dp platform14sp=47.25px platform20sp=67.50px Qink=56px glossInk=44px wordInk=63px toolbarY=887px editorBottom=240px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography 160-dense font=1.60 dpi=540 viewport=320dp keyHeight=46.2dp platform14sp=76.95px platform20sp=93.15px Qink=77px glossInk=70px wordInk=88px toolbarY=816px editorBottom=274px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Typography largest-dense font=2.00 dpi=540 viewport=320dp keyHeight=47.7dp platform14sp=87.75px platform20sp=114.75px Qink=96px glossInk=79px wordInk=109px toolbarY=746px editorBottom=297px
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Restored original density 420 and system font_scale 1.0
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: failure=java.lang.AssertionError: Expected [正文麻麻爹三三], got [正文麻麻爹亡]
+	at biz.tujia.ime.e2e.KeyboardTest.expectText(KeyboardTest.java:1293)
+	at biz.tujia.ime.e2e.SystemTypography.activeInputChanges(SystemTypography.java:134)
+	at biz.tujia.ime.e2e.SystemTypography.run(SystemTypography.java:51)
+	at biz.tujia.ime.e2e.KeyboardTest.onStart(KeyboardTest.java:88)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2594)
+
+INSTRUMENTATION_RESULT: failureFrame=failure.png
+INSTRUMENTATION_RESULT: outcome=FAIL
+INSTRUMENTATION_CODE: 0
+/sdcard/Android/data/biz.tujia.ime.e2e/files/failure.png: 1 file pulled, 0 skipped. 14.8 MB/s (67103 bytes in 0.004s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-small.png: 1 file pulled, 0 skipped. 26.6 MB/s (64271 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default.png: 1 file pulled, 0 skipped. 1.5 MB/s (74151 bytes in 0.047s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-115.png: 1 file pulled, 0 skipped. 62.6 MB/s (79372 bytes in 0.001s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-large.png: 1 file pulled, 0 skipped. 62.3 MB/s (84907 bytes in 0.001s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160.png: 1 file pulled, 0 skipped. 2.2 MB/s (95853 bytes in 0.042s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest.png: 1 file pulled, 0 skipped. 41.3 MB/s (108983 bytes in 0.003s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-default-dense.png: 1 file pulled, 0 skipped. 3.1 MB/s (89635 bytes in 0.027s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-160-dense.png: 1 file pulled, 0 skipped. 45.8 MB/s (116072 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-largest-dense.png: 1 file pulled, 0 skipped. 61.9 MB/s (133115 bytes in 0.002s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/typography-draft.png: 1 file pulled, 0 skipped. 62.2 MB/s (127931 bytes in 0.002s)

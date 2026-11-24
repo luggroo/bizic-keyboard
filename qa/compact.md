@@ -2,7 +2,7 @@
 
 在 AOSP Android 9（API 28、x86_64）上，点开外部编辑框后，「打字」「手写」「更多」「收起」位于同一行。输入 `ga` 时，下方四格同时显示候选，第一格上方是「吃」，下方是「架」。点它，宿主正文从「正文」变为「正文架」。打开再关闭「更多」会保留当前的 `ga`。切到手写后，改变手写输出格式不会移动书写区。[输入与候选](results/api28-033-compact-typing.png) · [更多](results/api28-033-compact-more.png) · [手写](results/api28-033-compact-handwriting.png)
 
-系统字号设为 100% 时，一般竖屏字母使用 20 sp。480 × 800 px、160 dpi 的 Android 9 模拟器上，Q 的可点高度为 46 dp，默认字体的可见字形为 16 px。把系统字号调到 85% 后，Q 的字形变为 13 px，触区仍为 46 dp。[85% 与 100% 的原始测量](results/api28-system-type-baseline.log)
+系统字号设为 100% 时，一般竖屏字母使用 20 sp。480 × 800 px、160 dpi 的 Android 9 模拟器上，Q 的可点高度为 46 dp，默认字体的可见字形为 16 px。把系统字号调到 85% 后，Q 的字形变为 13 px，触区仍为 46 dp。[85% 与 100% 的原始测量](results/api28-system-type-baseline.log) · [九档系统字号与显示密度](typography.md)
 
 输入 `rif`，点只写「日」的候选，宿主收到一个「日」，草稿清空。同一串拼写选「做／日」时，候选只用掉 `ri`，键盘仍显示 `f`，可接着输入。
 
