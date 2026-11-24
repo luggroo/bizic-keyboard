@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">土家语输入法</string>
+    <string name="subtype_name">北部土家语</string>
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#A23B25</item>
+        <item name="android:statusBarColor">#792C1E</item>
+        <item name="android:navigationBarColor">#29221F</item>
+        <item name="android:windowBackground">#FFF9F3</item>
+    </style>
+</resources>

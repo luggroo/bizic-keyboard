@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="biz.tujia.storynotes">
+    <application android:label="记事本" android:debuggable="true" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false">
+        <activity android:name=".NotesActivity" android:exported="true" android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+    </application>
+    <instrumentation android:name=".Playback" android:targetPackage="biz.tujia.storynotes" android:label="故事录制"/>
+</manifest>

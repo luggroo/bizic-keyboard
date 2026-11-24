@@ -1,0 +1,32 @@
+{
+  "source": "https://github.com/luggroo/bizic-dictionary/tree/b882110a9e86b52536f7b8b4bf8179ae5f70f2f0/site",
+  "method": "Count northern aligned word or word-group annotations with matching tone-marked spelling and Chinese sense; omit unresolved homophones. In the geographically identified northern Brassett transcripts, count exact numeric-tone word spans only when there is one dictionary ID for the spelling. Undetermined sense and unresolved token boundaries are omitted. Counts estimate collection usage; zero means no qualifying observation.",
+  "sourcesSHA256": {
+    "annotated-books.json": "4a13093d96a815fd3453055753a4c93b121ffbd72fefab5cae2eef586a7f8910",
+    "longshan-texts.json": "c5dd1e4ad1382ac63a34462c5ca8c319450e4cbb259e4eada73e78b21eae4cf7",
+    "data.json.gz": "7e380eb315516cb26484e16996fd3fe502bae0ac4531bd4176879e15a62bc2dc",
+    "dictionary.json.gz": "7a090fdd4a77a3921aa818ee5a7ec03d4d87b8b839cf37e00ca32dfc3a4a5156",
+    "longshan-texts.js": "ceabb318e7c4aea8a39794fb50647d4907a2d265ecb2d5c50447bc587cbcefec",
+    "notation-ui.js": "07f670c2d34e3a6be49eaccd00dfd39646b10561e85b84eb3268c3ba89cf7cb8"
+  },
+  "inputSHA256": {
+    "words.js": "dbc1164b0782be846aa051b5ba6e7b016e33373b5a6727a2828a4ef7fe3b239c",
+    "story-words.tsv": "27fe410d2b1fb8e1cbc879ed8e554f02d9616404dc139adb2cae85dd055c7282",
+    "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703"
+  },
+  "stats": {
+    "annotatedTexts": 14,
+    "annotatedUnits": 8536,
+    "annotatedMatches": 947,
+    "longshanTexts": 4,
+    "longshanUnits": 1277,
+    "longshanMatches": 418,
+    "brassettTexts": 25,
+    "brassettUnits": 14139,
+    "brassettMatches": 434
+  },
+  "tujiaRows": 510,
+  "referenceRows": 1243,
+  "observedRows": 285,
+  "mandarinRows": 35916
+}
