@@ -71,6 +71,9 @@ public final class KeyboardTest extends Instrumentation {
                     testJoinedForms();
                     testApicalVowels();
                     testContinuousHandwriting();
+                } catch (Throwable failure) {
+                    saveFailureFrame(result);
+                    throw failure;
                 } finally {
                     setStyleFromLauncher(originalStyle);
                 }
@@ -85,21 +88,23 @@ public final class KeyboardTest extends Instrumentation {
         } catch (Throwable failure) {
             result.putString("outcome", "FAIL");
             result.putString("failure", Log.getStackTraceString(failure));
-            if (captureFailure && ui != null) {
-                android.graphics.Bitmap shot = ui.takeScreenshot();
-                if (shot != null) {
-                    java.io.File dir = getTargetContext().getExternalFilesDir(null);
-                    try (java.io.FileOutputStream output = new java.io.FileOutputStream(new java.io.File(dir, "failure.png"))) {
-                        shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output);
-                    } catch (java.io.IOException e) { result.putString("screenshotError", e.toString()); }
-                    finally { shot.recycle(); }
-                }
-            }
+            saveFailureFrame(result);
         } finally {
             if (imeRoot != null) imeRoot.recycle();
             if (host != null) runOnMainSync(host::finish);
             finish(code, result);
         }
+    }
+
+    private void saveFailureFrame(Bundle result) {
+        if (!captureFailure || ui == null || result.containsKey("failureFrame")) return;
+        android.graphics.Bitmap shot = ui.takeScreenshot();
+        if (shot == null) return;
+        java.io.File dir = getTargetContext().getExternalFilesDir(null);
+        try (java.io.FileOutputStream output = new java.io.FileOutputStream(new java.io.File(dir, "failure.png"))) {
+            if (shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output)) result.putString("failureFrame", "failure.png");
+        } catch (java.io.IOException e) { result.putString("screenshotError", e.toString()); }
+        finally { shot.recycle(); }
     }
 
     private void testFirstInput() {
@@ -713,7 +718,10 @@ public final class KeyboardTest extends Instrumentation {
             if (findNode(label, false) != null) {
                 for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(label)) {
                     try {
-                        if (node.refresh() && node.isSelected() && android.text.TextUtils.equals(label, node.getContentDescription())) return;
+                        if (node.refresh() && node.isSelected() && android.text.TextUtils.equals(label, node.getContentDescription())) {
+                            awaitKeyboardAtRest();
+                            return;
+                        }
                     } finally { node.recycle(); }
                 }
             }
