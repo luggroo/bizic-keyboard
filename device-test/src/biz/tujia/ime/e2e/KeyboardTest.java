@@ -85,6 +85,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
+            if (suite.equals("regional")) testModernRegisterCharacters();
             if (suite.equals("typography")) new SystemTypography(this, host).run();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
@@ -713,6 +714,30 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, expected);
             waitForNode("待选拼写 ", false);
             stage("Regional Chinese input " + example[0] + " committed plain " + example[1]);
+        }
+    }
+
+    private void testModernRegisterCharacters() {
+        newPredictionEditor();
+        press("汉字记音");
+        String[][] examples = {{"稼","ga","jia"}, {"窖","gao","jiao"}, {"教","gao","jiao"},
+                {"降","gan","jian"}, {"嫁","ga","jia"}, {"甲","ga","jia"}, {"讲","gan","jian"},
+                {"眼","ngan","yan"}, {"虾","ha","xia"}};
+        StringBuilder expected = new StringBuilder();
+        for (String[] word : examples) {
+            for (int i = 1; i <= 2; i++) {
+                type(word[i]);
+                Card found = findPagedCard(word[0], false);
+                if (word[0].equals("稼") && !found.lines.equals(Collections.singletonList("稼")))
+                    throw new AssertionError("The Chinese character 稼 inherited a Tujia gloss: " + found.lines);
+                if (word[0].equals("嫁") && i == 2 && !found.lines.contains("先"))
+                    throw new AssertionError("jia lost the attested Tujia sense 先／嫁");
+                tap(found.bounds.centerX(), found.bounds.centerY());
+                expected.append(word[0]);
+                expectText(host.first, expected.toString());
+                waitForNode("待选拼写 ", false);
+            }
+            stage("Both modern Jishou readings committed " + word[0] + ": " + word[1] + " / " + word[2]);
         }
     }
 
