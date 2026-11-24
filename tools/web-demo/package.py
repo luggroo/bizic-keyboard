@@ -1,58 +1,37 @@
 #!/usr/bin/env python3
-"""Produce the offline HTML and ZIP directly from the current web UI and the shared engine."""
+"""Package the interactive demonstration as one offline HTML file."""
 import argparse
-from pathlib import Path
 import re
-from zipfile import ZipFile, ZIP_DEFLATED
+from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 
-root=Path(__file__).resolve().parents[2]
-parser=argparse.ArgumentParser()
-parser.add_argument('site',type=Path,help='Web project dist directory')
-parser.add_argument('artifacts',type=Path)
-parser.add_argument('--version',required=True)
-parser.add_argument('--reference-zip',type=Path,help='Prior offline release supplying the unchanged reference appendix')
-args=parser.parse_args()
-site=args.site;art=args.artifacts;version=args.version
-source=f'https://github.com/luggroo/bizic-keyboard/archive/refs/tags/v{version}.zip'
-release=f'https://github.com/luggroo/bizic-keyboard/releases/download/v{version}/'
-def inline(page):
-    def script(m):
-        js=(site/m[1]).read_text()
-        if m[1]=='syllables.js':
-            fetch="fetch('reference-data.json').then(r=>{if(!r.ok)throw Error();return r.json()})"
-            assert fetch in js
-            js=js.replace(fetch,'Promise.resolve('+ (site/'reference-data.json').read_text() +')')
-        return '<script>'+js.replace('</script','<\\/script')+'</script>'
-    return re.sub(r'<script src="([^"]+)"></script>',script,page)
+root = Path(__file__).resolve().parents[2]
+parser = argparse.ArgumentParser()
+parser.add_argument('site', type=Path)
+parser.add_argument('artifacts', type=Path)
+parser.add_argument('--version', required=True)
+parser.add_argument('--reference-zip', type=Path, help=argparse.SUPPRESS)
+args = parser.parse_args()
 
-def appendix(name):
-    path=site/name
-    if path.is_file():return path.read_bytes()
-    if args.reference_zip:
-        with ZipFile(args.reference_zip) as archive:return archive.read(name)
-    raise FileNotFoundError(f'{name}: supply the full site directory or --reference-zip')
+def inline(match):
+    source = (args.site / match.group(1)).read_text(encoding='utf-8')
+    return '<script>' + source.replace('</script', '<\\/script') + '</script>'
 
-def page(name):
-    value=appendix(name).decode().replace('href="./"', 'href="index.html"').replace('href="./?', 'href="index.html?')
-    if name=='android.html':
-        value=re.sub(r'安卓试用版 [0-9.]+','安卓试用版 '+version,value)
-        value=re.sub(r'https://github.com/luggroo/bizic-keyboard/archive/refs/tags/v[0-9.]+\.zip',source,value)
-        value=value.replace('"android-keyboard.mp4"','"'+release+'shange-demo.mp4"').replace('"continuous-handwriting.mp4"','"'+release+'continuous-handwriting.mp4"')
-    return inline(value)
-
-main=page('index.html')
-art.mkdir(parents=True,exist_ok=True)
-(art/'tujia-notes-demo.html').write_text(main)
-name='shange-demo.zip'; tmp=art/(name+'.tmp')
-with ZipFile(tmp,'w',ZIP_DEFLATED,compresslevel=7) as out:
-    out.writestr('index.html',main)
-    for f in ('android.html','orthography.html','homophones.html','shizi-tiaozao.html','syllables.html'):out.writestr(f,page(f))
-    for f in ('shizi-tiaozao.docx','north-syllables.xlsx','orthography-defaults.tsv','orthography.xlsx','four-candidates.png','large-type.png','keyboard-font-100.png','keyboard-font-160.png','keyboard-sense-go.png','keyboard-reading-ga.png','keyboard-reading-jia.png','joined-han.png','noon-corrected.png'):out.writestr(f,appendix(f))
-    for f in sorted((root/'shared/bundle/Assets/licenses').iterdir()):out.write(f,'licenses/'+f.name)
-    for f in sorted((root/'tools/web-demo/licenses').glob('*.txt')):out.write(f,'licenses/wasm/'+f.name)
-    for f in ('ARPHICPL.TXT','NOTICE.txt'):out.write(root/'shared/bundle/Assets/handwriting'/f,'licenses/handwriting/'+f)
-with ZipFile(tmp) as z:
-    assert z.testzip() is None
-    assert not re.search(r'<script src=',z.read('index.html').decode())
-tmp.replace(art/name)
-print(art/name,(art/name).stat().st_size)
+html = re.sub(r'<script src="([^"]+)"></script>', inline,
+              (args.site / 'index.html').read_text(encoding='utf-8'))
+licenses = list((root / 'shared/bundle/Assets/licenses').glob('*'))
+licenses += list((root / 'tools/web-demo/licenses').glob('*.txt'))
+licenses += [root / 'shared/bundle/Assets/handwriting' / f for f in ('ARPHICPL.TXT', 'NOTICE.txt')]
+licenses += [root / 'app/src/main/assets/ismantic' / f for f in ('LICENSE.txt', 'NOTICE.txt')]
+licenses += [root / 'tools/web-demo/licenses/onnxruntime.txt']
+license_text = '\n\n'.join(f'{p.name}\n{p.read_text(encoding="utf-8")}' for p in licenses if p.is_file())
+html += '\n<!-- Open-source licenses and data notices\n' + license_text.replace('--', '- -') + '\n-->\n'
+args.artifacts.mkdir(parents=True, exist_ok=True)
+(args.artifacts / 'index.html').write_text(html, encoding='utf-8')
+archive = args.artifacts / 'shange-demo.zip'
+with ZipFile(archive, 'w', ZIP_DEFLATED, compresslevel=7) as out:
+    out.writestr('index.html', html)
+with ZipFile(archive) as verify:
+    assert verify.namelist() == ['index.html'] and verify.testzip() is None
+    assert not re.search(r'<script src=', verify.read('index.html').decode())
+print(archive, archive.stat().st_size)
