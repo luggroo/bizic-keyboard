@@ -474,7 +474,8 @@ public final class KeyboardTest extends Instrumentation {
         setHandwritingOutput(true);
         Rect pad = waitForNode("汉字手写区", false);
         drawBo(pad);
-        expectText(host.first, "首波");
+        // The first stroke also loads the offline model on software-emulated devices.
+        expectText(host.first, "首波", 90000);
         waitForNode("已写成词", false);
         drawLi(pad);
         expectText(host.first, "首波俐");
@@ -567,6 +568,14 @@ public final class KeyboardTest extends Instrumentation {
         press("已写成词");
         visibleForm("布里");
         waitAbsent("板栗，树希布里");
+        runOnMainSync(() -> { host.first.setText("前阿安后"); host.first.setSelection(3); });
+        press("已写成词");
+        tapForm("阿安");
+        waitForNode("已写「阿安」", false);
+        for (int i = 0; i < 8 && findNode("已写「安」", false) == null; i++) press("切换匹配或义项");
+        waitForNode("已写「安」", false);
+        press("用推荐字");
+        expectText(host.first, "前阿阿安后");
     }
 
     private String chooseAlternateGlyph(String recognized) {
@@ -1614,7 +1623,11 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     void expectText(EditText field, String expected) {
-        long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        expectText(field, expected, WAIT_MS);
+    }
+
+    private void expectText(EditText field, String expected, long timeoutMs) {
+        long deadline = SystemClock.uptimeMillis() + timeoutMs;
         AtomicReference<String> actual = new AtomicReference<>();
         do {
             runOnMainSync(() -> actual.set(field.getText().toString()));
