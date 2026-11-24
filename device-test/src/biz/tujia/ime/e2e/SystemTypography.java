@@ -67,7 +67,6 @@ final class SystemTypography {
         test.assertEditorAboveKeyboard(host.first, "打字");
         Rect toolbar = test.waitForNode("打字", false);
         Rect q = test.waitForNode("q", false);
-        Rect candidate = cards.get(0).bounds;
         Rect hostField = new Rect();
         test.runOnMainSync(() -> host.first.getGlobalVisibleRect(hostField));
         // Capture the settled keyboard after the touch highlight has disappeared.
@@ -77,10 +76,8 @@ final class SystemTypography {
         int qInk, glossInk, wordInk;
         try {
             qInk = inkHeight(shot, q);
-            Rect upper = new Rect(candidate); upper.bottom = candidate.centerY();
-            Rect lower = new Rect(candidate); lower.top = candidate.centerY();
-            glossInk = inkHeight(shot, upper);
-            wordInk = inkHeight(shot, lower);
+            glossInk = inkHeight(shot, cards.get(0).lineBounds.get(0));
+            wordInk = inkHeight(shot, cards.get(0).lineBounds.get(1));
         } finally { shot.recycle(); }
         DisplayMetrics dm = host.getResources().getDisplayMetrics();
         Configuration cfg = host.getResources().getConfiguration();
@@ -158,7 +155,7 @@ final class SystemTypography {
 
     private static int inkHeight(Bitmap shot, Rect area) {
         int first = Integer.MAX_VALUE, last = -1;
-        for (int y = Math.max(0, area.top + 3); y < Math.min(area.bottom - 3, shot.getHeight()); y++) {
+        for (int y = Math.max(0, area.top); y < Math.min(area.bottom, shot.getHeight()); y++) {
             int dark = 0;
             for (int x = Math.max(0, area.left + 3); x < Math.min(area.right - 3, shot.getWidth()); x++) {
                 int color = shot.getPixel(x, y);

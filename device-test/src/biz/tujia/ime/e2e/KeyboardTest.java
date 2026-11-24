@@ -934,6 +934,7 @@ public final class KeyboardTest extends Instrumentation {
         final String name;
         final Rect bounds;
         final List<String> lines = new ArrayList<>();
+        final List<Rect> lineBounds = new ArrayList<>();
         Card(String name, Rect bounds) {
             this.name = name;
             this.bounds = bounds;
@@ -964,8 +965,12 @@ public final class KeyboardTest extends Instrumentation {
                     AccessibilityNodeInfo child = node.getChild(i);
                     if (child == null) continue;
                     try {
-                        if (child.isVisibleToUser() && child.getText() != null && child.getText().length() != 0)
+                        if (child.isVisibleToUser() && child.getText() != null && child.getText().length() != 0) {
                             found.lines.add(child.getText().toString());
+                            Rect line = new Rect();
+                            child.getBoundsInScreen(line);
+                            found.lineBounds.add(line);
+                        }
                     } finally { child.recycle(); }
                 }
                 page.add(found);
