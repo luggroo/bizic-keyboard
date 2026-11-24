@@ -1,5 +1,7 @@
 # Android 设备与宿主验收
 
+0.3.3 发行页的签名 APK 已在 GitHub 的 Android 9 和 Android 15 模拟器上通过设备套件 `all`。两次测试均从发行页下载安装包，校验 SHA-256 `1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6` 后安装，再从宿主读回实输文字。另有一项吉首文白专项，逐字用两种读音选入「稼、窖、教、降、嫁、甲、讲、眼、虾」，共 18 次。[Android 9 发行包实测](https://github.com/luggroo/bizic-keyboard/actions/runs/45457229248) · [Android 15 发行包实测](https://github.com/luggroo/bizic-keyboard/actions/runs/45457227570) · [吉首专项与用例](local-readings.md)
+
 0.3.3（版本码 8）在 AOSP Android 9 云模拟器 `emulator-5562` 上从 0.3.2 覆盖升级。升级后安装时间与应用 UID 均保留。该机为 x86_64，竖屏 480 × 800 px、160 dpi，系统字号 100%。在正式签名 APK `1bc2eef2…` 上再次覆盖升级，拉回的安装包与分发文件逐字节相同。下表所列的 Android 9 全量宿主记录使用较早的 `25ff5973…`。[正式签名包的升级记录](results/api28-033-signed-upgrade.log)
 
 后续的候选合并和系统字号在 Android 15 上单独复测。后来的本地 Android 9 软件模拟器在全量复测中发生系统进程崩溃，一度无法取得 `window`、`activity` 和 `input_method` 服务。[当时的系统日志](results/api28-software-guest-interruption.log)
