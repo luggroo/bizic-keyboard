@@ -1,0 +1,31 @@
+AOSP Android 9 API 28 x86_64, emulator-5562.
+Release APK SHA-256: 25ff597364cf6839518b9b9e319e8fe49336c8f5fa665f3d479d558601e96315
+Three-Han probe APK SHA-256: d79a8d9618fe380ead8f65498036b7324a965151af5560e2b28eda75843726a7
+Equivalent checked-in suite: TUJIA_E2E_SUITE=long-word.
+
+Performing Streamed Install
+Success
+Physical size: 480x800
+Override size: 320x720
+Physical density: 160
+1.6
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 33.3 MB/s (5646238 bytes in 0.162s)
+/data/app/biz.tujia.ime.e2e-kF5RWJ2I4nQOJsvUZhtBtQ==/base.apk: 1 file pulled, 0 skipped. 5.0 MB/s (78251 bytes in 0.015s)
+INSTRUMENTATION_STATUS: step=Three-syllable completion: 补全 女人，麻麻爹 [28,429][92,509], lines=[女人, 麻麻爹]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-three-han.png: 1 file pulled, 0 skipped. 7.1 MB/s (45080 bytes in 0.006s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-three-han-after.png: 1 file pulled, 0 skipped. 9.3 MB/s (49003 bytes in 0.005s)
+Physical size: 480x800
+Physical density: 160
+Override density: 240
+1.6
+/data/app/biz.tujia.ime-d3fnqNgyRGRIt6zk9Akk_w==/base.apk: 1 file pulled, 0 skipped. 4.7 MB/s (5646238 bytes in 1.157s)
+/data/app/biz.tujia.ime.e2e-kF5RWJ2I4nQOJsvUZhtBtQ==/base.apk: 1 file pulled, 0 skipped. 2.7 MB/s (78251 bytes in 0.027s)
+INSTRUMENTATION_STATUS: step=Three-syllable completion: 补全 女人，麻麻爹 [43,376][138,495], lines=[女人, 麻麻爹]
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-three-han.png: 1 file pulled, 0 skipped. 8.2 MB/s (64394 bytes in 0.008s)
+/sdcard/Android/data/biz.tujia.ime.e2e/files/compact-three-han-after.png: 1 file pulled, 0 skipped. 9.8 MB/s (67367 bytes in 0.007s)
