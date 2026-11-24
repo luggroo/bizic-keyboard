@@ -1,0 +1,116 @@
+{
+  "filmedApkSha256": "4cba2db80e58c4ae2663cdbe0006972516ae903a221d97278ba54f897e824c97",
+  "verifiedApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6",
+  "androidSdk": 28,
+  "screenPx": [
+    480,
+    800
+  ],
+  "densityDpi": 160,
+  "fontScale": 1.0,
+  "chromeAndCandidateRegionPx": [
+    0,
+    515,
+    480,
+    607
+  ],
+  "host": "biz.tujia.storynotes/.NotesActivity",
+  "scenes": {
+    "song": {
+      "previousFrameCount": 284,
+      "currentFrameCount": 284,
+      "capturedControlStateCount": 282,
+      "previousCandidatePixelsSha256": "7a770c43d38d2592fbc026be6bd450f7e0c74fd422ec284681727e898573a6b2",
+      "currentCandidatePixelsSha256": "7a770c43d38d2592fbc026be6bd450f7e0c74fd422ec284681727e898573a6b2",
+      "reopenedNoteUtf16Units": 49,
+      "commitCount": 22,
+      "candidateStateOrderIdentical": true,
+      "visiblyChangedCandidateStates": [],
+      "visiblyChangedPressedStates": [],
+      "differentRedrawnStrokeStates": 12
+    },
+    "free": {
+      "previousFrameCount": 74,
+      "currentFrameCount": 74,
+      "capturedControlStateCount": 72,
+      "previousCandidatePixelsSha256": "0dc41ab9493207621f0ae8291ecbe25357d4b30eb7cfbf783b2ffd732cee4027",
+      "currentCandidatePixelsSha256": "0dc41ab9493207621f0ae8291ecbe25357d4b30eb7cfbf783b2ffd732cee4027",
+      "reopenedNoteUtf16Units": 22,
+      "commitCount": 6,
+      "candidateStateOrderIdentical": true,
+      "visiblyChangedCandidateStates": [],
+      "visiblyChangedPressedStates": [],
+      "differentRedrawnStrokeStates": 0
+    },
+    "hand": {
+      "previousFrameCount": 33,
+      "currentFrameCount": 33,
+      "capturedControlStateCount": 31,
+      "previousCandidatePixelsSha256": "73f69dc549af22936dd7f33be02dd957fda5f8f7fd70bfc4472a12e3b431022d",
+      "currentCandidatePixelsSha256": "d04082a26c208f9361e3287072aca8b5ccf11075c422bf20d3f27ca9fcb1bb3e",
+      "reopenedNoteUtf16Units": 2,
+      "commitCount": 2,
+      "candidateStateOrderIdentical": true,
+      "visiblyChangedCandidateStates": [
+        [
+          "00006-ink2.png",
+          "00006-ink2.png",
+          1457,
+          [
+            12,
+            18,
+            468,
+            85
+          ]
+        ],
+        [
+          "00023-ink7.png",
+          "00023-ink7.png",
+          3287,
+          [
+            12,
+            14,
+            468,
+            85
+          ]
+        ]
+      ],
+      "visiblyChangedPressedStates": [],
+      "differentRedrawnStrokeStates": 18,
+      "handwritingAlternatives": {
+        "regionPx": [
+          0,
+          607,
+          480,
+          637
+        ],
+        "previousPixelsSha256": "adef373fe64e6624717241701f4da2ceb030c2f0ca9c1cbf072e68f11a0e73b7",
+        "currentPixelsSha256": "e221f7e6dd876ca58fc4b1137ce3208f677972367c8a0511dcd5b29614d59380"
+      }
+    }
+  },
+  "verifiedWordsSha256": "c6bdcacbb3e2c1f18e40143be667d1027f913a5edcad372469dd016368a96df2",
+  "mediaFiles": [
+    {
+      "releaseFile": "shange-demo.mp4",
+      "previousSha256": "84fcbe8ef8a7f08a636ee3c58071f9acfcaad582c4ea1965f1aa766e7c3d2bbf",
+      "sha256": "71002aadb34075eb400878dbcd8e3240d1fcab15d6cb76c093f79e76c492d49b",
+      "capturedOnApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6"
+    },
+    {
+      "releaseFile": "one-tap.mp4",
+      "previousSha256": "b57d010b150fdcb66a27ba759b200b2847ccd65e4b2ad36ee9c93fe6cbbae96d",
+      "sha256": "3c3e5d9615531a09a6d5b2ccd7ff25c93c3e6df74e99f7b2f9bbdc97073e376b",
+      "capturedOnApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6"
+    },
+    {
+      "releaseFile": "continuous-handwriting.mp4",
+      "previousSha256": "760efdd9b1eafc4068a27cd6975adbde9d2bac7c86783a9827f1185bd93d4b94",
+      "sha256": "8df7d2a37f2bfe24dcc6b13bed025e02815e2120b338a35cb8071683aa22e072",
+      "capturedOnApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6"
+    }
+  ],
+  "readingEvidence": "api28-033-book-reading-e2e.json",
+  "pixelEncoding": "For each capture except opening and reopened note, hash its UTF-8 state tag and a zero byte followed by the RGB image crop in row order.",
+  "comparisonSummary": "山歌四行及自由输入在相同编辑状态下，工具栏和候选栏像素一致。手写的两张中间笔画帧出现了不同的暂时候选。两次自动上屏及保存重开均为波俐。三段成片均使用更新后 APK 的实测画面。"
+}

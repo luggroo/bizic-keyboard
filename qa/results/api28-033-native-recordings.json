@@ -1,5 +1,5 @@
 {
-  "installedApkSha256": "4cba2db80e58c4ae2663cdbe0006972516ae903a221d97278ba54f897e824c97",
+  "installedApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6",
   "androidSdk": 28,
   "avd": "emulator-5564",
   "screenPx": [
@@ -12,8 +12,8 @@
     {
       "file": "shange-0.3.3.mp4",
       "releaseFile": "shange-demo.mp4",
-      "bytes": 1044394,
-      "sha256": "84fcbe8ef8a7f08a636ee3c58071f9acfcaad582c4ea1965f1aa766e7c3d2bbf",
+      "bytes": 1043703,
+      "sha256": "71002aadb34075eb400878dbcd8e3240d1fcab15d6cb76c093f79e76c492d49b",
       "durationSeconds": 137.066992,
       "frames": 4112,
       "chapters": [
@@ -42,8 +42,8 @@
     {
       "file": "one-tap.mp4",
       "releaseFile": "one-tap.mp4",
-      "bytes": 243708,
-      "sha256": "b57d010b150fdcb66a27ba759b200b2847ccd65e4b2ad36ee9c93fe6cbbae96d",
+      "bytes": 242916,
+      "sha256": "3c3e5d9615531a09a6d5b2ccd7ff25c93c3e6df74e99f7b2f9bbdc97073e376b",
       "durationSeconds": 35.3,
       "frames": 1059,
       "chapters": []
@@ -51,14 +51,14 @@
     {
       "file": "continuous-handwriting-0.3.3.mp4",
       "releaseFile": "continuous-handwriting.mp4",
-      "bytes": 73136,
-      "sha256": "760efdd9b1eafc4068a27cd6975adbde9d2bac7c86783a9827f1185bd93d4b94",
+      "bytes": 71632,
+      "sha256": "8df7d2a37f2bfe24dcc6b13bed025e02815e2120b338a35cb8071683aa22e072",
       "durationSeconds": 16.366667,
       "frames": 491,
       "chapters": []
     }
   ],
-  "wordsSha256": "8f494b6c7a6853cd830cc5c97c9d5a081afad9b9ddd36fd65c471c437eb665c9",
+  "wordsSha256": "c6bdcacbb3e2c1f18e40143be667d1027f913a5edcad372469dd016368a96df2",
   "frameCapture": "Android UiAutomation real softkey-down, candidate, commit and finger-stroke states, timed for reading.",
   "noteVerification": [
     {
