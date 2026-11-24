@@ -1,5 +1,6 @@
-https://github.com/luggroo/bizic-keyboard/actions/runs/45442700551
-Commit 4a7fe6b, Android 15 emulator. This workflow assembled its APK from source.
+GitHub Actions run https://github.com/luggroo/bizic-keyboard/actions/runs/45442700551
+Suite han-senses
+
 google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys
 Physical size: 1080x1920
 Physical density: 420
@@ -22,3 +23,6 @@ INSTRUMENTATION_RESULT: outcome=PASS
 INSTRUMENTATION_CODE: -1
 /sdcard/Android/data/biz.tujia.ime.e2e/files/sense-go.png: 1 file pulled, 0 skipped. 63.0 MB/s (79942 bytes in 0.001s)
 /sdcard/Android/data/biz.tujia.ime.e2e/files/sense-marked-go.png: 1 file pulled, 0 skipped. 73.1 MB/s (71096 bytes in 0.001s)
+
+0518b5ac51675aad91755b7eff7e75f50b3cabeb352d37b534abe3f3d75771a3  api35-033-han-go.png
+4eab394de5dfdc60c6a44c9aa0261fd917c203ecb1940caa8808371b1efad529  api35-033-han-marked-go.png
