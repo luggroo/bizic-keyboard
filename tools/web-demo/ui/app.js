@@ -294,13 +294,18 @@ function showCandidatePage(page){
   const visible=candidateItems.slice(page*cardsPerPage,(page+1)*cardsPerPage);
   box.replaceChildren(...visible.map(item=>{
     const el=wordButton(item.form,item.short,item.commit,item.units);
+    if(item.source==='hand-match' && item.roman){
+      const small=el.firstElementChild;
+      small.classList.add('hand-match-meta');
+      small.replaceChildren(node('span',item.short),node('span',item.roman,'hand-reading'));
+    }
     if(/^\p{Script=Han}{2,4}$/u.test(item.form))el.dataset.hanCount=Array.from(item.form).length;
     if(item.shortParts?.length===2){
       const small=el.firstElementChild;small.classList.add('glossPair');
       small.replaceChildren(node('span','¹'+item.shortParts[0]),node('span',' ','glossGap'),node('span','²'+item.shortParts[1]));
     }
     const description=item.shortParts?.length===2?item.shortParts.join('、'):item.short?(item.meaning||item.short):item.kind===1?'汉语':'';
-    el.setAttribute('aria-label',description?description+'，'+item.form:item.form);
+    el.setAttribute('aria-label',[description,item.roman,item.form].filter(Boolean).join('，'));
     const explanation=item.readerLines?.join('；')??item.fullGloss;
     el.title=explanation||'';
     if(explanation && explanation!==description)el.setAttribute('aria-description','汉义　'+explanation);
@@ -367,6 +372,26 @@ function groupHanCards(items,raw){
     }))};
   });
 }
+// A written suffix can have several readings. Coalesce only entries sharing
+// its complete accented reading and meaning; keep different tones separate.
+function groupHandMatches(matches,romans,before){
+  const groups=new Map();
+  for(const c of matches){
+    const actual=before.slice(-c.length);
+    const roman=romans.get(c.ids)||'';
+    const key=[actual,roman||c.ids,c.meaning].join('\0');
+    if(!groups.has(key))groups.set(key,{actual,roman,variants:[]});
+    groups.get(key).variants.push(c);
+  }
+  return Array.from(groups.values(),({actual,roman,variants})=>{
+    const first=variants[0], label=first.short||first.meaning;
+    const item={form:actual,short:label,roman,
+      meaning:first.meaning,fullGloss:first.meaning,readerLines:[roman,first.meaning].filter(Boolean),
+      source:'hand-match',id:variants.length===1?first.ids:'',kind:first.kind,consumed:first.length,commit:()=>{}};
+    item.commit=()=>openReading(item);
+    return item;
+  });
+}
 function candidates(){
   const hand=mode===2 && !draft.value ? activeHand() : null;
   const value=draft.value||hand?.raw||'',val=value.trim(),outputMode=compositionMode();
@@ -410,7 +435,7 @@ function candidates(){
 
   }
   const {ids,sound}=editorContext();
-  if(value){
+  if(value && !(mode===2 && handHan && !draft.value)){
     const exact=core.lookup(value,outputMode,style).filter(c=>!hand || (c.length===value.length && c.kind===0));
     for(const c of exact)if(c.kind===0&&!c.syllable&&c.length===value.length)offer(c,'exact');
     if(mode!==2)for(const c of core.spellingCompletions(value,ids,outputMode,style))offer(c,'completion');
@@ -427,18 +452,11 @@ function candidates(){
   }
   if(mode===2 && handHan && !draft.value && output.selectionStart===output.selectionEnd){
     const before=output.value.slice(0,output.selectionStart);
-    const romans=new Map(core.handwrittenWords(before,2,style).map(c=>[c.ids,c.form]));
-    const matches=core.handwrittenWords(before,1,style).map(c=>{
-      const actual=before.slice(-c.length), roman=romans.get(c.ids)||'';
-      const item={form:actual,short:c.short,meaning:c.meaning,fullGloss:c.meaning,
-        readerLines:[roman,c.meaning].filter(Boolean),source:'hand-match',id:c.ids,
-        kind:c.kind,consumed:c.length,commit:()=>{}};
-      item.commit=()=>openReading({...item,commit:()=>{}});
-      return item;
-    });
+    const romans=new Map(core.handwrittenWords(before,2,1).map(c=>[c.ids,c.form]));
+    const matches=groupHandMatches(core.handwrittenWords(before,1,style),romans,before);
     candidateItems.unshift(...matches);
   }
-  if(!speaking){
+  if(!speaking && !(mode===2 && handHan && !draft.value)){
     const prefix=mode===2?'':val;
     const words=ids?core.nextWords(ids,outputMode,style):[];
     const sounds=sound?core.nextSounds(sound,outputMode,style):[];
