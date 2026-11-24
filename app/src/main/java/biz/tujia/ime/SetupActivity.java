@@ -42,6 +42,7 @@ public final class SetupActivity extends Activity {
     private Button select;
     private Button spelling;
     private EditText trial;
+    private android.widget.CheckBox record;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -105,11 +106,39 @@ public final class SetupActivity extends Activity {
         trial.setBackground(shape(0xfff3f6f7, 0xff8c9ea7, 10));
         trial.setPadding(dp(12), dp(10), dp(12), dp(10));
         addSpaced(editor, trial, 12);
+        record = new android.widget.CheckBox(this);
+        record.setText("记录本次试打，供崩溃时排查");
+        record.setSaveEnabled(false);
+        record.setOnCheckedChangeListener((button, checked) -> CrashReports.recordTrial(checked));
+        addSpaced(editor, record, 8);
+        addSpaced(editor, label("仅记录此框内最近 64 次输入、选词等操作。崩溃时保存在本机，可在分享前查看。", 14, MUTED, false), 4);
+        addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
         spelling = action("", false, v -> chooseSpelling());
         addSpaced(body, spelling, 16);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
+    }
+
+    @Override protected void onStop() {
+        record.setChecked(false);
+        super.onStop();
+    }
+
+    private void showCrash() {
+        String report = CrashReports.read(this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("上次崩溃报告")
+                .setMessage(report.isEmpty() ? "暂无崩溃报告。" : report)
+                .setNegativeButton("关闭", null);
+        if (!report.isEmpty()) {
+            dialog.setNeutralButton("删除", (d, w) -> CrashReports.clear(this));
+            dialog.setPositiveButton("分享", (d, w) -> {
+                Intent send = new Intent(Intent.ACTION_SEND).setType("text/plain")
+                        .putExtra(Intent.EXTRA_TEXT, report);
+                startActivity(Intent.createChooser(send, "分享崩溃报告"));
+            });
+        }
+        dialog.show();
     }
 
     private void refresh() {

@@ -889,6 +889,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void acceptGlyph(String glyph, boolean correction) {
+        CrashReports.event(getCurrentInputEditorInfo(), "手写字", glyph);
         if (toneCancel != null) toneCancel.setVisibility(View.GONE);
         HandAnchor cursor = handAnchor();
         if (cursor == null || (!correction && (strokeAnchor == null || !strokeAnchor.matches(cursor)))) {
@@ -935,6 +936,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void chooseHand(CandidateEngine.Candidate c) {
+        CrashReports.event(getCurrentInputEditorInfo(), "手写选词", c.text);
         boolean predicting = wordHints.contains(c) || syllableHints.contains(c);
         boolean completing = wordCompletions.contains(c);
         if (!candidates.contains(c)) return;
@@ -1076,6 +1078,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void typeChar(char c) {
+        CrashReports.event(getCurrentInputEditorInfo(), "按键", String.valueOf(c));
         if (direct) commit(String.valueOf(c), false);
         else if (Character.isLetter(c) || !draft.isEmpty()) appendDraft(String.valueOf(c));
         else if (commit(String.valueOf(c), false)) {
@@ -1088,6 +1091,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void appendDraft(String text) {
         draft += text;
+        CrashReports.event(getCurrentInputEditorInfo(), "组字", draft);
         updateCandidates();
     }
 
@@ -1428,6 +1432,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int consumed = action != null ? action.consumed : prediction ? draft.length() : c.consumed;
         if (consumed > draft.length() || consumed < 0 || consumed == 0 && !draft.isEmpty()) return;
         CandidateEngine.Candidate selected = action == null ? c : action.candidate;
+        CrashReports.event(getCurrentInputEditorInfo(), "选词", selected.text);
         if (!commit(selected.text, true, selected.joinedHanRanges)) return;
         if (action == null) remember(recentWords, c);
         else remember(recentWords, selected, action.ids(), action.lastSyllable());
@@ -1509,6 +1514,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int offset = text.startsWith(original) ? 0 : 1;
         CharSequence output = HanUnitStyle.forEditor(text, joinedRanges, offset);
         if (!ic.commitText(output, 1)) return false;
+        CrashReports.event(getCurrentInputEditorInfo(), "上屏", text);
         if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + text.length());
         return true;
     }
@@ -1520,6 +1526,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void backspace() {
+        CrashReports.event(getCurrentInputEditorInfo(), "退格", "");
         if (mode == HAND && !direct) {
             if (pad != null && pad.hasInk()) { pad.undoStroke(); return; }
             discardHandWork();
