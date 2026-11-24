@@ -88,6 +88,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("regional")) testModernRegisterCharacters();
+            if (suite.equals("merged-smoke")) testMergedSmoke();
             if (suite.equals("hand-words")) {
                 testHandwrittenSuffixes();
                 testContinuousHandwriting();
@@ -125,6 +126,34 @@ public final class KeyboardTest extends Instrumentation {
             Log.w("TujiaImeE2E", "Could not save " + name, e);
             return false;
         } finally { shot.recycle(); }
+    }
+
+    private void testMergedSmoke() {
+        stage("Ismantic recognizes three strokes and commits to the editor");
+        tapField(host.first);
+        press("手写");
+        setHandwritingOutput(true);
+        drawThree(waitForNode("汉字手写区", false));
+        expectText(host.first, "三");
+
+        stage("Partially toned Ye syllables match the whole word in the editor");
+        press("叶氏拼音");
+        type("bifzika");
+        tapForm("bifzixkar");
+        press("句号");
+        expectText(host.first, "三bifzixkar。");
+
+        stage("Marked spelling mode accepts both untoned Tujia and Mandarin");
+        press("调号拼音");
+        type("siribuli");
+        tapForm("sīrǐbǔlǐ");
+        expectText(host.first, "三bifzixkar。sīrǐbǔlǐ");
+        type("surufa");
+        tapForm("输入法");
+        expectText(host.first, "三bifzixkar。sīrǐbǔlǐ输入法");
+
+        stage("Plain text syllable brackets retain rich editor styling");
+        testJoinedForms();
     }
 
     private void testFirstInput() {
@@ -415,7 +444,7 @@ public final class KeyboardTest extends Instrumentation {
 
         // Each character of this normal two-syllable word represents a separate syllable.
         type("boxlir");
-        pressCandidate("小孩、儿童，波俐", false);
+        tapForm("波俐");
         expectText(host.second, "˻克移˼波俐");
         assertJoinedRanges(host.second, 1, 3);
 
@@ -503,9 +532,11 @@ public final class KeyboardTest extends Instrumentation {
         tapForm("俐");
         expectText(host.second, corrected + "波俐");
         press("接着写");
-        Card prediction = nextSoundCard();
-        tap(prediction.bounds.centerX(), prediction.bounds.centerY());
-        String expectedSecond = corrected + "波俐" + outputLine(prediction);
+        List<Card> continuations = pageCards("续写 ");
+        if (continuations.isEmpty()) throw new AssertionError("No handwriting continuation");
+        Card continuation = continuations.get(0);
+        tap(continuation.bounds.centerX(), continuation.bounds.centerY());
+        String expectedSecond = corrected + "波俐" + outputLine(continuation);
         expectText(host.second, expectedSecond);
 
         stage("Pending strokes and correction cannot cross editor or cursor changes");

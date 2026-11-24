@@ -103,7 +103,7 @@ final class HostCompatibility {
             await(caption + " focus", destination::hasFocus);
             keys.waitForNode("完成", false);
             keys.type("hxif");
-            keys.pressCandidate("走，诶", false);
+            keys.pressCandidate("走、去、去；离开，诶", false);
             keys.expectText(destination, "诶");
             keys.expectText(active, "架");
         }
@@ -157,7 +157,7 @@ final class HostCompatibility {
         expectDom("note", "半日猜");
         keys.press("换行");
         keys.type("hxif");
-        keys.pressCandidate("走，诶", false);
+        keys.pressCandidate("走、去、去；离开，诶", false);
         expectDom("note", "半日猜\n诶");
         expectDom("word", "架");
         keys.press("隐藏键盘");
