@@ -102,6 +102,16 @@ final class SystemTypography {
         test.tapField(host.first);
         test.assertEditorAboveKeyboard(host.first, "打字");
         test.expectText(host.first, "正文架");
+        if (name.equals("default") || name.equals("largest-dense")) {
+            test.pressAction("完成");
+            long until = SystemClock.uptimeMillis() + 5000;
+            while (host.lastEditorAction != android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+                    && SystemClock.uptimeMillis() < until) SystemClock.sleep(50);
+            if (host.lastEditorAction != android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+                    || !"正文架".equals(host.lastSubmitted))
+                throw new AssertionError("Bottom-row action did not reach the host at " + name);
+            test.stage("Bottom-row 完成 reached the host with 正文架 at " + name);
+        }
         return qInk;
     }
 
