@@ -18,6 +18,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
       - name: Install Android toolchain
         run: >-
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
@@ -43,6 +44,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
       - name: Run Android Lint
         run: ./gradlew --no-daemon :app:lintDebug
       - uses: actions/upload-artifact@v4
