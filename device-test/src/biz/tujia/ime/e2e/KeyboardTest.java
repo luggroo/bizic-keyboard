@@ -1085,7 +1085,14 @@ public final class KeyboardTest extends Instrumentation {
                     android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
             tapField(host.first);
             waitForNode("英文直输", false);
-            press("a");
+            // The password layout drops the candidate rows and moves every letter key.
+            awaitKeyboardAtRest();
+            Rect aKey = waitForNode("a", false);
+            Rect qKey = waitForNode("q", false);
+            if (aKey.centerY() <= qKey.centerY())
+                throw new AssertionError("Password layout did not separate the A and Q rows: " + aKey + ", " + qKey);
+            stage("Tap A in the settled password layout: A=" + aKey + ", Q=" + qKey);
+            tap(aKey.centerX(), aKey.centerY());
             expectText(host.first, "a");
             if (!pageCards("下一音节 ").isEmpty() || !pageCards("联想 ").isEmpty())
                 throw new AssertionError("Visible prediction cards appeared in password field");
