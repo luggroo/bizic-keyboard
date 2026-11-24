@@ -67,7 +67,7 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
             assert body().splitlines()[-1]==form
         assert body().splitlines()==[e[1] for e in examples]
     else:
-        type_raw('karm');choose('kǎmǒng','completion')
+        type_raw('kam');choose('kǎmǒng','completion')
         assert body().strip()=='kǎmǒng'
         newline();type_raw('bizika');choose('bízīkǎ','exact')
         choose('mǒng','sound');choose('gǎ','sound')

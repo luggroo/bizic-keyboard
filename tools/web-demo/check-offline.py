@@ -182,8 +182,9 @@ with sync_playwright() as pw:
     page.locator('#result').fill('改了正文')
     assert page.locator('#candidates [data-source="sound"]').count()==0
     keyboard(0,True)
-    page.locator('#draft').fill('karm')
-    tree=page.locator('#candidates button[data-source="completion"]').filter(has=page.get_by_text('kǎmǒng',exact=True)).first
+    page.locator('#draft').fill('kam')
+    tree=visible_form('kǎmǒng')
+    assert tree.get_attribute('data-source')=='completion'
     assert tree.locator('small').inner_text()=='树';tree.click()
     assert text()=='kǎmǒng' and page.locator('#draft').input_value()==''
     keyboard(0)
@@ -213,7 +214,7 @@ with sync_playwright() as pw:
     brother=page.locator('#candidates .word').filter(has=page.get_by_text('哥哥',exact=True)).first
     assert brother.locator('strong').inner_text()=='哥哥' and brother.locator('small').inner_text()==''
     page.locator('#draft').fill('akoa')
-    assert page.evaluate("candidateItems.some(c=>c.form==='吖科吖' && c.meaning==='哥哥啊')")
+    assert page.evaluate("candidateItems.some(c=>c.form===wordById.get('ls60-21').recommended && c.meaning==='哥哥啊')")
     keyboard(1)
     page.locator('#draft').fill('ga')
     assert page.evaluate("candidateItems.some(c=>c.form==='架' && c.fullGloss.includes('吃、咬'))")
