@@ -406,15 +406,18 @@ public final class KeyboardTest extends Instrumentation {
         type("kir");
         pressCandidate("克移", false);
         expectText(host.second, "˻克移˼");
+        assertJoinedRanges(host.second, 1, 3);
 
         // Each character of this normal two-syllable word represents a separate syllable.
         type("boxlir");
         pressCandidate("小孩、儿童，波俐", false);
         expectText(host.second, "˻克移˼波俐");
+        assertJoinedRanges(host.second, 1, 3);
 
         type("kir");
         pressCandidate("克移", false);
         expectText(host.second, "˻克移˼波俐˻克移˼");
+        assertJoinedRanges(host.second, 1, 3, 7, 9);
         press("退格");
         expectText(host.second, "˻克移˼波俐");
     }

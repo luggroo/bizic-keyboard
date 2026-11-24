@@ -24,7 +24,7 @@ core=(shared/src/lexicon.cpp shared/src/strokes.cpp shared/src/edit.cpp)
     "$jni" "${core[@]}" -o "$work/libtujia_core.$extension"
 src=app/src/main/java/biz/tujia/ime
 "$JAVA_HOME/bin/javac" -encoding UTF-8 -d "$work" \
-    "$src/NativeCore.java" "$src/CandidateEngine.java" "$src/HanChoice.java" "$src/HanUnitStyle.java" "$src/StrokeRecognizer.java" \
+    "$src/NativeCore.java" "$src/CandidateEngine.java" "$src/HanChoice.java" "$src/HanUnitBrackets.java" "$src/StrokeRecognizer.java" \
     tests/CandidateEngineTest.java tests/HanChoiceTest.java tests/HanUnitStyleTest.java tests/StrokeRecognizerTest.java
 java=("$JAVA_HOME/bin/java" -Xcheck:jni "-Djava.library.path=$work" -cp "$work")
 if [[ "$suite" != strokes ]]; then
