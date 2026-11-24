@@ -1,8 +1,14 @@
-name: Android 15 device QA
+name: Android device QA
+run-name: Android API ${{ inputs.api_level || '35' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
 
 on:
   workflow_dispatch:
     inputs:
+      api_level:
+        description: 'Android API level (28 for Android 9, 35 for Android 15)'
+        type: choice
+        default: '35'
+        options: ['35', '28']
       suite:
         description: 'Device suite'
         type: choice
@@ -64,7 +70,7 @@ jobs:
           TUJIA_E2E_SUITE: ${{ inputs.suite }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: ${{ inputs.api_level || '35' }}
           target: google_apis
           arch: x86_64
           profile: pixel_2
@@ -73,6 +79,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: android-35-device-evidence
+          name: android-${{ inputs.api_level || '35' }}-device-evidence
           path: build/device-qa/
           if-no-files-found: warn
