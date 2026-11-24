@@ -21,7 +21,7 @@
 
 ### “架”的白读和“吃”的词义
 
-词典 w684 的 `gaf` 释作“吃／咬”。键盘用「架」记这个词的音，上方显示「吃」。吉首原始字表把「架」记为 `ka5`，旁注“白，葡萄～”；译写工具的北部对照表给 `gá / ka²⁴`，同样仅列这一白读。这里的葡萄架义与土家语的“吃”分别有各自的来源。[gaf 的词典条目](https://tujia.biz/?id=w684) · [北部字音表](https://github.com/luggroo/bizic-translator/blob/main/data/loan-readings-north.tsv#L4937) · [吉首对照](https://github.com/luggroo/bizic-translator/blob/main/data/loan-sources/jishou.tsv#L1703)
+词典 w684 的 `gaf` 释作“吃／咬”。键盘用「架」记这个词的音，上方显示「吃」。吉首原始字表把「架」记为 `ka5`，旁注“白，葡萄～”；译写工具的北部对照表给 `gá / ka²⁴`，同样仅列这一白读。重庆原表也收「架」，记为 `tɕia5`，分义栏空白。这为另一地的另一读音提供依据；“文读”标签仍须当地资料明示。这里的葡萄架义与土家语的“吃”分别有各自的来源。[gaf 的词典条目](https://tujia.biz/?id=w684) · [北部字音表](https://github.com/luggroo/bizic-translator/blob/main/data/loan-readings-north.tsv#L4937) · [吉首对照](https://github.com/luggroo/bizic-translator/blob/main/data/loan-sources/jishou.tsv#L1703) · [重庆对照](https://github.com/luggroo/bizic-translator/blob/main/data/loan-sources/chongqing.tsv#L1745)
 
 ### 复查
 
