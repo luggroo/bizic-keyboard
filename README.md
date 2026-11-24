@@ -8,7 +8,7 @@
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
 3. 点应用里的试打框，或在记事本里新建一条笔记。键盘上方可以直接切换「打字」「手写」。点「更多」选拼写输出，输入 `bizika`，点汉义为“土家族”的候选。正文按设置写入 `bízīkǎ`（带调号）或 `bifzixkar`（叶氏拼音）。在「更多」里选汉字记音，再打一次，就能选出「币兹咔」。
 
-打字、手写和「更多」共用固定的键盘区域。当前拼写就在工具栏中，正文留在上方。480 × 800 的安卓测试屏上，字母键的可点高度从 48 dp 增至 54–55 dp。[打字画面](qa/results/api28-033-compact-typing.png) · [手写画面](qa/results/api28-033-compact-handwriting.png) · [更多选项](qa/results/api28-033-compact-more.png)
+「打字」和「手写」同排，点一下就切换。当前拼写显示在这一行，记事本正文留在键盘上方。字母键、候选和汉义跟随手机的系统字号。想放大文字，可以在手机设置里搜索“字体大小”。想让按键和其他界面元素一起变大，可以搜索“显示大小”或“屏幕缩放”。[各品牌的设置入口](qa/system-type.md) · [打字画面](qa/results/api28-033-compact-typing.png) · [手写画面](qa/results/api28-033-compact-handwriting.png)
 
 ## 在记事本里写山歌
 
@@ -24,6 +24,8 @@
 [互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [输入演示录像](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4)
 
 「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。先看一条常用汉义，长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
+
+无调输入 `go` 时，“他”只占一格，推荐「过」。“过错”是另一个意思，可以单独选。想指定声调，输入 `gǒ` 或 `gor` 就能选到“他”的另一种读法和写法「郭」。手写「郭」也能找到这个词。
 
 也可以直接打调号。长按 A、E、I、O、U 会出现四个带调元音，点一个即可输入。例如输入 `bízīkǎ` 可以查到“土家族”。输出仍按设置里选择的拼写方案。
 
