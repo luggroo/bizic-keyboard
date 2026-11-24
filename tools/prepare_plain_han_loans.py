@@ -4,6 +4,7 @@ import argparse
 import csv
 import gzip
 import json
+import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -57,6 +58,20 @@ def main():
         readings[r["汉字"]].append(r["IPA"])
     with gzip.open(args.site / "dictionary.json.gz", "rt", encoding="utf-8") as stream:
         words = {r["id"]: r for r in json.load(stream)["words"]}
+    # The school combines the dictionary snapshot with an additional editorial JS
+    # archive, indexed under both primary and historical attestation identifiers.
+    loader = """const fs=require('fs'),vm=require('vm');
+const source=fs.readFileSync(process.argv[1],'utf8');
+const data=vm.runInNewContext(source+'\\nJSON.stringify(EDITORIAL_NOTES)',{}, {timeout:5000});
+process.stdout.write(data);"""
+    archive = json.loads(subprocess.check_output(["node", "-e", loader, str(args.site/"editorial-notes.js")]))
+    canonical = {a["id"]: d["id"] for d in words.values() for a in d.get("attestations", [])}
+    notes_by_word = {k: {n["id"]: n for n in d.get("editorialNotes", [])} for k, d in words.items()}
+    for note in archive:
+        for source_id in note["wordIds"]:
+            primary = canonical.get(source_id, source_id)
+            if primary in notes_by_word:
+                notes_by_word[primary].setdefault(note["id"], note)
     selected, findings = {}, {}
 
     def accept(key, han, source_id, sound, reason, status):
@@ -68,8 +83,14 @@ def main():
     for d in words.values():
         if d.get("dialect") != "北部":
             continue
-        notes = [n for n in d.get("editorialNotes", []) if n.get("kind") == "借词来源" and
-                 n.get("scope") == "whole" and n.get("donorVariety") == "汉语" and
+        annotations = [n for n in notes_by_word[d["id"]].values() if n.get("kind") == "借词来源"]
+        if d["id"] in vocabulary:
+            possible = [n for n in annotations if "可能借自" in n.get("text", "")]
+            if possible:
+                findings[d["id"]] = ("词典标作可能", "、".join(dict.fromkeys(n["donor"] for n in possible)),
+                                      d["id"], " ".join(dict.fromkeys(n["text"] for n in possible)))
+        notes = [n for n in annotations if
+                 n.get("scope") == "whole" and n.get("donorVariety", "").startswith("汉语") and
                  n.get("text", "").startswith("借自汉语")]
         for note in notes:
             if d["id"] in vocabulary:
