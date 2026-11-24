@@ -150,11 +150,12 @@ with sync_playwright() as pw:
             if percent in [100,160,200]:snap(page,'three-han-'+tag)
             if percent==200:
                 page.locator('#draft').fill('ga')
-                card=page.locator('#candidates button').filter(has=page.get_by_text('夹吓',exact=True))
+                form=page.evaluate("wordById.get('w698').recommended")
+                card=visible_form(form)
                 assert card.locator('small').inner_text()=='上面'
                 assert card.locator('strong').evaluate('e=>e.scrollWidth<=e.clientWidth')
                 snap(page,'ga-merged-320-200')
-                card.click();assert text()=='夹吓'
+                card.click();assert text()==form
             if percent in [160,200]:
                 page.locator('#draft').fill('go')
                 label=page.locator('#candidates .glossPair').first
