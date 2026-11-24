@@ -1185,7 +1185,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             v.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     Math.max(sp(minimum), v.getTextSize() * available / width));
         }
-        if (bold && getResources().getConfiguration().fontScale >= 1.3f && threeHan(value)) {
+        if (bold && getResources().getConfiguration().fontScale >= 1.3f && shortHanWord(value)) {
             v.addOnLayoutChangeListener((view, left, top, right, bottom, ol, ot, or, ob) -> {
                 if (keyboardFrame.getWidth() > dp(360)) {
                     if (v.getTextScaleX() != 1f) v.setTextScaleX(1f);
@@ -1209,8 +1209,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (Math.abs(view.getTextScaleX() - scale) > .001f) view.setTextScaleX(scale);
     }
 
-    private static boolean threeHan(CharSequence value) {
-        if (Character.codePointCount(value, 0, value.length()) != 3) return false;
+    private static boolean shortHanWord(CharSequence value) {
+        int count = Character.codePointCount(value, 0, value.length());
+        if (count < 2 || count > 3) return false;
         for (int at = 0; at < value.length();) {
             int c = Character.codePointAt(value, at);
             if (!Character.isIdeographic(c)) return false;
