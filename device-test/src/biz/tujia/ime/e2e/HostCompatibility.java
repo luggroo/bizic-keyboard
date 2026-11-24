@@ -117,6 +117,8 @@ final class HostCompatibility {
                     EditorInfo.IME_ACTION_DONE, false);
             keys.tapField(host.first);
             String first = number ? "1" : "g", second = number ? "2" : "a";
+            keys.waitForNode(number ? "数字" : "英文直输", false);
+            keys.awaitKeyboardAtRest();
             keys.press(first);
             keys.press(second);
             String expected = first + second;
@@ -138,6 +140,11 @@ final class HostCompatibility {
             if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("WebView document did not load");
             SystemClock.sleep(80);
         }
+        CountDownLatch painted = new CountDownLatch(1);
+        keys.runOnMainSync(() -> host.web.postVisualStateCallback(1L, new android.webkit.WebView.VisualStateCallback() {
+            @Override public void onComplete(long requestId) { painted.countDown(); }
+        }));
+        if (!painted.await(10, TimeUnit.SECONDS)) throw new AssertionError("WebView did not present the form");
         tapDom("word");
         commitEating();
         expectDom("word", "架");
@@ -175,18 +182,40 @@ final class HostCompatibility {
     }
 
     private void tapDom(String id) throws Exception {
-        String rect = js("(function(){var r=document.getElementById('" + id + "').getBoundingClientRect();"
-                + "return [(r.left+8)*devicePixelRatio,(r.top+r.height/2)*devicePixelRatio]})()");
-        JSONArray point = new JSONArray(rect);
-        int[] origin = new int[2];
-        keys.runOnMainSync(() -> host.web.getLocationOnScreen(origin));
-        keys.tap(origin[0] + (float)point.getDouble(0), origin[1] + (float)point.getDouble(1));
-        long deadline = SystemClock.uptimeMillis() + 6500;
+        long deadline = SystemClock.uptimeMillis() + 10000;
+        String previous = "", target = "";
+        long stableAt = 0;
+        int x = 0, y = 0;
+        do {
+            target = js("(function(){var r=document.getElementById('" + id + "').getBoundingClientRect(),"
+                    + "x=r.left+r.width/2,y=r.top+r.height/2,e=document.elementFromPoint(x,y);"
+                    + "return [e&&e.id,x*devicePixelRatio,y*devicePixelRatio]})()");
+            JSONArray point = new JSONArray(target);
+            Rect area = new Rect();
+            int[] origin = new int[2];
+            keys.runOnMainSync(() -> {
+                host.web.getLocationOnScreen(origin);
+                if (host.hasWindowFocus() && host.web.getLocalVisibleRect(area)) area.offset(origin[0], origin[1]);
+            });
+            x = origin[0] + (int)Math.round(point.getDouble(1));
+            y = origin[1] + (int)Math.round(point.getDouble(2));
+            String observed = target + area.toShortString();
+            long now = SystemClock.uptimeMillis();
+            if (!host.imeAnimating && id.equals(point.optString(0)) && area.contains(x, y)) {
+                if (previous.equals(observed) && now - stableAt >= 250) break;
+                if (!previous.equals(observed)) { stableAt = now; previous = observed; }
+            } else previous = "";
+            if (now > deadline) throw new AssertionError("DOM field did not settle: " + id + ", target=" + observed);
+            SystemClock.sleep(50);
+        } while (true);
+        keys.tap(x, y);
+        deadline = SystemClock.uptimeMillis() + 6500;
         while (!JSONObject.quote(id).equals(js("document.activeElement.id"))) {
             if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("Touch did not focus DOM " + id
-                    + " at " + rect + " origin " + origin[0] + "," + origin[1] + ", focus=" + js("document.activeElement.id"));
+                    + " at " + x + "," + y + "; target=" + target + ", focus=" + js("document.activeElement.id"));
             SystemClock.sleep(65);
         }
+        keys.awaitKeyboardAtRest();
     }
 
     private void expectDom(String id, String text) throws Exception {
