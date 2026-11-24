@@ -81,6 +81,21 @@ final class SystemTypography {
             qInk = inkHeight(shot, q);
             glossInk = inkHeight(shot, cards.get(0).lineBounds.get(0));
             wordInk = inkHeight(shot, cards.get(0).lineBounds.get(1));
+            if (name.equals("largest-dense")) {
+                KeyboardTest.Card last = cards.get(3);
+                if (!last.lines.equals(java.util.Arrays.asList("上面", "夹吓")))
+                    throw new AssertionError("Fourth ga card at 320dp: " + last.lines);
+                Rect form = last.lineBounds.get(1);
+                Rect right = new Rect(form);
+                right.left += Math.round(form.width() * .72f);
+                int whole = inkHeight(shot, form), lastChar = inkHeight(shot, right);
+                test.stage("Two-Han pixels for 夹吓: form=" + form.toShortString() + " fullInk=" + whole
+                        + "px rightInk=" + lastChar + "px sample=" + right.toShortString());
+                // 下 inside 吓 reaches high and low in the rightmost quarter. An ellipsis
+                // in the same place only paints a narrow strip near the baseline.
+                if (lastChar < whole * .55f)
+                    geometryErrors.add("Fourth candidate 上面／夹吓 ends in baseline dots: " + lastChar + "/" + whole);
+            }
         } finally { shot.recycle(); }
         DisplayMetrics dm = host.getResources().getDisplayMetrics();
         Configuration cfg = host.getResources().getConfiguration();
