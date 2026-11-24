@@ -359,7 +359,7 @@ w404	cercixker		柳树	策此克			0	tujia	柳树	cecike	cěcīkě	策|此|克
 w405	cercirkex		麻团	策尺客			0	tujia	麻团	cecike	cěcǐkē	策|尺|客		
 w406	cercirlax		纱	策尺拉			0	tujia	纱	cecila	cěcǐlā	策|尺|拉		
 w407	cer dor		流水	策夺			0	tujia	流水	ce do	cě dǒ	策|夺		
-w408	cergarhaf		水面	策夹吓			0	tujia	水面	cegaha	cěgǎhá	策|夹|吓		
+w408	cergarhaf		水面	策夹下	策夹吓		0	tujia	水面	cegaha	cěgǎhá	策|夹|下		
 w409	cer her		漏水	策赫			0	tujia	漏水	ce he	cě hě	策|赫		
 w410	cerhurtar		很多东西	策胡踏			0	tujia	很多东西	cehuta	cěhǔtǎ	策|胡|踏		
 w411	cerkux		大麻纤维	策苦			0	tujia	大麻纤维	ceku	cěkū	策|苦		
@@ -724,8 +724,8 @@ w810	gorjiax		国家	郭家			0	tujia	国家	gojia	gǒjiā	郭|家
 w811	goxpinx		果品	哥拼			0	tujia	果品	gopin	gōpīn	哥|拼		
 w812	goxwux		歌舞	哥乌			0	tujia	歌舞	gowu	gōwū	哥|乌		
 w813	ha		(叹词)				0	phonetic	(叹词)	ha	ha			
-w814	haf		筐	吓			0	tujia	筐	ha	há	吓		
-w816	haf		剖开	吓			0	tujia	剖开	ha	há	吓		
+w814	haf		筐	下	吓		0	tujia	筐	ha	há	下		
+w816	haf		剖开	下	吓		0	tujia	剖开	ha	há	下		
 w817	har		打	蛤			0	tujia	打	ha	hǎ	蛤		
 w818	har		结拜	蛤			0	tujia	结拜	ha	hǎ	蛤		
 w819	har		砍	蛤			0	tujia	砍	ha	hǎ	蛤		
@@ -1170,7 +1170,7 @@ w1337	lifbux		稻谷	利补			0	tujia	稻谷	libu	líbū	利|补
 w1339	lifbux ngav		割谷子	利补桠			0	tujia	割谷子	libu nga	líbū ngà	利|补|桠		
 w1340	lifbux sov		割谷子	利补所			0	tujia	割谷子	libu so	líbū sò	利|补|所		
 w1342	lifgaxcirwofgaxcir		螳螂	利尕尺卧尕尺			0	tujia	螳螂	ligaciwogaci	lígācǐwógācǐ	利|尕|尺|卧|尕|尺		
-w1343	livgarhaf		地上	里夹吓			0	tujia	地上	ligaha	lìgǎhá	里|夹|吓		
+w1343	livgarhaf		地上	里夹下	里夹吓		0	tujia	地上	ligaha	lìgǎhá	里|夹|下		
 w1344	livhongx		田土	里轰			0	tujia	田土	lihong	lìhōng	里|轰		
 w1345	lifjinx		老虎精	利经			0	tujia	老虎精	lijin	líjīn	利|经		
 w1346	lixkoxcongx		胸脯	里可充			0	tujia	胸脯	likocong	līkōcōng	里|可|充		
@@ -1203,7 +1203,7 @@ w1374	lier		挤	列			0	tujia	挤	lie	liě	列
 w1375	lier		(强调)	列			0	tujia	(强调)	lie	liě	列		
 w1376	liefbartir		楼下	烈八提			0	tujia	楼下	liebati	liébǎtǐ	烈|八|提		
 w1377	liefdar		下楼	烈达			0	tujia	下楼	lieda	liédǎ	烈|达		
-w1378	liefgarhaf		楼上	烈夹吓			0	tujia	楼上	liegaha	liégǎhá	烈|夹|吓		
+w1378	liefgarhaf		楼上	烈夹下	烈夹吓		0	tujia	楼上	liegaha	liégǎhá	烈|夹|下		
 w1379	liefper		阴囊	烈迫			0	tujia	阴囊	liepe	liépě	烈|迫		
 w1380	liefperbuflix		睾丸	烈迫布里			0	tujia	睾丸	liepebuli	liépěbúlī	烈|迫|布|里		
 w1381	lierpongf		尾巴	列碰			0	tujia	尾巴	liepong	liěpóng	列|碰		
@@ -1291,7 +1291,7 @@ w1479	maoxcongrkarmongr		枞树	卯从咔萌			0	tujia	枞树	maocongkamong	māo
 w1480	maorgursix		茅古斯	毛谷使			0	tujia	茅古斯	maogusi	mǎogǔsī	毛|谷|使		
 w1481	maofhox		生气	冒喝			0	tujia	生气	maoho	máohō	冒|喝		
 w1482	maormaorkarkar		不太纯的	毛毛咔咔			0	tujia	不太纯的	maomaokaka	mǎomǎokǎkǎ	毛|毛|咔|咔		
-w1483	maornixxiafhox		内脏	毛你下喝			0	tujia	内脏	maonixiaho	mǎonīxiáhō	毛|你|下|喝		
+w1483	maornixxiafhox		内脏	毛你夏喝	毛你下喝		0	tujia	内脏	maonixiaho	mǎonīxiáhō	毛|你|夏|喝		
 w1484	maortaif		生气	毛太			0	tujia	生气	maotai	mǎotái	毛|太		
 w1485	maortangxzix		毛毯子	毛坦子			0	tujia	毛毯子	maotangzi	mǎotāngzī	毛|坦|子		
 w1486	maortaof		兔子	毛套			0	tujia	兔子	maotao	mǎotáo	毛|套		
@@ -1306,7 +1306,7 @@ w1494	mercirkex		肚皮	麦尺客			0	tujia	肚皮	mecike	měcǐkē	麦|尺|客
 w1495	mefdix		听话	脉低			0	tujia	听话	medi	médī	脉|低		
 w1496	mef gar		天旱	脉夹			0	tujia	天旱	me ga	mé gǎ	脉|夹		
 w1497	mergaf		生气	麦尬			0	tujia	生气	mega	měgá	麦|尬		
-w1498	mefgarhaf		天上	脉夹吓			0	tujia	天上	megaha	mégǎhá	脉|夹|吓		
+w1498	mefgarhaf		天上	脉夹下	脉夹吓		0	tujia	天上	megaha	mégǎhá	脉|夹|下		
 w1499	mergor		肚子	麦郭			0	tujia	肚子	mego	měgǒ	麦|郭		
 w1500	mef har		雷劈	脉蛤			0	tujia	雷劈	me ha	mé hǎ	脉|蛤		
 w1501	merjief		饱	麦借			0	tujia	饱	mejie	mějié	麦|借		
@@ -2125,11 +2125,11 @@ w2440	xixpax		爬	希啪			0	tujia	爬	xipa	xīpā	希|啪
 w2441	xir piev		扯草	昔瞥			0	tujia	扯草	xi pie	xǐ piè	昔|瞥		
 w2442	xifpongv		青菜	细蓬			0	tujia	青菜	xipong	xípòng	细|蓬		
 w2443	xirsangx		席上	昔伞			0	tujia	席上	xisang	xǐsāng	昔|伞		
-w2444	xiaf		下	下			0	tujia	下	xia	xiá	下		
-w2445	xiaf		夏	下			0	tujia	夏	xia	xiá	下		
-w2446	xiaf		生下	下			0	tujia	生下	xia	xiá	下		
-w2447	xiafmianx		下面	下免			0	tujia	下面	xiamian	xiámiān	下|免		
-w2448	xiafsangx		下山	下伞			0	tujia	下山	xiasang	xiásāng	下|伞		
+w2444	xiaf		下	夏	下		0	tujia	下	xia	xiá	夏		
+w2445	xiaf		夏	夏	下		0	tujia	夏	xia	xiá	夏		
+w2446	xiaf		生下	夏	下		0	tujia	生下	xia	xiá	夏		
+w2447	xiafmianx		下面	夏免	下免		0	tujia	下面	xiamian	xiámiān	夏|免		
+w2448	xiafsangx		下山	夏伞	下伞		0	tujia	下山	xiasang	xiásāng	夏|伞		
 w2449	xiaxxix		交差	虾希			0	tujia	交差	xiaxi	xiāxī	虾|希		
 w2451	xianx		先	香			0	tujia	先	xian	xiān	香		
 w2452	xianx		乡	香			0	tujia	乡	xian	xiān	香		
@@ -3249,7 +3249,7 @@ stedt-rn-454529	cercar		编制的锅垫	策查			0	tujia	编制的锅垫	ceca	c�
 stedt-rn-454452	cercirlangrtangr		(稀饭)	策尺栏弹			0	tujia	(稀饭)	cecilangtang	cěcǐlǎngtǎng	策|尺|栏|弹		
 stedt-rn-453627	cercixker		柳树	策此克			0	tujia	柳树	cecike	cěcīkě	策|此|克		
 stedt-rn-453520	cerdor		水流；河流流动	策夺			0	tujia	水流；河流流动	cedo	cědǒ	策|夺		
-stedt-rn-453521	cergarhaf		在水上／河上	策夹吓			0	tujia	在水上／河上	cegaha	cěgǎhá	策|夹|吓		
+stedt-rn-453521	cergarhaf		在水上／河上	策夹下	策夹吓		0	tujia	在水上／河上	cegaha	cěgǎhá	策|夹|下		
 stedt-rn-453522	cerlar		沟	策辣			0	tujia	沟	cela	cělǎ	策|辣		
 stedt-rn-453690	cersir		小孩的口水	策石			0	tujia	小孩的口水	cesi	cěsǐ	策|石		
 stedt-rn-453524	certixbix		河对面	策体比			0	tujia	河对面	cetibi	cětībī	策|体|比		
@@ -3348,7 +3348,7 @@ stedt-rn-454809	gaflixgaflix		慢吞吞地；懒洋洋地	尬里尬里			0	tujia
 stedt-rn-454874	gar		干；干燥	夹			0	tujia	干；干燥	ga	gǎ	夹		
 stedt-rn-455005	gar		顶部	夹			0	tujia	顶部	ga	gǎ	夹		
 stedt-rn-454028	gargix		喔喔喔（公鸡叫声）	夹格以			0	tujia	喔喔喔（公鸡叫声）	gagi	gǎgī	夹|格以		
-stedt-rn-455004	garhaf		顶部	夹吓			0	tujia	顶部	gaha	gǎhá	夹|吓		
+stedt-rn-455004	garhaf		顶部	夹下	夹吓		0	tujia	顶部	gaha	gǎhá	夹|下		
 stedt-rn-454087	gav		刨	尕			0	tujia	刨	ga	gà	尕		
 stedt-rn-455083	gav		多少；几个；一些	尕			0	tujia	多少；几个；一些	ga	gà	尕		
 stedt-rn-455177	ger		这；这些	格			0	tujia	这；这些	ge	gě	格		
@@ -3375,8 +3375,8 @@ stedt-rn-456309	hax		知道	哈			0	tujia	知道	ha	hā	哈
 stedt-rn-456302	havlier		狗	哈列			0	tujia	狗	halie	hàliě	哈|列		
 stedt-rn-456304	havlierpertongr		狗窝	哈列迫铜			0	tujia	狗窝	haliepetong	hàliěpětǒng	哈|列|迫|铜		
 stedt-rn-455041	hang		感叹助词				0	phonetic	感叹助词	hang	hang			
-stedt-rn-454089	haf		放出；排出	吓			0	tujia	放出；排出	ha	há	吓		
-stedt-rn-455117	haf		簸箕量词	吓			0	tujia	簸箕量词	ha	há	吓		
+stedt-rn-454089	haf		放出；排出	下	吓		0	tujia	放出；排出	ha	há	下		
+stedt-rn-455117	haf		簸箕量词	下	吓		0	tujia	簸箕量词	ha	há	下		
 stedt-rn-453631	haxlafkar		白楠（原文树名，具体种类待核）	哈腊咔			0	tujia	白楠（原文树名，具体种类待核）	halaka	hālákǎ	哈|腊|咔		
 stedt-rn-454458	havliersir		狗肉	哈列石			0	tujia	狗肉	haliesi	hàliěsǐ	哈|列|石		
 stedt-rn-454030	havlier		狗	哈列			0	tujia	狗	halie	hàliě	哈|列		
@@ -3568,9 +3568,9 @@ stedt-rn-127190	garbar		不能说话；哑	夹八			0	tujia	不能说话；哑	g
 stedt-rn-43420	garbar		不能说话的人	夹八			0	tujia	不能说话的人	gaba	gǎbǎ	夹|八		
 stedt-rn-289227	gangrguxdier		弯曲；歪	干古碟			0	tujia	弯曲；歪	ganggudie	gǎnggūdiě	干|古|碟		
 stedt-rn-355904	garbar		哑巴	夹八			0	tujia	哑巴	gaba	gǎbǎ	夹|八		
-stedt-rn-288494	garhaf		顶部	夹吓			0	tujia	顶部	gaha	gǎhá	夹|吓		
-stedt-rn-382327	garhaf		上（桌子上）	夹吓			0	tujia	上（桌子上）	gaha	gǎhá	夹|吓		
-stedt-rn-382537	garhaf		上（挂在墙上）	夹吓			0	tujia	上（挂在墙上）	gaha	gǎhá	夹|吓		
+stedt-rn-288494	garhaf		顶部	夹下	夹吓		0	tujia	顶部	gaha	gǎhá	夹|下		
+stedt-rn-382327	garhaf		上（桌子上）	夹下	夹吓		0	tujia	上（桌子上）	gaha	gǎhá	夹|下		
+stedt-rn-382537	garhaf		上（挂在墙上）	夹下	夹吓		0	tujia	上（挂在墙上）	gaha	gǎhá	夹|下		
 stedt-rn-454179	kar		木头；柴火	咔			0	tujia	木头；柴火	ka	kǎ	咔		
 stedt-rn-453642	karafjiex		树枝	咔啊姐			0	tujia	树枝	ka'ajie	kǎ'ájiē	咔|啊|姐		
 stedt-rn-453908	karbur		外祖母；外婆	咔不			0	tujia	外祖母；外婆	kabu	kǎbǔ	咔|不		
@@ -6341,10 +6341,10 @@ stedt-rn-407291	har		打人	蛤			0	tujia	打人	ha	hǎ	蛤
 stedt-rn-422812	har		敲；击打	蛤			0	tujia	敲；击打	ha	hǎ	蛤		
 stedt-rn-213408	har		辫子；编辫	蛤			0	tujia	辫子；编辫	ha	hǎ	蛤		
 stedt-rn-407684	har-mor-kuax-liaox		推翻；打倒	蛤莫夸了			0	tujia	推翻；打倒	ha-mo-kua-liao	hǎ-mǒ-kuā-liāo	蛤|莫|夸|了		
-stedt-rn-289049	haf		簸；扬谷	吓			0	tujia	簸；扬谷	ha	há	吓		
-stedt-rn-422329	haf		切开；撕开	吓			0	tujia	切开；撕开	ha	há	吓		
-stedt-rn-212439	haf		剖鱼	吓			0	tujia	剖鱼	ha	há	吓		
-stedt-rn-288998	haf		排水；放水	吓			0	tujia	排水；放水	ha	há	吓		
+stedt-rn-289049	haf		簸；扬谷	下	吓		0	tujia	簸；扬谷	ha	há	下		
+stedt-rn-422329	haf		切开；撕开	下	吓		0	tujia	切开；撕开	ha	há	下		
+stedt-rn-212439	haf		剖鱼	下	吓		0	tujia	剖鱼	ha	há	下		
+stedt-rn-288998	haf		排水；放水	下	吓		0	tujia	排水；放水	ha	há	下		
 stedt-rn-288998@2	pief		排水；放水	皮夜			0	tujia	排水；放水	pie	pié	皮夜		
 stedt-rn-423333	haxpar		缺（缺个口）	哈爬			0	tujia	缺（缺个口）	hapa	hāpǎ	哈|爬		
 stedt-rn-127197	haxpaxkex		下巴	哈啪客			0	tujia	下巴	hapake	hāpākē	哈|啪|客		
@@ -6367,7 +6367,7 @@ stedt-rn-457740	xixmar		忘记	希麻			0	tujia	忘记	xima	xīmǎ	希|麻
 stedt-rn-454432	xianr		关闭；合上	闲			0	tujia	关闭；合上	xian	xiǎn	闲		
 stedt-rn-454790	xiaof		现在有	笑			0	tujia	现在有	xiao	xiáo	笑		
 stedt-rn-454791	xiaoxhorzir		外表	小和直			0	tujia	外表	xiaohozi	xiāohǒzǐ	小|和|直		
-stedt-rn-453885	xiaf		to raise; 生/养	下			0	tujia	to raise; 生/养	xia	xiá	下		
+stedt-rn-453885	xiaf		to raise; 生/养	夏	下		0	tujia	to raise; 生/养	xia	xiá	夏		
 stedt-rn-454789	xiaxxix		把事情做好	虾希			0	tujia	把事情做好	xiaxi	xiāxī	虾|希		
 stedt-rn-454001	xief-max		富人	谢吗			0	tujia	富人	xie-ma	xié-mā	谢|吗		
 stedt-rn-454002	xief-maxkar		富户	谢吗咔			0	tujia	富户	xie-maka	xié-mākǎ	谢|吗|咔		
@@ -6774,9 +6774,9 @@ stedt-rn-289374	xiaoxhuix		立刻；马上	小灰			0	tujia	立刻；马上	xiao
 stedt-rn-397375	xiaoxhuix		快；迅速	小灰			0	tujia	快；迅速	xiaohui	xiāohuī	小|灰		
 stedt-rn-223965	xiaoxhuix		快	小灰			0	tujia	快	xiaohui	xiāohuī	小|灰		
 stedt-rn-127277	xianf		阉	向			0	tujia	阉	xian	xián	向		
-stedt-rn-288507	xiaf		夏天	下			0	tujia	夏天	xia	xiá	下		
+stedt-rn-288507	xiaf		夏天	夏	下		0	tujia	夏天	xia	xiá	夏		
 stedt-rn-288548	xianf		大象	向			0	tujia	大象	xian	xián	向		
-stedt-rn-404918	xiaf		拆房子	下			0	tujia	拆房子	xia	xiá	下		
+stedt-rn-404918	xiaf		拆房子	夏	下		0	tujia	拆房子	xia	xiá	夏		
 stedt-rn-288670	xianfzangx		县官	向展			0	tujia	县官	xianzang	xiánzāng	向|展		
 stedt-rn-289291	xianx		芳香	香			0	tujia	芳香	xian	xiān	香		
 stedt-rn-289277	xianxyinx		便宜	香因			0	tujia	便宜	xianyin	xiānyīn	香|因		

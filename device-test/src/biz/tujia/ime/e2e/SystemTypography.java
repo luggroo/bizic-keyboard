@@ -85,18 +85,18 @@ final class SystemTypography {
             if (name.equals("largest-dense")) {
                 KeyboardTest.Card twoHan = null;
                 for (KeyboardTest.Card word : cards)
-                    if (word.lines.equals(java.util.Arrays.asList("上面", "夹吓"))) twoHan = word;
-                if (twoHan == null) throw new AssertionError("Missing 上面／夹吓 in the visible ga candidates");
+                    if (word.lines.equals(java.util.Arrays.asList("上面", "夹下"))) twoHan = word;
+                if (twoHan == null) throw new AssertionError("Missing 上面／夹下 in the visible ga candidates");
                 Rect form = twoHan.lineBounds.get(1);
                 Rect right = new Rect(form);
                 right.left += Math.round(form.width() * .72f);
                 int whole = inkHeight(shot, form), lastChar = inkHeight(shot, right);
-                test.stage("Two-Han pixels for 夹吓: form=" + form.toShortString() + " fullInk=" + whole
+                test.stage("Two-Han pixels for 夹下: form=" + form.toShortString() + " fullInk=" + whole
                         + "px rightInk=" + lastChar + "px sample=" + right.toShortString());
-                // 下 inside 吓 reaches high and low in the rightmost quarter. An ellipsis
+                // 下 reaches high and low in the rightmost quarter. An ellipsis
                 // in the same place only paints a narrow strip near the baseline.
                 if (lastChar < whole * .55f)
-                    geometryErrors.add("Candidate 上面／夹吓 ends in baseline dots: " + lastChar + "/" + whole);
+                    geometryErrors.add("Candidate 上面／夹下 ends in baseline dots: " + lastChar + "/" + whole);
             }
         } finally { shot.recycle(); }
         DisplayMetrics dm = host.getResources().getDisplayMetrics();
