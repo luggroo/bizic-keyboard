@@ -100,7 +100,7 @@ w1224	lav	la	路	喇	哪 拉	哪喇拉辣蜡那拿腊呐挪纳	21	tujia	路	la	l
 w1469	mafnix	mani	我们	祃你	骂义 马你	祃骂马麻蚂妈抹码嘛 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	2	tujia	我们	mani	mánī	祃|你		
 w1721	pir	pi	皮	皮		皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	皮	pi	pǐ	皮		
 w1296	laor	lao	太阳	劳	劳 捞	劳捞涝老闹脑恼	4	tujia	太阳	lao	lǎo	劳		
-w698	garhaf	gaha	上面	夹吓	夹下 夹哈	夹甲嫁蟹家架加稼 下还瞎虾哈	9	tujia	上面	gaha	gǎhá	夹|吓		
+w698	garhaf	gaha	上面	夹下	夹下 夹哈 夹吓	夹甲嫁蟹家架加稼 下还瞎虾哈	9	tujia	上面	gaha	gǎhá	夹|下		
 w1183	kuxzav	kuza	山	苦渣	枯扎 裤扎	枯哭苦裤库窟酷 扎闸杂炸渣蔗眨诈榨札栅铡	10	tujia	山	kuza	kūzà	苦|渣		
 w2203	tafcix	taci	多	拓此	踏雌 獭雌	拓踏塔他獭塌 雌痴刺尺池迟次匙此齿伺侈秩耻赐词持瓷磁辞驰	1	tujia	多	taci	tácī	拓|此		
 w271	bif	bi	儿子	币	被	被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖	0	tujia	儿子	bi	bí	币		
@@ -153,7 +153,7 @@ w2221	tafsix	tasi	懦弱	拓使	踏师 獭丝	拓踏塔他獭塌 师丝撕思尸
 w1534	mixmax	mima	蜜蜂	米吗	米马 米妈	米眉密没谜弥泌灭糜觅迷 吗马妈骂麻蚂抹码嘛	0	tujia	蜜蜂	mima	mīmā	米|吗		
 w560	dangxzir	dangzi	胆子	单直	当直 当紫 担紫	当党荡担单 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	胆子	dangzi	dāngzǐ	单|直		
 w335	buv dar	buda	下船	补达		补布步不部卜怖簿 达搭答大打	0	tujia	下船	buda	bù dǎ	补|达	buvdar bùdǎ	
-w815	haf	ha	排	吓	下 哈	下还瞎虾哈	0	tujia	排	ha	há	吓		
+w815	haf	ha	排	下	下 哈 吓	下还瞎虾哈	0	tujia	排	ha	há	下		
 w2683	zix	zi	两	兹	知 资	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	两	zi	zī	兹		
 w367	cardirgar	cadiga	画眉	查的夹	茶笛夹 擦笛夹	茶插擦察差叉择岔诧查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 夹甲嫁蟹家架加稼	0	tujia	画眉	cadiga	cǎdǐgǎ	查|的|夹		
 w585	difdianx	didian	地点	地点	地点 弟点	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 点垫店典	0	tujia	地点	didian	dídiān	地|点		
@@ -385,7 +385,7 @@ ls60-39	dox	do	都	多		多	72	tujia	都	do	dō	多
 ls60-40	tair	tai	没有	台		台	1	tujia	没有	tai	tǎi	台		
 ls60-41	anfmax	anma	我呢	岸吗	岸妈	岸 吗妈	2	tujia	我呢	anma	ánmā	岸|吗		
 ls60-42	anx	an	我	阿安	安	安	1	tujia	我	an	ān	阿安		
-ls60-43	hafsux	hasu	下数	吓书	哈苏	吓哈 书苏	1	tujia	下数	hasu	hásū	吓|书		
+ls60-43	hafsux	hasu	下数	下书	哈苏 吓书	吓哈 书苏	1	tujia	下数	hasu	hásū	下|书		
 ls60-44	taix	tai	没有	胎		胎	6	tujia	没有	tai	tāi	胎		
 ls60-45	anvreirsarlir	anreisali	鬼话讲	安热刹立	安热沙粒	安 热 刹沙 立粒	1	tujia	鬼话讲	anreisali	ànrěisǎlǐ	安|热|刹|立		
 ls60-46	anf	an	我们	阿岸	岸	岸	1	tujia	我们	an	án	阿岸		
@@ -477,7 +477,7 @@ ls60-136	yaoxgax	yaoga	腰杆	舀尕	腰家	舀邀腰 尕嘎家	1	tujia	腰杆	y
 ls60-137	gar	ga	上	夹		夹	33	tujia	上	ga	gǎ	夹		
 ls60-140	huerbir	huebi	粉笔	壶必	壶臂	壶 必臂	1	tujia	粉笔	huebi	huěbǐ	壶|必		
 ls60-141	hor	ho	用	和	盒	和盒	1	tujia	用	ho	hǒ	和		
-ls60-142	haf	ha	那么	吓	哈	吓哈	1	tujia	那么	ha	há	吓		
+ls60-142	haf	ha	那么	下	哈 吓	吓哈	1	tujia	那么	ha	há	下		
 ls60-143	cixzix	cizi	字	此子	雌资	此雌 子兹资	1	tujia	字	cizi	cīzī	此|子		
 ls60-144	gafbur	gabu	几个	尬不	家不	尬家 不	1	tujia	几个	gabu	gábǔ	尬|不		
 ls60-145	afbox	abo	写着	啊波		啊 波	1	tujia	写着	abo	ábō	啊|波		
@@ -502,7 +502,7 @@ ls60-164	cirlier	cilie	送	尺列	次列	尺次 列	1	tujia	送	cilie	cǐliě	�
 ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|录		
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥		plainHanLoan
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了		
-ls60-168	jiufhaflar	jiuhala	就这样的	就吓辣	九哈拉	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|吓|辣		
+ls60-168	jiufhaflar	jiuhala	就这样的	就下辣	九哈拉 就吓辣	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|下|辣		
 xu213-1-1	ngafnix	ngani	我们	讶你		讶 你妮	2	tujia	我们	ngani	ngánī	讶|你		
 xu213-1-2	hufnix	huni	大家	互你		互 你妮	19	tujia	大家	huni	húnī	互|你		
 xu213-1-3	bifzixkar	bizika	土家族	币子咔		币 子兹 咔	16	tujia	土家族	bizika	bízīkǎ	币|子|咔		
@@ -1406,7 +1406,7 @@ ortho-xif	xif	xi	音节	细			0	syllable	音节	xi	xí	细
 ortho-xir	xir	xi	音节	昔			0	syllable	音节	xi	xǐ	昔		
 ortho-xiv	xiv	xi	音节	希			0	syllable	音节	xi	xì	希		
 ortho-xiax	xiax	xia	音节	虾			0	syllable	音节	xia	xiā	虾		
-ortho-xiaf	xiaf	xia	音节	下			0	syllable	音节	xia	xiá	下		
+ortho-xiaf	xiaf	xia	音节	夏	下		0	syllable	音节	xia	xiá	夏		
 ortho-xiar	xiar	xia	音节	霞			0	syllable	音节	xia	xiǎ	霞		
 ortho-xiav	xiav	xia	音节	虾			0	syllable	音节	xia	xià	虾		
 ortho-xianx	xianx	xian	音节	香			0	syllable	音节	xian	xiān	香		
@@ -1662,7 +1662,7 @@ ortho-ngouf	ngouf	ngou	音节	沤			0	syllable	音节	ngou	ngóu	沤
 ortho-ngour	ngour	ngou	音节	呕			0	syllable	音节	ngou	ngǒu	呕		
 ortho-ngouv	ngouv	ngou	音节	欧			0	syllable	音节	ngou	ngòu	欧		
 ortho-hax	hax	ha	音节	哈			0	syllable	音节	ha	hā	哈		
-ortho-haf	haf	ha	音节	吓			0	syllable	音节	ha	há	吓		
+ortho-haf	haf	ha	音节	下	吓		0	syllable	音节	ha	há	下		
 ortho-har	har	ha	音节	蛤			0	syllable	音节	ha	hǎ	蛤		
 ortho-hav	hav	ha	音节	哈			0	syllable	音节	ha	hà	哈		
 ortho-haix	haix	hai	音节	海			0	syllable	音节	hai	hāi	海		

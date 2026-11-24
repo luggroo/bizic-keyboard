@@ -40,7 +40,7 @@ ls60-39	dox	do	都	多		多	2	tujia	都	do	dō	多
 ls60-40	tair	tai	没有	台		台	1	tujia	没有	tai	tǎi	台
 ls60-41	anfmax	anma	我呢	岸吗	岸妈	岸 吗妈	2	tujia	我呢	anma	ánmā	岸|吗
 ls60-42	anx	an	我	阿安	安	安	1	tujia	我	an	ān	阿安
-ls60-43	hafsux	hasu	下数	吓书	哈苏	吓哈 书苏	1	tujia	下数	hasu	hásū	吓|书
+ls60-43	hafsux	hasu	下数	下书	哈苏 吓书	吓哈 书苏	1	tujia	下数	hasu	hásū	下|书
 ls60-44	taix	tai	没有	胎		胎	4	tujia	没有	tai	tāi	胎
 ls60-45	anvreirsarlir	anreisali	鬼话讲	安热刹立	安热沙粒	安 热 刹沙 立粒	1	tujia	鬼话讲	anreisali	ànrěisǎlǐ	安|热|刹|立
 ls60-46	anf	an	我们	阿岸	岸	岸	1	tujia	我们	an	án	阿岸
@@ -132,7 +132,7 @@ ls60-136	yaoxgax	yaoga	腰杆	舀尕	腰家	舀邀腰 尕嘎家	1	tujia	腰杆	y
 ls60-137	gar	ga	上	夹		夹	1	tujia	上	ga	gǎ	夹
 ls60-140	huerbir	huebi	粉笔	壶必	壶臂	壶 必臂	1	tujia	粉笔	huebi	huěbǐ	壶|必
 ls60-141	hor	ho	用	和	盒	和盒	1	tujia	用	ho	hǒ	和
-ls60-142	haf	ha	那么	吓	哈	吓哈	1	tujia	那么	ha	há	吓
+ls60-142	haf	ha	那么	下	哈 吓	吓哈	1	tujia	那么	ha	há	下
 ls60-143	cixzix	cizi	字	此子	雌资	此雌 子兹资	1	tujia	字	cizi	cīzī	此|子
 ls60-144	gafbur	gabu	几个	尬不	家不	尬家 不	1	tujia	几个	gabu	gábǔ	尬|不
 ls60-145	afbox	abo	写着	啊波		啊 波	1	tujia	写着	abo	ábō	啊|波
@@ -157,7 +157,7 @@ ls60-164	cirlier	cilie	送	尺列	次列	尺次 列	1	tujia	送	cilie	cǐliě	�
 ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|录
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了
-ls60-168	jiufhaflar	jiuhala	就这样的	就吓辣	九哈拉	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|吓|辣
+ls60-168	jiufhaflar	jiuhala	就这样的	就下辣	九哈拉 就吓辣	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|下|辣
 xu213-1-1	ngafnix	ngani	我们	讶你		讶 你妮	0	tujia	我们	ngani	ngánī	讶|你
 xu213-1-2	hufnix	huni	大家	互你		互 你妮	0	tujia	大家	huni	húnī	互|你
 xu213-1-3	bifzixkar	bizika	土家族	币子咔		币 子兹 咔	0	tujia	土家族	bizika	bízīkǎ	币|子|咔

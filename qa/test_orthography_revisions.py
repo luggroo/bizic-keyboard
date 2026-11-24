@@ -24,7 +24,7 @@ def main():
     for base, tone, wanted in [('ei', 1, '诶'), ('hxi', 1, '诶'), ('ma', 1, '吗'), ('ma', 2, '祃'),
                                ('lei', 2, '累'), ('duan', 2, '段'), ('yan', 1, '央'),
                                ('cei', 1, '此'), ('cao', 1, '超'), ('zuai', 1, '拽'),
-                               ('qia', 1, '起鸦'), ('qio', 1, '起哟')]:
+                               ('qia', 1, '起鸦'), ('qio', 1, '起哟'), ('ha', 2, '下'), ('xia', 2, '夏')]:
         assert rows[base]['t' + str(tone)] == wanted, base
     assert [rows['ei']['t' + str(i)] for i in range(1, 5)] == [rows['hxi']['t' + str(i)] for i in range(1, 5)]
     asset = ROOT / 'shared/bundle/Assets/words.tsv'
