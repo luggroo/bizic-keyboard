@@ -90,18 +90,18 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     exit 1
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
-case "$suite" in all|core|host|window|web|system|sounds|compact) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system, sounds or compact" >&2; exit 2 ;; esac
+case "$suite" in all|core|host|window|web|system|sounds|compact|long-word) ;; *) echo "TUJIA_E2E_SUITE must be all, core, host, window, web, system, sounds, compact or long-word" >&2; exit 2 ;; esac
 capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after; do
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
-    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting; do
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
         if "$adb_bin" shell test -f "$remote"; then
             "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"

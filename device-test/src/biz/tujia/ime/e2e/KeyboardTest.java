@@ -82,6 +82,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
+            if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
             if (suite.equals("sounds") || suite.equals("core") || suite.equals("all")) testNextSounds();
@@ -585,6 +586,21 @@ public final class KeyboardTest extends Instrumentation {
             SystemClock.sleep(100);
         } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("No stable IME toolbar with four sibling controls: " + Arrays.toString(previous) + visibleControls());
+    }
+
+    private void testLongWordCard() {
+        newPredictionEditor();
+        press("汉字记音");
+        type("marmardi");
+        Card word = card("补全 女人，麻麻爹");
+        if (!word.lines.equals(Arrays.asList("女人", "麻麻爹")))
+            throw new AssertionError("Three-Han candidate lines: " + word.lines);
+        stage("Three-Han candidate: " + word.name + " " + word.bounds.toShortString() + ", lines=" + word.lines);
+        assertEditorAboveKeyboard(host.first, "打字");
+        captureFrame("compact-three-han.png");
+        tap(word.bounds.centerX(), word.bounds.centerY());
+        expectText(host.first, "麻麻爹");
+        captureFrame("compact-three-han-after.png");
     }
 
     private void testCompactControls() {
