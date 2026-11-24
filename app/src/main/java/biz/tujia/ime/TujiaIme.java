@@ -13,6 +13,8 @@ import android.inputmethodservice.InputMethodService;
 import android.text.InputType;
 import android.text.StaticLayout;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -584,14 +586,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         candidates = addSuggestions(exact, handCompletes, wordContext, soundContext, handMode(), "");
         page = 0;
         if (readingHint != null) readingHint.setVisibility(candidates.isEmpty() ? View.GONE : View.VISIBLE);
-        String display = raw.isEmpty() ? "手写" : raw;
+        SpannableStringBuilder display = new SpannableStringBuilder(raw.isEmpty() ? "手写" : raw);
         if (!handCompletes.isEmpty()) {
             List<CandidateEngine.Candidate> written = handAsHan ? handCompletes :
                     engine.handwritingSuggestions(raw, CandidateEngine.Mode.HAN, orthography);
             for (CandidateEngine.Candidate word : written) {
                 if (word.text.startsWith(raw) && word.text.length() > raw.length()) {
                     int end = word.text.offsetByCodePoints(raw.length(), 1);
-                    display = raw + "  →  " + word.text.substring(raw.length(), end);
+                    display.append(word.text, raw.length(), end);
+                    display.setSpan(new ForegroundColorSpan(MUTED), raw.length(), end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     break;
                 }
             }
