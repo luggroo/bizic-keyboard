@@ -93,6 +93,7 @@ final class HostCompatibility {
         commitEating();
         keys.expectText(active, "架");
         // The key must announce the same available action the host requested.
+        keys.assertBottomRowAboveNavigation(caption);
         keys.pressAction(caption);
         await(caption + " callback", () -> host.lastEditorAction == action);
         if (!"架".equals(host.lastSubmitted)) throw new AssertionError(caption + " callback lost input");

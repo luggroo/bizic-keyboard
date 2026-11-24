@@ -63,7 +63,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private final ArrayDeque<Integer> expectedSelections = new ArrayDeque<>();
     private LinearLayout surface, toolbar, composition, choices, body, glyphRow;
     private FrameLayout keyboardFrame;
-    private int panelHeight;
+    private int panelHeight, baselinePanelHeight, baselineBodyHeight;
     private LinearLayout readingPanel;
     private ReadingPage readingPage;
     private CandidateEngine.Candidate inspectedCandidate;
@@ -115,6 +115,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         surface.setBackgroundColor(BOARD);
         layoutKeyboard();
         keyboardFrame.addView(surface, new FrameLayout.LayoutParams(-1, panelHeight));
+        if (android.os.Build.VERSION.SDK_INT >= 35) {
+            final FrameLayout frame = keyboardFrame;
+            frame.getViewTreeObserver().addOnGlobalLayoutListener(() -> fitSystemNavigation(frame));
+        }
         return keyboardFrame;
     }
 
@@ -218,8 +222,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         surface.addView(composition, new LinearLayout.LayoutParams(-1, compositionHeight));
         surface.addView(choices, new LinearLayout.LayoutParams(-1, choicesHeight));
         surface.addView(body, new LinearLayout.LayoutParams(-1, bodyHeight));
-        panelHeight = toolbarHeight + compositionHeight + choicesHeight + bodyHeight
+        baselineBodyHeight = bodyHeight;
+        baselinePanelHeight = toolbarHeight + compositionHeight + choicesHeight + bodyHeight
                 + surface.getPaddingTop() + surface.getPaddingBottom();
+        panelHeight = baselinePanelHeight;
         if (surface.getParent() == keyboardFrame) {
             surface.setLayoutParams(new FrameLayout.LayoutParams(-1, panelHeight));
         }
@@ -227,6 +233,37 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         buildComposition();
         buildBody();
         updateCandidates();
+    }
+
+    @android.annotation.TargetApi(35)
+    private void fitSystemNavigation(FrameLayout frame) {
+        if (frame != keyboardFrame || frame.getHeight() == 0 || body == null) return;
+        View decor = frame.getRootView();
+        android.view.WindowInsets insets = decor.getRootWindowInsets();
+        if (insets == null) return;
+        android.graphics.Insets bars = insets.getInsets(android.view.WindowInsets.Type.navigationBars()
+                | android.view.WindowInsets.Type.displayCutout());
+        int[] origin = new int[2];
+        frame.getLocationInWindow(origin);
+        // Some IME windows are already inset by the framework. Only reserve the
+        // portion of this keyboard that actually overlaps a system navigation area.
+        int left = Math.max(0, bars.left - origin[0]);
+        int right = Math.max(0, origin[0] + frame.getWidth() - (decor.getWidth() - bars.right));
+        int bottom = Math.min(bars.bottom, Math.max(0,
+                origin[1] + frame.getHeight() - (decor.getHeight() - bars.bottom)));
+        int fittedBody = Math.max(dp(64), baselineBodyHeight - bottom);
+        int fittedPanel = baselinePanelHeight - baselineBodyHeight + fittedBody;
+        if (frame.getPaddingLeft() != left || frame.getPaddingRight() != right || frame.getPaddingBottom() != bottom)
+            frame.setPadding(left, 0, right, bottom);
+        // Keep the same total keyboard height whenever there is room for the keys.
+        if (body.getLayoutParams().height != fittedBody) {
+            body.setLayoutParams(new LinearLayout.LayoutParams(-1, fittedBody));
+        }
+        if (panelHeight != fittedPanel) panelHeight = fittedPanel;
+        View visiblePanel = readingPanel != null ? readingPanel : surface;
+        if (visiblePanel != null && visiblePanel.getParent() == frame
+                && visiblePanel.getLayoutParams().height != fittedPanel)
+            visiblePanel.setLayoutParams(new FrameLayout.LayoutParams(-1, fittedPanel));
     }
 
     private void buildToolbar() {

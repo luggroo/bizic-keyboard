@@ -640,6 +640,25 @@ public final class KeyboardTest extends Instrumentation {
         tap(rect.centerX(), rect.centerY());
     }
 
+    @android.annotation.TargetApi(30)
+    void assertBottomRowAboveNavigation(String action) {
+        if (android.os.Build.VERSION.SDK_INT < 35) return;
+        android.view.WindowMetrics window = host.getWindowManager().getCurrentWindowMetrics();
+        android.graphics.Insets bars = window.getWindowInsets().getInsets(
+                android.view.WindowInsets.Type.navigationBars() | android.view.WindowInsets.Type.displayCutout());
+        Rect usable = new Rect(window.getBounds());
+        usable.left += bars.left;
+        usable.right -= bars.right;
+        usable.bottom -= bars.bottom;
+        StringBuilder measured = new StringBuilder();
+        for (String key : new String[]{"字母或符号", "切换输入法", "逗号", "空格", "句号", action}) {
+            Rect area = waitForNode(key, false);
+            if (!usable.contains(area)) throw new AssertionError(key + " " + area + " overlaps system navigation " + usable);
+            measured.append(' ').append(key).append('=').append(area.toShortString());
+        }
+        stage("Bottom-row touch bounds inside " + usable.toShortString() + measured);
+    }
+
     void pressAction(String caption) {
         waitForNode(caption, false);
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(caption)) {
