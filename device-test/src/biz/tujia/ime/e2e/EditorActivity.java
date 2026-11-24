@@ -17,6 +17,7 @@ public final class EditorActivity extends Activity {
     private LinearLayout panel;
     volatile int lastEditorAction;
     volatile String lastSubmitted;
+    volatile boolean imeAnimating;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -25,8 +26,31 @@ public final class EditorActivity extends Activity {
         panel.setFitsSystemWindows(true);
         panel.setFocusableInTouchMode(true);
         setContentView(panel);
+        if (android.os.Build.VERSION.SDK_INT >= 30) watchImeAnimation();
         nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS,
                 EditorInfo.IME_ACTION_DONE, false);
+    }
+
+    @android.annotation.TargetApi(30)
+    private void watchImeAnimation() {
+        panel.setWindowInsetsAnimationCallback(new android.view.WindowInsetsAnimation.Callback(
+                android.view.WindowInsetsAnimation.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            private final java.util.Set<android.view.WindowInsetsAnimation> active = new java.util.HashSet<>();
+            @Override public void onPrepare(android.view.WindowInsetsAnimation animation) {
+                if ((animation.getTypeMask() & android.view.WindowInsets.Type.ime()) != 0) {
+                    active.add(animation);
+                    imeAnimating = true;
+                }
+            }
+            @Override public android.view.WindowInsets onProgress(android.view.WindowInsets insets,
+                    java.util.List<android.view.WindowInsetsAnimation> running) {
+                return insets;
+            }
+            @Override public void onEnd(android.view.WindowInsetsAnimation animation) {
+                active.remove(animation);
+                imeAnimating = !active.isEmpty();
+            }
+        });
     }
 
     void nativeScenario(int type, int action, boolean multiline) {

@@ -115,6 +115,8 @@ public final class KeyboardTest extends Instrumentation {
         if (match == null) throw new AssertionError("First draft never received candidates");
         waitForNode("待选拼写 ga", false);
         expectText(host.first, "");
+        awaitKeyboardAtRest();
+        match = waitForNode("吃、咬，架", false);
         tap(match.centerX(), match.centerY());
         expectText(host.first, "架");
         stage("First draft committed; loading visible at first key=" + loadingAtFirstKey
@@ -657,7 +659,42 @@ public final class KeyboardTest extends Instrumentation {
         sendStatus(1, status);
     }
 
+    // Accessibility can publish final bounds before SurfaceFlinger finishes a keyboard move.
+    // Wait at editing transitions for both the visible key bounds and their rendered pixels.
+    @android.annotation.TargetApi(30)
+    void awaitKeyboardAtRest() {
+        if (android.os.Build.VERSION.SDK_INT < 30) return;
+        long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        long lastChange = SystemClock.uptimeMillis(), previous = Long.MIN_VALUE;
+        Rect header = null;
+        while (SystemClock.uptimeMillis() < deadline) {
+            header = findNode("隐藏键盘", false);
+            if (header == null || host.imeAnimating) {
+                lastChange = SystemClock.uptimeMillis();
+                SystemClock.sleep(35);
+                continue;
+            }
+            android.graphics.Bitmap shot = ui.takeScreenshot();
+            if (shot == null) throw new AssertionError("Cannot sample the test emulator display");
+            long signature = header.hashCode();
+            try {
+                int top = Math.max(0, Math.min(header.top, shot.getHeight() - 1));
+                for (int row = 0; row < 9; row++) {
+                    int y = top + row * (shot.getHeight() - top - 1) / 9;
+                    for (int col = 1; col < 16; col++)
+                        signature = 31 * signature + shot.getPixel(col * (shot.getWidth() - 1) / 16, y);
+                }
+            } finally { shot.recycle(); }
+            long now = SystemClock.uptimeMillis();
+            if (signature != previous) { previous = signature; lastChange = now; }
+            else if (!host.imeAnimating && now - lastChange >= 240) return;
+            SystemClock.sleep(35);
+        }
+        throw new AssertionError("IME did not settle: header=" + header + ", animating=" + host.imeAnimating);
+    }
+
     void type(String letters) {
+        awaitKeyboardAtRest();
         for (int i = 0; i < letters.length(); i++) {
             press(letters.substring(i, i + 1));
             waitForNode("待选拼写 " + letters.substring(0, i + 1), false);
@@ -665,9 +702,12 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     void press(String label) {
+        boolean mode = "土家语拼写".equals(label) || "汉字记音".equals(label)
+                || "手写".equals(label) || "语音".equals(label);
+        if (mode) awaitKeyboardAtRest();
         Rect rect = waitForNode(label, false);
         tap(rect.centerX(), rect.centerY());
-        if (!"土家语拼写".equals(label) && !"汉字记音".equals(label) && !"手写".equals(label) && !"语音".equals(label)) return;
+        if (!mode) return;
         long until = SystemClock.uptimeMillis() + WAIT_MS;
         do {
             if (findNode(label, false) != null) {
