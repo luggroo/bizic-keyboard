@@ -41,6 +41,10 @@ public final class IsmanticRecognizerTest {
             expect(model, "十", 3, p(15,40,45,39,85,39), p(48,8,46,90));
             expect(model, "三", 3, p(32,19,70,17), p(27,48,75,47), p(10,84,89,83));
             expect(model, "木", 4, p(20,39,80,39), p(49,10,49,93), p(45,44,32,63,13,81), p(54,47,69,64,87,82));
+            List<String> wide = model.recognize(Arrays.asList(p(193, 36, 247, 36), p(199, 62, 241, 62),
+                    p(180, 94, 260, 94)), 12, 440, 130);
+            if (wide.isEmpty() || !"三".equals(wide.get(0)))
+                throw new AssertionError("Wide handwriting pad lost the expected first candidate: " + wide);
             expectTemplate(model, "咔", args[2]);
             expectTemplate(model, "诶", args[2]);
             expect(model, "尅", 12, p(8,22,52,21),p(30,7,29,37),p(13,34,13,54),
