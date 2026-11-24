@@ -142,9 +142,23 @@ def expect(item, row, text, consumed, han=True):
     return item.ids == row['id'] and visible(item, row, text, consumed, han)
 
 
+def source_forms_by_sense(rows):
+    forms = defaultdict(list)
+    for row in rows:
+        if row['kind'] == 'tujia':
+            forms[row['plain'], row['meaning']].append(row)
+    return forms
+
+
+def visible_untoned(item, row, source_forms, consumed):
+    return any(visible(item, equivalent, equivalent['recommended'], consumed)
+               for equivalent in source_forms[row['plain'], row['meaning']])
+
+
 def lexical(model, rows, scores):
     plain = Counter(r['plain'] for r in rows)
     han = Counter(r['recommended'] for r in rows)
+    forms = source_forms_by_sense(rows)
     labels = ['无调→推荐汉字', '调号→推荐汉字', '叶氏→推荐汉字', '无调→调号拼写', '无调→叶氏拼写',
               '推荐汉字→调号拼写', '推荐汉字→叶氏拼写', '同无调拼写的不同词义', '同推荐汉字的不同词义',
               '原文罗马字别名→推荐汉字', '整词汉字旧写法→推荐汉字', '规范字形的真前缀→整词']
@@ -174,7 +188,10 @@ def lexical(model, rows, scores):
         for label, query in [('无调→推荐汉字（可见结果）', r['plain']), ('同形汉字→推荐写法（可见结果）', r['recommended'])]:
             if label.startswith('同形') and han[r['recommended']] <= 1:
                 continue
-            pos = rank(model.choices(query), lambda x: visible(x,r,r['recommended'],utf16(query)))
+            if label.startswith('无调'):
+                pos = rank(model.choices(query), lambda x: visible_untoned(x, r, forms, utf16(query)))
+            else:
+                pos = rank(model.choices(query), lambda x: visible(x, r, r['recommended'], utf16(query)))
             scores.add(label,pos)
     return labels + ['无调→推荐汉字（可见结果）', '同形汉字→推荐写法（可见结果）']
 
@@ -258,14 +275,18 @@ def corpus_documents(site, words_path):
 
 def adjacent_input(model, rows, docs, scores):
     by_id = {r['id']: r for r in rows}
+    forms = source_forms_by_sense(rows)
     for events in docs.values():
         for ctx, next_id in events:
             left, following = by_id[ctx[-1]], by_id[next_id]
             query = left['plain'] + following['plain']
             choices = model.choices(query)
-            for label, match in [('真实相邻两词连打·选择前词并保留后词', expect),
-                                 ('真实相邻两词连打（可见结果）', visible)]:
-                pos = rank(choices, lambda x: match(x, left, left['recommended'], utf16(left['plain'])))
+            length = utf16(left['plain'])
+            for label, match in [
+                ('真实相邻两词连打·选择前词并保留后词', lambda x: expect(x, left, left['recommended'], length)),
+                ('真实相邻两词连打（可见结果）', lambda x: visible_untoned(x, left, forms, length)),
+            ]:
+                pos = rank(choices, match)
                 correct = pos and model.suffix(query, choices[pos-1].consumed) == following['plain']
                 scores.add(label, pos if correct else 0)
 
@@ -447,7 +468,7 @@ def main():
     report=['# 词库、连续分词与下一词联想评测',
             f'在共用输入核心中测试 {n} 个土家语词条或词组。每个词按相同权重计一次。一个候选要同时给出预期词条 ID、字形或拼写、完整与简明汉义，并消耗正确数量的 UTF-16 单元才算命中。首位和前三位均计入全部候选。',
             '## 词条与同形词',scores.table(labels),
-            '无调输入会合并原来靠声调区分的形式。表中同形词按“输入相同、词条 ID 不同”分组。词内补全按可严格补全的每个前缀计数，有些前缀由单字与双字合音共同构成。整词旧写法来自保留的输入别名。标注“可见结果”的行按相同字形、汉义、短释义和消费长度计分。相同的推荐字与释义会合并成一张候选，另一来源的 ID 在严格计分时失配，例如“倮／人”“哥哥／哥哥”。',
+            '同形词按相同输入、不同来源词条 ID 取样。旧写法来自保留的输入别名，词内补全按每个能严格补成整词的前缀计分。无调键入和相邻词连打的“可见结果”要求候选消费长度正确，字形和短义来自相同无调拼写、相同完整汉义的词条。比如打 go，表示“他”的多种来源写法共占一格“过”；选择“过错”仍有独立的一格。逐条核对 ID 的行保留来源间的差异。带调 gǒ 或叶氏 gor 仍能选“郭”。',
             '## 音节、语法与汉语后备候选',
             scores.table(['明确声调→参考表用字','语法形式→推荐汉字','普通话拼音→汉语后备词']),
             '音节行按参考字、调号确定的输入长度和输出类别计分，实际词条与默认音节可共用该字。汉语后备项显示在土家语候选后面，按空释义、汉字、输入长度及汉语类别判断。',
@@ -462,6 +483,8 @@ def main():
             scores.table(['真实相邻两词连打·选择前词并保留后词','真实相邻两词连打（可见结果）']),
             '下一词的首位、首屏四位和按键数按整篇留出重新训练，包含词表外与冷启动位置。[统计推荐对照](prediction.md)',
             '## 复现',
+            '同一无调拼写与完整汉义的不同汉字写法可用仓库自带词库复查。专项还检查前缀补全、不同词界各自保留余串、带调选词、手写选义和普通汉语后备项。',
+            '```sh\npython3 qa/test_candidate_senses.py\n```',
             '在仓库根目录运行下列命令。依赖 Python 3、Node.js、C++17 编译器，以及包含学堂逐词标注和转换脚本的本地快照。',
             '```sh\npython3 qa/lexicon.py --site /workspace/bizic-dictionary/site --out /tmp/lexicon.md\n```',
             '本评测直接调用实际 C ABI。词条覆盖反映当前表内的一致性与候选次序。自由口语和真实使用时发生的输入错误需要另行取样。安卓系统输入框的手写选义与候选提交见[设备实测](device.md)。',
