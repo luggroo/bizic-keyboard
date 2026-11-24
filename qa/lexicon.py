@@ -41,9 +41,11 @@ def library(target):
         func.argtypes, func.restype = args, result
     declare('words_open_with_ngrams', [string, size, string, size], ptr)
     declare('words_open_full', [string, size, string, size, string, size], ptr)
+    declare('words_open_with_senses', [string, size] * 4, ptr)
     declare('words_close', [ptr], None)
+    declare('spelling_completions', [ptr, string, string, num, num], ptr)
     declare('next_syllables', [ptr, string, num], ptr)
-    for name in ('lookup_with_orthography', 'handwriting_suggestions', 'next_words'):
+    for name in ('lookup_with_orthography', 'handwriting_suggestions', 'next_words', 'next_syllables_for_mode'):
         declare(name, [ptr, string, num, num], ptr)
     declare('choices_count', [ptr], size)
     for field in ('text', 'meaning', 'short_meaning', 'lexeme_ids', 'last_syllable'):
@@ -57,20 +59,22 @@ def library(target):
 
 
 class Model:
-    def __init__(self, dll, words, grams, sounds=b''):
+    def __init__(self, dll, words, grams, sounds=b'', senses=b''):
         self.dll = dll
-        self.handle = dll.tji_words_open_full(words, len(words), grams, len(grams), sounds, len(sounds))
+        self.handle = dll.tji_words_open_with_senses(words, len(words), grams, len(grams), sounds, len(sounds), senses, len(senses))
         if not self.handle:
             raise RuntimeError('Words and ngrams did not load together')
         self.cache = {}
 
-    def choices(self, query, mode=1, style=0, op='lookup_with_orthography', cache=True):
-        key = (query, mode, style, op)
+    def choices(self, query, mode=1, style=0, op='lookup_with_orthography', cache=True, history=''):
+        key = (query, mode, style, op, history)
         if key in self.cache:
             return self.cache[key]
         d = self.dll
-        if op == 'next_syllables':
-            choices = d.tji_next_syllables(self.handle, query.encode(), style)
+        if op == 'spelling_completions':
+            choices = d.tji_spelling_completions(self.handle, query.encode(), history.encode(), mode, style)
+        elif op == 'next_syllables':
+            choices = d.tji_next_syllables_for_mode(self.handle, query.encode(), mode, style)
         else:
             choices = getattr(d, 'tji_' + op)(self.handle, query.encode(), mode, style)
         try:
@@ -252,75 +256,85 @@ def corpus_documents(site, words_path):
     return docs, (mapped_tokens, aligned_tokens, covered_pairs, all_pairs)
 
 
-def grams(events):
-    result = Counter()
-    for context, following in events:
-        for length in range(1,len(context)+1):
-            result[(' '.join(context[-length:]),following)] += 1
-    return result
+def adjacent_input(model, rows, docs, scores):
+    by_id = {r['id']: r for r in rows}
+    for events in docs.values():
+        for ctx, next_id in events:
+            left, following = by_id[ctx[-1]], by_id[next_id]
+            query = left['plain'] + following['plain']
+            choices = model.choices(query)
+            for label, match in [('真实相邻两词连打·选择前词并保留后词', expect),
+                                 ('真实相邻两词连打（可见结果）', visible)]:
+                pos = rank(choices, lambda x: match(x, left, left['recommended'], utf16(left['plain'])))
+                correct = pos and model.suffix(query, choices[pos-1].consumed) == following['plain']
+                scores.add(label, pos if correct else 0)
 
 
-def prediction(dll, words, grams_path, model, rows, docs, scores):
-    by_id = {r['id']:r for r in rows}
-    by_doc = {name:grams(events) for name,events in docs.items()}
-    all_grams = sum(by_doc.values(),Counter())
-    shipped = {(r['context'],r['next']):int(r['count']) for r in tsv(grams_path)}
-    assert dict(all_grams) == shipped, 'Training example counts differ from shipped ngram data'
-    for doc, events in docs.items():
-        training = all_grams - by_doc[doc]
-        data = 'context\tnext\tcount\texample\n' + ''.join(f'{c}\t{n}\t{f}\theld-out\n' for (c,n),f in sorted(training.items()))
-        with Model(dll,words,data.encode()) as held_out:
-            for ctx,next_id in events:
-                history=' '.join(ctx)
-                following = by_id[next_id]
-                for label, dic in [('原表重放·下一词',model), ('整篇留出·下一词',held_out)]:
-                    choices=dic.choices(history,op='next_words')
-                    scores.add(label,rank(choices,lambda x:expect(x,following,following['recommended'],0)))
-                # The two input items have no artificial delimiter, including homophones.
-                left=by_id[ctx[-1]]
-                query=left['plain']+following['plain']
-                choices=model.choices(query)
-                r=rank(choices,lambda x:expect(x,left,left['recommended'],utf16(left['plain'])))
-                suffix_ok=r and model.suffix(query,choices[r-1].consumed)==following['plain']
-                scores.add('真实相邻两词连打·选择前词并保留后词',r if suffix_ok else 0)
-                pos=rank(choices,lambda x:visible(x,left,left['recommended'],utf16(left['plain'])))
-                visible_suffix=pos and model.suffix(query, choices[pos-1].consumed) == following['plain']
-                scores.add('真实相邻两词连打（可见结果）',pos if visible_suffix else 0)
-    return len(all_grams)
-
-def syllable_oracle(model, baseline, rows, table):
+def syllable_oracle(model, baseline, rows, table, senses_path, entries):
     groups = defaultdict(list)
     accents = {}
+    senses = {r['syllable']:r for r in tsv(senses_path)}
+    standard = {r['word']:r['recommended'] for r in entries if r['kind'] == 'syllable'}
+    lexical = {r['id']:r for r in rows}
     for arc in tsv(table):
         groups[arc['context']].append(arc)
         if arc['context'] != '<s>':
             accents[arc['context']] = arc['contextAccent']
-    total = 0
+    total = han_total = glossed = 0
     for context, arcs in groups.items():
         target = sorted(arcs, key=lambda arc: int(arc['rank']))
-        ye = model.choices(context, style=0, op='next_syllables')
-        marks = model.choices(context, style=1, op='next_syllables')
+        ye = model.choices(context, mode=0, style=0, op='next_syllables')
+        marks = model.choices(context, mode=0, style=1, op='next_syllables')
+        han = model.choices(context, mode=1, style=1, op='next_syllables')
         assert [c.text for c in ye] == [r['next'] for r in target], context
         assert [c.text for c in marks] == [r['nextAccent'] for r in target], context
         assert [c.last_syllable for c in marks] == [r['next'] for r in target], context
-        assert all(c.consumed == 0 and not c.ids and c.syllable_only for c in ye + marks), context
+        assert all(c.consumed == 0 and c.syllable_only for c in ye + marks + han), context
+        assert marks == model.choices(context, mode=2, style=1, op='next_syllables'), context
+        expected_han = []
+        for arc, sound in zip(target,marks):
+            tone = arc['next']
+            sense = senses.get(tone, {})
+            word = lexical.get(sense.get('lexemeId'), {})
+            gloss = sense.get('shortGloss', '')
+            assert sound.ids == sense.get('lexemeId', '') and sound.gloss == sound.short == gloss, tone
+            glossed += bool(gloss)
+            glyph = sense.get('han') or word.get('recommended') or standard.get(tone)
+            if glyph:
+                short = '' if word.get('presentation') == 'plainHanLoan' else gloss
+                expected_han.append((tone,glyph,gloss,short,sound.ids))
+        assert [(c.last_syllable,c.text,c.gloss,c.short,c.ids) for c in han] == expected_han, context
         if context in accents:
-            assert marks == model.choices(accents[context], style=1, op='next_syllables'), context
+            assert marks == model.choices(accents[context], mode=0, style=1, op='next_syllables'), context
         total += len(arcs)
+        han_total += len(han)
     assert not model.choices('', op='next_syllables') and not model.choices('。', op='next_syllables')
     stable = 0
     for r in rows:
-        # Loading an independent hint table must never displace a lexical candidate.
         for key in ('word','diacritic','plain','recommended'):
             assert model.choices(r[key]) == baseline.choices(r[key]), r['id']
         assert model.choices(r['id'],op='next_words') == baseline.choices(r['id'],op='next_words'), r['id']
         assert any(c.ids == r['id'] and c.last_syllable for c in model.choices(r['word'],0)), r['id']
         stable += 1
+    after_ka = model.choices('kar', mode=1, op='next_syllables')
+    for sound in ('mongr', 'munr'):
+        assert any(c.last_syllable == sound and c.text == '萌' and not c.gloss and not c.ids for c in after_ka)
+    branch = 'yubao-60757-v-2498'
+    for sound, word_id, meaning in [('mǒng', branch, '地支午'), ('kǎmǒng', 'w1102', '树'),
+                                    ('tōngmǒng', 'w2302', '呻吟'), ('tòngmǒng', 'w2303', '线')]:
+        assert any(c.ids == word_id and c.short == meaning and c.text == sound
+                   for c in model.choices(sound, mode=0, style=1))
+    assert any(c.ids == branch and c.short == '地支午' and c.text == '萌' and c.consumed == 0
+               for c in model.choices(f'w309 {branch} w309', mode=1, op='next_words'))
     return (f'图表共 {total} 对，含 {len(groups["<s>"])} 个句首选项、{len(groups)} 种前项（含句首）。'
-            f'按来源顺序逐行检查，叶氏形式 {total}/{total}、带调形式 {total}/{total} 一致。'
-            f'对照装载与未装载音节表的同一引擎，{stable}/{len(rows)} 个词的候选内容、原有排序及词义联想完全一致。'
-            '例如选“饭”后词义联想有“吃”。另外打开下一音节可见 rī、gá 等。音节提示消费长度为零，选中后仍可在词库中选词。'
-            '图表给出名次；使用这些名次无法计算真实语流的命中概率。')
+            f'按来源顺序逐条核对，可直接上屏的叶氏拼写与带调拼写各 {total}/{total}。'
+            f'其中 {han_total} 对有已审定词形或音节参考字，汉字模式 {han_total}/{han_total} 对的字形、汉义和排序均吻合。'
+            f'逐音节释义使用独立审核表；{glossed}/{total} 对有可证实的单义，其余候选的释义留空。'
+            f'加载音节资源前后，{stable}/{len(rows)} 个词的候选与词义联想保持相同排序。'
+            '没有参考字的音节仅供拼写输入。\n\n'
+            '在 kǎ 后，mǒng 和 mǔn 都可直接上屏，两种读音共用参考字“萌”，均留空释义。'
+            '另选词典中的独立词 mǒng 时，键盘显示“地支午”。同一输入框再次用到已选过的搭配时，可以联想到这个词义。'
+            '三个完整词 kǎmǒng、tōngmǒng、tòngmǒng 则分别显示“树”“呻吟”“线”。')
 
 
 def other_candidates(model, entries, scores):
@@ -352,14 +366,16 @@ def loan_oracle(model, entries, gram_path):
             assert rank(choices,lambda c:expect(c,record,target,utf16(key),han=False)), record['id']
             spelling_checks += 1
     for edge in tsv(gram_path):
-        if edge['next'] not in loans:
+        if edge['context'] == '@prior' or edge['next'] not in loans:
             continue
         row = loans[edge['next']]
         assert rank(model.choices(edge['context'],op='next_words'), lambda c:expect(c,row,row['recommended'],0))
         prediction_checks += 1
+    predicted = (f'词义联想表中 {prediction_checks} 条边指向这些词义，均保留词条身份与完整释义。'
+                 if prediction_checks else '当前词模没有生成指向这组借词的词级联想。')
     return (f'{len(loans)} 个经过借源和本字核对的词义采用原汉字。键入拼写、手写本字或保留的旧写法共 '
             f'{han_checks}/{han_checks} 次正确显示本字并省去字上短释义。土家语拼写与手写转拼写 {spelling_checks}/{spelling_checks} '
-            f'次仍显示释义。词义联想表中共有 {prediction_checks} 条边指向这些词义，全部保留土家语词条身份与完整释义。'
+            f'次仍显示释义。{predicted}'
             '例如输入 `sanggo` 或手写“伤哥”可选到“山歌”；切换到土家语拼写，候选 `sānggō` 上方显示“山歌”。')
 
 
@@ -410,6 +426,7 @@ def main():
     words_path = ASSETS / 'words.tsv'
     grams_path = ASSETS / 'ngrams.tsv'
     sound_path = ASSETS / 'syllable_bigrams.tsv'
+    senses_path = ASSETS / 'syllable_senses.tsv'
     entries = tsv(words_path)
     rows = [r for r in entries if r['kind'] in ('tujia', 'phrase')]
     words, model_data = words_path.read_bytes(), grams_path.read_bytes()
@@ -417,13 +434,13 @@ def main():
     docs, coverage=corpus_documents(args.site,words_path)
     with tempfile.TemporaryDirectory() as temp:
         dll=library(Path(temp)/'shared.so')
-        with Model(dll,words,model_data,sound_path.read_bytes()) as model, Model(dll,words,model_data) as baseline:
-            sounds = syllable_oracle(model, baseline, rows, sound_path)
+        with Model(dll,words,model_data,sound_path.read_bytes(),senses_path.read_bytes()) as model, Model(dll,words,model_data) as baseline:
+            sounds = syllable_oracle(model, baseline, rows, sound_path, senses_path, entries)
             loans = loan_oracle(model, rows, grams_path)
             labels=lexical(model,rows,scores)
             other_candidates(model, entries, scores)
             lines=song(model,rows,scores)
-            grams_count=prediction(dll,words,grams_path,model,entries,docs,scores)
+            adjacent_input(model, entries, docs, scores)
     mapped,total,covered,pairs=coverage
     n = len(rows)
     tokens = sum(map(len,lines))
@@ -442,13 +459,13 @@ def main():
             '表中 `plain` 为无调拼写，`diacritic` 为带调号拼写，`ye` 为叶氏拼写。按标注手动选择各词后，整行的正确数分别为 ' + '、'.join(str(scores.rows['逐词选择后整行正确·'+form][1])+'/4' for form in ('plain','diacritic','ye'))+'。',
             '## 语料分词与下一词',
             f'逐词标注来自学堂的北部土家语文献与龙山语料。可与音串完整对齐的标注中有 {total} 个词次，其中 {mapped} 个能对应当前词库中的一个词义。{pairs} 组相邻词次中有 {covered} 组可同时对到两个词条。下表只对这 {covered} 组作判断。标点、块界、词库外和无法消歧的词都会中断上下文。',
-            scores.table(['真实相邻两词连打·选择前词并保留后词','真实相邻两词连打（可见结果）','原表重放·下一词','整篇留出·下一词']),
-            f'原表重放使用已收录的 {grams_count} 条二元和三元记录。整篇留出分 {len(docs)} 折，每一折移除一篇文献中观测到的全部邻接次数，重新装入共用核心，再预测该文献中的词。同一词出现多次按出现次数计。留出时固定发行词库和词频，移除测试文献的邻接计数。排序首先取两个前词的语料邻接，再回退到一个前词。',
+            scores.table(['真实相邻两词连打·选择前词并保留后词','真实相邻两词连打（可见结果）']),
+            '下一词的首位、首屏四位和按键数按整篇留出重新训练，包含词表外与冷启动位置。[统计推荐对照](prediction.md)',
             '## 复现',
             '在仓库根目录运行下列命令。依赖 Python 3、Node.js、C++17 编译器，以及包含学堂逐词标注和转换脚本的本地快照。',
             '```sh\npython3 qa/lexicon.py --site /workspace/bizic-dictionary/site --out /tmp/lexicon.md\n```',
-            '本评测直接调用实际 C ABI。词条覆盖反映当前表内的一致性与候选次序。语料留出反映在这批文献中的迁移表现。自由口语和真实使用时发生的输入错误需要另行取样。安卓系统输入框的手写选义与候选提交见[设备实测](device.md)。',
-            '| 输入文件 | SHA-256 |\n|---|---|\n'+'\n'.join(f'| `{p.name}` | `{hashlib.sha256(p.read_bytes()).hexdigest()}` |' for p in (words_path,grams_path,sound_path,ROOT/'shared/src/lexicon.cpp',ROOT/'tools/story-demo/shange-spelling.tsv',args.site/'dictionary.json.gz',args.site/'annotated-books.json',args.site/'longshan-texts.json'))]
+            '本评测直接调用实际 C ABI。词条覆盖反映当前表内的一致性与候选次序。自由口语和真实使用时发生的输入错误需要另行取样。安卓系统输入框的手写选义与候选提交见[设备实测](device.md)。',
+            '| 输入文件 | SHA-256 |\n|---|---|\n'+'\n'.join(f'| `{p.name}` | `{hashlib.sha256(p.read_bytes()).hexdigest()}` |' for p in (words_path,grams_path,sound_path,senses_path,ROOT/'shared/src/lexicon.cpp',ROOT/'tools/story-demo/shange-spelling.tsv',args.site/'dictionary.json.gz',args.site/'annotated-books.json',args.site/'longshan-texts.json'))]
     args.out.write_text('\n\n'.join(report)+'\n',encoding='utf-8')
     print(args.out)
     print(json.dumps({k:[v['n'],v[1],v[3],v[float('inf')]] for k,v in scores.rows.items()},ensure_ascii=False))

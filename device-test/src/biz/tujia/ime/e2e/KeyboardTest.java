@@ -98,13 +98,20 @@ public final class KeyboardTest extends Instrumentation {
 
     private void saveFailureFrame(Bundle result) {
         if (!captureFailure || ui == null || result.containsKey("failureFrame")) return;
+        if (captureFrame("failure.png")) result.putString("failureFrame", "failure.png");
+    }
+
+    private boolean captureFrame(String name) {
+        if (!captureFailure || ui == null) return false;
         android.graphics.Bitmap shot = ui.takeScreenshot();
-        if (shot == null) return;
+        if (shot == null) return false;
         java.io.File dir = getTargetContext().getExternalFilesDir(null);
-        try (java.io.FileOutputStream output = new java.io.FileOutputStream(new java.io.File(dir, "failure.png"))) {
-            if (shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output)) result.putString("failureFrame", "failure.png");
-        } catch (java.io.IOException e) { result.putString("screenshotError", e.toString()); }
-        finally { shot.recycle(); }
+        try (java.io.FileOutputStream output = new java.io.FileOutputStream(new java.io.File(dir, name))) {
+            return shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, output);
+        } catch (java.io.IOException e) {
+            Log.w("TujiaImeE2E", "Could not save " + name, e);
+            return false;
+        } finally { shot.recycle(); }
     }
 
     private void testFirstInput() {
@@ -211,12 +218,19 @@ public final class KeyboardTest extends Instrumentation {
         List<Card> mixed = fourCards();
         assertMixedPage(mixed);
         expectText(host.second, "ngaf yer ga诶sangx");
-        press("下一页候选");
-        waitForNode("汉语，伽", false);
-        List<Card> following = pageCards("，");
-        if (following.isEmpty() || !"汉语，伽".equals(following.get(0).name))
-            throw new AssertionError("Mandarin alternatives out of frequency order on the next page");
-        press("上一页候选");
+        // Completions can shift the Mandarin list onto a later page. Verify the
+        // leading Mandarin characters and first Tujia result irrespective of the page break.
+        List<String> mandarin = new ArrayList<>();
+        int pages = 0;
+        while (pages < 8) {
+            for (Card item : pageCards("汉语，")) mandarin.add(item.name);
+            if (mandarin.size() >= 2) break;
+            press("下一页候选");
+            pages++;
+        }
+        if (mandarin.size() < 2 || !mandarin.subList(0, 2).equals(Arrays.asList("汉语，嘎", "汉语，伽")))
+            throw new AssertionError("Mandarin alternatives out of frequency order: " + mandarin);
+        for (int i = 0; i < pages; i++) press("上一页候选");
         expectFirst(mixed.get(0).name);
         press("退格");
         press("退格");
@@ -445,8 +459,8 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Writing the next character moved the pad");
         pressCandidate("小孩、儿童，波俐", false);
         expectText(host.first, "首波俐");
-        pressCandidate("联想 没有，太", false, "没有", "太");
-        expectText(host.first, "首波俐太");
+        pressCandidate("联想 一，哪", false, "一", "哪");
+        expectText(host.first, "首波俐哪");
 
         stage("Correct a handwritten character, then accept a word completion and its next word");
         tapField(host.second);
@@ -462,26 +476,26 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, corrected + "波");
         pressCandidate("续写 小孩儿，波俐", false, "小孩儿", "波俐");
         expectText(host.second, corrected + "波俐");
-        pressCandidate("联想 大人，再", false, "大人", "再");
-        expectText(host.second, corrected + "波俐再");
+        pressCandidate("联想 那，哎", false, "那", "哎");
+        expectText(host.second, corrected + "波俐哎");
 
         stage("Pending strokes and correction cannot cross editor or cursor changes");
         drawThree(pad);
         tapField(host.first);
         SystemClock.sleep(1600);
-        expectText(host.second, corrected + "波俐再");
-        expectText(host.first, "首波俐太");
+        expectText(host.second, corrected + "波俐哎");
+        expectText(host.first, "首波俐哪");
         drawBo(pad);
-        expectText(host.first, "首波俐太波");
+        expectText(host.first, "首波俐哪波");
         runOnMainSync(() -> host.first.setSelection(1, 3));
         waitAbsent("手写字形 波");
         drawThree(pad);
-        expectText(host.first, "首三太波");
+        expectText(host.first, "首三哪波");
         runOnMainSync(() -> host.first.setSelection(1));
         waitAbsent("手写字形 三");
         drawThree(pad);
-        expectText(host.first, "首三三太波");
-        expectText(host.second, corrected + "波俐再");
+        expectText(host.first, "首三三哪波");
+        expectText(host.second, corrected + "波俐哎");
     }
 
     private String chooseAlternateGlyph(String recognized) {
@@ -511,53 +525,215 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testNextSounds() {
-        stage("Predicted syllables open lexical choices before committing any host text");
+        stage("Single-tap predictions commit the displayed output across modes");
         String oldStyle = setStyleFromLauncher("叶氏拼音");
         try {
-            runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
-                    android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
-            tapField(host.first);
+            newPredictionEditor();
             press("汉字记音");
-            pressCandidate("下一音节 gof", false, "gof");
-            waitForNode("待选读音 gof", false);
+            Card han = nextSoundCard();
+            String written = outputLine(han);
+            if (!"下一音节 过".equals(han.name) || !han.lines.equals(Collections.singletonList("过")))
+                throw new AssertionError("The polysemous prediction gof should show just 过: " + han.name + han.lines);
+            openReader(han);
             expectText(host.first, "");
-            press("返回联想");
+            press("返回候选");
             expectText(host.first, "");
-            pressCandidate("下一音节 gof", false);
-            pressCandidate("他，过", false);
-            expectText(host.first, "过");
+            Card visible = card(han.name);
+            captureFrame("prediction-han-before.png");
+            tap(visible.bounds.centerX(), visible.bounds.centerY());
+            expectText(host.first, written);
+            waitForNode("待选拼写 ", false);
+            captureFrame("prediction-han-after.png");
+            press("退格");
+            if (written.codePointCount(0, written.length()) == 1) expectText(host.first, "");
 
-            type("ye");
-            pressCandidate("饭，叶", false);
-            expectText(host.first, "过叶");
-            pressCandidate("联想 吃、咬，架", false, "吃", "架");
-            expectText(host.first, "过叶架");
-
+            newPredictionEditor();
+            press("汉字记音");
+            type("marmardi");
+            pressCandidate("补全 女人，麻麻爹", false);
+            expectText(host.first, "麻麻爹");
+            waitForNode("待选拼写 ", false);
             tapField(host.second);
             type("ye");
             pressCandidate("饭，叶", false);
-            expectText(host.second, "叶");
-            waitForNode("联想 吃、咬，架", false);
-            pressCandidate("下一音节 gaf", false, "gaf");
-            waitForNode("待选读音 gaf", false);
-            expectText(host.second, "叶");
-            pressCandidate("吃、咬，架", false);
+            pressCandidate("联想 吃、咬，架", false, "吃", "架");
             expectText(host.second, "叶架");
-
-            stage("A focused host cleared externally returns to sentence-start predictions");
             runOnMainSync(() -> host.second.setSelection(1));
             setStyleFromLauncher("叶氏拼音");
             runOnMainSync(() -> host.second.setText(""));
             tapField(host.second);
             press("汉字记音");
-            pressCandidate("下一音节 gof", false);
-            waitForNode("待选读音 gof", false);
+            Card start = nextSoundCard();
+            openReader(start);
             expectText(host.second, "");
-            press("返回联想");
-            expectText(host.second, "");
+            press("输入这个候选");
+            expectText(host.second, outputLine(start));
+
+            testFieldHistory();
+
+            newPredictionEditor();
+            press("土家语拼写");
+            Card ye = nextSoundCard();
+            String spelling = outputLine(ye);
+            if (!spelling.matches("[a-z]+")) throw new AssertionError("Unexpected Ye prediction: " + ye.name);
+            tap(ye.bounds.centerX(), ye.bounds.centerY());
+            expectText(host.first, spelling);
+            press("空格");
+            expectText(host.first, spelling + " ");
+            press("退格");
+            expectText(host.first, spelling);
+
+            setStyleFromLauncher("带调号拼音");
+            newPredictionEditor();
+            press("土家语拼写");
+            Card toned = nextSoundCard();
+            String marked = outputLine(toned);
+            if (marked.matches("[a-z]+") || Character.isIdeographic(marked.codePointAt(0)))
+                throw new AssertionError("Expected a tone mark in the first spelling prediction: " + toned.name);
+            tap(toned.bounds.centerX(), toned.bounds.centerY());
+            expectText(host.first, marked);
+            type("ga");
+            pressCandidate("吃、咬，gá", false);
+            expectText(host.first, marked + " gá");
+
+            // 北部词典仅有“紧”这一独立义项。显式第四调前缀缩小句首联想，
+            // 保留上方汉义，并把完整预测一次写入外部编辑器。
+            tapField(host.second);
+            type("j");
+            holdTone("i", "ì");
+            Card oneSense = card("下一音节 紧，jìn");
+            if (!oneSense.lines.equals(Arrays.asList("紧", "jìn")))
+                throw new AssertionError("Expected the verified sole sense above jìn: " + oneSense.lines);
+            captureFrame("prediction-jin-before.png");
+            tap(oneSense.bounds.centerX(), oneSense.bounds.centerY());
+            expectText(host.second, "jìn");
+            waitForNode("待选拼写 ", false);
+            captureFrame("prediction-jin-after.png");
+
+            stage("Handwriting predictions append and respect the selected output");
+            newPredictionEditor();
+            press("手写");
+            setHandwritingOutput(true);
+            Rect pad = waitForNode("汉字手写区", false);
+            drawBo(pad);
+            expectText(host.first, "波");
+            drawLi(pad);
+            expectText(host.first, "波俐");
+            pressCandidate("小孩、儿童，波俐", false);
+            Card hand = nextSoundCard();
+            String afterChild = outputLine(hand);
+            if (!Character.isIdeographic(afterChild.codePointAt(0)))
+                throw new AssertionError("Handwriting produced a non-Han prediction: " + hand.name);
+            tap(hand.bounds.centerX(), hand.bounds.centerY());
+            expectText(host.first, "波俐" + afterChild);
+
+            tapField(host.second);
+            setHandwritingOutput(false);
+            Card handSpelling = nextSoundCard();
+            String startingForm = outputLine(handSpelling);
+            if (startingForm.matches("[a-z]+") || Character.isIdeographic(startingForm.codePointAt(0)))
+                throw new AssertionError("Handwriting spelling ignored the selected style: " + handSpelling.name);
+            tap(handSpelling.bounds.centerX(), handSpelling.bounds.centerY());
+            expectText(host.second, startingForm);
+            expectText(host.first, "波俐" + afterChild);
+            setHandwritingOutput(true);
+            press("汉字记音");
+
+            runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT
+                    | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                    android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
+            tapField(host.first);
+            waitForNode("英文直输", false);
+            press("a");
+            expectText(host.first, "a");
+            if (!pageCards("下一音节 ").isEmpty() || !pageCards("联想 ").isEmpty())
+                throw new AssertionError("Visible prediction cards appeared in password field");
         } finally {
             setStyleFromLauncher(oldStyle);
         }
+    }
+
+    private void testFieldHistory() {
+        stage("Recent confirmed word pairs stay in one editor across sentence boundaries");
+        newPredictionEditor();
+        press("汉字记音");
+        StringBuilder sentence = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            type("ye");
+            pressCandidate("饭，叶", false);
+            sentence.append("叶");
+            if (i == 2) {
+                expectFirst("联想 小孩、儿童，波俐");
+                break;
+            }
+            if (i == 0) {
+                type("boxlir");
+                pressCandidate("小孩、儿童，波俐", false);
+            } else {
+                pressCandidate("联想 小孩、儿童，波俐", false);
+            }
+            press("句号");
+            sentence.append("波俐。");
+            expectText(host.first, sentence.toString());
+        }
+        expectText(host.first, sentence.toString());
+        tapField(host.second);
+        type("ye");
+        pressCandidate("饭，叶", false);
+        expectFirst("联想 吃、咬，架");
+        if (!pageCards("联想 小孩、儿童，波俐").isEmpty())
+            throw new AssertionError("Word associations leaked into a new editor");
+        expectText(host.second, "叶");
+
+        if (android.os.Build.VERSION.SDK_INT >= 26) {
+            stage("An editor disabling personalized learning keeps fixed dictionary predictions");
+            runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
+                    android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+                            | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
+            tapField(host.first);
+            type("ye");
+            pressCandidate("饭，叶", false);
+            type("boxlir");
+            pressCandidate("小孩、儿童，波俐", false);
+            press("句号");
+            type("ye");
+            pressCandidate("饭，叶", false);
+            waitForNode("联想 吃、咬，架", false);
+            if (!pageCards("联想 小孩、儿童，波俐").isEmpty())
+                throw new AssertionError("Private editor personalized a repeated continuation");
+            expectText(host.first, "叶波俐。叶");
+        }
+    }
+
+    private void newPredictionEditor() {
+        runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
+                android.view.inputmethod.EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+    }
+
+    private String outputLine(Card item) {
+        if (item.lines.isEmpty()) throw new AssertionError("Missing candidate form: " + item.name);
+        return item.lines.get(item.lines.size() - 1);
+    }
+
+    private Card nextSoundCard() {
+        String previous = "";
+        for (int page = 0; page < 48; page++) {
+            List<Card> sounds = pageCards("下一音节 ");
+            if (!sounds.isEmpty()) {
+                Card found = sounds.get(0);
+                stage("Read single-tap syllable candidate " + found.name + " " + found.lines);
+                return found;
+            }
+            String current = visibleControls();
+            if (current.equals(previous)) break;
+            previous = current;
+            Rect next = pollNode("下一页候选", false, 500);
+            if (next == null) break;
+            tap(next.centerX(), next.centerY());
+            SystemClock.sleep(100);
+        }
+        throw new AssertionError("No writable syllable prediction: " + visibleControls());
     }
 
     private void assertJoinedRanges(EditText field, int... limits) {
@@ -609,8 +785,8 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private List<Card> pageCards(String search) {
-        // Refresh the window after its candidate children change in place.
-        waitForNode("汉字记音", false);
+        // This control exists in direct, handwriting and spelling layouts alike.
+        waitForNode("隐藏键盘", false);
         List<Card> page = new ArrayList<>();
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(search)) {
             try {
@@ -663,14 +839,13 @@ public final class KeyboardTest extends Instrumentation {
 
     private void assertMixedPage(List<Card> page) {
         // These three equally long matches have 39, 33 and 2 attested examples.
-        List<String> expected = Arrays.asList("吃、咬，架", "上，夹", "干、渴，夹", "汉语，嘎");
+        List<String> expected = Arrays.asList("吃、咬，架", "上，夹", "干、渴，夹");
         for (int i = 0; i < expected.size(); i++) {
             if (!expected.get(i).equals(page.get(i).name))
                 throw new AssertionError("Candidates out of language/frequency order: " + visibleControls());
         }
-        if (!page.get(0).lines.equals(Arrays.asList("吃", "架"))
-                || !page.get(3).lines.equals(Collections.singletonList("嘎")))
-            throw new AssertionError("Expected a short Tujia sense and a word-only Chinese fallback");
+        if (!page.get(0).lines.equals(Arrays.asList("吃", "架")))
+            throw new AssertionError("Expected the brief Tujia sense above the committed word");
     }
 
     void stage(String name) {

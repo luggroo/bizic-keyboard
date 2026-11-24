@@ -43,6 +43,8 @@ jobs:
         run: |
           set -euo pipefail
           cd release-assets
+          extras=()
+          if [[ -f one-tap.mp4 ]]; then extras+=(one-tap.mp4); fi
           gh release create "$VERSION" --target "$GITHUB_SHA" --title "北部土家语输入法 ${VERSION#v}" \
             --notes-file NOTES.md "tujia-keyboard-${VERSION#v}.apk" shange-demo.mp4 \
-            continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS
+            continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS "${extras[@]}"

@@ -52,7 +52,7 @@ fi
 if [[ -n "$assets_dir" ]]; then resources+=(-A "$assets_dir"); fi
 "$build_tools/aapt2" link -I "$platform_jar" --manifest "$work/AndroidManifest.xml" \
   --java "$work/generated" --min-sdk-version 23 --target-sdk-version 35 \
-  --version-code 7 --version-name 0.3.2 -o "$work/app.apk" "${resources[@]}"
+  --version-code 8 --version-name 0.3.3 -o "$work/app.apk" "${resources[@]}"
 
 mapfile -d '' sources < <(find "$java_dir" "$work/generated" -name '*.java' -print0)
 javac -encoding UTF-8 -source 8 -target 8 -Xlint:-options \

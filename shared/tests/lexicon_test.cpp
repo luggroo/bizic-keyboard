@@ -337,14 +337,29 @@ void checkLoanPresentation(const Lexicon& lex) {
     checkSong(lex.lookup("伤哥",Mode::Handwriting),false);
     checkSong(lex.lookup("sanggo",Mode::Pinyin),false);
     checkSong(lex.handwritingSuggestions("伤",Mode::Han,Orthography::Ye),true);
-    checkSong(lex.nextWords("xu213-3-1",Mode::Han,Orthography::Ye),true);
-    checkSong(lex.nextWords("xu213-3-1",Mode::Pinyin,Orthography::Ye),false);
     check(lex.scoreHandwritingPrefix("伤哥")==2, "Previous phonetic characters still identify the same lexeme");
     Lexicon fixture(
         "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
         "loan\tl\tl\t山歌\t山歌\t伤哥\t山伤 歌哥\t7\ttujia\t山歌\tl\tl\t山|歌\t\tplainHanLoan\n"
         "native\tn\tn\t人\t倮\t\t倮\t3\ttujia\t人\tn\tn\t倮\t\t\n"
-        "zh-song\tl\tl\t\t山歌\t\t\t999\tzh\t\t\t\t\t\t\n");
+        "zh-song\tl\tl\t\t山歌\t\t\t999\tzh\t\t\t\t\t\t\n",
+        "context\tnext\tscore\nnative\tloan\t50\n<s>\tnative\t80\n");
+    const auto predictedLoan = fixture.nextWords("native", Mode::Han, Orthography::Ye);
+    check(predictedLoan.size() == 1 && predictedLoan.front().plainHanLoan && predictedLoan.front().text == "山歌"
+          && predictedLoan.front().shortMeaning.empty(), "Predicted dictionary loan commits its bare Han form");
+    check(fixture.nextWords("native", Mode::Pinyin, Orthography::Ye).front().shortMeaning == "山歌",
+          "Predicted loan retains its gloss in spelling output");
+    check(fixture.nextWords("<s>", Mode::Han, Orthography::Ye).front().text == "倮", "A real sentence start can predict words");
+    const auto cold = fixture.nextWords("native", Mode::Han, Orthography::Ye);
+    const auto warm = fixture.nextWords("native native native", Mode::Han, Orthography::Ye);
+    check(cold.front().lexemeIds == "loan" && warm.front().lexemeIds == "native",
+          "Two earlier confirmed transitions promote local usage without mutating the dictionary");
+    check(fixture.nextWords("native", Mode::Han, Orthography::Ye).front().lexemeIds == "loan",
+          "An independent editor never inherits local transitions");
+    const auto partial = lex.spellingCompletions("sangg", "", Mode::Han, Orthography::Ye);
+    check(offers(partial, "山歌", "山歌", 5), "A strict typed prefix can complete an unseen dictionary word directly");
+    check(lex.spellingCompletions("sanggo", "", Mode::Han, Orthography::Ye).empty(),
+          "An exact reading is not its own completion");
     const auto candidates=fixture.lookup("l",Mode::Han);
     check(candidates.size()==2 && candidates[0].plainHanLoan && candidates[0].kind==CandidateKind::Tujia &&
           candidates[1].kind==CandidateKind::Chinese && !candidates[1].plainHanLoan, "Loan keeps native rank above Mandarin fallback");
@@ -376,8 +391,8 @@ void checkSyllableBigrams(const Lexicon& lex, const std::string& data) {
         for (size_t i=0; i<ye.size(); ++i) {
             const auto& expected = pair.second[i];
             check(ye[i].text == expected.next && marked[i].lastSyllable == expected.next &&
-                  marked[i].text == expected.accent && ye[i].consumed == 0 && ye[i].lexemeIds.empty() &&
-                  ye[i].syllableOnly && ye[i].meaning == "音节", "Syllable rank/style: " + pair.first + " " + expected.next);
+                  marked[i].text == expected.accent && ye[i].consumed == 0 && ye[i].meaning == marked[i].meaning &&
+                  ye[i].syllableOnly && ye[i].meaning != "音节", "Syllable rank/style: " + pair.first + " " + expected.next);
         }
     }
     check(lex.nextSyllables("", Orthography::Ye).empty() && lex.nextSyllables("。", Orthography::Ye).empty() &&
@@ -401,6 +416,70 @@ void checkSyllableFixture(const std::string& words) {
     check(sample.nextWords("w2548",Mode::Han,Orthography::Ye).empty(), "Syllable arcs never create word pairs");
 }
 
+void checkMongContexts(const Lexicon& lex) {
+    const std::string branchId = "yubao-60757-v-2498";
+    const auto syllables = lex.nextSyllables("kar", Mode::Han, Orthography::Ye);
+    for (const auto& reading : {"mongr", "munr"}) {
+        const auto sound = std::find_if(syllables.begin(), syllables.end(), [&](const Candidate& c) {
+            return c.lastSyllable == reading;
+        });
+        check(sound != syllables.end() && sound->text=="萌" && sound->meaning.empty() && sound->lexemeIds.empty(),
+              "A sound hint does not claim the meaning of a homophone or compound");
+    }
+    const auto entered = lex.lookup("mǒng", Mode::Han);
+    check(std::any_of(entered.begin(), entered.end(), [&](const Candidate& c) {
+        return c.lexemeIds==branchId && !c.syllableOnly && c.shortMeaning=="地支午" && c.text=="萌";
+    }), "A dictionary word offers the attested standalone sense separately from its sound");
+    struct Word { std::string marked, id, gloss; };
+    for (const auto& word : std::vector<Word>{{"kǎmǒng", "w1102", "树"}, {"tōngmǒng", "w2302", "呻吟"},
+                                             {"tòngmǒng", "w2303", "线"}}) {
+        const auto choices = lex.lookup(word.marked, Mode::Pinyin, Orthography::Diacritic);
+        check(std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
+            return c.lexemeIds==word.id && c.text==word.marked && c.shortMeaning==word.gloss &&
+                   c.consumed==editorLength(word.marked);
+        }), "Whole-word meaning for " + word.marked);
+    }
+    const auto recalled = lex.nextWords("w309 " + branchId + " w309", Mode::Han, Orthography::Ye);
+    check(std::any_of(recalled.begin(), recalled.end(), [&](const Candidate& c) {
+        return c.lexemeIds==branchId && c.text=="萌" && c.shortMeaning=="地支午" && c.consumed==0 && !c.syllableOnly;
+    }), "The explicitly chosen independent sense can recur in that editor's context");
+}
+
+void checkDirectSyllableCommit() {
+    // The small lexical subset has one gaf word, but our reviewed whole-dictionary
+    // fixture certifies only yer and ngaf. Never infer monosemy from that subset.
+    const std::string words =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "rice\tyer\tye\t饭\t叶\t\t叶\t2\ttujia\t饭\tye\tyě\t叶\t\t\n"
+        "eat\tgaf\tga\t吃\t架\t\t架\t3\ttujia\t吃\tga\tgá\t架\t\t\n"
+        "loan\tngaf\tnga\t假设的专名\t讶\t\t讶\t2\ttujia\t专名\tnga\tngá\t讶\t\tplainHanLoan\n"
+        "ref-y\tyer\tye\t音节\t也\t\t\t0\tsyllable\t音节\tye\tyě\t也\t\t\n"
+        "ref-g\tgaf\tga\t音节\t𠀀嘎\t\t\t0\tsyllable\t音节\tga\tgá\t𠀀嘎\t\t\n";
+    const std::string arcs = "context\tnext\tcount\trank\tcontextAccent\tnextAccent\n"
+                             "<s>\tyer\t\t1\t\tyě\n<s>\tgaf\t\t2\t\tgá\n<s>\ta\t\t3\t\ta\n<s>\tngaf\t\t4\t\tngá\n"
+                             "<s>\tmunr\t\t5\t\tmǔn\n";
+    const std::string evidence = "syllable\tshortGloss\tlexemeId\than\nyer\t饭\trice\t叶\nngaf\t专名\tloan\t讶\nmunr\t\t\t萌\n";
+    Lexicon lex(words,"",arcs,evidence);
+    const auto raw=lex.nextSyllables("<s>",Mode::Pinyin,Orthography::Ye);
+    const auto marked=lex.nextSyllables("<s>",Mode::Handwriting,Orthography::Diacritic);
+    const auto han=lex.nextSyllables("<s>",Mode::Han,Orthography::Diacritic);
+    check(raw.size()==5 && marked.size()==5 && han.size()==4, "No Roman fallback to an unwritten Han syllable");
+    check(raw[2].text=="a" && raw[2].meaning.empty() && marked[2].lexemeIds.empty(), "Sound-only, no made-up sense");
+    check(raw[0].text=="yer" && marked[0].text=="yě" && han[0].text=="叶" && han[0].lexemeIds=="rice" &&
+          han[0].meaning=="饭" && han[0].shortMeaning=="饭" && han[0].lastSyllable=="yer" && han[0].consumed==0,
+          "Reviewed lexical writing supersedes the default Han unit and can enter word context");
+    check(raw[1].meaning.empty() && marked[1].shortMeaning.empty() && han[1].lexemeIds.empty() && han[1].text=="𠀀嘎" &&
+          han[1].joinedHanRanges==std::vector<int>{0,3}, "Ambiguous reading uses only its true Han unit and UTF-16 ranges");
+    check(han[2].plainHanLoan && han[2].shortMeaning.empty() && han[2].meaning=="专名" && marked[3].shortMeaning=="专名",
+          "Unique borrowed meaning keeps the original Han presentation");
+    check(han[3].text=="萌" && han[3].meaning.empty() && han[3].lexemeIds.empty() &&
+          han[3].lastSyllable=="munr" && marked[4].text=="mǔn", "Regional writing preserves independently known pronunciation");
+    check(lex.nextSyllables("<s>",static_cast<Mode>(5),Orthography::Ye).empty(), "Reject unsupported output modes");
+    Lexicon unscreened(words,"",arcs);
+    const auto fallback=unscreened.nextSyllables("<s>",Mode::Han,Orthography::Ye);
+    check(fallback.size()==2 && fallback.front().text=="也" && fallback.front().meaning.empty(), "No evidence asset still produces sound references");
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -418,7 +497,12 @@ int main(int argc, char** argv) {
         std::ifstream soundFile(assetPath.substr(0,assetPath.find_last_of("/\\")+1)+"syllable_bigrams.tsv");
         check(soundFile.good(), "Cannot open syllable ranking");
         std::ostringstream sounds; sounds << soundFile.rdbuf();
-        Lexicon lexicon(asset, ngrams.str(), sounds.str());
+        std::ifstream senseFile(assetPath.substr(0,assetPath.find_last_of("/\\")+1)+"syllable_senses.tsv");
+        check(senseFile.good(), "Cannot open independently reviewed syllable senses");
+        std::ostringstream senses; senses << senseFile.rdbuf();
+        Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
+        checkDirectSyllableCommit();
+        checkMongContexts(lexicon);
         checkSyllableBigrams(lexicon, sounds.str());
         checkSyllableFixture(asset);
         checkContext(lexicon);

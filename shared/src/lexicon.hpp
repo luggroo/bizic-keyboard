@@ -32,7 +32,7 @@ struct Candidate {
 class Lexicon {
 public:
     explicit Lexicon(const std::string& tsv, const std::string& ngrams = {},
-                     const std::string& syllableBigrams = {});
+                     const std::string& syllableBigrams = {}, const std::string& syllableSenses = {});
     ~Lexicon();
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode,
@@ -40,7 +40,10 @@ public:
 
     std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;
     std::vector<Candidate> nextSyllables(const std::string& context, Orthography style) const;
+    std::vector<Candidate> nextSyllables(const std::string& context, Mode output, Orthography style) const;
     int scoreHandwritingPrefix(const std::string& glyphs) const;
+    std::vector<Candidate> spellingCompletions(const std::string& prefix, const std::string& previousIds,
+                                               Mode output, Orthography style) const;
     std::vector<Candidate> nextWords(const std::string& previousIds, Mode output, Orthography style) const;
 
 private:

@@ -35,8 +35,9 @@ final class LexiconStore {
             CandidateEngine result;
             try (InputStream words = app.getAssets().open("words.tsv");
                  InputStream ngrams = app.getAssets().open("ngrams.tsv");
-                 InputStream syllables = app.getAssets().open("syllable_bigrams.tsv")) {
-                result = new CandidateEngine(words, ngrams, syllables);
+                 InputStream syllables = app.getAssets().open("syllable_bigrams.tsv");
+                 InputStream senses = app.getAssets().open("syllable_senses.tsv")) {
+                result = new CandidateEngine(words, ngrams, syllables, senses);
             } catch (IOException | RuntimeException | LinkageError failure) {
                 Log.e("TujiaIME", "Could not load bundled dictionary", failure);
                 result = null;

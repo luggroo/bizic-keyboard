@@ -38,7 +38,8 @@ public final class CandidateEngineTest {
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
-                new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()));
+                new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()),
+                new FileInputStream(asset.resolveSibling("syllable_senses.tsv").toFile()));
         Candidate song = engine.lookup("伤哥", Mode.HAN).stream().filter(c -> c.lexemeIds.equals("xu213-2-1")).findFirst().get();
         check(song.text.equals("山歌") && song.plainHanLoan && song.shortMeaning.isEmpty() && song.meaning.equals("山歌") && song.kind == CandidateEngine.Kind.TUJIA,
               "Handwritten loan uses Chinese original with native priority");
@@ -46,6 +47,31 @@ public final class CandidateEngineTest {
         check(!spokenSong.plainHanLoan && spokenSong.text.equals("sangxgox") && spokenSong.shortMeaning.equals("山歌"), "Loanword spelling retains visible gloss");
         List<Candidate> startSounds = engine.nextSyllables("<s>", Orthography.DIACRITIC);
         check(startSounds.size() == 175 && startSounds.stream().allMatch(c -> c.syllableOnly && c.consumed == 0 && !c.lastSyllable.isEmpty()), "Attested sentence-start syllables");
+        List<Candidate> hanSounds = engine.nextSyllables("<s>", Mode.HAN, Orthography.DIACRITIC);
+        check(!hanSounds.isEmpty() && hanSounds.stream().allMatch(c -> c.text.codePoints().allMatch(Character::isIdeographic)
+              && c.consumed == 0 && !c.lastSyllable.isEmpty()), "Direct Han sound commits contain only approved Han units");
+        check(startSounds.get(0).text.equals("gó") && hanSounds.stream().anyMatch(c -> c.meaning.isEmpty()), "Spelling and unknown senses");
+        Candidate tight = hanSounds.stream().filter(c -> c.lastSyllable.equals("jinv")).findFirst().get();
+        check(tight.text.equals("紧") && tight.shortMeaning.equals("紧") && tight.consumed == 0,
+              "Attested standalone sense on its commit-ready Han suggestion");
+        List<Candidate> afterKa = engine.nextSyllables("kǎ", Mode.PINYIN, Orthography.DIACRITIC);
+        List<Candidate> hanAfterKa = engine.nextSyllables("kar", Mode.HAN, Orthography.YE);
+        for (String sound : Arrays.asList("mǒng", "mǔn")) {
+            Candidate part = afterKa.stream().filter(c -> c.text.equals(sound)).findFirst().get();
+            check(part.shortMeaning.isEmpty() && part.meaning.isEmpty() && part.lexemeIds.isEmpty(),
+                  "A constituent of a longer word has no universal standalone meaning: " + sound);
+            check(hanAfterKa.stream().anyMatch(c -> c.lastSyllable.equals(part.lastSyllable) &&
+                  c.text.equals("萌") && c.meaning.isEmpty()), "Regional readings may share a reference glyph");
+        }
+        String earthBranch = "yubao-60757-v-2498";
+        Candidate chosenBranch = engine.lookup("mǒng", Mode.PINYIN, Orthography.DIACRITIC).stream()
+                .filter(c -> c.lexemeIds.equals(earthBranch)).findFirst().get();
+        check(chosenBranch.shortMeaning.equals("地支午") && chosenBranch.text.equals("mǒng"),
+              "A known word and its sound-only hint remain distinct");
+        check(engine.nextWords("w309 " + chosenBranch.lexemeIds + " w309", Mode.HAN, Orthography.YE).stream()
+              .anyMatch(c -> c.lexemeIds.equals(earthBranch) && c.shortMeaning.equals("地支午") &&
+                             c.text.equals("萌") && c.consumed == 0),
+              "The same confirmed local pairing can suggest the specific dictionary sense");
         check(engine.nextSyllables("", Orthography.YE).isEmpty(), "Unknown context is not sentence start");
         check(engine.lookup("arciex", Mode.HAN).get(0).lastSyllable.equals("ciex"), "Attested ending outside default table");
         check(engine.scoreHandwritingPrefix("波俐") == 2, "Complete handwriting path");

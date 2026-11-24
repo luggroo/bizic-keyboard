@@ -85,6 +85,21 @@ def orthography_rows():
     return rows
 
 
+def context_words(path):
+    orthography = Orthography.from_file()
+    with path.open(encoding="utf-8") as src:
+        for record in csv.DictReader(src, delimiter="\t"):
+            parts = record["syllables"].split()
+            units = orthography.units(parts, [""] * len(parts))
+            if not all(units):
+                raise ValueError(f"No reference character for {record['id']}: {parts}")
+            word = "".join(parts)
+            yield dict(id=record["id"], word=word, key="".join(p[:-1] for p in parts),
+                       meaning=record["meaning"], shortGloss=record["shortGloss"], kind="tujia",
+                       recommended="".join(units), hanUnits="|".join(units),
+                       variants=" ".join(units))
+
+
 def native_forms(value):
     return re.sub(r"[\s'’\-]+", "", value.casefold())
 
@@ -195,6 +210,8 @@ def main():
     if args.story.exists():
         with args.story.open(encoding="utf-8", newline="") as stream:
             rows.extend(csv.DictReader(stream, delimiter="\t"))
+    context_source = DATA / "context-words.tsv"
+    rows.extend(context_words(context_source))
     ids = [r["id"] for r in rows]
     if len(ids) != len(set(ids)):
         raise ValueError("Duplicate keyboard word ID")
@@ -283,7 +300,7 @@ def main():
         "method":"Count northern aligned word or word-group annotations with matching tone-marked spelling and Chinese sense; omit unresolved homophones. In the geographically identified northern Brassett transcripts, count exact numeric-tone word spans only when there is one dictionary ID for the spelling. Undetermined sense and unresolved token boundaries are omitted. Counts estimate collection usage; zero means no qualifying observation.",
         "sourcesSHA256":{f:hashlib.sha256((site/f).read_bytes()).hexdigest() for f in files},
         "inputSHA256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest()
-                       for p in (args.demo/"words.js", args.story, DATA/"story-spelling-aliases.tsv", args.mandarin) if p.exists()},
+                       for p in (args.demo/"words.js", args.story, context_source, DATA/"story-spelling-aliases.tsv", args.mandarin) if p.exists()},
         "stats":dict(stats), "tujiaRows":len(rows), "referenceRows":len(reference), "observedRows":observed_rows,
         "mandarinRows":sum(map(len, mandarin.values())),
     }

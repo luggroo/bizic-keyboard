@@ -1,16 +1,18 @@
 {
+  "sourceUrl": "https://tujia.biz",
   "sources": {
     "annotated-books.json": "4a13093d96a815fd3453055753a4c93b121ffbd72fefab5cae2eef586a7f8910",
-    "longshan-texts.json": "c5dd1e4ad1382ac63a34462c5ca8c319450e4cbb259e4eada73e78b21eae4cf7"
+    "longshan-texts.json": "c5dd1e4ad1382ac63a34462c5ca8c319450e4cbb259e4eada73e78b21eae4cf7",
+    "dictionary.json.gz": "7a090fdd4a77a3921aa818ee5a7ec03d4d87b8b839cf37e00ca32dfc3a4a5156",
+    "grammar-reviewed-data.js": "5cc7ec391ef104232e810624c5dcae29c21c277b83d5a54d751d13f805b09d36"
   },
-  "sourceUrl": "https://tujia.biz",
-  "counts": {
-    "annotated-books.json aligned blocks": 1032,
-    "annotated-books.json matched tokens": 1431,
-    "longshan-texts.json aligned blocks": 30,
-    "longshan-texts.json matched tokens": 405,
-    "distinct bigrams": 352,
-    "distinct trigrams": 195
-  },
-  "method": "Adjacent glossed tokens within a single northern source block. Source punctuation, missing or ambiguous lexeme IDs, and block boundaries reset context. Example references identify the original text and block."
+  "excludedDemoTexts": [
+    "tlp-longshan-stories-02-01",
+    "xu-tujia-annotated-2-13"
+  ],
+  "documents": 17,
+  "sentences": 1378,
+  "linkedTokens": 1643,
+  "rankedRows": 1234,
+  "method": "Document-capped counts, duplicate utterance removal, dictionary POS and interpolated word/word-class/unigram backoff. Word pairs and triples require two distinct documents. The compiled table holds ranked choices only."
 }

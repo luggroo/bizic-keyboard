@@ -1,548 +1,1235 @@
-context	next	count	example
-ls60-1	ls60-2	1	tlp-longshan-stories-02-01#1
-ls60-1 ls60-2	ls60-3	1	tlp-longshan-stories-02-01#1
-ls60-10	ls60-11	1	tlp-longshan-stories-02-01#1
-ls60-10 ls60-11	ls60-12	1	tlp-longshan-stories-02-01#1
-ls60-100	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-100 ls60-38	ls60-6	1	tlp-longshan-stories-02-01#3
-ls60-101	ls60-102	1	tlp-longshan-stories-02-01#3
-ls60-101 ls60-102	ls60-103	1	tlp-longshan-stories-02-01#3
-ls60-102	ls60-103	1	tlp-longshan-stories-02-01#3
-ls60-102 ls60-103	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-102	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-102 ls60-74	ls60-104	1	tlp-longshan-stories-02-01#3
-ls60-103	ls60-26	1	tlp-longshan-stories-01-01#2
-ls60-103	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-103 ls60-74	ls60-81	1	tlp-longshan-stories-02-01#3
-ls60-105	ls60-106	1	tlp-longshan-stories-02-01#3
-ls60-105 ls60-106	ls60-107	1	tlp-longshan-stories-02-01#3
-ls60-105	ls60-112	1	tlp-longshan-stories-02-01#3
-ls60-105 ls60-112	ls60-113	1	tlp-longshan-stories-02-01#3
-ls60-105	ls60-118	2	xu-tujia-annotated-2-5-draft#2.5-051
-ls60-105 ls60-118	ls60-14	1	xu-tujia-annotated-2-7-review#2.7-003
-ls60-105	ls60-85	1	tlp-longshan-stories-01-01#5
-ls60-105	w1598	1	xu-tujia-annotated-2-4-partial#2.4-036
-ls60-105 w1598	w1598	1	xu-tujia-annotated-2-4-partial#2.4-036
-ls60-105	w1932	2	xu-tujia-annotated-2-9#2.9-020
-ls60-105	w1964	1	xu-tujia-annotated-2-5-draft#2.5-029
-ls60-105 w1964	w2166	1	xu-tujia-annotated-2-5-draft#2.5-029
-ls60-105	w212	1	xu-tujia-annotated-2-1-excerpt#2.1-076
-ls60-105	w2398	1	xu-tujia-annotated-2-6#2.6-072
-ls60-105	w355	1	xu-tujia-annotated-2-1-excerpt#2.1-096
-ls60-105	w442	1	xu-tujia-annotated-2-5-draft#2.5-048
-ls60-105 w442	w2163	1	xu-tujia-annotated-2-5-draft#2.5-048
-ls60-105	w684	1	xu-tujia-annotated-2-9#2.9-063
-ls60-105	w754	1	xu-tujia-annotated-2-5-draft#2.5-027
-ls60-105 w754	ls60-105	1	xu-tujia-annotated-2-5-draft#2.5-027
-ls60-105	w949	1	xu-tujia-annotated-2-1-excerpt#2.1-020
-ls60-105	xu213-3-3	1	xu-tujia-annotated-2-9#2.9-037
-ls60-106	ls60-107	1	tlp-longshan-stories-02-01#3
-ls60-106 ls60-107	ls60-108	1	tlp-longshan-stories-02-01#3
-ls60-106	ls60-136	1	tlp-longshan-stories-02-01#5
-ls60-106 ls60-136	ls60-137	1	tlp-longshan-stories-02-01#5
-ls60-106	ls60-162	1	tlp-longshan-stories-02-01#6
-ls60-106 ls60-162	ls60-163	1	tlp-longshan-stories-02-01#6
-ls60-106	ls60-70	1	tlp-longshan-stories-02-01#5
-ls60-106 ls60-70	ls60-147	1	tlp-longshan-stories-02-01#5
-ls60-107	ls60-108	1	tlp-longshan-stories-02-01#3
-ls60-107 ls60-108	ls60-109	1	tlp-longshan-stories-02-01#3
-ls60-108	ls60-109	1	tlp-longshan-stories-02-01#3
-ls60-108 ls60-109	ls60-110	1	tlp-longshan-stories-02-01#3
-ls60-109	ls60-110	1	tlp-longshan-stories-02-01#3
-ls60-109 ls60-110	ls60-111	1	tlp-longshan-stories-02-01#3
-ls60-11	ls60-12	1	tlp-longshan-stories-02-01#1
-ls60-110	ls60-111	1	tlp-longshan-stories-02-01#3
-ls60-112	ls60-113	1	tlp-longshan-stories-02-01#3
-ls60-112 ls60-113	ls60-44	1	tlp-longshan-stories-02-01#3
-ls60-113	ls60-44	1	tlp-longshan-stories-02-01#3
-ls60-114	ls60-115	1	tlp-longshan-stories-02-01#3
-ls60-114 ls60-115	ls60-35	1	tlp-longshan-stories-02-01#3
-ls60-115	ls60-35	1	tlp-longshan-stories-02-01#3
-ls60-115 ls60-35	ls60-116	1	tlp-longshan-stories-02-01#3
-ls60-116	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-116 ls60-74	ls60-117	1	tlp-longshan-stories-02-01#3
-ls60-118	ls60-119	1	tlp-longshan-stories-02-01#3
-ls60-118	ls60-129	1	tlp-longshan-stories-02-01#5
-ls60-118	ls60-14	1	xu-tujia-annotated-2-7-review#2.7-003
-ls60-118	xu213-4-2	1	xu-tujia-annotated-2-3-excerpt#2.3-008
-ls60-118	xu213-4-5	1	xu-tujia-annotated-2-13#2.13-004
-ls60-118 xu213-4-5	xu213-4-6	1	xu-tujia-annotated-2-13#2.13-004
-ls60-120	ls60-18	1	tlp-longshan-stories-02-01#4
-ls60-120 ls60-18	ls60-121	1	tlp-longshan-stories-02-01#4
-ls60-121	ls60-121	2	tlp-longshan-stories-01-01#6
-ls60-121 ls60-121	ls60-122	1	tlp-longshan-stories-02-01#4
-ls60-121	ls60-122	1	tlp-longshan-stories-02-01#4
-ls60-121 ls60-122	ls60-123	1	tlp-longshan-stories-02-01#4
-ls60-122	ls60-123	1	tlp-longshan-stories-02-01#4
-ls60-125	ls60-126	1	tlp-longshan-stories-02-01#5
-ls60-125 ls60-126	ls60-127	1	tlp-longshan-stories-02-01#5
-ls60-125	ls60-33	1	tlp-longshan-stories-01-01#7
-ls60-126	ls60-127	1	tlp-longshan-stories-02-01#5
-ls60-128	ls60-33	1	tlp-longshan-stories-02-01#5
-ls60-128 ls60-33	ls60-38	1	tlp-longshan-stories-02-01#5
-ls60-13	ls60-105	1	tlp-longshan-stories-02-01#3
-ls60-13 ls60-105	ls60-112	1	tlp-longshan-stories-02-01#3
-ls60-13	ls60-14	1	tlp-longshan-stories-02-01#1
-ls60-13 ls60-14	ls60-15	1	tlp-longshan-stories-02-01#1
-ls60-13	ls60-147	1	tlp-longshan-stories-02-01#5
-ls60-13 ls60-147	ls60-148	1	tlp-longshan-stories-02-01#5
-ls60-13	ls60-157	1	tlp-longshan-stories-02-01#5
-ls60-13 ls60-157	ls60-13	1	tlp-longshan-stories-02-01#5
-ls60-13	ls60-158	1	tlp-longshan-stories-02-01#5
-ls60-13	ls60-70	1	tlp-longshan-stories-02-01#3
-ls60-13 ls60-70	ls60-88	1	tlp-longshan-stories-02-01#3
-ls60-13	ls60-72	1	tlp-longshan-stories-02-01#2
-ls60-13 ls60-72	ls60-20	1	tlp-longshan-stories-02-01#2
-ls60-13	ls60-93	2	tlp-longshan-stories-03-01#3
-ls60-130	ls60-131	1	tlp-longshan-stories-02-01#5
-ls60-130 ls60-131	ls60-132	1	tlp-longshan-stories-02-01#5
-ls60-131	ls60-132	1	tlp-longshan-stories-02-01#5
-ls60-131 ls60-132	ls60-35	1	tlp-longshan-stories-02-01#5
-ls60-132	ls60-35	1	tlp-longshan-stories-02-01#5
-ls60-132 ls60-35	ls60-71	1	tlp-longshan-stories-02-01#5
-ls60-133	ls60-134	1	tlp-longshan-stories-02-01#5
-ls60-133 ls60-134	ls60-135	1	tlp-longshan-stories-02-01#5
-ls60-133	ls60-71	1	tlp-longshan-stories-01-01#6
-ls60-133 ls60-71	ls60-39	1	tlp-longshan-stories-01-01#6
-ls60-134	ls60-135	1	tlp-longshan-stories-02-01#5
-ls60-134 ls60-135	ls60-93	1	tlp-longshan-stories-02-01#5
-ls60-135	ls60-93	1	tlp-longshan-stories-02-01#5
-ls60-136	ls60-137	1	tlp-longshan-stories-02-01#5
-ls60-136 ls60-137	ls60-70	1	tlp-longshan-stories-02-01#5
-ls60-137	ls60-105	1	xu-tujia-annotated-2-5-draft#2.5-092
-ls60-137	ls60-137	1	xu-tujia-annotated-2-1-excerpt#2.1-095
-ls60-137	ls60-70	1	tlp-longshan-stories-02-01#5
-ls60-137 ls60-70	w1658	1	tlp-longshan-stories-02-01#5
-ls60-137	ls60-71	1	tlp-longshan-stories-03-01#2
-ls60-137	w1658	2	xu-tujia-annotated-2-2-excerpt#2.2-026
-ls60-137	w203	1	xu-tujia-annotated-2-4-partial#2.4-027
-ls60-137	w2685	1	xu-tujia-annotated-2-3-excerpt#2.3-017
-ls60-137	w2747	1	xu-tujia-annotated-2-8-partial#2.8-023
-ls60-137	w309	1	xu-tujia-annotated-2-3-excerpt#2.3-001
-ls60-137 w309	xu213-3-3	1	xu-tujia-annotated-2-3-excerpt#2.3-001
-ls60-137	xu213-3-3	1	xu-tujia-annotated-2-4-partial#2.4-067
-ls60-14	ls60-137	2	xu-tujia-annotated-2-1-excerpt#2.1-120
-ls60-14 ls60-137	w2747	1	xu-tujia-annotated-2-8-partial#2.8-023
-ls60-14	ls60-15	1	tlp-longshan-stories-02-01#1
-ls60-14 ls60-15	ls60-16	1	tlp-longshan-stories-02-01#1
-ls60-14	ls60-151	1	tlp-longshan-stories-02-01#5
-ls60-14 ls60-151	ls60-152	1	tlp-longshan-stories-02-01#5
-ls60-14	ls60-39	1	tlp-longshan-stories-02-01#3
-ls60-14 ls60-39	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-14	w1585	1	xu-tujia-annotated-2-14#2.14-028
-ls60-14	w2089	1	tlp-longshan-stories-01-01#3
-ls60-14 w2089	ls60-125	1	tlp-longshan-stories-01-01#3
-ls60-14	w309	8	xu-tujia-annotated-2-3-excerpt#2.3-017
-ls60-14	w698	1	xu-tujia-annotated-2-2-excerpt#2.2-003
-ls60-14	xu213-2-3	1	xu-tujia-annotated-2-12-partial#2.12-084
-ls60-14	xu213-3-3	18	xu-tujia-annotated-2-1-excerpt#2.1-046
-ls60-14	xu213-4-6	1	xu-tujia-annotated-2-12-partial#2.12-092
-ls60-140	ls60-141	1	tlp-longshan-stories-02-01#5
-ls60-140 ls60-141	ls60-142	1	tlp-longshan-stories-02-01#5
-ls60-141	ls60-142	1	tlp-longshan-stories-02-01#5
-ls60-141 ls60-142	ls60-143	1	tlp-longshan-stories-02-01#5
-ls60-142	ls60-143	1	tlp-longshan-stories-02-01#5
-ls60-142 ls60-143	ls60-144	1	tlp-longshan-stories-02-01#5
-ls60-143	ls60-144	1	tlp-longshan-stories-02-01#5
-ls60-143 ls60-144	ls60-145	1	tlp-longshan-stories-02-01#5
-ls60-144	ls60-145	1	tlp-longshan-stories-02-01#5
-ls60-144 ls60-145	ls60-146	1	tlp-longshan-stories-02-01#5
-ls60-145	ls60-146	1	tlp-longshan-stories-02-01#5
-ls60-147	ls60-148	2	tlp-longshan-stories-02-01#5
-ls60-147 ls60-148	ls60-149	1	tlp-longshan-stories-02-01#5
-ls60-148	ls60-149	1	tlp-longshan-stories-02-01#5
-ls60-15	ls60-16	1	tlp-longshan-stories-02-01#1
-ls60-15 ls60-16	ls60-17	1	tlp-longshan-stories-02-01#1
-ls60-150	ls60-14	1	tlp-longshan-stories-02-01#5
-ls60-150 ls60-14	ls60-151	1	tlp-longshan-stories-02-01#5
-ls60-150	ls60-167	1	tlp-longshan-stories-02-01#6
-ls60-151	ls60-152	1	tlp-longshan-stories-02-01#5
-ls60-151 ls60-152	ls60-153	1	tlp-longshan-stories-02-01#5
-ls60-152	ls60-153	1	tlp-longshan-stories-02-01#5
-ls60-154	ls60-155	1	tlp-longshan-stories-02-01#5
-ls60-154 ls60-155	ls60-156	1	tlp-longshan-stories-02-01#5
-ls60-155	ls60-156	1	tlp-longshan-stories-02-01#5
-ls60-157	ls60-13	2	tlp-longshan-stories-02-01#5
-ls60-157 ls60-13	ls60-147	1	tlp-longshan-stories-02-01#5
-ls60-157 ls60-13	ls60-158	1	tlp-longshan-stories-02-01#5
-ls60-159	ls60-160	1	tlp-longshan-stories-02-01#6
-ls60-16	ls60-17	1	tlp-longshan-stories-02-01#1
-ls60-161	ls60-106	1	tlp-longshan-stories-02-01#6
-ls60-161 ls60-106	ls60-162	1	tlp-longshan-stories-02-01#6
-ls60-162	ls60-163	1	tlp-longshan-stories-02-01#6
-ls60-162 ls60-163	ls60-164	1	tlp-longshan-stories-02-01#6
-ls60-163	ls60-164	1	tlp-longshan-stories-02-01#6
-ls60-163 ls60-164	ls60-165	1	tlp-longshan-stories-02-01#6
-ls60-164	ls60-165	1	tlp-longshan-stories-02-01#6
-ls60-166	ls60-150	1	tlp-longshan-stories-02-01#6
-ls60-166 ls60-150	ls60-167	1	tlp-longshan-stories-02-01#6
-ls60-18	ls60-121	1	tlp-longshan-stories-02-01#4
-ls60-18 ls60-121	ls60-121	1	tlp-longshan-stories-02-01#4
-ls60-18	ls60-19	1	tlp-longshan-stories-02-01#1
-ls60-18	ls60-73	1	tlp-longshan-stories-02-01#3
-ls60-18 ls60-73	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-19	ls60-28	1	tlp-longshan-stories-02-01#1
-ls60-19 ls60-28	ls60-54	1	tlp-longshan-stories-02-01#1
-ls60-19	ls60-59	1	tlp-longshan-stories-01-01#3
-ls60-2	ls60-3	1	tlp-longshan-stories-02-01#1
-ls60-20	ls60-19	1	tlp-longshan-stories-02-01#1
-ls60-20	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-20 ls60-74	ls60-73	1	tlp-longshan-stories-02-01#2
-ls60-22	ls60-23	1	tlp-longshan-stories-02-01#1
-ls60-22 ls60-23	ls60-24	1	tlp-longshan-stories-02-01#1
-ls60-23	ls60-24	1	tlp-longshan-stories-02-01#1
-ls60-23 ls60-24	ls60-25	1	tlp-longshan-stories-02-01#1
-ls60-24	ls60-25	1	tlp-longshan-stories-02-01#1
-ls60-24 ls60-25	ls60-26	1	tlp-longshan-stories-02-01#1
-ls60-25	ls60-26	2	tlp-longshan-stories-02-01#1
-ls60-25 ls60-26	ls60-27	1	tlp-longshan-stories-02-01#1
-ls60-25 ls60-26	ls60-28	1	tlp-longshan-stories-02-01#1
-ls60-25	ls60-69	1	tlp-longshan-stories-02-01#2
-ls60-26	ls60-27	1	tlp-longshan-stories-02-01#1
-ls60-26	ls60-28	1	tlp-longshan-stories-02-01#1
-ls60-26 ls60-28	ls60-29	1	tlp-longshan-stories-02-01#1
-ls60-28	ls60-29	1	tlp-longshan-stories-02-01#1
-ls60-28 ls60-29	ls60-30	1	tlp-longshan-stories-02-01#1
-ls60-28	ls60-54	1	tlp-longshan-stories-02-01#1
-ls60-28 ls60-54	ls60-55	1	tlp-longshan-stories-02-01#1
-ls60-28	ls60-56	1	tlp-longshan-stories-02-01#1
-ls60-28	w1932	1	tlp-longshan-stories-01-01#1
-ls60-28 w1932	ls60-39	1	tlp-longshan-stories-01-01#1
-ls60-29	ls60-30	1	tlp-longshan-stories-02-01#1
-ls60-31	ls60-32	1	tlp-longshan-stories-02-01#1
-ls60-33	ls60-34	1	tlp-longshan-stories-02-01#1
-ls60-33 ls60-34	ls60-35	1	tlp-longshan-stories-02-01#1
-ls60-33	ls60-38	1	tlp-longshan-stories-02-01#5
-ls60-33 ls60-38	ls60-118	1	tlp-longshan-stories-02-01#5
-ls60-33	ls60-52	1	tlp-longshan-stories-02-01#1
-ls60-33 ls60-52	ls60-38	1	tlp-longshan-stories-02-01#1
-ls60-33	ls60-70	1	tlp-longshan-stories-02-01#3
-ls60-33 ls60-70	ls60-99	1	tlp-longshan-stories-02-01#3
-ls60-33	ls60-73	1	tlp-longshan-stories-02-01#2
-ls60-33 ls60-73	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-33	ls60-76	1	tlp-longshan-stories-02-01#2
-ls60-33 ls60-76	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-33	ls60-95	1	tlp-longshan-stories-01-01#1
-ls60-33	w1224	1	tlp-longshan-stories-03-01#2
-ls60-34	ls60-35	1	tlp-longshan-stories-02-01#1
-ls60-34 ls60-35	ls60-26	1	tlp-longshan-stories-02-01#1
-ls60-35	ls60-116	1	tlp-longshan-stories-02-01#3
-ls60-35 ls60-116	ls60-74	1	tlp-longshan-stories-02-01#3
-ls60-35	ls60-26	2	tlp-longshan-stories-02-01#1
-ls60-35	ls60-49	1	tlp-longshan-stories-02-01#1
-ls60-35 ls60-49	ls60-50	1	tlp-longshan-stories-02-01#1
-ls60-35	ls60-71	1	tlp-longshan-stories-02-01#5
-ls60-35 ls60-71	ls60-133	1	tlp-longshan-stories-02-01#5
-ls60-35	ls60-85	1	tlp-longshan-stories-02-01#3
-ls60-35 ls60-85	ls60-86	1	tlp-longshan-stories-02-01#3
-ls60-37	ls60-38	1	tlp-longshan-stories-02-01#1
-ls60-37 ls60-38	ls60-39	1	tlp-longshan-stories-02-01#1
-ls60-38	ls60-118	2	tlp-longshan-stories-02-01#3
-ls60-38 ls60-118	ls60-119	1	tlp-longshan-stories-02-01#3
-ls60-38 ls60-118	ls60-129	1	tlp-longshan-stories-02-01#5
-ls60-38	ls60-130	1	tlp-longshan-stories-02-01#5
-ls60-38 ls60-130	ls60-131	1	tlp-longshan-stories-02-01#5
-ls60-38	ls60-39	1	tlp-longshan-stories-02-01#1
-ls60-38 ls60-39	ls60-40	1	tlp-longshan-stories-02-01#1
-ls60-38	ls60-43	1	tlp-longshan-stories-02-01#1
-ls60-38 ls60-43	ls60-44	1	tlp-longshan-stories-02-01#1
-ls60-38	ls60-44	2	tlp-longshan-stories-02-01#1
-ls60-38	ls60-6	2	tlp-longshan-stories-02-01#1
-ls60-39	ls60-118	6	xu-tujia-annotated-2-5-draft#2.5-028
-ls60-39	ls60-33	1	tlp-longshan-stories-01-01#1
-ls60-39 ls60-33	ls60-95	1	tlp-longshan-stories-01-01#1
-ls60-39	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-39 ls60-38	ls60-118	1	tlp-longshan-stories-02-01#3
-ls60-39	ls60-40	1	tlp-longshan-stories-02-01#1
-ls60-39	w1740	2	xu-tujia-annotated-2-3-excerpt#2.3-076
-ls60-39	w1932	3	xu-tujia-annotated-2-6#2.6-032
-ls60-39	w2315	1	xu-tujia-annotated-2-12-partial#2.12-007
-ls60-39	w2548	1	xu-tujia-annotated-2-8-partial#2.8-030
-ls60-39	w684	3	xu-tujia-annotated-2-12-partial#2.12-123
-ls60-39 w684	xu213-4-2	1	xu-tujia-annotated-2-12-partial#2.12-123
-ls60-39	w949	1	xu-tujia-annotated-2-5-draft#2.5-014
-ls60-4	ls60-5	1	tlp-longshan-stories-02-01#1
-ls60-4 ls60-5	ls60-6	1	tlp-longshan-stories-02-01#1
-ls60-41	ls60-35	1	tlp-longshan-stories-02-01#1
-ls60-41 ls60-35	ls60-26	1	tlp-longshan-stories-02-01#1
-ls60-41	ls60-38	1	tlp-longshan-stories-02-01#1
-ls60-41 ls60-38	ls60-44	1	tlp-longshan-stories-02-01#1
-ls60-42	ls60-38	1	tlp-longshan-stories-02-01#1
-ls60-42 ls60-38	ls60-43	1	tlp-longshan-stories-02-01#1
-ls60-43	ls60-44	1	tlp-longshan-stories-02-01#1
-ls60-46	ls60-47	1	tlp-longshan-stories-02-01#1
-ls60-46 ls60-47	ls60-5	1	tlp-longshan-stories-02-01#1
-ls60-47	ls60-5	1	tlp-longshan-stories-02-01#1
-ls60-47 ls60-5	ls60-48	1	tlp-longshan-stories-02-01#1
-ls60-48	ls60-35	1	tlp-longshan-stories-02-01#1
-ls60-48 ls60-35	ls60-49	1	tlp-longshan-stories-02-01#1
-ls60-49	ls60-50	1	tlp-longshan-stories-02-01#1
-ls60-49 ls60-50	ls60-51	1	tlp-longshan-stories-02-01#1
-ls60-5	ls60-48	1	tlp-longshan-stories-02-01#1
-ls60-5 ls60-48	ls60-35	1	tlp-longshan-stories-02-01#1
-ls60-5	ls60-6	1	tlp-longshan-stories-02-01#1
-ls60-50	ls60-51	1	tlp-longshan-stories-02-01#1
-ls60-51	ls60-71	1	tlp-longshan-stories-01-01#4
-ls60-52	ls60-38	1	tlp-longshan-stories-02-01#1
-ls60-52 ls60-38	ls60-6	1	tlp-longshan-stories-02-01#1
-ls60-54	ls60-55	1	tlp-longshan-stories-02-01#1
-ls60-57	ls60-55	1	tlp-longshan-stories-02-01#1
-ls60-57	ls60-58	1	tlp-longshan-stories-02-01#1
-ls60-59	ls60-166	1	tlp-longshan-stories-02-01#6
-ls60-59 ls60-166	ls60-150	1	tlp-longshan-stories-02-01#6
-ls60-59	ls60-20	1	tlp-longshan-stories-02-01#2
-ls60-59 ls60-20	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-59	ls60-60	1	tlp-longshan-stories-02-01#2
-ls60-59 ls60-60	ls60-61	1	tlp-longshan-stories-02-01#2
-ls60-59	ls60-84	1	tlp-longshan-stories-02-01#3
-ls60-59 ls60-84	ls60-35	1	tlp-longshan-stories-02-01#3
-ls60-60	ls60-61	1	tlp-longshan-stories-02-01#2
-ls60-60 ls60-61	ls60-62	1	tlp-longshan-stories-02-01#2
-ls60-60	w684	1	xu-tujia-annotated-2-5-draft#2.5-083
-ls60-61	ls60-62	1	tlp-longshan-stories-02-01#2
-ls60-61 ls60-62	w1315	1	tlp-longshan-stories-02-01#2
-ls60-61	w165	1	xu-tujia-annotated-2-1-excerpt#2.1-063
-ls60-62	w1315	1	tlp-longshan-stories-02-01#2
-ls60-62 w1315	ls60-64	1	tlp-longshan-stories-02-01#2
-ls60-64	ls60-65	1	tlp-longshan-stories-02-01#2
-ls60-64 ls60-65	ls60-66	1	tlp-longshan-stories-02-01#2
-ls60-65	ls60-66	1	tlp-longshan-stories-02-01#2
-ls60-67	ls60-68	1	tlp-longshan-stories-02-01#2
-ls60-67 ls60-68	ls60-25	1	tlp-longshan-stories-02-01#2
-ls60-68	ls60-25	1	tlp-longshan-stories-02-01#2
-ls60-68 ls60-25	ls60-69	1	tlp-longshan-stories-02-01#2
-ls60-7	ls60-8	1	tlp-longshan-stories-02-01#1
-ls60-7 ls60-8	ls60-9	1	tlp-longshan-stories-02-01#1
-ls60-70	ls60-147	1	tlp-longshan-stories-02-01#5
-ls60-70 ls60-147	ls60-148	1	tlp-longshan-stories-02-01#5
-ls60-70	ls60-71	1	tlp-longshan-stories-02-01#2
-ls60-70 ls60-71	ls60-13	1	tlp-longshan-stories-02-01#2
-ls60-70	ls60-88	1	tlp-longshan-stories-02-01#3
-ls60-70 ls60-88	ls60-86	1	tlp-longshan-stories-02-01#3
-ls60-70	ls60-89	2	tlp-longshan-stories-02-01#3
-ls60-70	ls60-99	1	tlp-longshan-stories-02-01#3
-ls60-70	w1658	1	tlp-longshan-stories-02-01#5
-ls60-71	ls60-13	2	tlp-longshan-stories-01-01#6
-ls60-71 ls60-13	ls60-72	1	tlp-longshan-stories-02-01#2
-ls60-71	ls60-133	1	tlp-longshan-stories-02-01#5
-ls60-71 ls60-133	ls60-134	1	tlp-longshan-stories-02-01#5
-ls60-71	ls60-39	1	tlp-longshan-stories-01-01#6
-ls60-71	ls60-98	1	tlp-longshan-stories-02-01#3
-ls60-72	ls60-20	1	tlp-longshan-stories-02-01#2
-ls60-73	ls60-74	5	tlp-longshan-stories-02-01#2
-ls60-73 ls60-74	ls60-77	1	tlp-longshan-stories-02-01#2
-ls60-73 ls60-74	ls60-81	1	tlp-longshan-stories-02-01#2
-ls60-73 ls60-74	ls60-93	1	tlp-longshan-stories-02-01#3
-ls60-74	ls60-104	1	tlp-longshan-stories-02-01#3
-ls60-74	ls60-117	1	tlp-longshan-stories-02-01#3
-ls60-74	ls60-73	1	tlp-longshan-stories-02-01#2
-ls60-74 ls60-73	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-74	ls60-77	1	tlp-longshan-stories-02-01#2
-ls60-74 ls60-77	ls60-73	1	tlp-longshan-stories-02-01#2
-ls60-74	ls60-78	1	tlp-longshan-stories-02-01#2
-ls60-74 ls60-78	ls60-79	1	tlp-longshan-stories-02-01#2
-ls60-74	ls60-81	3	tlp-longshan-stories-02-01#2
-ls60-74	ls60-93	1	tlp-longshan-stories-02-01#3
-ls60-74 ls60-93	ls60-94	1	tlp-longshan-stories-02-01#3
-ls60-76	ls60-71	1	tlp-longshan-stories-01-01#4
-ls60-76	ls60-74	2	tlp-longshan-stories-02-01#2
-ls60-76 ls60-74	ls60-78	1	tlp-longshan-stories-02-01#2
-ls60-77	ls60-73	1	tlp-longshan-stories-02-01#2
-ls60-77 ls60-73	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-78	ls60-79	1	tlp-longshan-stories-02-01#2
-ls60-78 ls60-79	ls60-80	1	tlp-longshan-stories-02-01#2
-ls60-79	ls60-80	1	tlp-longshan-stories-02-01#2
-ls60-8	ls60-9	1	tlp-longshan-stories-02-01#1
-ls60-8 ls60-9	ls60-10	1	tlp-longshan-stories-02-01#1
-ls60-82	ls60-83	1	tlp-longshan-stories-02-01#2
-ls60-82 ls60-83	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-83	ls60-74	1	tlp-longshan-stories-02-01#2
-ls60-83 ls60-74	ls60-81	1	tlp-longshan-stories-02-01#2
-ls60-84	ls60-124	1	tlp-longshan-stories-02-01#4
-ls60-84	ls60-35	1	tlp-longshan-stories-02-01#3
-ls60-84 ls60-35	ls60-85	1	tlp-longshan-stories-02-01#3
-ls60-85	ls60-86	1	tlp-longshan-stories-02-01#3
-ls60-87	ls60-13	1	tlp-longshan-stories-02-01#3
-ls60-87 ls60-13	ls60-70	1	tlp-longshan-stories-02-01#3
-ls60-88	ls60-86	1	tlp-longshan-stories-02-01#3
-ls60-9	ls60-10	1	tlp-longshan-stories-02-01#1
-ls60-9 ls60-10	ls60-11	1	tlp-longshan-stories-02-01#1
-ls60-93	ls60-94	1	tlp-longshan-stories-02-01#3
-ls60-93 ls60-94	ls60-95	1	tlp-longshan-stories-02-01#3
-ls60-93	w1224	1	tlp-longshan-stories-01-01#3
-ls60-94	ls60-105	1	tlp-longshan-stories-02-01#3
-ls60-94 ls60-105	ls60-106	1	tlp-longshan-stories-02-01#3
-ls60-94	ls60-106	1	tlp-longshan-stories-02-01#5
-ls60-94 ls60-106	ls60-70	1	tlp-longshan-stories-02-01#5
-ls60-94	ls60-39	1	tlp-longshan-stories-01-01#6
-ls60-94	ls60-95	3	tlp-longshan-stories-02-01#3
-ls60-94 ls60-95	ls60-100	1	tlp-longshan-stories-02-01#3
-ls60-94 ls60-95	ls60-150	1	tlp-longshan-stories-02-01#5
-ls60-94 ls60-95	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-95	ls60-100	1	tlp-longshan-stories-02-01#3
-ls60-95 ls60-100	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-95	ls60-150	1	tlp-longshan-stories-02-01#5
-ls60-95 ls60-150	ls60-14	1	tlp-longshan-stories-02-01#5
-ls60-95	ls60-38	1	tlp-longshan-stories-02-01#3
-ls60-95 ls60-38	ls60-44	1	tlp-longshan-stories-02-01#3
-ls60-96	ls60-97	1	tlp-longshan-stories-02-01#3
-ls60-96 ls60-97	ls60-71	1	tlp-longshan-stories-02-01#3
-ls60-96	w847	2	xu-tujia-annotated-2-10#2.10-028
-ls60-96	xu213-1-2	1	xu-tujia-annotated-2-8-partial#2.8-063
-ls60-97	ls60-71	1	tlp-longshan-stories-02-01#3
-ls60-97 ls60-71	ls60-98	1	tlp-longshan-stories-02-01#3
-w1019	ls60-39	1	xu-tujia-annotated-2-5-draft#2.5-039
-w1019	w2619	1	xu-tujia-annotated-2-7-review#2.7-039
-w1019	xu213-3-3	2	xu-tujia-annotated-2-7-review#2.7-043
-w1183	ls60-137	3	xu-tujia-annotated-2-8-partial#2.8-038
-w1183	w698	4	xu-tujia-annotated-2-8-partial#2.8-033
-w1224	ls60-118	1	xu-tujia-annotated-2-12-partial#2.12-133
-w1224	ls60-39	1	tlp-longshan-stories-03-01#2
-w1224	w2740	2	xu-tujia-annotated-2-12-partial#2.12-101
-w1224	w949	1	xu-tujia-annotated-2-12-partial#2.12-005
-w1296	ls60-118	1	xu-tujia-annotated-2-9#2.9-020
-w1296	w203	1	xu-tujia-annotated-2-9#2.9-019
-w1315	ls60-150	1	tlp-longshan-stories-04-01#4
-w1315	ls60-64	1	tlp-longshan-stories-02-01#2
-w1315 ls60-64	ls60-65	1	tlp-longshan-stories-02-01#2
-w1333	ls60-137	1	xu-tujia-annotated-2-1-excerpt#2.1-058
-w1333	w698	1	xu-tujia-annotated-2-1-excerpt#2.1-055
-w1409	w1776	2	xu-tujia-annotated-2-12-partial#2.12-021
-w1421	ls60-37	1	tlp-longshan-stories-02-01#1
-w1421 ls60-37	ls60-38	1	tlp-longshan-stories-02-01#1
-w1421	ls60-42	1	tlp-longshan-stories-02-01#1
-w1421 ls60-42	ls60-38	1	tlp-longshan-stories-02-01#1
-w1585	ls60-38	1	tlp-longshan-stories-02-01#5
-w1585 ls60-38	ls60-130	1	tlp-longshan-stories-02-01#5
-w1585	ls60-73	1	tlp-longshan-stories-02-01#2
-w1585 ls60-73	ls60-74	1	tlp-longshan-stories-02-01#2
-w1585	ls60-76	1	tlp-longshan-stories-02-01#2
-w1585 ls60-76	ls60-74	1	tlp-longshan-stories-02-01#2
-w1585	w203	2	xu-tujia-annotated-2-12-partial#2.12-070
-w1585	w2059	1	xu-tujia-annotated-2-3-excerpt#2.3-031
-w1585 w2059	w684	1	xu-tujia-annotated-2-3-excerpt#2.3-031
-w1598	w1598	1	xu-tujia-annotated-2-4-partial#2.4-036
-w1633	w355	2	xu-tujia-annotated-2-4-partial#2.4-003
-w1658	w1315	1	xu-tujia-annotated-2-8-partial#2.8-050
-w1720	w1585	1	xu-tujia-annotated-2-6#2.6-010
-w1740	ls60-39	2	xu-tujia-annotated-2-14#2.14-010
-w1740 ls60-39	ls60-118	2	xu-tujia-annotated-2-14#2.14-010
-w1740	ls60-96	1	xu-tujia-annotated-2-10#2.10-028
-w1740 ls60-96	w847	1	xu-tujia-annotated-2-10#2.10-028
-w1932	ls60-39	1	tlp-longshan-stories-01-01#1
-w1932 ls60-39	ls60-33	1	tlp-longshan-stories-01-01#1
-w1932	w355	1	xu-tujia-annotated-2-12-partial#2.12-042
-w1932	xu213-4-2	3	xu-tujia-annotated-2-4-partial#2.4-004
-w1932 xu213-4-2	w355	1	xu-tujia-annotated-2-7-review#2.7-026
-w1932 xu213-4-2	w611	1	xu-tujia-annotated-2-9#2.9-015
-w1964	w2166	1	xu-tujia-annotated-2-5-draft#2.5-029
-w203	w355	1	xu-tujia-annotated-2-7-review#2.7-042
-w2059	ls60-39	1	xu-tujia-annotated-2-12-partial#2.12-124
-w2059 ls60-39	w684	1	xu-tujia-annotated-2-12-partial#2.12-124
-w2059	w1585	1	xu-tujia-annotated-2-6#2.6-058
-w2059	w684	2	xu-tujia-annotated-2-3-excerpt#2.3-031
-w2059	xu213-4-7	1	xu-tujia-annotated-2-3-excerpt#2.3-072
-w2089	ls60-125	1	tlp-longshan-stories-01-01#3
-w2089	ls60-71	1	tlp-longshan-stories-01-01#5
-w212	ls60-85	1	xu-tujia-annotated-2-12-partial#2.12-062
-w2163	ls60-105	2	xu-tujia-annotated-2-5-draft#2.5-048
-w2163	xu213-3-3	1	xu-tujia-annotated-2-5-draft#2.5-045
-w2373	w2373	1	xu-tujia-annotated-2-5-draft#2.5-023
-w2398	w1222	1	xu-tujia-annotated-2-5-draft#2.5-079
-w2398	w1598	1	xu-tujia-annotated-2-5-draft#2.5-072
-w2398	w1740	1	xu-tujia-annotated-2-5-draft#2.5-077
-w2399	w2450	2	xu-tujia-annotated-2-1-excerpt#2.1-116
-w2399 w2450	w2399	2	xu-tujia-annotated-2-1-excerpt#2.1-116
-w2450	w2399	5	xu-tujia-annotated-2-1-excerpt#2.1-095
-w2450 w2399	w2450	2	xu-tujia-annotated-2-1-excerpt#2.1-116
-w2548	w684	4	xu-tujia-annotated-2-4-partial#2.4-023
-w2548	xu213-3-3	1	xu-tujia-annotated-2-7-review#2.7-032
-w2685	w1585	1	xu-tujia-annotated-2-14#2.14-001
-w2740	xu213-4-2	1	xu-tujia-annotated-2-1-excerpt#2.1-052
-w2740 xu213-4-2	w203	1	xu-tujia-annotated-2-1-excerpt#2.1-052
-w309	ls60-118	1	xu-tujia-annotated-2-4-partial#2.4-007
-w309	w1315	1	xu-tujia-annotated-2-3-excerpt#2.3-079
-w309	xu213-3-3	2	xu-tujia-annotated-2-3-excerpt#2.3-001
-w355	w1585	1	xu-tujia-annotated-2-12-partial#2.12-070
-w355 w1585	w203	1	xu-tujia-annotated-2-12-partial#2.12-070
-w442	w2163	1	xu-tujia-annotated-2-5-draft#2.5-048
-w442 w2163	ls60-105	1	xu-tujia-annotated-2-5-draft#2.5-048
-w684	ls60-39	1	xu-tujia-annotated-2-4-partial#2.4-052
-w684	ls60-81	1	tlp-longshan-stories-01-01#5
-w684	ls60-93	1	tlp-longshan-stories-01-01#5
-w684	w2089	1	tlp-longshan-stories-01-01#5
-w684 w2089	ls60-71	1	tlp-longshan-stories-01-01#5
-w684	w2694	1	xu-tujia-annotated-2-12-partial#2.12-123
-w684	xu213-4-2	1	xu-tujia-annotated-2-12-partial#2.12-123
-w684 xu213-4-2	w355	1	xu-tujia-annotated-2-12-partial#2.12-123
-w754	ls60-105	1	xu-tujia-annotated-2-5-draft#2.5-027
-w754	w847	1	xu-tujia-annotated-2-9#2.9-054
-w754	xu213-4-2	1	xu-tujia-annotated-2-9#2.9-052
-w754 xu213-4-2	w203	1	xu-tujia-annotated-2-9#2.9-052
-w847	xu213-3-3	1	xu-tujia-annotated-2-2-excerpt#2.2-031
-w867	xu213-4-2	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-w867 xu213-4-2	w867	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-w948	w2281	2	xu-tujia-annotated-2-1-excerpt#2.1-061
-w949	ls60-105	1	xu-tujia-annotated-2-1-excerpt#2.1-026
-w949	w949	1	xu-tujia-annotated-2-1-excerpt#2.1-033
-w949	xu213-3-3	1	xu-tujia-annotated-2-5-draft#2.5-008
-w957	w1658	1	xu-tujia-annotated-2-7-review#2.7-041
-xu213-1-1	xu213-1-2	2	xu-tujia-annotated-2-13#2.13-001
-xu213-1-1 xu213-1-2	xu213-1-3	2	xu-tujia-annotated-2-13#2.13-001
-xu213-1-2	ls60-39	2	xu-tujia-annotated-2-11-partial#2.11-018
-xu213-1-2	w1183	1	xu-tujia-annotated-2-10#2.10-003
-xu213-1-2	xu213-1-3	3	xu-tujia-annotated-2-8-partial#2.8-067
-xu213-1-2 xu213-1-3	xu213-1-4	2	xu-tujia-annotated-2-13#2.13-001
-xu213-1-3	xu213-1-2	1	xu-tujia-annotated-2-8-partial#2.8-067
-xu213-1-3 xu213-1-2	xu213-1-3	1	xu-tujia-annotated-2-8-partial#2.8-067
-xu213-1-3	xu213-1-4	2	xu-tujia-annotated-2-13#2.13-001
-xu213-1-4	w1585	2	xu-tujia-annotated-2-6#2.6-005
-xu213-2-1	xu213-2-2	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-1 xu213-2-2	xu213-2-3	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-1	xu213-3-3	1	xu-tujia-annotated-2-13#2.13-003
-xu213-2-1 xu213-3-3	xu213-3-4	1	xu-tujia-annotated-2-13#2.13-003
-xu213-2-2	xu213-2-3	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-2 xu213-2-3	xu213-2-4	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-2	xu213-4-2	1	xu-tujia-annotated-2-13#2.13-004
-xu213-2-2 xu213-4-2	xu213-4-3	1	xu-tujia-annotated-2-13#2.13-004
-xu213-2-3	w1224	1	xu-tujia-annotated-2-5-draft#2.5-029
-xu213-2-3	xu213-2-4	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-3 xu213-2-4	xu213-1-4	1	xu-tujia-annotated-2-13#2.13-002
-xu213-2-4	xu213-1-4	1	xu-tujia-annotated-2-13#2.13-002
-xu213-3-1	xu213-2-1	1	xu-tujia-annotated-2-13#2.13-003
-xu213-3-1 xu213-2-1	xu213-3-3	1	xu-tujia-annotated-2-13#2.13-003
-xu213-3-3	w948	3	xu-tujia-annotated-2-1-excerpt#2.1-061
-xu213-3-3 w948	w2281	2	xu-tujia-annotated-2-1-excerpt#2.1-061
-xu213-3-3	xu213-3-4	1	xu-tujia-annotated-2-13#2.13-003
-xu213-3-3 xu213-3-4	xu213-2-2	1	xu-tujia-annotated-2-13#2.13-003
-xu213-3-4	xu213-2-2	1	xu-tujia-annotated-2-13#2.13-003
-xu213-4-2	ls60-14	2	xu-tujia-annotated-2-8-partial#2.8-063
-xu213-4-2	w1183	1	xu-tujia-annotated-2-10#2.10-004
-xu213-4-2 w1183	ls60-137	1	xu-tujia-annotated-2-10#2.10-004
-xu213-4-2	w1585	1	xu-tujia-annotated-2-11-partial#2.11-008
-xu213-4-2	w203	3	xu-tujia-annotated-2-1-excerpt#2.1-052
-xu213-4-2	w2399	1	xu-tujia-annotated-2-5-draft#2.5-032
-xu213-4-2	w2457	1	xu-tujia-annotated-2-9#2.9-011
-xu213-4-2	w2694	1	xu-tujia-annotated-2-3-excerpt#2.3-027
-xu213-4-2	w355	5	xu-tujia-annotated-2-7-review#2.7-026
-xu213-4-2	w442	1	xu-tujia-annotated-2-9#2.9-026
-xu213-4-2	w611	1	xu-tujia-annotated-2-9#2.9-015
-xu213-4-2	w867	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-2	xu213-1-4	2	xu-tujia-annotated-2-14#2.14-023
-xu213-4-2 xu213-1-4	w1585	1	xu-tujia-annotated-2-14#2.14-023
-xu213-4-2	xu213-4-3	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-2 xu213-4-3	ls60-118	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-2	xu213-4-7	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-2 xu213-4-7	w867	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-3	ls60-118	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-3 ls60-118	xu213-4-5	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-5	xu213-4-6	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-5 xu213-4-6	xu213-4-7	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-6	xu213-4-7	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-6 xu213-4-7	xu213-4-8	1	xu-tujia-annotated-2-13#2.13-004
-xu213-4-7	w867	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-7 w867	xu213-4-2	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-7	xu213-1-4	1	xu-tujia-annotated-2-13#2.13-007
-xu213-4-7	xu213-4-2	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-7 xu213-4-2	xu213-4-7	1	xu-tujia-annotated-2-2-excerpt#2.2-049
-xu213-4-7	xu213-4-8	1	xu-tujia-annotated-2-13#2.13-004
+context	next	score
+@prior	ls60-103	2
+@prior	ls60-105	26
+@prior	ls60-106	2
+@prior	ls60-116	1
+@prior	ls60-117	1
+@prior	ls60-118	27
+@prior	ls60-121	2
+@prior	ls60-122	1
+@prior	ls60-125	3
+@prior	ls60-128	3
+@prior	ls60-13	9
+@prior	ls60-133	1
+@prior	ls60-134	2
+@prior	ls60-137	24
+@prior	ls60-14	37
+@prior	ls60-148	1
+@prior	ls60-15	1
+@prior	ls60-150	4
+@prior	ls60-151	1
+@prior	ls60-19	1
+@prior	ls60-26	1
+@prior	ls60-28	1
+@prior	ls60-33	7
+@prior	ls60-37	1
+@prior	ls60-39	32
+@prior	ls60-44	2
+@prior	ls60-46	2
+@prior	ls60-51	3
+@prior	ls60-59	4
+@prior	ls60-6	2
+@prior	ls60-60	3
+@prior	ls60-61	1
+@prior	ls60-7	2
+@prior	ls60-71	5
+@prior	ls60-72	2
+@prior	ls60-74	1
+@prior	ls60-76	1
+@prior	ls60-81	3
+@prior	ls60-85	24
+@prior	ls60-9	1
+@prior	ls60-93	6
+@prior	ls60-94	1
+@prior	ls60-95	2
+@prior	ls60-96	12
+@prior	w1013	1
+@prior	w1019	8
+@prior	w1021	2
+@prior	w110	1
+@prior	w1102	11
+@prior	w1124	1
+@prior	w1183	7
+@prior	w1216	3
+@prior	w1222	1
+@prior	w1224	7
+@prior	w1296	2
+@prior	w1298	1
+@prior	w1315	5
+@prior	w1331	2
+@prior	w1333	8
+@prior	w1336	1
+@prior	w1409	2
+@prior	w1421	3
+@prior	w1459	1
+@prior	w149	3
+@prior	w1585	30
+@prior	w1598	13
+@prior	w1633	3
+@prior	w165	1
+@prior	w1658	18
+@prior	w1659	1
+@prior	w1720	3
+@prior	w1740	13
+@prior	w1754	1
+@prior	w1764	1
+@prior	w1776	4
+@prior	w1779	2
+@prior	w1932	30
+@prior	w1933	1
+@prior	w1964	5
+@prior	w203	27
+@prior	w2059	6
+@prior	w2068	4
+@prior	w2089	3
+@prior	w212	10
+@prior	w2163	5
+@prior	w2166	2
+@prior	w219	1
+@prior	w2203	1
+@prior	w2213	9
+@prior	w2281	4
+@prior	w2290	2
+@prior	w2294	1
+@prior	w2315	2
+@prior	w2373	7
+@prior	w2398	8
+@prior	w2399	8
+@prior	w2426	1
+@prior	w2433	1
+@prior	w2450	3
+@prior	w2457	3
+@prior	w2458	3
+@prior	w2548	9
+@prior	w2615	2
+@prior	w2619	2
+@prior	w2685	7
+@prior	w2693	2
+@prior	w2694	8
+@prior	w2740	15
+@prior	w2747	1
+@prior	w309	8
+@prior	w355	28
+@prior	w442	4
+@prior	w471	3
+@prior	w513	1
+@prior	w514	1
+@prior	w543	1
+@prior	w557	1
+@prior	w611	1
+@prior	w684	28
+@prior	w687	2
+@prior	w698	8
+@prior	w754	5
+@prior	w847	7
+@prior	w864	2
+@prior	w867	6
+@prior	w874	9
+@prior	w91	2
+@prior	w948	3
+@prior	w949	14
+@prior	w957	3
+@prior	w992	1
+@prior	xu213-1-2	12
+@prior	xu213-1-3	9
+@prior	xu213-1-4	11
+@prior	xu213-2-3	11
+@prior	xu213-3-3	37
+@prior	xu213-4-2	38
+@prior	xu213-4-3	2
+@prior	xu213-4-6	6
+@prior	xu213-4-7	10
+@prior	xu213-4-8	2
+<s>	ls60-14	198219655
+<s>	w1585	190407419
+grammar-bo	xu213-4-2	42363434
+grammar-bo	ls60-14	41248606
+grammar-ge	xu213-4-2	42363434
+grammar-ge	ls60-14	41248606
+grammar-la	xu213-4-2	42363434
+grammar-la	ls60-14	41248606
+grammar-lie	xu213-4-2	42363434
+grammar-lie	ls60-14	41248606
+grammar-mo	xu213-4-2	42363434
+grammar-mo	ls60-14	41248606
+grammar-nie	xu213-4-2	42363434
+grammar-nie	ls60-14	41248606
+grammar-niexi	xu213-4-2	42363434
+grammar-niexi	ls60-14	41248606
+grammar-xi	xu213-4-2	42363434
+grammar-xi	ls60-14	41248606
+grammar-xige	xu213-4-2	42363434
+grammar-xige	ls60-14	41248606
+ls60-1	ls60-118	338350056
+ls60-1	w1932	213907469
+ls60-10	xu213-4-2	42363434
+ls60-10	ls60-14	41248606
+ls60-100	xu213-4-2	42363434
+ls60-100	ls60-14	41248606
+ls60-101	xu213-4-2	42363434
+ls60-101	ls60-14	41248606
+ls60-102	xu213-4-2	42363434
+ls60-102	ls60-14	41248606
+ls60-103	xu213-4-2	42363434
+ls60-103	ls60-14	41248606
+ls60-104	xu213-4-2	42363434
+ls60-104	ls60-14	41248606
+ls60-105	ls60-118	419175028
+ls60-105	w1932	356953735
+ls60-105	w684	106767930
+ls60-105	w949	42967298
+ls60-106	ls60-39	448956840
+ls60-106	xu213-4-2	24207676
+ls60-107	xu213-4-2	42363434
+ls60-107	ls60-14	41248606
+ls60-108	w684	209554725
+ls60-108	ls60-137	209030100
+ls60-109	xu213-4-2	42363434
+ls60-109	ls60-14	41248606
+ls60-11	xu213-4-2	42363434
+ls60-11	ls60-14	41248606
+ls60-110	xu213-4-2	302572361
+ls60-110	ls60-39	153433255
+ls60-111	xu213-4-2	42363434
+ls60-111	ls60-14	41248606
+ls60-112	xu213-4-2	42363434
+ls60-112	ls60-14	41248606
+ls60-113	xu213-4-2	42363434
+ls60-113	ls60-14	41248606
+ls60-114	xu213-4-2	42363434
+ls60-114	ls60-14	41248606
+ls60-115	xu213-4-2	42363434
+ls60-115	ls60-14	41248606
+ls60-116	ls60-118	338350056
+ls60-116	w1932	213907469
+ls60-117	xu213-4-2	42363434
+ls60-117	ls60-14	41248606
+ls60-118	xu213-4-2	42363434
+ls60-118	ls60-14	41248606
+ls60-119	w684	209554725
+ls60-119	ls60-137	209030100
+ls60-12	xu213-4-2	42363434
+ls60-12	ls60-14	41248606
+ls60-120	xu213-4-2	42363434
+ls60-120	ls60-14	41248606
+ls60-121	xu213-4-2	42363434
+ls60-121	ls60-14	41248606
+ls60-122	xu213-4-2	302572361
+ls60-122	ls60-39	153433255
+ls60-123	xu213-4-2	42363434
+ls60-123	ls60-14	41248606
+ls60-124	w684	209554725
+ls60-124	ls60-137	209030100
+ls60-125	xu213-4-2	42363434
+ls60-125	ls60-14	41248606
+ls60-126	xu213-4-2	42363434
+ls60-126	ls60-14	41248606
+ls60-127	w684	209554725
+ls60-127	ls60-137	209030100
+ls60-128	w684	209554725
+ls60-128	ls60-137	209030100
+ls60-129	xu213-4-2	42363434
+ls60-129	ls60-14	41248606
+ls60-13	ls60-39	448956840
+ls60-13	xu213-4-2	24207676
+ls60-130	xu213-4-2	42363434
+ls60-130	ls60-14	41248606
+ls60-131	xu213-4-2	42363434
+ls60-131	ls60-14	41248606
+ls60-132	xu213-4-2	42363434
+ls60-132	ls60-14	41248606
+ls60-133	xu213-4-2	42363434
+ls60-133	ls60-14	41248606
+ls60-134	xu213-4-2	42363434
+ls60-134	ls60-14	41248606
+ls60-135	xu213-4-2	42363434
+ls60-135	ls60-14	41248606
+ls60-136	xu213-4-2	42363434
+ls60-136	ls60-14	41248606
+ls60-137	w1658	346711260
+ls60-137	xu213-4-2	28242289
+ls60-137	ls60-14	27499071
+ls60-14	xu213-3-3	734772474
+ls60-14	ls60-137	95773791
+ls60-14	xu213-4-2	7702442
+ls60-14	ls60-14	7499747
+ls60-140	xu213-4-2	42363434
+ls60-140	ls60-14	41248606
+ls60-141	xu213-4-2	302572361
+ls60-141	ls60-39	153433255
+ls60-142	xu213-4-2	42363434
+ls60-142	ls60-14	41248606
+ls60-143	w684	209554725
+ls60-143	ls60-137	209030100
+ls60-144	xu213-4-2	42363434
+ls60-144	ls60-14	41248606
+ls60-145	xu213-4-2	42363434
+ls60-145	ls60-14	41248606
+ls60-146	xu213-4-2	42363434
+ls60-146	ls60-14	41248606
+ls60-147	xu213-4-2	42363434
+ls60-147	ls60-14	41248606
+ls60-148	xu213-4-2	42363434
+ls60-148	ls60-14	41248606
+ls60-149	xu213-4-2	302572361
+ls60-149	ls60-39	153433255
+ls60-15	xu213-4-2	42363434
+ls60-15	ls60-14	41248606
+ls60-150	xu213-4-2	42363434
+ls60-150	ls60-14	41248606
+ls60-151	w684	209554725
+ls60-151	ls60-137	209030100
+ls60-152	xu213-4-2	42363434
+ls60-152	ls60-14	41248606
+ls60-153	xu213-4-2	42363434
+ls60-153	ls60-14	41248606
+ls60-154	xu213-4-2	42363434
+ls60-154	ls60-14	41248606
+ls60-155	xu213-4-2	42363434
+ls60-155	ls60-14	41248606
+ls60-156	xu213-4-2	302572361
+ls60-156	ls60-39	153433255
+ls60-157	xu213-4-2	302572361
+ls60-157	ls60-39	153433255
+ls60-158	xu213-4-2	42363434
+ls60-158	ls60-14	41248606
+ls60-159	xu213-4-2	42363434
+ls60-159	ls60-14	41248606
+ls60-16	ls60-118	338350056
+ls60-16	w1932	213907469
+ls60-160	xu213-4-2	42363434
+ls60-160	ls60-14	41248606
+ls60-161	xu213-4-2	42363434
+ls60-161	ls60-14	41248606
+ls60-162	xu213-4-2	302572361
+ls60-162	ls60-39	153433255
+ls60-163	xu213-4-2	42363434
+ls60-163	ls60-14	41248606
+ls60-164	xu213-4-2	302572361
+ls60-164	ls60-39	153433255
+ls60-165	xu213-4-2	42363434
+ls60-165	ls60-14	41248606
+ls60-166	w684	209554725
+ls60-166	ls60-137	209030100
+ls60-167	xu213-4-2	42363434
+ls60-167	ls60-14	41248606
+ls60-168	xu213-4-2	42363434
+ls60-168	ls60-14	41248606
+ls60-17	xu213-4-2	42363434
+ls60-17	ls60-14	41248606
+ls60-18	w684	209554725
+ls60-18	ls60-137	209030100
+ls60-19	ls60-118	338350056
+ls60-19	w1932	213907469
+ls60-2	xu213-4-2	42363434
+ls60-2	ls60-14	41248606
+ls60-20	w684	209554725
+ls60-20	ls60-137	209030100
+ls60-21	xu213-4-2	42363434
+ls60-21	ls60-14	41248606
+ls60-22	xu213-4-2	42363434
+ls60-22	ls60-14	41248606
+ls60-23	ls60-118	338350056
+ls60-23	w1932	213907469
+ls60-24	xu213-4-2	42363434
+ls60-24	ls60-14	41248606
+ls60-25	xu213-4-2	42363434
+ls60-25	ls60-14	41248606
+ls60-26	xu213-4-2	42363434
+ls60-26	ls60-14	41248606
+ls60-27	xu213-4-2	42363434
+ls60-27	ls60-14	41248606
+ls60-28	ls60-39	448956840
+ls60-28	xu213-4-2	24207676
+ls60-29	xu213-4-2	42363434
+ls60-29	ls60-14	41248606
+ls60-3	xu213-4-2	42363434
+ls60-3	ls60-14	41248606
+ls60-30	xu213-4-2	42363434
+ls60-30	ls60-14	41248606
+ls60-31	xu213-4-2	42363434
+ls60-31	ls60-14	41248606
+ls60-32	ls60-118	338350056
+ls60-32	w1932	213907469
+ls60-33	ls60-39	448956840
+ls60-33	xu213-4-2	24207676
+ls60-34	xu213-4-2	42363434
+ls60-34	ls60-14	41248606
+ls60-35	xu213-4-2	42363434
+ls60-35	ls60-14	41248606
+ls60-37	ls60-39	448956840
+ls60-37	xu213-4-2	24207676
+ls60-38	xu213-4-2	42363434
+ls60-38	ls60-14	41248606
+ls60-39	ls60-118	408522235
+ls60-39	w1932	214201660
+ls60-39	w684	214119080
+ls60-39	w1740	111647880
+ls60-4	w684	209554725
+ls60-4	ls60-137	209030100
+ls60-40	xu213-4-2	42363434
+ls60-40	ls60-14	41248606
+ls60-41	xu213-4-2	42363434
+ls60-41	ls60-14	41248606
+ls60-42	ls60-39	448956840
+ls60-42	xu213-4-2	24207676
+ls60-43	xu213-4-2	42363434
+ls60-43	ls60-14	41248606
+ls60-44	xu213-4-2	42363434
+ls60-44	ls60-14	41248606
+ls60-45	xu213-4-2	42363434
+ls60-45	ls60-14	41248606
+ls60-46	ls60-39	448956840
+ls60-46	xu213-4-2	24207676
+ls60-47	w684	209554725
+ls60-47	ls60-137	209030100
+ls60-48	xu213-4-2	302572361
+ls60-48	ls60-39	153433255
+ls60-49	xu213-4-2	42363434
+ls60-49	ls60-14	41248606
+ls60-5	xu213-4-2	42363434
+ls60-5	ls60-14	41248606
+ls60-50	xu213-4-2	302572361
+ls60-50	ls60-39	153433255
+ls60-51	xu213-4-2	42363434
+ls60-51	ls60-14	41248606
+ls60-52	xu213-4-2	42363434
+ls60-52	ls60-14	41248606
+ls60-53	xu213-4-2	42363434
+ls60-53	ls60-14	41248606
+ls60-54	xu213-4-2	42363434
+ls60-54	ls60-14	41248606
+ls60-55	xu213-4-2	42363434
+ls60-55	ls60-14	41248606
+ls60-56	xu213-4-2	42363434
+ls60-56	ls60-14	41248606
+ls60-57	xu213-4-2	42363434
+ls60-57	ls60-14	41248606
+ls60-58	xu213-4-2	42363434
+ls60-58	ls60-14	41248606
+ls60-59	xu213-4-2	42363434
+ls60-59	ls60-14	41248606
+ls60-6	xu213-4-2	302572361
+ls60-6	ls60-39	153433255
+ls60-60	ls60-118	338350056
+ls60-60	w1932	213907469
+ls60-61	xu213-4-2	42363434
+ls60-61	ls60-14	41248606
+ls60-62	xu213-4-2	42363434
+ls60-62	ls60-14	41248606
+ls60-64	xu213-4-2	42363434
+ls60-64	ls60-14	41248606
+ls60-65	xu213-4-2	302572361
+ls60-65	ls60-39	153433255
+ls60-66	xu213-4-2	302572361
+ls60-66	ls60-39	153433255
+ls60-67	w684	209554725
+ls60-67	ls60-137	209030100
+ls60-68	xu213-4-2	42363434
+ls60-68	ls60-14	41248606
+ls60-69	xu213-4-2	42363434
+ls60-69	ls60-14	41248606
+ls60-7	ls60-39	448956840
+ls60-7	xu213-4-2	24207676
+ls60-70	xu213-4-2	42363434
+ls60-70	ls60-14	41248606
+ls60-71	xu213-4-2	42363434
+ls60-71	ls60-14	41248606
+ls60-72	xu213-4-2	42363434
+ls60-72	ls60-14	41248606
+ls60-73	xu213-4-2	42363434
+ls60-73	ls60-14	41248606
+ls60-74	xu213-4-2	302572361
+ls60-74	ls60-39	153433255
+ls60-76	xu213-4-2	42363434
+ls60-76	ls60-14	41248606
+ls60-77	xu213-4-2	42363434
+ls60-77	ls60-14	41248606
+ls60-78	xu213-4-2	42363434
+ls60-78	ls60-14	41248606
+ls60-79	xu213-4-2	42363434
+ls60-79	ls60-14	41248606
+ls60-8	xu213-4-2	42363434
+ls60-8	ls60-14	41248606
+ls60-80	xu213-4-2	42363434
+ls60-80	ls60-14	41248606
+ls60-81	xu213-4-2	42363434
+ls60-81	ls60-14	41248606
+ls60-82	xu213-4-2	42363434
+ls60-82	ls60-14	41248606
+ls60-83	xu213-4-2	42363434
+ls60-83	ls60-14	41248606
+ls60-84	xu213-4-2	42363434
+ls60-84	ls60-14	41248606
+ls60-85	xu213-4-2	42363434
+ls60-85	ls60-14	41248606
+ls60-86	xu213-4-2	42363434
+ls60-86	ls60-14	41248606
+ls60-87	xu213-4-2	42363434
+ls60-87	ls60-14	41248606
+ls60-88	xu213-4-2	302572361
+ls60-88	ls60-39	153433255
+ls60-89	w684	209554725
+ls60-89	ls60-137	209030100
+ls60-9	ls60-118	338350056
+ls60-9	w1932	213907469
+ls60-93	xu213-4-2	42363434
+ls60-93	ls60-14	41248606
+ls60-94	ls60-39	448956840
+ls60-94	xu213-4-2	24207676
+ls60-95	ls60-39	448956840
+ls60-95	xu213-4-2	24207676
+ls60-96	ls60-118	338350056
+ls60-96	w1932	213907469
+ls60-97	xu213-4-2	42363434
+ls60-97	ls60-14	41248606
+ls60-98	ls60-39	448956840
+ls60-98	xu213-4-2	24207676
+ls60-99	xu213-4-2	42363434
+ls60-99	ls60-14	41248606
+stedt-rn-368307	w684	209554725
+stedt-rn-368307	ls60-137	209030100
+tlp-gavdunr	xu213-4-2	42363434
+tlp-gavdunr	ls60-14	41248606
+w1003	w684	209554725
+w1003	ls60-137	209030100
+w1011	xu213-4-2	302572361
+w1011	ls60-39	153433255
+w1012	xu213-4-2	302572361
+w1012	ls60-39	153433255
+w1013	xu213-4-2	302572361
+w1013	ls60-39	153433255
+w1017	xu213-4-2	302572361
+w1017	ls60-39	153433255
+w1018	xu213-4-2	42363434
+w1018	ls60-14	41248606
+w1019	w684	209554725
+w1019	ls60-137	209030100
+w1021	xu213-4-2	302572361
+w1021	ls60-39	153433255
+w1024	w684	209554725
+w1024	ls60-137	209030100
+w1027	w684	209554725
+w1027	ls60-137	209030100
+w1031	w684	209554725
+w1031	ls60-137	209030100
+w1035	xu213-4-2	302572361
+w1035	ls60-39	153433255
+w1044	w684	209554725
+w1044	ls60-137	209030100
+w1046	w684	209554725
+w1046	ls60-137	209030100
+w1047	ls60-118	338350056
+w1047	w1932	213907469
+w1048	w684	209554725
+w1048	ls60-137	209030100
+w1085	w684	209554725
+w1085	ls60-137	209030100
+w1086	xu213-4-2	302572361
+w1086	ls60-39	153433255
+w1089	w684	209554725
+w1089	ls60-137	209030100
+w1091	xu213-4-2	302572361
+w1091	ls60-39	153433255
+w110	xu213-4-2	302572361
+w110	ls60-39	153433255
+w1102	ls60-137	548017200
+w1102	w684	119745557
+w1102	xu213-3-3	103613352
+w1124	w684	209554725
+w1124	ls60-137	209030100
+w1149	w684	209554725
+w1149	ls60-137	209030100
+w1150	xu213-4-2	302572361
+w1150	ls60-39	153433255
+w1151	xu213-4-2	302572361
+w1151	ls60-39	153433255
+w1167	w684	209554725
+w1167	ls60-137	209030100
+w1170	w684	209554725
+w1170	ls60-137	209030100
+w1182	xu213-4-2	302572361
+w1182	ls60-39	153433255
+w1183	ls60-137	548017200
+w1183	w684	119745557
+w1183	xu213-3-3	103613352
+w120	xu213-4-2	302572361
+w120	ls60-39	153433255
+w1216	xu213-4-2	42363434
+w1216	ls60-14	41248606
+w1218	xu213-4-2	302572361
+w1218	ls60-39	153433255
+w1222	xu213-4-2	302572361
+w1222	ls60-39	153433255
+w1224	w684	209554725
+w1224	ls60-137	209030100
+w1229	w684	209554725
+w1229	ls60-137	209030100
+w1230	ls60-118	338350056
+w1230	w1932	213907469
+w1236	xu213-4-2	302572361
+w1236	ls60-39	153433255
+w1244	xu213-4-2	42363434
+w1244	ls60-14	41248606
+w1256	xu213-4-2	42363434
+w1256	ls60-14	41248606
+w1258	ls60-118	338350056
+w1258	w1932	213907469
+w1261	w684	209554725
+w1261	ls60-137	209030100
+w1263	ls60-39	448956840
+w1263	xu213-4-2	24207676
+w1264	w684	209554725
+w1264	ls60-137	209030100
+w127	xu213-4-2	302572361
+w127	ls60-39	153433255
+w1280	xu213-4-2	302572361
+w1280	ls60-39	153433255
+w1283	w684	209554725
+w1283	ls60-137	209030100
+w1284	xu213-4-2	302572361
+w1284	ls60-39	153433255
+w129	xu213-4-2	302572361
+w129	ls60-39	153433255
+w1291	ls60-118	338350056
+w1291	w1932	213907469
+w1294	xu213-4-2	302572361
+w1294	ls60-39	153433255
+w1296	w684	209554725
+w1296	ls60-137	209030100
+w1298	xu213-4-2	302572361
+w1298	ls60-39	153433255
+w1304	xu213-4-2	302572361
+w1304	ls60-39	153433255
+w1315	ls60-118	338350056
+w1315	w1932	213907469
+w1331	w684	209554725
+w1331	ls60-137	209030100
+w1333	w684	209554725
+w1333	ls60-137	209030100
+w1334	xu213-4-2	302572361
+w1334	ls60-39	153433255
+w1336	w684	209554725
+w1336	ls60-137	209030100
+w1338	xu213-4-2	302572361
+w1338	ls60-39	153433255
+w134	w684	209554725
+w134	ls60-137	209030100
+w1341	w684	209554725
+w1341	ls60-137	209030100
+w1351	w684	209554725
+w1351	ls60-137	209030100
+w1368	xu213-4-2	302572361
+w1368	ls60-39	153433255
+w1388	xu213-4-2	302572361
+w1388	ls60-39	153433255
+w1390	xu213-4-2	302572361
+w1390	ls60-39	153433255
+w140	xu213-4-2	302572361
+w140	ls60-39	153433255
+w1409	xu213-4-2	42363434
+w1409	ls60-14	41248606
+w1418	xu213-4-2	302572361
+w1418	ls60-39	153433255
+w1419	w684	209554725
+w1419	ls60-137	209030100
+w142	w684	209554725
+w142	ls60-137	209030100
+w1421	w684	209554725
+w1421	ls60-137	209030100
+w1422	xu213-4-2	302572361
+w1422	ls60-39	153433255
+w1456	xu213-4-2	302572361
+w1456	ls60-39	153433255
+w1457	xu213-4-2	42363434
+w1457	ls60-14	41248606
+w1459	w684	209554725
+w1459	ls60-137	209030100
+w1461	w684	209554725
+w1461	ls60-137	209030100
+w1466	ls60-118	338350056
+w1466	w1932	213907469
+w1467	w684	209554725
+w1467	ls60-137	209030100
+w1468	w684	209554725
+w1468	ls60-137	209030100
+w1469	ls60-39	448956840
+w1469	xu213-4-2	24207676
+w147	xu213-4-2	302572361
+w147	ls60-39	153433255
+w1473	xu213-4-2	302572361
+w1473	ls60-39	153433255
+w1476	w684	209554725
+w1476	ls60-137	209030100
+w149	xu213-4-2	302572361
+w149	ls60-39	153433255
+w1529	xu213-4-2	42363434
+w1529	ls60-14	41248606
+w1531	ls60-118	338350056
+w1531	w1932	213907469
+w1532	w684	209554725
+w1532	ls60-137	209030100
+w1534	w684	209554725
+w1534	ls60-137	209030100
+w154	w684	209554725
+w154	ls60-137	209030100
+w1542	w684	209554725
+w1542	ls60-137	209030100
+w156	w684	209554725
+w156	ls60-137	209030100
+w1568	w684	209554725
+w1568	ls60-137	209030100
+w1577	w684	209554725
+w1577	ls60-137	209030100
+w1579	w684	209554725
+w1579	ls60-137	209030100
+w1585	ls60-39	448956840
+w1585	xu213-4-2	24207676
+w1595	w684	209554725
+w1595	ls60-137	209030100
+w1596	xu213-4-2	302572361
+w1596	ls60-39	153433255
+w1598	xu213-4-2	302572361
+w1598	ls60-39	153433255
+w1619	xu213-4-2	42363434
+w1619	ls60-14	41248606
+w1622	xu213-4-2	42363434
+w1622	ls60-14	41248606
+w1626	w684	209554725
+w1626	ls60-137	209030100
+w1629	xu213-4-2	302572361
+w1629	ls60-39	153433255
+w1633	w355	435181744
+w1633	xu213-4-2	201714907
+w1633	ls60-39	102288837
+w165	xu213-4-2	42363434
+w165	ls60-14	41248606
+w1658	xu213-4-2	302572361
+w1658	ls60-39	153433255
+w1659	xu213-4-2	302572361
+w1659	ls60-39	153433255
+w1676	w684	209554725
+w1676	ls60-137	209030100
+w1677	w684	209554725
+w1677	ls60-137	209030100
+w1678	w684	209554725
+w1678	ls60-137	209030100
+w169	ls60-118	338350056
+w169	w1932	213907469
+w1717	xu213-4-2	302572361
+w1717	ls60-39	153433255
+w1718	w684	209554725
+w1718	ls60-137	209030100
+w1720	xu213-4-2	302572361
+w1720	ls60-39	153433255
+w1721	w684	209554725
+w1721	ls60-137	209030100
+w1740	xu213-4-2	302572361
+w1740	ls60-39	153433255
+w1743	xu213-4-2	42363434
+w1743	ls60-14	41248606
+w1744	xu213-4-2	302572361
+w1744	ls60-39	153433255
+w1746	xu213-4-2	302572361
+w1746	ls60-39	153433255
+w175	xu213-4-2	42363434
+w175	ls60-14	41248606
+w1754	xu213-4-2	302572361
+w1754	ls60-39	153433255
+w1764	xu213-4-2	302572361
+w1764	ls60-39	153433255
+w1767	ls60-118	338350056
+w1767	w1932	213907469
+w1774	xu213-4-2	302572361
+w1774	ls60-39	153433255
+w1775	xu213-4-2	302572361
+w1775	ls60-39	153433255
+w1776	xu213-4-2	42363434
+w1776	ls60-14	41248606
+w1777	w684	209554725
+w1777	ls60-137	209030100
+w1778	w684	209554725
+w1778	ls60-137	209030100
+w1779	xu213-4-2	302572361
+w1779	ls60-39	153433255
+w1780	xu213-4-2	302572361
+w1780	ls60-39	153433255
+w1783	xu213-4-2	302572361
+w1783	ls60-39	153433255
+w1805	xu213-4-2	42363434
+w1805	ls60-14	41248606
+w1811	xu213-4-2	302572361
+w1811	ls60-39	153433255
+w1812	w684	209554725
+w1812	ls60-137	209030100
+w1827	xu213-4-2	42363434
+w1827	ls60-14	41248606
+w1835	w684	209554725
+w1835	ls60-137	209030100
+w1841	xu213-4-2	302572361
+w1841	ls60-39	153433255
+w1843	w684	209554725
+w1843	ls60-137	209030100
+w1844	w684	209554725
+w1844	ls60-137	209030100
+w1932	xu213-4-2	601469920
+w1932	ls60-39	87676146
+w1932	w355	87298638
+w1933	xu213-4-2	302572361
+w1933	ls60-39	153433255
+w1936	xu213-4-2	302572361
+w1936	ls60-39	153433255
+w1964	xu213-4-2	302572361
+w1964	ls60-39	153433255
+w1966	xu213-4-2	302572361
+w1966	ls60-39	153433255
+w1967	xu213-4-2	302572361
+w1967	ls60-39	153433255
+w1974	xu213-4-2	302572361
+w1974	ls60-39	153433255
+w1975	w684	209554725
+w1975	ls60-137	209030100
+w1983	xu213-4-2	302572361
+w1983	ls60-39	153433255
+w1987	w684	209554725
+w1987	ls60-137	209030100
+w1989	w684	209554725
+w1989	ls60-137	209030100
+w1992	xu213-4-2	42363434
+w1992	ls60-14	41248606
+w1993	w684	209554725
+w1993	ls60-137	209030100
+w203	xu213-4-2	302572361
+w203	ls60-39	153433255
+w2058	xu213-4-2	42363434
+w2058	ls60-14	41248606
+w2059	w684	209554725
+w2059	ls60-137	209030100
+w2068	w684	209554725
+w2068	ls60-137	209030100
+w2070	xu213-4-2	302572361
+w2070	ls60-39	153433255
+w2074	xu213-4-2	302572361
+w2074	ls60-39	153433255
+w2078	w684	209554725
+w2078	ls60-137	209030100
+w2079	w684	209554725
+w2079	ls60-137	209030100
+w2080	w684	209554725
+w2080	ls60-137	209030100
+w2089	w684	209554725
+w2089	ls60-137	209030100
+w2092	w684	209554725
+w2092	ls60-137	209030100
+w2098	xu213-4-2	302572361
+w2098	ls60-39	153433255
+w2116	w684	209554725
+w2116	ls60-137	209030100
+w212	w684	209554725
+w212	ls60-137	209030100
+w2125	w684	209554725
+w2125	ls60-137	209030100
+w2127	w684	209554725
+w2127	ls60-137	209030100
+w2130	xu213-4-2	302572361
+w2130	ls60-39	153433255
+w2159	xu213-4-2	302572361
+w2159	ls60-39	153433255
+w2163	w684	209554725
+w2163	ls60-137	209030100
+w2166	w684	209554725
+w2166	ls60-137	209030100
+w2167	w684	209554725
+w2167	ls60-137	209030100
+w2168	xu213-4-2	302572361
+w2168	ls60-39	153433255
+w217	w684	209554725
+w217	ls60-137	209030100
+w219	w684	209554725
+w219	ls60-137	209030100
+w2195	ls60-39	448956840
+w2195	xu213-4-2	24207676
+w2201	xu213-4-2	302572361
+w2201	ls60-39	153433255
+w2203	xu213-4-2	42363434
+w2203	ls60-14	41248606
+w2207	w684	209554725
+w2207	ls60-137	209030100
+w221	w684	209554725
+w221	ls60-137	209030100
+w2213	w684	209554725
+w2213	ls60-137	209030100
+w2216	w684	209554725
+w2216	ls60-137	209030100
+w2217	w684	209554725
+w2217	ls60-137	209030100
+w2221	xu213-4-2	302572361
+w2221	ls60-39	153433255
+w2222	xu213-4-2	42363434
+w2222	ls60-14	41248606
+w2232	w684	209554725
+w2232	ls60-137	209030100
+w2233	xu213-4-2	302572361
+w2233	ls60-39	153433255
+w2234	xu213-4-2	42363434
+w2234	ls60-14	41248606
+w2239	w684	209554725
+w2239	ls60-137	209030100
+w224	w684	209554725
+w224	ls60-137	209030100
+w2249	xu213-4-2	302572361
+w2249	ls60-39	153433255
+w2250	xu213-4-2	302572361
+w2250	ls60-39	153433255
+w2251	xu213-4-2	302572361
+w2251	ls60-39	153433255
+w2252	xu213-4-2	302572361
+w2252	ls60-39	153433255
+w2271	xu213-4-2	302572361
+w2271	ls60-39	153433255
+w2272	w684	209554725
+w2272	ls60-137	209030100
+w2281	xu213-4-2	302572361
+w2281	ls60-39	153433255
+w2290	xu213-4-2	302572361
+w2290	ls60-39	153433255
+w2291	xu213-4-2	302572361
+w2291	ls60-39	153433255
+w2292	xu213-4-2	42363434
+w2292	ls60-14	41248606
+w2294	w684	209554725
+w2294	ls60-137	209030100
+w2296	w684	209554725
+w2296	ls60-137	209030100
+w230	w684	209554725
+w230	ls60-137	209030100
+w2302	xu213-4-2	302572361
+w2302	ls60-39	153433255
+w2303	w684	209554725
+w2303	ls60-137	209030100
+w2315	xu213-4-2	302572361
+w2315	ls60-39	153433255
+w2318	w684	209554725
+w2318	ls60-137	209030100
+w2324	xu213-4-2	302572361
+w2324	ls60-39	153433255
+w2329	w684	209554725
+w2329	ls60-137	209030100
+w233	ls60-118	338350056
+w233	w1932	213907469
+w235	w684	209554725
+w235	ls60-137	209030100
+w237	w684	209554725
+w237	ls60-137	209030100
+w2373	xu213-4-2	302572361
+w2373	ls60-39	153433255
+w2374	ls60-39	448956840
+w2374	xu213-4-2	24207676
+w238	w684	209554725
+w238	ls60-137	209030100
+w2398	w684	209554725
+w2398	ls60-137	209030100
+w2399	xu213-4-2	302572361
+w2399	ls60-39	153433255
+w2419	xu213-4-2	42363434
+w2419	ls60-14	41248606
+w2422	xu213-4-2	302572361
+w2422	ls60-39	153433255
+w2423	xu213-4-2	302572361
+w2423	ls60-39	153433255
+w2426	xu213-4-2	302572361
+w2426	ls60-39	153433255
+w2427	xu213-4-2	302572361
+w2427	ls60-39	153433255
+w2428	xu213-4-2	302572361
+w2428	ls60-39	153433255
+w2431	w684	209554725
+w2431	ls60-137	209030100
+w2433	xu213-4-2	302572361
+w2433	ls60-39	153433255
+w2434	xu213-4-2	302572361
+w2434	ls60-39	153433255
+w2450	w684	209554725
+w2450	ls60-137	209030100
+w2457	xu213-4-2	302572361
+w2457	ls60-39	153433255
+w2458	xu213-4-2	302572361
+w2458	ls60-39	153433255
+w2469	w684	209554725
+w2469	ls60-137	209030100
+w2475	xu213-4-2	302572361
+w2475	ls60-39	153433255
+w2483	w684	209554725
+w2483	ls60-137	209030100
+w2488	xu213-4-2	302572361
+w2488	ls60-39	153433255
+w2493	w684	209554725
+w2493	ls60-137	209030100
+w2500	w684	209554725
+w2500	ls60-137	209030100
+w2508	xu213-4-2	302572361
+w2508	ls60-39	153433255
+w2509	w684	209554725
+w2509	ls60-137	209030100
+w2548	w684	604777362
+w2548	ls60-137	104515050
+w2548	xu213-3-3	90661683
+w2614	xu213-4-2	42363434
+w2614	ls60-14	41248606
+w2615	xu213-4-2	302572361
+w2615	ls60-39	153433255
+w2619	xu213-4-2	302572361
+w2619	ls60-39	153433255
+w2620	xu213-4-2	302572361
+w2620	ls60-39	153433255
+w2621	w684	209554725
+w2621	ls60-137	209030100
+w2632	w684	209554725
+w2632	ls60-137	209030100
+w2643	ls60-118	338350056
+w2643	w1932	213907469
+w2648	xu213-4-2	302572361
+w2648	ls60-39	153433255
+w2651	xu213-4-2	302572361
+w2651	ls60-39	153433255
+w2652	xu213-4-2	42363434
+w2652	ls60-14	41248606
+w2683	w684	209554725
+w2683	ls60-137	209030100
+w2685	xu213-4-2	302572361
+w2685	ls60-39	153433255
+w2693	w684	209554725
+w2693	ls60-137	209030100
+w2694	w684	209554725
+w2694	ls60-137	209030100
+w2696	xu213-4-2	302572361
+w2696	ls60-39	153433255
+w2698	w684	209554725
+w2698	ls60-137	209030100
+w2707	w684	209554725
+w2707	ls60-137	209030100
+w2708	xu213-4-2	302572361
+w2708	ls60-39	153433255
+w271	w684	209554725
+w271	ls60-137	209030100
+w2711	w684	209554725
+w2711	ls60-137	209030100
+w2724	w684	209554725
+w2724	ls60-137	209030100
+w2740	xu213-4-2	302572361
+w2740	ls60-39	153433255
+w2747	xu213-4-2	302572361
+w2747	ls60-39	153433255
+w285	xu213-4-2	42363434
+w285	ls60-14	41248606
+w296	w684	209554725
+w296	ls60-137	209030100
+w297	w684	209554725
+w297	ls60-137	209030100
+w306	xu213-4-2	302572361
+w306	ls60-39	153433255
+w309	xu213-3-3	454215577
+w309	w684	139703150
+w309	ls60-137	139353400
+w322	xu213-4-2	302572361
+w322	ls60-39	153433255
+w335	xu213-4-2	302572361
+w335	ls60-39	153433255
+w336	xu213-4-2	42363434
+w336	ls60-14	41248606
+w355	xu213-4-2	302572361
+w355	ls60-39	153433255
+w366	xu213-4-2	302572361
+w366	ls60-39	153433255
+w367	w684	209554725
+w367	ls60-137	209030100
+w370	w684	209554725
+w370	ls60-137	209030100
+w374	w684	209554725
+w374	ls60-137	209030100
+w379	w684	209554725
+w379	ls60-137	209030100
+w382	w684	209554725
+w382	ls60-137	209030100
+w439	xu213-4-2	302572361
+w439	ls60-39	153433255
+w440	xu213-4-2	302572361
+w440	ls60-39	153433255
+w441	w684	209554725
+w441	ls60-137	209030100
+w442	xu213-4-2	302572361
+w442	ls60-39	153433255
+w452	xu213-4-2	302572361
+w452	ls60-39	153433255
+w471	xu213-4-2	302572361
+w471	ls60-39	153433255
+w510	xu213-4-2	302572361
+w510	ls60-39	153433255
+w512	xu213-4-2	302572361
+w512	ls60-39	153433255
+w513	xu213-4-2	302572361
+w513	ls60-39	153433255
+w514	xu213-4-2	302572361
+w514	ls60-39	153433255
+w515	xu213-4-2	302572361
+w515	ls60-39	153433255
+w543	xu213-4-2	302572361
+w543	ls60-39	153433255
+w557	ls60-118	338350056
+w557	w1932	213907469
+w560	w684	209554725
+w560	ls60-137	209030100
+w574	xu213-4-2	42363434
+w574	ls60-14	41248606
+w575	xu213-4-2	302572361
+w575	ls60-39	153433255
+w581	xu213-4-2	302572361
+w581	ls60-39	153433255
+w585	w684	209554725
+w585	ls60-137	209030100
+w589	xu213-4-2	42363434
+w589	ls60-14	41248606
+w596	w684	209554725
+w596	ls60-137	209030100
+w597	xu213-4-2	302572361
+w597	ls60-39	153433255
+w598	xu213-4-2	302572361
+w598	ls60-39	153433255
+w611	xu213-4-2	302572361
+w611	ls60-39	153433255
+w618	w684	209554725
+w618	ls60-137	209030100
+w619	xu213-4-2	42363434
+w619	ls60-14	41248606
+w624	xu213-4-2	302572361
+w624	ls60-39	153433255
+w625	xu213-4-2	42363434
+w625	ls60-14	41248606
+w641	xu213-4-2	302572361
+w641	ls60-39	153433255
+w642	w684	209554725
+w642	ls60-137	209030100
+w684	xu213-4-2	302572361
+w684	ls60-39	153433255
+w687	xu213-4-2	302572361
+w687	ls60-39	153433255
+w698	w684	209554725
+w698	ls60-137	209030100
+w714	xu213-4-2	42363434
+w714	ls60-14	41248606
+w715	w684	209554725
+w715	ls60-137	209030100
+w716	w684	209554725
+w716	ls60-137	209030100
+w754	xu213-4-2	302572361
+w754	ls60-39	153433255
+w776	w684	209554725
+w776	ls60-137	209030100
+w779	w684	209554725
+w779	ls60-137	209030100
+w785	xu213-4-2	302572361
+w785	ls60-39	153433255
+w786	xu213-4-2	302572361
+w786	ls60-39	153433255
+w815	xu213-4-2	302572361
+w815	ls60-39	153433255
+w833	xu213-4-2	302572361
+w833	ls60-39	153433255
+w838	xu213-4-2	302572361
+w838	ls60-39	153433255
+w839	xu213-4-2	302572361
+w839	ls60-39	153433255
+w84	xu213-4-2	302572361
+w84	ls60-39	153433255
+w847	xu213-4-2	302572361
+w847	ls60-39	153433255
+w864	xu213-4-2	42363434
+w864	ls60-14	41248606
+w865	xu213-4-2	302572361
+w865	ls60-39	153433255
+w866	xu213-4-2	302572361
+w866	ls60-39	153433255
+w867	xu213-4-2	302572361
+w867	ls60-39	153433255
+w874	xu213-4-2	302572361
+w874	ls60-39	153433255
+w876	w684	209554725
+w876	ls60-137	209030100
+w90	w684	209554725
+w90	ls60-137	209030100
+w91	w684	209554725
+w91	ls60-137	209030100
+w93	w684	209554725
+w93	ls60-137	209030100
+w948	xu213-4-2	42363434
+w948	ls60-14	41248606
+w949	xu213-4-2	302572361
+w949	ls60-39	153433255
+w950	xu213-4-2	42363434
+w950	ls60-14	41248606
+w951	w684	209554725
+w951	ls60-137	209030100
+w952	xu213-4-2	302572361
+w952	ls60-39	153433255
+w954	xu213-4-2	302572361
+w954	ls60-39	153433255
+w955	xu213-4-2	42363434
+w955	ls60-14	41248606
+w957	w684	209554725
+w957	ls60-137	209030100
+w958	xu213-4-2	42363434
+w958	ls60-14	41248606
+w959	w684	209554725
+w959	ls60-137	209030100
+w961	w684	209554725
+w961	ls60-137	209030100
+w981	w684	209554725
+w981	ls60-137	209030100
+w986	w684	209554725
+w986	ls60-137	209030100
+w99	w684	209554725
+w99	ls60-137	209030100
+w992	w684	209554725
+w992	ls60-137	209030100
+w999	xu213-4-2	302572361
+w999	ls60-39	153433255
+xu213-1-1	ls60-39	448956840
+xu213-1-1	xu213-4-2	24207676
+xu213-1-2	ls60-39	632637894
+xu213-1-2	xu213-4-2	16138451
+xu213-1-2	ls60-14	15713755
+xu213-1-3	w684	209554725
+xu213-1-3	ls60-137	209030100
+xu213-1-4	w1585	355629877
+xu213-1-4	xu213-4-2	28242289
+xu213-1-4	ls60-14	27499071
+xu213-2-1	w684	209554725
+xu213-2-1	ls60-137	209030100
+xu213-2-2	xu213-4-2	302572361
+xu213-2-2	ls60-39	153433255
+xu213-2-3	xu213-4-2	42363434
+xu213-2-3	ls60-14	41248606
+xu213-2-4	xu213-4-2	42363434
+xu213-2-4	ls60-14	41248606
+xu213-3-1	xu213-4-2	42363434
+xu213-3-1	ls60-14	41248606
+xu213-3-3	xu213-4-2	42363434
+xu213-3-3	ls60-14	41248606
+xu213-3-4	xu213-4-2	42363434
+xu213-3-4	ls60-14	41248606
+xu213-4-2	w355	366061475
+xu213-4-2	w203	222885810
+xu213-4-2	ls60-14	154642459
+xu213-4-2	xu213-4-2	12103838
+xu213-4-3	xu213-4-2	302572361
+xu213-4-3	ls60-39	153433255
+xu213-4-5	xu213-4-2	42363434
+xu213-4-5	ls60-14	41248606
+xu213-4-6	xu213-4-2	42363434
+xu213-4-6	ls60-14	41248606
+xu213-4-7	xu213-4-2	302572361
+xu213-4-7	ls60-39	153433255
+xu213-4-8	xu213-4-2	42363434
+xu213-4-8	ls60-14	41248606
+yubao-60757-v-2498	xu213-4-2	42363434
+yubao-60757-v-2498	ls60-14	41248606

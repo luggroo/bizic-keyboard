@@ -310,15 +310,24 @@ void addUnique(WordIds& matches, size_t id) {
 
 struct Lexicon::Impl {
     std::vector<Entry> entries;
-    WordIndex spellings, shortKeys, hanWords, aliases;
+    WordIndex spellings, shortKeys, hanWords, aliases, spellingPrefixes;
     WordIndex syllables;
     std::unordered_map<char32_t, WordIds> variantInitials;
     WordIndex chineseKeys;
     std::unordered_map<std::string, size_t> lexicalIds;
     struct Following { size_t id; uint64_t count; };
+    bool rankedPredictions = false;
+    std::vector<uint64_t> predictionFrequency;
     std::unordered_map<std::string, std::vector<Following>> ngrams;
     std::unordered_set<std::string> chineseWritten;
     std::vector<ChineseWord> chineseWords;
+    struct SyllableSense {
+        std::string gloss, lexemeId, han;
+        std::vector<int> joinedRanges;
+        bool plainHanLoan = false;
+    };
+    std::unordered_map<std::string, SyllableSense> syllableSenses;
+    std::unordered_map<std::string, size_t> standardHan;
     struct SyllableArc { std::string next; uint64_t rank; };
     std::unordered_map<std::string, std::vector<SyllableArc>> syllableArcs;
     std::unordered_map<std::string, std::string> accents, contextForms;
@@ -326,7 +335,8 @@ struct Lexicon::Impl {
     size_t maxChinese = 0, maxWritten = 0;
     size_t maxKey = 0, maxSyllable = 0;
 
-    explicit Impl(const std::string& tsv, const std::string& ngramData, const std::string& syllableData) {
+    explicit Impl(const std::string& tsv, const std::string& ngramData, const std::string& syllableData,
+                  const std::string& senseData) {
         std::string_view lines(tsv), line;
         const std::string legacyHeader = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants";
         if (!readLine(lines, line)) throw std::invalid_argument("Empty dictionary");
@@ -383,6 +393,9 @@ struct Lexicon::Impl {
             else for (auto cp : dictionaryScalars(entry.han)) entry.hanLength += cp >= 0x10000 ? 2 : 1;
             if (syllable || (entry.units.size() == 1 && !grammar)) addSyllable(entry.word, entry.diacritic);
             if (syllable) {
+                // Only an exact reference reading licenses a default Han unit. An
+                // untoned alias may point to several different tone-specific units.
+                standardHan.emplace(entry.word, id);
                 for (const auto& form : {entry.word, tones ? f[10] : std::string(), entry.diacritic, entry.han}) {
                     Query normalized;
                     if (!normalized.read(form)) throw std::invalid_argument("Invalid syllable");
@@ -454,8 +467,17 @@ struct Lexicon::Impl {
             if (!aligned.empty()) entry.lastSyllable = aligned.back().first;
         }
         for (auto& entry : entries) if (entry.lastSyllable.empty()) entry.lastSyllable = finalSyllable(entry);
+        for (const auto& keyed : spellings) {
+            Query query;
+            query.read(keyed.first);
+            for (size_t n = 1; n < query.scalars.size(); ++n) {
+                auto& ids = spellingPrefixes[query.slice(0, n)];
+                for (size_t id : keyed.second) addUnique(ids, id);
+            }
+        }
         if (!ngramData.empty()) loadNgrams(ngramData);
         if (!syllableData.empty()) loadSyllableBigrams(syllableData);
+        if (!senseData.empty()) loadSyllableSenses(senseData);
     }
 
     void addSyllable(const std::string& ye, const std::string& accent) {
@@ -574,7 +596,45 @@ struct Lexicon::Impl {
         }
     }
 
-    std::vector<Candidate> nextSyllables(const std::string& input, Orthography style) const {
+    void loadSyllableSenses(const std::string& data) {
+        std::string_view lines(data), line;
+        if (!readLine(lines, line) || line != "syllable\tshortGloss\tlexemeId\than")
+            throw std::invalid_argument("Unexpected syllable sense header");
+        Fields fields{};
+        while (readLine(lines, line)) {
+            readFields(line, 4, fields);
+            const std::string syllable(fields[0]);
+            SyllableSense sense{std::string(fields[1]), std::string(fields[2]), std::string(fields[3]), {}};
+            // An attested writing for a regional reading can be known without a
+            // unique meaning. Only a reviewed sense may enter lexical history.
+            if (syllable.empty() || (sense.gloss.empty() && (sense.han.empty() || !sense.lexemeId.empty())))
+                throw std::invalid_argument("Incomplete syllable evidence");
+            dictionaryScalars(sense.gloss);
+            if (!sense.lexemeId.empty()) {
+                const auto id = lexicalIds.find(sense.lexemeId);
+                if (id == lexicalIds.end()) throw std::invalid_argument("Unknown linked syllable lexeme: " + sense.lexemeId);
+                const auto& entry = entries[id->second];
+                const auto& readings = bucket(spellings, syllable);
+                const size_t unitCount = entry.units.empty() ? entry.variants.size() : entry.units.size();
+                if (unitCount != 1 || std::find(readings.begin(), readings.end(), id->second) == readings.end() ||
+                    (!sense.han.empty() && sense.han != entry.han))
+                    throw std::invalid_argument("Incompatible linked reading: " + syllable + " " + sense.lexemeId);
+                sense.han = entry.han;
+                sense.plainHanLoan = entry.plainHanLoan;
+            }
+            if (!sense.han.empty()) {
+                Query glyphs;
+                if (!glyphs.read(sense.han) || glyphs.scalars.size() > 2 ||
+                    !std::all_of(glyphs.scalars.begin(), glyphs.scalars.end(), hanCharacter))
+                    throw std::invalid_argument("Invalid recommended Han unit: " + syllable);
+                if (glyphs.scalars.size() == 2) sense.joinedRanges = {0, glyphs.utf16At.back()};
+            }
+            if (!syllableSenses.emplace(syllable, std::move(sense)).second)
+                throw std::invalid_argument("Duplicate unique-sense row: " + syllable);
+        }
+    }
+
+    std::vector<Candidate> nextSyllables(const std::string& input, Mode output, Orthography style) const {
         std::string context = input;
         if (input != "<s>") {
             Query query;
@@ -587,9 +647,30 @@ struct Lexicon::Impl {
         if (found == syllableArcs.end()) return {};
         std::vector<Candidate> out;
         for (const auto& arc : found->second) {
-            Candidate c{style == Orthography::Ye ? arc.next : accents.at(arc.next), "音节", 0, "音节"};
+            Candidate c{"", "", 0};
             c.lastSyllable = arc.next;
             c.syllableOnly = true;
+            const auto it = syllableSenses.find(arc.next);
+            if (it != syllableSenses.end()) {
+                c.meaning = it->second.gloss;
+                c.shortMeaning = it->second.gloss;
+                c.lexemeIds = it->second.lexemeId;
+            }
+            if (output != Mode::Han) {
+                c.text = style == Orthography::Ye ? arc.next : accents.at(arc.next);
+            } else if (it != syllableSenses.end() && !it->second.han.empty()) {
+                const auto& sense = it->second;
+                c.text = sense.han;
+                c.joinedHanRanges = sense.joinedRanges;
+                c.plainHanLoan = sense.plainHanLoan;
+                if (sense.plainHanLoan) c.shortMeaning.clear();
+            } else {
+                const auto reference = standardHan.find(arc.next);
+                if (reference == standardHan.end()) continue;
+                const auto& entry = entries[reference->second];
+                c.text = entry.han;
+                c.joinedHanRanges = entry.joinedRanges;
+            }
             out.push_back(std::move(c));
         }
         return out;
@@ -597,27 +678,33 @@ struct Lexicon::Impl {
 
     void loadNgrams(const std::string& data) {
         std::string_view lines(data), line;
-        if (!readLine(lines, line) || line != "context\tnext\tcount\texample")
+        if (!readLine(lines, line)) throw std::invalid_argument("Missing prediction header");
+        rankedPredictions = line == "context\tnext\tscore";
+        if (!rankedPredictions && line != "context\tnext\tcount\texample")
             throw std::invalid_argument("Unexpected ngram header");
+        if (rankedPredictions) predictionFrequency.resize(entries.size());
         Fields fields{};
         while (readLine(lines, line)) {
-            readFields(line, 4, fields);
+            readFields(line, rankedPredictions ? 3 : 4, fields);
             const std::string context(fields[0]);
             const auto history = split(context, ' ');
             if (history.empty() || history.size() > 2) throw std::invalid_argument("Invalid context length");
-            for (const auto& id : history)
+            const bool special = rankedPredictions && (context == "<s>" || context == "@prior");
+            if (!special) for (const auto& id : history)
                 if (!lexicalIds.count(id)) throw std::invalid_argument("Unknown context ID: " + id);
             const auto next = lexicalIds.find(std::string(fields[1]));
             const auto count = frequencyOf(fields[2]);
             if (next == lexicalIds.end() || !count) throw std::invalid_argument("Invalid following lexeme");
-            ngrams[context].push_back({next->second, count});
+            if (context == "@prior") predictionFrequency[next->second] = count;
+            else ngrams[context].push_back({next->second, count});
         }
         for (auto& pair : ngrams) {
             auto& next = pair.second;
             std::sort(next.begin(), next.end(), [&](const Following& a, const Following& b) {
                 if (a.count != b.count) return a.count > b.count;
                 const auto& x = entries[a.id]; const auto& y = entries[b.id];
-                return x.frequency != y.frequency ? x.frequency > y.frequency : x.id < y.id;
+                if (!rankedPredictions && x.frequency != y.frequency) return x.frequency > y.frequency;
+                return x.id < y.id;
             });
         }
     }
@@ -882,20 +969,78 @@ struct Lexicon::Impl {
         return completions(q).empty() ? 0 : 1;
     }
 
+    WordIds predictedIds(const std::string& history) const {
+        auto ids = split(history, ' ');
+        if (ids.back() != "<s>" && !lexicalIds.count(ids.back())) return {};
+        WordIds ranked;
+        if (ids.size() >= 2) {
+            const auto pair = ngrams.find(ids[ids.size() - 2] + " " + ids.back());
+            if (pair != ngrams.end()) for (const auto& arc : pair->second) ranked.push_back(arc.id);
+        }
+        if (!rankedPredictions || ranked.empty()) {
+            const auto single = ngrams.find(ids.back());
+            if (single != ngrams.end()) for (const auto& arc : single->second) addUnique(ranked, arc.id);
+        }
+        if (!rankedPredictions || ids.size() < 3) return ranked;
+
+        // Only past confirmed choices in this editor are supplied by the caller.
+        // Promote at most one repeated continuation; ties favour its most recent use.
+        std::unordered_map<size_t, unsigned> counts;
+        size_t local = 0;
+        unsigned best = 0;
+        const size_t begin = ids.size() > 32 ? ids.size() - 32 : 0;
+        for (size_t i = begin; i + 1 < ids.size(); ++i) {
+            if (ids[i] != ids.back()) continue;
+            const auto next = lexicalIds.find(ids[i + 1]);
+            if (next == lexicalIds.end()) continue;
+            const auto count = ++counts[next->second];
+            if (count >= best) { best = count; local = next->second; }
+        }
+        if (!best || (!ranked.empty() && ranked.front() == local)) return ranked;
+        const size_t limit = std::max<size_t>(ranked.size(), 2);
+        ranked.erase(std::remove(ranked.begin(), ranked.end(), local), ranked.end());
+        const bool first = best >= 2 || ranked.empty();
+        ranked.insert(ranked.begin() + (first ? 0 : 1), local);
+        if (ranked.size() > limit) ranked.resize(limit);
+        return ranked;
+    }
+
     std::vector<Candidate> nextWords(const std::string& context, Mode output, Orthography style) const {
-        const auto ids = split(context, ' ');
-        if (ids.empty() || !lexicalIds.count(ids.back())) return {};
         std::vector<Candidate> out;
-        std::unordered_set<size_t> offered;
-        auto append = [&](const std::string& key) {
-            const auto it = ngrams.find(key);
-            if (it == ngrams.end()) return;
-            for (const auto& next : it->second) {
-                if (offered.insert(next.id).second) out.push_back(lexical(next.id, output, style, 0));
-            }
-        };
-        if (ids.size() >= 2) append(ids[ids.size()-2] + " " + ids.back());
-        append(ids.back());
+        for (auto id : predictedIds(context)) out.push_back(lexical(id, output, style, 0));
+        return out;
+    }
+
+    std::vector<Candidate> spellingCompletions(const std::string& input, const std::string& context,
+                                               Mode output, Orthography style) const {
+        Query q;
+        if (input.empty() || input.size() > maxKey * 4 || !q.read(input)) return {};
+        WordIds possible = bucket(spellingPrefixes, q.folded);
+        if (possible.empty()) return {};
+        const auto& exact = bucket(spellings, q.folded);
+        possible.erase(std::remove_if(possible.begin(), possible.end(), [&](size_t id) {
+            return std::find(exact.begin(), exact.end(), id) != exact.end();
+        }), possible.end());
+        const auto predicted = predictedIds(context);
+        const auto order = [&](size_t id) { return std::find(predicted.begin(), predicted.end(), id); };
+        std::sort(possible.begin(), possible.end(), [&](size_t a, size_t b) {
+            const auto x = order(a), y = order(b);
+            if (x != y) return x < y;
+            const auto fa = rankedPredictions ? predictionFrequency[a] : entries[a].frequency;
+            const auto fb = rankedPredictions ? predictionFrequency[b] : entries[b].frequency;
+            if (fa != fb) return fa > fb;
+            return entries[a].id < entries[b].id;
+        });
+        std::vector<Candidate> out;
+        for (auto id : possible) {
+            const auto& entry = entries[id];
+            auto same = [&](const Candidate& c) {
+                return c.text == entry.output(output, style) && c.meaning == entry.meaning;
+            };
+            if (std::none_of(out.begin(), out.end(), same))
+                out.push_back(lexical(id, output, style, q.utf16At.back()));
+            if (out.size() == 4) break;
+        }
         return out;
     }
 
@@ -942,8 +1087,8 @@ struct Lexicon::Impl {
     }
 };
 
-Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams, const std::string& sounds)
-    : impl_(new Impl(tsv, ngrams, sounds)) {}
+Lexicon::Lexicon(const std::string& tsv, const std::string& ngrams, const std::string& sounds, const std::string& senses)
+    : impl_(new Impl(tsv, ngrams, sounds, senses)) {}
 Lexicon::~Lexicon() = default;
 
 std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orthography orthography) const {
@@ -958,12 +1103,21 @@ std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input,
 }
 
 std::vector<Candidate> Lexicon::nextSyllables(const std::string& context, Orthography style) const {
-    if (style != Orthography::Ye && style != Orthography::Diacritic) return {};
-    return impl_->nextSyllables(context, style);
+    return nextSyllables(context, Mode::Pinyin, style);
+}
+
+std::vector<Candidate> Lexicon::nextSyllables(const std::string& context, Mode mode, Orthography style) const {
+    if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
+    return impl_->nextSyllables(context, mode, style);
 }
 
 int Lexicon::scoreHandwritingPrefix(const std::string& glyphs) const {
     return impl_->scoreHandwritingPrefix(glyphs);
+}
+
+std::vector<Candidate> Lexicon::spellingCompletions(const std::string& prefix, const std::string& history, Mode mode, Orthography style) const {
+    if ((mode != Mode::Pinyin && mode != Mode::Han) || (style != Orthography::Ye && style != Orthography::Diacritic)) return {};
+    return impl_->spellingCompletions(prefix, history, mode, style);
 }
 
 std::vector<Candidate> Lexicon::nextWords(const std::string& ids, Mode mode, Orthography style) const {

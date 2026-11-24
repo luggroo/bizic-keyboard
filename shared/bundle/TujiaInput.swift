@@ -51,16 +51,20 @@ public final class TujiaDictionary {
     private let handle: OpaquePointer
 
     public convenience init() throws {
-        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"), syllableBigrams: asset("syllable_bigrams.tsv"))
+        try self.init(data: asset("words.tsv"), ngrams: asset("ngrams.tsv"), syllableBigrams: asset("syllable_bigrams.tsv"),
+                      syllableSenses: asset("syllable_senses.tsv"))
     }
 
-    public init(data: Data, ngrams: Data = Data(), syllableBigrams: Data = Data()) throws {
+    public init(data: Data, ngrams: Data = Data(), syllableBigrams: Data = Data(), syllableSenses: Data = Data()) throws {
         guard let loaded = data.withUnsafeBytes({ bytes in
             ngrams.withUnsafeBytes { context in
                 syllableBigrams.withUnsafeBytes { sounds in
-                    tji_words_open_full(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
-                                        context.bindMemory(to: UInt8.self).baseAddress, context.count,
-                                        sounds.bindMemory(to: UInt8.self).baseAddress, sounds.count)
+                    syllableSenses.withUnsafeBytes { senses in
+                        tji_words_open_with_senses(bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count,
+                                                   context.bindMemory(to: UInt8.self).baseAddress, context.count,
+                                                   sounds.bindMemory(to: UInt8.self).baseAddress, sounds.count,
+                                                   senses.bindMemory(to: UInt8.self).baseAddress, senses.count)
+                    }
                 }
             }
         }) else { throw TujiaInputError.invalidDictionary }
@@ -92,6 +96,16 @@ public final class TujiaDictionary {
         return Int(glyphs.withCString { tji_score_handwriting_prefix(handle, $0) })
     }
 
+    /// Complete a partially typed word using the confirmed context and chosen output spelling.
+    public func spellingCompletions(_ prefix: String, after previousIds: String = "", form: InputForm,
+                                    orthography: SpellingOrthography = .ye) -> [WordCandidate] {
+        guard !prefix.utf8.contains(0), !previousIds.utf8.contains(0) else { return [] }
+        let result = prefix.withCString { typed in
+            previousIds.withCString { tji_spelling_completions(handle, typed, $0, form.rawValue, orthography.rawValue) }
+        }
+        return readCandidates(result, input: prefix)
+    }
+
     public func nextWords(after previousIds: String, form: InputForm,
                           orthography: SpellingOrthography = .ye) -> [WordCandidate] {
         guard !previousIds.utf8.contains(0) else { return [] }
@@ -101,8 +115,12 @@ public final class TujiaDictionary {
 
     /// Supply "<s>" at a known start or an exact Ye/diacritic syllable from a selected word.
     public func nextSyllables(after context: String, orthography: SpellingOrthography = .ye) -> [WordCandidate] {
+        nextSyllables(after: context, form: .spelling, orthography: orthography)
+    }
+
+    public func nextSyllables(after context: String, form: InputForm, orthography: SpellingOrthography = .ye) -> [WordCandidate] {
         guard !context.utf8.contains(0) else { return [] }
-        let choices = context.withCString { tji_next_syllables(handle, $0, orthography.rawValue) }
+        let choices = context.withCString { tji_next_syllables_for_mode(handle, $0, form.rawValue, orthography.rawValue) }
         return readCandidates(choices, input: "")
     }
 
@@ -130,8 +148,7 @@ public final class TujiaDictionary {
     public func selection(_ choice: WordCandidate, in input: String,
                           before: String = "", after: String = "") -> SelectedWord? {
         // NFC and NFD compare equal as Swift strings, but have different editor offsets.
-        guard !(choice.syllableOnly && choice.consumedUTF16 == 0),
-              choice.input.utf8.elementsEqual(input.utf8),
+        guard choice.input.utf8.elementsEqual(input.utf8),
               let rest = input.withCString({ tji_suffix_after_choice($0, Int32(choice.consumedUTF16)) })
         else { return nil }
         defer { tji_text_free(rest) }

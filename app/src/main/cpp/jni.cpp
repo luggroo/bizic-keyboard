@@ -70,9 +70,9 @@ constexpr auto CALL_ERROR = "java/lang/IllegalStateException";
 } // namespace
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams, jbyteArray syllableBigrams) {
+Java_biz_tujia_ime_NativeCore_loadLexicon(JNIEnv* env, jclass, jbyteArray data, jbyteArray ngrams, jbyteArray syllableBigrams, jbyteArray syllableSenses) {
     return guarded<jlong>(env, LOAD_ERROR, [&] {
-        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams), bytes(env, syllableBigrams));
+        auto value = std::make_unique<tujia::Lexicon>(bytes(env, data), bytes(env, ngrams), bytes(env, syllableBigrams), bytes(env, syllableSenses));
         return static_cast<jlong>(reinterpret_cast<uintptr_t>(value.release()));
     });
 }
@@ -83,7 +83,7 @@ Java_biz_tujia_ime_NativeCore_freeLexicon(JNIEnv*, jclass, jlong handle) {
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArray raw, jint mode, jint orthography, jint operation) {
+Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArray raw, jint mode, jint orthography, jint operation, jbyteArray history) {
     return guarded<jobjectArray>(env, CALL_ERROR, [&]() -> jobjectArray {
         const auto lexicon = model<tujia::Lexicon>(handle);
         const auto input = bytes(env, raw);
@@ -94,7 +94,8 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             case 0: found = lexicon->lookup(input, form, style); break;
             case 1: found = lexicon->handwritingSuggestions(input, form, style); break;
             case 2: found = lexicon->nextWords(input, form, style); break;
-            case 3: found = lexicon->nextSyllables(input, style); break;
+            case 3: found = lexicon->nextSyllables(input, form, style); break;
+            case 4: found = lexicon->spellingCompletions(input, bytes(env, history), form, style); break;
             default: throw std::invalid_argument("Unknown candidate operation");
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");

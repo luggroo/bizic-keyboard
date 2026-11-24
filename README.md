@@ -1,6 +1,6 @@
 # 北部土家语输入法 · 安卓键盘与 iOS 共用核心
 
-这是一个可在其他安卓应用里使用的系统键盘。键盘收录 524 个北部土家语词和词组，另有 35,916 项普通汉语候选。查词、分词和手写识别均在本机运行。语音入口已预留，当前版本还不能听写。
+这是一个可在其他安卓应用里使用的系统键盘。键盘收录 528 个北部土家语词和词组，另有 35,916 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。语音入口已预留。
 
 ## 安装与试打
 
@@ -19,7 +19,7 @@
 | 唱一句土家山歌， | bízī sānggō nā zē cáng， | 币兹山歌哪遮唱， |
 | 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖里。 |
 
-[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [安卓演示录像](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4)
+[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [输入演示录像](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4)
 
 「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。先看一条常用汉义，长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
@@ -31,7 +31,15 @@
 
 在「手写」里写下「波」，停笔后首选字会进入正文。可以接着写「俐」，也可以点“小孩”对应的整词「波俐」补全。认错字时，点其他字形即可改选。遇到「尬」这样有多种记音用法的字，可以点“吃”选中相应词条。切到手写的拼写输出后，选词会使用设置中指定的拼写形式。
 
-选词时优先显示词库里匹配的词和可以补全的词。接下来是语料中常接在后面的词和音节。比如在山歌第一句选好 `bízīkǎ` 后，候选栏里「语气词」下的 `ō` 可以直接选入正文。旁边的 `mǒng` 单独显示，点它会展开这个读音的词和汉义。音节提示取自按顺序收录的 1,000 组相邻音节，其中 175 组用于句首。[查看手机候选栏截图](qa/results/api28-032-suggestions.png) · [按原排名查看音节对](tools/data/syllable-bigrams-ranked.txt)
+### 试试自由输入
+
+候选栏每页四项。点一个词或音节，它就进入正文，键盘接着给下一组候选。打到一半也可以选。例如在「记音」下打 `marmardi` 就能点“女人”下的「麻麻爹」，省去词尾的 `ex`。已打出的整词排在补全词前面。手写时也可以随时点整词补全。
+
+在「拼写」下输入 `bizika`，选“土家族”下的 `bízīkǎ`。再点 `mǒng`，正文变为 `bízīkǎ mǒng`。如果选 `mǔn`，正文就用 `mǔn`。词义明确时，上方显示简短汉义。例如输入完整的 `kamong` 可以选“树”下的 `kǎmǒng`。单独预测到 `mǒng` 时汉义留空，因为它还出现在“呻吟”和“线”等词里。龙山有一个读作 `mǒng` 的地支词，选到这个词条时才显示“地支午”。[“树”的词条](https://tujia.biz/?id=w1102) · [龙山调查“午”](https://tujia.biz/?id=yubao-60757-v-2498) · [音节汉义核对](qa/syllable-senses.md)
+
+[看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/latest/download/one-tap.mp4) · [查看点按前](qa/results/web-033-free-suggestions.png) · [查看点按后](qa/results/web-033-direct-sound.png)
+
+后续词按跨篇出现的搭配、词类和使用频率推荐。键盘也会参考你在当前输入框里刚选过的搭配。换输入框就清空这段记录。可用的词先显示，余下位置再给常接的音节。训练时排除了演示用的两篇作品。19 组整篇留出测试中，有 1,945 个词位可以用无调全拼选到目标词。从 7,203 次点按降到 4,548 次，主要靠少打词尾。全部 10,401 个词位中，下一词直接命中正确词义的有 103 个。[评测方法和分组结果](qa/prediction.md) · [1,000 组相邻音节](tools/data/syllable-bigrams-ranked.txt)
 
 ## 安卓和 iOS 如何共用
 
@@ -74,7 +82,9 @@ final class KeyboardController: UIInputViewController {
 }
 ```
 
-`TujiaHandwriting.glyphs(for:)` 接收依书写顺序排列的笔画。点选字形后，把记音字交给 `dictionary.candidates(for:form:)`，使用 `.handwritingToSpelling` 取土家语拼写，或使用 `.recommendedHan` 取推荐汉字。调用 `handwritingSuggestions(for:form:orthography:)` 可以根据已经写下的字补全词语。调用 `nextWords(after:form:orthography:)` 时传入最近一到两个已选词的 ID，以空格分开，即可取离线语料里的后续词候选。使用 `candidates(for:form:orthography:)` 指定输出的拼写方案。
+`TujiaHandwriting.glyphs(for:)` 接收依书写顺序排列的笔画。把记音字交给 `dictionary.candidates(for:form:)`，使用 `.handwritingToSpelling` 取土家语拼写，或使用 `.recommendedHan` 取推荐汉字。`handwritingSuggestions(for:form:orthography:)` 根据已经写下的字补全词语，`spellingCompletions(_:after:form:orthography:)` 根据已打出的拼写补全词尾。
+
+`nextWords(after:form:orthography:)` 接收当前输入框最近选过的词条 ID，以空格分隔。一个或两个前词可用于普通预测。传入最多 32 项可让最近重复选择的搭配提前。已知的句首传入 `<s>`。`nextSyllables(after:form:orthography:)` 接收最近一个已确认音节或句首标记，按所选输出形式返回可直接提交的候选。
 
 ## 构建安卓安装包
 
@@ -125,6 +135,8 @@ swift test
 python3 tools/apply_orthography.py /path/to/demo/dist
 python3 tools/story-demo/prepare_story.py /path/to/bizic-dictionary /path/to/bizic-translator /path/to/demo/dist
 python3 tools/import_words.py /path/to/demo/dist --dictionary-site /path/to/bizic-dictionary/site --web /path/to/demo/dist/ranking.js
+python3 tools/import_ngrams.py /path/to/bizic-dictionary/site
+python3 tools/import_syllable_senses.py /path/to/bizic-dictionary/site
 ```
 
 如有新的土家语词频，可以将 `id` 和 `frequency` 两列保存为制表符分隔的 UTF-8 文件，重新导入时加上 `--tujia-frequencies 文件路径`。文件中列出的词使用新计数，其余词继续使用语料估计。词 ID 对应 `words.tsv` 的首列，数值为非负整数。

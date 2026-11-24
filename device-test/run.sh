@@ -95,11 +95,18 @@ capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/failure.png"
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after; do
+        "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
+    done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
-if [[ "$capture" == 1 ]] && "$adb_bin" shell test -f "/sdcard/Android/data/$fixture_pkg/files/failure.png"; then
-    "$adb_bin" pull "/sdcard/Android/data/$fixture_pkg/files/failure.png" "$TUJIA_E2E_EVIDENCE/failure.png"
+if [[ "$capture" == 1 ]]; then
+    for frame in failure prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after; do
+        remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
+        if "$adb_bin" shell test -f "$remote"; then
+            "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"
+        fi
+    done
 fi
 tr -d '\r' < "$work/raw-result" > "$work/result"
 grep -Fxq 'INSTRUMENTATION_RESULT: outcome=PASS' "$work/result"

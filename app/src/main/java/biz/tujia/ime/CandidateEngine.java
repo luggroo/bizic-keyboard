@@ -55,10 +55,15 @@ public final class CandidateEngine implements AutoCloseable {
     }
 
     public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams) throws IOException {
-        try (InputStream context = ngrams; InputStream sounds = syllableBigrams) {
+        this(input, ngrams, syllableBigrams, null);
+    }
+
+    public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams, InputStream syllableSenses) throws IOException {
+        try (InputStream context = ngrams; InputStream sounds = syllableBigrams; InputStream senses = syllableSenses) {
             model = NativeCore.loadLexicon(NativeCore.readAsset(input),
                     context == null ? new byte[0] : NativeCore.readAsset(context),
-                    sounds == null ? new byte[0] : NativeCore.readAsset(sounds));
+                    sounds == null ? new byte[0] : NativeCore.readAsset(sounds),
+                    senses == null ? new byte[0] : NativeCore.readAsset(senses));
         }
     }
 
@@ -74,13 +79,24 @@ public final class CandidateEngine implements AutoCloseable {
         return candidates(acceptedHan, outputMode, style, 1);
     }
 
+    public synchronized List<Candidate> spellingCompletions(String prefix, String previousIds, Mode outputMode, Orthography style) {
+        if (model == 0) throw new IllegalStateException("Dictionary closed");
+        if (prefix == null || prefix.isEmpty() || outputMode == null || style == null) return Collections.emptyList();
+        return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(prefix), outputMode.ordinal(), style.ordinal(), 4,
+                NativeCore.encode(previousIds == null ? "" : previousIds)));
+    }
+
     public List<Candidate> nextWords(String previousIds, Mode outputMode, Orthography style) {
         return candidates(previousIds, outputMode, style, 2);
     }
 
     /** Pass "<s>" only at a known sentence start. Empty or ambiguous context has no suggestions. */
     public List<Candidate> nextSyllables(String previousSyllable, Orthography style) {
-        return candidates(previousSyllable, Mode.PINYIN, style, 3);
+        return nextSyllables(previousSyllable, Mode.PINYIN, style);
+    }
+
+    public List<Candidate> nextSyllables(String previousSyllable, Mode output, Orthography style) {
+        return candidates(previousSyllable, output, style, 3);
     }
 
     public synchronized int scoreHandwritingPrefix(String acceptedHan) {
@@ -91,7 +107,7 @@ public final class CandidateEngine implements AutoCloseable {
     private synchronized List<Candidate> candidates(String input, Mode mode, Orthography orthography, int operation) {
         if (model == 0) throw new IllegalStateException("Dictionary closed");
         if (input == null || input.isEmpty() || mode == null || orthography == null) return Collections.emptyList();
-        return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(input), mode.ordinal(), orthography.ordinal(), operation));
+        return Arrays.asList(NativeCore.lookup(model, NativeCore.encode(input), mode.ordinal(), orthography.ordinal(), operation, null));
     }
 
     public static String suffixAfterChoice(String draft, int consumedUTF16) {

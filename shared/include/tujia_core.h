@@ -21,6 +21,8 @@ TJIWords *tji_words_open(const uint8_t *data, size_t length);
 TJIWords *tji_words_open_with_ngrams(const uint8_t *data, size_t length, const uint8_t *ngrams, size_t ngram_length);
 TJIWords *tji_words_open_full(const uint8_t *data, size_t length, const uint8_t *ngrams, size_t ngram_length,
                               const uint8_t *syllable_bigrams, size_t syllable_length);
+TJIWords *tji_words_open_with_senses(const uint8_t *data, size_t length, const uint8_t *ngrams, size_t ngram_length,
+                                     const uint8_t *sounds, size_t sound_length, const uint8_t *senses, size_t sense_length);
 void tji_words_close(TJIWords *words);
 TJIChoices *tji_lookup(const TJIWords *words, const char *input, int32_t mode);
 TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input,
@@ -29,9 +31,13 @@ TJIChoices *tji_lookup_with_orthography(const TJIWords *words, const char *input
 /* Strict lexical completions consume the supplied glyphs. Next-word suggestions consume zero.
    Context is the last one or two selected word IDs, separated by an ASCII space. */
 TJIChoices *tji_handwriting_suggestions(const TJIWords *words, const char *glyphs, int32_t mode, int32_t orthography);
+TJIChoices *tji_spelling_completions(const TJIWords *words, const char *prefix, const char *previous_ids, int32_t mode, int32_t style);
 TJIChoices *tji_next_words(const TJIWords *words, const char *context, int32_t mode, int32_t orthography);
 /* Use the literal "<s>" only at a known sentence start. Context is one exact toned syllable. */
 TJIChoices *tji_next_syllables(const TJIWords *words, const char *previous_syllable, int32_t orthography);
+/* Returns direct-commit candidates. Recommended-Han mode omits sounds without
+   an approved Han form; unproved or ambiguous glosses are empty in all modes. */
+TJIChoices *tji_next_syllables_for_mode(const TJIWords *words, const char *previous_syllable, int32_t mode, int32_t orthography);
 int32_t tji_score_handwriting_prefix(const TJIWords *words, const char *glyphs);
 
 TJIPen *tji_pen_open(const uint8_t *data, size_t length);

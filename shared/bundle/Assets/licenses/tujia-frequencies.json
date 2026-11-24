@@ -15,22 +15,23 @@
   "inputSHA256": {
     "words.js": "dbc1164b0782be846aa051b5ba6e7b016e33373b5a6727a2828a4ef7fe3b239c",
     "story-words.tsv": "8e69f6bc55d7599e5c4129ad06fcbf284b827aaf4e3041900a48b11c2f546bc4",
+    "context-words.tsv": "4bfd986fcc9e15479ac4863630ed902c13cf4174913439b59b95969f1f14f5bb",
     "story-spelling-aliases.tsv": "d19d0980a45257559dddee9ed613ff1a763a9a90527d4d25c843cf7a224e48a0",
     "mandarin.tsv": "9794269cba217ffc891fa33689c5ee08220d79bf3958654222c90f07b366f703"
   },
   "stats": {
     "annotatedTexts": 14,
     "annotatedUnits": 8536,
-    "annotatedMatches": 1435,
+    "annotatedMatches": 1449,
     "longshanTexts": 4,
     "longshanUnits": 1280,
     "longshanMatches": 421,
     "brassettTexts": 25,
     "brassettUnits": 14139,
-    "brassettMatches": 434
+    "brassettMatches": 451
   },
-  "tujiaRows": 524,
+  "tujiaRows": 528,
   "referenceRows": 1243,
-  "observedRows": 299,
+  "observedRows": 300,
   "mandarinRows": 35916
 }
