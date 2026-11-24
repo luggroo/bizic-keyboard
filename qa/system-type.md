@@ -15,3 +15,5 @@
 Android 14 支持最高 200% 的字号。在较大的档位，系统会根据文字原来的大小采用不同的放大比例。例如，键帽和原本较小的汉义可以有不同的像素增幅。绘制文字时用 `sp`，自绘画布通过 `TypedValue.applyDimension(COMPLEX_UNIT_SP, …)` 换算像素。用同一个 `fontScale` 或 `scaledDensity` 乘所有字号会丢掉这条系统曲线。[Android 开发文档](https://developer.android.com/about/versions/14/features#non-linear-font-scaling)
 
 测量时，在同一物理分辨率下分别改变字体档位和显示密度。保留相同拼写和候选，以截图核对实际字形，以控件边界核对可点击区域。提高显示密度后，还要核对四项候选、宿主正文和底行功能键能否同时出现。重新打开设置再返回会切换编辑器，可用 ADB 在键盘显示期间改系统档位，单独验证同一编辑框的待选拼写和未提交笔迹。
+
+在 1080 × 1920 px 的 Android 15 模拟器上，保持显示密度 420 dpi，系统字号从 100% 调到 160% 后，Q 的可见字形从 44 px 增至 60 px，汉义「吃」从 32 px 增至 54 px。两种设置下 Q 的可点区域都高 45.7 dp。[九档字体与显示密度的设备测量和原图](typography.md)
