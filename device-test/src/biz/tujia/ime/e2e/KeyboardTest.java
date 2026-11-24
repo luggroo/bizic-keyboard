@@ -534,18 +534,65 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("切换手写输出");
     }
 
+    private Rect[] compactToolbarSnapshot() {
+        String[] labels = {"打字", "手写", "更多", "隐藏键盘"};
+        if (findNode("打字", false) == null) return null;
+        for (AccessibilityNodeInfo typing : imeRoot.findAccessibilityNodeInfosByText(labels[0])) {
+            try {
+                if (!typing.refresh() || !typing.isVisibleToUser() || !typing.isClickable()
+                        || !android.text.TextUtils.equals(labels[0], typing.getContentDescription())) continue;
+                AccessibilityNodeInfo toolbar = typing.getParent();
+                if (toolbar == null) continue;
+                try {
+                    Rect[] bounds = new Rect[labels.length];
+                    for (int i = 0; i < toolbar.getChildCount(); i++) {
+                        AccessibilityNodeInfo child = toolbar.getChild(i);
+                        if (child == null) continue;
+                        try {
+                            if (!child.isVisibleToUser() || !child.isClickable()) continue;
+                            for (int k = 0; k < labels.length; k++) {
+                                if (!android.text.TextUtils.equals(labels[k], child.getContentDescription())) continue;
+                                if (k == 3 && !android.text.TextUtils.equals("收起", child.getText())) continue;
+                                bounds[k] = new Rect();
+                                child.getBoundsInScreen(bounds[k]);
+                            }
+                        } finally { child.recycle(); }
+                    }
+                    if (!Arrays.asList(bounds).contains(null)) return bounds;
+                } finally { toolbar.recycle(); }
+            } finally { typing.recycle(); }
+        }
+        return null;
+    }
+
+    private void assertCompactToolbar() {
+        awaitKeyboardAtRest();
+        Rect[] previous = null;
+        long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            Rect[] controls = compactToolbarSnapshot();
+            if (controls != null && Arrays.equals(previous, controls)) {
+                stage("One IME toolbar, 打字/手写/更多/收起 bounds: " + Arrays.toString(controls));
+                for (int i = 0; i < controls.length; i++) {
+                    Rect area = controls[i];
+                    if (area.isEmpty() || area.top != controls[0].top || area.bottom != controls[0].bottom
+                            || (i > 0 && controls[i - 1].right > area.left))
+                        throw new AssertionError("The four stable sibling IME controls are not on one ordered line: " + Arrays.toString(controls));
+                }
+                return;
+            }
+            previous = controls;
+            SystemClock.sleep(100);
+        } while (SystemClock.uptimeMillis() < deadline);
+        throw new AssertionError("No stable IME toolbar with four sibling controls: " + Arrays.toString(previous) + visibleControls());
+    }
+
     private void testCompactControls() {
         stage("Compact toolbar, fixed host field, actual letter-key bounds and text size");
         newPredictionEditor();
         press("汉字记音");
         runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
-        Rect typing = waitForNode("打字", false);
-        Rect handwriting = waitForNode("手写", false);
-        Rect more = waitForNode("更多", false);
-        Rect hide = waitForNode("隐藏键盘", false);
-        if (typing.top != handwriting.top || typing.top != more.top || typing.top != hide.top
-                || typing.right > handwriting.left || handwriting.right > more.left || more.right > hide.left)
-            throw new AssertionError("The four toolbar controls are not on one ordered line");
+        assertCompactToolbar();
         for (String extra : new String[]{"土家语拼写", "汉字记音", "语音", "确定拼写"}) waitAbsent(extra);
         assertEditorAboveKeyboard(host.first, "打字");
         waitForNode("待选拼写 ", false);
