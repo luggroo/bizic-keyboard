@@ -1,0 +1,45 @@
+{
+  "installedApkSha256": "1bc2eef204ea1e507609ef08d919e97526bd6076e52234d93ac33cee9c05feb6",
+  "androidApi": 28,
+  "physicalScreen": [
+    480,
+    800
+  ],
+  "densityDpi": 160,
+  "fontScale": 1.0,
+  "candidateReadings": [
+    {
+      "composition": "ga",
+      "committed": "架",
+      "fullLexicalGloss": "吃、咬",
+      "candidatePage": 1,
+      "screenshot": "api28-033-book-ga-jia4.png",
+      "sha256": "4a929bd7e992eb828a8108629c010eb011cd76dd0d1b58f7dcadd778c34dc815"
+    },
+    {
+      "composition": "jia",
+      "committed": "架",
+      "fullLexicalGloss": "",
+      "candidatePage": 4,
+      "screenshot": "api28-033-book-jia-jia4.png",
+      "sha256": "0c61366ce5db408bf1c78f21ceaa4a99c1f0aed2c506617d1477f586b1c668c7"
+    },
+    {
+      "composition": "ga",
+      "committed": "稼",
+      "fullLexicalGloss": "",
+      "candidatePage": 4,
+      "screenshot": "api28-033-book-ga-jia4-grain.png",
+      "sha256": "ea94456ae13ee39805dc42123beadfcede0a3c3b8ca14dc54712e2bfd912a32f"
+    },
+    {
+      "composition": "jia",
+      "committed": "稼",
+      "fullLexicalGloss": "",
+      "candidatePage": 7,
+      "screenshot": "api28-033-book-jia-jia4-grain.png",
+      "sha256": "4b75d3e0f977484ac31bfdfc0d84c321759049c58d8d2db1016e057ed77cb7a3"
+    }
+  ],
+  "savedAndReopenedNote": "架。\n架。\n稼。\n稼。"
+}
