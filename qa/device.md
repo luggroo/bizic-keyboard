@@ -1,26 +1,29 @@
-# 土家语输入法 Android 设备验收
+# Android 设备与宿主验收
 
-0.3.0（版本码 5）在 Android 9 的 AOSP x86_64 云模拟器 `emulator-5562` 上通过了下列已标记的项目。竖屏为 480 × 800 px、160 dpi，系统字号 100%。横屏为 800 × 480 px。测试向独立宿主的输入法窗口注入触摸事件，读取宿主实际文本、控件焦点和系统输入动作。
+0.3.0（版本码 5）在 AOSP Android 9 云模拟器 `emulator-5562` 上从 0.2.2 覆盖升级。该机为 x86_64，竖屏 480 × 800 px、160 dpi，系统字号 100%。键盘和用于读取结果的宿主分属不同进程。测试点击屏幕键位、注入手写笔画，再读取宿主文本、选区、网页 DOM 或编辑动作。
 
-| 宿主与场景 | 核验内容 | 结果 |
-| --- | --- | --- |
-| 原生单行输入框 | 整句优先、先选长词再选余串；有汉义的词显示释义，普通汉字仅有文字。上屏保留所选输出形式。 | 已通过 |
-| 手写与光标 | 逐笔写「波」「俐」，两字自动进入编辑框。写「波」可选「坡」，还可补成「波俐」；按具体词义选择不同后续词。切换编辑框时放弃尚未写完的字，移动光标和选区后仅编辑当前位置。 | 已通过 |
-| 原生多行与窗口 | 输入两行「架」「半日猜」，隐藏并重新唤起键盘；旋转横屏写「三」，检查手写区坐标固定，编辑框仍在其上方。 | 设备复测中 |
-| 搜索与发送 | 宿主收到对应的 Android 动作编号和完整文本。发送使用测试回调。可见键名与无障碍名称一致。 | 设备复测中 |
-| 下一项与上一项 | 通过键盘在两个编辑框之间移动，随后选词落在新焦点上。 | 设备复测中 |
-| 原生密码和数字密码 | 逐键直输，输入框执行掩码显示，键盘不显示词义候选。 | 设备复测中 |
-| Android System WebView | 页面 `<input>`、`<textarea>`、密码控件分别验证真实 DOM 值，包括换行、隐藏后再弹出，以及切换网页控件时丢弃未选拼写。 | 设备复测中 |
-| AOSP 联系人 `com.android.contacts` | 在新建联系人的姓名栏用 `bangricai` 选择「半日猜」，读回姓名后放弃草稿。 | 设备复测中 |
-| Chromium WebView Shell `org.chromium.webview_shell` | 浏览器原生地址栏接收直接键入的字母。保留 `about:blank`，未发起网页访问。 | 设备复测中 |
+| 宿主或场景 | 实际结果 |
+| --- | --- |
+| 原生单行与两个编辑框 | 整句可一次选入。只选长词时，未选拼写保留。候选「中午／半日猜」显示汉义，点选后正文只含「半日猜」；未选拼写随编辑框切换清除。 |
+| 连续手写与纠字 | 写完「波」再写「俐」，中间无需点候选，两字先后进入正文。可将单字「波」改选成「坡」，或只写「波」便选择「波俐」。同形的两个词义分别可以续选「太」（没有）和「再」（大人）。 |
+| 光标与选区 | 焦点切换会撤下旧的纠字入口，未收笔的字不会进入另一输入框。在「首波俐太波」中选中「波俐」再写「三」，得到「首三太波」。 |
+| 原生多行与键盘窗口 | 两行文字「架」「半日猜」成功保留；收起键盘后两行仍可读，点回编辑框可重新唤起键盘。横屏见下文。 |
+| 搜索、发送、下一项、上一项 | 宿主收到对应的 Android 动作编号及当前文字「架」。前后移动焦点后，「诶」写入新编辑框。四键的实际无障碍名称与可见名称一致；发送使用本地测试回调。 |
+| 原生文本密码和数字密码 | 分别逐键写入 `ga` 和 `12`，真实字段值与预期一致，界面执行掩码显示。键盘采用直接输入，候选栏不展示汉义。 |
+| 内嵌 Android System WebView | 在网页 `<input>` 写入「架」，切换 `<textarea>` 后写入两行「半日猜」「诶」。两个控件的 DOM 值分别读回验证。网页密码框接收直接键入的 `ga`。 |
+| AOSP 联系人 `com.android.contacts` | 在新建联系人的姓名栏用 `bangricai` 选「半日猜」，读回实际姓名后关闭草稿。 |
+| Chromium WebView Shell `org.chromium.webview_shell` | 在实际浏览器地址栏直接键入 `ga`，从地址栏读回。测试停在 `about:blank`。 |
+| AOSP 系统设置 `com.android.settings` | 搜索框 `android:id/search_src_text` 接收「半日猜」，保留原有设置。 |
 
-原生控件与内嵌网页位于独立的 `biz.tujia.ime.e2e` 测试应用中。WebView 提供方为 `com.android.webview` 66.0.3359.158。系统联系人和 Chromium WebView Shell 是镜像预装应用。微信、其他浏览器及厂商定制输入框的兼容性仍需在对应应用中验证。
+原生控件及内嵌网页位于独立的 `biz.tujia.ime.e2e` 测试应用。此镜像的 WebView 提供方是 `com.android.webview` 66.0.3359.158。系统联系人、设置和 Chromium WebView Shell 均为镜像预装应用。厂商键盘管理器、实体手机和未列出的第三方应用仍需在对应环境复核。[宿主兼容矩阵](coverage.md)
 
-API 28 首轮动态横屏切换时，系统日志报告 WindowManager 窗口冻结及系统界面 `com.android.systemui` ANR，测试进程收到 `INSTRUMENTATION_ABORTED: System has crashed`。键盘旋转的跨版本结论须结合独立设备结果。
+## 横屏
+
+在 `emulator-5562` 的软件图形配置 `-gpu off` 下，应用请求横屏时系统出现窗口冻结，随后系统界面 `com.android.systemui` 报告 ANR。系统线程 `WindowAnimator` 阻塞在 `SurfaceComposerClient::Transaction::apply`，设备测试收到 `INSTRUMENTATION_ABORTED: System has crashed`。该轮完成了旋转前的多行输入与收起重开；它未完成旋转后的手写验收。
 
 ## 复现
 
-连接一台解锁的 Android 设备。若连接多台设备，设置 `ANDROID_SERIAL`。在项目根目录运行下列命令，其中 `ime.apk` 与 `fixture.apk` 分别为待测键盘及测试宿主安装包。
+连接已解锁的 Android 设备。若连接多台设备，以 `ANDROID_SERIAL` 指定目标。下列命令在项目根目录执行。
 
 ```sh
 ./tools/build-apk.sh ime.apk
@@ -29,4 +32,4 @@ API 28 首轮动态横屏切换时，系统日志报告 WindowManager 窗口冻�
 TUJIA_E2E_SUITE=system ./device-test/run.sh ime.apk fixture.apk
 ```
 
-默认套件运行 `core`、`host` 和 `window`。可用 `TUJIA_E2E_SUITE=core` 单独验收输入逻辑，或以 `TUJIA_E2E_SUITE=host` 单独验收原生控件和 WebView。`TUJIA_E2E_SUITE=window` 单测多行、键盘显示和旋转。`system` 要求设备上已安装上述两个 AOSP 应用。运行脚本会恢复进入测试前选中的输入法及硬件键盘显示设置。
+默认套件涵盖核心输入、宿主、横屏和下一音节。以 `TUJIA_E2E_SUITE=core`、`host`、`window`、`web` 或 `sounds` 可分别复测。选配的 `system` 套件要求已安装上述 AOSP 联系人与 Chromium WebView Shell。脚本退出时恢复原输入法及显示硬件键盘的设置。Android 15 的标准模拟器可通过仓库工作流运行同一套件。[设备工作流](../.github/workflows/device-qa.yml)

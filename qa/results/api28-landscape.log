@@ -1,0 +1,13 @@
+Android 9 / API 28 / x86, emulator-5564 (SwiftShader)
+IME SHA-256: c9f35807d76b1eb056d3bb1f8f7c5271801bfc53614be92f0782e360c99d31ab
+Fixture SHA-256: 5af399f19201e2a96d3fe172d95657f1cbda395ad7c2e287b6beb0dfdd7fcf6d
+Suite: window
+  mCurrentFocus=Window{56d4c3e u0 com.android.launcher3/com.android.launcher3.Launcher}
+/data/app/biz.tujia.ime-5QqcJ_-HQzpwXeXU-aRoeg==/base.apk: 1 file pulled, 0 skipped. 105.0 MB/s (5486422 bytes in 0.050s)
+/data/app/biz.tujia.ime.e2e-4AkRYioJJvJHfkpSgpvYLQ==/base.apk: 1 file pulled, 0 skipped. 11.8 MB/s (57771 bytes in 0.005s)
+INSTRUMENTATION_STATUS: step=Native multiline editor, newline, hide and reopen without losing content
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: step=Landscape preserves an editable host above a fixed handwriting pad
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_RESULT: outcome=PASS
+INSTRUMENTATION_CODE: -1

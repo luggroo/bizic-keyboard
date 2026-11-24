@@ -1,13 +1,9 @@
-Android 9 / API 28 / x86 / emulator-5564
-IME SHA-256: 28ce6b792cf39ec5554ac21aa25af42b2a6bdd2a8c44a5f3565f7889bfdab6c1
+Android 9 / API 28 / x86, emulator-5564 (SwiftShader)
+IME SHA-256: c9f35807d76b1eb056d3bb1f8f7c5271801bfc53614be92f0782e360c99d31ab
 Fixture SHA-256: 5af399f19201e2a96d3fe172d95657f1cbda395ad7c2e287b6beb0dfdd7fcf6d
 Suite: sounds
-Performing Streamed Install
-Success
-Performing Streamed Install
-Success
-/data/app/biz.tujia.ime-iFKm9g-RCkq2DbCPOOOlaw==/base.apk: 1 file pulled, 0 skipped. 68.3 MB/s (5486422 bytes in 0.077s)
-/data/app/biz.tujia.ime.e2e-4AkRYioJJvJHfkpSgpvYLQ==/base.apk: 1 file pulled, 0 skipped. 6.0 MB/s (57771 bytes in 0.009s)
+/data/app/biz.tujia.ime-5QqcJ_-HQzpwXeXU-aRoeg==/base.apk: 1 file pulled, 0 skipped. 80.4 MB/s (5486422 bytes in 0.065s)
+/data/app/biz.tujia.ime.e2e-4AkRYioJJvJHfkpSgpvYLQ==/base.apk: 1 file pulled, 0 skipped. 5.5 MB/s (57771 bytes in 0.010s)
 INSTRUMENTATION_STATUS: step=Predicted syllables open lexical choices before committing any host text
 INSTRUMENTATION_STATUS_CODE: 1
 INSTRUMENTATION_RESULT: outcome=PASS

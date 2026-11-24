@@ -408,34 +408,56 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.second);
         drawBo(pad);
         expectText(host.second, "原波");
-        press("手写字形 坡");
-        expectText(host.second, "原坡");
+        String alternate = chooseAlternateGlyph("波");
+        String corrected = "原" + alternate;
+        stage("Corrected 波 to the visible alternative " + alternate);
+        expectText(host.second, corrected);
         tapField(host.first);
         tapField(host.second);
         drawBo(pad);
-        expectText(host.second, "原坡波");
+        expectText(host.second, corrected + "波");
         pressCandidate("续写 小孩儿，波俐", false);
-        expectText(host.second, "原坡波俐");
+        expectText(host.second, corrected + "波俐");
         pressCandidate("联想 大人，再", false);
-        expectText(host.second, "原坡波俐再");
+        expectText(host.second, corrected + "波俐再");
 
         stage("Pending strokes and correction cannot cross editor or cursor changes");
         drawThree(pad);
         tapField(host.first);
         SystemClock.sleep(1600);
-        expectText(host.second, "原坡波俐再");
+        expectText(host.second, corrected + "波俐再");
         expectText(host.first, "首波俐太");
         drawBo(pad);
         expectText(host.first, "首波俐太波");
         runOnMainSync(() -> host.first.setSelection(1, 3));
-        waitAbsent("手写字形 坡");
+        waitAbsent("手写字形 波");
         drawThree(pad);
         expectText(host.first, "首三太波");
         runOnMainSync(() -> host.first.setSelection(1));
         waitAbsent("手写字形 三");
         drawThree(pad);
         expectText(host.first, "首三三太波");
-        expectText(host.second, "原坡波俐再");
+        expectText(host.second, corrected + "波俐再");
+    }
+
+    private String chooseAlternateGlyph(String recognized) {
+        String prefix = "手写字形 ";
+        waitForNode(prefix + recognized, false);
+        Rect first = null;
+        String choice = null;
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(prefix)) {
+            try {
+                if (!node.refresh() || !node.isVisibleToUser() || !node.isClickable() || node.getContentDescription() == null) continue;
+                String name = node.getContentDescription().toString();
+                if (!name.startsWith(prefix) || name.equals(prefix + recognized)) continue;
+                Rect bounds = new Rect();
+                node.getBoundsInScreen(bounds);
+                if (first == null || bounds.left < first.left) { first = bounds; choice = name.substring(prefix.length()); }
+            } finally { node.recycle(); }
+        }
+        if (first == null) throw new AssertionError("No correction choice for " + recognized);
+        tap(first.centerX(), first.centerY());
+        return choice;
     }
 
     void setHandwritingOutput(boolean han) {
