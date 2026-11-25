@@ -985,11 +985,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             for (CandidateEngine.Candidate c : syllableHints) visible.putIfAbsent(c.text, c);
         } else {
             for (CandidateEngine.Candidate c : matches) {
-                String key = c.consumed + "\t" + c.text;
-                CandidateEngine.Candidate first = visible.get(key);
+                CandidateEngine.Candidate first = visible.get(c.text);
                 if (first == null) {
                     first = c;
-                    visible.put(key, first);
+                    visible.put(c.text, first);
                     handSenses.put(first, new ArrayList<>());
                     hanChoices.put(first, new HanChoice(first));
                 }
@@ -1264,13 +1263,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         Map<String, CandidateEngine.Candidate> spellings = new HashMap<>();
         for (CandidateEngine.Candidate roman : engine.handwrittenWords(anchor.before, CandidateEngine.Mode.HANDWRITING,
                 CandidateEngine.Orthography.DIACRITIC)) {
-            if (roman.consumed == first.consumed) spellings.put(roman.lexemeIds, roman);
+            spellings.put(roman.lexemeIds, roman);
         }
         List<CandidateEngine.Candidate> distinct = new ArrayList<>();
         Set<String> seen = new HashSet<>();
         for (CandidateEngine.Candidate c : senses) {
             CandidateEngine.Candidate spelling = spellings.get(c.lexemeIds);
-            if (spelling != null && seen.add(spelling.text + "\t" + c.meaning)) distinct.add(c);
+            if (spelling != null && seen.add(c.consumed + "\t" + spelling.text + "\t" + c.meaning)) distinct.add(c);
         }
         if (distinct.isEmpty()) return;
         int current = index % distinct.size();
@@ -1285,8 +1284,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handDetail.addView(top, lineWithMinimum(compact ? 29 : 35, compact ? 14 : 16));
         top.addView(label("已写「" + raw + "」", compact ? 14 : 16, MUTED), weighted(2));
         if (distinct.size() > 1) {
-            String count = "义项 " + (current + 1) + "/" + distinct.size();
-            key(top, count, "切换" + count, 1.3f, false, () -> openHandDetail(first, current + 1));
+            String count = (hanChoices.get(first).actions.size() > 1 ? "匹配 " : "义项 ") + (current + 1) + "/" + distinct.size();
+            key(top, count, "切换匹配或义项", 1.3f, false, () -> openHandDetail(first, current + 1));
         }
         key(top, "返回", "返回手写", 1, false, this::closeHandDetail);
         TextView definition = label("", compact ? 16 : 18, INK);
@@ -1296,7 +1295,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handDetail.addView(definition, new LinearLayout.LayoutParams(-1, 0, 1));
         LinearLayout actions = row();
         handDetail.addView(actions, lineWithMinimum(compact ? 33 : 41, compact ? 14 : 16));
-        String hanLabel = raw.equals(c.text) ? "保留原写法" : "用推荐字";
+        String hanLabel = sameHandForm(raw, c) ? "保留原写法" : "用推荐字";
         key(actions, hanLabel, hanLabel, 1, false, () -> applyHandWord(anchor, c, c, raw));
         key(actions, "用调号拼音", "用调号拼音", 1, true, () -> applyHandWord(anchor, c, roman, raw));
     }
@@ -1305,7 +1304,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         HandAnchor cursor = handAnchor();
         if (!shown.matches(cursor) || cursor.start != cursor.end || cursor.end < raw.length()
                 || !cursor.before.endsWith(raw)) { discardHandWork(); return; }
-        if (!form.text.equals(raw) && !writeHandRange(cursor, form.text, form.joinedHanRanges,
+        if (!sameHandForm(raw, form) && !writeHandRange(cursor, form.text, form.joinedHanRanges,
                 cursor.end - raw.length(), raw.length())) { discardHandWork(); return; }
         remember(handHistory, lexical);
         clearHandSession();
@@ -1584,6 +1583,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             editor.endBatchEdit();
         }
         showIpaCandidates();
+    }
+
+    private static boolean sameHandForm(String raw, CandidateEngine.Candidate form) {
+        return raw.equals(form.text) || raw.equals(HanUnitBrackets.format(form.text, form.joinedHanRanges, 0).text);
     }
 
     private void buildKeys() {

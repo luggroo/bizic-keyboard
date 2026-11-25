@@ -234,10 +234,18 @@ public final class CandidateEngineTest {
             }
             List<Candidate> child = dictionary.handwrittenWords("波粒", Mode.HAN, Orthography.YE);
             check(child.stream().anyMatch(c -> c.meaning.equals("小孩")), "Recorded child sense remains searchable");
+            List<Candidate> pronoun = dictionary.handwrittenWords("阿安", Mode.HAN, Orthography.YE);
+            check(offers(pronoun, "阿安", "我", 2) && offers(pronoun, "阿安", "我", 1), "One Han form can have two different suffix ranges");
+            List<Candidate> marked = dictionary.handwrittenWords("前˻阿安˼", Mode.HAN, Orthography.YE);
+            check(offers(marked, "阿安", "我", 4) && marked.stream().noneMatch(c -> c.consumed < 4),
+                    "Replace a marked syllable with both delimiters");
+            check(dictionary.handwrittenWords("前˻阿", Mode.HAN, Orthography.YE).isEmpty(),
+                    "A cursor inside a marked syllable cannot leave an orphan delimiter");
             check(offers(dictionary.handwrittenWords("树稀步李", Mode.HANDWRITING, Orthography.DIACRITIC),
                     "xìbúlī", "星", 3), "Replace exactly the selected suffix with its dictionary spelling");
             check(offers(dictionary.handwrittenWords("恩给", Mode.HAN, Orthography.YE), "恩格锿", "那里", 2) &&
-                    offers(dictionary.handwrittenWords("恩格锿", Mode.HAN, Orthography.YE), "恩格锿", "那里", 3),
+                    offers(dictionary.handwrittenWords("恩格锿", Mode.HAN, Orthography.YE), "恩格锿", "那里", 3) &&
+                    offers(dictionary.handwrittenWords("恩˻格锿˼", Mode.HAN, Orthography.YE), "恩格锿", "那里", 5),
                     "The joined syllable and its one-graph spelling use different host ranges");
             List<Candidate> flower = dictionary.handwrittenWords("借米提卡铺", Mode.HAN, Orthography.YE);
             check(flower.stream().noneMatch(c -> c.lexemeIds.equals("w1031")) &&
@@ -258,6 +266,8 @@ public final class CandidateEngineTest {
                 null, null, null, new java.io.ByteArrayInputStream(local.getBytes(StandardCharsets.UTF_8)))) {
             List<Candidate> result = test.handwrittenWords("戊𠀀另近丁", Mode.HAN, Orthography.YE);
             check(result.size() == 1 && offers(result, "甲乙丙丁", "四", 5), "Four scalars, five UTF-16 units; fifth graph is outside the window");
+            List<Candidate> marked = test.handwrittenWords("戊˻𠀀另˼˻近丁˼", Mode.HAN, Orthography.YE);
+            check(marked.size() == 1 && offers(marked, "甲乙丙丁", "四", 9), "Read four Han across both marked syllables");
         }
     }
 }

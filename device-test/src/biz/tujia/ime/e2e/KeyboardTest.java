@@ -720,7 +720,8 @@ public final class KeyboardTest extends Instrumentation {
         setHandwritingOutput(true);
         Rect pad = waitForNode("汉字手写区", false);
         drawBo(pad);
-        expectText(host.first, "首波");
+        // The first stroke also loads the offline model on software-emulated devices.
+        expectText(host.first, "首波", 90000);
         waitForNode("已写成词", false);
         drawLi(pad);
         expectText(host.first, "首波俐");
@@ -813,6 +814,20 @@ public final class KeyboardTest extends Instrumentation {
         press("已写成词");
         visibleForm("布里");
         waitAbsent("板栗，树希布里");
+        runOnMainSync(() -> { host.first.setText("前阿安后"); host.first.setSelection(3); });
+        press("已写成词");
+        Card pronoun = visibleForm("˻阿安˼");
+        if (pageCards("阿安").size() != 1) throw new AssertionError("The two suffix boundaries must share a card");
+        tap(pronoun.bounds.centerX(), pronoun.bounds.centerY());
+        waitForNode("已写「阿安」", false);
+        for (int i = 0; i < 8 && findNode("已写「安」", false) == null; i++) press("切换匹配或义项");
+        waitForNode("已写「安」", false);
+        press("用推荐字");
+        expectText(host.first, "前阿˻阿安˼后");
+        tapForm("˻阿安˼");
+        waitForNode("已写「˻阿安˼」", false);
+        press("用调号拼音");
+        expectText(host.first, "前阿ān后");
     }
 
     private String chooseAlternateGlyph(String recognized) {
@@ -1094,7 +1109,9 @@ public final class KeyboardTest extends Instrumentation {
 
     Card visibleForm(String output) {
         waitForNode(output, false);
-        for (Card item : pageCards(output)) if (output.equals(outputLine(item))) return item;
+        // The spoken form omits the two visible syllable delimiters.
+        String spoken = output.replace("˻", "").replace("˼", "");
+        for (Card item : pageCards(spoken)) if (output.equals(outputLine(item))) return item;
         throw new AssertionError("Missing visible form " + output + ": " + visibleControls());
     }
 
@@ -1467,22 +1484,14 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private Card nextSoundCard() {
-        String previous = "";
-        for (int page = 0; page < 48; page++) {
-            List<Card> sounds = pageCards("下一音节 ");
-            if (!sounds.isEmpty()) {
-                Card found = sounds.get(0);
-                stage("Read single-tap syllable candidate " + found.name + " " + found.lines);
-                return found;
-            }
-            String current = visibleControls();
-            if (current.equals(previous)) break;
-            previous = current;
-            Rect next = pollNode("下一页候选", false, 500);
-            if (next == null) break;
-            tap(next.centerX(), next.centerY());
-            SystemClock.sleep(100);
-        }
+        List<Card> sounds = pageCards("下一音节 ");
+        if (!sounds.isEmpty()) return sounds.get(0);
+        AccessibilityNodeInfo row = rowBesidePager();
+        try {
+            do {
+                for (Card card : rowCards(row)) if (card.name.startsWith("下一音节 ")) return card;
+            } while (advanceCandidatePage(row));
+        } finally { row.recycle(); }
         throw new AssertionError("No writable syllable prediction: " + visibleControls());
     }
 
@@ -1856,7 +1865,11 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     void expectText(EditText field, String expected) {
-        long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        expectText(field, expected, WAIT_MS);
+    }
+
+    private void expectText(EditText field, String expected, long timeoutMs) {
+        long deadline = SystemClock.uptimeMillis() + timeoutMs;
         AtomicReference<String> actual = new AtomicReference<>();
         do {
             runOnMainSync(() -> actual.set(field.getText().toString()));

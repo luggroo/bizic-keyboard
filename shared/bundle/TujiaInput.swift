@@ -111,10 +111,16 @@ public final class TujiaDictionary {
 
     public var handwritingContextLength: Int { Int(tji_handwriting_context_length(handle)) }
 
+    // Four Han characters and up to two pairs of display delimiters.
+    private func handwritingTail(_ text: String) -> String {
+        let raw = text.unicodeScalars.suffix(8)
+        if let boundary = raw.lastIndex(of: "\0") { return String(raw.suffix(from: raw.index(after: boundary))) }
+        return String(raw)
+    }
+
     public func handwrittenWords(beforeCaret text: String, form: InputForm = .recommendedHan,
                                  orthography: SpellingOrthography = .diacritic) -> [HandwrittenWord] {
-        let context = String(text.unicodeScalars.suffix(4))
-        guard !context.utf8.contains(0) else { return [] }
+        let context = handwritingTail(text)
         let result = context.withCString { tji_handwritten_words(handle, $0, form.rawValue, orthography.rawValue) }
         let length = text.utf16.count
         return readCandidates(result, input: context, fromEnd: true).map {
@@ -123,8 +129,7 @@ public final class TujiaDictionary {
     }
 
     public func nextHandwrittenGlyphs(beforeCaret text: String) -> [WordCandidate] {
-        let context = String(text.unicodeScalars.suffix(4))
-        guard !context.utf8.contains(0) else { return [] }
+        let context = handwritingTail(text)
         return readCandidates(context.withCString { tji_next_handwritten_glyphs(handle, $0) }, input: "")
     }
 
