@@ -51,6 +51,11 @@ for(const input of ['nendao','nengdao','lindao','lingdao']){
 for(const [input,word] of [['bangzang','班长'],['xiaoxiao','学校'],['biefdix','别的'],['befcaix','白菜'],['minrzif','名字'],['lorkuanr','箩筐']]){
   assert(exact(input,1,0).includes(word),input);
 }
+for (const [input,expected] of [['lenxzir','檩子'],['lenxzix','檩子'],['lenrzir','铃子']]){
+  assert(exact(input,1,0).includes(expected),input);
+}
+const nenzi=Array.from(exact('nenzi',1,0));assert(nenzi.includes('檩子')&&nenzi.includes('铃子'));
+assert(!nenzi.includes('冷直')&&!nenzi.includes('楞直'));
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));
 assert(exact('bizika',0,1).includes('bízīkǎ'));assert(!exact('bifzixkar',0,1).includes('bízīkǎ'));
 assert(ctx.core.handwrittenWords('玻离',1,0).some(c=>c.form==='波俐' && c.length===2));
