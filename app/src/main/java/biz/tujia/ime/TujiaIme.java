@@ -453,7 +453,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         toolbar.addView(composition, new LinearLayout.LayoutParams(0, -1, 1));
         buildComposition();
         if (!direct) moreButton = stripIconKey("设置", "设置", ToolbarIcon.Mark.SETTINGS, false, this::toggleMore);
-        stripIconKey("收起", "隐藏键盘", ToolbarIcon.Mark.HIDE, false, () -> {
+        stripIconKey("", "隐藏键盘", ToolbarIcon.Mark.HIDE, false, () -> {
             recordAction("收起键盘", "");
             requestHideSelf(0);
         });
@@ -462,7 +462,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private TextView stripIconKey(String label, String desc, ToolbarIcon.Mark mark, boolean selected, Runnable action) {
         TextView button = key(toolbar, label, desc, 1, selected, action);
         int preferredIconWidth = dp(compact ? 16 : 18);
-        int iconGap = dp(3);
+        int iconGap = label.isEmpty() ? 0 : dp(3);
         int sideGap = dp(3);
         int textWidth = (int)Math.ceil(button.getPaint().measureText(label));
         int natural = Math.max(dp(44), preferredIconWidth + iconGap + textWidth + dp(4));
@@ -483,7 +483,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         button.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
             int room = r - l - iconWidth - iconGap;
             if (room <= dp(2)) return;
-            fitTextWidth(button, label, room - dp(2), 0f);
+            if (!label.isEmpty()) fitTextWidth(button, label, room - dp(2), 0f);
             int textPixels = (int)Math.ceil(button.getPaint().measureText(label));
             int padding = Math.max(0, (room - textPixels) / 2);
             if (button.getPaddingLeft() != padding) button.setPadding(padding, 0, padding, 0);
