@@ -18,7 +18,14 @@ LOAN_FIELDS = ['id', 'ye', 'han', 'meaning', 'noteId', 'basis']
 
 
 def canonical_ipa(value):
-    return re.sub(r'[\s|｜◦]', '', unicodedata.normalize('NFC', value))
+    value = unicodedata.normalize('NFC', value)
+    def apical(match):
+        following = value[match.end():match.end() + 1]
+        if following and unicodedata.category(following).startswith(('L', 'M')):
+            return match.group(0)
+        return match.group(1) + ('ɿ' if match.group(1)[0] in 'szʦʣǳ' else 'ʅ')
+    value = re.sub(r'([szʦʣǳ](?:[͜͡]?ʰ)?|[ʂʐ]ʰ?)ɨ', apical, value)
+    return re.sub(r'[\s|｜◦]', '', value)
 
 
 def recorded_donor(row, mini, notes, excluded):

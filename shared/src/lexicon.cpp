@@ -1368,8 +1368,17 @@ struct Lexicon::Impl {
                 return entries[a].frequency != entries[b].frequency
                         ? entries[a].frequency > entries[b].frequency : a < b;
             });
+            // Preserve the frequency position of each sense, but use its reviewed
+            // loan spelling when an equivalent reading and definition has one.
+            std::unordered_map<size_t, size_t> reviewed;
+            if (typedHan) {
+                for (size_t id : choices)
+                    if (entries[id].plainHanLoan) reviewed.emplace(choiceId(id), id);
+            }
             for (size_t id : choices) {
                 const size_t key = choiceId(id);
+                const auto preferred = reviewed.find(key);
+                if (preferred != reviewed.end()) id = preferred->second;
                 if (withBoundary.count(key)) {
                     if (!prefix.validBoundary) continue;
                 } else if (!offered.insert(key).second) continue;

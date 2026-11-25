@@ -8,15 +8,15 @@ final class KeyboardSettings {
     private static final String TONE_MARKS = "spelling_tone_marks";
     private static final String IPA_DIALECTS = "ipa_completion_dialects";
 
-    private static final String TRIAL_RECORDING = "trial_recording";
+    private static final String CRASH_RECORDING = "crash_recording";
 
-    static boolean trialRecording(Context context) {
-        return context.getSharedPreferences(FILE, Context.MODE_PRIVATE).getBoolean(TRIAL_RECORDING, true);
+    static boolean crashRecording(Context context) {
+        return context.getSharedPreferences(FILE, Context.MODE_PRIVATE).getBoolean(CRASH_RECORDING, false);
     }
 
-    static void setTrialRecording(Context context, boolean enabled) {
+    static void setCrashRecording(Context context, boolean enabled) {
         context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
-                .putBoolean(TRIAL_RECORDING, enabled).apply();
+                .putBoolean(CRASH_RECORDING, enabled).apply();
     }
 
     private KeyboardSettings() { }

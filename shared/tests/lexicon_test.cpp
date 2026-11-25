@@ -638,6 +638,22 @@ void checkCompactPinyinGlosses() {
 }
 
 
+void checkReviewedLoanGrouping() {
+    const std::string rows =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "old\tsifhuix\tsihui\t石灰\t是灰\t\t\t100\ttujia\t石灰\tsihui\tsíhuī\t是|灰\t\t\n"
+        "other\tsifhuix\tsihui\t另一个意思\t是回\t\t\t50\ttujia\t另一个意思\tsihui\tsíhuī\t是|回\t\t\n"
+        "loan\tsifhuix\tsihui\t石灰\t石灰\t\t\t1\ttujia\t石灰\tsihui\tsíhuī\t石|灰\t\tplainHanLoan\n";
+    Lexicon model(rows);
+    for (const std::string q : {"sihui", "sifhuix", "síhuī"}) {
+        auto c = model.lookup(q, Mode::Han);
+        check(offers(c, "石灰", "石灰", editorLength(q)), "Reviewed loan survives grouping " + q);
+        check(!offers(c, "是灰", "石灰", editorLength(q)), "Old spelling does not shadow reviewed loan " + q);
+        check(offers(c, "是回", "另一个意思", editorLength(q)), "Different sense retained " + q);
+        check(!c.empty() && c.front().text == "石灰", "Sense keeps its frequency rank " + q);
+    }
+}
+
 void checkRegionalFuzzyInputs() {
     const std::string rows =
         "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
@@ -699,6 +715,7 @@ int main(int argc, char** argv) {
         check(senseFile.good(), "Cannot open independently reviewed syllable senses");
         std::ostringstream senses; senses << senseFile.rdbuf();
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
+        checkReviewedLoanGrouping();
         checkRegionalFuzzyInputs();
         checkCompactPinyinGlosses();
         checkDirectSyllableCommit();
