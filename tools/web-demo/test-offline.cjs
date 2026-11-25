@@ -9,7 +9,13 @@ vm.createContext(ctx);
 vm.runInContext(read(path.join(web,'engine-data.js'))+'\n'+read(path.join(root,'tools/web-demo/ui/core-runtime.js'))+'\nthis.core=openTujiaCore(tujiaCoreData)',ctx);
 const exact=(query,mode,style)=>ctx.core.lookup(query,mode,style).filter(c=>c.length===query.length).map(c=>c.form);
 assert(exact('haf',1,0).includes('下'));assert(exact('xiaf',1,0).includes('夏'));
-for(const input of ['guaijia','guairjiax','guaifjiax','guijia']){
+for(const onset of ['b','p','m','d','t','l','g','k','ng','h','z','c','s','r','w','y','zh','ch','sh']){
+  for(const mode of [0,1])for(const style of [0,1]){
+    assert.deepStrictEqual(Array.from(exact(onset+'o',mode,style)).sort(),Array.from(exact(onset+'uo',mode,style)).sort(),onset);
+  }
+}
+assert.deepStrictEqual(Array.from(exact('gojia',1,0)).sort(),Array.from(exact('guojia',1,0)).sort());
+for(const input of ['guaijia','guairjiax','guaifjiax','guijia','gojia','guojia','gorjia','guorjia']){
   const choices=exact(input,1,0);assert.equal(choices[0],'国家');assert(!choices.includes('怪家')&&!choices.includes('姑崴家'));
 }
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));

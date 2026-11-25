@@ -315,7 +315,19 @@ bool romanSeparator(char32_t c) { return space(c) || c == U'-' || c == U'\'' || 
 bool nasalA(char32_t c) { return c == U'a' || c == U'ā' || c == U'á' || c == U'ǎ' || c == U'à'; }
 
 constexpr char32_t optionalG = 0x110000; // an internal index edge, never a Unicode input character
-constexpr char32_t optionalU = 0x110001; // bo/buo and ko/kuo are alternate input spellings
+constexpr char32_t optionalU = 0x110001; // o/uo are alternate input spellings after an onset
+
+bool onsetLetter(char32_t c) {
+    return std::u32string_view(U"bcdfghjklmnpqrstvwxyz").find(c) != std::u32string_view::npos;
+}
+
+// Do not expose the glide in an adjacent uo spelling as a separate completed
+// u syllable. A space or apostrophe continues to mark an intentional split.
+bool insideUo(const Query& q, size_t start, size_t end) {
+    return end > start + 1 && end < q.scalars.size() && q.scalars[end - 1] == U'u' &&
+           onsetLetter(q.scalars[end - 2]) &&
+           std::u32string_view(U"oōóǒò").find(q.scalars[end]) != std::u32string_view::npos;
+}
 
 std::u32string plainSyllable(const std::u32string& ye) {
     return !ye.empty() && std::u32string_view(U"xfrv").find(ye.back()) != std::u32string_view::npos
@@ -338,10 +350,20 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
             ++matched;
             const size_t end = style == 0 && syllable.size() > plain.size() ? syllable.size() - 1 : syllable.size();
             const size_t coda = end && syllable[end - 1] == U'g' ? end - 1 : end;
-            if (alternateO && (plain == U"bo" || plain == U"ko") && syllable.size() >= 2) {
-                pattern.push_back(syllable[0]);
+            size_t onset = plain.size();
+            if (onset && plain.back() == U'o') {
+                --onset;
+                if (onset && plain[onset - 1] == U'u') --onset;
+            } else onset = 0;
+            const bool hasU = onset < syllable.size() && syllable[onset] == U'u';
+            const size_t vowel = onset + (hasU ? 1 : 0);
+            const bool simpleO = onset && vowel + 1 == end &&
+                    std::u32string_view(U"oōóǒò").find(syllable[vowel]) != std::u32string_view::npos &&
+                    std::all_of(plain.begin(), plain.begin() + onset, onsetLetter);
+            if (alternateO && simpleO) {
+                pattern.append(syllable, 0, onset);
                 pattern.push_back(optionalU);
-                pattern.append(syllable, 1, syllable.size() - 1);
+                pattern.append(syllable, onset + (hasU ? 1 : 0), syllable.size() - onset - (hasU ? 1 : 0));
             } else if (coda >= 2 && nasalA(syllable[coda - 2]) && syllable[coda - 1] == U'n') {
                 pattern.append(syllable, 0, coda);
                 pattern.push_back(optionalG);
@@ -367,19 +389,22 @@ std::u32string yeTonePattern(const Segments& parts) {
     std::u32string pattern;
     for (const auto& part : parts) {
         auto syllable = dictionaryScalars(part.first);
-        pattern += syllable;
+        auto alternate = nasalPattern(syllable, Segments{part});
+        pattern += alternate.empty() ? syllable : alternate;
         pattern.back() += optionalTone;
     }
     return pattern;
 }
 
+std::string nasalBucket(std::u32string_view form);
+
 std::string toneBucket(std::u32string_view form) {
-    std::string key;
+    std::u32string key;
     for (auto cp : form) {
         if (cp < optionalTone && std::u32string_view(U"xfrv").find(cp) == std::u32string_view::npos)
-            appendUtf8(key, cp);
+            key.push_back(cp);
     }
-    return key;
+    return nasalBucket(key);
 }
 
 bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool prefix) {
@@ -410,10 +435,10 @@ std::string nasalBucket(std::u32string_view form) {
     bool afterAn = false, previousA = false;
     for (size_t i = 0; i < form.size(); ++i) {
         char32_t cp = form[i];
-        const bool afterStop = i > 0 && (form[i - 1] == U'b' || form[i - 1] == U'k');
+        const bool afterOnset = i > 0 && onsetLetter(form[i - 1]);
         const bool beforeO = i + 1 == form.size() || std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos;
         if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') ||
-            (cp == U'u' && afterStop && beforeO)) continue;
+            (cp == U'u' && afterOnset && beforeO)) continue;
         appendUtf8(key, cp);
         afterAn = previousA && cp == U'n';
         previousA = nasalA(cp);
@@ -641,7 +666,7 @@ struct Lexicon::Impl {
             else for (auto cp : dictionaryScalars(entry.han)) entry.hanLength += cp >= 0x10000 ? 2 : 1;
             if (syllable || (entry.units.size() == 1 && !grammar)) addSyllable(entry.word, entry.diacritic);
             Segments parts = sourceSyllables(entry.word, entry.diacritic, entry.units.size());
-            if (parts.empty() && (syllable || (entry.units.size() == 1 || (!hasUnits && f[6].find(' ') == f[6].npos))))
+            if (parts.empty() && (phoneticOnly || syllable || (entry.units.size() == 1 || (!hasUnits && f[6].find(' ') == f[6].npos))))
                 parts.push_back({entry.word, entry.diacritic});
             if (syllable) {
                 // Only an exact reference reading licenses a default Han unit. An
@@ -1022,6 +1047,7 @@ struct Lexicon::Impl {
         std::string flat = reading;
         for (size_t at = 0; (at = flat.find("sh", at)) != flat.npos; ++at)
             flat.erase(at + 1, 1);
+        const std::string flatSegmented = flat;
         if (flat != reading) {
             flat.erase(std::remove(flat.begin(), flat.end(), '\''), flat.end());
             index(chineseKeys, flat, id, maxChinese);
@@ -1033,11 +1059,20 @@ struct Lexicon::Impl {
             compact.erase(std::remove(compact.begin(), compact.end(), '\''), compact.end());
             index(chineseKeys, compact, id, maxChinese);
         }
-        if (reading.find("an") == reading.npos && reading.find_first_not_of("abcdefghijklmnopqrstuvwxyz'") == reading.npos) return;
-        Segments parts;
-        for (const auto& syllable : split(reading, '\'')) parts.emplace_back(syllable, syllable);
-        nasalChinese.add(nasalPattern(dictionaryScalars(reading), parts, false), id, maxChinese, false);
-        if (splitReading) nasalChinese.add(nasalPattern(dictionaryScalars(compact), parts, false), id, maxChinese, false);
+        if (reading.find("an") == reading.npos && reading.find('o') == reading.npos &&
+            reading.find_first_not_of("abcdefghijklmnopqrstuvwxyz'") == reading.npos) return;
+        const auto addOptionalReading = [&](const std::string& value) {
+            Segments parts;
+            for (const auto& syllable : split(value, '\'')) parts.emplace_back(syllable, syllable);
+            nasalChinese.add(nasalPattern(dictionaryScalars(value), parts), id, maxChinese, false);
+            if (value.find('\'') != value.npos) {
+                std::string joined = value;
+                joined.erase(std::remove(joined.begin(), joined.end(), '\''), joined.end());
+                nasalChinese.add(nasalPattern(dictionaryScalars(joined), parts), id, maxChinese, false);
+            }
+        };
+        addOptionalReading(reading);
+        if (flatSegmented != reading) addOptionalReading(flatSegmented);
     }
 
     static void index(WordIndex& map, const std::string& key, size_t id, size_t& longest) {
@@ -1046,6 +1081,7 @@ struct Lexicon::Impl {
     }
 
     WordIds match(const Query& q, size_t start, size_t end, Mode mode, Orthography style = Orthography::Ye) const {
+        if (insideUo(q, start, end)) return {};
         const char32_t first = q.scalars[start];
         if (!hanCharacter(first)) {
             const auto form = q.slice(start, end);
@@ -1054,7 +1090,7 @@ struct Lexicon::Impl {
             bool marked = mode == Mode::Pinyin && style == Orthography::Diacritic;
             auto matches = bucket(marked ? markedWords : spellings, form);
             (marked ? markedNasalWords : nasalWords).find(std::u32string_view(q.scalars).substr(start, end-start), matches);
-            if (mode == Mode::Pinyin && !marked)
+            if (!marked)
                 yeTones.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
             if (mode == Mode::Han) {
                 matches.erase(std::remove_if(matches.begin(), matches.end(), [&](size_t id) { return entries[id].han.empty(); }), matches.end());
@@ -1215,7 +1251,8 @@ struct Lexicon::Impl {
             auto& choices = prefix.choices;
             lexicalLengths.insert(q.utf16At[q.skipSpaces(end)]);
             std::stable_sort(choices.begin(), choices.end(), [&](size_t a, size_t b) {
-                return entries[a].frequency > entries[b].frequency;
+                return entries[a].frequency != entries[b].frequency
+                        ? entries[a].frequency > entries[b].frequency : a < b;
             });
             for (size_t id : choices) {
                 const size_t key = choiceId(id);
@@ -1382,11 +1419,11 @@ struct Lexicon::Impl {
         bool marked = output == Mode::Pinyin && style == Orthography::Diacritic;
         WordIds possible = bucket(marked ? markedPrefixes : spellingPrefixes, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, possible, true);
-        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, possible, true);
+        if (!marked) yeTones.find(q.scalars, possible, true);
         if (possible.empty()) return {};
         auto exact = bucket(marked ? markedWords : spellings, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, exact);
-        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, exact);
+        if (!marked) yeTones.find(q.scalars, exact);
         possible.erase(std::remove_if(possible.begin(), possible.end(), [&](size_t id) {
             return (output == Mode::Han && entries[id].han.empty()) || std::find(exact.begin(), exact.end(), id) != exact.end();
         }), possible.end());
@@ -1419,11 +1456,13 @@ struct Lexicon::Impl {
         const bool written = hanCharacter(q.scalars[start]);
         if ((written && mode == Mode::Pinyin) || (!written && mode == Mode::Handwriting)) return;
         for (size_t end = std::min(start + maxSyllable, q.scalars.size()); end > start; --end) {
+            if (insideUo(q, start, end)) continue;
             const auto spelling = q.slice(start, end);
             bool marked = mode == Mode::Pinyin && orthography == Orthography::Diacritic;
             auto defaults = bucket(marked ? markedSyllables : syllables, spelling);
             (marked ? markedNasalSyllables : nasalSyllables).find(std::u32string_view(q.scalars).substr(start, end-start), defaults);
             if (defaults.empty()) continue;
+            std::sort(defaults.begin(), defaults.end());
             const int consumed = q.utf16At[q.skipSpaces(end)];
             const bool lexical = lexicalLengths.count(consumed);
             for (size_t id : defaults) {
@@ -1452,6 +1491,7 @@ struct Lexicon::Impl {
         // matches visible ahead of Mandarin, even if a Mandarin word consumes more.
         size_t maxLength = written ? std::max(maxWritten, size_t(1)) : maxChinese;
         for (size_t end = std::min(start + maxLength, q.scalars.size()); end > start; --end) {
+            if (insideUo(q, start, end)) continue;
             const auto form = q.slice(start, end);
             const int consumed = q.utf16At[q.skipSpaces(end)];
             if (written) {
@@ -1459,10 +1499,10 @@ struct Lexicon::Impl {
                     result.push_back({form, "", consumed, "", CandidateKind::Chinese});
             } else {
                 auto matches = bucket(chineseKeys, form);
-                const size_t exact = matches.size();
                 nasalChinese.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
-                if (matches.size() != exact) std::stable_sort(matches.begin(), matches.end(), [&](size_t a, size_t b) {
-                    return chineseWords[a].frequency > chineseWords[b].frequency;
+                std::stable_sort(matches.begin(), matches.end(), [&](size_t a, size_t b) {
+                    return chineseWords[a].frequency != chineseWords[b].frequency
+                            ? chineseWords[a].frequency > chineseWords[b].frequency : a < b;
                 });
                 for (size_t id : matches)
                     result.push_back({chineseWords[id].text, "", consumed, "", CandidateKind::Chinese});

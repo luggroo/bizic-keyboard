@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -89,6 +90,45 @@ void checkNasalReadings(const Lexicon& model) {
     check(tujia::matchesSpellingPrefix("buo", "boxlir", "bōlǐ") &&
           tujia::matchesSpellingPrefix("kuo", "kox", "kō") &&
           !tujia::matchesSpellingPrefix("buo", "bux", "bū"), "Optional u stays inside bo and ko syllables");
+    const auto complete = [&](const std::string& input, Mode mode, Orthography style) {
+        std::multiset<std::string> forms;
+        for (const Candidate& c : model.lookup(input, mode, style)) {
+            if (c.consumed == editorLength(input))
+                forms.insert(std::to_string(static_cast<int>(c.kind)) + "\t" + c.text + "\t" + c.meaning + "\t" + c.lexemeIds);
+        }
+        return forms;
+    };
+    const auto allChoices = [&](const std::string& input, Mode mode, Orthography style) {
+        std::vector<std::string> forms;
+        for (const Candidate& c : model.lookup(input, mode, style))
+            forms.push_back(std::to_string(static_cast<int>(c.kind)) + "\t" + c.text + "\t" + c.meaning + "\t" + c.lexemeIds);
+        return forms;
+    };
+    for (const std::string onset : {"b","p","m","f","d","t","n","l","g","k","ng","h","hx",
+                                    "j","q","x","z","c","s","r","w","y","zh","ch","sh"}) {
+        for (Mode mode : {Mode::Han, Mode::Pinyin}) for (Orthography style : {Orthography::Ye, Orthography::Diacritic}) {
+            const auto o = onset + "o", uo = onset + "uo";
+            check(complete(o, mode, style) == complete(uo, mode, style), "Equivalent o/uo candidates for " + onset);
+            check(allChoices(o, mode, style) == allChoices(uo, mode, style), "Equivalent full o/uo lists for " + onset);
+        }
+    }
+    check(complete("gojia", Mode::Han, Orthography::Ye) == complete("guojia", Mode::Han, Orthography::Ye) &&
+          mandarin("gojia", "国家") && mandarin("guojia", "国家"), "Both spellings find the same Chinese phrase");
+    check(complete("zhonggo", Mode::Han, Orthography::Ye) == complete("zhongguo", Mode::Han, Orthography::Ye) &&
+          mandarin("zhonggo", "中国"), "Alternate vowel in a later syllable");
+    check(tujia::matchesSpellingPrefix("guǒ", "gor", "gǒ") &&
+          !tujia::matchesSpellingPrefix("guǒ", "gox", "gō") &&
+          !tujia::matchesSpellingPrefix("guo", "gux", "gū") &&
+          !tujia::matchesSpellingPrefix("duao", "daox", "dāo") &&
+          tujia::matchesSpellingPrefix("guobang", "goxbanx", "gōbān") &&
+          tujia::matchesSpellingPrefix("guoxbang", "goxbanx", "gōbān") &&
+          !tujia::matchesSpellingPrefix("guofbang", "goxbanx", "gōbān"),
+          "Vowel spelling must preserve tone and syllable boundaries");
+    const auto joined = model.lookup("guo", Mode::Han);
+    const auto spaced = model.lookup("gu o", Mode::Han);
+    check(std::none_of(joined.begin(), joined.end(), [](const Candidate& c) { return c.consumed == 2; }) &&
+          std::any_of(spaced.begin(), spaced.end(), [](const Candidate& c) { return c.consumed == 3; }),
+          "The glide does not create a shorter candidate, but an explicit split remains possible");
     check(offers(model.lookup("cir", Mode::Han), "尺", "梳通", 3) &&
           offers(model.lookup("jix", Mode::Han), "挤", "打架", 3) &&
           offers(model.lookup("liv", Mode::Han), "理", "穿成串", 3), "Reviewed homophone spellings");

@@ -15,6 +15,25 @@ click('#take');click('#menuHan');
 input('guaijia');
 const country=Array.from(d.querySelectorAll('#candidates button strong')).map(e=>e.textContent);
 if(country[0]!=='国家'||country.filter(x=>x==='国家').length!==1||country.includes('怪家'))throw Error('incorrect 国家 candidate: '+country);
+// Number keys choose candidates on the current page, without entering a digit.
+const note=d.querySelector('#result');note.focus();note.click();
+for(const digit of ['1','2','3','4']){
+  note.value='';note.setSelectionRange(0,0);input('ga');
+  const expected=d.querySelectorAll('#candidates button strong')[Number(digit)-1].textContent;
+  const event=new w.KeyboardEvent('keydown',{key:digit,bubbles:true,cancelable:true});
+  d.querySelector('#draft').dispatchEvent(event);
+  if(!event.defaultPrevented || note.value!==expected)throw Error('number '+digit+' failed: '+note.value+' / '+expected);
+}
+note.value='';note.setSelectionRange(0,0);input('ga');click('#nextCandidates');
+const nextPageFirst=d.querySelector('#candidates button strong').textContent;
+d.querySelector('#draft').dispatchEvent(new w.KeyboardEvent('keydown',{key:'1',bubbles:true,cancelable:true}));
+if(note.value!==nextPageFirst)throw Error('number selection ignored current page');
+note.value='';note.setSelectionRange(0,0);input('');
+const plainDigit=new w.KeyboardEvent('keydown',{key:'1',bubbles:true,cancelable:true});note.dispatchEvent(plainDigit);
+if(plainDigit.defaultPrevented)throw Error('ordinary numeric text was intercepted');
+input('ga');
+const modifiedDigit=new w.KeyboardEvent('keydown',{key:'1',ctrlKey:true,bubbles:true,cancelable:true});d.querySelector('#draft').dispatchEvent(modifiedDigit);
+if(modifiedDigit.defaultPrevented)throw Error('modified keyboard shortcut was intercepted');
 for(const [s,want] of [['haf','下'],['xiaf','夏'],['kir','˻克移˼']]){input(s);const visible=d.querySelector('#candidates').textContent;if(!visible.includes(want))throw Error('missing '+s+' / '+want);}
 const arr=Array.from(d.querySelectorAll('#candidates button'));const card=arr.find(x=>x.querySelector('strong')?.textContent==='˻克移˼');if(!card)throw Error('missing paired candidate');card.click();
 console.log('note',d.querySelector('#result').textContent,'group',d.querySelector('.joined-han')?.textContent);

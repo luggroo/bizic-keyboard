@@ -41,7 +41,7 @@ public final class CandidateEngineTest {
         checkHandwrittenSuffixes(asset);
         try (CandidateEngine all = new CandidateEngine(new SequenceInputStream(new FileInputStream(asset.toFile()),
                      new FileInputStream(asset.resolveSibling("northern-words.tsv").toFile())))) {
-            for (String input : new String[]{"guaijia", "guairjiax", "guaifjiax", "guijia"}) {
+            for (String input : new String[]{"guaijia", "guairjiax", "guaifjiax", "guijia", "gojia", "guojia", "guorjia", "guorjiax"}) {
                 List<Candidate> found = all.lookup(input, Mode.HAN);
                 check(!found.isEmpty() && found.get(0).text.equals("国家") && found.get(0).plainHanLoan,
                         "Use the Chinese donor for " + input);
