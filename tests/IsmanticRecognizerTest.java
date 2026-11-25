@@ -15,7 +15,7 @@ public final class IsmanticRecognizerTest {
         if (result.indexOf(wanted) < 0 || result.indexOf(wanted) >= top)
             throw new AssertionError(wanted + " absent from top " + top);
     }
-    private static void expectTemplate(IsmanticRecognizer model, String wanted, String medians) throws Exception {
+    private static void expectTemplate(IsmanticRecognizer model, String wanted, String medians, int top) throws Exception {
         for (String line : Files.readAllLines(Paths.get(medians))) {
             if (!line.startsWith(wanted + "\t")) continue;
             String[] paths = line.substring(line.indexOf('\t') + 1).split(";");
@@ -27,7 +27,7 @@ public final class IsmanticRecognizerTest {
                     strokes[i][j] = Float.parseFloat(coordinates[j]) / 10;
                 }
             }
-            expect(model, wanted, 12, strokes);
+            expect(model, wanted, top, strokes);
             return;
         }
         throw new AssertionError("Missing template for " + wanted);
@@ -51,8 +51,9 @@ public final class IsmanticRecognizerTest {
                     p(32,38,34,41,33,64,35,76,44,83,63,85,83,79,89,75,90,62),
                     p(57,7,61,12,51,33,40,47), p(61,21,72,34,81,41,93,43),
                     p(50,43,54,47,53,59,49,67,43,72), p(65,40,68,44,68,77));
-            expectTemplate(model, "咔", args[2]);
-            expectTemplate(model, "诶", args[2]);
+            expectTemplate(model, "吖", args[2], 1);
+            expectTemplate(model, "咔", args[2], 12);
+            expectTemplate(model, "诶", args[2], 12);
             expect(model, "尅", 12, p(8,22,52,21),p(30,7,29,37),p(13,34,13,54),
                     p(13,34,49,34,49,54),p(13,54,49,54),p(23,55,19,71,5,88),
                     p(36,55,36,83,39,89,83,89,91,86,92,79),p(52,31,94,30),p(78,9,78,75,71,72),p(57,47,66,59));
