@@ -44,6 +44,13 @@ assert.deepStrictEqual(Array.from(exact('gojia',1,0)).sort(),Array.from(exact('g
 for(const input of ['guaijia','guairjiax','guaifjiax','guijia','gojia','guojia','gorjia','guorjia']){
   const choices=exact(input,1,0);assert.equal(choices[0],'国家');assert(!choices.includes('怪家')&&!choices.includes('姑崴家'));
 }
+for(const input of ['nendao','nengdao','lindao','lingdao']){
+  const choices=ctx.core.lookup(input,1,0).filter(c=>c.length===input.length);
+  assert.equal(choices[0].form,'领导',input);assert(!choices.some(c=>c.form==='凛刀'),input);
+}
+for(const [input,word] of [['bangzang','班长'],['xiaoxiao','学校'],['biefdix','别的'],['befcaix','白菜'],['minrzif','名字'],['lorkuanr','箩筐']]){
+  assert(exact(input,1,0).includes(word),input);
+}
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));
 assert(exact('bizika',0,1).includes('bízīkǎ'));assert(!exact('bifzixkar',0,1).includes('bízīkǎ'));
 assert(ctx.core.handwrittenWords('玻离',1,0).some(c=>c.form==='波俐' && c.length===2));
