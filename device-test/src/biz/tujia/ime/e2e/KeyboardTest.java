@@ -321,8 +321,10 @@ public final class KeyboardTest extends Instrumentation {
         captureFrame("handwriting-options.png");
         tapControl("国际音标");
         awaitKeyboardAtRest();
-        drawBo(waitForNode("汉字手写区", false));
-        tapForm("pɔ⁵⁵li²¹");
+        pad = waitForNode("汉字手写区", false);
+        drawBo(pad);
+        waitForNode("改字", false);
+        drawLi(pad);
         expectText(host.first, "pɔ⁵⁵li²¹");
         setHandwritingOutput(true);
         press("打字");
