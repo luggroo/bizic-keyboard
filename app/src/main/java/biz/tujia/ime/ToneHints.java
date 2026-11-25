@@ -23,10 +23,10 @@ final class ToneHints extends Drawable {
         float baseline = -(paint.ascent() + paint.descent()) / 2;
         float x = bounds.exactCenterX(), y = bounds.exactCenterY() + baseline;
         float dx = bounds.width() * .36f, dy = bounds.height() * .34f;
-        canvas.drawText("-", x, y - dy, paint);
-        canvas.drawText("/", x + dx, y, paint);
-        canvas.drawText("v", x, y + dy, paint);
-        canvas.drawText("\\", x - dx, y, paint);
+        canvas.drawText("ˉ", x, y - dy, paint);
+        canvas.drawText("ˊ", x + dx, y, paint);
+        canvas.drawText("ˇ", x, y + dy, paint);
+        canvas.drawText("ˋ", x - dx, y, paint);
     }
 
     @Override public void setAlpha(int alpha) { paint.setAlpha(alpha); invalidateSelf(); }

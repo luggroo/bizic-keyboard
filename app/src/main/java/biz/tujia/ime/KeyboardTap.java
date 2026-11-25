@@ -10,10 +10,25 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
     private final int slop;
     private int pointer = -1;
     private boolean held;
+    private Flick flick;
+    private float downX, downY;
+
+    interface Flick {
+        void move(float dx, float dy);
+        void finish(float dx, float dy);
+        void cancel();
+    }
 
     static void bind(View key, Runnable click) {
         key.setOnClickListener(v -> click.run());
         KeyboardTap gesture = new KeyboardTap(key);
+        key.setOnTouchListener(gesture);
+        key.addOnAttachStateChangeListener(gesture);
+    }
+
+    static void bindFlick(View key, Flick flick) {
+        KeyboardTap gesture = new KeyboardTap(key);
+        gesture.flick = flick;
         key.setOnTouchListener(gesture);
         key.addOnAttachStateChangeListener(gesture);
     }
@@ -29,13 +44,20 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
                 cancel();
                 if (!key.isEnabled()) return false;
                 pointer = event.getPointerId(0);
+                downX = event.getX();
+                downY = event.getY();
                 key.drawableHotspotChanged(event.getX(), event.getY());
                 key.setPressed(true);
                 if (key.isLongClickable()) key.postDelayed(this, ViewConfiguration.getLongPressTimeout());
                 return true;
             case MotionEvent.ACTION_MOVE:
                 int index = event.findPointerIndex(pointer);
-                if (index < 0 || !inside(event.getX(index), event.getY(index))) cancel();
+                if (index < 0) {
+                    if (held && flick != null) flick.cancel();
+                    cancel();
+                } else if (held && flick != null) {
+                    flick.move(event.getX(index) - downX, event.getY(index) - downY);
+                } else if (!inside(event.getX(index), event.getY(index))) cancel();
                 return true;
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_UP:
@@ -43,11 +65,13 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
                 if (event.getPointerId(up) == pointer) {
                     boolean click = !held && key.isShown() && key.isEnabled()
                             && inside(event.getX(up), event.getY(up));
+                    if (held && flick != null) flick.finish(event.getX(up) - downX, event.getY(up) - downY);
                     cancel();
                     if (click) key.performClick();
                 }
                 return true;
             case MotionEvent.ACTION_CANCEL:
+                if (held && flick != null) flick.cancel();
                 cancel();
                 return true;
             default:
@@ -71,5 +95,8 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
     }
 
     @Override public void onViewAttachedToWindow(View view) { }
-    @Override public void onViewDetachedFromWindow(View view) { cancel(); }
+    @Override public void onViewDetachedFromWindow(View view) {
+        if (held && flick != null) flick.cancel();
+        cancel();
+    }
 }
