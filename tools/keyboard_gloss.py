@@ -61,7 +61,7 @@ def update_row(row):
         row['meaning'] = row['shortGloss'] = '土家族'
     row['meaning'] = normalize_meaning(row['meaning'])
     row['shortGloss'] = short_gloss(row.get('shortGloss') or row['meaning'])
-    preferred = {'bifzixkar': '秘兹佧', 'mirjirkar': '泌基佧', 'mifjixkax': '泌基佧'}
+    preferred = {'bifzixkar': '秘兹佧', 'mirjirkar': '密及佧', 'mifjixkax': '密及佧'}
     if row['meaning'] == '土家族' and row['word'] in preferred and row.get('recommended'):
         old = row['recommended']
         han = preferred[row['word']]

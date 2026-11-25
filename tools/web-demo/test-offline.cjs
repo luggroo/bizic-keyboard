@@ -9,9 +9,15 @@ vm.createContext(ctx);
 vm.runInContext(read(path.join(web,'engine-data.js'))+'\n'+read(path.join(root,'tools/web-demo/ui/core-runtime.js'))+'\nthis.core=openTujiaCore(tujiaCoreData)',ctx);
 const exact=(query,mode,style)=>ctx.core.lookup(query,mode,style).filter(c=>c.length===query.length).map(c=>c.form);
 for(const [query, expected] of [
-  ['bizika',['秘兹佧','币子佧']], ['bijika',['秘基佧','币基佧']], ['mijika',['泌基佧','秘基佧']]]) {
+  ['bizika',['秘兹佧','币子佧']], ['bijika',['秘基佧','币基佧']], ['mijika',['密及佧','秘基佧']]]) {
   const forms=Array.from(exact(query,1,0)).filter(x=>expected.includes(x));
   assert.deepStrictEqual(forms,expected,query);
+}
+const sameReading=ctx.core.lookup('ngaf',0,0).filter(c=>c.length===4&&c.form==='ngaf');
+assert.equal(sameReading.length,1);assert(sameReading[0].meaning.includes('我')&&sameReading[0].meaning.includes('压'));
+for(const [query,readings] of [['bizika',['bifzixkar']],['bijika',['bifjixkar']],['mijika',['mirjirkar','mifjixkax']]]) {
+  const forms=Array.from(exact(query,0,0));
+  for(const reading of readings) assert.equal(forms.filter(x=>x===reading).length,1,query);
 }
 assert(exact('haf',1,0).includes('下'));assert(exact('xiaf',1,0).includes('夏'));
 for(const onset of ['b','p','m','d','t','l','g','k','ng','h','z','c','s','r','w','y','zh','ch','sh']){

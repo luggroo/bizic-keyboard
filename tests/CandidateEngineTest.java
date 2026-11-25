@@ -17,9 +17,13 @@ public final class CandidateEngineTest {
         if (!pass) throw new AssertionError(message);
     }
 
+    private static boolean hasGloss(String combined, String value, String separator) {
+        return combined.equals(value) || (separator + combined + separator).contains(separator + value + separator);
+    }
+
     private static boolean offers(List<Candidate> choices, String value, String meaning, int consumed) {
         for (Candidate choice : choices) {
-            if (choice.text.equals(value) && choice.meaning.equals(meaning) && choice.consumed == consumed) return true;
+            if (choice.text.equals(value) && hasGloss(choice.meaning, meaning, "；") && choice.consumed == consumed) return true;
         }
         return false;
     }
@@ -118,8 +122,8 @@ public final class CandidateEngineTest {
             String compact = f.length >= 10 && !f[9].isEmpty() ? f[9] : meaning;
             boolean hasGloss = false;
             for (Candidate candidate : nativeWords) {
-                if (candidate.text.equals(spelled) && candidate.meaning.equals(meaning) &&
-                    candidate.shortMeaning.equals(compact) && candidate.kind == CandidateEngine.Kind.TUJIA &&
+                if (candidate.text.equals(spelled) && hasGloss(candidate.meaning, meaning, "；") &&
+                    hasGloss(candidate.shortMeaning, compact, "、") && candidate.kind == CandidateEngine.Kind.TUJIA &&
                     candidate.consumed == spelled.length()) hasGloss = true;
             }
             check(hasGloss, id + ": spelling, kind and glosses");

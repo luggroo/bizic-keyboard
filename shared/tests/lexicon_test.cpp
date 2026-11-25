@@ -41,7 +41,7 @@ int editorLength(const std::string& text) {
 bool offers(const std::vector<Candidate>& choices, const std::string& text,
             const std::string& meaning, int consumed) {
     return std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
-        return c.text == text && c.meaning == meaning && c.consumed == consumed;
+        return c.text == text && (c.meaning == meaning || ("；" + c.meaning + "；").find("；" + meaning + "；") != std::string::npos) && c.consumed == consumed;
     });
 }
 

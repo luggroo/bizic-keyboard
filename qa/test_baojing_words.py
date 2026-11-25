@@ -39,10 +39,27 @@ class BaojingWords(unittest.TestCase):
     def test_ethnonym_variants(self):
         for query, expected in [('bizika', ['秘兹佧', '币子佧']),
                                 ('bijika', ['秘基佧', '币基佧']),
-                                ('mijika', ['泌基佧', '秘基佧']),
-                                ('mirjirkar', ['泌基佧', '秘基佧']),
-                                ('mifjixkax', ['泌基佧', '秘基佧'])]:
+                                ('mijika', ['密及佧', '秘基佧']),
+                                ('mirjirkar', ['密及佧', '秘基佧']),
+                                ('mifjixkax', ['密及佧', '秘基佧'])]:
             self.assertEqual([c.text for c in self.full(query) if c.gloss == '土家族'], expected, query)
+
+    def test_pinyin_deduplicates_readings_without_losing_senses(self):
+        for query, style, readings in [
+            ('bizika', 0, ['bifzixkar']), ('bijika', 0, ['bifjixkar']),
+            ('mijika', 0, ['mirjirkar', 'mifjixkax']),
+            ('bizika', 1, ['bízīkǎ']), ('bijika', 1, ['bíjīkǎ']),
+            ('mijika', 1, ['mǐjǐkǎ', 'míjīkā'])]:
+            choices = [c for c in self.model.choices(query, 0, style)
+                       if c.consumed == utf16(query) and c.text in readings]
+            for reading in readings:
+                self.assertEqual(sum(c.text == reading for c in choices), 1, (query, reading))
+        same = [c for c in self.model.choices('ngaf', 0, 0)
+                if c.consumed == 4 and c.text == 'ngaf']
+        self.assertEqual(len(same), 1)
+        self.assertIn('我', same[0].gloss)
+        self.assertIn('压', same[0].gloss)
+        self.assertEqual(same[0].ids, '')
 
     def test_reviewed_near_synonyms(self):
         import sys
