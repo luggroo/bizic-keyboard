@@ -23,8 +23,8 @@ import android.widget.LinearLayout;
 /** The three forms of dictionary entry xu213-1-3, available before the keyboard loads its dictionary. */
 enum OutputForm {
     YE("叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE),
-    MARKED("带调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC),
-    HAN("汉字谐音", "币子咔", null);
+    MARKED("调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC),
+    HAN("谐音字", "币子咔", null);
 
     final String name, example;
     final CandidateEngine.Orthography spelling;
@@ -42,7 +42,7 @@ enum OutputForm {
     void addButton(LinearLayout row, boolean selected, boolean compact, Runnable choose) {
         Context context = row.getContext();
         float density = context.getResources().getDisplayMetrics().density;
-        String action = "用" + name;
+        String action = name;
         SpannableString caption = new SpannableString(example + "\n" + action);
         caption.setSpan(new ForegroundColorSpan(0xff625e5b), 0, example.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         caption.setSpan(new RelativeSizeSpan(.86f), 0, example.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

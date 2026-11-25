@@ -86,6 +86,9 @@ for block_no, block in enumerate(source["blocks"], 1):
                     if syllable == "gaf": units[i] = eat["hanUnits"][0]
             if meaning.startswith("小孩") and ye == "bovlir":
                 units = ["波", "俐"]
+        for i, part in enumerate(parts):
+            if part in ('max', 'maf', 'mar', 'mav'):
+                units[i] = orthography.rows['ma']['t' + str('xfrv'.index(part[-1]) + 1)]
         assert len(parts) == len(units) and all(1 <= len(unit) <= 2 for unit in units), (lookup, units, parts)
         han = "".join(units)
         prior = previous.get(lookup, {})

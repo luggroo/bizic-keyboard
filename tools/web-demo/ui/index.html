@@ -122,9 +122,7 @@ h1 span {display:block;color:var(--red)}
 #han {grid-column:1/-1;justify-content:space-around}
 #han::before {content:"例字";font-size:0.8125rem;color:#635144;padding-inline:3px}
 #han button {flex:1;height:100%;text-align:center;font-size:1.25rem}
-.voice {margin:auto;text-align:center}
-.voice h2 {font:600 1.625rem var(--serif)}
-.voice button,#formLookup>button {min-height:44px;color:var(--red);text-decoration:underline;text-underline-offset:.2em}
+#formLookup>button {min-height:44px;color:var(--red);text-decoration:underline;text-underline-offset:.2em}
 .joined-han {display:inline-block;vertical-align:baseline;width:1.68em;white-space:nowrap;border-bottom:.065em solid currentColor;line-height:1.05}
 .joined-han>span {display:inline-block;transform:scaleX(.84);transform-origin:left center}
 .practice {display:flex;flex-wrap:wrap;gap:22px;margin-top:6px}
@@ -320,15 +318,15 @@ dialog .outputMenu {margin:8px 0 14px}
       <div id="inputDock"><div class="paper"><span id="notebook-title">山歌两首</span><div id="result" role="textbox" contenteditable="true" aria-multiline="true" tabindex="0" aria-label="记事本正文" aria-describedby="notebook-title" data-placeholder="点这里写山歌…"></div><div class="editorFoot"><small id="count">0 字符</small></div></div><div class="kb" id="keyboardPanel" hidden><div class="kbhead">
           <div class="inputModes" role="group" aria-label="输入方式"><button id="typeMode" type="button">打字</button><button id="handMode" type="button">手写</button></div>
           <div class="liveDraft" id="draftBar"><input id="draft" aria-label="输入草稿" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="none" dir="auto"></div>
-          <button id="kbMore" type="button" aria-controls="kbMorePanel" aria-expanded="false">更多</button>
+          <button id="kbMore" type="button" aria-controls="kbMorePanel" aria-expanded="false">设置</button>
           <button id="hideKeyboard" type="button" aria-label="收起土家语键盘"><span class="buttonLabel">收起</span></button>
         </div>
-        <div id="kbMorePanel" role="group" aria-label="更多输入选项" hidden>
+        <div id="kbMorePanel" role="group" aria-label="键盘设置" hidden>
           <div class="outputMenu" id="menuOutputs" role="group" aria-label="输出形式"></div>
-          <div class="otherMenu"><button id="menuVoice" type="button">语音输入</button><button id="kbSettings" type="button" aria-haspopup="dialog">键盘设置</button></div>
+          <div class="otherMenu"><button id="menuBackToTyping" type="button">返回打字</button><button id="kbSettings" type="button" aria-haspopup="dialog">更多设置</button></div>
           <button id="raw" type="button" hidden>用原拼写</button>
         </div>
-        <div id="typing"><div class="candidateBar"><button id="previousCandidates" aria-label="上一页候选">‹</button><div class="candidates" id="candidates" aria-live="polite"></div><button id="nextCandidates" aria-label="下一页候选">›</button></div><div id="keys"><div id="toneKeys" role="group" aria-label="选择元音调号" hidden></div></div><div id="hand" hidden><div class="pad"><canvas id="canvas" aria-label="手写区域"></canvas></div><div class="tools"><button id="moreForms">关联词</button><button id="undo">撤一笔</button><button id="reset">重写</button></div><div id="han" class="candidates" role="group" aria-label="选择手写示例字"></div></div></div><div id="voice" class="voice" hidden><h2>语音输入待上线</h2><p class="sub">可以先用拼音或汉字记音。</p><button id="back">返回打字</button></div></div></div>
+        <div id="typing"><div class="candidateBar"><button id="previousCandidates" aria-label="上一页候选">‹</button><div class="candidates" id="candidates" aria-live="polite"></div><button id="nextCandidates" aria-label="下一页候选">›</button></div><div id="keys"><div id="toneKeys" role="group" aria-label="选择元音调号" hidden></div></div><div id="hand" hidden><div class="pad"><canvas id="canvas" aria-label="手写区域"></canvas></div><div class="tools"><button id="moreForms">关联词</button><button id="undo">撤一笔</button><button id="reset">重写</button></div><div id="han" class="candidates" role="group" aria-label="选择手写示例字"></div></div></div></div></div>
       <div id="formLookup" hidden></div>
       <div class="practice" role="group" aria-label="试选候选词"><button id="showScene">试输整句</button><button id="tryPrefix">试选前三字</button><button id="tryNext">试点下个音节</button></div>
     </section>

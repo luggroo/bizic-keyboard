@@ -144,6 +144,45 @@ void appendUtf8(std::string& out, char32_t c) {
     }
 }
 
+
+// A pinyin card has room for at most six Unicode characters. Keep complete
+// labels only, deduplicate them, and retain the full definition separately.
+std::string compactPinyinGloss(const std::string& text) {
+    constexpr size_t limit = 6;
+    std::vector<std::u32string> parts;
+    std::u32string part;
+    int depth = 0;
+    const auto flush = [&]() {
+        while (!part.empty() && space(part.front())) part.erase(part.begin());
+        while (!part.empty() && space(part.back())) part.pop_back();
+        if (!part.empty() && std::find(parts.begin(), parts.end(), part) == parts.end())
+            parts.push_back(part);
+        part.clear();
+    };
+    for (char32_t cp : dictionaryScalars(text)) {
+        if (cp == U'（' || cp == U'(') ++depth;
+        if ((cp == U'）' || cp == U')') && depth) --depth;
+        if (!depth && (cp == U'；' || cp == U';' || cp == U'·')) flush();
+        else part.push_back(cp);
+    }
+    flush();
+    std::string result;
+    size_t used = 0;
+    for (const auto& value : parts) {
+        const size_t extra = value.size() + (result.empty() ? 0 : 1);
+        if (used + extra > limit) continue;
+        if (!result.empty()) appendUtf8(result, U'；');
+        for (char32_t cp : value) appendUtf8(result, cp);
+        used += extra;
+    }
+    return result;
+}
+
+void compactPinyinCandidates(std::vector<Candidate>& candidates, Mode mode) {
+    if (mode == Mode::Pinyin)
+        for (auto& c : candidates) c.shortMeaning = compactPinyinGloss(c.shortMeaning);
+}
+
 struct Query {
     std::string folded;
     std::u32string scalars;
@@ -312,10 +351,28 @@ using Segments = std::vector<std::pair<std::string, std::string>>;
 
 bool romanSeparator(char32_t c) { return space(c) || c == U'-' || c == U'\'' || c == 0x2019; }
 
-bool nasalA(char32_t c) { return c == U'a' || c == U'ā' || c == U'á' || c == U'ǎ' || c == U'à'; }
+bool nasalA(char32_t c) { return std::u32string_view(U"aāáǎàeēéěèiīíǐìoōóǒòuūúǔùüǖǘǚǜ").find(c) != std::u32string_view::npos; }
 
 constexpr char32_t optionalG = 0x110000; // an internal index edge, never a Unicode input character
-constexpr char32_t optionalU = 0x110001; // bo/buo and ko/kuo are alternate input spellings
+constexpr char32_t optionalU = 0x110001; // o/uo are alternate input spellings after an onset
+
+constexpr char32_t onsetFHu = 0x110002; // f / hu before a non-u vowel
+constexpr char32_t onsetFHuU = 0x110003; // f / h before an existing u
+constexpr char32_t onsetFHo = 0x110004; // f / h with the existing o/uo alternation
+constexpr char32_t onsetLN = 0x110005; // l-in/l-en share n-en, but never n-in
+constexpr char32_t dentalNasal = 0x110010; // e/i before n after d,t,l; tone retained
+
+bool onsetLetter(char32_t c) {
+    return std::u32string_view(U"bcdfghjklmnpqrstvwxyz").find(c) != std::u32string_view::npos;
+}
+
+// Do not expose the glide in an adjacent uo spelling as a separate completed
+// u syllable. A space or apostrophe continues to mark an intentional split.
+bool insideUo(const Query& q, size_t start, size_t end) {
+    return end > start + 1 && end < q.scalars.size() && q.scalars[end - 1] == U'u' &&
+           onsetLetter(q.scalars[end - 2]) &&
+           std::u32string_view(U"oōóǒò").find(q.scalars[end]) != std::u32string_view::npos;
+}
 
 std::u32string plainSyllable(const std::u32string& ye) {
     return !ye.empty() && std::u32string_view(U"xfrv").find(ye.back()) != std::u32string_view::npos
@@ -338,18 +395,48 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
             ++matched;
             const size_t end = style == 0 && syllable.size() > plain.size() ? syllable.size() - 1 : syllable.size();
             const size_t coda = end && syllable[end - 1] == U'g' ? end - 1 : end;
-            if (alternateO && (plain == U"bo" || plain == U"ko") && syllable.size() >= 2) {
-                pattern.push_back(syllable[0]);
-                pattern.push_back(optionalU);
-                pattern.append(syllable, 1, syllable.size() - 1);
+            size_t onset = plain.size();
+            if (onset && plain.back() == U'o') {
+                --onset;
+                if (onset && plain[onset - 1] == U'u') --onset;
+            } else onset = 0;
+            const bool hasU = onset < syllable.size() && syllable[onset] == U'u';
+            const size_t vowel = onset + (hasU ? 1 : 0);
+            const bool simpleO = onset && vowel + 1 == end &&
+                    std::u32string_view(U"oōóǒò").find(syllable[vowel]) != std::u32string_view::npos &&
+                    std::all_of(plain.begin(), plain.begin() + onset, onsetLetter);
+            std::u32string piece;
+            if (alternateO && simpleO) {
+                piece.append(syllable, 0, onset);
+                piece.push_back(optionalU);
+                piece.append(syllable, onset + (hasU ? 1 : 0), syllable.size() - onset - (hasU ? 1 : 0));
             } else if (coda >= 2 && nasalA(syllable[coda - 2]) && syllable[coda - 1] == U'n') {
-                pattern.append(syllable, 0, coda);
-                pattern.push_back(optionalG);
-                pattern.append(syllable, end, syllable.size() - end);
-            } else pattern += syllable;
+                piece.append(syllable, 0, coda);
+                piece.push_back(optionalG);
+                piece.append(syllable, end, syllable.size() - end);
+            } else piece = syllable;
+            if (coda == 3 && syllable[2] == U'n' && (syllable[0] == U'd' || syllable[0] == U't' || syllable[0] == U'l' ||
+                (syllable[0] == U'n' && std::u32string_view(U"eēéěè").find(syllable[1]) != std::u32string_view::npos))) {
+                constexpr std::u32string_view vowels = U"eiēīéíěǐèì";
+                const auto v = vowels.find(syllable[1]);
+                if (v != vowels.npos) { piece[1] = dentalNasal + v / 2; if (syllable[0] == U'l' || syllable[0] == U'n') piece[0] = onsetLN; }
+            }
+            if (!syllable.empty() && syllable[0] == U'f' && syllable.size() > 1 && nasalA(syllable[1])) {
+                piece[0] = (std::u32string_view(U"uūúǔù").find(syllable[1]) != std::u32string_view::npos) ? onsetFHuU : onsetFHu;
+            } else if (syllable.size() > 1 && syllable[0] == U'h' &&
+                       std::u32string_view(U"uūúǔù").find(syllable[1]) != std::u32string_view::npos) {
+                const bool glide = syllable[1] == U'u' && syllable.size() > 2 && nasalA(syllable[2]);
+                piece[0] = glide ? onsetFHu : onsetFHuU;
+                if (glide) {
+                    if (piece.size() > 1 && piece[1] == optionalU) { /* o/uo shares this glide */ }
+                    else if (piece.size() > 1 && piece[1] == U'u') piece.erase(1, 1);
+                }
+            }
+            if (alternateO && simpleO && onset == 1 && (syllable[0] == U'f' || syllable[0] == U'h')) piece[0] = onsetFHo;
+            pattern += piece;
         }
         if (matched == segments.size() && at == form.size() &&
-            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos)) return pattern;
+            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos || pattern.find(onsetFHu) != pattern.npos || pattern.find(onsetFHuU) != pattern.npos || pattern.find(onsetFHo) != pattern.npos || pattern.find(onsetLN) != pattern.npos || std::any_of(pattern.begin(), pattern.end(), [](char32_t c){ return c >= dentalNasal && c < dentalNasal + 5; }))) return pattern;
     }
     return {};
 }
@@ -367,40 +454,60 @@ std::u32string yeTonePattern(const Segments& parts) {
     std::u32string pattern;
     for (const auto& part : parts) {
         auto syllable = dictionaryScalars(part.first);
-        pattern += syllable;
+        auto alternate = nasalPattern(syllable, Segments{part});
+        pattern += alternate.empty() ? syllable : alternate;
         pattern.back() += optionalTone;
     }
     return pattern;
 }
 
+std::string nasalBucket(std::u32string_view form);
+
 std::string toneBucket(std::u32string_view form) {
-    std::string key;
+    std::u32string key;
     for (auto cp : form) {
         if (cp < optionalTone && std::u32string_view(U"xfrv").find(cp) == std::u32string_view::npos)
-            appendUtf8(key, cp);
+            key.push_back(cp);
     }
-    return key;
+    return nasalBucket(key);
 }
 
 bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool prefix) {
-    std::vector<size_t> positions{0}, next;
-    for (size_t i = 0;; ++i) {
-        for (size_t p = 0; p < positions.size(); ++p) {
-            size_t pos = positions[p];
-            if (pos < pattern.size() && optionalLetter(pattern[pos]) &&
-                std::find(positions.begin(), positions.end(), pos + 1) == positions.end())
-                positions.push_back(pos + 1);
+    const size_t width = input.size() + 1;
+    std::vector<int8_t> memo((pattern.size() + 1) * width, -1);
+    const auto match = [&](auto&& self, size_t p, size_t i) -> bool {
+        auto& cached = memo[p * width + i];
+        if (cached != -1) return cached;
+        if (i == input.size() && prefix) return cached = 1;
+        if (p == pattern.size()) return cached = (i == input.size());
+        const char32_t edge = pattern[p], optional = optionalLetter(edge);
+        if (optional && self(self, p + 1, i)) return cached = 1;
+        if (edge == onsetFHu || edge == onsetFHuU || edge == onsetFHo) {
+            if (i < input.size() && input[i] == U'f' && self(self, p + 1, i + 1)) return cached = 1;
+            if (i < input.size() && input[i] == U'h') {
+                if ((edge == onsetFHuU || edge == onsetFHo) && self(self, p + 1, i + 1)) return cached = 1;
+                if (edge == onsetFHu && i + 1 < input.size() && input[i + 1] == U'u' && self(self, p + 1, i + 2)) return cached = 1;
+                if (edge == onsetFHu && prefix && i + 1 == input.size()) return cached = 1;
+            }
+            return cached = 0;
         }
-        if (i == input.size()) return !positions.empty() &&
-                (prefix || std::find(positions.begin(), positions.end(), pattern.size()) != positions.end());
-        next.clear();
-        for (size_t pos : positions) {
-            if (pos < pattern.size() && (pattern[pos] == input[i] || (optionalLetter(pattern[pos]) && optionalLetter(pattern[pos]) == input[i])))
-                next.push_back(pos + 1);
+        if (edge == onsetLN) {
+            if (i >= input.size()) return cached = 0;
+            if (input[i] == U'l') return cached = self(self, p + 1, i + 1);
+            if (input[i] == U'n') {
+                if (i + 1 < input.size() && std::u32string_view(U"iīíǐì").find(input[i + 1]) != std::u32string_view::npos) return cached = 0;
+                return cached = self(self, p + 1, i + 1);
+            }
+            return cached = 0;
         }
-        if (next.empty()) return false;
-        positions.swap(next);
-    }
+        if (edge >= dentalNasal && edge < dentalNasal + 5) {
+            constexpr std::u32string_view e = U"eēéěè", v = U"iīíǐì";
+            const auto n = edge - dentalNasal;
+            return cached = (i < input.size() && (input[i] == e[n] || input[i] == v[n]) && self(self, p + 1, i + 1));
+        }
+        return cached = (i < input.size() && (edge == input[i] || optional == input[i]) && self(self, p + 1, i + 1));
+    };
+    return match(match, 0, 0);
 }
 
 // A coarse hash only locates possible patterns. The optional-edge matcher
@@ -408,12 +515,24 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
 std::string nasalBucket(std::u32string_view form) {
     std::string key;
     bool afterAn = false, previousA = false;
+    constexpr std::u32string_view ev = U"eēéěè", iv = U"iīíǐì";
     for (size_t i = 0; i < form.size(); ++i) {
         char32_t cp = form[i];
-        const bool afterStop = i > 0 && (form[i - 1] == U'b' || form[i - 1] == U'k');
+        const bool afterOnset = i > 0 && (onsetLetter(form[i - 1]) || form[i - 1] == onsetFHu || form[i - 1] == onsetFHuU || form[i - 1] == onsetFHo);
         const bool beforeO = i + 1 == form.size() || std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos;
-        if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') ||
-            (cp == U'u' && afterStop && beforeO)) continue;
+        if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') || (cp == U'u' && afterOnset && beforeO)) continue;
+        if (cp == onsetFHu || cp == onsetFHuU || cp == onsetFHo) cp = U'f';
+        else if (cp == onsetLN) cp = U'l';
+        else if (cp == U'n' && i + 2 < form.size() && std::u32string_view(U"eēéěè").find(form[i + 1]) != std::u32string_view::npos && form[i + 2] == U'n') cp = U'l';
+        else if (cp >= dentalNasal && cp < dentalNasal + 5) cp = ev[cp - dentalNasal];
+        else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos) cp = U'f';
+        else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"uūúǔù").find(form[i + 1]) != std::u32string_view::npos) {
+            cp = U'f';
+            if (form[i + 1] == U'u' && i + 2 < form.size() && nasalA(form[i + 2])) ++i;
+        } else if (i > 0 && (form[i - 1] == U'd' || form[i - 1] == U't' || form[i - 1] == U'l') &&
+                   i + 1 < form.size() && form[i + 1] == U'n') {
+            auto n = iv.find(cp); if (n != iv.npos) cp = ev[n];
+        }
         appendUtf8(key, cp);
         afterAn = previousA && cp == U'n';
         previousA = nasalA(cp);
@@ -435,7 +554,7 @@ struct OptionalIndex {
         auto& existing = exact[bucketKey(pattern)];
         for (size_t index : existing) if (forms[index].id == id && forms[index].pattern == pattern) return;
         existing.push_back(key);
-        longest = std::max(longest, pattern.size());
+        longest = std::max(longest, pattern.size() + static_cast<size_t>(std::count(pattern.begin(), pattern.end(), onsetFHu)));
         if (complete) for (size_t end = 1; end < pattern.size(); ++end)
             addUnique(prefixes[bucketKey(std::u32string_view(pattern).substr(0, end))], key);
         forms.push_back({std::move(pattern), id});
@@ -641,7 +760,7 @@ struct Lexicon::Impl {
             else for (auto cp : dictionaryScalars(entry.han)) entry.hanLength += cp >= 0x10000 ? 2 : 1;
             if (syllable || (entry.units.size() == 1 && !grammar)) addSyllable(entry.word, entry.diacritic);
             Segments parts = sourceSyllables(entry.word, entry.diacritic, entry.units.size());
-            if (parts.empty() && (syllable || (entry.units.size() == 1 || (!hasUnits && f[6].find(' ') == f[6].npos))))
+            if (parts.empty() && (phoneticOnly || syllable || (entry.units.size() == 1 || (!hasUnits && f[6].find(' ') == f[6].npos))))
                 parts.push_back({entry.word, entry.diacritic});
             if (syllable) {
                 // Only an exact reference reading licenses a default Han unit. An
@@ -671,7 +790,9 @@ struct Lexicon::Impl {
                     throw std::invalid_argument("Invalid dictionary spelling: " + entry.id);
                 // Use the complete reading and definition. Unrelated homophones and
                 // longer completions can have identical one-character display glosses.
-                const auto group = hanSenseGroups.emplace(fullWord.folded + '\t' + entry.meaning, id);
+                const auto groupKey = fullWord.folded + '\t' + entry.meaning +
+                    (entry.id.rfind("ethnonym-alt-", 0) == 0 ? "\t" + entry.han : "");
+                const auto group = hanSenseGroups.emplace(groupKey, id);
                 entry.hanSenseGroup = group.first->second;
             }
             if (hasRomanAliases && !f[13].empty()) {
@@ -938,6 +1059,7 @@ struct Lexicon::Impl {
             }
             out.push_back(std::move(c));
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 
@@ -1022,6 +1144,7 @@ struct Lexicon::Impl {
         std::string flat = reading;
         for (size_t at = 0; (at = flat.find("sh", at)) != flat.npos; ++at)
             flat.erase(at + 1, 1);
+        const std::string flatSegmented = flat;
         if (flat != reading) {
             flat.erase(std::remove(flat.begin(), flat.end(), '\''), flat.end());
             index(chineseKeys, flat, id, maxChinese);
@@ -1033,11 +1156,18 @@ struct Lexicon::Impl {
             compact.erase(std::remove(compact.begin(), compact.end(), '\''), compact.end());
             index(chineseKeys, compact, id, maxChinese);
         }
-        if (reading.find("an") == reading.npos && reading.find_first_not_of("abcdefghijklmnopqrstuvwxyz'") == reading.npos) return;
-        Segments parts;
-        for (const auto& syllable : split(reading, '\'')) parts.emplace_back(syllable, syllable);
-        nasalChinese.add(nasalPattern(dictionaryScalars(reading), parts, false), id, maxChinese, false);
-        if (splitReading) nasalChinese.add(nasalPattern(dictionaryScalars(compact), parts, false), id, maxChinese, false);
+        const auto addOptionalReading = [&](const std::string& value) {
+            Segments parts;
+            for (const auto& syllable : split(value, '\'')) parts.emplace_back(syllable, syllable);
+            nasalChinese.add(nasalPattern(dictionaryScalars(value), parts), id, maxChinese, false);
+            if (value.find('\'') != value.npos) {
+                std::string joined = value;
+                joined.erase(std::remove(joined.begin(), joined.end(), '\''), joined.end());
+                nasalChinese.add(nasalPattern(dictionaryScalars(joined), parts), id, maxChinese, false);
+            }
+        };
+        addOptionalReading(reading);
+        if (flatSegmented != reading) addOptionalReading(flatSegmented);
     }
 
     static void index(WordIndex& map, const std::string& key, size_t id, size_t& longest) {
@@ -1046,6 +1176,7 @@ struct Lexicon::Impl {
     }
 
     WordIds match(const Query& q, size_t start, size_t end, Mode mode, Orthography style = Orthography::Ye) const {
+        if (insideUo(q, start, end)) return {};
         const char32_t first = q.scalars[start];
         if (!hanCharacter(first)) {
             const auto form = q.slice(start, end);
@@ -1054,7 +1185,7 @@ struct Lexicon::Impl {
             bool marked = mode == Mode::Pinyin && style == Orthography::Diacritic;
             auto matches = bucket(marked ? markedWords : spellings, form);
             (marked ? markedNasalWords : nasalWords).find(std::u32string_view(q.scalars).substr(start, end-start), matches);
-            if (mode == Mode::Pinyin && !marked)
+            if (!marked)
                 yeTones.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
             if (mode == Mode::Han) {
                 matches.erase(std::remove_if(matches.begin(), matches.end(), [&](size_t id) { return entries[id].han.empty(); }), matches.end());
@@ -1175,6 +1306,20 @@ struct Lexicon::Impl {
         return false;
     }
 
+    // A written reading is one choice even when its sources have different
+    // meanings. Keep all meanings visible and do not claim one specific sense.
+    static void mergePinyinMeaning(Candidate& candidate, const Entry& entry) {
+        auto append = [](std::string& target, const std::string& value, const std::string& separator) {
+            if (value.empty()) return;
+            if (target.empty()) { target = value; return; }
+            if ((separator + target + separator).find(separator + value + separator) == std::string::npos)
+                target += separator + value;
+        };
+        if (candidate.meaning != entry.meaning) candidate.lexemeIds.clear();
+        append(candidate.meaning, entry.meaning, "；");
+        append(candidate.shortMeaning, entry.shortMeaning, "；");
+    }
+
     std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography) const {
         Query q;
         if (!q.read(input)) return {};
@@ -1215,7 +1360,8 @@ struct Lexicon::Impl {
             auto& choices = prefix.choices;
             lexicalLengths.insert(q.utf16At[q.skipSpaces(end)]);
             std::stable_sort(choices.begin(), choices.end(), [&](size_t a, size_t b) {
-                return entries[a].frequency > entries[b].frequency;
+                return entries[a].frequency != entries[b].frequency
+                        ? entries[a].frequency > entries[b].frequency : a < b;
             });
             for (size_t id : choices) {
                 const size_t key = choiceId(id);
@@ -1226,10 +1372,13 @@ struct Lexicon::Impl {
                 const auto& text = entry.output(mode, orthography);
                 auto duplicate = std::find_if(result.begin() + batchStart, result.end(), [&](const Candidate& c) {
                     if (typedHan && !c.hanSenseId.empty() && c.hanSenseId == entries[key].id) return true;
+                    if (mode == Mode::Pinyin && c.text == text) return true;
                     return c.text == text && c.meaning == entry.meaning && c.plainHanLoan == (mode == Mode::Han && entry.plainHanLoan);
                 });
                 if (duplicate == result.end()) {
                     result.push_back(lexical(id, mode, orthography, q.utf16At[q.skipSpaces(end)]));
+                } else if (mode == Mode::Pinyin) {
+                    mergePinyinMeaning(*duplicate, entry);
                 }
             }
         }
@@ -1249,6 +1398,7 @@ struct Lexicon::Impl {
         const char32_t first = q.scalars[start];
         const bool latin = mode != Mode::Handwriting && ((first >= U'a' && first <= U'z') || romanAccents.find(first) != romanAccents.npos);
         if (written || latin) appendChinese(result, q, start, written);
+        compactPinyinCandidates(result, mode);
         return result;
     }
 
@@ -1392,8 +1542,19 @@ struct Lexicon::Impl {
         for (auto id : predictedIds(context)) {
             if (output == Mode::Han && entries[id].han.empty()) continue;
             if (output == Mode::Han && !senses.insert(entries[id].hanSenseGroup).second) continue;
+            if (output == Mode::Pinyin) {
+                const auto& entry = entries[id];
+                const auto existing = std::find_if(out.begin(), out.end(), [&](const Candidate& c) {
+                    return c.text == entry.output(output, style);
+                });
+                if (existing != out.end()) {
+                    mergePinyinMeaning(*existing, entry);
+                    continue;
+                }
+            }
             out.push_back(lexical(id, output, style, 0));
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 
@@ -1404,11 +1565,11 @@ struct Lexicon::Impl {
         bool marked = output == Mode::Pinyin && style == Orthography::Diacritic;
         WordIds possible = bucket(marked ? markedPrefixes : spellingPrefixes, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, possible, true);
-        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, possible, true);
+        if (!marked) yeTones.find(q.scalars, possible, true);
         if (possible.empty()) return {};
         auto exact = bucket(marked ? markedWords : spellings, q.folded);
         (marked ? markedNasalWords : nasalWords).find(q.scalars, exact);
-        if (output == Mode::Pinyin && !marked) yeTones.find(q.scalars, exact);
+        if (!marked) yeTones.find(q.scalars, exact);
         possible.erase(std::remove_if(possible.begin(), possible.end(), [&](size_t id) {
             return (output == Mode::Han && entries[id].han.empty()) || std::find(exact.begin(), exact.end(), id) != exact.end();
         }), possible.end());
@@ -1427,12 +1588,17 @@ struct Lexicon::Impl {
             const auto& entry = entries[id];
             auto same = [&](const Candidate& c) {
                 if (output == Mode::Han && !c.hanSenseId.empty() && c.hanSenseId == entries[entry.hanSenseGroup].id) return true;
+                if (output == Mode::Pinyin && c.text == entry.output(output, style)) return true;
                 return c.text == entry.output(output, style) && c.meaning == entry.meaning;
             };
-            if (std::none_of(out.begin(), out.end(), same))
+            const auto found = std::find_if(out.begin(), out.end(), same);
+            if (found != out.end()) {
+                if (output == Mode::Pinyin) mergePinyinMeaning(*found, entry);
+            } else if (out.size() < 4) {
                 out.push_back(lexical(id, output, style, q.utf16At.back()));
-            if (out.size() == 4) break;
+            }
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 
@@ -1441,11 +1607,13 @@ struct Lexicon::Impl {
         const bool written = hanCharacter(q.scalars[start]);
         if ((written && mode == Mode::Pinyin) || (!written && mode == Mode::Handwriting)) return;
         for (size_t end = std::min(start + maxSyllable, q.scalars.size()); end > start; --end) {
+            if (insideUo(q, start, end)) continue;
             const auto spelling = q.slice(start, end);
             bool marked = mode == Mode::Pinyin && orthography == Orthography::Diacritic;
             auto defaults = bucket(marked ? markedSyllables : syllables, spelling);
             (marked ? markedNasalSyllables : nasalSyllables).find(std::u32string_view(q.scalars).substr(start, end-start), defaults);
             if (defaults.empty()) continue;
+            std::sort(defaults.begin(), defaults.end());
             const int consumed = q.utf16At[q.skipSpaces(end)];
             const bool lexical = lexicalLengths.count(consumed);
             for (size_t id : defaults) {
@@ -1474,6 +1642,7 @@ struct Lexicon::Impl {
         // matches visible ahead of Mandarin, even if a Mandarin word consumes more.
         size_t maxLength = written ? std::max(maxWritten, size_t(1)) : maxChinese;
         for (size_t end = std::min(start + maxLength, q.scalars.size()); end > start; --end) {
+            if (insideUo(q, start, end)) continue;
             const auto form = q.slice(start, end);
             const int consumed = q.utf16At[q.skipSpaces(end)];
             if (written) {
@@ -1481,10 +1650,10 @@ struct Lexicon::Impl {
                     result.push_back({form, "", consumed, "", CandidateKind::Chinese});
             } else {
                 auto matches = bucket(chineseKeys, form);
-                const size_t exact = matches.size();
                 nasalChinese.find(std::u32string_view(q.scalars).substr(start, end-start), matches);
-                if (matches.size() != exact) std::stable_sort(matches.begin(), matches.end(), [&](size_t a, size_t b) {
-                    return chineseWords[a].frequency > chineseWords[b].frequency;
+                std::stable_sort(matches.begin(), matches.end(), [&](size_t a, size_t b) {
+                    return chineseWords[a].frequency != chineseWords[b].frequency
+                            ? chineseWords[a].frequency > chineseWords[b].frequency : a < b;
                 });
                 for (size_t id : matches)
                     result.push_back({chineseWords[id].text, "", consumed, "", CandidateKind::Chinese});

@@ -11,7 +11,7 @@ for(const row of tujiaCoreData.words.split('\n')){
 }
 let orthography='ye', demoSpelling=null, tonePlayback=false;
 let handHan=true, handSession=null, handTimer=0, inkRevision=0;
-let mode=0, typingMode=0, speaking=false, drafts=['',''], strokes=[], drawingPointer=null;
+let mode=0, typingMode=0, drafts=['',''], strokes=[], drawingPointer=null;
 try{
   orthography=localStorage.getItem('tujia-orthography')==='diacritic'?'diacritic':'ye';
   typingMode=mode=localStorage.getItem('tujia-typing-output')==='han'?1:0;
@@ -86,15 +86,15 @@ $('hideKeyboard').onclick=()=>{takeOver();keyboardOpen(false);output.blur()};
 function choose(i,scroll=false){
   closeToneKeys();setMore(false);
   if(i!==2){clearTimeout(handTimer);inkRevision++;handSession=null}
-  speaking=i===3;
-  if(!speaking){mode=i;if(i<2 && !demoActive)typingMode=i}
+  mode=i;
+  if(i<2 && !demoActive)typingMode=i;
   render();
   if(scroll)keyboardOpen(true);
   if(scroll && matchMedia('(max-width:800px)').matches)$('play').scrollIntoView({block:'start'});
 }
 function selectOutput(form,where){
   if(demoActive)takeOver();
-  const han=form==='han',hand=!speaking && mode===2 && where!=='typing';
+  const han=form==='han',hand=mode===2 && where!=='typing';
   if(!han)orthography=form;
   if(!hand || where==='settings')typingMode=han?1:0;
   if(hand || where==='settings')handHan=han;
@@ -112,7 +112,7 @@ $('handMode').onclick=()=>choose(2);
 addOutputChoices($('menuOutputs'),form=>selectOutput(form,'keyboard'));
 addOutputChoices($('typingOutputs'),form=>selectOutput(form,'typing'));
 addOutputChoices($('orthography'),form=>selectOutput(form,'settings'));
-$('menuVoice').onclick=()=>choose(3);
+$('menuBackToTyping').onclick=()=>choose(typingMode);
 $('kbMore').onclick=()=>setMore($('kbMorePanel').hidden);
 document.addEventListener('pointerdown',event=>{
   if(!event.target.closest('#kbMore,#kbMorePanel'))setMore(false);
@@ -123,13 +123,13 @@ document.addEventListener('keydown',event=>{
   }
 });
 function render(){
-  const selected=speaking?3:mode;
+  const selected=mode;
   $('demoHand').setAttribute('aria-pressed',selected===2);
   $('demoHan').setAttribute('aria-pressed',selected===1);
   $('demoTujia').setAttribute('aria-pressed',selected===0 && !tonePlayback);
   $('demoTone').setAttribute('aria-pressed',selected===0 && tonePlayback);
-  $('choices').replaceChildren(...[['手写记音','手写汉字，继续记音','✎'],['语音输入','待上线','◌']].map(([name,hint,icon],index)=>{
-    const i=index+2;
+  $('choices').replaceChildren(...[['手写记音','手写汉字，继续记音','✎']].map(([name,hint,icon])=>{
+    const i=2;
     const el=button('',()=>choose(i,true),'choice'+(selected===i?' active':''));
     const info=node('span','');info.append(node('strong',name),node('small',hint));
     el.append(node('span',icon,'icon'),info,node('span',selected===i?'●':'○','check'));
@@ -142,11 +142,10 @@ function render(){
   markOutput($('menuOutputs'),active);
   markOutput($('orthography'),active);
   markOutput($('typingOutputs'),selected<2?active:null);
-  $('typing').hidden=speaking;$('voice').hidden=!speaking;
   $('keys').hidden=mode===2;$('hand').hidden=mode!==2;
   draft.value=drafts[mode===2?1:0];
   candidates();
-  if(mode===2 && !speaking)paint();
+  if(mode===2)paint();
 }
 function change(value){
   if(value && mode===2)handSession=null;
@@ -454,9 +453,9 @@ function candidates(){
   const hand=mode===2 && !draft.value ? activeHand() : null;
   const value=draft.value||hand?.raw||'',val=value.trim(),outputMode=compositionMode();
   const style=(demoSpelling||orthography)==='diacritic'?1:0;
-  $('draftBar').classList.toggle('has-text',!!draft.value && !speaking);
+  $('draftBar').classList.toggle('has-text',!!draft.value);
   // A handwritten glyph is already in the editor. Only pending spelling appears in the toolbar.
-  $('raw').disabled=!val;$('raw').hidden=mode===1||!draft.value||speaking;
+  $('raw').disabled=!val;$('raw').hidden=mode===1||!draft.value;
   $('raw').textContent=mode?'用原字':'用原拼写';
   $('raw').setAttribute('aria-label',mode&&val?'输入原字 '+val:$('raw').textContent);
   candidateItems=[];
@@ -514,7 +513,7 @@ function candidates(){
     const matches=groupHandMatches(core.handwrittenWords(before,1,style),romans,before);
     candidateItems.unshift(...matches);
   }
-  if(!speaking && !(mode===2 && handHan && !draft.value)){
+  if(!(mode===2 && handHan && !draft.value)){
     const prefix=mode===2?'':val;
     const words=ids?core.nextWords(ids,outputMode,style):[];
     const sounds=sound?core.nextSounds(sound,outputMode,style):[];
@@ -529,6 +528,18 @@ function candidates(){
   showCandidatePage(0);
 }
 draft.oninput=()=>change(draft.value);
+// Physical number keys choose the current candidate page. An empty editor
+// keeps ordinary number entry; the focused keyboard can select predictions.
+document.addEventListener('keydown',event=>{
+  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||
+     !/^[1-4]$/.test(event.key)||$('keyboardPanel').hidden||(!draft.value && event.target===output)||
+     !(event.target===draft||event.target===output||$('keyboardPanel').contains(event.target)))return;
+  const candidate=candidateItems[candidatePage*cardsPerPage+Number(event.key)-1];
+  if(!candidate)return;
+  event.preventDefault();
+  if(demoActive)takeOver();
+  candidate.commit();
+},true);
 draft.onkeydown=e=>{
   if(e.isComposing || (e.key!=='Enter' && (e.key!==' ' || e.shiftKey)))return;
   e.preventDefault();
@@ -536,9 +547,8 @@ draft.onkeydown=e=>{
   if(firstCommit)firstCommit();else if(mode!==1)submit(draft.value);
 };
 $('raw').onclick=()=>{setMore(false);submit(draft.value)};
-$('back').onclick=()=>choose(typingMode);
 output.addEventListener('keydown',event=>{
-  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||mode===2||speaking)return;
+  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||mode===2)return;
   if(!/^[A-Za-z'āáǎàēéěèīíǐìōóǒòūúǔù]$/u.test(event.key))return;
   event.preventDefault();editKey(event.key.toLowerCase());draft.focus({preventScroll:true});
 });
@@ -751,7 +761,7 @@ function restoreManual(){
   const old=saved;takeOver();
   if(old){
     committedContext=old.context;output.value=old.value; output.restoreGroups?.(old.units);output.setSelectionRange(old.start,old.end);drafts=old.drafts;
-    choose(old.mode);if(old.voice)choose(3);count();
+    choose(old.mode);count();
   }
 }
 function matchesStoryWord(item,entry){
@@ -814,7 +824,7 @@ function advance(){
   }
 }
 function startPlayback(){
-  if(!demoActive)saved={value:output.value,context:committedContext,units:output.noteGroups?.(),drafts:drafts.slice(),mode,voice:speaking,
+  if(!demoActive)saved={value:output.value,context:committedContext,units:output.noteGroups?.(),drafts:drafts.slice(),mode,
     start:output.selectionStart,end:output.selectionEnd};
   clearTimeout(timer);mark(null);demoSpelling=tonePlayback?'diacritic':'ye';demoActive=true;playing=true;token=0;letter=0;phase='focus';
   committedContext=null;choose(hanPlayback?1:0);change('');output.value='';output.setSelectionRange(0,0);count();

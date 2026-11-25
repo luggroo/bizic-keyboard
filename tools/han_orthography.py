@@ -7,6 +7,9 @@ DATA = Path(__file__).resolve().parent / 'data'
 REVISIONS = json.loads((DATA/'orthography-revisions.json').read_text(encoding='utf-8'))
 with (DATA/'plain-han-loans.tsv').open(encoding='utf-8') as stream:
     PLAIN_HAN_LOANS = {r['id']: r for r in csv.DictReader(stream, delimiter='\t')}
+with (DATA/'core-han-loans.tsv').open(encoding='utf-8') as stream:
+    for row in csv.DictReader(stream, delimiter='\t'):
+        PLAIN_HAN_LOANS.setdefault(row['id'], row)
 APICAL = frozenset(REVISIONS['apical']['bases'])
 TONES = 'xfrv'
 # The Longshan text retains explicit glides in these transcriptions. Its source

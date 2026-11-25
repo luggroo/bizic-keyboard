@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -41,6 +42,7 @@ public final class SetupActivity extends Activity {
     private Button enable;
     private Button select;
     private Button spelling;
+    private Button ipaCompletion;
     private EditText trial;
     private android.widget.CheckBox record;
 
@@ -91,7 +93,7 @@ public final class SetupActivity extends Activity {
 
         LinearLayout editor = section(body, 24);
         editor.addView(label("试打", 18, INK, true));
-        addSpaced(editor, label("点键盘上的「更多」，选「谐音字」。输入 bizika，点“土家族”下面的「币子咔」。", 14, MUTED, false), 6);
+        addSpaced(editor, label("点键盘上的「设置」，选「谐音字」。输入 bizika，点“土家族”下面的「币子咔」。", 14, MUTED, false), 6);
         trial = new EditText(this);
         trial.setId(R.id.trial_editor);
         trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -119,6 +121,8 @@ public final class SetupActivity extends Activity {
         addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
         spelling = action("", false, v -> chooseSpelling());
         addSpaced(body, spelling, 16);
+        ipaCompletion = action("", false, v -> chooseIpaCompletion());
+        addSpaced(body, ipaCompletion, 8);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
@@ -167,7 +171,11 @@ public final class SetupActivity extends Activity {
         select.setEnabled(enabled);
         select.setAlpha(enabled ? 1f : .55f);
         select.setText(selected ? "切换系统键盘" : "选择土家语键盘");
-        spelling.setText("输出形式 · " + KeyboardSettings.typingOutput(this).name);
+        spelling.setText("打字输出 · " + KeyboardSettings.typingOutput(this).name);
+        int dialects = KeyboardSettings.ipaDialects(this);
+        String ipaSummary = dialects == IpaKeyboard.ALL_DIALECTS ? "北部、南部"
+                : dialects == IpaKeyboard.NORTH ? "北部" : dialects == IpaKeyboard.SOUTH ? "南部" : "关闭";
+        ipaCompletion.setText("音标补全 · " + ipaSummary);
     }
 
     private void chooseSpelling() {
@@ -176,17 +184,43 @@ public final class SetupActivity extends Activity {
         int textHeight = (int)Math.ceil(android.util.TypedValue.applyDimension(
                 android.util.TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics()) * 2.8f);
         row.setMinimumHeight(Math.max(dp(72), textHeight + dp(14)));
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("输出形式").setView(row)
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("打字输出").setView(row)
                 .setNegativeButton("取消", null).create();
         OutputForm selected = KeyboardSettings.typingOutput(this);
         for (OutputForm form : OutputForm.values()) {
             form.addButton(row, form == selected, false, () -> {
-                KeyboardSettings.setDefaultOutput(this, form);
+                KeyboardSettings.setTypingOutput(this, form);
                 refresh();
                 dialog.dismiss();
             });
         }
         dialog.show();
+    }
+
+    private void chooseIpaCompletion() {
+        int dialects = KeyboardSettings.ipaDialects(this);
+        LinearLayout options = new LinearLayout(this);
+        options.setOrientation(LinearLayout.VERTICAL);
+        options.setPadding(dp(24), dp(8), dp(24), 0);
+        CheckBox north = ipaDialectOption(options, "北部", (dialects & IpaKeyboard.NORTH) != 0);
+        CheckBox south = ipaDialectOption(options, "南部", (dialects & IpaKeyboard.SOUTH) != 0);
+        new AlertDialog.Builder(this).setTitle("音标补全词库")
+                .setView(options)
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, choice) -> {
+                    int selected = (north.isChecked() ? IpaKeyboard.NORTH : 0) | (south.isChecked() ? IpaKeyboard.SOUTH : 0);
+                    KeyboardSettings.setIpaDialects(this, selected);
+                    refresh();
+                }).show();
+    }
+
+    private CheckBox ipaDialectOption(LinearLayout parent, String label, boolean checked) {
+        CheckBox option = new CheckBox(this);
+        option.setMinHeight(dp(48));
+        option.setText(label);
+        option.setChecked(checked);
+        parent.addView(option, new LinearLayout.LayoutParams(-1, -2));
+        return option;
     }
 
     @Override protected void onResume() { super.onResume(); refresh(); }

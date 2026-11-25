@@ -44,6 +44,9 @@ def main():
         # legacyHanUnits. The latter records historical forms for input aliases.
         reviewed = e.get('hanUnits', old) if e.get('meaningForm') else old
         units = table.units(parts, old, override=revision['hanUnits'] if revision else reviewed if keep else None)
+        for i, part in enumerate(parts):
+            if part in ('max', 'maf', 'mar', 'mav'):
+                units[i] = table.rows['ma']['t' + str('xfrv'.index(part[-1]) + 1)]
         previous = ''.join(old)
         e['hanUnits'] = units; e['recommended'] = ''.join(units)
         for lookup in [previous, REVISIONS['previousWordForms'].get(e['id'])]:

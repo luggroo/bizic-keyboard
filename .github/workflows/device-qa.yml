@@ -1,7 +1,14 @@
 name: Android device QA
-run-name: Android API ${{ inputs.api_level || '35' }} · ${{ inputs.suite }} ${{ inputs.release_tag }}
+run-name: Android device QA · ${{ github.event_name == 'pull_request' && 'IPA regression' || inputs.suite }} ${{ inputs.release_tag }}
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/device-qa.yml'
+      - 'app/src/main/assets/ipa-completions.tsv'
+      - 'app/src/main/java/biz/tujia/ime/IpaKeyboard.java'
+      - 'app/src/main/java/biz/tujia/ime/TujiaIme.java'
+      - 'device-test/**'
   workflow_dispatch:
     inputs:
       api_level:
@@ -13,7 +20,7 @@ on:
         description: 'Device suite'
         type: choice
         default: all
-        options: [all, core, host, web, window, sounds, compact, long-word, typography, han-senses, regional, hand-words, outputs]
+        options: [all, core, host, web, window, sounds, compact, long-word, typography, han-senses, regional, hand-words, ipa, outputs]
       release_tag:
         description: 'Optional release tag (for example v0.3.0). Leave blank to build this commit.'
         type: string
@@ -28,6 +35,11 @@ permissions:
 
 jobs:
   ime:
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(github.event_name == 'pull_request'
+        && '{"include":[{"api-level":28,"suite":"ipa"},{"api-level":35,"suite":"ipa"}]}'
+        || format('{{"include":[{{"api-level":{0},"suite":"{1}"}}]}}', inputs.api_level || '35', inputs.suite || 'all')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -67,10 +79,10 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - name: Exercise installed input method
         env:
-          TUJIA_E2E_SUITE: ${{ inputs.suite }}
+          TUJIA_E2E_SUITE: ${{ matrix.suite }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ inputs.api_level || '35' }}
+          api-level: ${{ matrix.api-level }}
           target: google_apis
           arch: x86_64
           profile: pixel_2
@@ -79,6 +91,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: android-${{ inputs.api_level || '35' }}-device-evidence
+          name: android-${{ matrix.api-level }}-${{ matrix.suite }}-device-evidence
           path: build/device-qa/
           if-no-files-found: warn

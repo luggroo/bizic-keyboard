@@ -1,13 +1,15 @@
 name: Build single-file offline demo
-# Publish the grouped handwriting suggestions and updated loan forms.
 
 on:
   pull_request:
     paths: ['.github/workflows/update-offline-demo.yml', 'tools/web-demo/**', 'shared/**', 'app/src/main/assets/ismantic/**']
   push:
     branches: [main]
-    paths: ['.github/workflows/update-offline-demo.yml']
   workflow_dispatch:
+
+concurrency:
+  group: offline-demo-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -33,6 +35,10 @@ jobs:
       - name: Build and check offline demo
         run: |
           set -euo pipefail
+          python3 qa/test_survey_loans.py
+          python3 qa/test_baojing_words.py
+          python3 qa/audit_syllable_glosses.py
+          python3 qa/test_orthography_revisions.py
           mkdir -p build/web build/artifacts
           cp -R tools/web-demo/ui/. build/web/
           WASI_SDK_PATH="$RUNNER_TEMP/wasi-sdk-25.0-x86_64-linux" tools/web-demo/build-core.sh build/input.wasm

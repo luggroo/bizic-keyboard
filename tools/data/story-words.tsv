@@ -38,7 +38,7 @@ ls60-37	nix	ni	你	妮	你	妮你	1	tujia	你	ni	nī	妮
 ls60-38	jiermar	jiema	喊的人	节麻		节 麻	9	tujia	喊的人	jiema	jiěmǎ	节|麻
 ls60-39	dox	do	都	多		多	2	tujia	都	do	dō	多
 ls60-40	tair	tai	没有	台		台	1	tujia	没有	tai	tǎi	台
-ls60-41	anfmax	anma	我呢	岸吗	岸妈	岸 吗妈	2	tujia	我呢	anma	ánmā	岸|吗
+ls60-41	anfmax	anma	我呢	岸马	岸妈	岸 马马	2	tujia	我呢	anma	ánmā	岸|马
 ls60-42	anx	an	我	阿安	安	安	1	tujia	我	an	ān	阿安
 ls60-43	hafsux	hasu	下数	下书	哈苏 吓书	吓哈 书苏	1	tujia	下数	hasu	hásū	下|书
 ls60-44	taix	tai	没有	胎		胎	4	tujia	没有	tai	tāi	胎
@@ -49,8 +49,8 @@ ls60-48	daxzeir	dazei	一样	打资锿	打则	搭打 则	1	tujia	一样	dazei	d�
 ls60-49	lavheif	lahei	路那么	拉黑欸	拉黑	喇拉 黑	1	tujia	路那么	lahei	làhéi	拉|黑欸
 ls60-50	yir	yi	走	移	余	移余	1	tujia	走	yi	yǐ	移
 ls60-51	ar	a	啊	吖	阿	吖阿	2	tujia	啊	a	ǎ	吖
-ls60-52	max	ma	呢	妈		妈	1	tujia	呢	ma	mā	妈
-ls60-53	yifmaxyifar	yimayia	走嘛走啊	意吗意吖	余妈余阿	意余 吗妈 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|吗|意|吖
+ls60-52	max	ma	呢	马		马	1	tujia	呢	ma	mā	马
+ls60-53	yifmaxyifar	yimayia	走嘛走啊	意马意吖	余妈余阿	意余 马马 意余 吖阿	1	tujia	走嘛走啊	yimayia	yímāyí'ǎ	意|马|意|吖
 ls60-54	laxbiex	labie	一些	拉憋	拉别	拉 憋别	1	tujia	一些	labie	lābiē	拉|憋
 ls60-55	duvdor	dudo	赌要	都夺	肚夺	都堵肚 夺	2	tujia	赌要	dudo	dùdǒ	都|夺
 ls60-56	duvyor	duyo	赌啊	都药	肚药	都堵肚 药	1	tujia	赌啊	duyo	dùyǒ	都|药
@@ -72,8 +72,8 @@ ls60-72	jiur	jiu	就	就		就九	1	tujia	就	jiu	jiǔ	就
 ls60-73	zixgeir	zigei	前头	子格锿	资给	子兹资 给	5	tujia	前头	zigei	zīgěi	子|格锿
 ls60-74	yif	yi	走	意	余	意余	12	tujia	走	yi	yí	意
 ls60-76	taxnier	tanie	后头	他业	他捏	他 业捏	2	tujia	后头	tanie	tāniě	他|业
-ls60-77	max	ma	嘛	妈		妈	1	tujia	嘛	ma	mā	妈
-ls60-78	maxhuif	mahui	嘛会	吗会	妈灰	吗妈 会灰	1	tujia	嘛会	mahui	māhuí	吗|会
+ls60-77	max	ma	嘛	马		马	1	tujia	嘛	ma	mā	马
+ls60-78	maxhuif	mahui	嘛会	马会	妈灰	马马 会灰	1	tujia	嘛会	mahui	māhuí	马|会
 ls60-79	loxexjiermarjief	loejiemajie	人硬喊的人有	倮婀节麻借	落医节麻节 倮医节麻节	倮落 婀医 节 麻 借节	1	tujia	人硬喊的人有	loejiemajie	lō'ējiěmǎjié	倮|婀|节|麻|借
 ls60-80	wov	wo	啊	窝	握	窝握	1	tujia	啊	wo	wò	窝
 ls60-81	lax	la	着	拉		拉	3	tujia	着	la	lā	拉
@@ -107,7 +107,7 @@ ls60-109	lovcix	loci	都他	啰此	落雌	啰裸落 此雌	1	tujia	都他	loci	l
 ls60-110	baxhuf	bahu	喊	巴互	把壶	巴把 互壶	1	tujia	喊	bahu	bāhú	巴|互
 ls60-111	nixgox	nigo	着他	你哥	你哥	妮你 哥	1	tujia	着他	nigo	nīgō	你|哥
 ls60-112	zirgeir	zigei	前头	直格锿	紫给	直紫 给	1	tujia	前头	zigei	zǐgěi	直|格锿
-ls60-113	jiefmav	jiema	喊的人	借吗	节马	借节 吗马	1	tujia	喊的人	jiema	jiémà	借|吗
+ls60-113	jiefmav	jiema	喊的人	借马	节马	借节 马马	1	tujia	喊的人	jiema	jiémà	借|马
 ls60-114	aixefyif	aieyi	那硬一天	哎饿意	哎姨姨	哎 饿姨 意姨	1	tujia	那硬一天	aieyi	āi'éyí	哎|饿|意
 ls60-115	tianrwor	tianwo	啊	田沃	田握	田 沃握	1	tujia	啊	tianwo	tiǎnwǒ	田|沃
 ls60-116	dor	do	都	夺		夺	1	tujia	都	do	dǒ	夺
@@ -158,7 +158,7 @@ ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了
 ls60-168	jiufhaflar	jiuhala	就这样的	就下辣	九哈拉 就吓辣	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|下|辣
-xu213-1-1	ngafnix	ngani	我们	讶你		讶 你妮	0	tujia	我们	ngani	ngánī	讶|你
+xu213-1-1	ngafnix	ngani	我们	牙你		牙 你妮	0	tujia	我们	ngani	ngánī	牙|你
 xu213-1-2	hufnix	huni	大家	互你		互 你妮	0	tujia	大家	huni	húnī	互|你
 xu213-1-3	bifzixkar	bizika	土家族	币子咔		币 子兹 咔	0	tujia	土家族	bizika	bízīkǎ	币|子|咔
 xu213-1-4	ox	o	语气词	喔		喔	0	tujia	语气词	o	ō	喔
@@ -174,4 +174,4 @@ xu213-4-3	rev	re	漂亮	惹		惹	0	tujia	漂亮	re	rè	惹
 xu213-4-5	gof	go	过错	过		过	0	tujia	过错	go	gó	过
 xu213-4-6	tav	ta	别	塔		塔	0	tujia	别	ta	tà	塔
 xu213-4-7	ar	a	取	吖		吖	0	tujia	取	a	ǎ	吖
-xu213-4-8	lex	le	陈述语气	里		里	0	tujia	陈述语气	le	lē	里
+xu213-4-8	lex	le	陈述语气	咧		咧	0	tujia	陈述语气	le	lē	咧

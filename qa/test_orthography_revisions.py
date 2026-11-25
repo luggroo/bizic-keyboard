@@ -21,7 +21,7 @@ def main():
             assert all(row['t' + str(i)] == rows[base[:-1]]['t' + str(i)] for i in range(1, 5)), base
         if base.startswith('q'):
             assert all(not row['t' + str(i)].startswith('欺') for i in range(1, 5)), base
-    for base, tone, wanted in [('ei', 1, '诶'), ('hxi', 1, '诶'), ('ma', 1, '吗'), ('ma', 2, '祃'),
+    for base, tone, wanted in [('nga', 2, '牙'), ('ei', 1, '诶'), ('hxi', 1, '诶'), ('ma', 1, '马'), ('ma', 2, '祃'), ('ma', 3, '麻'), ('ma', 4, '马'),
                                ('lei', 2, '累'), ('duan', 2, '段'), ('yan', 1, '央'),
                                ('cei', 1, '此'), ('cao', 1, '超'), ('zuai', 1, '拽'),
                                ('qia', 1, '起鸦'), ('qio', 1, '起哟'), ('ha', 2, '下'), ('xia', 2, '夏')]:
@@ -43,6 +43,8 @@ def main():
     count = 0
     with (ROOT / 'tools/data/northern-han-loans.tsv').open() as f:
         loans = {(r['id'], r['ye']): r for r in csv.DictReader(f, delimiter='\t')}
+    with (ROOT / 'tools/data/survey-loan-forms.tsv').open() as f:
+        loans.update({(r['id'], r['ye']): r for r in csv.DictReader(f, delimiter='\t')})
     seen_loans = set()
     with (ROOT / 'shared/bundle/Assets/northern-words.tsv').open() as f:
         for record in csv.DictReader(f, delimiter='\t', fieldnames=fields):
@@ -50,6 +52,15 @@ def main():
                 continue
             compact = ''.join(c for c in record['word'] if c not in " -'’")
             expected = han_units(compact, table)
+            loan = loans.get((record['id'], record['word']))
+            if loan and record['id'].startswith('yubao-'):
+                seen_loans.add((record['id'], record['word']))
+                assert record['presentation'] == 'plainHanLoan' and record['recommended'] == loan['han'], record['id']
+            if record['id'].startswith(('yubao-', 'ethnonym-')) or (record['word'] == 'bifzixkar' and record['meaning'] == '土家族'):
+                assert record['recommended'] == ''.join(record['hanUnits'].split('|')), record['id']
+                continue
+            if (record['word'], record['meaning']) in (('nif', '你'), ('gof', '他')):
+                expected = ['伲' if record['word'] == 'nif' else '个']
             loan = loans.get((record['id'], record['word']))
             if loan:
                 seen_loans.add((record['id'], record['word']))

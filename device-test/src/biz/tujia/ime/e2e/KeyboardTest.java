@@ -11,15 +11,18 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.InputType;
 import android.text.style.ScaleXSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /** Cross-process test. All key and candidate selection is through the installed soft keyboard. */
 public final class KeyboardTest extends Instrumentation {
     private static final String IME_PACKAGE = "biz.tujia.ime";
+    static final String WALK_HAN = "走、去、去；离开，诶";
     private static final long WAIT_MS = 15000;
     private UiAutomation ui;
     private AccessibilityNodeInfo imeRoot;
@@ -83,8 +87,15 @@ public final class KeyboardTest extends Instrumentation {
                 }
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
+            if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
+            if (suite.equals("ipa")) {
+                testIpaSettings();
+                testHandwritingSidebar();
+                new SystemTypography(this, host).ipa();
+                if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
+            }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
-            if (suite.equals("outputs") || suite.equals("core") || suite.equals("all")) testOutputButtons();
+            if (suite.equals("outputs")) testOutputButtons();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
@@ -128,6 +139,235 @@ public final class KeyboardTest extends Instrumentation {
         } finally { shot.recycle(); }
     }
 
+    private void testIpaInput() {
+        stage("IPA literal input, tone alternatives and offline completions");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
+        tapField(host.first);
+        waitSelectedControl("打字");
+        if (pollNode("联想 那，āi", false, 45_000) == null)
+            throw new AssertionError("Typing starter missing after cold dictionary initialization: " + visibleControls());
+        waitForNode("联想 我，ngá", false);
+        waitForNode("下一音节 gó", false);
+        waitForNode("下一音节 ní", false);
+        press("手写");
+        press("设置");
+        waitSelectedControl("汉字");
+        press("返回打字");
+        waitSelectedControl("打字");
+        runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
+        press("音标");
+        assertEditorAboveKeyboard(host.first, "音标");
+        captureFrame("ipa-layout.png");
+        waitForNode("补全 那，ai⁵⁵", false);
+        waitForNode("补全 我，ŋa²⁴", false);
+        waitForNode("补全 kuɔ²⁴", false);
+        waitForNode("补全 ȵi²⁴", false);
+        captureFrame("ipa-candidates.png");
+        press("设置");
+        waitSelectedControl("北部");
+        if (isSelectedControl("南部")) throw new AssertionError("Southern IPA enabled by default");
+        press("设置");
+        press("下一页候选");
+        waitAbsent("补全 那，ai⁵⁵");
+        press("上一页候选");
+        waitForNode("补全 那，ai⁵⁵", false);
+        press("m");
+        expectText(host.first, "前 /m 后");
+        press("下一页候选");
+        press("a");
+        expectText(host.first, "前 /ma 后");
+        runOnMainSync(() -> host.first.setSelection(4));
+        waitForNode("输入音标查看候选", false);
+        runOnMainSync(() -> host.first.setSelection(5));
+        waitForNode("补全 奶，mã²¹", false);
+        pressCandidate("补全 奶，mã²¹", false, "奶", "mã²¹");
+        expectText(host.first, "前 /mã²¹ 后");
+
+        press("空格");
+        for (String letter : new String[]{"v", "x", "r", "f", "j", "l"}) press(letter);
+        expectText(host.first, "前 /mã²¹ vxrfjl 后");
+        String[][] shortcuts = {{"v", "53"}, {"x", "55"}, {"r", "21"}, {"f", "35"}, {"j", "33"}, {"l", "13"}};
+        for (String[] shortcut : shortcuts) {
+            holdKey(shortcut[0]);
+            press("声调 " + shortcut[1]);
+        }
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³ 后");
+        holdKey("t");
+        for (String option : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ"}) waitForNode(option, false);
+        captureFrame("ipa-popup.png");
+        press("tsʰ");
+        holdKey("t");
+        press("ʈʰ");
+        holdKey("d");
+        press("ɖ");
+        holdKey("?");
+        waitForNode("ʔ", false);
+        press("ʕ");
+        press("字母或符号");
+        press("清化");
+        press("浊化");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325\u032c 后");
+        press("退格");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325 后");
+        press("字母或符号");
+        tapField(host.second);
+        awaitKeyboardAtRest();
+        press("切换大小写");
+        press("G");
+        press("g");
+        expectText(host.second, "Gg");
+        runOnMainSync(() -> host.second.setSelection(0, 2));
+        holdKey("i");
+        waitForNode("ɿ", false);
+        press("ʅ");
+        expectText(host.second, "ʅ");
+        holdKey("v");
+        waitForNode("声调 53", false);
+        sendKeyDownUpSync(KeyEvent.KEYCODE_ESCAPE);
+        waitAbsent("声调 53");
+        expectText(host.second, "ʅ");
+
+        stage("A password field uses literal direct input while IPA is selected");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+        waitForNode("英文直输", false);
+        waitAbsent("音标");
+        awaitKeyboardAtRest();
+        press("m");
+        press("a");
+        waitAbsent("补全 奶，mã²¹");
+        expectText(host.first, "ma");
+        tapField(host.second);
+
+        stage("Reopening the IME starts in typing and keeps the saved typing output");
+        press("调号拼音");
+        for (String previous : new String[]{"音标", "手写"}) {
+            press(previous);
+            press("隐藏键盘");
+            waitAbsent("隐藏键盘");
+            tapField(host.second);
+            waitSelectedControl("打字");
+            awaitKeyboardAtRest();
+            press("设置");
+            waitSelectedControl("调号拼音");
+            press("设置");
+        }
+        press("谐音字");
+    }
+
+    private void testIpaSettings() {
+        stage("IPA dictionary settings select Southern, Northern, both or no completions");
+        runOnMainSync(() -> { host.second.setText(""); });
+        tapField(host.second);
+        changeIpaDictionaries("北部、南部", "南部");
+        changeIpaDictionaries("南部", "北部");
+        press("音标");
+        press("设置");
+        waitForNode("音标补全词库 · 可多选，两项都不选即关闭", false);
+        waitSelectedControl("南部");
+        captureFrame("ipa-options.png");
+        press("北部");
+        waitSelectedControl("北部");
+        press("北部");
+        press("设置");
+        String southernI = "ŋo³³";
+        press("补全 我，" + southernI);
+        expectText(host.second, southernI);
+        press("空格");
+        waitForNode("补全 我，" + southernI, false);
+        waitAbsent("补全 奶，mã²¹");
+        press("b");
+        press("a");
+        holdKey("j");
+        press("声调 33");
+        press("n");
+        press("补全 乌鸦，ba³³nõ²¹");
+        expectText(host.second, southernI + " ba³³nõ²¹");
+
+        changeIpaDictionaries("关闭", "南部");
+        press("音标");
+        press("空格");
+        waitAbsent("补全 我，" + southernI);
+        press("m");
+        press("a");
+        waitAbsent("补全 奶，mã²¹");
+        waitAbsent("无匹配候选");
+        expectText(host.second, southernI + " ba³³nõ²¹ ma");
+
+        changeIpaDictionaries("北部", "北部");
+        press("音标");
+        press("空格");
+        waitForNode("补全 那，ai⁵⁵", false);
+        waitAbsent("补全 我，" + southernI);
+        changeIpaDictionaries("北部、南部", "南部");
+        changeIpaDictionaries("北部", "南部");
+    }
+
+    private void changeIpaDictionaries(String expected, String... toggles) {
+        awaitKeyboardAtRest();
+        press("设置");
+        press("更多设置");
+        String setting = launcherControl("音标补全 · ", true, false);
+        launcherControl(setting, false, true);
+        for (String label : toggles) launcherControl(label, false, true);
+        launcherControl("确定", false, true);
+        launcherControl("音标补全 · " + expected, false, false);
+        returnFromKeyboardSettings();
+        tapField(host.second);
+        waitSelectedControl("打字");
+    }
+
+    private void testHandwritingSidebar() {
+        stage("The tall handwriting pad keeps correction and editing controls to the left");
+        newPredictionEditor();
+        press("手写");
+        setHandwritingOutput(true);
+        Rect pad = waitForNode("汉字手写区", false);
+        if (pad.height() / host.getResources().getDisplayMetrics().density < 150)
+            throw new AssertionError("Handwriting pad did not expand vertically: " + pad);
+        drawThree(pad);
+        expectText(host.first, "三");
+        for (String label : new String[]{"改字", "手写字形 三", "更多手写字形", "撤销一笔", "清除笔迹", "退格", "完成"}) {
+            Rect control = waitForNode(label, false);
+            if (control.right > pad.left || control.top < pad.top || control.bottom > pad.bottom)
+                throw new AssertionError(label + " is outside the left side of the handwriting pad: " + control);
+        }
+        captureFrame("handwriting-sidebar.png");
+        press("更多手写字形");
+        waitAbsent("手写字形 三");
+        if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved");
+        press("退格");
+        expectText(host.first, "");
+        press("设置");
+        waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
+        waitSelectedControl("汉字");
+        for (String format : new String[]{"叶氏拼音", "调号拼音", "国际音标"}) waitForNode(format, false);
+        captureFrame("handwriting-options.png");
+        tapControl("国际音标");
+        awaitKeyboardAtRest();
+        pad = waitForNode("汉字手写区", false);
+        drawBo(pad);
+        waitForNode("改字", false);
+        drawLi(pad);
+        expectText(host.first, "pɔ⁵⁵li²¹");
+        setHandwritingOutput(true);
+        press("打字");
+        press("设置");
+        waitForNode("打字输出 · 选择候选上屏后的写法", false);
+        press("设置");
+    }
+
+    private void holdKey(String label) {
+        Rect rect = waitForNode(label, false);
+        long start = SystemClock.uptimeMillis();
+        inject(start, MotionEvent.ACTION_DOWN, rect.centerX(), rect.centerY());
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 120L);
+        inject(start, MotionEvent.ACTION_UP, rect.centerX(), rect.centerY());
+        waitForIdleSync();
+    }
+
     private void testFirstInput() {
         stage("First input after IME startup");
         tapField(host.first);
@@ -159,11 +399,13 @@ public final class KeyboardTest extends Instrumentation {
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
         type("marmardiexhxif");
         stage("Longest prefix and uncommitted suffix");
-        expectFirst("女人，麻麻爹");
-        pressCandidate("女人，麻麻爹", false);
+        Card prefix = pageCards("，").get(0);
+        if (!prefix.name.startsWith("女人") || !outputLine(prefix).equals("麻麻爹"))
+            throw new AssertionError("Expected the longest Tujia prefix first: " + prefix.name);
+        tap(prefix.bounds.centerX(), prefix.bounds.centerY());
         expectText(host.first, "麻麻爹");
         waitForNode("待选拼写 hxif", false);
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.first, "麻麻爹诶");
 
         type("jir");
@@ -192,19 +434,19 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         assertEditorAboveKeyboard(host.second, "打字");
         type("hxif");
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.second, "ngaf yer ga诶");
 
         press("手写");
         stage("Automatic handwriting in spelling output");
-        setHandwritingOutput("叶氏拼音");
+        setHandwritingOutput(false);
         Rect pad = waitForNode("汉字手写区", false);
         drawThree(pad);
         expectText(host.second, "ngaf yer ga诶sangx");
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved while drawing");
 
         stage("Handwrite 尬, distinguish the eating sense, commit the recommended Han form");
-        setHandwritingOutput("汉字谐音");
+        setHandwritingOutput(true);
         drawStroke(pad, .13f,.31f, .21f,.31f, .42f,.26f);
         drawStroke(pad, .25f,.08f, .29f,.13f, .25f,.47f, .18f,.64f, .06f,.81f);
         drawStroke(pad, .32f,.38f, .34f,.41f, .33f,.64f, .35f,.76f, .44f,.83f, .63f,.85f, .83f,.79f, .89f,.75f, .90f,.62f);
@@ -219,10 +461,9 @@ public final class KeyboardTest extends Instrumentation {
         press("退格");
         expectText(host.second, "ngaf yer ga诶sangx");
 
-        press("语音");
-        stage("Voice placeholder");
-        waitForNode("语音模型尚未上线", false);
+        press("设置");
         press("返回打字");
+        waitSelectedControl("打字");
         waitForNode("退格", false);
         expectText(host.second, "ngaf yer ga诶sangx");
 
@@ -281,19 +522,19 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testOutputButtons() {
         stage("Three direct output choices preserve an unfinished spelling");
-        String previous = setStyleFromLauncher("汉字谐音");
+        String previous = setStyleFromLauncher("谐音字");
         try {
             runOnMainSync(() -> host.first.setText(""));
             tapField(host.first);
             press("谐音字");
             String expected = "";
-            String[][] forms = {{"叶氏拼音", "bifzixkar"}, {"带调号拼音", "bízīkǎ"}, {"汉字谐音", "币子咔"}};
+            String[][] forms = {{"叶氏拼音", "bifzixkar"}, {"调号拼音", "bízīkǎ"}, {"谐音字", "币子咔"}};
             for (String[] form : forms) {
                 type("bizika");
-                tapControl("更多");
-                for (String[] key : forms) waitForNode(outputButton(key[0]), false);
+                tapControl("设置");
+                for (String[] key : forms) waitForNode(key[0], false);
                 captureFrame("three-output-menu.png");
-                tapControl(outputButton(form[0]));
+                tapControl(form[0]);
                 waitForNode("待选拼写 bizika", false);
                 Card word = visibleForm(form[1]);
                 if (!word.name.contains("土家族")) throw new AssertionError("Missing meaning: " + word.name);
@@ -308,19 +549,19 @@ public final class KeyboardTest extends Instrumentation {
                 setStyleFromLauncher(form[0]);
                 tapField(host.second);
                 press("打字");
-                tapControl("更多");
-                waitSelectedControl(outputButton(form[0]));
-                tapControl("更多");
-                waitAbsent(outputButton(form[0]));
+                tapControl("设置");
+                waitSelectedControl(form[0]);
+                tapControl("设置");
+                waitAbsent(form[0]);
             }
             tapField(host.first);
             press("手写");
-            setHandwritingOutput("汉字谐音");
+            setHandwritingOutput(true);
             for (String[] form : forms) {
                 runOnMainSync(() -> { host.first.setText("前币子咔后"); host.first.setSelection(4); });
                 press("已写成词");
                 tapForm("币子咔");
-                tapControl(outputButton(form[0]));
+                tapControl("谐音字".equals(form[0]) ? "保留原写法" : "用" + form[0]);
                 expectText(host.first, "前" + form[1] + "后");
                 waitSelectedControl("手写");
             }
@@ -332,7 +573,7 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.first);
         press("叶氏拼音");
         type("bifzika");
-        tapForm("bifzixkar");
+        pressCandidate("土家族，bifzixkar", false);
         press("句号");
         type("ga");
         pressCandidate("吃、咬，gaf", false);
@@ -341,7 +582,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, prefix);
 
         press("调号拼音");
-        if (!"带调号拼音".equals(setStyleFromLauncher(null)))
+        if (!"调号拼音".equals(setStyleFromLauncher(null)))
             throw new AssertionError("Output setting did not survive closing and reopening the launcher");
         tapField(host.first);
         press("调号拼音");
@@ -403,20 +644,27 @@ public final class KeyboardTest extends Instrumentation {
         Intent settings = new Intent().setClassName(IME_PACKAGE, IME_PACKAGE + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getTargetContext().startActivity(settings);
-        String label = launcherControl("输出形式 · ", true, false);
-        String previous = label.substring("输出形式 · ".length());
+        String label = launcherControl("打字输出 · ", true, false);
+        String previous = label.substring("打字输出 · ".length());
         if (requested != null && !requested.equals(previous)) {
             launcherControl(label, false, true);
-            launcherControl(outputButton(requested), false, true);
-            launcherControl("输出形式 · " + requested, false, false);
+            String example = "调号拼音".equals(requested) ? "bízīkǎ"
+                    : "叶氏拼音".equals(requested) ? "bifzixkar" : "币子咔";
+            launcherControl(requested + "，" + example, false, true);
+            launcherControl("打字输出 · " + requested, false, false);
         }
+        returnFromKeyboardSettings();
+        return previous;
+    }
+
+    private void returnFromKeyboardSettings() {
         if (!ui.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK))
             throw new AssertionError("Could not return to editor from keyboard settings");
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
         do {
             boolean[] active = new boolean[1];
             runOnMainSync(() -> active[0] = host.hasWindowFocus());
-            if (active[0]) return previous;
+            if (active[0]) return;
             SystemClock.sleep(80);
         } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("Original editor did not return to the foreground");
@@ -431,9 +679,8 @@ public final class KeyboardTest extends Instrumentation {
                     if (IME_PACKAGE.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
                         for (AccessibilityNodeInfo node : root.findAccessibilityNodeInfosByText(query)) {
                             try {
-                                if (!node.refresh()) continue;
-                                CharSequence description = node.getContentDescription();
-                                String value = description == null ? String.valueOf(node.getText()) : description.toString();
+                                if (!node.refresh() || node.getText() == null) continue;
+                                String value = node.getText().toString();
                                 if (!(prefix ? value.startsWith(query) : value.equals(query))) continue;
                                 Rect bounds = new Rect();
                                 node.getBoundsInScreen(bounds);
@@ -521,7 +768,7 @@ public final class KeyboardTest extends Instrumentation {
         runOnMainSync(() -> { host.first.setText("首"); host.second.setText("原"); });
         tapField(host.first);
         press("手写");
-        setHandwritingOutput("汉字谐音");
+        setHandwritingOutput(true);
         Rect pad = waitForNode("汉字手写区", false);
         drawBo(pad);
         // The first stroke also loads the offline model on software-emulated devices.
@@ -532,7 +779,7 @@ public final class KeyboardTest extends Instrumentation {
         if (!pad.equals(waitForNode("汉字手写区", false)))
             throw new AssertionError("Writing the next character moved the pad");
         tapForm("波俐");
-        press(outputButton("汉字谐音"));
+        press("保留原写法");
         expectText(host.first, "首波俐");
         press("接着写");
         pressCandidate("联想 一，哪", false, "一", "哪");
@@ -588,7 +835,7 @@ public final class KeyboardTest extends Instrumentation {
         runOnMainSync(() -> host.first.setText("前树稀步李以后"));
         tapField(host.first);
         press("手写");
-        setHandwritingOutput("汉字谐音");
+        setHandwritingOutput(true);
         runOnMainSync(() -> host.first.setSelection(5));
         press("已写成词");
         Rect pad = waitForNode("汉字手写区", false);
@@ -601,14 +848,14 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Expected overlapping dialect matches in order: " + forms);
         tapForm("希布里");
         expectText(host.first, "前树稀步李以后");
-        press(outputButton("带调号拼音"));
+        press("用调号拼音");
         expectText(host.first, "前树xìbúlī以后");
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting panel resized");
         runOnMainSync(() -> { host.first.setText("前波粒后"); host.first.setSelection(3); });
         press("已写成词");
         visibleForm("波立");
         tapForm("波俐");
-        press(outputButton("汉字谐音"));
+        press("用推荐字");
         expectText(host.first, "前波俐后");
         runOnMainSync(() -> { host.first.setText("借米提卡铺"); host.first.setSelection(5); });
         press("已写成词");
@@ -626,11 +873,11 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("已写「阿安」", false);
         for (int i = 0; i < 8 && findNode("已写「安」", false) == null; i++) press("切换匹配或义项");
         waitForNode("已写「安」", false);
-        press(outputButton("汉字谐音"));
+        press("用推荐字");
         expectText(host.first, "前阿˻阿安˼后");
         tapForm("˻阿安˼");
         waitForNode("已写「˻阿安˼」", false);
-        press(outputButton("带调号拼音"));
+        press("用调号拼音");
         expectText(host.first, "前阿ān后");
     }
 
@@ -654,26 +901,19 @@ public final class KeyboardTest extends Instrumentation {
         return choice;
     }
 
-    void setHandwritingOutput(String form) {
-        tapControl("更多");
-        tapControl(outputButton(form));
-        waitAbsent(outputButton(form));
-        waitSelectedControl("手写");
+    void setHandwritingOutput(boolean han) {
+        setHandwritingOutput(han ? "汉字" : "叶氏拼音");
     }
 
-    private static String outputButton(String form) {
-        switch (form) {
-            case "叶氏拼音": return "用叶氏拼音，bifzixkar";
-            case "调号拼音":
-            case "带调号拼音": return "用带调号拼音，bízīkǎ";
-            case "谐音字":
-            case "汉字谐音": return "用汉字谐音，币子咔";
-            default: return form;
-        }
+    private void setHandwritingOutput(String wanted) {
+        tapControl("设置");
+        waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
+        tapControl(wanted);
+        waitAbsent("手写输出 · 识别汉字后，选择上屏写法");
     }
 
     private Rect[] compactToolbarSnapshot() {
-        String[] labels = {"打字", "手写", "更多", "隐藏键盘"};
+        String[] labels = {"打字", "手写", "音标", "设置", "隐藏键盘"};
         if (findNode("打字", false) == null) return null;
         for (AccessibilityNodeInfo typing : imeRoot.findAccessibilityNodeInfosByText(labels[0])) {
             try {
@@ -690,7 +930,7 @@ public final class KeyboardTest extends Instrumentation {
                             if (!child.isVisibleToUser() || !child.isClickable()) continue;
                             for (int k = 0; k < labels.length; k++) {
                                 if (!android.text.TextUtils.equals(labels[k], child.getContentDescription())) continue;
-                                if (k == 3 && !android.text.TextUtils.equals("收起", child.getText())) continue;
+                                if (k == labels.length - 1 && !android.text.TextUtils.equals("收起", child.getText())) continue;
                                 bounds[k] = new Rect();
                                 child.getBoundsInScreen(bounds[k]);
                             }
@@ -710,12 +950,12 @@ public final class KeyboardTest extends Instrumentation {
         do {
             Rect[] controls = compactToolbarSnapshot();
             if (controls != null && Arrays.equals(previous, controls)) {
-                stage("One IME toolbar, 打字/手写/更多/收起 bounds: " + Arrays.toString(controls));
+                stage("One IME toolbar, 打字/手写/音标/设置/收起 bounds: " + Arrays.toString(controls));
                 for (int i = 0; i < controls.length; i++) {
                     Rect area = controls[i];
                     if (area.isEmpty() || area.top != controls[0].top || area.bottom != controls[0].bottom
                             || (i > 0 && controls[i - 1].right > area.left))
-                        throw new AssertionError("The four stable sibling IME controls are not on one ordered line: " + Arrays.toString(controls));
+                        throw new AssertionError("The IME controls are not on one ordered line: " + Arrays.toString(controls));
                 }
                 return;
             }
@@ -1013,7 +1253,7 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
         assertCompactToolbar();
-        for (String extra : new String[]{"叶氏拼音", "谐音字", "语音", "确定拼写"}) waitAbsent(extra);
+        for (String extra : new String[]{"叶氏拼音", "谐音字", "返回打字", "确定拼写"}) waitAbsent(extra);
         assertEditorAboveKeyboard(host.first, "打字");
         waitForNode("待选拼写 ", false);
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 ")) {
@@ -1051,15 +1291,15 @@ public final class KeyboardTest extends Instrumentation {
         if (!cards.get(0).lines.equals(Arrays.asList("吃", "架"))) throw new AssertionError("Missing first lexical gloss in compact mode");
         assertEditorAboveKeyboard(host.first, "打字");
         captureFrame("compact-typing.png");
-        tapControl("更多");
-        waitSelectedControl("更多");
+        tapControl("设置");
+        waitSelectedControl("设置");
         waitSelectedControl("谐音字");
         waitForNode("叶氏拼音", false);
-        waitForNode("语音", false);
+        waitForNode("返回打字", false);
         waitForNode("确定拼写", false);
         expectText(host.first, "正文");
         captureFrame("compact-more.png");
-        tapControl("更多");
+        tapControl("设置");
         waitAbsent("确定拼写");
         waitForNode("待选拼写 ga", false);
         pressCandidate("吃、咬，架", false);
@@ -1080,15 +1320,15 @@ public final class KeyboardTest extends Instrumentation {
         press("手写");
         Rect pad = waitForNode("汉字手写区", false);
         assertEditorAboveKeyboard(host.first, "手写");
-        setHandwritingOutput("汉字谐音");
+        setHandwritingOutput(true);
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Output settings moved the handwriting pad");
         captureFrame("compact-handwriting.png");
         drawThree(pad);
         expectText(host.first, "正文架日日三");
         press("打字");
-        tapControl("更多");
+        tapControl("设置");
         waitSelectedControl("谐音字");
-        tapControl("更多");
+        tapControl("设置");
         waitAbsent("叶氏拼音");
         assertEditorAboveKeyboard(host.first, "打字");
     }
@@ -1152,7 +1392,7 @@ public final class KeyboardTest extends Instrumentation {
             press("退格");
             expectText(host.first, spelling);
 
-            setStyleFromLauncher("带调号拼音");
+            setStyleFromLauncher("调号拼音");
             newPredictionEditor();
             press("调号拼音");
             Card toned = nextSoundCard();
@@ -1182,14 +1422,14 @@ public final class KeyboardTest extends Instrumentation {
             stage("Handwriting predictions append and respect the selected output");
             newPredictionEditor();
             press("手写");
-            setHandwritingOutput("汉字谐音");
+            setHandwritingOutput(true);
             Rect pad = waitForNode("汉字手写区", false);
             drawBo(pad);
             expectText(host.first, "波");
             drawLi(pad);
             expectText(host.first, "波俐");
             tapForm("波俐");
-            press(outputButton("汉字谐音"));
+            press("保留原写法");
             press("接着写");
             Card hand = nextSoundCard();
             String afterChild = outputLine(hand);
@@ -1199,7 +1439,7 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "波俐" + afterChild);
 
             tapField(host.second);
-            setHandwritingOutput("带调号拼音");
+            setHandwritingOutput("调号拼音");
             Card handSpelling = nextSoundCard();
             String startingForm = outputLine(handSpelling);
             if (startingForm.matches("[a-z]+") || Character.isIdeographic(startingForm.codePointAt(0)))
@@ -1207,7 +1447,7 @@ public final class KeyboardTest extends Instrumentation {
             tap(handSpelling.bounds.centerX(), handSpelling.bounds.centerY());
             expectText(host.second, startingForm);
             expectText(host.first, "波俐" + afterChild);
-            setHandwritingOutput("汉字谐音");
+            setHandwritingOutput(true);
             press("谐音字");
 
             runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT
@@ -1485,7 +1725,6 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private boolean isSelectedControl(String label) {
-        label = outputButton(label);
         if (findNode(label, false) == null) return false;
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(label)) {
             try {
@@ -1507,21 +1746,20 @@ public final class KeyboardTest extends Instrumentation {
 
     void press(String label) {
         boolean typingOutput = "调号拼音".equals(label) || "叶氏拼音".equals(label) || "谐音字".equals(label);
-        if (typingOutput || "语音".equals(label)) {
+        if (typingOutput) {
             awaitKeyboardAtRest();
-            if (typingOutput && !isSelectedControl("打字")) {
+            if (!isSelectedControl("打字")) {
                 tapControl("打字");
                 waitSelectedControl("打字");
             }
-            tapControl("更多");
+            tapControl("设置");
             tapControl(label);
             waitAbsent(label);
-            if (typingOutput) waitSelectedControl("打字");
-            else waitForNode("语音模型尚未上线", false);
+            waitSelectedControl("打字");
             awaitKeyboardAtRest();
             return;
         }
-        if ("手写".equals(label) || "打字".equals(label)) {
+        if ("手写".equals(label) || "打字".equals(label) || "音标".equals(label)) {
             awaitKeyboardAtRest();
             tapControl(label);
             waitSelectedControl(label);
@@ -1809,7 +2047,6 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private Rect findNode(String label, boolean suffix) {
-        if (!suffix) label = outputButton(label);
         // Reuse the IME window between keystrokes. Re-enumerate windows only
         // when Android has hidden or replaced the old window.
         if (imeRoot != null && !imeRoot.refresh()) {
