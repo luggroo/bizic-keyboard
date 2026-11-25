@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,12 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 /** Android adapter for the shared Tujia word and sentence engine. */
 public final class CandidateEngine implements AutoCloseable {
     static final int HANDWRITING_WINDOW = 4;
     public enum Mode { PINYIN, HAN, HANDWRITING }
-    public enum Kind { TUJIA, CHINESE, LITERAL, PUNCTUATION }
+    public enum Kind { TUJIA, CHINESE, LITERAL, PUNCTUATION, USER }
     public enum Orthography { YE, DIACRITIC, IPA }
 
     public static final class Candidate {
@@ -121,6 +123,51 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> lookup(String input, Mode mode, Orthography orthography) {
         return candidates(input, mode, orthography, 0);
+    }
+
+    public Candidate spellingOnSpace(String input, Orthography orthography) {
+        Candidate recommended = null;
+        for (Candidate word : candidates(input, Mode.PINYIN, orthography, 7)) {
+            if (word.kind != Kind.TUJIA || word.syllableOnly || word.consumed != input.length()) continue;
+            if (word.text.equals(input)) return word;
+            if (word.text.equalsIgnoreCase(input)) return null;
+            if (recommended == null) recommended = word;
+        }
+        return recommended;
+    }
+
+    static List<Candidate> prioritizeVerbatim(String draft, List<Candidate> dictionary, List<Candidate> ranked) {
+        if (draft.isEmpty()) return ranked;
+        Candidate original = null;
+        for (Candidate match : dictionary) {
+            if (match.kind == Kind.TUJIA && !match.syllableOnly && match.consumed == draft.length()
+                    && match.text.equals(draft)) {
+                original = match;
+                break;
+            }
+        }
+        if (original == null) {
+            original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
+                    new int[0], false, "", "", false, "");
+        }
+        return prependVerbatim(original, ranked, candidate -> candidate.text);
+    }
+
+    static <T> List<T> prependVerbatim(T original, List<T> ranked, Function<T, String> form) {
+        List<T> choices = new ArrayList<>(ranked.size() + 1);
+        choices.add(original);
+        String visibleDraft = Normalizer.normalize(form.apply(original), Normalizer.Form.NFC);
+        for (T candidate : ranked) {
+            if (!visibleDraft.equals(Normalizer.normalize(form.apply(candidate), Normalizer.Form.NFC))) {
+                choices.add(candidate);
+            }
+        }
+        return choices;
+    }
+
+    static Candidate userWord(String word, int consumed) {
+        return new Candidate(word, "", "", Kind.USER.ordinal(), consumed,
+                new int[0], false, "", "", false, "");
     }
 
     public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {

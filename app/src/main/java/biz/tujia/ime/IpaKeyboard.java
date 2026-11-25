@@ -9,15 +9,18 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Layout and offline prefix matching for literal IPA input. */
 final class IpaKeyboard {
-    static final int MAX_PREFIX = 64;
+    private static final int MAX_PREFIX = 64;
+    static final int MAX_VERBATIM_PREFIX = 256;
     static final int NORTH = 1, SOUTH = 2, ALL_DIALECTS = NORTH | SOUTH;
     static final String NASAL = "\u0303", SYLLABIC = "\u0329", TIE = "\u0361";
     private static final String DIGITS = "¹²³⁴⁵";
@@ -71,19 +74,59 @@ final class IpaKeyboard {
     }
 
     static String prefix(CharSequence before, CharSequence after) {
-        if (before == null || after == null || after.length() > 0 && NEXT.matcher(after).lookingAt()) return "";
-        Matcher match = WORD.matcher(before);
-        if (!match.find() || match.start() == 0 && before.length() > MAX_PREFIX
-                || !HAS_LETTER.matcher(match.group()).find()) return "";
-        return match.group();
+        String prefix = completionPrefix(before, after);
+        return prefix == null ? "" : prefix;
     }
 
     static String completionPrefix(CharSequence before, CharSequence after) {
+        String input = candidatePrefix(before, after);
+        if (input == null || input.isEmpty()) return input;
+        return input.length() <= MAX_PREFIX && HAS_LETTER.matcher(input).find() ? input : null;
+    }
+
+    static String candidatePrefix(CharSequence before, CharSequence after) {
         if (before == null || after == null || NEXT.matcher(after).lookingAt()) return null;
-        String prefix = prefix(before, after);
-        if (!prefix.isEmpty() || before.length() == 0) return prefix;
+        Matcher match = WORD.matcher(before);
+        if (match.find()) return match.start() == 0 && before.length() > MAX_VERBATIM_PREFIX ? null : match.group();
+        if (before.length() == 0) return "";
         int last = Character.offsetByCodePoints(before, before.length(), -1);
         return NEXT.matcher(before.subSequence(last, before.length())).lookingAt() ? null : "";
+    }
+
+    static List<Entry> withVerbatim(String input, IpaKeyboard lexicon, int dialects) {
+        return withVerbatim(input, lexicon, dialects, Collections.emptyList());
+    }
+
+    static List<Entry> withVerbatim(String input, IpaKeyboard lexicon, int dialects, List<String> learned) {
+        List<Entry> ranked = Collections.emptyList();
+        Set<String> glosses = new LinkedHashSet<>();
+        if (lexicon != null && dialects != 0 && input.length() <= MAX_PREFIX && HAS_LETTER.matcher(input).find()) {
+            ranked = lexicon.complete(input, dialects);
+            for (Entry entry : lexicon.entries) {
+                if ((entry.dialects & dialects) != 0 && entry.ipa.equals(input) && !entry.gloss.isEmpty()) {
+                    glosses.add(entry.gloss);
+                }
+            }
+        }
+        if (!learned.isEmpty()) {
+            List<Entry> personal = new ArrayList<>();
+            Set<String> known = new HashSet<>();
+            for (Entry entry : ranked) known.add(entry.spelling);
+            for (String word : learned) {
+                Entry candidate = new Entry(0, word, "");
+                if (known.add(candidate.spelling)) personal.add(candidate);
+            }
+            personal.addAll(ranked);
+            ranked = personal;
+        }
+        StringJoiner gloss = new StringJoiner("；");
+        for (String meaning : glosses) gloss.add(meaning);
+        return CandidateEngine.prependVerbatim(new Entry(dialects, input, gloss.toString()), ranked,
+                entry -> entry.ipa);
+    }
+
+    static boolean continuesWord(String text) {
+        return NEXT.matcher(text).lookingAt();
     }
 
     List<Entry> complete(String prefix, int dialects) {
