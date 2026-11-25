@@ -45,6 +45,17 @@ public final class CandidateEngineTest {
         checkHandwrittenSuffixes(asset);
         try (CandidateEngine all = new CandidateEngine(new SequenceInputStream(new FileInputStream(asset.toFile()),
                      new FileInputStream(asset.resolveSibling("northern-words.tsv").toFile())))) {
+            Candidate split = all.spellingOnSpace("ngafyer", Orthography.YE);
+            check(split != null && split.text.equals("ngaf yer") && split.consumed == "ngafyer".length(),
+                    "Space segments two complete dictionary words");
+            Candidate corrected = all.spellingOnSpace("bifzika", Orthography.YE);
+            check(corrected != null && corrected.text.equals("bifzixkar"), "Space selects a known spelling");
+            Candidate marked = all.spellingOnSpace("bizika", Orthography.DIACRITIC);
+            check(marked != null && marked.text.equals("bízīkǎ"), "Space uses the current output form");
+            check(all.spellingOnSpace("pifpav", Orthography.YE) == null,
+                    "A known prefix must not change the user's entire original");
+            check(all.spellingOnSpace("BIFZIXKAR", Orthography.YE) == null,
+                    "Space preserves capitalization of an otherwise exact spelling");
             for (String input : new String[]{"guaijia", "guairjiax", "guaifjiax", "guijia", "gojia", "guojia", "guorjia", "guorjiax"}) {
                 List<Candidate> found = all.lookup(input, Mode.HAN);
                 check(!found.isEmpty() && found.get(0).text.equals("国家") && found.get(0).plainHanLoan,

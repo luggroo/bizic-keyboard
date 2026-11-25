@@ -92,6 +92,7 @@ public final class KeyboardTest extends Instrumentation {
                 testIpaSettings();
                 testHandwritingSidebar();
                 testVerbatimSpelling();
+                testSpellingOnSpace();
                 testUserDictionary();
                 testDirectionalTones();
                 new SystemTypography(this, host).ipa();
@@ -245,7 +246,7 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         press("m");
         press("a");
-        expectFirst("原文，ma");
+        waitAbsent("原文，ma");
         waitAbsent("补全 奶，mã²¹");
         expectText(host.first, "ma");
         tapField(host.second);
@@ -301,6 +302,7 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("补全 我，" + southernI);
         press("m");
         press("a");
+        expectFirst("原文，ma");
         waitAbsent("补全 奶，mã²¹");
         waitAbsent("无匹配候选");
         expectText(host.second, southernI + " ba³³nõ²¹ ma");
@@ -620,6 +622,23 @@ public final class KeyboardTest extends Instrumentation {
         press("叶氏拼音");
         type(prefix);
         waitAbsent(completion);
+    }
+
+    private void testSpellingOnSpace() {
+        stage("Space selects and separates a complete spelling, with a verbatim fallback");
+        newPredictionEditor();
+        press("叶氏拼音");
+        type("ngafyer");
+        expectText(host.first, "ngafyer");
+        press("空格");
+        expectText(host.first, "ngaf yer ");
+        type("pifpav");
+        press("空格");
+        expectText(host.first, "ngaf yer pifpav ");
+        press("调号拼音");
+        type("bizika");
+        press("空格");
+        expectText(host.first, "ngaf yer pifpav bízīkǎ ");
     }
 
     private void testDirectionalTones() {

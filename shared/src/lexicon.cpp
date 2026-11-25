@@ -1237,7 +1237,8 @@ struct Lexicon::Impl {
     }
 
     // Prefer coverage, then fewer words, then the longer first word on ties.
-    bool sentence(const Query& q, size_t start, Mode mode, Orthography orthography, Candidate& candidate) const {
+    bool sentence(const Query& q, size_t start, Mode mode, Orthography orthography, Candidate& candidate,
+                  bool onSpace) const {
         struct Step {
             size_t missing = 0, count = 0, next = 0;
             WordIds choices;
@@ -1281,11 +1282,14 @@ struct Lexicon::Impl {
                 mealPrefix = it != choices.end();
                 if (mealPrefix) id = *it;
             }
-            certain = certain && choices.size() == 1;
+            certain = certain && (choices.size() == 1 || (onSpace &&
+                std::all_of(choices.begin(), choices.end(), [&](size_t choice) {
+                    return entries[choice].output(mode, orthography) == entries[id].output(mode, orthography);
+                })));
             picked.push_back(id);
             if (mealPrefix && picked.size() == meal.size()) mealEnd = q.skipSpaces(path[i].next);
         }
-        if (certain && path[start].missing == 0 && picked.size() >= 3 && markEnd == length) {
+        if (certain && path[start].missing == 0 && picked.size() >= (onSpace ? 2 : 3) && markEnd == length) {
             candidate = joined(picked, mode, orthography, q.utf16At[markEnd], q.slice(stop, markEnd));
             return true;
         }
@@ -1320,7 +1324,8 @@ struct Lexicon::Impl {
         append(candidate.shortMeaning, entry.shortMeaning, "；");
     }
 
-    std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography) const {
+    std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography,
+                                  bool onSpace = false) const {
         Query q;
         if (!q.read(input)) return {};
         const size_t start = q.skipSpaces(0);
@@ -1384,7 +1389,7 @@ struct Lexicon::Impl {
         }
         if (!result.empty()) {
             Candidate full;
-            if (sentence(q, start, mode, orthography, full)) {
+            if (sentence(q, start, mode, orthography, full, onSpace)) {
                 auto pos = std::find_if(result.begin(), result.end(), [&](const Candidate& c) {
                     return c.consumed < full.consumed;
                 });
@@ -1671,6 +1676,11 @@ std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orth
     if (mode != Mode::Pinyin && mode != Mode::Han && mode != Mode::Handwriting) return {};
     if (orthography != Orthography::Ye && orthography != Orthography::Diacritic) return {};
     return impl_->lookup(input, mode, orthography);
+}
+
+std::vector<Candidate> Lexicon::spellingOnSpace(const std::string& input, Orthography style) const {
+    if (style != Orthography::Ye && style != Orthography::Diacritic) return {};
+    return impl_->lookup(input, Mode::Pinyin, style, true);
 }
 
 std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input, Mode mode, Orthography style) const {

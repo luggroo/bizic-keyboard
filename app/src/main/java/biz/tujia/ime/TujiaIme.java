@@ -2208,6 +2208,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             commitRaw();
             return;
         }
+        applyTypingChoice(c, action, false);
+    }
+
+    private void applyTypingChoice(CandidateEngine.Candidate c, HanChoice.Action action, boolean addSpace) {
         boolean prediction = wordHints.contains(c) || syllableHints.contains(c);
         int consumed = action != null ? action.consumed : prediction ? draft.length() : c.consumed;
         if (consumed > draft.length() || consumed < 0 || consumed == 0 && !draft.isEmpty()) return;
@@ -2220,7 +2224,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             CharSequence replacement = draft;
             if (!selected.text.equals(draft) || !remainder.isEmpty()) {
                 replacement = new SpannableStringBuilder(wordForEditor(editor, selected.text,
-                        selected.joinedHanRanges, draft.length(), remainder)).append(remainder);
+                        selected.joinedHanRanges, draft.length(), addSpace ? " " : remainder)).append(remainder);
             }
             if (!replaceTypedText(editor, draft, replacement)) return;
         } else if (!commit(selected.text, true, selected.joinedHanRanges)) return;
@@ -2268,6 +2272,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (inIpaMode()) { typeIpa(" "); return; }
         if (selectingTone) { updateCandidates(); return; }
         if (mode == SPELL) {
+            if (engine != null && !draft.isEmpty()
+                    && !(canLearnWords() && userDictionary.contains(spellingForm(), draft))) {
+                CandidateEngine.Candidate recommended = engine.spellingOnSpace(draft, orthography);
+                if (recommended != null) applyTypingChoice(recommended, null, true);
+            }
             commitRaw();
             commit(" ", false);
             return;

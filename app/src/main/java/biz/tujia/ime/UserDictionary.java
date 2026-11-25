@@ -36,6 +36,10 @@ final class UserDictionary {
         preferences.edit().putInt(key, count).apply();
     }
 
+    boolean contains(Form form, String word) {
+        return uses.getOrDefault(form.name() + '\t' + word, 0) >= MINIMUM_USES;
+    }
+
     List<String> completions(Form form, String prefix) {
         String namespace = form.name() + '\t';
         String start = namespace + prefix;

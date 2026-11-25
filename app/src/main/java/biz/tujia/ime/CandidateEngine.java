@@ -125,6 +125,17 @@ public final class CandidateEngine implements AutoCloseable {
         return candidates(input, mode, orthography, 0);
     }
 
+    public Candidate spellingOnSpace(String input, Orthography orthography) {
+        Candidate recommended = null;
+        for (Candidate word : candidates(input, Mode.PINYIN, orthography, 7)) {
+            if (word.kind != Kind.TUJIA || word.syllableOnly || word.consumed != input.length()) continue;
+            if (word.text.equals(input)) return word;
+            if (word.text.equalsIgnoreCase(input)) return null;
+            if (recommended == null) recommended = word;
+        }
+        return recommended;
+    }
+
     static List<Candidate> prioritizeVerbatim(String draft, List<Candidate> dictionary, List<Candidate> ranked) {
         if (draft.isEmpty()) return ranked;
         Candidate original = null;
