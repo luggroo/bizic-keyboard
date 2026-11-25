@@ -143,6 +143,7 @@ function render(){
   markOutput($('orthography'),active);
   markOutput($('typingOutputs'),selected<2?active:null);
   $('keys').hidden=mode===2;$('hand').hidden=mode!==2;
+  for(const [letter,key] of virtualKeys) if(vowelMarks[letter]) key.classList.toggle('tone-enabled', toneEnabled());
   draft.value=drafts[mode===2?1:0];
   candidates();
   if(mode===2)paint();
@@ -569,32 +570,44 @@ function editKey(key){
 }
 const vowelMarks={a:'āáǎà',e:'ēéěè',i:'īíǐì',o:'ōóǒò',u:'ūúǔù'};
 const virtualKeys=new Map();
-let toneOwner=null, holdTimer=null;
+let toneOwner=null, holdTimer=null, toneDirection=null;
+function toneEnabled(){return mode===1 || mode===0 && (demoSpelling||orthography)==='diacritic'}
 function closeToneKeys(){
   clearTimeout(holdTimer);
-  toneOwner?.setAttribute('aria-expanded','false');toneOwner=null;
+  toneOwner?.setAttribute('aria-expanded','false');toneOwner=null;toneDirection=null;
   $('toneKeys').hidden=true;
 }
 function openToneKeys(vowel,focus=false){
   closeToneKeys();
-  const panel=$('toneKeys');
+  const panel=$('toneKeys'), area=$('keys').getBoundingClientRect();
   toneOwner=virtualKeys.get(vowel);
-  toneOwner.setAttribute('aria-expanded','true');
-  panel.replaceChildren(...Array.from(vowelMarks[vowel],symbol=>button(symbol,()=>{
-    const owner=toneOwner;
-    editKey(symbol);closeToneKeys();owner?.focus({preventScroll:true});
-  },'tone-key')));
-  panel.hidden=false;
-  if(focus)panel.firstElementChild.focus({preventScroll:true});
+  const rect=toneOwner.getBoundingClientRect(), cell=Math.min(rect.width,48), height=Math.max(rect.height,42);
+  const x=rect.left-area.left+rect.width/2, y=rect.top-area.top+rect.height/2;
+  const edge=x-cell*1.5<0?-1:x+cell*1.5>area.width?1:0;
+  const columns=edge<0?[0,1,0,1]:edge>0?[1,0,1,0]:[1,2,1,0];
+  const rows=edge<0?[0,1,2,0]:edge>0?[0,0,2,1]:[0,1,2,1];
+  const centre=edge<0?0:1, count=edge?2:3;
+  panel.style.gridTemplateColumns=`repeat(${count},1fr)`;
+  panel.style.width=`${cell*count}px`;panel.style.height=`${height*3}px`;
+  panel.style.left=`${Math.max(0,Math.min(area.width-cell*count,x-cell*centre-cell/2))}px`;
+  panel.style.top=`${y-height*1.5}px`;
+  const options=Array.from(vowelMarks[vowel],(symbol,i)=>{
+    const option=button(symbol,()=>{const owner=toneOwner;editKey(symbol);closeToneKeys();owner?.focus({preventScroll:true})},'tone-key');
+    option.style.gridColumn=columns[i]+1;option.style.gridRow=rows[i]+1;return option;
+  });
+  const center=button(vowel,()=>{const owner=toneOwner;editKey(vowel);closeToneKeys();owner?.focus({preventScroll:true})},'tone-key tone-centre');
+  center.style.gridColumn=centre+1;center.style.gridRow=2;
+  panel.replaceChildren(...options,center);panel.hidden=false;
+  toneOwner.setAttribute('aria-expanded','true');toneDirection={edge,options};
+  if(focus)options[0].focus({preventScroll:true});
 }
 $('toneKeys').addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     const owner=toneOwner;closeToneKeys();owner?.focus({preventScroll:true});e.preventDefault();return;
   }
-  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
-    const keys=[...$('toneKeys').children], step=e.key==='ArrowRight'?1:-1;
-    keys[(keys.indexOf(document.activeElement)+step+keys.length)%keys.length].focus();
-    e.preventDefault();
+  if(['ArrowRight','ArrowLeft','ArrowUp','ArrowDown'].includes(e.key)){
+    const keys=[...$('toneKeys').children], step=['ArrowRight','ArrowDown'].includes(e.key)?1:-1;
+    keys[(keys.indexOf(document.activeElement)+step+keys.length)%keys.length].focus();e.preventDefault();
   }
 });
 document.addEventListener('pointerdown',e=>{
@@ -603,28 +616,40 @@ document.addEventListener('pointerdown',e=>{
 for(const chars of ['qwertyuiop','asdfghjkl','zxcvbnm']){
   const row=node('div','','row');
   for(const c of chars){
-    let held=false;
-    const key=button(c.toUpperCase(),()=>{
+    let held=false, startX=0, startY=0, selected=-1;
+    const key=button(c,()=>{
       if(held){held=false;return}
       closeToneKeys();editKey(c);
     },'key');
-    virtualKeys.set(c,key);key.dataset.letter=c;row.append(key);
+    key.setAttribute('aria-label',c);virtualKeys.set(c,key);key.dataset.letter=c;row.append(key);
     if(!vowelMarks[c])continue;
-    key.title='长按或按 ↓ 选择调号';
-    key.setAttribute('aria-keyshortcuts','ArrowDown');
-    key.setAttribute('aria-controls','toneKeys');
-    key.setAttribute('aria-expanded','false');
+    for(const [mark,position] of [['ˉ','up'],['ˊ','right'],['ˇ','down'],['ˋ','left']]){
+      const hint=node('span',mark,'tone-hint '+position);hint.setAttribute('aria-hidden','true');key.append(hint);
+    }
+    key.title='长按选择调号';key.setAttribute('aria-keyshortcuts','ArrowDown');
+    key.setAttribute('aria-controls','toneKeys');key.setAttribute('aria-expanded','false');
     key.addEventListener('contextmenu',e=>e.preventDefault());
     key.addEventListener('pointerdown',e=>{
-      if(e.button!==0)return;
-      clearTimeout(holdTimer);held=false;
+      if(e.button!==0 || !toneEnabled())return;
+      clearTimeout(holdTimer);held=false;selected=-1;startX=e.clientX;startY=e.clientY;
+      key.setPointerCapture?.(e.pointerId);
       holdTimer=setTimeout(()=>{held=true;openToneKeys(c)},450);
     });
-    for(const event of ['pointerup','pointercancel','pointerleave']){
-      key.addEventListener(event,()=>clearTimeout(holdTimer));
-    }
+    key.addEventListener('pointermove',e=>{
+      if(!held||!toneDirection)return;
+      const dx=e.clientX-startX,dy=e.clientY-startY,threshold=18,edge=toneDirection.edge;
+      selected=Math.max(Math.abs(dx),Math.abs(dy))<threshold?-1:
+        dy < -threshold*.7 && Math.abs(dx)>=threshold*.7 && edge && Math.sign(dx)===-edge ? (edge<0?3:1):
+        Math.abs(dx)>Math.abs(dy)?(dx>0?1:3):(dy<0?0:2);
+      toneDirection.options.forEach((opt,i)=>opt.classList.toggle('selected',i===selected));
+    });
+    key.addEventListener('pointerup',()=>{
+      clearTimeout(holdTimer);
+      if(held && selected>=0 && toneDirection){const symbol=vowelMarks[c][selected];editKey(symbol);closeToneKeys()}
+    });
+    key.addEventListener('pointercancel',()=>{clearTimeout(holdTimer);if(held)closeToneKeys();held=false});
     key.addEventListener('keydown',e=>{
-      if(e.key==='ArrowDown'){e.preventDefault();held=false;openToneKeys(c,true)}
+      if(e.key==='ArrowDown' && toneEnabled()){e.preventDefault();held=false;openToneKeys(c,true)}
     });
   }
   $('keys').append(row);
