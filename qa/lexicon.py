@@ -17,6 +17,7 @@ ASSETS = ROOT / 'shared/bundle/Assets'
 sys.path.insert(0, str(ROOT / 'tools'))
 from import_ngrams import aligned_units, lexemes_by_sense
 from import_words import gloss_parts, load, native_forms, spellings
+from keyboard_gloss import normalize_meaning
 
 Item = namedtuple('Item', 'ids text gloss short consumed kind last_syllable syllable_only plain_han_loan han_sense')
 
@@ -139,6 +140,11 @@ def visible(item, row, text, consumed, han=True):
 
 
 def expect(item, row, text, consumed, han=True):
+    # Written pinyin coalesces different senses and deliberately clears the
+    # specific lexeme ID; the complete source meaning must still be present.
+    if not han and not item.ids:
+        return (item.text == text and item.kind == 0 and item.consumed == consumed
+                and row['meaning'] in item.gloss.split('；') and not item.plain_han_loan)
     return item.ids == row['id'] and visible(item, row, text, consumed, han)
 
 
@@ -200,6 +206,12 @@ def song(model, rows, scores):
     words = {r['id']:r for r in rows}
     lines, current = [], []
     for row in tsv(ROOT/'tools/story-demo/shange-spelling.tsv'):
+        # The song fixture preserves its source gloss and historic Han spelling.
+        # The current word row can have a reviewed equivalent or a newer spelling.
+        word = words[row['id']]
+        assert normalize_meaning(word['meaning']) == normalize_meaning(row['gloss']), row['id']
+        assert row['han'] == word['recommended'] or row['han'] in word['aliases'].split(), row['id']
+        row['han'] = word['recommended']
         current.append(row)
         if row['after']:
             lines.append(current)
@@ -217,7 +229,7 @@ def song(model, rows, scores):
             correct = True
             for tok in line:
                 oracle = words[tok['id']]
-                assert oracle['meaning'] == tok['gloss'] and oracle['recommended'] == tok['han']
+                assert normalize_meaning(oracle['meaning']) == normalize_meaning(tok['gloss']) and oracle['recommended'] == tok['han']
                 single = model.choices(tok[form])
                 remaining = model.choices(suffix)
                 test = lambda x: expect(x, oracle, tok['han'], utf16(tok[form]))
@@ -335,7 +347,8 @@ def syllable_oracle(model, baseline, rows, table, senses_path, entries):
         for key in ('word','diacritic','plain','recommended'):
             assert model.choices(r[key]) == baseline.choices(r[key]), r['id']
         assert model.choices(r['id'],op='next_words') == baseline.choices(r['id'],op='next_words'), r['id']
-        assert any(c.ids == r['id'] and c.last_syllable for c in model.choices(r['word'],0)), r['id']
+        assert any(c.last_syllable and (c.ids == r['id'] or not c.ids and c.text == r['word']
+                   and r['meaning'] in c.gloss.split('；')) for c in model.choices(r['word'],0)), r['id']
         stable += 1
     after_ka = model.choices('kar', mode=1, op='next_syllables')
     for sound in ('mongr', 'munr'):
@@ -466,7 +479,7 @@ def main():
     n = len(rows)
     tokens = sum(map(len,lines))
     report=['# 词库、连续分词与下一词联想评测',
-            f'在共用输入核心中测试 {n} 个土家语词条或词组。每个词按相同权重计一次。一个候选要同时给出预期词条 ID、字形或拼写、完整与简明汉义，并消耗正确数量的 UTF-16 单元才算命中。首位和前三位均计入全部候选。',
+            f'在共用输入核心中测试 {n} 个土家语词条或词组。每个词按相同权重计一次。汉字候选要给出预期词条 ID、字形、完整与简明汉义，并消耗正确数量的 UTF-16 单元才算命中。合并了不同词义的拼音候选可以不带词条 ID，但须包含原词义、正确拼写和输入长度。首位和前三位均计入全部候选。',
             '## 词条与同形词',scores.table(labels),
             '同形词按相同输入、不同来源词条 ID 取样。旧写法来自保留的输入别名，词内补全按每个能严格补成整词的前缀计分。无调键入和相邻词连打的“可见结果”要求候选消费长度正确，字形和短义来自相同无调拼写、相同完整汉义的词条。例如，打 go 时，共用词库保留“他、讨、过错”三个不同的词义记录，写入汉字都为“过”。手机最终候选栏把同样上屏的字排在一格，点一次就写入“过”。表中的首位与前三位取自共用词库返回的词义记录，手机候选格数可以更少。带调 gǒ 或叶氏 gor 仍能选“郭”。',
             'Android 15 实测，全页只有一张“过”，卡上显示“¹他 ²讨”，长按可看“过错”。长按 `o` 选 `ǒ` 后改为“他／郭”。[无调候选](results/api35-033-han-go.png) · [带调候选](results/api35-033-han-marked-go.png) · [设备记录](results/api35-033-han-senses.log)',
