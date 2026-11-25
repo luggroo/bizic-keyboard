@@ -184,9 +184,9 @@ final class SystemTypography {
             while (host.lastEditorAction != android.view.inputmethod.EditorInfo.IME_ACTION_DONE
                     && SystemClock.uptimeMillis() < until) SystemClock.sleep(50);
             if (host.lastEditorAction != android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-                    || !"正文架".equals(host.lastSubmitted))
+                    || !(name.equals("largest-dense") ? "正文夹下" : "正文架").equals(host.lastSubmitted))
                 throw new AssertionError("Bottom-row action did not reach the host at " + name);
-            test.stage("Bottom-row 完成 reached the host with 正文架 at " + name);
+            test.stage("Bottom-row 完成 reached the host with " + host.lastSubmitted + " at " + name);
         }
         return qInk;
     }
