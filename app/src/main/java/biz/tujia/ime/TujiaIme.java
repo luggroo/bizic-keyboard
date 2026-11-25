@@ -189,14 +189,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private long cursorAt(InputConnection connection) {
+        long cursor = extractedCursor(connection);
+        return cursor == -1 ? ((long) selStart << 32) | (selEnd & 0xffffffffL) : cursor;
+    }
+
+    private static long extractedCursor(InputConnection connection) {
         ExtractedTextRequest request = new ExtractedTextRequest();
         request.hintMaxChars = 1;
         ExtractedText text = connection.getExtractedText(request, 0);
-        int start = selStart, end = selEnd;
-        if (text != null && text.selectionStart >= 0 && text.selectionEnd >= 0) {
-            start = text.startOffset + text.selectionStart;
-            end = text.startOffset + text.selectionEnd;
-        }
+        if (text == null || text.startOffset < 0 || text.selectionStart < 0 || text.selectionEnd < 0) return -1;
+        int start = text.startOffset + text.selectionStart, end = text.startOffset + text.selectionEnd;
         return ((long) start << 32) | (end & 0xffffffffL);
     }
 
@@ -333,6 +335,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (!expectedSelections.isEmpty()) return;
         } else if (oldStart != newStart || oldEnd != newEnd) {
             if (newStart != selStart || newEnd != selEnd) {
+                if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;
                 resetDraft();
                 selStart = newStart;
                 selEnd = newEnd;
@@ -343,6 +346,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         selStart = newStart;
         selEnd = newEnd;
         if (inIpaMode() && inputViewActive) showIpaCandidates();
+    }
+
+    private boolean editorKeptSelection() {
+        InputConnection editor = getCurrentInputConnection();
+        if (editor == null) return false;
+        long actual = extractedCursor(editor);
+        return actual != -1 && (int) (actual >>> 32) == selStart && (int) actual == selEnd
+                && (draft.isEmpty() || TextUtils.equals(draft, editor.getTextBeforeCursor(draft.length(), 0)));
     }
 
     private void layoutKeyboard() {
@@ -2376,11 +2387,21 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private boolean commitTypedText(String text) {
+        InputConnection editor = getCurrentInputConnection();
+        if (editor == null) return false;
+        if ((mode == SPELL && draft.isEmpty()) || pendingWordSeparator) {
+            long actual = extractedCursor(editor);
+            if (actual != -1 && ((int) (actual >>> 32) != selStart || (int) actual != selEnd)) {
+                selStart = (int) (actual >>> 32);
+                selEnd = (int) actual;
+                expectedSelections.clear();
+                pendingWordSeparator = false;
+            }
+        }
         int first = text.codePointAt(0);
         if (pendingWordSeparator && selStart >= 0 && selStart == selEnd
                 && Character.isLetter(first) && Character.getType(first) != Character.MODIFIER_LETTER) {
-            InputConnection editor = getCurrentInputConnection();
-            CharSequence before = editor == null ? null : editor.getTextBeforeCursor(2, 0);
+            CharSequence before = editor.getTextBeforeCursor(2, 0);
             if (before != null && before.length() > 0) {
                 int last = Character.offsetByCodePoints(before, before.length(), -1);
                 if (IpaKeyboard.continuesWord(before.subSequence(last, before.length()).toString())) {
