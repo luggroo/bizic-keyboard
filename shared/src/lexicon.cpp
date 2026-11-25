@@ -1213,6 +1213,20 @@ struct Lexicon::Impl {
         return false;
     }
 
+    // A written reading is one choice even when its sources have different
+    // meanings. Keep all meanings visible and do not claim one specific sense.
+    static void mergePinyinMeaning(Candidate& candidate, const Entry& entry) {
+        auto append = [](std::string& target, const std::string& value, const std::string& separator) {
+            if (value.empty()) return;
+            if (target.empty()) { target = value; return; }
+            if ((separator + target + separator).find(separator + value + separator) == std::string::npos)
+                target += separator + value;
+        };
+        if (candidate.meaning != entry.meaning) candidate.lexemeIds.clear();
+        append(candidate.meaning, entry.meaning, "；");
+        append(candidate.shortMeaning, entry.shortMeaning, "、");
+    }
+
     std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography) const {
         Query q;
         if (!q.read(input)) return {};
@@ -1265,10 +1279,13 @@ struct Lexicon::Impl {
                 const auto& text = entry.output(mode, orthography);
                 auto duplicate = std::find_if(result.begin() + batchStart, result.end(), [&](const Candidate& c) {
                     if (typedHan && !c.hanSenseId.empty() && c.hanSenseId == entries[key].id) return true;
+                    if (mode == Mode::Pinyin && c.text == text) return true;
                     return c.text == text && c.meaning == entry.meaning && c.plainHanLoan == (mode == Mode::Han && entry.plainHanLoan);
                 });
                 if (duplicate == result.end()) {
                     result.push_back(lexical(id, mode, orthography, q.utf16At[q.skipSpaces(end)]));
+                } else if (mode == Mode::Pinyin) {
+                    mergePinyinMeaning(*duplicate, entry);
                 }
             }
         }
@@ -1444,11 +1461,15 @@ struct Lexicon::Impl {
             const auto& entry = entries[id];
             auto same = [&](const Candidate& c) {
                 if (output == Mode::Han && !c.hanSenseId.empty() && c.hanSenseId == entries[entry.hanSenseGroup].id) return true;
+                if (output == Mode::Pinyin && c.text == entry.output(output, style)) return true;
                 return c.text == entry.output(output, style) && c.meaning == entry.meaning;
             };
-            if (std::none_of(out.begin(), out.end(), same))
+            const auto found = std::find_if(out.begin(), out.end(), same);
+            if (found != out.end()) {
+                if (output == Mode::Pinyin) mergePinyinMeaning(*found, entry);
+            } else if (out.size() < 4) {
                 out.push_back(lexical(id, output, style, q.utf16At.back()));
-            if (out.size() == 4) break;
+            }
         }
         return out;
     }
