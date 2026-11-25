@@ -438,20 +438,22 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private TextView stripIconKey(String label, String desc, ToolbarIcon.Mark mark, boolean selected, Runnable action) {
         TextView button = key(toolbar, label, desc, 1, selected, action);
-        int iconWidth = dp(compact ? 16 : 18);
+        int preferredIconWidth = dp(compact ? 16 : 18);
         int iconGap = dp(3);
         int sideGap = dp(3);
+        int textWidth = (int)Math.ceil(button.getPaint().measureText(label));
+        int natural = Math.max(dp(44), preferredIconWidth + iconGap + textWidth + dp(4));
+        int available = getResources().getDisplayMetrics().widthPixels
+                - surface.getPaddingLeft() - surface.getPaddingRight();
+        int compositionWidth = dp(mode == HAND && handAsHan() ? 86 : 48);
+        int maxWidth = (available - compositionWidth) / 5 - 2 * sideGap;
+        int width = direct ? natural : Math.min(natural, Math.max(dp(32), maxWidth));
+        int iconWidth = Math.min(preferredIconWidth, width / 3);
         Drawable icon = new ToolbarIcon(mark, button);
-        icon.setBounds(0, 0, iconWidth, dp(compact ? 12 : 14));
+        icon.setBounds(0, 0, iconWidth, Math.round(iconWidth * .75f));
         button.setCompoundDrawables(icon, null, null, null);
         button.setCompoundDrawablePadding(iconGap);
 
-        int textWidth = (int)Math.ceil(button.getPaint().measureText(label));
-        int natural = Math.max(dp(44), iconWidth + iconGap + textWidth + dp(4));
-        int available = getResources().getDisplayMetrics().widthPixels
-                - surface.getPaddingLeft() - surface.getPaddingRight();
-        int maxWidth = (available - dp(44)) / 5 - 2 * sideGap;
-        int width = direct ? natural : Math.min(natural, Math.max(dp(32), maxWidth));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, -1);
         params.setMargins(sideGap, 0, sideGap, 0);
         button.setLayoutParams(params);
@@ -636,7 +638,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             refreshHandCandidates();
         });
         tab.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
-                fitTextWidth(tab, name, r - l - dp(2), .65f));
+                fitTextWidth(tab, name, r - l - dp(2), 0f));
         return tab;
     }
 
