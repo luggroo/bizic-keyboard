@@ -814,7 +814,7 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testCrashRecordingDefault() {
-        stage("Crash operation recording is checked on a fresh install");
+        stage("Crash operation recording is checked on a fresh install and explains sensitive fields");
         openKeyboardSettings();
         String caption = "记录键盘操作";
         launcherControl(caption, false, false);
@@ -827,6 +827,7 @@ public final class KeyboardTest extends Instrumentation {
                 } finally { node.recycle(); }
             }
         } finally { root.recycle(); }
+        launcherControl("不会记录密码框、数字输入框", true, false);
         returnFromKeyboardSettings();
         if (!checked) throw new AssertionError("Crash operation recording should be checked by default");
     }
