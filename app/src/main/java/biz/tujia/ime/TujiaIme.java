@@ -20,7 +20,6 @@ import android.text.StaticLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextPaint;
@@ -1272,24 +1271,57 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         key(line, action, action, 1.3f, true, this::enter);
     }
 
-    private TextView ipaKey(LinearLayout line, String text, float weight, KeyLook look,
-                            boolean selected, Runnable tap, String... alternatives) {
+    private View ipaKey(LinearLayout line, String text, float weight, KeyLook look,
+                        boolean selected, Runnable tap, String... alternatives) {
         String primary = IpaKeyboard.display(text);
-        TextView key = key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
-        if (alternatives.length == 0) return key;
-        String hint = IpaKeyboard.display(alternatives[0]);
+        if (alternatives.length == 0 && symbols)
+            return key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
+        String hint = alternatives.length == 0 ? "" : IpaKeyboard.display(alternatives[0]);
         if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
-        SpannableStringBuilder caption = new SpannableStringBuilder(hint).append('\n').append(primary);
-        caption.setSpan(new RelativeSizeSpan(.57f), 0, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        key.setSingleLine(false);
-        key.setMaxLines(2);
-        key.setText(caption);
-        key.setHapticFeedbackEnabled(false);
-        key.setOnLongClickListener(v -> {
-            showIpaAlternatives(key, alternatives);
-            return true;
-        });
+
+        LinearLayout key = column();
+        int background = look == KeyLook.LETTER ? Color.TRANSPARENT : selected ? RED : UTILITY;
+        Drawable rest = pressable(shape(background, 9), 9);
+        if (look != KeyLook.LETTER) rest = new InsetDrawable(rest, dp(2), dp(4), dp(2), dp(4));
+        key.setBackground(rest);
+        key.setPadding(dp(2), dp(3), dp(2), dp(4));
+        key.setContentDescription(IpaKeyboard.description(text));
+        key.setSelected(selected);
+        key.setFocusable(true);
+        int color = look != KeyLook.LETTER && selected ? WHITE : INK;
+        // Use identical vertical slots on every letter, including those without a hint.
+        key.addView(ipaKeyLine(hint, compact ? 10 : 11, color), new LinearLayout.LayoutParams(-1, 0, 2));
+        key.addView(ipaKeyLine(primary, letterSp(), color), new LinearLayout.LayoutParams(-1, 0, 3));
+        KeyboardTap.bind(key, tap);
+        if (alternatives.length > 0) {
+            key.setHapticFeedbackEnabled(false);
+            key.setOnLongClickListener(v -> {
+                showIpaAlternatives(key, alternatives);
+                return true;
+            });
+        }
+        line.addView(key, weighted(weight));
         return key;
+    }
+
+    private TextView ipaKeyLine(String text, int sizeSp, int color) {
+        TextView caption = label(text, sizeSp, color);
+        caption.setIncludeFontPadding(true);
+        caption.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        caption.setDuplicateParentStateEnabled(true);
+        caption.setTextColor(pressColors(color));
+        if (android.os.Build.VERSION.SDK_INT >= 28) caption.setFallbackLineSpacing(false);
+        float preferred = caption.getTextSize();
+        android.graphics.Paint.FontMetricsInt metrics = caption.getPaint().getFontMetricsInt();
+        int preferredHeight = metrics.bottom - metrics.top;
+        caption.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
+            if (b <= t || r <= l) return;
+            float size = preferred * Math.min(1f, (float) (b - t) / preferredHeight);
+            if (Math.abs(caption.getTextSize() - size) >= .1f)
+                caption.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            fitTextWidth(caption, text, r - l, .65f);
+        });
+        return caption;
     }
 
     private void closeIpaAlternatives() {
@@ -1308,13 +1340,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         anchor.getLocationInWindow(position);
         choices.getLocationInWindow(strip);
         int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+        int availableHeight = keyboardFrame.getHeight() - keyboardFrame.getPaddingTop() - keyboardFrame.getPaddingBottom();
+        if (room <= dp(4) || availableHeight <= 0) return;
         int width = Math.min(room - dp(4), dp(53) * alternatives.length);
-        int height = Math.max(dp(44), textHeight(formSp()) + dp(8));
+        int height = Math.min(availableHeight, Math.max(dp(44), textHeight(formSp()) + dp(8)));
         int left = Math.max(0, Math.min(room - width,
                 position[0] - origin[0] + (anchor.getWidth() - width) / 2));
         int top = position[1] - origin[1] - height;
         if (top < strip[1] + choices.getHeight() - origin[1])
             top = position[1] - origin[1] + anchor.getHeight();
+        top = Math.max(0, Math.min(availableHeight - height, top));
 
         ipaAlternatives = new FrameLayout(this);
         ipaAlternatives.setOnClickListener(v -> closeIpaAlternatives());

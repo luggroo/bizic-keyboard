@@ -18,19 +18,19 @@ final class IpaKeyboard {
     static final int COLUMNS = 3, MAX_PREFIX = 64;
     static final String NASAL = "\u0303", SYLLABIC = "\u0329", TIE = "\u0361";
     private static final String DIGITS = "¹²³⁴⁵";
-    private static final String LETTER = "[\\p{IsLatin}\\p{Lm}]";
-    private static final String SOUND = "[\\p{IsLatin}\\p{Lm}\\p{M}" + DIGITS + "]";
+    private static final String LETTER = "[\\p{sc=Latin}\\p{Lm}]";
+    private static final String SOUND = "[\\p{sc=Latin}\\p{Lm}\\p{M}" + DIGITS + "]";
     private static final Pattern WORD = Pattern.compile(SOUND + "+(?:[-'’]" + SOUND + "+)*\\z");
-    private static final Pattern NEXT = Pattern.compile("[-'’\\p{IsLatin}\\p{Lm}\\p{M}" + DIGITS + "]");
+    private static final Pattern NEXT = Pattern.compile("[-'’\\p{sc=Latin}\\p{Lm}\\p{M}" + DIGITS + "]");
     private static final Pattern PART = Pattern.compile(LETTER + "\\p{M}*|[" + DIGITS + "]+|[-']");
     private static final Pattern HAS_LETTER = Pattern.compile(LETTER);
     private static final String VOWELS = "aeiouyɑɐəɛɜɤɨɪɔʊʉɯøʌ";
 
     static final String[][][] LETTERS = {
-        {{"q"}, {"w"}, {"e", "ə", "ɛ", "ẽ"}, {"r", "²¹"}, {"t", "ts", "tsʰ", "tɕ", "tɕʰ", "tʰ"},
+        {{"q"}, {"w"}, {"e", "ə", "ɛ", "ẽ"}, {"r", "²¹"}, {"t", "ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ"},
             {"y", "ɤ", "ɥ", "ỹ"}, {"u", "ɯ", "ʊ", "ʉ", "ũ"}, {"i", "ɪ", "ɨ", "ɿ", "ʅ", "ĩ"},
             {"o", "ɔ", "ø", "õ"}, {"p", "ɸ", "pʰ"}},
-        {{"a", "ɑ", "ʌ", "ã"}, {"s", "ʂ", "ʃ"}, {"d", "dz", "dʑ"}, {"f", "³⁵"}, {"g", "ɣ", "ɡ", "ʁ"},
+        {{"a", "ɑ", "ʌ", "ã"}, {"s", "ʂ", "ʃ"}, {"d", "dz", "dʑ", "ɖ"}, {"f", "³⁵"}, {"g", "ɣ", "ɡ", "ʁ"},
             {"h", "ʰ", "ħ", "ʕ"}, {"j", "³³"}, {"k", "kʰ"}, {"l", "¹³"}},
         {{"z", "ʐ", "ʒ", "ʑ"}, {"x", "⁵⁵"}, {"c", "ɕ"}, {"v", "⁵³"}, {"b"}, {"n", "ŋ", "ȵ", "ɲ"}, {"m", "m̩"}}
     };

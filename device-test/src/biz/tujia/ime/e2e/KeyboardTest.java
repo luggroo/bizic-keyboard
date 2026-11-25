@@ -11,15 +11,18 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.InputType;
 import android.text.style.ScaleXSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /** Cross-process test. All key and candidate selection is through the installed soft keyboard. */
 public final class KeyboardTest extends Instrumentation {
     private static final String IME_PACKAGE = "biz.tujia.ime";
+    static final String WALK_HAN = "走、去、去；离开，诶";
     private static final long WAIT_MS = 15000;
     private UiAutomation ui;
     private AccessibilityNodeInfo imeRoot;
@@ -84,6 +88,10 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
+            if (suite.equals("ipa")) {
+                new SystemTypography(this, host).ipa();
+                if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
+            }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
@@ -130,13 +138,21 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testIpaInput() {
         stage("IPA literal input, tone alternatives and offline completions");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
-        press("音标");
         runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
+        press("音标");
+        assertEditorAboveKeyboard(host.first, "音标");
+        captureFrame("ipa-layout.png");
         press("m");
+        expectText(host.first, "前 /m 后");
         press("a");
         expectText(host.first, "前 /ma 后");
-        pressCandidate("补全 奶，mã²¹", false);
+        runOnMainSync(() -> host.first.setSelection(4));
+        waitForNode("输入音标查看候选", false);
+        runOnMainSync(() -> host.first.setSelection(5));
+        press("补全 奶，mã²¹");
         expectText(host.first, "前 /mã²¹ 后");
 
         press("空格");
@@ -149,13 +165,52 @@ public final class KeyboardTest extends Instrumentation {
         }
         expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³ 后");
         holdKey("t");
+        for (String option : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ"}) waitForNode(option, false);
+        captureFrame("ipa-popup.png");
         press("tsʰ");
+        holdKey("t");
+        press("ʈʰ");
+        holdKey("d");
+        press("ɖ");
         holdKey("?");
+        waitForNode("ʔ", false);
         press("ʕ");
         press("字母或符号");
         press("清化");
         press("浊化");
-        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325\u032c 后");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325\u032c 后");
+        press("退格");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325 后");
+        press("字母或符号");
+        tapField(host.second);
+        press("切换大小写");
+        press("G");
+        press("g");
+        expectText(host.second, "Gg");
+        runOnMainSync(() -> host.second.setSelection(0, 2));
+        holdKey("i");
+        waitForNode("ɿ", false);
+        press("ʅ");
+        expectText(host.second, "ʅ");
+        holdKey("v");
+        waitForNode("声调 53", false);
+        sendKeyDownUpSync(KeyEvent.KEYCODE_ESCAPE);
+        waitAbsent("声调 53");
+        expectText(host.second, "ʅ");
+
+        stage("A password field uses literal direct input while IPA is selected");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+        waitForNode("英文直输", false);
+        waitAbsent("音标");
+        awaitKeyboardAtRest();
+        press("m");
+        press("a");
+        waitAbsent("补全 奶，mã²¹");
+        expectText(host.first, "ma");
+        tapField(host.second);
+        waitSelectedControl("音标");
         press("打字");
     }
 
@@ -199,11 +254,13 @@ public final class KeyboardTest extends Instrumentation {
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
         type("marmardiexhxif");
         stage("Longest prefix and uncommitted suffix");
-        expectFirst("女人，麻麻爹");
-        pressCandidate("女人，麻麻爹", false);
+        Card prefix = pageCards("，").get(0);
+        if (!prefix.name.startsWith("女人") || !outputLine(prefix).equals("麻麻爹"))
+            throw new AssertionError("Expected the longest Tujia prefix first: " + prefix.name);
+        tap(prefix.bounds.centerX(), prefix.bounds.centerY());
         expectText(host.first, "麻麻爹");
         waitForNode("待选拼写 hxif", false);
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.first, "麻麻爹诶");
 
         type("jir");
@@ -232,7 +289,7 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         assertEditorAboveKeyboard(host.second, "打字");
         type("hxif");
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.second, "ngaf yer ga诶");
 
         press("手写");
