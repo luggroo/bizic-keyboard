@@ -89,6 +89,21 @@ install_if_needed() {
 }
 install_if_needed "$ime_pkg" "$ime_apk" added_ime
 install_if_needed "$fixture_pkg" "$fixture_apk" added_fixture
+
+# On Android 9, boot and APK installation can finish before the IME list is rebuilt.
+for (( attempt = 0; attempt < 30; attempt++ )); do
+    methods=$("$adb_bin" shell ime list -a -s | tr -d '\r')
+    if grep -Fqx "$previous_ime" <<< "$methods" &&
+        grep -Fqx -e "$ime_component" -e "$ime_pkg/$ime_pkg.TujiaIme" <<< "$methods"; then
+        break
+    fi
+    sleep 1
+done
+if (( attempt == 30 )); then
+    echo "Android did not register both input methods: $methods" >&2
+    exit 1
+fi
+
 changed=true
 "$adb_bin" shell settings put secure show_ime_with_hard_keyboard 1
 "$adb_bin" shell ime enable "$ime_component" >/dev/null
