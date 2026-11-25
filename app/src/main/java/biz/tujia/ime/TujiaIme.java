@@ -1857,9 +1857,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         row.addView(key, original);
         key.addView(letter, new FrameLayout.LayoutParams(-1, -1));
         TextView[] hints = new TextView[4];
+        boolean largeFont = getResources().getConfiguration().fontScale >= 1.3f;
         String[] marks = {"ˉ", "ˊ", "ˇ", "ˋ"};
         for (int i = 0; i < hints.length; i++) {
             hints[i] = label(marks[i], 24, 0xff78645d);
+            // Keep these small directional ornaments clear of enlarged key letters.
+            if (largeFont) hints[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             hints[i].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             key.addView(hints[i]);
         }
@@ -1875,7 +1878,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(-2, -2, gravities[i]);
                 p.setMargins(dp(1), dp(1), dp(1), dp(1));
                 hints[i].setLayoutParams(p);
-                hints[i].setTranslationY(dp(i == 2 ? 14 : (gravities[i] & Gravity.TOP) == Gravity.TOP ? 4 : 5));
+                hints[i].setTranslationY(dp(i == 2 ? (largeFont ? 17 : 14) : (gravities[i] & Gravity.TOP) == Gravity.TOP ? (largeFont ? 1 : 4) : 5));
             }
         };
         position.accept(Character.toLowerCase(vowel) == 'a' ? -1 : 0);

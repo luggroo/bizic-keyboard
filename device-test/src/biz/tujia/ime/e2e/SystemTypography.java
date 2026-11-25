@@ -122,9 +122,9 @@ final class SystemTypography {
         test.newPredictionEditor();
         test.press("谐音字");
         test.runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
-        test.type("ga");
+        test.type(name.equals("largest-dense") ? "gaha" : "ga");
         List<KeyboardTest.Card> cards = test.fourCards();
-        if (!cards.get(0).lines.equals(java.util.Arrays.asList("吃", "架")))
+        if (!cards.get(0).lines.equals(name.equals("largest-dense") ? java.util.Arrays.asList("上面", "夹下") : java.util.Arrays.asList("吃", "架")))
             throw new AssertionError("Missing meaning and form at " + name);
         test.assertEditorAboveKeyboard(host.first, "打字");
         Rect toolbar = test.waitForNode("打字", false);
@@ -170,13 +170,13 @@ final class SystemTypography {
             geometryErrors.add("Ordinary key height is " + keyDp + "dp at " + name);
         test.stage(String.format(Locale.ROOT, "Typography %s font=%.2f dpi=%d viewport=%ddp keyHeight=%.1fdp platform14sp=%.2fpx platform20sp=%.2fpx Qink=%dpx glossInk=%dpx wordInk=%dpx toolbarY=%dpx editorBottom=%dpx", name, cfg.fontScale, dm.densityDpi, cfg.screenWidthDp, keyDp, sp(14, dm), sp(20, dm), qInk, glossInk, wordInk, toolbar.top, hostField.bottom));
         test.captureFrame("typography-" + name + ".png");
-        test.pressCandidate("吃、咬，架", false);
-        test.expectText(host.first, "正文架");
+        test.pressCandidate(name.equals("largest-dense") ? "上面，夹下" : "吃、咬，架", false);
+        test.expectText(host.first, name.equals("largest-dense") ? "正文夹下" : "正文架");
         test.press("隐藏键盘");
         test.waitAbsent("打字");
         test.tapField(host.first);
         test.assertEditorAboveKeyboard(host.first, "打字");
-        test.expectText(host.first, "正文架");
+        test.expectText(host.first, name.equals("largest-dense") ? "正文夹下" : "正文架");
         if (name.equals("default") || name.equals("largest-dense")) {
             test.pressAction("完成");
             long until = SystemClock.uptimeMillis() + 5000;

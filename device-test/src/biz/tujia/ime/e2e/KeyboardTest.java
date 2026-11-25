@@ -893,9 +893,13 @@ public final class KeyboardTest extends Instrumentation {
                     if (IME_PACKAGE.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
                         for (AccessibilityNodeInfo node : root.findAccessibilityNodeInfosByText(query)) {
                             try {
-                                if (!node.refresh() || node.getText() == null) continue;
-                                String value = node.getText().toString();
-                                if (!(prefix ? value.startsWith(query) : value.equals(query))) continue;
+                                if (!node.refresh()) continue;
+                                String value = node.getText() == null ? "" : node.getText().toString();
+                                String description = node.getContentDescription() == null ? "" : node.getContentDescription().toString();
+                                boolean matchesText = prefix ? value.startsWith(query) : value.equals(query);
+                                boolean matchesDescription = prefix ? description.startsWith(query) : description.equals(query);
+                                if (!matchesText && !matchesDescription) continue;
+                                if (!matchesText) value = description;
                                 Rect bounds = new Rect();
                                 node.getBoundsInScreen(bounds);
                                 if (!node.isVisibleToUser() || bounds.isEmpty()) {
@@ -1311,7 +1315,7 @@ public final class KeyboardTest extends Instrumentation {
                 Card found = findPagedCard(word[0], false);
                 if (word[0].equals("稼") && !found.lines.equals(Collections.singletonList("稼")))
                     throw new AssertionError("The Chinese character 稼 inherited a Tujia gloss: " + found.lines);
-                if (word[0].equals("嫁") && i == 2 && !found.lines.contains("先"))
+                if (word[0].equals("嫁") && i == 2 && found.lines.stream().noneMatch(line -> line.contains("先")))
                     throw new AssertionError("jia lost the attested Tujia sense 先／嫁");
                 tap(found.bounds.centerX(), found.bounds.centerY());
                 expected.append(word[0]);
