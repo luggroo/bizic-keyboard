@@ -10,6 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from han_orthography import Orthography
+from keyboard_gloss import update_row
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
@@ -58,6 +59,9 @@ def build(site):
         fields = reader.fieldnames
         existing = {r["id"]: r for r in reader}
     orthography = Orthography.from_file()
+    survey = subprocess.run(["node", ROOT / "tools/site_survey_words.cjs", site],
+                            check=True, capture_output=True, text=True)
+    survey_words = json.loads(survey.stdout)
     with (ASSETS / "northern-words.tsv").open("w") as stream:
         writer = csv.DictWriter(stream, fields, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_NONE, quotechar=None)
         for w in words:
@@ -85,12 +89,27 @@ def build(site):
                 aliases = legacy.get((row_id, word.lower()), [])[:]
                 if loan and old != ''.join(units):
                     aliases.append(old)
-                writer.writerow(dict(id=row_id, word=word.lower(),
+                writer.writerow(update_row(dict(id=row_id, word=word.lower(),
                                      plain=plain, diacritic=marked.lower(), meaning=gloss, shortGloss=gloss,
                                      kind="tujia" if units else "phonetic", frequency=0,
                                      recommended="".join(units), hanUnits="|".join(units),
                                      aliases=' '.join(dict.fromkeys(aliases)),
-                                     presentation='plainHanLoan' if loan else ''))
+                                     presentation='plainHanLoan' if loan else '')))
+        for w in survey_words:
+            for i, form in enumerate(w['forms']):
+                word, marked = form['ye'].lower(), form['accent'].lower()
+                compact = re.sub(r"[\s’'()-]", '', word)
+                parts = form['parts']
+                units = orthography.units(parts, [''] * len(parts)) if parts and all(parts) and ''.join(parts) == compact else []
+                if not all(units):
+                    units = han_units(compact, orthography)
+                plain = unicodedata.normalize('NFC', ''.join(c for c in unicodedata.normalize('NFD', marked)
+                                                            if c not in '\u0304\u0301\u030c\u0300'))
+                row_id = w['id'] if i == 0 else f"{w['id']}@{i+1}"
+                gloss = ' '.join(w['zh'].split())
+                writer.writerow(update_row(dict(id=row_id, word=word, plain=plain, diacritic=marked,
+                    meaning=gloss, shortGloss=gloss, kind='tujia' if units else 'phonetic', frequency=0,
+                    recommended=''.join(units), hanUnits='|'.join(units))))
 
 
 if __name__ == "__main__":

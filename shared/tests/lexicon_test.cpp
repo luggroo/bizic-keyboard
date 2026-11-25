@@ -144,7 +144,7 @@ void checkHanSenses(const Lexicon& lexicon) {
     const auto untoned = lexicon.lookup("go", Mode::Han);
     const auto toned = lexicon.lookup("gǒ", Mode::Han);
     const auto other = lexicon.lookup("gor", Mode::Han);
-    check(offers(untoned, "过", "他", 2) && offers(untoned, "过", "过错", 2),
+    check(offers(untoned, "个", "他", 2) && offers(untoned, "过", "过错", 2),
           "Identical Han forms may carry two distinct senses");
     check(std::count_if(untoned.begin(), untoned.end(), [](const Candidate& c) {
         return c.meaning == "他";

@@ -23,7 +23,7 @@ w1622	nier	nie	七	业	业 列	业列孽捏	0	tujia	七	nie	niě	业
 w1089	kaxcax	kaca	草	卡差	菜差 卡擦	菜掐卡胯 差叉茶插擦择察岔诧查搽	0	tujia	草	kaca	kācā	卡|差		
 w212	bartir	bati	下面	八提	八踢	八爸把巴坝疤罢芭霸靶 踢铁贴帖惕特剃梯体涕剔屉替隶提蹄啼题堤	19	tujia	下面	bati	bǎtǐ	八|提		
 w1529	miv	mi	米	米		米眉密没谜弥泌灭糜觅迷	0	tujia	米	mi	mì	米		plainHanLoan
-w221	baixdiex	baidie	孩子	摆爹	摆得 摆碟	摆拜败湃稗 得碟	9	tujia	孩子	baidie	bāidiē	摆|爹		
+w221	baixdiex	baidie	小孩	摆爹	摆得 摆碟	摆拜败湃稗 得碟	9	tujia	小孩	baidie	bāidiē	摆|爹		
 w1767	purnir	puni	昨天	扑尼	脖犁 扑泥	脖卜仆勃扑曝瀑讣铺谱普捕浦甫脯萨蒲 犁力泥历梨立蚁艺律疑宜捏仪倪孽尼溺聂谊逆镊义女李你腻议	0	tujia	昨天	puni	pǔnǐ	扑|尼		
 w91	arbar	aba	石头	吖八	还八 阿八	还阿啊 八爸把巴坝疤罢芭霸靶	8	tujia	石头	aba	ǎbǎ	吖|八		
 w2092	sirkarcar	sikaca	草	石咔查	十掐茶 四卡擦	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 掐菜卡胯 茶插擦察差叉择岔诧查搽	0	tujia	草	sikaca	sǐkǎcǎ	石|咔|查		
@@ -42,7 +42,7 @@ w1783	qiv	qi	起	起	取	取起启岂去气器吃七骑曲棋契溪妻汽戚漆�
 w1619	niex	nie	二	捏		捏业列孽	0	tujia	二	nie	niē	捏		
 w2281	tief	tie	摘	帖	铁	铁贴跌特	9	tujia	摘	tie	tié	帖		
 w1626	niefbix	niebi	鸟	镍比	业憋 捏比	镍业捏列孽 憋蓖鼻笔被比币壁逼闭弊必臂备彼敝毕毙碧秘蔽	0	tujia	鸟	niebi	niébī	镍|比		
-w219	baix	bai	孩子	摆		摆拜败湃稗	0	tujia	孩子	bai	bāi	摆		
+w219	baix	bai	小孩	摆		摆拜败湃稗	0	tujia	小孩	bai	bāi	摆		
 w442	civ	ci	大	此		此齿侈耻刺尺池迟次匙雌伺痴秩赐词持瓷磁辞驰	4	tujia	大	ci	cì	此		
 w1086	kaxbiex	kabie	湿	卡憋	菜憋 卡别	菜掐卡胯 憋别	0	tujia	湿	kabie	kābiē	卡|憋		
 w1740	pox	po	放	坡		坡破婆泼扑颇	18	tujia	放	po	pō	坡		
@@ -356,7 +356,7 @@ ls60-9	zuif	zui	最	最		最嘴	2	tujia	最	zui	zuí	最		plainHanLoan
 ls60-10	lox	lo	人	倮		倮落	1	tujia	人	lo	lō	倮		
 ls60-11	riflongx	rilong	日弄	日沦	日拢 日意沦	日 沦拢	1	tujia	日弄	rilong	rílōng	日|沦	riflunx rilun rílūn	
 ls60-12	hev	he	肯	嘿	黑	嘿黑	1	tujia	肯	he	hè	嘿		
-ls60-13	gof	go	他	过	哥	过哥	18	tujia	他	go	gó	过		
+ls60-13	gof	go	他	个	哥 过	过哥	18	tujia	他	go	gó	个		
 ls60-14	aix	ai	那	哎		哎	123	tujia	那	ai	āi	哎		
 ls60-15	laxniex	lanie	一天	拉捏		拉 捏	2	tujia	一天	lanie	lāniē	拉|捏		
 ls60-16	tafmongx	tamong	突然	拓蒙	獭母	拓獭 蒙母	1	tujia	突然	tamong	támōng	拓|蒙	tafmunx tamun támūn	
@@ -376,7 +376,7 @@ ls60-29	riv	ri	将做	日	日以	日	1	tujia	将做	ri	rì	日
 ls60-30	yor	yo	啊	药		药	1	tujia	啊	yo	yǒ	药	yior yio yiǒ	
 ls60-31	anfnianxhux	annianhu	我们两个	岸拈呼	岸捻虎	岸 拈捻 呼虎	1	tujia	我们两个	annianhu	ánniānhū	岸|拈|呼		
 ls60-32	dax	da	一起	搭	打	搭打	1	tujia	一起	da	dā	搭		
-ls60-33	nif	ni	你	腻	泥	腻泥	17	tujia	你	ni	ní	腻		
+ls60-33	nif	ni	你	伲	泥 腻	腻泥	17	tujia	你	ni	ní	伲		
 ls60-34	mar	ma	呢	麻		麻	1	tujia	呢	ma	mǎ	麻		
 ls60-35	cerlir	celi	城里	策立	侧粒	策侧 立粒	6	tujia	城里	celi	cělǐ	策|立		
 ls60-37	nix	ni	你	妮	你	妮你	1	tujia	你	ni	nī	妮		
@@ -439,14 +439,14 @@ ls60-96	yev	ye	也	也	野	也野	18	tujia	也	ye	yè	也	yiev yie yiè
 ls60-97	yifyif	yiyi	走走	意意	余余	意余 意余	1	tujia	走走	yiyi	yíyí	意|意		
 ls60-98	exdir	edi	这个	婀的	医笛	婀医 的笛	1	tujia	这个	edi	ēdǐ	婀|的		
 ls60-99	ngefzarsirdeir	ngezasidei	硬厉害	扼扎石笛	泥扎四笛	扼泥 扎 石四 笛	1	tujia	硬厉害	ngezasidei	ngézǎsǐděi	扼|扎|石|笛		
-ls60-100	zexdix	zedi	真的	者低	资低	者遮资 低	1	tujia	真的	zedi	zēdī	者|低		
+ls60-100	zexdix	zedi	真	者低	资低	者遮资 低	1	tujia	真	zedi	zēdī	者|低		
 ls60-101	aixyouf	aiyou	那又	哎又	哎右	哎 又右	1	tujia	那又	aiyou	āiyóu	哎|又	aixyiuf aiyiu āiyiú	
 ls60-102	zixgeiv	zigei	前头	子给	资给	子兹资 给	2	tujia	前头	zigei	zīgèi	子|给		
 ls60-103	bor	bo	往	博	拨	博拨	3	tujia	往	bo	bǒ	博		
 ls60-104	axlair	alai	啊了	阿来	啊来	阿啊 来	1	tujia	啊了	alai	ālǎi	阿|来		
 ls60-105	youf	you	又	又	右	又右	83	tujia	又	you	yóu	又	yiuf yiu yiú	
 ls60-106	gox	go	他	哥		哥	6	tujia	他	go	gō	哥		
-ls60-107	bovlir	boli	小孩儿	波俐	波粒	波 俐粒	1	tujia	小孩儿	boli	bòlǐ	波|俐		
+ls60-107	bovlir	boli	小孩	波俐	波粒	波 俐粒	1	tujia	小孩	boli	bòlǐ	波|俐		
 ls60-108	zair	zai	大人	再	在	再在	1	tujia	大人	zai	zǎi	再		
 ls60-109	lovcix	loci	都他	啰此	落雌	啰裸落 此雌	1	tujia	都他	loci	lòcī	啰|此		
 ls60-110	baxhuf	bahu	喊	巴互	把壶	巴把 互壶	1	tujia	喊	bahu	bāhú	巴|互		

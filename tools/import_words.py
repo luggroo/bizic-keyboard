@@ -13,6 +13,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from shutil import copyfile
 from han_orthography import DATA, TONES, Orthography, PLAIN_HAN_LOANS
+from keyboard_gloss import update_row
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/"tools/story-demo"))
@@ -258,6 +259,8 @@ def main():
             base = unicodedata.normalize("NFD", r["diacritic"])
             base = "".join(c for c in base if c not in "\u0304\u0301\u030c\u0300")
             r["plain"] = native_forms(unicodedata.normalize("NFC", base))
+    for row in rows:
+        update_row(row)
     counts, stats = corpus_counts(rows, dictionary, load(site/"data.json.gz"),
                                   annotated, longshan, forms["spellings"])
     observed_rows = sum(counts[row["id"]] > 0 for row in rows)

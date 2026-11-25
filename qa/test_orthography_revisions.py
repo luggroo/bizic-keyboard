@@ -50,6 +50,11 @@ def main():
                 continue
             compact = ''.join(c for c in record['word'] if c not in " -'’")
             expected = han_units(compact, table)
+            if record['id'].startswith('yubao-'):
+                assert record['recommended'] == ''.join(record['hanUnits'].split('|')), record['id']
+                continue
+            if (record['word'], record['meaning']) in (('nif', '你'), ('gof', '他')):
+                expected = ['伲' if record['word'] == 'nif' else '个']
             loan = loans.get((record['id'], record['word']))
             if loan:
                 seen_loans.add((record['id'], record['word']))
