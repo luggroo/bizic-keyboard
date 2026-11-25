@@ -1385,7 +1385,7 @@ w1582	muvnier		竹子	母业			0	tujia	竹子	munie	mùniě	母|业
 w1583	murzir		梦	木直			0	tujia	梦	muzi	mǔzǐ	木|直		
 w1584	naf		那	那			0	tujia	那	na	ná	那		
 w1586	ngav		割	桠			0	tujia	割	nga	ngà	桠		
-w1587	ngafdor		我自己	讶夺			0	tujia	我自己	ngado	ngádǒ	讶|夺		
+w1587	ngafdor		我自己	牙夺			0	tujia	我自己	ngado	ngádǒ	牙|夺		
 w1588	nafmex		那么	那墨			0	tujia	那么	name	námē	那|墨		
 w1589	ngaix		矮	矮	挨		0	tujia	矮	ngai	ngāi	矮		plainHanLoan
 w1590	ngairjianr		石匠	岩件			0	tujia	石匠	ngaijian	ngǎijiǎn	岩|件		
@@ -4486,8 +4486,8 @@ stedt-rn-288845	niexpongx		床	捏蓬			0	tujia	床	niepong	niēpōng	捏|蓬
 stedt-rn-288707	niexcix		姨母	捏此			0	tujia	姨母	nieci	niēcī	捏|此		
 stedt-rn-288707@2	baxyexarniex		姨母	巴也吖捏			0	tujia	姨母	baye'anie	bāyē'ǎniē	巴|也|吖|捏		
 stedt-rn-289324	niexhif		二十	捏黑意			0	tujia	二十	niehi	niēhí	捏|黑意		
-stedt-rn-455189	ngaf		我	讶			0	tujia	我	nga	ngá	讶		
-stedt-rn-455190	ngafdor		我自己	讶夺			0	tujia	我自己	ngado	ngádǒ	讶|夺		
+stedt-rn-455189	ngaf		我	牙			0	tujia	我	nga	ngá	牙		
+stedt-rn-455190	ngafdor		我自己	牙夺			0	tujia	我自己	ngado	ngádǒ	牙|夺		
 stedt-rn-453751	nianrkuix		小指	娘亏			0	tujia	小指	niankui	niǎnkuī	娘|亏		
 stedt-rn-453986	nianrqinxrenr		年轻人	娘钦人			0	tujia	年轻人	nianqinren	niǎnqīnrěn	娘|钦|人		
 stedt-rn-43405	niaofpaox		膀胱	尼要抛			0	tujia	膀胱	niaopao	niáopāo	尼要|抛		
@@ -6618,10 +6618,10 @@ stedt-rn-183828	renxyex		闰月	忍也			0	tujia	闰月	renye	rēnyē	忍|也
 stedt-rn-360415	rarnirgar		母鸡	日锕尼夹			0	tujia	母鸡	raniga	rǎnǐgǎ	日锕|尼|夹		
 stedt-rn-201984	nganxzir		鞍；马鞍	安直			0	tujia	鞍；马鞍	nganzi	ngānzǐ	安|直		
 stedt-rn-201984@2	ngangxzir		鞍；马鞍	安直			0	tujia	鞍；马鞍	ngangzi	ngāngzǐ	安|直		
-stedt-rn-289353	ngaf		我	讶			0	tujia	我	nga	ngá	讶		
-stedt-rn-392818	ngafniexhur		我们俩	讶捏胡			0	tujia	我们俩	nganiehu	ngániēhǔ	讶|捏|胡		
-stedt-rn-289354	ngafnif		我们	讶艺			0	tujia	我们	ngani	ngání	讶|艺		
-stedt-rn-289355	ngafnifhufnix		咱们（包括听话者）	讶艺互你			0	tujia	咱们（包括听话者）	nganihuni	ngáníhúnī	讶|艺|互|你		
+stedt-rn-289353	ngaf		我	牙			0	tujia	我	nga	ngá	牙		
+stedt-rn-392818	ngafniexhur		我们俩	牙捏胡			0	tujia	我们俩	nganiehu	ngániēhǔ	牙|捏|胡		
+stedt-rn-289354	ngafnif		我们	牙艺			0	tujia	我们	ngani	ngání	牙|艺		
+stedt-rn-289355	ngafnifhufnix		咱们（包括听话者）	牙艺互你			0	tujia	咱们（包括听话者）	nganihuni	ngáníhúnī	牙|艺|互|你		
 stedt-rn-412214	ngav		割（割肉）	桠			0	tujia	割（割肉）	nga	ngà	桠		
 stedt-rn-412261	ngav		割断绳子	桠			0	tujia	割断绳子	nga	ngà	桠		
 stedt-rn-412353	ngav		割草	桠			0	tujia	割草	nga	ngà	桠		
@@ -7436,7 +7436,7 @@ yubao-60757-v-0813	suxsux		藏	书书			0	tujia	藏	susu	sūsū	书|书
 yubao-60757-v-0814	pox		放	坡			0	tujia	放	po	pō	坡		
 yubao-60757-v-0816	bongr		埋	波嗡			0	tujia	埋	bong	bǒng	波嗡		
 yubao-60757-v-0817	dur		盖	独			0	tujia	盖	du	dǔ	独		
-yubao-60757-v-0818	ngaf		压	讶			0	tujia	压	nga	ngá	讶		
+yubao-60757-v-0818	ngaf		压	牙			0	tujia	压	nga	ngá	牙		
 yubao-60757-v-0819	nier		摁	业			0	tujia	摁	nie	niě	业		
 yubao-60757-v-0820	lov		捅	啰			0	tujia	捅	lo	lò	啰		
 yubao-60757-v-0822	hix		戳	黑以			0	tujia	戳	hi	hī	黑以		
@@ -7664,7 +7664,7 @@ yubao-60757-v-1124	dongf		下	动			0	tujia	下	dong	dóng	动
 yubao-60757-v-1125	niexdongx		会儿	捏东			0	tujia	会儿	niedong	niēdōng	捏|东		
 yubao-60757-v-1126	qiex		顿	且			0	tujia	顿	qie	qiē	且		
 yubao-60757-v-1128	qiex		趟	且			0	tujia	趟	qie	qiē	且		
-yubao-60757-v-1129	ngaf		我	讶			0	tujia	我	nga	ngá	讶		
+yubao-60757-v-1129	ngaf		我	牙			0	tujia	我	nga	ngá	牙		
 yubao-60757-v-1130	nix		你	你			0	tujia	你	ni	nī	你		
 yubao-60757-v-1131	nix		你	你			0	tujia	你	ni	nī	你		
 yubao-60757-v-1132	gof		他	个	过		0	tujia	他	go	gó	个		
@@ -10824,7 +10824,7 @@ yubao-60756-v-2129	enxqixbuvlair		鼻尖	嗯起补来			0	tujia	鼻尖	enqibulai
 yubao-60756-v-2130	eixqixbirliangf		鼻梁	诶起必亮			0	tujia	鼻梁	eiqibiliang	ēiqībǐliáng	诶|起|必|亮		
 yubao-60756-v-2131	enxqixdongrgafxirgar		鼻毛	嗯起洞尬昔夹			0	tujia	鼻毛	enqidonggaxiga	ēnqīdǒnggáxǐgǎ	嗯|起|洞|尬|昔|夹		
 yubao-60756-v-2132	enxqixsextaxpax		鼻屎	嗯起舍他啪			0	tujia	鼻屎	enqisetapa	ēnqīsētāpā	嗯|起|舍|他|啪		
-yubao-60756-v-2133	menrngaf		门牙	门讶			0	tujia	门牙	mennga	měnngá	门|讶		
+yubao-60756-v-2133	menrngaf		门牙	门牙			0	tujia	门牙	mennga	měnngá	门|牙		
 yubao-60756-v-2135	banxngax		臼齿	班桠			0	tujia	臼齿	bannga	bānngā	班|桠		
 yubao-60756-v-2136	ngargenx		齿龈	伢耿			0	tujia	齿龈	ngagen	ngǎgēn	伢|耿		
 yubao-60756-v-2137	sivsirhongrzir		牙缝	使石红直			0	tujia	牙缝	sisihongzi	sìsǐhǒngzǐ	使|石|红|直		
@@ -12470,7 +12470,7 @@ yubao-60823-v-0814	pox		放	坡			0	tujia	放	po	pō	坡
 yubao-60823-v-0815	pox		摞	坡			0	tujia	摞	po	pō	坡		
 yubao-60823-v-0816	bongx		埋	甭			0	tujia	埋	bong	bōng	甭		
 yubao-60823-v-0817	afdux		盖	啊都			0	tujia	盖	adu	ádū	啊|都		
-yubao-60823-v-0818	ngaf		压	讶			0	tujia	压	nga	ngá	讶		
+yubao-60823-v-0818	ngaf		压	牙			0	tujia	压	nga	ngá	牙		
 yubao-60823-v-0819	ninxnarbor		摁				0	phonetic	摁	ninnabo	nīnnabo			
 yubao-60823-v-0820	dof		捅	剁			0	tujia	捅	do	dó	剁		
 yubao-60823-v-0821	car		插	查			0	tujia	插	ca	ca	查		
@@ -12582,7 +12582,7 @@ yubao-60823-v-0929	noxpongx		拍马屁				0	phonetic	拍马屁	nopong	nōpōng
 yubao-60823-v-0930	niexcixlix		开玩笑	捏此里			0	tujia	开玩笑	niecili	niēcīlī	捏|此|里		
 yubao-60823-v-0931	zef		告诉	泽			0	tujia	告诉	ze	zé	泽		
 yubao-60823-v-0932	niftaifcaf		谢谢	艺太岔			0	tujia	谢谢	nitaica	nítáicá	艺|太|岔		
-yubao-60823-v-0933	ngafrixdoxdar		对不起	讶日多达			0	tujia	对不起	ngaridoda	ngárīdōda	讶|日|多|达		
+yubao-60823-v-0933	ngafrixdoxdar		对不起	牙日多达			0	tujia	对不起	ngaridoda	ngárīdōda	牙|日|多|达		
 yubao-60823-v-0934	wongxlardiex		再见				0	phonetic	再见	wongladie	wōngladiē			
 yubao-60823-v-0935	qixbar		大	起八			0	tujia	大	qiba	qība	起|八		
 yubao-60823-v-0936	sox bifker		小	所币克			0	tujia	小	so bike	sō bíkě	所|币|克		
@@ -12767,7 +12767,7 @@ yubao-60823-v-1125	diex		会儿	爹			0	tujia	会儿	die	diē	爹
 yubao-60823-v-1126	tar		顿	踏			0	tujia	顿	ta	ta	踏		
 yubao-60823-v-1127	bur		阵	不			0	tujia	阵	bu	bu	不		
 yubao-60823-v-1128	zuanx		趟	庄			0	tujia	趟	zuan	zuān	庄		
-yubao-60823-v-1129	ngaf		我	讶			0	tujia	我	nga	ngá	讶		
+yubao-60823-v-1129	ngaf		我	牙			0	tujia	我	nga	ngá	牙		
 yubao-60823-v-1130	nif		你	伲	艺		0	tujia	你	ni	ní	伲		
 yubao-60823-v-1131	nif		你	伲	艺		0	tujia	你	ni	ní	伲		
 yubao-60823-v-1132	gof		他	个	过		0	tujia	他	go	gó	个		
@@ -14409,7 +14409,7 @@ yubao-60823-v-2782	laxjiex		赶路	拉姐			0	tujia	赶路	lajie	lājiē	拉|姐
 yubao-60823-v-2783	laxranf		让路	拉让			0	tujia	让路	laran	lārán	拉|让		
 yubao-60823-v-2784	noxqianf		劝架				0	phonetic	劝架	noqian	nōqián			
 yubao-60823-v-2785	baxlir		报恩	巴立			0	tujia	报恩	bali	bāli	巴|立		
-yubao-60823-v-2786	ngafnixrex		报仇	讶你惹			0	tujia	报仇	nganire	ngánīrē	讶|你|惹		
+yubao-60823-v-2786	ngafnixrex		报仇	牙你惹			0	tujia	报仇	nganire	ngánīrē	牙|你|惹		
 yubao-60823-v-2787	huvsir		照顾	呼石			0	tujia	照顾	husi	hùsi	呼|石		
 yubao-60823-v-2788	yeraof		收礼	叶傲			0	tujia	收礼	ye'ao	ye'áo	叶|傲		
 yubao-60823-v-2789	axyix		抢劫	阿以			0	tujia	抢劫	ayi	āyī	阿|以		

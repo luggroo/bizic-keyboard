@@ -2,7 +2,7 @@ id	word	key	meaning	recommended	aliases	variants	frequency	kind	shortGloss	plain
 w684	gaf	ga	吃、咬	架	嘎 噶 嫁 尬	嫁架稼夹蟹家甲加	39	tujia	吃	ga	gá	架		
 w687	gar	ga	干、渴	夹	嘎 噶 尬	夹甲嫁蟹家架加稼	2	tujia	干	ga	gǎ	夹		
 w1476	mangxmangx	mangmang	饭	满满	忙忙 芒芒	满忙芒盲茫莽慢 满忙芒盲茫莽慢	5	tujia	饭	mangmang	māngmāng	满|满		
-w1585	ngaf	e	我	讶	俄 压	压牙哑芽衙	105	tujia	我	nga	ngá	讶		
+w1585	ngaf	e	我	牙	俄 压	压牙哑芽衙	105	tujia	我	nga	ngá	牙		
 w2548	yer	ye	饭	叶	月 耶	叶耶	10	tujia	饭	ye	yě	叶		
 w1216	laf	la	一	拉	那	那拉辣蜡拿哪喇腊呐挪纳	0	tujia	一	la	lá	拉		
 w1459	mav	ma	马	马		马蚂码骂麻妈抹嘛	2	tujia	马	ma	mà	马		
@@ -503,7 +503,7 @@ ls60-165	arlur	alu	啊了	吖录	阿录	吖阿 录	1	tujia	啊了	alu	ǎlǔ	吖|
 ls60-166	goxgor	gogo	哥哥	哥哥		哥 哥鸽	1	tujia	哥哥	gogo	gōgǒ	哥|哥		plainHanLoan
 ls60-167	suxliaor	suliao	输了	输了		输苏 了辽	1	tujia	输了	suliao	sūliǎo	输|了		
 ls60-168	jiufhaflar	jiuhala	就这样的	就下辣	九哈拉 就吓辣	就九 吓哈 辣拉	1	tujia	就这样的	jiuhala	jiúhálǎ	就|下|辣		
-xu213-1-1	ngafnix	ngani	我们	讶你		讶 你妮	2	tujia	我们	ngani	ngánī	讶|你		
+xu213-1-1	ngafnix	ngani	我们	牙你		牙 你妮	2	tujia	我们	ngani	ngánī	牙|你		
 xu213-1-2	hufnix	huni	大家	互你		互 你妮	19	tujia	大家	huni	húnī	互|你		
 xu213-1-3	bifzixkar	bizika	土家族	秘兹佧	币子咔	币 子兹 咔	16	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 xu213-1-4	ox	o	语气词	喔		喔	18	tujia	语气词	o	ō	喔		
@@ -519,7 +519,7 @@ xu213-4-3	rev	re	漂亮	惹		惹	3	tujia	漂亮	re	rè	惹
 xu213-4-5	gof	go	过错	过		过	1	tujia	过错	go	gó	过		plainHanLoan
 xu213-4-6	tav	ta	别	塔		塔	7	tujia	别	ta	tà	塔		
 xu213-4-7	ar	a	拿	吖		吖	22	tujia	拿	a	ǎ	吖		
-xu213-4-8	lex	le	陈述语气	里		里	3	tujia	陈述语气	le	lē	里		
+xu213-4-8	lex	le	陈述语气	咧		咧	3	tujia	陈述语气	le	lē	咧		
 w802	gof	go	讨	过		过	1	tujia	讨	go	gó	过		
 w1102	karmongr	kamong	树	咔萌		咔 萌	31	tujia	树	kamong	kǎmǒng	咔|萌		
 w2302	tongxmongr	tongmong	呻吟	通萌		通 萌	0	tujia	呻吟	tongmong	tōngmǒng	通|萌		
@@ -1626,7 +1626,7 @@ ortho-kunf	kunf	kun	音节	困			0	syllable	音节	kun	kún	困
 ortho-kunr	kunr	kun	音节	枯文			0	syllable	音节	kun	kǔn	枯文		
 ortho-kunv	kunv	kun	音节	昆			0	syllable	音节	kun	kùn	昆		
 ortho-ngax	ngax	nga	音节	桠			0	syllable	音节	nga	ngā	桠		
-ortho-ngaf	ngaf	nga	音节	讶			0	syllable	音节	nga	ngá	讶		
+ortho-ngaf	ngaf	nga	音节	牙			0	syllable	音节	nga	ngá	牙		
 ortho-ngar	ngar	nga	音节	伢			0	syllable	音节	nga	ngǎ	伢		
 ortho-ngav	ngav	nga	音节	桠			0	syllable	音节	nga	ngà	桠		
 ortho-ngaix	ngaix	ngai	音节	挨			0	syllable	音节	ngai	ngāi	挨		
