@@ -42,11 +42,13 @@ public final class KeyboardTest extends Instrumentation {
     private EditorActivity host;
     private String suite;
     private boolean captureFailure;
+    private boolean freshInstall;
 
     @Override public void onCreate(Bundle args) {
         super.onCreate(args);
         suite = args == null ? "all" : args.getString("suite", "all");
         captureFailure = args != null && "1".equals(args.getString("captureFailure"));
+        freshInstall = args != null && "true".equals(args.getString("freshInstall"));
         start();
     }
 
@@ -98,6 +100,7 @@ public final class KeyboardTest extends Instrumentation {
                 testDirectionalTones();
                 new SystemTypography(this, host).ipa();
                 if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
+                if (freshInstall) testCrashRecordingDefault();
             }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("outputs")) testOutputButtons();
@@ -804,10 +807,32 @@ public final class KeyboardTest extends Instrumentation {
         press(marked);
     }
 
-    private String setStyleFromLauncher(String requested) {
+    private void openKeyboardSettings() {
         Intent settings = new Intent().setClassName(IME_PACKAGE, IME_PACKAGE + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getTargetContext().startActivity(settings);
+    }
+
+    private void testCrashRecordingDefault() {
+        stage("Crash operation recording is checked on a fresh install");
+        openKeyboardSettings();
+        String caption = "记录键盘操作";
+        launcherControl(caption, false, false);
+        AccessibilityNodeInfo root = ui.getRootInActiveWindow();
+        boolean checked = false;
+        try {
+            for (AccessibilityNodeInfo node : root.findAccessibilityNodeInfosByText(caption)) {
+                try {
+                    if (node.isCheckable() && node.isChecked()) checked = true;
+                } finally { node.recycle(); }
+            }
+        } finally { root.recycle(); }
+        returnFromKeyboardSettings();
+        if (!checked) throw new AssertionError("Crash operation recording should be checked by default");
+    }
+
+    private String setStyleFromLauncher(String requested) {
+        openKeyboardSettings();
         String label = launcherControl("打字输出 · ", true, false);
         String previous = label.substring("打字输出 · ".length());
         if (requested != null && !requested.equals(previous)) {
