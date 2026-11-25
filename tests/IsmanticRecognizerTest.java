@@ -45,6 +45,12 @@ public final class IsmanticRecognizerTest {
                     p(180, 94, 260, 94)), 12, 440, 130);
             if (wide.isEmpty() || !"三".equals(wide.get(0)))
                 throw new AssertionError("Wide handwriting pad lost the expected first candidate: " + wide);
+            // This character is missing from the neural model; a distinctive
+            // template match must recover it without changing common inputs.
+            expect(model, "尬", 1, p(13,31,21,31,42,26), p(25,8,29,13,25,47,18,64,6,81),
+                    p(32,38,34,41,33,64,35,76,44,83,63,85,83,79,89,75,90,62),
+                    p(57,7,61,12,51,33,40,47), p(61,21,72,34,81,41,93,43),
+                    p(50,43,54,47,53,59,49,67,43,72), p(65,40,68,44,68,77));
             expectTemplate(model, "咔", args[2]);
             expectTemplate(model, "诶", args[2]);
             expect(model, "尅", 12, p(8,22,52,21),p(30,7,29,37),p(13,34,13,54),
