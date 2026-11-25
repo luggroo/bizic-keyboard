@@ -27,7 +27,7 @@ const plainTones = vm.runInContext("plainTones", context);
         const spelling = context.northernSurveySpelling(m[0], point);
         return spelling && spelling.ye;
       });
-      return {ye: v.text, accent: v.accent, parts};
+      return {ye: v.text, accent: v.accent, parts, ipa};
     })
   }));
   process.stdout.write(JSON.stringify(records));

@@ -74,6 +74,24 @@ class BaojingWords(unittest.TestCase):
         self.assertTrue(any(c.text == '咧' and c.gloss == '陈述语气'
                             for c in self.full('lex')))
 
+    def test_reviewed_survey_loan_characters(self):
+        for query in ('kovyir', 'koyi', 'kòyǐ'):
+            choices = [c for c in self.full(query) if c.gloss == '可以']
+            self.assertTrue(any(c.text == '可以' and c.plain_han_loan for c in choices), query)
+            self.assertFalse(any(c.text == '可移' for c in choices), query)
+        self.assertTrue(any(c.text == '校堂' and c.plain_han_loan for c in self.full('xiaortanx')))
+        self.assertTrue(any(c.text == '杜' and c.gloss == '毒' and not c.plain_han_loan
+                            for c in self.full('duf')))
+        self.assertTrue(any(c.text == '勇敢' and c.gloss == '勇敢' and c.plain_han_loan
+                            for c in self.full('yongxgangx')))
+        self.assertTrue(any(c.text == '夏' and c.gloss == '下' and not c.plain_han_loan
+                            for c in self.full('xiaf')))
+        for query, gloss, written in [('huixmianr', '面粉', '灰面'),
+                                      ('maorlurzix', '驴', '毛驴子'),
+                                      ('zixcaoxbongr', '猪槽', '猪槽波嗡')]:
+            self.assertTrue(any(c.text == written and c.gloss == gloss and not c.plain_han_loan
+                                for c in self.full(query)), (query, written))
+
     def test_reviewed_near_synonyms(self):
         import sys
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))

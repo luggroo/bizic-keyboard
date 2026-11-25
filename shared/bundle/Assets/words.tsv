@@ -284,7 +284,7 @@ w2291	tongx	tong	通过	通		通	0	tujia	通过	tong	tōng	通
 w2292	tongx	tong	桶	桶		通	0	tujia	桶	tong	tōng	桶		plainHanLoan
 w714	gangx	gang	敢	敢		钢刚肛缸冈岗纲讲虹杠港	0	tujia	敢	gang	gāng	敢		plainHanLoan
 w715	gangx	gang	钢	钢		钢刚肛缸冈岗纲讲虹杠港	0	tujia	钢	gang	gāng	钢		plainHanLoan
-w838	hangr	hang	含、容纳	含		寒	0	tujia	含	hang	hǎng	含		
+w838	hangr	hang	含、容纳	含		寒	0	tujia	含	hang	hǎng	含		plainHanLoan
 w839	hangr	hang	咸	咸		寒	0	tujia	咸	hang	hǎng	咸		plainHanLoan
 w2232	tangr	tang	糖	糖		糖汤挡烫趟倘搪档躺	0	tujia	糖	tang	tǎng	糖		plainHanLoan
 w2233	tangr	tang	拨弹	弹		糖汤挡烫趟倘搪档躺	0	tujia	拨弹	tang	tǎng	弹		
@@ -306,7 +306,7 @@ w1775	qif	qi	刷漆	漆		去气器契汽砌企弃吃七取骑曲棋溪起妻戚�
 w1777	qif	qi	气	气		去气器契汽砌企弃吃七取骑曲棋溪起妻戚漆乞凄启岂栖讫迄趣娶歧其区旗脐齐祈蛆掘期驱渠倔奇屈拙祁趋	0	tujia	气	qi	qí	气		plainHanLoan
 w1992	sangx	sang	三	三		伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	三	sang	sāng	三		plainHanLoan
 w2271	tianr	tian	甜	甜		田甜	0	tujia	甜	tian	tiǎn	甜		plainHanLoan
-w2272	tianr	tian	田（姓氏）	田		田甜	0	tujia	田姓	tian	tiǎn	田		
+w2272	tianr	tian	田（姓氏）	田		田甜	0	tujia	田姓	tian	tiǎn	田		plainHanLoan
 w1595	ngaof	ngao	凹	凹		袄	0	tujia	凹	ngao	ngáo	凹		plainHanLoan
 w1596	ngaof	ngao	熬过、忍受	熬		袄	0	tujia	忍受	ngao	ngáo	熬		plainHanLoan
 w2508	xinx	xin	新	新		星	0	tujia	新	xin	xīn	新		plainHanLoan
