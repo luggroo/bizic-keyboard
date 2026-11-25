@@ -1811,11 +1811,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                         || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC)) {
                     String tones = toneChoices(c);
                     if (!tones.isEmpty()) {
-                        letter.setForeground(new ToneHints(sp(10), () -> {
-                            int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
-                            int width = Math.min(Math.min(room / 3, dp(48)), letter.getWidth());
-                            return width > 0 ? toneEdge(letter, width) : 0;
-                        }));
+                        installToneHints(r, letter, c);
                         letter.setHapticFeedbackEnabled(false);
                         letter.setOnLongClickListener(v -> {
                             showDirectionalTones(letter, c, tones);
@@ -1852,6 +1848,41 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         key(r, direct ? "." : "。", "句号", .8f, KeyLook.PLAIN, false, () -> typeChar(direct ? '.' : '。'));
         String action = enterLabel();
         key(r, action, action, 1.3f, true, this::enter);
+    }
+
+    private void installToneHints(LinearLayout row, TextView letter, char vowel) {
+        android.view.ViewGroup.LayoutParams original = letter.getLayoutParams();
+        row.removeView(letter);
+        FrameLayout key = new FrameLayout(this);
+        row.addView(key, original);
+        key.addView(letter, new FrameLayout.LayoutParams(-1, -1));
+        TextView[] hints = new TextView[4];
+        String[] marks = {"ˉ", "ˊ", "ˇ", "ˋ"};
+        for (int i = 0; i < hints.length; i++) {
+            hints[i] = label(marks[i], 10, 0xff78645d);
+            hints[i].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            key.addView(hints[i]);
+        }
+        int[] previousEdge = {Integer.MIN_VALUE};
+        java.util.function.IntConsumer position = edge -> {
+            if (previousEdge[0] == edge) return;
+            previousEdge[0] = edge;
+            int[] gravities = {Gravity.TOP | Gravity.CENTER_HORIZONTAL,
+                    edge > 0 ? Gravity.TOP | Gravity.LEFT : Gravity.RIGHT | Gravity.CENTER_VERTICAL,
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                    edge < 0 ? Gravity.TOP | Gravity.RIGHT : Gravity.LEFT | Gravity.CENTER_VERTICAL};
+            for (int i = 0; i < hints.length; i++) {
+                FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(-2, -2, gravities[i]);
+                p.setMargins(dp(1), dp(1), dp(1), dp(1));
+                hints[i].setLayoutParams(p);
+            }
+        };
+        position.accept(Character.toLowerCase(vowel) == 'a' ? -1 : 0);
+        key.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+            int width = Math.min(Math.min(room / 3, dp(48)), v.getWidth());
+            if (width > 0) position.accept(toneEdge(v, width));
+        });
     }
 
     private static String toneChoices(char vowel) {

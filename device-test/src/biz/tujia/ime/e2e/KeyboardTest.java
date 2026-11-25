@@ -677,9 +677,11 @@ public final class KeyboardTest extends Instrumentation {
         for (String output : new String[]{"调号拼音", "谐音字"}) {
             newPredictionEditor();
             press(output);
+            captureFrame(output.equals("调号拼音") ? "tone-marked-idle.png" : "tone-han-idle.png");
             holdKey("a");
             Rect level = waitForNode("ā", false), rising = waitForNode("á", false);
             Rect fallingRising = waitForNode("ǎ", false), falling = waitForNode("à", false);
+            captureFrame(output.equals("调号拼音") ? "tone-marked-popup.png" : "tone-han-popup.png");
             if (!(level.centerY() < rising.centerY() && fallingRising.centerY() > rising.centerY()
                     && falling.centerX() > level.centerX() && falling.centerY() == level.centerY()
                     && rising.centerX() > level.centerX())) {
