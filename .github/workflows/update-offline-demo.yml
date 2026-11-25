@@ -1,13 +1,15 @@
 name: Build single-file offline demo
-# Publish the grouped handwriting suggestions and updated loan forms.
 
 on:
   pull_request:
     paths: ['.github/workflows/update-offline-demo.yml', 'tools/web-demo/**', 'shared/**', 'app/src/main/assets/ismantic/**']
   push:
     branches: [main]
-    paths: ['.github/workflows/update-offline-demo.yml']
   workflow_dispatch:
+
+concurrency:
+  group: offline-demo-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read

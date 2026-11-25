@@ -471,6 +471,18 @@ function candidates(){
   showCandidatePage(0);
 }
 draft.oninput=()=>change(draft.value);
+// Physical number keys choose the current candidate page. An empty editor
+// keeps ordinary number entry; the focused keyboard can select predictions.
+document.addEventListener('keydown',event=>{
+  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||
+     !/^[1-4]$/.test(event.key)||$('keyboardPanel').hidden||(!draft.value && event.target===output)||
+     !(event.target===draft||event.target===output||$('keyboardPanel').contains(event.target)))return;
+  const candidate=candidateItems[candidatePage*cardsPerPage+Number(event.key)-1];
+  if(!candidate)return;
+  event.preventDefault();
+  if(demoActive)takeOver();
+  candidate.commit();
+},true);
 draft.onkeydown=e=>{
   if(e.isComposing || (e.key!=='Enter' && (e.key!==' ' || e.shiftKey)))return;
   e.preventDefault();
