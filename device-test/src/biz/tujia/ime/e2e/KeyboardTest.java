@@ -1120,7 +1120,7 @@ public final class KeyboardTest extends Instrumentation {
                             if (!child.isVisibleToUser() || !child.isClickable()) continue;
                             for (int k = 0; k < labels.length; k++) {
                                 if (!android.text.TextUtils.equals(labels[k], child.getContentDescription())) continue;
-                                if (k == labels.length - 1 && !android.text.TextUtils.equals("收起", child.getText())) continue;
+                                if (k == labels.length - 1 && !android.text.TextUtils.isEmpty(child.getText())) continue;
                                 bounds[k] = new Rect();
                                 child.getBoundsInScreen(bounds[k]);
                             }
