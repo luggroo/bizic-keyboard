@@ -113,6 +113,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private List<IpaKeyboard.Entry> ipaMatches = Collections.emptyList();
     private UserDictionary userDictionary;
     private FrameLayout keyAlternatives;
+    private TextView[] toneFlickKeys;
     private HandwritingPad pad;
     private HandAnchor strokeAnchor;
     private HandAnchor matchedAt;
@@ -1484,6 +1485,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (keyAlternatives == null) return;
         keyboardFrame.removeView(keyAlternatives);
         keyAlternatives = null;
+        toneFlickKeys = null;
     }
 
     private void showIpaAlternatives(View anchor, String[] alternatives) {
@@ -1532,7 +1534,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         keyboardFrame.addView(keyAlternatives, new FrameLayout.LayoutParams(-1, -1));
     }
 
-    private void showDirectionalTones(View anchor, String tones) {
+    private void showDirectionalTones(View anchor, char vowel, String tones) {
+        closeKeyAlternatives();
         int availableWidth = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
         int availableHeight = keyboardFrame.getHeight() - keyboardFrame.getPaddingTop() - keyboardFrame.getPaddingBottom();
         int width = Math.min(availableWidth / 3, dp(48));
@@ -1543,6 +1546,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         FrameLayout menu = new FrameLayout(this);
         int[] columns = {1, 2, 1, 0};
         int[] rows = {0, 1, 2, 1};
+        toneFlickKeys = new TextView[5];
+        TextView centre = label(String.valueOf(vowel), formSp(), WHITE);
+        centre.setBackground(shape(RED, 8));
+        centre.setContentDescription(String.valueOf(vowel));
+        centre.setFocusable(true);
+        KeyboardTap.bind(centre, () -> typeChar(vowel));
+        FrameLayout.LayoutParams centreBounds = new FrameLayout.LayoutParams(width - dp(4), height - dp(4));
+        centreBounds.leftMargin = width + dp(2);
+        centreBounds.topMargin = height + dp(2);
+        menu.addView(centre, centreBounds);
+        toneFlickKeys[4] = centre;
         for (int i = 0; i < tones.length(); i++) {
             char tone = tones.charAt(i);
             TextView key = label(String.valueOf(tone), formSp(), INK);
@@ -1555,9 +1569,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             bounds.leftMargin = columns[i] * width + dp(2);
             bounds.topMargin = rows[i] * height + dp(2);
             menu.addView(key, bounds);
+            toneFlickKeys[i] = key;
         }
         openKeyAlternatives(menu, width * 3, height * 3, position.centerX() - width * 3 / 2,
                 position.centerY() - height * 3 / 2);
+    }
+
+    private void highlightTone(int direction) {
+        if (toneFlickKeys == null) return;
+        int selected = direction < 0 ? 4 : direction;
+        for (int i = 0; i < toneFlickKeys.length; i++) {
+            toneFlickKeys[i].setBackground(shape(i == selected ? RED : PAPER, 8));
+            toneFlickKeys[i].setTextColor(i == selected ? WHITE : INK);
+        }
     }
 
     private boolean typeIpa(String text) {
@@ -1739,9 +1763,22 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                         if (directional) letter.setForeground(new ToneHints(sp(8)));
                         letter.setHapticFeedbackEnabled(false);
                         letter.setOnLongClickListener(v -> {
-                            if (directional) showDirectionalTones(letter, tones);
+                            if (directional) showDirectionalTones(letter, c, tones);
                             else showTones(tones);
                             return true;
+                        });
+                        if (directional) KeyboardTap.bindFlick(letter, new KeyboardTap.Flick() {
+                            private int direction(float dx, float dy) {
+                                return ToneFlick.direction(dx, dy, dp(18));
+                            }
+                            @Override public void move(float dx, float dy) { highlightTone(direction(dx, dy)); }
+                            @Override public void finish(float dx, float dy) {
+                                int selected = direction(dx, dy);
+                                if (selected < 0) return;
+                                closeKeyAlternatives();
+                                typeChar(tones.charAt(selected));
+                            }
+                            @Override public void cancel() { closeKeyAlternatives(); }
                         });
                     }
                 }
