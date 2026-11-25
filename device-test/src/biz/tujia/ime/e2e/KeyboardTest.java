@@ -144,7 +144,8 @@ public final class KeyboardTest extends Instrumentation {
                 EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
         waitSelectedControl("打字");
-        waitForNode("联想 那，āi", false);
+        if (pollNode("联想 那，āi", false, 45_000) == null)
+            throw new AssertionError("Typing starter missing after cold dictionary initialization: " + visibleControls());
         waitForNode("联想 我，ngá", false);
         waitForNode("下一音节 gó", false);
         waitForNode("下一音节 ní", false);
@@ -210,6 +211,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325 后");
         press("字母或符号");
         tapField(host.second);
+        awaitKeyboardAtRest();
         press("切换大小写");
         press("G");
         press("g");
