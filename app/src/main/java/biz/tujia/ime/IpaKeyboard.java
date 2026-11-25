@@ -8,14 +8,16 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Layout and offline prefix matching for literal IPA input. */
 final class IpaKeyboard {
-    static final int COLUMNS = 3, MAX_PREFIX = 64;
+    static final int MAX_PREFIX = 64;
     static final int NORTH = 1, SOUTH = 2, ALL_DIALECTS = NORTH | SOUTH;
     static final String NASAL = "\u0303", SYLLABIC = "\u0329", TIE = "\u0361";
     private static final String DIGITS = "¹²³⁴⁵";
@@ -85,31 +87,40 @@ final class IpaKeyboard {
     }
 
     List<Entry> complete(String prefix, int dialects) {
-        if (prefix == null || dialects == 0) return Collections.emptyList();
-        if (prefix.isEmpty()) {
-            List<Entry> starters = new ArrayList<>(COLUMNS);
-            for (Entry entry : entries) {
-                if ((entry.dialects & dialects) == 0 || entry.ipa.startsWith("-")) continue;
-                starters.add(entry);
-                if (starters.size() == COLUMNS) break;
-            }
-            return starters;
-        }
+        if (prefix == null || prefix.isEmpty() || dialects == 0) return Collections.emptyList();
         String current = normalize(prefix);
         Matcher exact = completionPattern(current, false).matcher("");
         Matcher relaxed = completionPattern(current, true).matcher("");
-        List<Entry> results = new ArrayList<>(COLUMNS);
-        List<Entry> secondary = new ArrayList<>(COLUMNS);
+        List<Entry> results = new ArrayList<>();
+        List<Entry> secondary = new ArrayList<>();
         for (Entry entry : entries) {
             if ((entry.dialects & dialects) == 0 || entry.spelling.equals(current)) continue;
             if (exact.reset(entry.spelling).lookingAt()) {
                 results.add(entry);
-                if (results.size() == COLUMNS) return results;
-            } else if (secondary.size() < COLUMNS && relaxed.reset(entry.spelling).lookingAt()) {
+            } else if (relaxed.reset(entry.spelling).lookingAt()) {
                 secondary.add(entry);
             }
         }
-        results.addAll(secondary.subList(0, Math.min(secondary.size(), COLUMNS - results.size())));
+        results.addAll(secondary);
+        return results;
+    }
+
+    List<Entry> starters(List<CandidateEngine.Candidate> ranked, int dialects) {
+        List<Entry> results = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
+        for (CandidateEngine.Candidate candidate : ranked) {
+            if ((dialects & NORTH) != 0) {
+                if (seen.add(candidate.text))
+                    results.add(new Entry(NORTH, candidate.text, candidate.shortMeaning));
+            } else if ((dialects & SOUTH) != 0 && !candidate.shortMeaning.isEmpty()) {
+                for (Entry entry : entries) {
+                    if ((entry.dialects & SOUTH) != 0 && !entry.ipa.startsWith("-")
+                            && entry.gloss.equals(candidate.shortMeaning) && seen.add(entry.ipa)) {
+                        results.add(entry);
+                    }
+                }
+            }
+        }
         return results;
     }
 

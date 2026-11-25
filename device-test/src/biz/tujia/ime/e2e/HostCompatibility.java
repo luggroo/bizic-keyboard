@@ -123,7 +123,7 @@ final class HostCompatibility {
             keys.press(second);
             String expected = first + second;
             keys.expectText(host.first, expected);
-            if (keys.pollNode("更多", false, 200) != null || keys.pollNode("吃、咬，架", false, 200) != null)
+            if (keys.pollNode("设置", false, 200) != null || keys.pollNode("吃、咬，架", false, 200) != null)
                 throw new AssertionError("Lexical prediction visible on a password field");
             AtomicReference<String> transformed = new AtomicReference<>();
             keys.runOnMainSync(() -> transformed.set(host.first.getTransformationMethod()
@@ -156,7 +156,7 @@ final class HostCompatibility {
         keys.press("g");
         keys.press("a");
         expectDom("secret", "ga");
-        if (keys.pollNode("更多", false, 200) != null)
+        if (keys.pollNode("设置", false, 200) != null)
             throw new AssertionError("Lexical mode on a WebView password");
     }
 

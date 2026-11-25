@@ -22,7 +22,7 @@ final class KeyboardSettings {
 
     static CandidateEngine.Orthography spelling(Context context) {
         boolean marked = context.getSharedPreferences(FILE, Context.MODE_PRIVATE)
-                .getBoolean(TONE_MARKS, false);
+                .getBoolean(TONE_MARKS, true);
         return marked ? CandidateEngine.Orthography.DIACRITIC : CandidateEngine.Orthography.YE;
     }
 
@@ -33,7 +33,7 @@ final class KeyboardSettings {
 
     static int ipaDialects(Context context) {
         return context.getSharedPreferences(FILE, Context.MODE_PRIVATE)
-                .getInt(IPA_DIALECTS, IpaKeyboard.ALL_DIALECTS) & IpaKeyboard.ALL_DIALECTS;
+                .getInt(IPA_DIALECTS, IpaKeyboard.NORTH) & IpaKeyboard.ALL_DIALECTS;
     }
 
     static void setIpaDialects(Context context, int dialects) {

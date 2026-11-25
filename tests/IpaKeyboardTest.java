@@ -38,9 +38,6 @@ public final class IpaKeyboardTest {
         check(IpaKeyboard.completionPrefix("前 /m", "a 后") == null, "starters inside a word");
         check(IpaKeyboard.completionPrefix("²¹", "") == null, "starters after a standalone tone");
         int north = IpaKeyboard.NORTH, south = IpaKeyboard.SOUTH, both = IpaKeyboard.ALL_DIALECTS;
-        contains(keyboard.complete("", both), "mã²¹", "奶");
-        contains(keyboard.complete("", south), "a²¹ dʑe²¹ be²¹", "手指");
-        check(keyboard.complete("", 0).isEmpty(), "disabled dictionary suggested a starter");
         check(keyboard.complete("ma", 0).isEmpty(), "disabled dictionary suggested a completion");
         check(keyboard.complete("qqqqqq", both).isEmpty(), "an unknown prefix generated a completion");
         contains(keyboard.complete("ma", north), "mã²¹", "奶");
@@ -56,7 +53,18 @@ public final class IpaKeyboardTest {
         check(keyboard.complete("mã²¹", both).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
                 "an already complete spelling was suggested again");
         try (CandidateEngine engine = new CandidateEngine(Files.newInputStream(Paths.get(args[1])),
-                null, null, null, null, Files.newInputStream(Paths.get(args[2])))) {
+                Files.newInputStream(Paths.get(args[3])), Files.newInputStream(Paths.get(args[4])),
+                Files.newInputStream(Paths.get(args[5])), null, Files.newInputStream(Paths.get(args[2])))) {
+            List<CandidateEngine.Candidate> ranked = engine.ipaOpenings();
+            List<IpaKeyboard.Entry> opening = keyboard.starters(ranked, both);
+            check(opening.size() > 4, "IPA sentence starters should support a second page");
+            String[] first = {"ai⁵⁵", "ŋa²⁴", "kuɔ²⁴", "ȵi²⁴"};
+            for (int i = 0; i < first.length; i++)
+                check(first[i].equals(opening.get(i).ipa), "wrong frequency order in the IPA starter page");
+            contains(keyboard.starters(ranked, south), "ŋo³³", "我");
+            check(keyboard.starters(ranked, south).stream().allMatch(entry -> (entry.dialects & south) != 0),
+                    "a Northern starter leaked into Southern suggestions");
+            check(keyboard.starters(ranked, 0).isEmpty(), "disabled dictionary suggested a starter");
             check(engine.handwritingSuggestions("波", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.IPA)
                     .stream().anyMatch(entry -> entry.text.equals("pɔ⁵⁵li²¹")), "missing handwritten IPA word");
             check(engine.lookup("波俐", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.YE)
@@ -78,7 +86,6 @@ public final class IpaKeyboardTest {
     }
 
     private static void contains(List<IpaKeyboard.Entry> candidates, String ipa, String gloss) {
-        check(candidates.size() <= IpaKeyboard.COLUMNS, "too many completions");
         check(candidates.stream().anyMatch(entry -> entry.ipa.equals(ipa) && entry.gloss.equals(gloss)),
                 "missing candidate " + ipa + " " + gloss);
     }

@@ -34,7 +34,8 @@ if [[ "$suite" != strokes ]]; then
     "${java[@]}" biz.tujia.ime.HanChoiceTest shared/bundle/Assets/words.tsv
     "${java[@]}" biz.tujia.ime.HanUnitStyleTest
     "${java[@]}" biz.tujia.ime.IpaKeyboardTest app/src/main/assets/ipa-completions.tsv \
-        shared/bundle/Assets/words.tsv app/src/main/assets/handwriting-ipa.tsv
+        shared/bundle/Assets/words.tsv app/src/main/assets/handwriting-ipa.tsv \
+        shared/bundle/Assets/{ngrams,syllable_bigrams,syllable_senses}.tsv
 fi
 if [[ "$suite" != words ]]; then
     "$cxx" -std=c++17 -O2 -Ishared/src shared/src/strokes.cpp shared/tests/strokes_test.cpp -o "$work/strokes"
