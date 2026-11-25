@@ -15,7 +15,7 @@ python3 tools/web-demo/embed-hand-model.py /path/to/onnxruntime-web/dist build/w
 python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3
 ```
 
-更新调查点词表时，先以毕兹学堂的网站源码为输入，按词条及具体读音同步整词借源，再重建北部词表：
+更新调查点词表时，先以毕兹学堂的网站源码为输入，按词条及具体读音同步整词和词内借词成分，再重建北部词表：
 
 ```sh
 python3 tools/prepare_survey_han_loans.py /path/to/bizic-dictionary/site
@@ -30,6 +30,6 @@ python3 tools/sync_reviewed_loan_forms.py /path/to/prepared-site /path/to/bizic-
 python3 tools/import_northern_words.py /path/to/prepared-site
 ```
 
-词典中记为“可能借自”的整词也采用所注汉字；已有词条的不同读音仍按各自证据处理。借源年代未定的汉语借词可使用本字，不据此改变词典对借入年代的标注。
+词典中记为“可能借自”的整词也采用所注汉字；混合词只修改有明确借源的音节，其余选字和词义保留。已有词条的不同读音仍按各自证据处理。借源年代未定的汉语借词可使用本字，不据此改变词典对借入年代的标注。
 
 `build/artifacts/shange-demo.zip` 只包含 `index.html`。该文件内嵌模型、引擎、数据及许可说明，不需要网络连接。

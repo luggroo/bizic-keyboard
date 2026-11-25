@@ -86,6 +86,11 @@ class BaojingWords(unittest.TestCase):
                             for c in self.full('yongxgangx')))
         self.assertTrue(any(c.text == '夏' and c.gloss == '下' and not c.plain_han_loan
                             for c in self.full('xiaf')))
+        for query, gloss, written in [('huixmianr', '面粉', '灰面'),
+                                      ('maorlurzix', '驴', '毛驴子'),
+                                      ('zixcaoxbongr', '猪槽', '猪槽波嗡')]:
+            self.assertTrue(any(c.text == written and c.gloss == gloss and not c.plain_han_loan
+                                for c in self.full(query)), (query, written))
 
     def test_reviewed_near_synonyms(self):
         import sys

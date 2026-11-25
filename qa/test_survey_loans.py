@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'tools'))
-from prepare_survey_han_loans import select_rows
+from prepare_survey_han_loans import select_rows, select_component_rows
 from sync_reviewed_loan_forms import recorded_donor
 
 
@@ -64,6 +64,16 @@ class SurveyLoans(unittest.TestCase):
         self.assertIsNone(recorded_donor(row, {**mini, '_ipa': ['jɔŋ³⁵kaŋ⁵⁵']}, [n], set()))
         self.assertIsNone(recorded_donor({**row, 'word': 'xiaf'}, mini, [n], set()))
         self.assertIsNone(recorded_donor(row, mini, [note('brave', '勇敢', 'jɔŋ⁵⁵kaŋ⁵⁵', [1, 1])], set()))
+
+    def test_components_keep_reviewed_spans_and_reject_conflicts(self):
+        words = [word('flour', '面粉', ('huixmianr', ['huix', 'mianr'], 'xui⁵⁵miã³³'),
+                      ('huixmianf', ['huix', 'mianf'], 'xui⁵⁵miã³⁵'))]
+        n = note('flour', '面', 'xui⁵⁵miã³³', [2, 2], scope='component')
+        rows = select_component_rows(words, [n])
+        self.assertEqual([r[:5] for r in rows], [['flour', 'huixmianr', 2, 2, '面']])
+        conflict = note('flour', '棉', 'xui⁵⁵miã³³', [2, 2], scope='component')
+        self.assertEqual(select_component_rows(words, [n, conflict]), [])
+        self.assertEqual(select_component_rows(words, [note('flour', '毒', 'xui⁵⁵miã³³', [2, 2], scope='component')]), [])
 
 
 if __name__ == '__main__':

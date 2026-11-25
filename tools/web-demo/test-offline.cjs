@@ -59,6 +59,10 @@ for(const input of ['kovyir','koyi','kòyǐ']){
   assert(choices.some(c=>c.form==='可以'&&c.loan),input);
   assert(!choices.some(c=>c.form==='可移'),input);
 }
+for(const [input,meaning,form] of [['huixmianr','面粉','灰面'],['maorlurzix','驴','毛驴子']]){
+  const choices=ctx.core.lookup(input,1,0).filter(c=>c.length===input.length&&c.meaning===meaning);
+  assert(choices.some(c=>c.form===form&&!c.loan),input);
+}
 const nenzi=Array.from(exact('nenzi',1,0));assert(nenzi.includes('檩子')&&nenzi.includes('铃子'));
 assert(!nenzi.includes('冷直')&&!nenzi.includes('楞直'));
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));
