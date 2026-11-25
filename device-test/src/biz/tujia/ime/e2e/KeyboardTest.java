@@ -93,6 +93,7 @@ public final class KeyboardTest extends Instrumentation {
                 testHandwritingSidebar();
                 testVerbatimSpelling();
                 testSpellingOnSpace();
+                testSeparatorAfterChoice();
                 testUserDictionary();
                 testDirectionalTones();
                 new SystemTypography(this, host).ipa();
@@ -556,7 +557,7 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "pifpav");
 
             type("ga");
-            expectText(host.first, "pifpavga");
+            expectText(host.first, "pifpav ga");
             boolean marked = "调号拼音".equals(output);
             expectFirst(marked ? "乌鸦，ga" : "原文，ga");
             String recommendation = marked ? "gá" : "gaf";
@@ -639,6 +640,26 @@ public final class KeyboardTest extends Instrumentation {
         type("bizika");
         press("空格");
         expectText(host.first, "ngaf yer pifpav bízīkǎ ");
+    }
+
+    private void testSeparatorAfterChoice() {
+        stage("A new letter inserts the separator after choosing a word");
+        newPredictionEditor();
+        press("音标");
+        press("m");
+        press("a");
+        pressCandidate("补全 奶，mã²¹", false);
+        expectText(host.first, "mã²¹");
+        press("n");
+        expectText(host.first, "mã²¹ n");
+
+        newPredictionEditor();
+        press("调号拼音");
+        type("pifpav");
+        pressCandidate("原文，pifpav", false);
+        press("空格");
+        type("n");
+        expectText(host.first, "pifpav n");
     }
 
     private void testDirectionalTones() {
@@ -733,11 +754,11 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, prefix + "gá");
         type("zhongguo");
         pressCandidate("汉语，中国", false);
-        expectText(host.first, prefix + "gá中国");
+        expectText(host.first, prefix + "gá 中国");
 
         type("surufa");
         pressCandidate("汉语，输入法", false);
-        prefix += "gá中国输入法";
+        prefix += "gá 中国输入法";
         expectText(host.first, prefix);
         type("siribuli");
         pressCandidate("星星，sīrǐbǔlǐ", false);
