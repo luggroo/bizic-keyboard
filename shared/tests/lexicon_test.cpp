@@ -615,6 +615,24 @@ void checkDirectSyllableCommit() {
     check(fallback.size()==2 && fallback.front().text=="也" && fallback.front().meaning.empty(), "No evidence asset still produces sound references");
 }
 
+
+void checkCompactPinyinGlosses() {
+    const std::string words =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "a\trir\tri\t肢体、米糕、桶等的量词\t日\t\t日\t2\ttujia\t肢体、米糕、桶等的量词\tri\trǐ\t日\t\t\n"
+        "b\trir\tri\t多\t日\t\t日\t1\ttujia\t多\tri\trǐ\t日\t\t\n";
+    Lexicon fixture(words);
+    auto roman = fixture.lookup("rir", Mode::Pinyin);
+    auto p = std::find_if(roman.begin(), roman.end(), [](const Candidate& c) { return c.text == "rir" && c.consumed == 3; });
+    check(p != roman.end() && p->shortMeaning == "多" &&
+          p->meaning.find("肢体、米糕、桶等的量词") != std::string::npos,
+          "Pinyin hints omit whole overlong senses, not misleading fragments");
+    auto han = fixture.lookup("rir", Mode::Han);
+    check(std::any_of(han.begin(), han.end(), [](const Candidate& c) {
+        return c.meaning == "肢体、米糕、桶等的量词" && c.shortMeaning == c.meaning;
+    }), "Han hints retain their longer distinct sense");
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -636,6 +654,7 @@ int main(int argc, char** argv) {
         check(senseFile.good(), "Cannot open independently reviewed syllable senses");
         std::ostringstream senses; senses << senseFile.rdbuf();
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
+        checkCompactPinyinGlosses();
         checkDirectSyllableCommit();
         checkMongContexts(lexicon);
         checkNasalReadings(lexicon);

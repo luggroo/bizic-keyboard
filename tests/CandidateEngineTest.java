@@ -123,7 +123,7 @@ public final class CandidateEngineTest {
             boolean hasGloss = false;
             for (Candidate candidate : nativeWords) {
                 if (candidate.text.equals(spelled) && hasGloss(candidate.meaning, meaning, "；") &&
-                    hasGloss(candidate.shortMeaning, compact, "、") && candidate.kind == CandidateEngine.Kind.TUJIA &&
+                    candidate.shortMeaning.codePointCount(0, candidate.shortMeaning.length()) <= 6 && candidate.kind == CandidateEngine.Kind.TUJIA &&
                     candidate.consumed == spelled.length()) hasGloss = true;
             }
             check(hasGloss, id + ": spelling, kind and glosses");

@@ -30,7 +30,7 @@ w2092	sirkarcar	sikaca	草	石咔查	十掐茶 四卡擦	十时石食实失什�
 w2068	sixbax	siba	衣服	使巴	师巴 丝把	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶	2	tujia	衣服	siba	sībā	使|巴		
 w355	caf	ca	好	岔	插 擦	插择岔诧茶擦差叉察查搽	54	tujia	好	ca	cá	岔		
 w2614	zax	za	背	渣	渣 扎	渣扎闸杂炸蔗眨诈榨札栅铡	0	tujia	背	za	zā	渣		
-w2252	tif	ti	答	替	剃	剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	答	ti	tí	替		
+w2252	tif	ti	答	替	剃	剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	回答	ti	tí	替		
 w986	jiax	jia	家	家		家加茄佳嘉甲嫁假夹贾	0	tujia	家	jia	jiā	家		plainHanLoan
 w1027	jiefjiex	jiejie	袖子	借姐	借结 借姐	借结姐接节决杰绝介解截缀揭倔洁竭诀 结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	袖子	jiejie	jiéjiē	借|姐		
 w2458	xianv	xian	想	想	响 选 鲜	选显险鲜现线先县嫌响享	3	tujia	想	xian	xiàn	想		plainHanLoan
@@ -172,7 +172,7 @@ w1261	laftux	latu	瓜	腊土	那土 拉土	那拉辣蜡拿哪喇腊呐挪纳 土
 w1812	qianrbir	qianbi	墙	墙壁	前鼻 前臂 钱必	前钱全钳权圈欠牵浅劝签 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽	0	tujia	墙	qianbi	qiǎnbǐ	墙|壁		plainHanLoan
 w452	cifgax zir	cigazi	长疮	次尕直	刺蟹直 次家紫	刺次伺秩赐尺池迟匙此齿雌侈痴耻词持瓷磁辞驰 尕蟹家加夹嫁甲架稼 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	0	tujia	长疮	cigazi	cígā zǐ	次|尕|直	cifgaxzir cígāzǐ	
 w2070	sixbax daf	sibada	穿衣服	使巴大	师巴大 丝把大	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 大打达搭答	0	tujia	穿衣服	sibada	sībā dá	使|巴|大	sixbaxdaf sībādá	
-w641	duv	du	沉重	堵	赌 肚	赌肚堵毒读度都渡杜妒独督镀	0	tujia	沉重	du	dù	堵		
+w641	duv	du	沉重	堵	赌 肚	赌肚堵毒读度都渡杜妒独督镀	0	tujia	重	du	dù	堵		
 w382	caifzix	caizi	油菜	菜子	菜知 菜资	菜蔡柴财猜差采彩睬才材裁豺 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	油菜	caizi	cáizī	菜|子		
 w1124	karzur	kazu	棍子	咔祝	掐竹 卡足	掐菜卡胯 竹烛足卒粥筑嘱猪主住柱租助祖煮蛛帚注珠朱组阻著诛诸铸驻	2	tujia	棍子	kazu	kǎzǔ	咔|祝		
 w1532	mixkartif	mikati	半烧的	米咔替	米掐剃 米卡替	米眉密没谜弥泌灭糜觅迷 咔掐菜卡胯 剃涕剔屉替隶踢梯体铁贴帖惕特提蹄啼题堤	0	tujia	半烧的	mikati	mīkǎtí	米|咔|替		
@@ -186,7 +186,7 @@ w1258	laxsirlaxniex	lasilanie	时时刻刻	拉石拉捏	拉十拉捏 拉四拉�
 w366	cafdircafgaf	cadicaga	很好	岔的岔尬	插笛插嫁 擦笛擦架	插择岔诧茶擦差叉察查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 插择岔诧茶擦差叉察查搽 嫁架稼夹蟹家甲加	0	tujia	很好	cadicaga	cádǐcágá	岔|的|岔|尬		
 w235	bangxzangx	bangzang	班长	班展	帮张 邦张 班攒	帮梆邦绑棒榜傍磅蚌谤班搬 展张章脏樟长藏掌丈帐涨仗葬杖障攒	2	tujia	班长	bangzang	bāngzāng	班|展		
 w374	carqix	caqi	锦鸡	查起	茶溪 擦妻	茶插擦察差叉择岔诧查搽 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	锦鸡	caqi	cǎqī	查|起		
-w1936	rirdifrirgaf	ridiriga	很多	日地日尬	日地日嫁 日弟日架	日撕 地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 日撕 嫁架稼夹蟹家甲加	0	tujia	很多	ridiriga	rǐdírǐgá	日|地|日|尬		
+w1936	rirdifrirgaf	ridiriga	多	日地日尬	日地日嫁 日弟日架	日撕 地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 日撕 嫁架稼夹蟹家甲加	0	tujia	多	ridiriga	rǐdírǐgá	日|地|日|尬		
 w1743	pof	po	斗	破	破 坡	破婆泼坡扑颇	0	tujia	斗	po	pó	破		
 w127	axlar	ala	贴	阿辣	阿辣 啊拉	阿啊还 辣蜡拿腊呐纳拉那哪喇挪	0	tujia	贴	ala	ālǎ	阿|辣		
 w1170	kuvcaif	kucai	苦菜	苦菜	苦菜 裤菜	苦哭裤库枯窟酷 菜蔡柴财猜差采彩睬才材裁豺	0	tujia	苦菜	kucai	kùcái	苦|菜		
@@ -199,7 +199,7 @@ w543	davxiv	daxi	帮助	打希	打洗	打大达搭答 洗喜许西息席系吸�
 w379	caifkur	caiku	油菜渣滓	菜窟	菜哭 菜裤	菜蔡柴财猜差采彩睬才材裁豺 哭窟酷苦裤库枯	0	tujia	油菜渣滓	caiku	cáikǔ	菜|窟		
 w589	difsangx	disang	第三	地伞	地伤 弟桑 弟三	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 伞伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	第三	disang	dísāng	地|伞		
 w238	baoxbux	baobu	玉米	苞补	包布 包补	包苞胞褒鲍抱饱宝刨豹保报暴爆堡 布步不部补卜怖簿	10	tujia	玉米	baobu	bāobū	苞|补		
-w1182	kuxsurgaf	kusuga	亮	苦俗尬	枯叔嫁 裤粟架	枯哭苦裤库窟酷 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 尬嫁架稼夹蟹家甲加	0	tujia	亮	kusuga	kūsǔgá	苦|俗|尬		
+w1182	kuxsurgaf	kusuga	亮	苦俗尬	枯叔嫁 裤粟架	枯哭苦裤库窟酷 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 尬嫁架稼夹蟹家甲加	0	tujia	明亮	kusuga	kūsǔgá	苦|俗|尬		
 w90	arbax	aba	奶奶	吖巴	还巴 阿把	还阿啊 巴疤芭把八坝爸罢霸靶	0	tujia	奶奶	aba	ǎbā	吖|巴		
 w175	aixtax	aita	否则	哎他		哎 他踏塔獭塌	0	tujia	否则	aita	āitā	哎|他		
 w1987	saxtux	satu	虾	沙土		沙杉纱杀撒洒傻刹厦煞萨 土图吐兔突秃途屠徒涂	0	tujia	虾	satu	sātū	沙|土		
@@ -259,7 +259,7 @@ w949	hxif	hxi	走	诶		诶	96	tujia	走	hxi	hxí	诶
 w950	hxir	hxi	位	诶		诶	0	tujia	位	hxi	hxǐ	诶		
 w951	hxir	hxi	小米	诶		诶	0	tujia	小米	hxi	hxǐ	诶		
 w952	hxir	hxi	扫	诶		诶	0	tujia	扫	hxi	hxǐ	诶		
-w1149	kif	ki	锯子	尅		尅	0	tujia	锯子	ki	kí	尅		
+w1149	kif	ki	锯子	尅		尅	0	tujia	锯	ki	kí	尅		
 w1150	kiv	ki	跪	尅		尅	0	tujia	跪	ki	kì	尅		
 w1151	kiv	ki	硬	尅		尅	0	tujia	硬	ki	kì	尅		
 w1421	lov	lo	人	倮	螺	螺锣	3	tujia	人	lo	lò	倮		
@@ -342,7 +342,7 @@ w1966	sav	sa	晒	晒		撒洒傻厦萨沙杉杀纱刹煞	0	tujia	晒	sa	sà	晒
 w1967	sav	sa	撒	撒		撒洒傻厦萨沙杉杀纱刹煞	0	tujia	撒	sa	sà	撒		plainHanLoan
 w1456	max	ma	堆、码放	码		马妈骂麻蚂抹码嘛	0	tujia	码放	ma	mā	码		
 w1457	max	ma	户、人家	麻		马妈骂麻蚂抹码嘛	0	tujia	人家	ma	mā	麻		
-w1717	pif	pi	呕吐	噼		屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	呕吐	pi	pí	噼		
+w1717	pif	pi	呕吐	噼		屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	吐	pi	pí	噼		
 w1718	pif	pi	墙（石墙）	坯		屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	石墙	pi	pí	坯		
 ls60-1	aixzux	aizu	从前	哎珠	哎租	哎 珠租	1	tujia	从前	aizu	āizū	哎|珠		
 ls60-2	cerjiarkar	cejiaka	陈姓	陈家卡		陈侧 家甲 卡	1	tujia	陈姓	cejiaka	cějiǎkǎ	陈|家|卡		
@@ -428,7 +428,7 @@ ls60-84	yifaxlair	yialai	走啊了	意阿来	余啊来	意余 阿啊 来	2	tujia
 ls60-85	yev	ye	到	也	野	也野	30	tujia	到	ye	yè	也	yiev yie yiè	
 ls60-86	larhux	lahu	着了	辣呼	拉虎	辣拉 呼虎	2	tujia	着了	lahu	lǎhū	辣|呼		
 ls60-87	loxdaixjir	lodaiji	人家几个	倮歹吉	落袋即 倮袋即	倮落 歹袋 吉即	1	tujia	人家几个	lodaiji	lōdāijǐ	倮|歹|吉		
-ls60-88	jier	jie	喊	节		节	1	tujia	喊	jie	jiě	节		
+ls60-88	jier	jie	喊	节		节	1	tujia	叫	jie	jiě	节		
 ls60-89	pofgav	poga	先生	破尕	坡家	破坡 尕家	2	tujia	先生	poga	pógà	破|尕		
 tlp-gavdunr	gavdongr	gadong	一会儿	尕钝	家东	尕家 钝东	2	tujia	一会儿	gadong	gàdǒng	尕|钝	gavdunr gadun gàdǔn	
 stedt-rn-368307	arciex	acie	茶	吖雌	阿侧	吖阿 侧	3	tujia	茶	acie	ǎciē	吖|雌	arceix acei ǎcēi arceir ǎcěi	
@@ -437,7 +437,7 @@ ls60-94	loxdeix	lodei	人家	倮低	落低	倮落 低	7	tujia	人家	lodei	lōd�
 ls60-95	gor	go	他	郭	鸽	郭鸽	5	tujia	他	go	gǒ	郭		
 ls60-96	yev	ye	也	也	野	也野	18	tujia	也	ye	yè	也	yiev yie yiè	
 ls60-97	yifyif	yiyi	走走	意意	余余	意余 意余	1	tujia	走走	yiyi	yíyí	意|意		
-ls60-98	exdir	edi	这个	婀的	医笛	婀医 的笛	1	tujia	这个	edi	ēdǐ	婀|的		
+ls60-98	exdir	edi	这个	婀的	医笛	婀医 的笛	1	tujia	这	edi	ēdǐ	婀|的		
 ls60-99	ngefzarsirdeir	ngezasidei	硬厉害	扼扎石笛	泥扎四笛	扼泥 扎 石四 笛	1	tujia	硬厉害	ngezasidei	ngézǎsǐděi	扼|扎|石|笛		
 ls60-100	zexdix	zedi	真	者低	资低	者遮资 低	1	tujia	真	zedi	zēdī	者|低		
 ls60-101	aixyouf	aiyou	那又	哎又	哎右	哎 又右	1	tujia	那又	aiyou	āiyóu	哎|又	aixyiuf aiyiu āiyiú	
@@ -449,7 +449,7 @@ ls60-106	gox	go	他	哥		哥	6	tujia	他	go	gō	哥
 ls60-107	bovlir	boli	小孩	波俐	波粒	波 俐粒	1	tujia	小孩	boli	bòlǐ	波|俐		
 ls60-108	zair	zai	大人	再	在	再在	1	tujia	大人	zai	zǎi	再		
 ls60-109	lovcix	loci	都他	啰此	落雌	啰裸落 此雌	1	tujia	都他	loci	lòcī	啰|此		
-ls60-110	baxhuf	bahu	喊	巴互	把壶	巴把 互壶	1	tujia	喊	bahu	bāhú	巴|互		
+ls60-110	baxhuf	bahu	喊	巴互	把壶	巴把 互壶	1	tujia	叫	bahu	bāhú	巴|互		
 ls60-111	nixgox	nigo	着他	你哥	你哥	妮你 哥	1	tujia	着他	nigo	nīgō	你|哥		
 ls60-112	zirgeir	zigei	前头	直格锿	紫给	直紫 给	1	tujia	前头	zigei	zǐgěi	直|格锿		
 ls60-113	jiefmav	jiema	喊的人	借吗	节马	借节 吗马	1	tujia	喊的人	jiema	jiémà	借|吗		
@@ -476,7 +476,7 @@ ls60-135	jif	ji	的	记		记	1	tujia	的	ji	jí	记
 ls60-136	yaoxgax	yaoga	腰杆	舀尕	腰家	舀邀腰 尕嘎家	1	tujia	腰杆	yaoga	yāogā	舀|尕	yiaoxgax yiaoga yiāogā	
 ls60-137	gar	ga	上	夹		夹	33	tujia	上	ga	gǎ	夹		
 ls60-140	huerbir	huebi	粉笔	壶必	壶臂	壶 必臂	1	tujia	粉笔	huebi	huěbǐ	壶|必		
-ls60-141	hor	ho	用	和	盒	和盒	1	tujia	用	ho	hǒ	和		
+ls60-141	hor	ho	用	和	盒	和盒	1	tujia	使用	ho	hǒ	和		
 ls60-142	haf	ha	那么	下	哈 吓	吓哈	1	tujia	那么	ha	há	下		
 ls60-143	cixzix	cizi	字	此子	雌资	此雌 子兹资	1	tujia	字	cizi	cīzī	此|子		
 ls60-144	gafbur	gabu	几个	尬不	家不	尬家 不	1	tujia	几个	gabu	gábǔ	尬|不		

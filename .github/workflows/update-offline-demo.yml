@@ -36,6 +36,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 qa/test_baojing_words.py
+          python3 qa/audit_syllable_glosses.py
           python3 qa/test_orthography_revisions.py
           mkdir -p build/web build/artifacts
           cp -R tools/web-demo/ui/. build/web/
