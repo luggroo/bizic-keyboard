@@ -258,7 +258,8 @@ public final class KeyboardTest extends Instrumentation {
         stage("IPA dictionary settings select Southern, Northern, both or no completions");
         runOnMainSync(() -> { host.second.setText(""); });
         tapField(host.second);
-        changeIpaDictionaries("南部", "北部", "南部");
+        changeIpaDictionaries("北部、南部", "南部");
+        changeIpaDictionaries("南部", "北部");
         press("音标");
         press("更多");
         waitForNode("音标补全词库 · 可多选，两项都不选即关闭", false);
