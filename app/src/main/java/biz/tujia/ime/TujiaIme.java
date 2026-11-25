@@ -54,6 +54,7 @@ import java.util.Set;
 public final class TujiaIme extends InputMethodService implements LexiconStore.Listener {
     private static final int COLUMNS = 4, HISTORY_LIMIT = 32;
     private static final int LETTER_SP = 20, FORM_SP = 20, GLOSS_SP = 14, TAB_SP = 15;
+    private static final float IPA_HINT_SCALE = .57f;
     private static final int SPELL = 0, HAN = 1, HAND = 2, VOICE = 3, IPA = 4;
     private static final int INK = 0xff392b27, MUTED = 0xff745950, RED = 0xffab3929;
     private static final int PAPER = 0xfffffaf5, BOARD = 0xfffae9df, HEADER = 0xfffff1e8;
@@ -1276,20 +1277,44 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                             boolean selected, Runnable tap, String... alternatives) {
         String primary = IpaKeyboard.display(text);
         TextView key = key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
+        if ((!symbols && look == KeyLook.LETTER) || alternatives.length > 0) {
+            // Reserve the smaller first line even on keys with no alternatives.
+            String hint = alternatives.length == 0 ? "\u00a0" : IpaKeyboard.display(alternatives[0]);
+            if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
+            fitIpaCaption(key, hint, primary);
+        }
         if (alternatives.length == 0) return key;
-        String hint = IpaKeyboard.display(alternatives[0]);
-        if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
-        SpannableStringBuilder caption = new SpannableStringBuilder(hint).append('\n').append(primary);
-        caption.setSpan(new RelativeSizeSpan(.57f), 0, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        key.setSingleLine(false);
-        key.setMaxLines(2);
-        key.setText(caption);
         key.setHapticFeedbackEnabled(false);
         key.setOnLongClickListener(v -> {
             showIpaAlternatives(key, alternatives);
             return true;
         });
         return key;
+    }
+
+    private void fitIpaCaption(TextView key, String hint, String primary) {
+        SpannableStringBuilder caption = new SpannableStringBuilder(hint).append('\n').append(primary);
+        caption.setSpan(new RelativeSizeSpan(IPA_HINT_SCALE), 0, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        key.setSingleLine(false);
+        key.setMaxLines(2);
+        key.setHorizontallyScrolling(true);
+        key.setIncludeFontPadding(true);
+        if (android.os.Build.VERSION.SDK_INT >= 28) key.setFallbackLineSpacing(false);
+        key.setPadding(0, dp(2), 0, dp(3));
+        key.setText(caption);
+        float preferred = key.getTextSize();
+        TextPaint natural = new TextPaint(key.getPaint());
+        android.graphics.Paint.FontMetricsInt metrics = natural.getFontMetricsInt();
+        float preferredHeight = metrics.bottom - metrics.top
+                + IPA_HINT_SCALE * (metrics.descent - metrics.ascent);
+        key.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
+            int room = b - t - key.getPaddingTop() - key.getPaddingBottom();
+            if (room <= 0 || r <= l) return;
+            float size = Math.min(preferred, preferred * room / preferredHeight);
+            if (Math.abs(key.getTextSize() - size) >= .1f)
+                key.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            fitTextWidth(key, caption, r - l - dp(2), .6f);
+        });
     }
 
     private void closeIpaAlternatives() {
@@ -1308,13 +1333,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         anchor.getLocationInWindow(position);
         choices.getLocationInWindow(strip);
         int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+        int availableHeight = keyboardFrame.getHeight() - keyboardFrame.getPaddingTop() - keyboardFrame.getPaddingBottom();
+        if (room <= dp(4) || availableHeight <= 0) return;
         int width = Math.min(room - dp(4), dp(53) * alternatives.length);
-        int height = Math.max(dp(44), textHeight(formSp()) + dp(8));
+        int height = Math.min(availableHeight, Math.max(dp(44), textHeight(formSp()) + dp(8)));
         int left = Math.max(0, Math.min(room - width,
                 position[0] - origin[0] + (anchor.getWidth() - width) / 2));
         int top = position[1] - origin[1] - height;
         if (top < strip[1] + choices.getHeight() - origin[1])
             top = position[1] - origin[1] + anchor.getHeight();
+        top = Math.max(0, Math.min(availableHeight - height, top));
 
         ipaAlternatives = new FrameLayout(this);
         ipaAlternatives.setOnClickListener(v -> closeIpaAlternatives());

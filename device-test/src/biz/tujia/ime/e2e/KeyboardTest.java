@@ -7,19 +7,24 @@ import android.app.Instrumentation;
 import android.app.UiAutomation;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.InputType;
 import android.text.style.ScaleXSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -130,12 +135,22 @@ public final class KeyboardTest extends Instrumentation {
 
     private void testIpaInput() {
         stage("IPA literal input, tone alternatives and offline completions");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
         press("音标");
+        assertEditorAboveKeyboard(host.first, "音标");
+        assertIpaRow("qwertyuiop");
+        assertIpaRow("asdfghjkl");
+        assertIpaRow("zxcvbnm");
+        captureFrame("ipa-layout.png");
         runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
         press("m");
         press("a");
         expectText(host.first, "前 /ma 后");
+        runOnMainSync(() -> host.first.setSelection(4));
+        waitForNode("输入音标查看候选", false);
+        runOnMainSync(() -> host.first.setSelection(5));
         pressCandidate("补全 奶，mã²¹", false);
         expectText(host.first, "前 /mã²¹ 后");
 
@@ -149,14 +164,80 @@ public final class KeyboardTest extends Instrumentation {
         }
         expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³ 后");
         holdKey("t");
+        for (String affricate : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ"}) waitForNode(affricate, false);
+        captureFrame("ipa-popup.png");
         press("tsʰ");
         holdKey("?");
+        waitForNode("ʔ", false);
         press("ʕ");
         press("字母或符号");
         press("清化");
         press("浊化");
         expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325\u032c 后");
+        press("退格");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325 后");
+        press("字母或符号");
+        tapField(host.second);
+        press("切换大小写");
+        press("G");
+        press("g");
+        expectText(host.second, "Gg");
+        runOnMainSync(() -> host.second.setSelection(0, 2));
+        holdKey("i");
+        waitForNode("ɿ", false);
+        press("ʅ");
+        expectText(host.second, "ʅ");
+        holdKey("v");
+        waitForNode("声调 53", false);
+        sendKeyDownUpSync(KeyEvent.KEYCODE_ESCAPE);
+        waitAbsent("声调 53");
+        expectText(host.second, "ʅ");
+
+        stage("A password field uses literal direct input while IPA is selected");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+        waitForNode("英文直输", false);
+        waitAbsent("音标");
+        press("m");
+        press("a");
+        waitAbsent("补全 奶，mã²¹");
+        expectText(host.first, "ma");
+        tapField(host.second);
+        waitSelectedControl("音标");
         press("打字");
+    }
+
+    private void assertIpaRow(String letters) {
+        RectF line = null;
+        for (char letter : letters.toCharArray()) {
+            String name = String.valueOf(letter);
+            Rect key = waitForNode(name, false);
+            for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(name)) {
+                try {
+                    if (!node.isVisibleToUser() || !name.contentEquals(node.getContentDescription())) continue;
+                    CharSequence caption = node.getText();
+                    int glyph = caption == null ? -1 : caption.length() - 1;
+                    if (glyph < 2 || caption.charAt(glyph - 1) != '\n' || caption.charAt(glyph) != letter)
+                        throw new AssertionError("IPA key has no shared hint and letter lines: " + name);
+                    if (!node.getAvailableExtraData().contains(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY))
+                        continue;
+                    Bundle request = new Bundle();
+                    request.putInt(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_START_INDEX, glyph);
+                    request.putInt(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_LENGTH, 1);
+                    String locations = AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY;
+                    if (!node.refreshWithExtraData(locations, request)) continue;
+                    Parcelable[] boxes = node.getExtras().getParcelableArray(locations);
+                    if (boxes == null || boxes.length != 1 || !(boxes[0] instanceof RectF)) continue;
+                    RectF box = (RectF) boxes[0];
+                    if (box.top <= key.top || box.bottom >= key.bottom)
+                        throw new AssertionError("IPA letter reaches outside its key: " + name + " " + box + " " + key);
+                    if (line == null) line = box;
+                    else if (Math.abs(box.bottom - line.bottom) > 2f)
+                        throw new AssertionError("IPA letter out of line: " + name + " " + box + " " + line);
+                } finally { node.recycle(); }
+            }
+        }
     }
 
     private void holdKey(String label) {
@@ -199,8 +280,10 @@ public final class KeyboardTest extends Instrumentation {
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
         type("marmardiexhxif");
         stage("Longest prefix and uncommitted suffix");
-        expectFirst("女人，麻麻爹");
-        pressCandidate("女人，麻麻爹", false);
+        Card prefix = pageCards("，").get(0);
+        if (!prefix.name.startsWith("女人") || !outputLine(prefix).equals("麻麻爹"))
+            throw new AssertionError("Expected the longest Tujia prefix first: " + prefix.name);
+        tap(prefix.bounds.centerX(), prefix.bounds.centerY());
         expectText(host.first, "麻麻爹");
         waitForNode("待选拼写 hxif", false);
         pressCandidate("走，诶", false);

@@ -18,10 +18,10 @@ final class IpaKeyboard {
     static final int COLUMNS = 3, MAX_PREFIX = 64;
     static final String NASAL = "\u0303", SYLLABIC = "\u0329", TIE = "\u0361";
     private static final String DIGITS = "¹²³⁴⁵";
-    private static final String LETTER = "[\\p{IsLatin}\\p{Lm}]";
-    private static final String SOUND = "[\\p{IsLatin}\\p{Lm}\\p{M}" + DIGITS + "]";
+    private static final String LETTER = "[\\p{sc=Latin}\\p{Lm}]";
+    private static final String SOUND = "[\\p{sc=Latin}\\p{Lm}\\p{M}" + DIGITS + "]";
     private static final Pattern WORD = Pattern.compile(SOUND + "+(?:[-'’]" + SOUND + "+)*\\z");
-    private static final Pattern NEXT = Pattern.compile("[-'’\\p{IsLatin}\\p{Lm}\\p{M}" + DIGITS + "]");
+    private static final Pattern NEXT = Pattern.compile("[-'’\\p{sc=Latin}\\p{Lm}\\p{M}" + DIGITS + "]");
     private static final Pattern PART = Pattern.compile(LETTER + "\\p{M}*|[" + DIGITS + "]+|[-']");
     private static final Pattern HAS_LETTER = Pattern.compile(LETTER);
     private static final String VOWELS = "aeiouyɑɐəɛɜɤɨɪɔʊʉɯøʌ";

@@ -37,8 +37,9 @@ jobs:
   ime:
     strategy:
       fail-fast: false
-      matrix:
-        api-level: ${{ fromJSON(github.event_name == 'pull_request' && '[28,35]' || format('[{0}]', inputs.api_level || '35')) }}
+      matrix: ${{ fromJSON(github.event_name == 'pull_request'
+        && '{"include":[{"api-level":28,"suite":"ipa"},{"api-level":35,"suite":"ipa"},{"api-level":35,"suite":"all"}]}'
+        || format('{{"include":[{{"api-level":{0},"suite":"{1}"}}]}}', inputs.api_level || '35', inputs.suite || 'all')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -78,7 +79,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - name: Exercise installed input method
         env:
-          TUJIA_E2E_SUITE: ${{ github.event_name == 'pull_request' && (matrix.api-level == 28 && 'ipa' || 'all') || inputs.suite }}
+          TUJIA_E2E_SUITE: ${{ matrix.suite }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
@@ -90,6 +91,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: android-${{ matrix.api-level }}-device-evidence
+          name: android-${{ matrix.api-level }}-${{ matrix.suite }}-device-evidence
           path: build/device-qa/
           if-no-files-found: warn
