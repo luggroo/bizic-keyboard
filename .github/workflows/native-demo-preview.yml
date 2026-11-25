@@ -5,8 +5,6 @@ on:
     paths:
       - '.github/workflows/native-demo-preview.yml'
       - 'tools/story-demo/**'
-      - 'app/src/main/**'
-      - 'shared/**'
   workflow_dispatch:
 
 permissions:
@@ -58,16 +56,7 @@ jobs:
             adb shell ime enable biz.tujia.ime/.TujiaIme
             adb shell ime set biz.tujia.ime/.TujiaIme
             python3 tools/story-demo/film-song.py build/demo/recording
-            adb shell screenrecord --time-limit 180 --bit-rate 4000000 /sdcard/tone-demo.mp4 &
-            recording_pid=$!
-            set +e
-            TUJIA_E2E_SUITE=tone ./device-test/run.sh app/build/outputs/apk/debug/app-debug.apk build/demo/device-test.apk
-            result=$?
-            adb shell 'for p in $(pidof screenrecord); do kill -2 "$p"; done' || true
-            wait "$recording_pid" || true
-            set -e
-            adb pull /sdcard/tone-demo.mp4 build/demo/recording/tone-demo.mp4
-            test "$result" -eq 0
+            bash tools/story-demo/record-tone.sh app/build/outputs/apk/debug/app-debug.apk build/demo/device-test.apk build/demo/recording/tone-demo.mp4
       - uses: actions/upload-artifact@v4
         if: always()
         with:
