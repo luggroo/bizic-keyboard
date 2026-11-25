@@ -114,6 +114,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private UserDictionary userDictionary;
     private FrameLayout keyAlternatives;
     private TextView[] toneFlickKeys;
+    private int toneFlickEdge;
     private HandwritingPad pad;
     private HandAnchor strokeAnchor;
     private HandAnchor matchedAt;
@@ -1538,14 +1539,20 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         closeKeyAlternatives();
         int availableWidth = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
         int availableHeight = keyboardFrame.getHeight() - keyboardFrame.getPaddingTop() - keyboardFrame.getPaddingBottom();
-        int width = Math.min(availableWidth / 3, dp(48));
+        int width = Math.min(Math.min(availableWidth / 3, dp(48)), anchor.getWidth());
         int height = Math.min(availableHeight / 3, Math.max(dp(42), textHeight(formSp()) + dp(8)));
         if (width <= dp(4) || height <= dp(4)) return;
         recordAction("打开声调选择", tones);
         Rect position = keyBounds(anchor);
         FrameLayout menu = new FrameLayout(this);
-        int[] columns = {1, 2, 1, 0};
-        int[] rows = {0, 1, 2, 1};
+        toneFlickEdge = toneEdge(anchor, width);
+        boolean leftEdge = toneFlickEdge < 0;
+        boolean rightEdge = toneFlickEdge > 0;
+        int centreColumn = leftEdge ? 0 : 1;
+        int[] columns = leftEdge ? new int[]{0, 1, 0, 1}
+                : rightEdge ? new int[]{1, 0, 1, 0} : new int[]{1, 2, 1, 0};
+        int[] rows = leftEdge ? new int[]{0, 1, 2, 0}
+                : rightEdge ? new int[]{0, 0, 2, 1} : new int[]{0, 1, 2, 1};
         toneFlickKeys = new TextView[5];
         TextView centre = label(String.valueOf(vowel), formSp(), WHITE);
         centre.setBackground(shape(RED, 8));
@@ -1553,7 +1560,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         centre.setFocusable(true);
         KeyboardTap.bind(centre, () -> typeChar(vowel));
         FrameLayout.LayoutParams centreBounds = new FrameLayout.LayoutParams(width - dp(4), height - dp(4));
-        centreBounds.leftMargin = width + dp(2);
+        centreBounds.leftMargin = centreColumn * width + dp(2);
         centreBounds.topMargin = height + dp(2);
         menu.addView(centre, centreBounds);
         toneFlickKeys[4] = centre;
@@ -1571,8 +1578,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             menu.addView(key, bounds);
             toneFlickKeys[i] = key;
         }
-        openKeyAlternatives(menu, width * 3, height * 3, position.centerX() - width * 3 / 2,
+        int columnCount = toneFlickEdge == 0 ? 3 : 2;
+        openKeyAlternatives(menu, width * columnCount, height * 3,
+                position.centerX() - width * centreColumn - width / 2,
                 position.centerY() - height * 3 / 2);
+    }
+
+    private int toneEdge(View anchor, int width) {
+        int available = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+        int centre = keyBounds(anchor).centerX();
+        return centre - width * 1.5f < 0 ? -1 : centre + width * 1.5f > available ? 1 : 0;
     }
 
     private void highlightTone(int direction) {
@@ -1753,13 +1768,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             });
             for (char raw : rows[i].toCharArray()) {
                 char c = shifted && !symbols ? Character.toUpperCase(raw) : raw;
-                String shown = String.valueOf(c).toUpperCase(Locale.ROOT);
+                String shown = String.valueOf(c);
                 TextView letter = key(r, shown, String.valueOf(c), 1, KeyLook.LETTER, false, () -> typeChar(c));
                 if (!direct && !symbols && (mode == HAN
                         || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC)) {
                     String tones = toneChoices(c);
                     if (!tones.isEmpty()) {
-                        letter.setForeground(new ToneHints(sp(8)));
+                        letter.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+                            int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+                            int width = Math.min(Math.min(room / 3, dp(48)), v.getWidth());
+                            if (width > 0) letter.setForeground(new ToneHints(sp(8), toneEdge(v, width)));
+                        });
                         letter.setHapticFeedbackEnabled(false);
                         letter.setOnLongClickListener(v -> {
                             showDirectionalTones(letter, c, tones);
@@ -1767,7 +1786,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                         });
                         KeyboardTap.bindFlick(letter, new KeyboardTap.Flick() {
                             private int direction(float dx, float dy) {
-                                return ToneFlick.direction(dx, dy, dp(18));
+                                return ToneFlick.direction(dx, dy, dp(18), toneFlickEdge);
                             }
                             @Override public void move(float dx, float dy) { highlightTone(direction(dx, dy)); }
                             @Override public void finish(float dx, float dy) {
