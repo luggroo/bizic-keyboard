@@ -1774,7 +1774,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                         || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC)) {
                     String tones = toneChoices(c);
                     if (!tones.isEmpty()) {
-                        letter.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+                        letter.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                             int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
                             int width = Math.min(Math.min(room / 3, dp(48)), v.getWidth());
                             if (width > 0) letter.setForeground(new ToneHints(sp(8), toneEdge(v, width)));
