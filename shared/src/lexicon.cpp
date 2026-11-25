@@ -696,7 +696,9 @@ struct Lexicon::Impl {
                     throw std::invalid_argument("Invalid dictionary spelling: " + entry.id);
                 // Use the complete reading and definition. Unrelated homophones and
                 // longer completions can have identical one-character display glosses.
-                const auto group = hanSenseGroups.emplace(fullWord.folded + '\t' + entry.meaning, id);
+                const auto groupKey = fullWord.folded + '\t' + entry.meaning +
+                    (entry.id.rfind("ethnonym-alt-", 0) == 0 ? "\t" + entry.han : "");
+                const auto group = hanSenseGroups.emplace(groupKey, id);
                 entry.hanSenseGroup = group.first->second;
             }
             if (hasRomanAliases && !f[13].empty()) {

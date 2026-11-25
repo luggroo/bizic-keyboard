@@ -251,7 +251,7 @@ w281	birlianxlif		光滑	必两利			0	tujia	光滑	bilianli	bǐliānlí	必|两
 w282	bifsoxdiex		青年男子	币所爹			0	tujia	青年男子	bisodie	bísōdiē	币|所|爹		
 w283	bixtax		大腿	比他			0	tujia	大腿	bita	bītā	比|他		
 w284	bixtiaox		平	比挑			0	tujia	平	bitiao	bītiāo	比|挑		
-w286	bifzixkar		土家族	币子咔			0	tujia	土家族	bizika	bízīkǎ	币|子|咔		
+w286	bifzixkar		土家族	秘兹佧	币子咔		0	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 w287	bianx		边	编			0	tujia	边	bian	biān	编		
 w288	bianf		变	变			0	tujia	变	bian	bián	变		
 w289	bianxdangr		扁担	编旦			0	tujia	扁担	biandang	biāndǎng	编|旦		
@@ -3218,7 +3218,7 @@ stedt-rn-454273	bev		抱；怀抱	柏			0	tujia	抱；怀抱	be	bè	柏
 stedt-rn-455027	biex		有时间做（情态小词）	憋			0	tujia	有时间做（情态小词）	bie	biē	憋		
 stedt-rn-454276	biev		离开；落下	憋			0	tujia	离开；落下	bie	biè	憋		
 stedt-rn-455213	biev		一点儿；少量	憋			0	tujia	一点儿；少量	bie	biè	憋		
-stedt-rn-454658	bifzixkar		土家族	币子咔			0	tujia	土家族	bizika	bízīkǎ	币|子|咔		
+stedt-rn-454658	bifzixkar		土家族	秘兹佧	币子咔		0	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 stedt-rn-454750	bifzixsar		土家语	币子刹			0	tujia	土家语	bizisa	bízīsǎ	币|子|刹		
 stedt-rn-455721	borloxlox		圆	博啰啰			0	tujia	圆	bololo	bǒlōlō	博|啰|啰		
 stedt-rn-453453	bongrlongr		雷声（拟声）	波嗡龙			0	tujia	雷声（拟声）	bonglong	bǒnglǒng	波嗡|龙		
@@ -4819,8 +4819,8 @@ stedt-rn-433786	biflax		抓；捉	币拉			0	tujia	抓；捉	bila	bílā	币|拉
 stedt-rn-208308	biflax		搔	币拉			0	tujia	搔	bila	bílā	币|拉		
 stedt-rn-288659	bifsofdiex		年轻男子；小伙子	币唆爹			0	tujia	年轻男子；小伙子	bisodie	bísódiē	币|唆|爹		
 stedt-rn-289258	bifsofdiex		年轻	币唆爹			0	tujia	年轻	bisodie	bísódiē	币|唆|爹		
-stedt-rn-288690	bifzixkar		土家族	币子咔			0	tujia	土家族	bizika	bízīkǎ	币|子|咔		
-stedt-rn-196119	bifzixkar		自称；族群自称	币子咔			0	tujia	自称；族群自称	bizika	bízīkǎ	币|子|咔		
+stedt-rn-288690	bifzixkar		土家族	秘兹佧	币子咔		0	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
+stedt-rn-196119	bifzixkar		土家族	秘兹佧	币子咔		0	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 stedt-rn-455134	pix		衣服和毯子的量词	匹			0	tujia	衣服和毯子的量词	pi	pī	匹		
 stedt-rn-455135	piv		一匹布	匹			0	tujia	一匹布	pi	pì	匹		
 stedt-rn-409330	bivlier		掉（掉下）	比列			0	tujia	掉（掉下）	bilie	bìliě	比|列		
@@ -8386,7 +8386,7 @@ yubao-60757-v-2348	arzof		石匠	吖坐			0	tujia	石匠	azo	ǎzó	吖|坐
 yubao-60757-v-2349	muxzof		篾匠	母坐			0	tujia	篾匠	muzo	mūzó	母|坐		
 yubao-60757-v-2350	xiexzof		铁匠	写坐			0	tujia	铁匠	xiezo	xiēzó	写|坐		
 yubao-60757-v-2351	songfharmar		渔夫	宋蛤麻			0	tujia	渔夫	songhama	sónghǎmǎ	宋|蛤|麻		
-yubao-60757-v-2355	bifzixkar		土家族	币子咔			0	tujia	土家族	bizika	bízīkǎ	币|子|咔		
+yubao-60757-v-2355	bifzixkar		土家族	秘兹佧	币子咔		0	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 yubao-60757-v-2358	menxjiexmax		赶马人	闷姐吗			0	tujia	赶马人	menjiema	mēnjiēmā	闷|姐|吗		
 yubao-60757-v-2359	laoxgax		长辈	老尕			0	tujia	长辈	laoga	lāogā	老|尕		
 yubao-60757-v-2361	niertif		曾祖母	业替			0	tujia	曾祖母	nieti	niětí	业|替		
@@ -11007,7 +11007,7 @@ yubao-60756-v-2324	qianrdaof		强盗	钱到			0	tujia	强盗	qiandao	qiǎndáo	�
 yubao-60756-v-2325	tuvhuir		土匪	土回			0	tujia	土匪	tuhui	tùhuǐ	土|回		
 yubao-60756-v-2326	piangrzir		骗子	便直			0	tujia	骗子	piangzi	piǎngzǐ	便|直		
 yubao-60756-v-2327	panrzir		胖子	盘直			0	tujia	胖子	panzi	pǎnzǐ	盘|直		
-yubao-60756-v-2328	mirjirkar		土家族	迷吉咔			0	tujia	土家族	mijika	mǐjǐkǎ	迷|吉|咔		
+yubao-60756-v-2328	mirjirkar		土家族	泌基佧	迷吉咔		0	tujia	土家族	mijika	mǐjǐkǎ	泌|基|佧		
 yubao-60756-v-2329	parzer		汉族	爬则			0	tujia	汉族	paze	pǎzě	爬|则		
 yubao-60756-v-2330	laoxbeivxinr		老百姓	老杯行			0	tujia	老百姓	laobeixin	lāobèixǐn	老|杯|行		
 yubao-60756-v-2331	xinf		姓	信			0	tujia	姓	xin	xín	信		
@@ -13953,7 +13953,7 @@ yubao-60823-v-2324	yerhxefmax		强盗	叶轭吗			0	tujia	强盗	yehxema	yehxém
 yubao-60823-v-2325	yeraxyivmar		土匪	叶阿以麻			0	tujia	土匪	ye'ayima	ye'āyìma	叶|阿|以|麻		
 yubao-60823-v-2326	noxcax		骗子				0	phonetic	骗子	noca	nōcā			
 yubao-60823-v-2327	noxsirkuxtux		胖子				0	phonetic	胖子	nosikutu	nōsikūtū			
-yubao-60823-v-2328	mifjixkax		土家族	谜几卡			0	tujia	土家族	mijika	míjīkā	谜|几|卡		
+yubao-60823-v-2328	mifjixkax		土家族	泌基佧	谜几卡		0	tujia	土家族	mijika	míjīkā	泌|基|佧		
 yubao-60823-v-2329	paxkar		汉族	啪咔			0	tujia	汉族	paka	pāka	啪|咔		
 yubao-60823-v-2330	jiefrixmar		老百姓	借日麻			0	tujia	老百姓	jierima	jiérīma	借|日|麻		
 yubao-60823-v-2331	xinf		姓	信			0	tujia	姓	xin	xín	信		
@@ -14618,3 +14618,23 @@ yubao-60823-v-2997	yixjiux		居然	以久			0	tujia	居然	yijiu	yījiū	以|久
 yubao-60823-v-2998	darhoxmox		趁	达喝摸			0	tujia	趁	dahomo	dahōmō	达|喝|摸		
 yubao-60823-v-2999	zer		像	则			0	tujia	像	ze	ze	则		
 yubao-60823-v-3000	guix		归	轨			0	tujia	归	gui	guī	轨		
+ethnonym-alt-w286-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-w286-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-w286-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		
+ethnonym-alt-stedt-rn-454658-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-stedt-rn-454658-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-stedt-rn-454658-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		
+ethnonym-alt-stedt-rn-288690-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-stedt-rn-288690-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-stedt-rn-288690-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		
+ethnonym-alt-stedt-rn-196119-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-stedt-rn-196119-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-stedt-rn-196119-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		
+ethnonym-alt-yubao-60757-v-2355-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-yubao-60757-v-2355-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-yubao-60757-v-2355-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		
+ethnonym-alt-yubao-60756-v-2328-mijika	mirjirkar		土家族	秘基佧			0	tujia	土家族	mijika	mǐjǐkǎ	秘|基|佧		
+ethnonym-alt-yubao-60823-v-2328-mijika	mifjixkax		土家族	秘基佧			0	tujia	土家族	mijika	míjīkā	秘|基|佧		
+ethnonym-alt-xu213-1-3-bizika	bifzixkar		土家族	币子佧			0	tujia	土家族	bizika	bízīkǎ	币|子|佧		
+ethnonym-primary-xu213-1-3-bijika	bifjixkar		土家族	秘基佧			0	tujia	土家族	bijika	bíjīkǎ	秘|基|佧		
+ethnonym-alt-xu213-1-3-bijika	bifjixkar		土家族	币基佧			0	tujia	土家族	bijika	bíjīkǎ	币|基|佧		

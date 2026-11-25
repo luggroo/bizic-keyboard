@@ -10,7 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from han_orthography import Orthography
-from keyboard_gloss import update_row
+from keyboard_gloss import update_row, ethnonym_variants
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
@@ -62,6 +62,7 @@ def build(site):
     survey = subprocess.run(["node", ROOT / "tools/site_survey_words.cjs", site],
                             check=True, capture_output=True, text=True)
     survey_words = json.loads(survey.stdout)
+    added = []
     with (ASSETS / "northern-words.tsv").open("w") as stream:
         writer = csv.DictWriter(stream, fields, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_NONE, quotechar=None)
         for w in words:
@@ -89,12 +90,14 @@ def build(site):
                 aliases = legacy.get((row_id, word.lower()), [])[:]
                 if loan and old != ''.join(units):
                     aliases.append(old)
-                writer.writerow(update_row(dict(id=row_id, word=word.lower(),
+                row = update_row(dict(id=row_id, word=word.lower(),
                                      plain=plain, diacritic=marked.lower(), meaning=gloss, shortGloss=gloss,
                                      kind="tujia" if units else "phonetic", frequency=0,
                                      recommended="".join(units), hanUnits="|".join(units),
                                      aliases=' '.join(dict.fromkeys(aliases)),
-                                     presentation='plainHanLoan' if loan else '')))
+                                     presentation='plainHanLoan' if loan else ''))
+                writer.writerow(row)
+                added.extend(ethnonym_variants(row))
         for w in survey_words:
             for i, form in enumerate(w['forms']):
                 word, marked = form['ye'].lower(), form['accent'].lower()
@@ -107,9 +110,14 @@ def build(site):
                                                             if c not in '\u0304\u0301\u030c\u0300'))
                 row_id = w['id'] if i == 0 else f"{w['id']}@{i+1}"
                 gloss = ' '.join(w['zh'].split())
-                writer.writerow(update_row(dict(id=row_id, word=word, plain=plain, diacritic=marked,
+                row = update_row(dict(id=row_id, word=word, plain=plain, diacritic=marked,
                     meaning=gloss, shortGloss=gloss, kind='tujia' if units else 'phonetic', frequency=0,
-                    recommended=''.join(units), hanUnits='|'.join(units))))
+                    recommended=''.join(units), hanUnits='|'.join(units)))
+                writer.writerow(row)
+                added.extend(ethnonym_variants(row))
+        for row in existing.values():
+            added.extend(ethnonym_variants(row))
+        writer.writerows(added)
 
 
 if __name__ == "__main__":

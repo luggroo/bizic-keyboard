@@ -36,6 +36,14 @@ class BaojingWords(unittest.TestCase):
         self.assertTrue(any(r['id'].startswith('yubao-60823') and r['word'].endswith('r') and
                             r['diacritic'] == r['plain'] for r in self.rows))
 
+    def test_ethnonym_variants(self):
+        for query, expected in [('bizika', ['秘兹佧', '币子佧']),
+                                ('bijika', ['秘基佧', '币基佧']),
+                                ('mijika', ['泌基佧', '秘基佧']),
+                                ('mirjirkar', ['泌基佧', '秘基佧']),
+                                ('mifjixkax', ['泌基佧', '秘基佧'])]:
+            self.assertEqual([c.text for c in self.full(query) if c.gloss == '土家族'], expected, query)
+
     def test_pronouns_and_distinct_homophones(self):
         self.assertEqual([(c.text,c.short) for c in self.full('ngaf') if c.gloss == '我'], [('讶','我')])
         self.assertEqual([(c.text,c.short) for c in self.full('nif') if c.gloss == '你'], [('伲','你')])

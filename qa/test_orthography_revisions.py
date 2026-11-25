@@ -50,7 +50,7 @@ def main():
                 continue
             compact = ''.join(c for c in record['word'] if c not in " -'’")
             expected = han_units(compact, table)
-            if record['id'].startswith('yubao-'):
+            if record['id'].startswith(('yubao-', 'ethnonym-')) or (record['word'] == 'bifzixkar' and record['meaning'] == '土家族'):
                 assert record['recommended'] == ''.join(record['hanUnits'].split('|')), record['id']
                 continue
             if (record['word'], record['meaning']) in (('nif', '你'), ('gof', '他')):

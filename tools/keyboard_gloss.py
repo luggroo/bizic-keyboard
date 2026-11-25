@@ -24,8 +24,16 @@ def short_gloss(value):
 def update_row(row):
     if row.get('kind') not in ('tujia', 'phonetic'):
         return row
+    if row['word'] == 'bifzixkar' and row['meaning'] == '自称；族群自称':
+        row['meaning'] = row['shortGloss'] = '土家族'
     row['meaning'] = normalize_meaning(row['meaning'])
     row['shortGloss'] = short_gloss(row.get('shortGloss') or row['meaning'])
+    preferred = {'bifzixkar': '秘兹佧', 'mirjirkar': '泌基佧', 'mifjixkax': '泌基佧'}
+    if row['meaning'] == '土家族' and row['word'] in preferred and row.get('recommended'):
+        old = row['recommended']
+        han = preferred[row['word']]
+        row['aliases'] = ' '.join(dict.fromkeys([*row.get('aliases', '').split(), old]))
+        row['recommended'], row['hanUnits'] = han, '|'.join(han)
     if row['word'] in ('nif', 'gof'):
         wanted = {('nif', '你'): '伲', ('gof', '他'): '个'}.get((row['word'], row['meaning']))
         if wanted and row.get('recommended'):
@@ -36,3 +44,24 @@ def update_row(row):
             row['aliases'] = ' '.join(dict.fromkeys(aliases))
             row['recommended'] = row['hanUnits'] = wanted
     return row
+
+
+def ethnonym_variants(row):
+    """Offer the user's reviewed alternate spellings as separate candidates."""
+    from copy import deepcopy
+    if row.get('meaning') != '土家族' or row.get('kind') != 'tujia':
+        return []
+    word = row['word']
+    forms = []
+    if word == 'bifzixkar':
+        forms.append(('alt', '币子佧', word, row['plain'], row['diacritic']))
+        forms.extend([('primary', '秘基佧', 'bifjixkar', 'bijika', 'bíjīkǎ'),
+                      ('alt', '币基佧', 'bifjixkar', 'bijika', 'bíjīkǎ')])
+    elif word in ('mirjirkar', 'mifjixkax'):
+        forms.append(('alt', '秘基佧', word, row['plain'], row['diacritic']))
+    for variant, han, ye, plain, accent in forms:
+        copy = deepcopy(row)
+        copy.update(id='ethnonym-'+variant+'-'+row['id']+'-'+plain, word=ye, plain=plain,
+                    diacritic=accent, key='', recommended=han, hanUnits='|'.join(han),
+                    aliases='', variants='', frequency=0, romanAliases='', presentation='')
+        yield copy
