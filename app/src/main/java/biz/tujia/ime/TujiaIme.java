@@ -2274,7 +2274,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             float width = naturalFormWidth(form);
             float size = Math.max(sp(16), preferred * Math.min(1f, room / Math.max(1f, width)));
             if (Math.abs(form.getTextSize() - size) > .01f) form.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            if (getResources().getConfiguration().fontScale >= 1.3f
+            if (inIpaMode()) {
+                fitTextWidth(form, value, room, .86f);
+            } else if (getResources().getConfiguration().fontScale >= 1.3f
                     && keyboardFrame.getWidth() <= dp(360) && shortHanWord(value)) {
                 fitTextWidth(form, value, room, .75f);
             }
@@ -2344,8 +2346,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (!inIpaMode()) return COLUMNS;
         int width = keyboardFrame.getWidth();
         if (width <= 0) width = getResources().getDisplayMetrics().widthPixels;
-        int available = Math.max(0, width - dp(48));
-        return Math.max(2, Math.min(COLUMNS, (int) (available / (sp(formSp()) * 3.4f))));
+        int available = Math.max(0, width - dp(54));
+        int limit = Math.max(2, Math.min(COLUMNS, (int) (available / (sp(formSp()) * 3.4f))));
+        // Keep a short tone-bearing form intact beside longer IPA completions.
+        // One column count for the entire result set also keeps page boundaries stable.
+        TextPaint paint = new TextPaint();
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(sp(16));
+        int used = 0;
+        for (int i = 0; i < limit && i < ipaMatches.size(); i++) {
+            used += Math.max(dp(48), (int) Math.ceil(paint.measureText(ipaMatches.get(i).ipa)) + dp(14)) + dp(4);
+            if (used > available) return Math.max(2, i);
+        }
+        return limit;
     }
 
     private void updatePageControl(TextView control, boolean visible, boolean enabled) {
