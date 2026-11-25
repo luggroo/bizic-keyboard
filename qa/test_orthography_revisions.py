@@ -21,7 +21,7 @@ def main():
             assert all(row['t' + str(i)] == rows[base[:-1]]['t' + str(i)] for i in range(1, 5)), base
         if base.startswith('q'):
             assert all(not row['t' + str(i)].startswith('欺') for i in range(1, 5)), base
-    for base, tone, wanted in [('nga', 2, '牙'), ('ei', 1, '诶'), ('hxi', 1, '诶'), ('ma', 1, '吗'), ('ma', 2, '祃'),
+    for base, tone, wanted in [('nga', 2, '牙'), ('ei', 1, '诶'), ('hxi', 1, '诶'), ('ma', 1, '马'), ('ma', 2, '祃'), ('ma', 3, '麻'), ('ma', 4, '马'),
                                ('lei', 2, '累'), ('duan', 2, '段'), ('yan', 1, '央'),
                                ('cei', 1, '此'), ('cao', 1, '超'), ('zuai', 1, '拽'),
                                ('qia', 1, '起鸦'), ('qio', 1, '起哟'), ('ha', 2, '下'), ('xia', 2, '夏')]:

@@ -167,6 +167,15 @@ def update_row(row):
         if old != han:
             row['aliases'] = ' '.join(dict.fromkeys([*row.get('aliases', '').split(), old]))
         row['recommended'], row['hanUnits'] = han, '|'.join(han)
+    # All ma tones use the user's selected phonetic characters; literal Han loans retain their characters.
+    if row.get('presentation') != 'plainHanLoan' and 'ma' in row.get('word', '') and row.get('hanUnits'):
+        old_units = row['hanUnits'].split('|')
+        units = [{'吗': '马', '妈': '马'}.get(unit, unit) for unit in old_units]
+        if row['word'] == 'max' and len(units) == 1:
+            units = ['马']
+        if units != old_units:
+            row['hanUnits'] = '|'.join(units)
+            row['recommended'] = ''.join(units)
     if row['word'] in ('nif', 'gof'):
         wanted = {('nif', '你'): '伲', ('gof', '他'): '个'}.get((row['word'], row['meaning']))
         if wanted and row.get('recommended'):
