@@ -239,6 +239,14 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.second);
         changeIpaDictionaries("南部", "北部");
         press("音标");
+        press("更多");
+        waitForNode("音标补全词库 · 可多选，两项都不选即关闭", false);
+        waitSelectedControl("南部");
+        captureFrame("ipa-options.png");
+        press("北部");
+        waitSelectedControl("北部");
+        press("北部");
+        press("更多");
         String fingers = "a²¹ dʑe²¹ be²¹";
         press("补全 手指，" + fingers);
         expectText(host.second, fingers);
@@ -306,7 +314,21 @@ public final class KeyboardTest extends Instrumentation {
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved");
         press("退格");
         expectText(host.first, "");
+        press("更多");
+        waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
+        waitSelectedControl("汉字");
+        for (String format : new String[]{"叶氏拼音", "调号拼音", "国际音标"}) waitForNode(format, false);
+        captureFrame("handwriting-options.png");
+        tapControl("国际音标");
+        awaitKeyboardAtRest();
+        drawBo(waitForNode("汉字手写区", false));
+        tapForm("pɔ⁵⁵li²¹");
+        expectText(host.first, "pɔ⁵⁵li²¹");
+        setHandwritingOutput(true);
         press("打字");
+        press("更多");
+        waitForNode("打字输出 · 选择候选上屏后的写法", false);
+        press("更多");
     }
 
     private void holdKey(String label) {
@@ -788,17 +810,14 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     void setHandwritingOutput(boolean han) {
-        String wanted = han ? "记音 ▾" : "拼写 ▾";
+        setHandwritingOutput(han ? "汉字" : "叶氏拼音");
+    }
+
+    private void setHandwritingOutput(String wanted) {
         tapControl("更多");
-        waitForNode("切换手写输出", false);
-        if (findNode(wanted, false) == null) {
-            tapControl("切换手写输出");
-            waitAbsent("切换手写输出");
-            tapControl("更多");
-        }
-        waitForNode(wanted, false);
-        tapControl("更多");
-        waitAbsent("切换手写输出");
+        waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
+        tapControl(wanted);
+        waitAbsent("手写输出 · 识别汉字后，选择上屏写法");
     }
 
     private Rect[] compactToolbarSnapshot() {
@@ -1326,7 +1345,7 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "波俐" + afterChild);
 
             tapField(host.second);
-            setHandwritingOutput(false);
+            setHandwritingOutput("调号拼音");
             Card handSpelling = nextSoundCard();
             String startingForm = outputLine(handSpelling);
             if (startingForm.matches("[a-z]+") || Character.isIdeographic(startingForm.codePointAt(0)))

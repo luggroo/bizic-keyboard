@@ -55,6 +55,15 @@ public final class IpaKeyboardTest {
                 "a supplied tone was ignored");
         check(keyboard.complete("mã²¹", both).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
                 "an already complete spelling was suggested again");
+        try (CandidateEngine engine = new CandidateEngine(Files.newInputStream(Paths.get(args[1])),
+                null, null, null, null, Files.newInputStream(Paths.get(args[2])))) {
+            check(engine.handwritingSuggestions("波", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.IPA)
+                    .stream().anyMatch(entry -> entry.text.equals("pɔ⁵⁵li²¹")), "missing handwritten IPA word");
+            check(engine.lookup("波俐", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.YE)
+                    .stream().anyMatch(entry -> entry.text.equals("boxlir")), "missing handwritten Ye output");
+            check(engine.lookup("波俐", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.DIACRITIC)
+                    .stream().anyMatch(entry -> entry.text.equals("bōlǐ")), "missing handwritten diacritic output");
+        }
         System.out.println("IPA shortcuts, symbol keys, editor boundaries and dictionary completions passed.");
     }
 
