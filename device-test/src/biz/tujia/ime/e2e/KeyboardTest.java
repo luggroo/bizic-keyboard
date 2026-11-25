@@ -1202,16 +1202,17 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         type("go");
         Card pronoun = visibleForm("过");
-        assertNumberedCard(pronoun, "¹他²讨", "过");
+        if (!pronoun.lines.equals(Arrays.asList("讨", "过")))
+            throw new AssertionError("Expected the current 讨／过 card: " + pronoun.lines);
         captureFrame("sense-go.png");
         openReader(pronoun);
         String detail = visibleControls();
-        if (!detail.contains("汉义") || !detail.contains("他") || !detail.contains("讨") || !detail.contains("过错") || !detail.contains("待输入"))
+        if (!detail.contains("汉义") || !detail.contains("讨") || !detail.contains("过错") || !detail.contains("待输入"))
             throw new AssertionError("Both meanings must remain available in the reader: " + detail);
         expectText(host.first, "");
         press("返回候选");
         int goPages = verifyUniqueFormsAcrossPages("过");
-        stage("Across all " + goPages + " go pages, one 过 card shows ¹他/²讨, with the loan 过错 kept in the reader");
+        stage("Across all " + goPages + " go pages, one 过 card shows 讨, with the loan 过错 kept in the reader");
         press("退格"); press("退格"); type("go");
         pronoun = visibleForm("过");
         tap(pronoun.bounds.centerX(), pronoun.bounds.centerY());

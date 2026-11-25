@@ -194,12 +194,12 @@ final class SystemTypography {
     private void checkNarrowNumberedWord() {
         test.newPredictionEditor();
         test.press("谐音字");
-        test.type("go");
-        KeyboardTest.Card word = test.visibleForm("过");
-        test.assertNumberedCard(word, "¹他²讨", "过");
+        test.type("ga");
+        KeyboardTest.Card word = test.visibleForm("夹");
+        test.assertNumberedCard(word, "¹上²干", "夹");
         test.assertEditorAboveKeyboard(host.first, "打字");
         test.awaitKeyboardAtRest();
-        test.captureFrame("typography-numbered-go.png");
+        test.captureFrame("typography-numbered-ga.png");
         Bitmap shot = test.getUiAutomation().takeScreenshot();
         if (shot == null) throw new AssertionError("No numbered candidate screenshot");
         try {
@@ -207,12 +207,12 @@ final class SystemTypography {
             Rect right = new Rect(label);
             right.left += Math.round(label.width() * .70f);
             int whole = inkHeight(shot, label), last = inkHeight(shot, right);
-            test.stage("Two numbered meanings for 过: upper=" + label.toShortString() + " ink=" + whole
-                    + "px, 讨 sample=" + right.toShortString() + " rightInk=" + last + "px");
-            if (last < whole * .55f) geometryErrors.add("¹他²讨 ended in an ellipsis: " + last + "/" + whole);
+            test.stage("Two numbered meanings for 夹: upper=" + label.toShortString() + " ink=" + whole
+                    + "px, 干 sample=" + right.toShortString() + " rightInk=" + last + "px");
+            if (last < whole * .55f) geometryErrors.add("¹上²干 ended in an ellipsis: " + last + "/" + whole);
         } finally { shot.recycle(); }
         test.tap(word.bounds.centerX(), word.bounds.centerY());
-        test.expectText(host.first, "过");
+        test.expectText(host.first, "夹");
     }
 
     private void activeInputChanges(int baseline, int narrow) throws Exception {
