@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 enum OutputForm {
     YE("叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE),
     MARKED("调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC),
-    HAN("谐音字", "币子咔", null);
+    HAN("谐音字", "秘兹佧", null);
 
     final String name, example;
     final CandidateEngine.Orthography spelling;
