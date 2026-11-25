@@ -92,6 +92,8 @@ public final class KeyboardTest extends Instrumentation {
                 testIpaSettings();
                 testHandwritingSidebar();
                 testVerbatimSpelling();
+                testUserDictionary();
+                testDirectionalTones();
                 new SystemTypography(this, host).ipa();
                 if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
             }
@@ -183,9 +185,12 @@ public final class KeyboardTest extends Instrumentation {
         runOnMainSync(() -> host.first.setSelection(4));
         waitForNode("输入音标查看候选", false);
         runOnMainSync(() -> host.first.setSelection(5));
-        waitForNode("补全 奶，mã²¹", false);
+        expectFirst("原文，ma");
+        pressCandidate("原文，ma", false, "ma");
+        expectText(host.first, "前 /ma 后");
         pressCandidate("补全 奶，mã²¹", false, "奶", "mã²¹");
         expectText(host.first, "前 /mã²¹ 后");
+        expectFirst("奶，mã²¹");
 
         press("空格");
         for (String letter : new String[]{"v", "x", "r", "f", "j", "l"}) press(letter);
@@ -240,6 +245,7 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         press("m");
         press("a");
+        expectFirst("原文，ma");
         waitAbsent("补全 奶，mã²¹");
         expectText(host.first, "ma");
         tapField(host.second);
@@ -423,8 +429,8 @@ public final class KeyboardTest extends Instrumentation {
         press("叶氏拼音");
         type("ngafyergaf");
         stage("Whole sentence");
-        if (!pageCards("，").get(0).name.endsWith("，ngaf yer gaf"))
-            throw new AssertionError("A recognized sentence should be the first candidate");
+        expectText(host.second, "ngafyergaf");
+        expectFirst("原文，ngafyergaf");
         pressCandidate("，ngaf yer gaf", true);
         expectText(host.second, "ngaf yer gaf");
         expectText(host.first, "麻麻爹诶及");
@@ -530,9 +536,12 @@ public final class KeyboardTest extends Instrumentation {
             tapField(host.first);
             press(output);
             type("p");
+            expectText(host.first, "p");
             int shortWidth = card("原文，p").bounds.width();
             press("退格");
+            expectText(host.first, "");
             type("pifpav");
+            expectText(host.first, "pifpav");
             expectFirst("原文，pifpav");
             Card original = card("原文，pifpav");
             if (!original.lines.equals(Collections.singletonList("pifpav")))
@@ -545,18 +554,30 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "pifpav");
 
             type("ga");
+            expectText(host.first, "pifpavga");
             boolean marked = "调号拼音".equals(output);
             expectFirst(marked ? "乌鸦，ga" : "原文，ga");
             String recommendation = marked ? "gá" : "gaf";
-            pressCandidate("吃、咬，" + recommendation, false);
+            pressCandidate("，" + recommendation, true);
             expectText(host.first, "pifpav " + recommendation);
             if (!marked) {
                 type("bizika");
                 if (visibleForm("bifzixkar").bounds.width() <= visibleForm("bizika").bounds.width())
                     throw new AssertionError("The longer Ye recommendation should have the wider card");
-                pressCandidate("土家族，bifzixkar", false);
+                pressCandidate("，bifzixkar", true);
             }
         }
+
+        runOnMainSync(() -> host.first.setText(""));
+        tapField(host.first);
+        press("叶氏拼音");
+        type("marmardiexhxif");
+        expectText(host.first, "marmardiexhxif");
+        pressCandidate("，marmardiex", true);
+        expectText(host.first, "marmardiex hxif");
+        waitForNode("待选拼写 hxif", false);
+        press("空格");
+        expectText(host.first, "marmardiex hxif ");
 
         runOnMainSync(() -> host.first.setText(""));
         tapField(host.first);
@@ -570,8 +591,53 @@ public final class KeyboardTest extends Instrumentation {
         type("bizika");
         if (visibleForm("秘兹佧").bounds.width() <= singleHan)
             throw new AssertionError("The longer Han choice should be wider");
-        pressCandidate("土家族，秘兹佧", false);
+        pressCandidate("，秘兹佧", true);
         expectText(host.first, "秘兹佧");
+    }
+
+    private void testUserDictionary() {
+        stage("Two confirmed originals unlock a personal completion");
+        String prefix = "qvq", word = "qvqvqv", completion = "用户词，" + word;
+        for (String form : new String[]{"叶氏拼音", "音标"}) {
+            newPredictionEditor();
+            press(form);
+            for (char letter : word.toCharArray()) press(String.valueOf(letter));
+            press("空格");
+            for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+            waitAbsent(completion);
+            for (char letter : word.substring(prefix.length()).toCharArray()) press(String.valueOf(letter));
+            expectFirst("原文，" + word);
+            pressCandidate("原文，" + word, false);
+            press("空格");
+            for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+            expectFirst("原文，" + prefix);
+            pressCandidate(completion, false);
+            expectText(host.first, word + " " + word + " " + word);
+        }
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT,
+                EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
+        tapField(host.first);
+        press("叶氏拼音");
+        type(prefix);
+        waitAbsent(completion);
+    }
+
+    private void testDirectionalTones() {
+        stage("Marked spelling and Han output share a four-direction vowel picker");
+        for (String output : new String[]{"调号拼音", "谐音字"}) {
+            newPredictionEditor();
+            press(output);
+            holdKey("a");
+            Rect level = waitForNode("ā", false), rising = waitForNode("á", false);
+            Rect fallingRising = waitForNode("ǎ", false), falling = waitForNode("à", false);
+            if (!(level.centerY() < rising.centerY() && fallingRising.centerY() > rising.centerY()
+                    && falling.centerX() < level.centerX() && rising.centerX() > level.centerX())) {
+                throw new AssertionError("Tone choices did not surround the vowel in four directions");
+            }
+            press("ā");
+            waitForNode("待选拼写 ā", false);
+            expectText(host.first, output.equals("调号拼音") ? "ā" : "");
+        }
     }
 
     private void testOutputButtons() {

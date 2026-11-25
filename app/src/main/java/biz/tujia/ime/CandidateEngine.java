@@ -13,12 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 /** Android adapter for the shared Tujia word and sentence engine. */
 public final class CandidateEngine implements AutoCloseable {
     static final int HANDWRITING_WINDOW = 4;
     public enum Mode { PINYIN, HAN, HANDWRITING }
-    public enum Kind { TUJIA, CHINESE, LITERAL, PUNCTUATION }
+    public enum Kind { TUJIA, CHINESE, LITERAL, PUNCTUATION, USER }
     public enum Orthography { YE, DIACRITIC, IPA }
 
     public static final class Candidate {
@@ -138,15 +139,24 @@ public final class CandidateEngine implements AutoCloseable {
             original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
                     new int[0], false, "", "", false, "");
         }
-        List<Candidate> choices = new ArrayList<>(ranked.size() + 1);
+        return prependVerbatim(original, ranked, candidate -> candidate.text);
+    }
+
+    static <T> List<T> prependVerbatim(T original, List<T> ranked, Function<T, String> form) {
+        List<T> choices = new ArrayList<>(ranked.size() + 1);
         choices.add(original);
-        String visibleDraft = Normalizer.normalize(draft, Normalizer.Form.NFC);
-        for (Candidate candidate : ranked) {
-            if (!visibleDraft.equals(Normalizer.normalize(candidate.text, Normalizer.Form.NFC))) {
+        String visibleDraft = Normalizer.normalize(form.apply(original), Normalizer.Form.NFC);
+        for (T candidate : ranked) {
+            if (!visibleDraft.equals(Normalizer.normalize(form.apply(candidate), Normalizer.Form.NFC))) {
                 choices.add(candidate);
             }
         }
         return choices;
+    }
+
+    static Candidate userWord(String word, int consumed) {
+        return new Candidate(word, "", "", Kind.USER.ordinal(), consumed,
+                new int[0], false, "", "", false, "");
     }
 
     public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {
