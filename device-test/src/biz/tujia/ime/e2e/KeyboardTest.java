@@ -149,7 +149,7 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("下一音节 gó", false);
         waitForNode("下一音节 ní", false);
         press("手写");
-        press("更多");
+        press("设置");
         waitSelectedControl("汉字");
         press("返回打字");
         waitSelectedControl("打字");
@@ -162,10 +162,10 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("补全 kuɔ²⁴", false);
         waitForNode("补全 ȵi²⁴", false);
         captureFrame("ipa-candidates.png");
-        press("更多");
+        press("设置");
         waitSelectedControl("北部");
         if (isSelectedControl("南部")) throw new AssertionError("Southern IPA enabled by default");
-        press("更多");
+        press("设置");
         press("下一页候选");
         waitAbsent("补全 那，ai⁵⁵");
         press("上一页候选");
@@ -247,9 +247,9 @@ public final class KeyboardTest extends Instrumentation {
             tapField(host.second);
             waitSelectedControl("打字");
             awaitKeyboardAtRest();
-            press("更多");
+            press("设置");
             waitSelectedControl("调号拼音");
-            press("更多");
+            press("设置");
         }
         press("谐音字");
     }
@@ -261,14 +261,14 @@ public final class KeyboardTest extends Instrumentation {
         changeIpaDictionaries("北部、南部", "南部");
         changeIpaDictionaries("南部", "北部");
         press("音标");
-        press("更多");
+        press("设置");
         waitForNode("音标补全词库 · 可多选，两项都不选即关闭", false);
         waitSelectedControl("南部");
         captureFrame("ipa-options.png");
         press("北部");
         waitSelectedControl("北部");
         press("北部");
-        press("更多");
+        press("设置");
         String southernI = "ŋo³³";
         press("补全 我，" + southernI);
         expectText(host.second, southernI);
@@ -304,8 +304,8 @@ public final class KeyboardTest extends Instrumentation {
 
     private void changeIpaDictionaries(String expected, String... toggles) {
         awaitKeyboardAtRest();
-        press("更多");
-        press("键盘设置");
+        press("设置");
+        press("更多设置");
         String setting = launcherControl("音标补全 · ", true, false);
         launcherControl(setting, false, true);
         for (String label : toggles) launcherControl(label, false, true);
@@ -337,7 +337,7 @@ public final class KeyboardTest extends Instrumentation {
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting pad moved");
         press("退格");
         expectText(host.first, "");
-        press("更多");
+        press("设置");
         waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
         waitSelectedControl("汉字");
         for (String format : new String[]{"叶氏拼音", "调号拼音", "国际音标"}) waitForNode(format, false);
@@ -351,9 +351,9 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, "pɔ⁵⁵li²¹");
         setHandwritingOutput(true);
         press("打字");
-        press("更多");
+        press("设置");
         waitForNode("打字输出 · 选择候选上屏后的写法", false);
-        press("更多");
+        press("设置");
     }
 
     private void holdKey(String label) {
@@ -458,7 +458,7 @@ public final class KeyboardTest extends Instrumentation {
         press("退格");
         expectText(host.second, "ngaf yer ga诶sangx");
 
-        press("更多");
+        press("设置");
         press("返回打字");
         waitSelectedControl("打字");
         waitForNode("退格", false);
@@ -838,14 +838,14 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void setHandwritingOutput(String wanted) {
-        tapControl("更多");
+        tapControl("设置");
         waitForNode("手写输出 · 识别汉字后，选择上屏写法", false);
         tapControl(wanted);
         waitAbsent("手写输出 · 识别汉字后，选择上屏写法");
     }
 
     private Rect[] compactToolbarSnapshot() {
-        String[] labels = {"打字", "手写", "音标", "更多", "隐藏键盘"};
+        String[] labels = {"打字", "手写", "音标", "设置", "隐藏键盘"};
         if (findNode("打字", false) == null) return null;
         for (AccessibilityNodeInfo typing : imeRoot.findAccessibilityNodeInfosByText(labels[0])) {
             try {
@@ -882,7 +882,7 @@ public final class KeyboardTest extends Instrumentation {
         do {
             Rect[] controls = compactToolbarSnapshot();
             if (controls != null && Arrays.equals(previous, controls)) {
-                stage("One IME toolbar, 打字/手写/音标/更多/收起 bounds: " + Arrays.toString(controls));
+                stage("One IME toolbar, 打字/手写/音标/设置/收起 bounds: " + Arrays.toString(controls));
                 for (int i = 0; i < controls.length; i++) {
                     Rect area = controls[i];
                     if (area.isEmpty() || area.top != controls[0].top || area.bottom != controls[0].bottom
@@ -1221,15 +1221,15 @@ public final class KeyboardTest extends Instrumentation {
         if (!cards.get(0).lines.equals(Arrays.asList("吃", "架"))) throw new AssertionError("Missing first lexical gloss in compact mode");
         assertEditorAboveKeyboard(host.first, "打字");
         captureFrame("compact-typing.png");
-        tapControl("更多");
-        waitSelectedControl("更多");
+        tapControl("设置");
+        waitSelectedControl("设置");
         waitSelectedControl("谐音字");
         waitForNode("叶氏拼音", false);
         waitForNode("返回打字", false);
         waitForNode("确定拼写", false);
         expectText(host.first, "正文");
         captureFrame("compact-more.png");
-        tapControl("更多");
+        tapControl("设置");
         waitAbsent("确定拼写");
         waitForNode("待选拼写 ga", false);
         pressCandidate("吃、咬，架", false);
@@ -1256,9 +1256,9 @@ public final class KeyboardTest extends Instrumentation {
         drawThree(pad);
         expectText(host.first, "正文架日日三");
         press("打字");
-        tapControl("更多");
+        tapControl("设置");
         waitSelectedControl("谐音字");
-        tapControl("更多");
+        tapControl("设置");
         waitAbsent("叶氏拼音");
         assertEditorAboveKeyboard(host.first, "打字");
     }
@@ -1690,7 +1690,7 @@ public final class KeyboardTest extends Instrumentation {
                 tapControl("打字");
                 waitSelectedControl("打字");
             }
-            tapControl("更多");
+            tapControl("设置");
             tapControl(label);
             waitAbsent(label);
             waitSelectedControl("打字");

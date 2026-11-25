@@ -356,7 +356,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         LinearLayout strip = row();
         strip.setBackground(edge(PAPER, RULE, Gravity.BOTTOM));
         body.setBackgroundColor(BOARD);
-        int toolbarHeight = Math.max(dp(compact ? 33 : 40), textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(8));
+        int toolbarHeight = Math.max(dp(compact ? 36 : 42),
+                textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(compact ? 17 : 21));
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(glossSp()) + textHeight(formSp()) + dp(4));
@@ -423,14 +424,23 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             toolbar.addView(label(numeric ? "数字" : "英文直输", 17, MUTED), weighted(1));
             stripKey("🌐", "切换输入法", false, this::pickIme);
         } else {
-            stripKey("打字", "打字", mode == SPELL || mode == HAN, () -> switchMode(typingMode));
-            stripKey("手写", "手写", mode == HAND, () -> switchMode(HAND));
-            stripKey("音标", "音标", mode == IPA, () -> switchMode(IPA));
+            stripIconKey("打字", "打字", ToolbarIcon.Mark.TYPE, mode == SPELL || mode == HAN, () -> switchMode(typingMode));
+            stripIconKey("手写", "手写", ToolbarIcon.Mark.WRITE, mode == HAND, () -> switchMode(HAND));
+            stripIconKey("音标", "音标", ToolbarIcon.Mark.IPA, mode == IPA, () -> switchMode(IPA));
         }
         toolbar.addView(composition, new LinearLayout.LayoutParams(0, -1, 1));
         buildComposition();
-        if (!direct) moreButton = stripKey("更多", "更多", false, this::toggleMore);
-        stripKey("收起", "隐藏键盘", false, () -> requestHideSelf(0));
+        if (!direct) moreButton = stripIconKey("设置", "设置", ToolbarIcon.Mark.SETTINGS, false, this::toggleMore);
+        stripIconKey("收起", "隐藏键盘", ToolbarIcon.Mark.HIDE, false, () -> requestHideSelf(0));
+    }
+
+    private TextView stripIconKey(String label, String desc, ToolbarIcon.Mark mark, boolean selected, Runnable action) {
+        TextView button = stripKey(label, desc, selected, action);
+        Drawable icon = new ToolbarIcon(mark, button);
+        icon.setBounds(0, 0, dp(compact ? 20 : 24), dp(compact ? 15 : 18));
+        button.setCompoundDrawables(null, icon, null, null);
+        button.setCompoundDrawablePadding(dp(1));
+        return button;
     }
 
     private TextView stripKey(String label, String desc, boolean selected, Runnable action) {
@@ -475,7 +485,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         LinearLayout tools = menuRow();
         key(tools, "返回打字", "返回打字", 1, KeyLook.PRIMARY, false, () -> switchMode(typingMode));
-        key(tools, "键盘设置", "键盘设置", 1, KeyLook.PLAIN, false, () -> {
+        key(tools, "更多设置", "更多设置", 1, KeyLook.PLAIN, false, () -> {
             closeMore();
             startActivity(new Intent(this, SetupActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         });
@@ -1707,7 +1717,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (direct) text = "";
             else if (engine == null) text = lexiconFailed ? "词库未载入，点此重试" : "正在加载词库，可先输入拼写";
             else if (draft.isEmpty() || mode == HAND) text = "";
-            else text = "未找到词，可在更多里输入原拼写";
+            else text = "未找到词，可在设置里输入原拼写";
             TextView status = label(text, compact ? 15 : 18, MUTED);
             if (!direct && lexiconFailed) {
                 KeyboardTap.bind(status, () -> {
