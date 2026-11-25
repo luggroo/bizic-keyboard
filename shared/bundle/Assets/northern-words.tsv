@@ -3739,7 +3739,7 @@ stedt-rn-288997	kex		用扁担挑	客			0	tujia	用扁担挑	ke	kē	客
 stedt-rn-288489	kexkar		烟；抽烟（原义未细分）	客咔			0	tujia	烟；抽烟	keka	kēkǎ	客|咔		
 stedt-rn-289369	keifdux		哪里	克欸都			0	tujia	哪里	keidu	kéidū	克欸|都		
 stedt-rn-289368	keif		哪	克欸			0	tujia	哪里	kei	kéi	克欸		
-stedt-rn-288802	kif		锯；锯子	克意			0	tujia	锯；锯子	ki	kí	克意		
+stedt-rn-288802	kif		锯；锯子	克意			0	tujia	锯	ki	kí	克意		
 stedt-rn-289068	kifkif		挂；悬挂	克意克意			0	tujia	挂	kiki	kíkí	克意|克意		
 stedt-rn-289054	kiflif		卷起衣服	克意利			0	tujia	卷起衣服	kili	kílí	克意|利		
 stedt-rn-289288	kifzifzif		苦	克意致致			0	tujia	苦	kizizi	kízízí	克意|致|致		
@@ -3756,7 +3756,7 @@ stedt-rn-358756	kex		角；号角（原义未细分）	客			0	tujia	角；号�
 stedt-rn-437083	kexqierbar		青蛙	客切八			0	tujia	青蛙	keqieba	kēqiěbǎ	客|切|八		
 stedt-rn-230340	keif		哪	克欸			0	tujia	哪里	kei	kéi	克欸		
 stedt-rn-394205	keifdux		哪里	克欸都			0	tujia	哪里	keidu	kéidū	克欸|都		
-stedt-rn-376260	kif		锯；锯子	克意			0	tujia	锯；锯子	ki	kí	克意		
+stedt-rn-376260	kif		锯；锯子	克意			0	tujia	锯	ki	kí	克意		
 stedt-rn-412618	kifkix		钩	克意克以			0	tujia	钩	kiki	kíkī	克意|克以		
 stedt-rn-412891	kifkix		挂在墙上	克意克以			0	tujia	挂在墙上	kiki	kíkī	克意|克以		
 stedt-rn-213714	kifkix		挂物品	克意克以			0	tujia	挂物品	kiki	kíkī	克意|克以		
@@ -8137,7 +8137,7 @@ yubao-60757-v-1841	tongx		甑子	通			0	tujia	甑子	tong	tōng	通
 yubao-60757-v-1845	bufcix		碓杵	布此			0	tujia	碓杵	buci	búcī	布|此		
 yubao-60757-v-1846	jiaxsix		工具	家使			0	tujia	工具	jiasi	jiāsī	家|使		
 yubao-60757-v-1847	xiexdenfzix		铁锤	写凳子			0	tujia	铁锤	xiedenzi	xiēdénzī	写|凳|子		
-yubao-60757-v-1848	kif		锯子	克意			0	tujia	锯子	ki	kí	克意		
+yubao-60757-v-1848	kif		锯子	克意			0	tujia	锯	ki	kí	克意		
 yubao-60757-v-1850	wuxzuanx		钻子	乌庄			0	tujia	钻子	wuzuan	wūzuān	乌|庄		
 yubao-60757-v-1851	zaif		凿子	在			0	tujia	凿子	zai	zái	在		
 yubao-60757-v-1854	xiexeflax		铁丝	写饿拉			0	tujia	铁丝	xie'ela	xiē'élā	写|饿|拉		
@@ -10552,7 +10552,7 @@ yubao-60756-v-1844	laxbuxluixcix		臼窝	拉补垒此			0	tujia	臼窝	labuluici
 yubao-60756-v-1845	songrgar		碓杵	怂夹			0	tujia	碓杵	songga	sǒnggǎ	怂|夹		
 yubao-60756-v-1846	jiaxsir		工具	家石			0	tujia	工具	jiasi	jiāsǐ	家|石		
 yubao-60756-v-1847	xievcuixzix		铁锤	写吹子			0	tujia	铁锤	xiecuizi	xiècuīzī	写|吹|子		
-yubao-60756-v-1848	kour		锯子	克讴			0	tujia	锯子	kou	kǒu	克讴		
+yubao-60756-v-1848	kour		锯子	克讴			0	tujia	锯	kou	kǒu	克讴		
 yubao-60756-v-1849	tuixpox		推刨	推坡			0	tujia	推刨	tuipo	tuīpō	推|坡		
 yubao-60756-v-1850	zuangrzir		钻子	装直			0	tujia	钻子	zuangzi	zuǎngzǐ	装|直		
 yubao-60756-v-1851	zaifbiv		凿子	在比			0	tujia	凿子	zaibi	záibì	在|比		
@@ -13477,7 +13477,7 @@ yubao-60823-v-1844	yanrbaoxkoxkor		臼窝	扬苞可阔			0	tujia	臼窝	yanbaoko
 yubao-60823-v-1845	songfgaxkovbar		碓杵	宋尕可八			0	tujia	碓杵	songgakoba	sónggākòba	宋|尕|可|八		
 yubao-60823-v-1846	jiaxnier		工具	家业			0	tujia	工具	jianie	jiānie	家|业		
 yubao-60823-v-1847	cuirzif		铁锤	垂致			0	tujia	铁锤	cuizi	cuizí	垂|致		
-yubao-60823-v-1848	kef		锯子	刻			0	tujia	锯子	ke	ké	刻		
+yubao-60823-v-1848	kef		锯子	刻			0	tujia	锯	ke	ké	刻		
 yubao-60823-v-1849	kartuixpaox		推刨	咔推抛			0	tujia	推刨	katuipao	katuīpāo	咔|推|抛		
 yubao-60823-v-1850	wuxzuanr		钻子	乌装			0	tujia	钻子	wuzuan	wūzuan	乌|装		
 yubao-60823-v-1851	dongxgartongxcix		凿子	东夹通此			0	tujia	凿子	donggatongci	dōnggatōngcī	东|夹|通|此		
