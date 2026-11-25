@@ -4,14 +4,13 @@
 
 ## 下载与试打
 
-- [正式安装包 0.3.3](https://github.com/luggroo/bizic-keyboard/releases/latest) 可用于覆盖升级使用同一发布签名的旧版。
-- [调试安装包 0.3.3.4](https://github.com/luggroo/bizic-keyboard/actions/runs/45582674961#artifacts) 用于测试。在构建页面下载 `bizic-keyboard-debug`，解压后安装 APK。
+[下载土家语输入法 0.3.5（安卓 APK）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.5/tujia-keyboard-0.3.5.apk)
 
-1. 在 Android 7.0 或以上的手机上安装 APK，打开「土家语输入法」。
+1. 在手机上安装 APK，打开「土家语输入法」。
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
-3. 点应用里的试打框，或在其他应用里打开文本框。用 0.3.3.4 试打时，点键盘上的「设置」选择输出写法，输入 `bizika`，再点汉义为“土家族”的候选。选叶氏拼音写入 `bifzixkar`，选调号拼音写入 `bízīkǎ`，选谐音字写入「秘兹佧」。
+3. 点应用里的试打框，或在其他应用里打开文本框。点键盘上的「设置」选择输出写法，输入 `bizika`，再点汉义为“土家族”的候选。选叶氏拼音写入 `bifzixkar`，选调号拼音写入 `bízīkǎ`，选谐音字写入「秘兹佧」。
 
-0.3.3.4 的工具栏可以直接切换「打字」「手写」「音标」，也能打开「设置」或收起键盘。图标在文字左边，正在输入的拼写显示在工具栏中间。字母键、候选和汉义跟随手机的系统字号。想放大文字，可以在手机设置里搜索“字体大小”。想让按键和其他界面元素一起变大，可以搜索“显示大小”或“屏幕缩放”。[各品牌的设置入口](qa/system-type.md)
+键盘工具栏可以直接切换「打字」「手写」「音标」，也能打开「设置」或收起键盘。图标在文字左边，正在输入的拼写显示在工具栏中间。字母键、候选和汉义跟随手机的系统字号。想放大文字，可以在手机设置里搜索“字体大小”。想让按键和其他界面元素一起变大，可以搜索“显示大小”或“屏幕缩放”。[各品牌的设置入口](qa/system-type.md)
 
 ## 国际音标
 
@@ -34,7 +33,7 @@
 | 唱一句土家山歌， | bízī sānggō nā zē cáng， | 币子山歌哪遮唱， |
 | 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖里。 |
 
-[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [山歌输入演示](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4) · [声调与音标演示](https://raw.githubusercontent.com/luggroo/bizic-keyboard/main/docs/media/tone-demo.mp4)
+[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [山歌输入演示](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/shange-demo.mp4) · [声调与音标演示](https://raw.githubusercontent.com/luggroo/bizic-keyboard/main/docs/media/tone-demo.mp4)
 
 「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
@@ -64,7 +63,7 @@
 
 在「拼写」下输入 `bizika`，选“土家族”下的 `bízīkǎ`。再点 `mǒng`，正文变为 `bízīkǎ mǒng`。如果选 `mǔn`，正文就用 `mǔn`。词义明确时，上方显示简短汉义。例如输入完整的 `kamong` 可以选“树”下的 `kǎmǒng`。单独预测到 `mǒng` 时汉义留空，因为它还出现在“呻吟”和“线”等词里。龙山有一个读作 `mǒng` 的地支词，选到这个词条时才显示“地支午”。[“树”的词条](https://tujia.biz/?id=w1102) · [龙山调查“午”](https://tujia.biz/?id=yubao-60757-v-2498) · [音节汉义核对](qa/syllable-senses.md)
 
-[看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/latest/download/one-tap.mp4) · [查看点按前](qa/results/web-033-free-suggestions.png) · [查看点按后](qa/results/web-033-direct-sound.png)
+[看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/one-tap.mp4) · [查看点按前](qa/results/web-033-free-suggestions.png) · [查看点按后](qa/results/web-033-direct-sound.png)
 
 后续词按跨篇出现的搭配、词类和使用频率推荐。键盘也会参考你在当前输入框里刚选过的搭配。换输入框就清空这段记录。可用的词先显示，余下位置再给常接的音节。训练时排除了演示用的两篇作品。19 组整篇留出测试共 10,404 个词位，首屏下一词有 85 次命中目标词义。1,905 个词位能写出目标汉字，其中有 1,427 个可以点选到明确的词义。在这 1,427 个位置，利用下一词和前缀补全，可以把全拼的 5,481 次按键降到 3,252 次。[评测方法和分组结果](qa/prediction.md) · [1,000 组相邻音节](tools/data/syllable-bigrams-ranked.txt)
 
