@@ -892,10 +892,31 @@ public final class KeyboardTest extends Instrumentation {
         if (!ui.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK))
             throw new AssertionError("Could not return to editor from keyboard settings");
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        long retryAfter = SystemClock.uptimeMillis() + 2000;
+        boolean retried = false;
         do {
             boolean[] active = new boolean[1];
             runOnMainSync(() -> active[0] = host.hasWindowFocus());
             if (active[0]) return;
+            // Android may consume the first Back to dismiss the IME. If the
+            // settings activity is still in front, Back once more to leave it.
+            if (!retried && SystemClock.uptimeMillis() >= retryAfter) {
+                AccessibilityNodeInfo root = ui.getRootInActiveWindow();
+                if (root != null) {
+                    try {
+                        if (IME_PACKAGE.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
+                            List<AccessibilityNodeInfo> controls = root.findAccessibilityNodeInfosByText("切换系统键盘");
+                            boolean settingsVisible = !controls.isEmpty();
+                            for (AccessibilityNodeInfo node : controls) node.recycle();
+                            if (settingsVisible) {
+                                stage("Back first dismissed the IME; leaving the visible keyboard settings");
+                                ui.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
+                                retried = true;
+                            }
+                        }
+                    } finally { root.recycle(); }
+                }
+            }
             SystemClock.sleep(80);
         } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("Original editor did not return to the foreground");
