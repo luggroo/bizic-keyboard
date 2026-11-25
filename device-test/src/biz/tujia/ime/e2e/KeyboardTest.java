@@ -528,7 +528,7 @@ public final class KeyboardTest extends Instrumentation {
             tapField(host.first);
             press("谐音字");
             String expected = "";
-            String[][] forms = {{"叶氏拼音", "bifzixkar"}, {"调号拼音", "bízīkǎ"}, {"谐音字", "币子咔"}};
+            String[][] forms = {{"叶氏拼音", "bifzixkar"}, {"调号拼音", "bízīkǎ"}, {"谐音字", "秘兹佧"}};
             for (String[] form : forms) {
                 type("bizika");
                 tapControl("设置");
@@ -558,9 +558,9 @@ public final class KeyboardTest extends Instrumentation {
             press("手写");
             setHandwritingOutput(true);
             for (String[] form : forms) {
-                runOnMainSync(() -> { host.first.setText("前币子咔后"); host.first.setSelection(4); });
+                runOnMainSync(() -> { host.first.setText("前秘兹佧后"); host.first.setSelection(4); });
                 press("已写成词");
-                tapForm("币子咔");
+                tapForm("秘兹佧");
                 tapControl("谐音字".equals(form[0]) ? "保留原写法" : "用" + form[0]);
                 expectText(host.first, "前" + form[1] + "后");
                 waitSelectedControl("手写");
@@ -649,7 +649,7 @@ public final class KeyboardTest extends Instrumentation {
         if (requested != null && !requested.equals(previous)) {
             launcherControl(label, false, true);
             String example = "调号拼音".equals(requested) ? "bízīkǎ"
-                    : "叶氏拼音".equals(requested) ? "bifzixkar" : "币子咔";
+                    : "叶氏拼音".equals(requested) ? "bifzixkar" : "秘兹佧";
             launcherControl(requested + "，" + example, false, true);
             launcherControl("打字输出 · " + requested, false, false);
         }

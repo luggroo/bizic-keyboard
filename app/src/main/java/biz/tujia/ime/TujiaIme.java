@@ -63,7 +63,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private static final Typeface MEDIUM = Typeface.create("sans-serif-medium", Typeface.NORMAL);
     private enum KeyLook { LETTER, TAB, UTILITY, SPACE, PRIMARY, PLAIN }
     private enum HandFormat {
-        HAN("汉字", "币子咔", CandidateEngine.Orthography.YE),
+        HAN("汉字", "秘兹佧", CandidateEngine.Orthography.YE),
         YE("叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE),
         DIACRITIC("调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC),
         IPA("国际音标", "pi²⁴tsɿ⁵⁵kʰa²¹", CandidateEngine.Orthography.IPA);
