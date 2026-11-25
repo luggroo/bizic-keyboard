@@ -104,6 +104,7 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("outputs")) testOutputButtons();
+            if (suite.equals("tone")) testDirectionalTones();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();

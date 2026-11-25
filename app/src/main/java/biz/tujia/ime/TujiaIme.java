@@ -1859,8 +1859,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         TextView[] hints = new TextView[4];
         String[] marks = {"ˉ", "ˊ", "ˇ", "ˋ"};
         for (int i = 0; i < hints.length; i++) {
-            hints[i] = label(marks[i], 12, 0xff78645d);
-            if (i == 2) hints[i].setTranslationY(dp(3));
+            hints[i] = label(marks[i], 24, 0xff78645d);
             hints[i].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             key.addView(hints[i]);
         }
@@ -1876,6 +1875,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(-2, -2, gravities[i]);
                 p.setMargins(dp(1), dp(1), dp(1), dp(1));
                 hints[i].setLayoutParams(p);
+                hints[i].setTranslationY(dp(i == 2 ? 14 : (gravities[i] & Gravity.TOP) == Gravity.TOP ? 4 : 5));
             }
         };
         position.accept(Character.toLowerCase(vowel) == 'a' ? -1 : 0);
