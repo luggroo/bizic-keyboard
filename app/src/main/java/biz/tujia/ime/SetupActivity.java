@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -192,15 +193,28 @@ public final class SetupActivity extends Activity {
 
     private void chooseIpaCompletion() {
         int dialects = KeyboardSettings.ipaDialects(this);
-        boolean[] checked = {(dialects & IpaKeyboard.NORTH) != 0, (dialects & IpaKeyboard.SOUTH) != 0};
+        LinearLayout options = new LinearLayout(this);
+        options.setOrientation(LinearLayout.VERTICAL);
+        options.setPadding(dp(24), dp(8), dp(24), 0);
+        CheckBox north = ipaDialectOption(options, "北部", (dialects & IpaKeyboard.NORTH) != 0);
+        CheckBox south = ipaDialectOption(options, "南部", (dialects & IpaKeyboard.SOUTH) != 0);
         new AlertDialog.Builder(this).setTitle("音标补全词库")
-                .setMultiChoiceItems(new String[]{"北部", "南部"}, checked, (dialog, index, enabled) -> checked[index] = enabled)
+                .setView(options)
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确定", (dialog, choice) -> {
-                    int selected = (checked[0] ? IpaKeyboard.NORTH : 0) | (checked[1] ? IpaKeyboard.SOUTH : 0);
+                    int selected = (north.isChecked() ? IpaKeyboard.NORTH : 0) | (south.isChecked() ? IpaKeyboard.SOUTH : 0);
                     KeyboardSettings.setIpaDialects(this, selected);
                     refresh();
                 }).show();
+    }
+
+    private CheckBox ipaDialectOption(LinearLayout parent, String label, boolean checked) {
+        CheckBox option = new CheckBox(this);
+        option.setMinHeight(dp(48));
+        option.setText(label);
+        option.setChecked(checked);
+        parent.addView(option, new LinearLayout.LayoutParams(-1, -2));
+        return option;
     }
 
     @Override protected void onResume() { super.onResume(); refresh(); }
