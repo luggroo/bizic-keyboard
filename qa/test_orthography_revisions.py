@@ -43,6 +43,8 @@ def main():
     count = 0
     with (ROOT / 'tools/data/northern-han-loans.tsv').open() as f:
         loans = {(r['id'], r['ye']): r for r in csv.DictReader(f, delimiter='\t')}
+    with (ROOT / 'tools/data/survey-loan-forms.tsv').open() as f:
+        loans.update({(r['id'], r['ye']): r for r in csv.DictReader(f, delimiter='\t')})
     seen_loans = set()
     with (ROOT / 'shared/bundle/Assets/northern-words.tsv').open() as f:
         for record in csv.DictReader(f, delimiter='\t', fieldnames=fields):

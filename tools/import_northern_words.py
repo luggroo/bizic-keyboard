@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
 LOANS = ROOT / "tools/data/northern-han-loans.tsv"
 LEGACY = ROOT / "tools/data/northern-legacy-forms.tsv"
+SURVEY_LOANS = ROOT / "tools/data/survey-loan-forms.tsv"
 
 
 def han_units(word, orthography):
@@ -39,6 +40,12 @@ def han_units(word, orthography):
 def build(site):
     with LOANS.open(encoding="utf-8") as stream:
         loans = {(r['id'], r['ye']): r for r in csv.DictReader(stream, delimiter='\t')}
+    with SURVEY_LOANS.open(encoding="utf-8") as stream:
+        for row in csv.DictReader(stream, delimiter='\t'):
+            key = (row['id'], row['ye'])
+            if key in loans and loans[key]['han'] != row['han']:
+                raise ValueError(f'Conflicting survey loan forms: {key}')
+            loans[key] = row
     with LEGACY.open(encoding="utf-8") as stream:
         legacy = {(r['id'], r['ye']): r['aliases'].split() for r in csv.DictReader(stream, delimiter='\t')}
     with gzip.open(site / "dictionary.json.gz", "rt") as stream:
