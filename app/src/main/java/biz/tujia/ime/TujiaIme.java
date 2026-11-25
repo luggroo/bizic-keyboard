@@ -91,6 +91,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private HandFormat handFormat;
     private String draft = "";
     private boolean draftInEditor;
+    private boolean pendingWordSeparator;
     private List<CandidateEngine.Candidate> candidates = Collections.emptyList();
     private final Map<CandidateEngine.Candidate, HanChoice> hanChoices = new HashMap<>();
     private List<String> glyphs = Collections.emptyList();
@@ -308,6 +309,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         selectingTone = false;
         draft = "";
         draftInEditor = false;
+        pendingWordSeparator = false;
         page = 0;
         candidates = Collections.emptyList();
         hanChoices.clear();
@@ -1547,12 +1549,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 position.centerY() - height * 3 / 2);
     }
 
-    private void typeIpa(String text) {
+    private boolean typeIpa(String text) {
         recordAction("输入音标", text);
         closeKeyAlternatives();
         boolean continues = IpaKeyboard.continuesWord(text);
         String finished = continues ? null : pendingIpaWord();
-        if (commit(text, false)) {
+        boolean committed = commitTypedText(text);
+        if (committed) {
             rememberUserWord(UserDictionary.Form.IPA, finished);
             ipaEdited = continues;
             showIpaCandidates();
@@ -1561,6 +1564,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             shifted = false;
             buildIpaKeys();
         }
+        return committed;
     }
 
     private void loadIpaLexicon() {
@@ -1653,7 +1657,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (prefix.isEmpty()) {
             long cursor = cursorAt(editor);
             if ((int) (cursor >>> 32) != (int) cursor) return;
-            typeIpa(replacement);
+            if (typeIpa(replacement)) pendingWordSeparator = true;
             ipaEdited = false;
             return;
         }
@@ -1662,6 +1666,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (replaceTypedText(editor, prefix, replacement)) {
             if (ipaEdited && prefix.equals(replacement)) rememberUserWord(UserDictionary.Form.IPA, prefix);
             ipaEdited = false;
+            pendingWordSeparator = true;
             showIpaCandidates();
         }
     }
@@ -1795,7 +1800,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void appendDraft(String text) {
         if (mode == SPELL || draftInEditor) {
-            if (!commit(text, false)) return;
+            if (!commitTypedText(text)) return;
             draftInEditor = true;
         }
         draft += text;
@@ -2259,6 +2264,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         draft = remainder;
         if (draft.isEmpty()) draftInEditor = false;
+        pendingWordSeparator = mode == SPELL && draft.isEmpty();
         updateCandidates();
     }
 
@@ -2269,6 +2275,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             recentWords = previousSyllable = sentenceEnd(draft.charAt(draft.length() - 1)) ? "<s>" : "";
             draft = "";
             draftInEditor = false;
+            pendingWordSeparator = mode == SPELL;
             updateCandidates();
         }
     }
@@ -2324,6 +2331,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             rememberUserWord(UserDictionary.Form.IPA, pendingIpaWord());
             ipaEdited = false;
         }
+        pendingWordSeparator = false;
         String history = recentWords;
         recentWords = previousSyllable = "";
         updateCandidates();
@@ -2367,12 +2375,29 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         return commit(text, wordSpacing, null);
     }
 
+    private boolean commitTypedText(String text) {
+        int first = text.codePointAt(0);
+        if (pendingWordSeparator && selStart >= 0 && selStart == selEnd
+                && Character.isLetter(first) && Character.getType(first) != Character.MODIFIER_LETTER) {
+            InputConnection editor = getCurrentInputConnection();
+            CharSequence before = editor == null ? null : editor.getTextBeforeCursor(2, 0);
+            if (before != null && before.length() > 0) {
+                int last = Character.offsetByCodePoints(before, before.length(), -1);
+                if (IpaKeyboard.continuesWord(before.subSequence(last, before.length()).toString())) {
+                    text = " " + text;
+                }
+            }
+        }
+        return commit(text, false);
+    }
+
     private boolean commit(String text, boolean wordSpacing, int[] joinedRanges) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null || text.isEmpty()) return false;
         CharSequence output = wordSpacing ? wordForEditor(ic, text, joinedRanges, 0, "")
                 : HanUnitStyle.forEditor(text, joinedRanges, 0);
         if (!ic.commitText(output, 1)) return false;
+        pendingWordSeparator = false;
         if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + output.length());
         return true;
     }
@@ -2396,6 +2421,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void backspace() {
         recordAction("退格", "");
+        pendingWordSeparator = false;
         if (mode == HAND && !direct) {
             if (pad != null && pad.hasInk()) { pad.undoStroke(); return; }
             discardHandWork();
