@@ -33,6 +33,7 @@ public final class HandwritingPad extends View {
     }
     private static final long SETTLE_MS = 1050;
     private Runnable pendingAccept;
+    private boolean recognizing;
 
     private static final int NONE = -1;
     private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
@@ -85,6 +86,7 @@ public final class HandwritingPad extends View {
     }
 
     public boolean hasInk() { return pendingRestore != null || currentPath != null || !strokes.isEmpty(); }
+    boolean awaitingResult() { return recognizing || currentPath != null || pendingRestore != null; }
 
     /** Main thread, before removing the old pad. Invalidates its jobs and idle callback. */
     InkSnapshot takeInk() {
@@ -145,6 +147,7 @@ public final class HandwritingPad extends View {
 
     public void clearInk() {
         cancelAccept();
+        recognizing = false;
         generation++;
         pendingRestore = null;
         discardActive();
@@ -156,6 +159,7 @@ public final class HandwritingPad extends View {
 
     public void undoStroke() {
         cancelAccept();
+        recognizing = false;
         generation++;
         discardActive();
         if (!strokes.isEmpty()) {
@@ -196,7 +200,7 @@ public final class HandwritingPad extends View {
     @Override public boolean onTouchEvent(MotionEvent event) {
         switch(event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (strokes.size() >= 64) { message="请选字、撤笔或重写"; invalidate(); return true; }
+                if (strokes.size() >= 64) { message="请选字或重写"; invalidate(); return true; }
                 cancelAccept();
                 generation++;
                 listener.onStrokeStarted(strokes.isEmpty());
@@ -261,6 +265,7 @@ public final class HandwritingPad extends View {
 
     private void recognize() {
         final int request = ++generation;
+        recognizing = true;
         final long idleAt = SystemClock.uptimeMillis() + SETTLE_MS;
         cancelAccept();
         // Completed arrays are immutable; the next stroke writes to a separate buffer.
@@ -282,8 +287,10 @@ public final class HandwritingPad extends View {
                 final List<String> results = recognizer.recognize(snapshot, 12, padWidth, padHeight);
                 main.post(() -> {
                     if (generation != request) return;
+                    recognizing = false;
                     message = results.isEmpty() ? "请继续写或重写" : "";
                     listener.onCandidates(results);
+                    if (results.isEmpty()) listener.onSettled();
                     if (!results.isEmpty() && generation == request) {
                         pendingAccept = () -> {
                             pendingAccept = null;
@@ -297,8 +304,10 @@ public final class HandwritingPad extends View {
                 Log.e("TujiaHandwriting","Unable to load or run handwriting recognition",ex);
                 main.post(() -> {
                     if (generation != request) return;
+                    recognizing = false;
                     message = "手写字形未能读取";
                     listener.onCandidates(Collections.<String>emptyList());
+                    listener.onSettled();
                     invalidate();
                 });
             }

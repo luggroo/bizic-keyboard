@@ -25,6 +25,9 @@ public final class IpaKeyboardTest {
                 .noneMatch(value -> value.matches("[a-zA-Z]")), "ordinary letter on the IPA symbols page");
         check(IpaKeyboard.description("\u0325").equals("清化"), "unvoiced diacritic label");
         check(IpaKeyboard.description("\u032c").equals("浊化"), "voiced diacritic label");
+        check(IpaKeyboard.display("⁵³").equals("53"), "tone shortcut should use readable digits");
+        check(IpaKeyboard.display("¹").equals("1"), "individual tone key should use a readable digit");
+        check(IpaKeyboard.description("¹").equals("声调 1"), "individual tone key accessibility label");
 
         prefix("前 /ma", " 后", "ma");
         prefix("前 /m", "a 后", "");

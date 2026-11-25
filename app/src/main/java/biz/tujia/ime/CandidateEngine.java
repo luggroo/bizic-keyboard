@@ -34,6 +34,9 @@ public final class CandidateEngine implements AutoCloseable {
         public final String lexemeIds;
         /** Groups typed Han variants of one complete reading and sense. */
         public final String hanSenseId;
+        /** End-exclusive UTF-16 offset of the canonical base in a handwriting extension. */
+        public final int handPrefixLength;
+        public final boolean exactHandCompletion;
         /** Canonical Ye spelling of the last syllable, for the syllable-level context table. */
         public final String lastSyllable;
         /** The current Han candidate uses the original loan characters without a gloss line. */
@@ -43,7 +46,9 @@ public final class CandidateEngine implements AutoCloseable {
 
         private Candidate(String text, String meaning, String shortMeaning, int kind, int consumed,
                           int[] joinedHanRanges, boolean syllableOnly, String lexemeIds, String lastSyllable,
-                          boolean plainHanLoan, String hanSenseId) {
+                          boolean plainHanLoan, String hanSenseId, int handPrefixLength, boolean exactHandCompletion) {
+            this.exactHandCompletion = exactHandCompletion;
+            this.handPrefixLength = handPrefixLength;
             this.hanSenseId = hanSenseId;
             this.plainHanLoan = plainHanLoan;
             this.lastSyllable = lastSyllable;
@@ -57,9 +62,26 @@ public final class CandidateEngine implements AutoCloseable {
             this.joinedHanRanges = joinedHanRanges;
         }
 
+        int displayPrefixEnd() {
+            int end = handPrefixLength;
+            for (int i = 1; i < joinedHanRanges.length && joinedHanRanges[i] <= handPrefixLength; i += 2) end += 2;
+            return end;
+        }
+
+        // The suffix can retain joined syllables of its own. The dictionary
+        // only offers extensions across whole syllable boundaries.
+        Candidate appendSuffix() {
+            int start = 0;
+            while (start < joinedHanRanges.length && joinedHanRanges[start] < handPrefixLength) start += 2;
+            int[] ranges = Arrays.copyOfRange(joinedHanRanges, start, joinedHanRanges.length);
+            for (int i = 0; i < ranges.length; i++) ranges[i] -= handPrefixLength;
+            return new Candidate(text.substring(handPrefixLength), meaning, shortMeaning, kind.ordinal(), 0,
+                    ranges, syllableOnly, lexemeIds, lastSyllable, plainHanLoan, hanSenseId, 0, true);
+        }
+
         private Candidate asIpa(String value) {
             return new Candidate(value, meaning, shortMeaning, kind.ordinal(), consumed, new int[0], syllableOnly,
-                    lexemeIds, lastSyllable, false, hanSenseId);
+                    lexemeIds, lastSyllable, false, hanSenseId, 0, false);
         }
     }
 
@@ -148,7 +170,7 @@ public final class CandidateEngine implements AutoCloseable {
         }
         if (original == null) {
             original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
-                    new int[0], false, "", "", false, "");
+                    new int[0], false, "", "", false, "", 0, false);
         }
         return prependVerbatim(original, ranked, candidate -> candidate.text);
     }
@@ -167,7 +189,7 @@ public final class CandidateEngine implements AutoCloseable {
 
     static Candidate userWord(String word, int consumed) {
         return new Candidate(word, "", "", Kind.USER.ordinal(), consumed,
-                new int[0], false, "", "", false, "");
+                new int[0], false, "", "", false, "", 0, false);
     }
 
     public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {
@@ -176,6 +198,10 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> handwrittenWords(String beforeCaret, Mode outputMode, Orthography style) {
         return candidates(handwritingTail(beforeCaret), outputMode, style, 5);
+    }
+
+    public List<Candidate> handwrittenWordsAndExtensions(String beforeCaret) {
+        return candidates(handwritingTail(beforeCaret), Mode.HAN, Orthography.YE, 8);
     }
 
     public List<Candidate> nextHandwrittenGlyphs(String beforeCaret) {

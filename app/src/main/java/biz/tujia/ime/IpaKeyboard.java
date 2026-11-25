@@ -190,6 +190,11 @@ final class IpaKeyboard {
     }
 
     static String display(String value) {
+        if (!value.isEmpty() && value.chars().allMatch(c -> DIGITS.indexOf(c) >= 0)) {
+            StringBuilder digits = new StringBuilder();
+            for (int i = 0; i < value.length(); i++) digits.append(DIGITS.indexOf(value.charAt(i)) + 1);
+            return digits.toString();
+        }
         if (value.equals(TIE)) return "◌͡◌";
         if (value.length() == 1 && Character.getType(value.charAt(0)) == Character.NON_SPACING_MARK)
             return "◌" + value;
@@ -204,7 +209,7 @@ final class IpaKeyboard {
             case "\u0325": return "清化";
             case "\u032c": return "浊化";
             default:
-                if (value.length() > 1 && value.chars().allMatch(c -> DIGITS.indexOf(c) >= 0)) {
+                if (!value.isEmpty() && value.chars().allMatch(c -> DIGITS.indexOf(c) >= 0)) {
                     StringBuilder tone = new StringBuilder("声调 ");
                     for (int i = 0; i < value.length(); i++) tone.append(DIGITS.indexOf(value.charAt(i)) + 1);
                     return tone.toString();
