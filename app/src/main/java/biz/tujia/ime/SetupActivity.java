@@ -138,7 +138,7 @@ public final class SetupActivity extends Activity {
         TextView contact = label(BUG_EMAIL, 14, MUTED, false);
         contact.setTextIsSelectable(true);
         addSpaced(diagnostics, contact, 4);
-        Button info = action("关于词库与手写字形", false, v -> showSources());
+        Button info = action(Handwriting.ENABLED ? "关于词库与手写字形" : "关于词库", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
     }
@@ -199,7 +199,7 @@ public final class SetupActivity extends Activity {
         select.setEnabled(enabled);
         select.setAlpha(enabled ? 1f : .55f);
         select.setText(selected ? "切换系统键盘" : "选择土家语键盘");
-        spelling.setText("打字输出 · " + KeyboardSettings.typingOutput(this).name);
+        spelling.setText("拼音输出 · " + KeyboardSettings.typingOutput(this).name);
         int dialects = KeyboardSettings.ipaDialects(this);
         String ipaSummary = dialects == IpaKeyboard.ALL_DIALECTS ? "北部、南部"
                 : dialects == IpaKeyboard.NORTH ? "北部" : dialects == IpaKeyboard.SOUTH ? "南部" : "关闭";
@@ -212,7 +212,7 @@ public final class SetupActivity extends Activity {
         int textHeight = (int)Math.ceil(android.util.TypedValue.applyDimension(
                 android.util.TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics()) * 2.8f);
         row.setMinimumHeight(Math.max(dp(72), textHeight + dp(14)));
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("打字输出").setView(row)
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("拼音输出").setView(row)
                 .setNegativeButton("取消", null).create();
         OutputForm selected = KeyboardSettings.typingOutput(this);
         for (OutputForm form : OutputForm.values()) {
@@ -258,9 +258,16 @@ public final class SetupActivity extends Activity {
     }
 
     private void showSources() {
-        new AlertDialog.Builder(this).setTitle("词库与手写字形")
-                .setMessage("北部土家语词条来自tujia.biz 北部词典及补充语料。候选上方显示汉义，点选后写入选中的拼写或记音字。\n\n手写字形采用 Hanzi Writer Data 笔画资料；识别和候选匹配在设备上运行。")
-                .setNeutralButton("字形授权", (p,b) -> showAsset("手写字形授权", "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"))
+        String source = "北部土家语词条来自 tujia.biz 北部词典及补充语料。";
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        if (Handwriting.ENABLED) {
+            dialog.setTitle("词库与手写字形");
+            source += "\n\n手写字形采用 Hanzi Writer Data 笔画资料，识别在设备上运行。";
+            dialog.setNeutralButton("字形授权", (p,b) -> showAsset("手写字形授权", "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"));
+        } else {
+            dialog.setTitle("词库");
+        }
+        dialog.setMessage(source)
                 .setNegativeButton("方言字音授权", (p,b) -> showAsset("方言字音授权", "dialect-data-LICENSE.txt"))
                 .setPositiveButton("关闭", null).show();
     }

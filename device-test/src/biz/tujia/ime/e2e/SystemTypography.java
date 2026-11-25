@@ -85,9 +85,9 @@ final class SystemTypography {
     private void checkIpaInk(float scale, int density, String frame) throws Exception {
         setConfiguration(scale, density);
         test.newPredictionEditor();
-        test.press("打字");
+        test.press("拼音");
         test.awaitKeyboardAtRest();
-        if (Math.abs(scale - 1.5f) < .001f) assertToolbarUnderline("打字");
+        if (Math.abs(scale - 1.5f) < .001f) assertToolbarUnderline("拼音");
         Rect typingQ = test.waitForNode("q", false);
         Bitmap typing = test.getUiAutomation().takeScreenshot();
         if (typing == null) throw new AssertionError("Missing typing layout screenshot");
@@ -170,7 +170,7 @@ final class SystemTypography {
     private void checkLargeHandAndSettings(int density) throws Exception {
         setConfiguration(2f, density);
         test.newPredictionEditor();
-        test.press("打字");
+        test.press("拼音");
         test.press("设置");
         int twoLineHeight = Math.round(sp(15, host.getResources().getDisplayMetrics()) * 2.1f);
         for (String option : new String[]{"叶氏拼音", "调号拼音", "谐音字"})
@@ -249,8 +249,8 @@ final class SystemTypography {
         List<KeyboardTest.Card> cards = test.fourCards();
         if (!(name.equals("largest-dense") ? cards.get(0).lines.size() == 2 && cards.get(0).lines.get(0).contains("上面") && cards.get(0).lines.get(1).equals("夹下") : cards.get(0).lines.equals(java.util.Arrays.asList("吃", "架"))))
             throw new AssertionError("Missing meaning and form at " + name);
-        test.assertEditorAboveKeyboard(host.first, "打字");
-        Rect toolbar = test.waitForNode("打字", false);
+        test.assertEditorAboveKeyboard(host.first, "拼音");
+        Rect toolbar = test.waitForNode("拼音", false);
         Rect q = test.waitForNode("q", false);
         Rect hostField = new Rect();
         test.runOnMainSync(() -> host.first.getGlobalVisibleRect(hostField));
@@ -297,9 +297,9 @@ final class SystemTypography {
         else test.pressCandidate("吃、咬，架", false);
         test.expectText(host.first, name.equals("largest-dense") ? "正文夹下" : "正文架");
         test.press("隐藏键盘");
-        test.waitAbsent("打字");
+        test.waitAbsent("拼音");
         test.tapField(host.first);
-        test.assertEditorAboveKeyboard(host.first, "打字");
+        test.assertEditorAboveKeyboard(host.first, "拼音");
         test.expectText(host.first, name.equals("largest-dense") ? "正文夹下" : "正文架");
         if (name.equals("default") || name.equals("largest-dense")) {
             test.pressAction("完成");
@@ -320,7 +320,7 @@ final class SystemTypography {
         test.type("nga");
         KeyboardTest.Card word = test.visibleForm("牙");
         test.assertNumberedCard(word, "¹我²压", "牙");
-        test.assertEditorAboveKeyboard(host.first, "打字");
+        test.assertEditorAboveKeyboard(host.first, "拼音");
         test.awaitKeyboardAtRest();
         test.captureFrame("typography-numbered-nga.png");
         Bitmap shot = test.getUiAutomation().takeScreenshot();
@@ -349,7 +349,7 @@ final class SystemTypography {
         setConfiguration(1.6f, narrow);
         test.waitForNode("待选拼写 marmardi", false);
         test.expectText(host.first, "正文");
-        test.assertEditorAboveKeyboard(host.first, "打字");
+        test.assertEditorAboveKeyboard(host.first, "拼音");
         test.captureFrame("typography-draft.png");
         test.pressCandidate("补全 女人，麻麻爹", false);
         test.expectText(host.first, "正文麻麻爹");
@@ -430,7 +430,7 @@ final class SystemTypography {
     }
 
     void assertToolbarUnderline(String selected) {
-        String[] tabs = {"打字", "手写", "音标"};
+        String[] tabs = {"拼音", "手写", "音标"};
         Rect[] bounds = new Rect[tabs.length];
         for (int i = 0; i < tabs.length; i++) bounds[i] = test.waitForNode(tabs[i], false);
         Bitmap shot = test.getUiAutomation().takeScreenshot();

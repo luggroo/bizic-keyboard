@@ -192,32 +192,36 @@ public final class CandidateEngine implements AutoCloseable {
         return recommended;
     }
 
+    static boolean sameForm(String left, String right) {
+        return Normalizer.normalize(left, Normalizer.Form.NFC).equals(Normalizer.normalize(right, Normalizer.Form.NFC));
+    }
+
     static List<Candidate> prioritizeVerbatim(String draft, List<Candidate> dictionary, List<Candidate> ranked) {
         if (draft.isEmpty()) return ranked;
         Candidate original = null;
         for (Candidate match : dictionary) {
-            if (match.kind == Kind.TUJIA && !match.syllableOnly && match.consumed == draft.length()
-                    && match.text.equals(draft)) {
+            if (match.kind == Kind.TUJIA && !match.syllableOnly && !match.meaning.isEmpty()
+                    && match.consumed == draft.length() && sameForm(match.text, draft)) {
                 original = match;
                 break;
             }
         }
-        if (original == null) {
+        boolean defined = original != null;
+        if (!defined) {
             original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
                     new int[0], false, "", "", false, "", 0, false);
         }
-        return prependVerbatim(original, ranked, candidate -> candidate.text);
+        return rankOriginal(original, defined, ranked, candidate -> candidate.text);
     }
 
-    static <T> List<T> prependVerbatim(T original, List<T> ranked, Function<T, String> form) {
+    // An exact dictionary entry leads. An unglossed echo is a fallback after the alternatives.
+    static <T> List<T> rankOriginal(T original, boolean defined, List<T> ranked, Function<T, String> form) {
         List<T> choices = new ArrayList<>(ranked.size() + 1);
-        choices.add(original);
-        String visibleDraft = Normalizer.normalize(form.apply(original), Normalizer.Form.NFC);
+        String input = form.apply(original);
         for (T candidate : ranked) {
-            if (!visibleDraft.equals(Normalizer.normalize(form.apply(candidate), Normalizer.Form.NFC))) {
-                choices.add(candidate);
-            }
+            if (!sameForm(input, form.apply(candidate))) choices.add(candidate);
         }
+        if (defined || !choices.isEmpty()) choices.add(defined ? 0 : Math.min(3, choices.size()), original);
         return choices;
     }
 

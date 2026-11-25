@@ -103,7 +103,7 @@ final class IpaKeyboard {
         if (lexicon != null && dialects != 0 && input.length() <= MAX_PREFIX && HAS_LETTER.matcher(input).find()) {
             ranked = lexicon.complete(input, dialects);
             for (Entry entry : lexicon.entries) {
-                if ((entry.dialects & dialects) != 0 && entry.ipa.equals(input) && !entry.gloss.isEmpty()) {
+                if ((entry.dialects & dialects) != 0 && CandidateEngine.sameForm(entry.ipa, input) && !entry.gloss.isEmpty()) {
                     glosses.add(entry.gloss);
                 }
             }
@@ -121,7 +121,7 @@ final class IpaKeyboard {
         }
         StringJoiner gloss = new StringJoiner("；");
         for (String meaning : glosses) gloss.add(meaning);
-        return CandidateEngine.prependVerbatim(new Entry(dialects, input, gloss.toString()), ranked,
+        return CandidateEngine.rankOriginal(new Entry(dialects, input, gloss.toString()), !glosses.isEmpty(), ranked,
                 entry -> entry.ipa);
     }
 

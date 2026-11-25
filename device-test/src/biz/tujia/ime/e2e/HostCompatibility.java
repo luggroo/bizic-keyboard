@@ -55,7 +55,7 @@ final class HostCompatibility {
         keys.type("bangricai");
         keys.pressCandidate("中午，半日猜", false);
         keys.expectText(host.first, "架\n半日猜");
-        keys.assertEditorAboveKeyboard(host.first, "打字");
+        keys.assertEditorAboveKeyboard(host.first, "拼音");
         keys.press("隐藏键盘");
         keys.waitAbsent("隐藏键盘");
         keys.expectText(host.first, "架\n半日猜");

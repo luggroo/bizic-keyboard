@@ -44,16 +44,16 @@ public final class IpaKeyboardTest {
         check("²¹".equals(IpaKeyboard.candidatePrefix("²¹", "")), "standalone tone can appear as original input");
         String longInput = new String(new char[65]).replace('\0', 'a');
         check(longInput.equals(IpaKeyboard.candidatePrefix(longInput, "")), "long original IPA stays visible");
-        check(IpaKeyboard.withVerbatim(longInput, keyboard, both).size() == 1, "long original bypasses lookup");
+        check(IpaKeyboard.withVerbatim(longInput, keyboard, both).isEmpty(), "long original bypasses lookup");
         List<IpaKeyboard.Entry> literal = IpaKeyboard.withVerbatim("ma", keyboard, north);
-        check(literal.get(0).ipa.equals("ma") && literal.get(0).gloss.isEmpty(), "unmatched IPA goes first without a gloss");
-        contains(literal.subList(1, literal.size()), "mã²¹", "奶");
+        check(!literal.get(0).ipa.equals("ma") && literal.stream().filter(e -> e.ipa.equals("ma")).count() == 1, "unmatched IPA follows suggestions and is offered once");
+        contains(literal, "mã²¹", "奶");
         List<IpaKeyboard.Entry> word = IpaKeyboard.withVerbatim("mã²¹", keyboard, north);
         check(word.get(0).ipa.equals("mã²¹") && word.get(0).gloss.equals("奶")
                 && word.stream().filter(entry -> entry.ipa.equals("mã²¹")).count() == 1, "exact original IPA has one card and the dictionary gloss");
-        check(IpaKeyboard.withVerbatim("ma\u0303²¹", keyboard, north).get(0).gloss.isEmpty(), "normalized matches cannot label verbatim input");
-        check(IpaKeyboard.withVerbatim("ma", keyboard, 0).size() == 1
-                && IpaKeyboard.withVerbatim("ma", null, north).size() == 1, "original survives a disabled or loading dictionary");
+        check(IpaKeyboard.withVerbatim("ma\u0303²¹", keyboard, north).get(0).gloss.equals("奶"), "canonically equivalent IPA has the same dictionary meaning");
+        check(IpaKeyboard.withVerbatim("ma", keyboard, 0).isEmpty()
+                && IpaKeyboard.withVerbatim("ma", null, north).isEmpty(), "a disabled or loading dictionary does not echo the editor");
         check(keyboard.complete("ma", 0).isEmpty(), "disabled dictionary suggested a completion");
         check(keyboard.complete("qqqqqq", both).isEmpty(), "an unknown prefix generated a completion");
         contains(keyboard.complete("ma", north), "mã²¹", "奶");

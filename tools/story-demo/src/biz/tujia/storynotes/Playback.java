@@ -457,14 +457,14 @@ public final class Playback extends Instrumentation {
         Intent settings = new Intent().setClassName(IME, IME + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         runOnMainSync(() -> host.startActivity(settings));
-        Rect open = appContaining("打字输出 ·");
+        Rect open = appContaining("拼音输出 ·");
         SystemClock.sleep(500);
         tap(open,90);
         spellingButton = "带调号拼音".equals(style) ? MARKED_BUTTON : YE_BUTTON;
         Rect row = appLabel(spellingButton + ("带调号拼音".equals(style) ? "，bízīkǎ" : "，bifzixkar"));
         SystemClock.sleep(850);
         tap(row,90);
-        appLabel("打字输出 · " + spellingButton);
+        appLabel("拼音输出 · " + spellingButton);
         SystemClock.sleep(700);
         long t=SystemClock.uptimeMillis();
         ui.injectInputEvent(new KeyEvent(t,t,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK,0),true);
@@ -880,7 +880,7 @@ public final class Playback extends Instrumentation {
                 // The settings menu follows the current input mode.
                 // Return to typing before choosing the keyboard's output script.
                 if (lookupKeyboard("q") == null) {
-                    tap(require("打字"),100);
+                    tap(require("拼音"),100);
                     require("q");
                 }
                 tap(require("设置"),100);

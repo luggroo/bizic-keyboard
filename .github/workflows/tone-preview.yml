@@ -25,8 +25,8 @@ jobs:
       - name: Build keyboard and test host
         run: |
           mkdir -p build
-          ./gradlew --no-daemon :app:assembleDebug
-          cp app/build/outputs/apk/debug/app-debug.apk build/qa-keyboard.apk
+          ./gradlew --no-daemon :app:assembleHandwritingDebug
+          cp app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk build/qa-keyboard.apk
           ./tools/build-apk.sh --device-test build/fixture.apk
       - name: Enable hardware acceleration
         run: |

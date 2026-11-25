@@ -463,8 +463,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             toolbar.addView(label(numeric ? "数字" : "英文直输", 17, MUTED), weighted(1));
             stripIconKey("", "切换输入法", ToolbarIcon.Mark.GLOBE, false, this::pickIme);
         } else {
-            stripIconKey("打字", "打字", ToolbarIcon.Mark.TYPE, mode == SPELL || mode == HAN, () -> switchMode(typingMode));
-            stripIconKey("手写", "手写", ToolbarIcon.Mark.WRITE, mode == HAND, () -> switchMode(HAND));
+            stripIconKey("拼音", "拼音", ToolbarIcon.Mark.TYPE, mode == SPELL || mode == HAN, () -> switchMode(typingMode));
+            if (Handwriting.ENABLED) stripIconKey("手写", "手写", ToolbarIcon.Mark.WRITE, mode == HAND, () -> switchMode(HAND));
             stripIconKey("音标", "音标", ToolbarIcon.Mark.IPA, mode == IPA, () -> switchMode(IPA));
         }
         toolbar.addView(new View(this), new LinearLayout.LayoutParams(0, -1, 1));
@@ -485,7 +485,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int natural = Math.max(dp(48), preferredIconWidth + iconGap + textWidth + dp(4));
         int available = getResources().getDisplayMetrics().widthPixels
                 - surface.getPaddingLeft() - surface.getPaddingRight();
-        int maxWidth = available / 5 - 2 * sideGap;
+        int maxWidth = available / (Handwriting.ENABLED ? 5 : 4) - 2 * sideGap;
         int width = direct ? natural : Math.min(natural, Math.max(dp(32), maxWidth));
         int iconWidth = Math.min(preferredIconWidth, width / 3);
         Drawable icon = new ToolbarIcon(mark, button);
@@ -539,7 +539,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             ipaDialectChoice(dialects, "北部", IpaKeyboard.NORTH);
             ipaDialectChoice(dialects, "南部", IpaKeyboard.SOUTH);
         } else {
-            menuCaption("打字输出 · 选择候选上屏后的写法");
+            menuCaption("拼音输出 · 选择候选上屏后的写法");
             int columns = menuColumns(3);
             LinearLayout outputs = null;
             int index = 0;
@@ -549,7 +549,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
         }
         LinearLayout tools = menuRow(false);
-        key(tools, "返回打字", "返回打字", 1, KeyLook.PRIMARY, false, () -> switchMode(typingMode));
+        key(tools, "返回拼音", "返回拼音", 1, KeyLook.PRIMARY, false, () -> switchMode(typingMode));
         key(tools, "更多设置", "更多设置", 1, KeyLook.PLAIN, false, () -> {
             closeMore();
             startActivity(new Intent(this, SetupActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -1050,6 +1050,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             for (CandidateEngine.Candidate c : syllableHints) additions.putIfAbsent(c.text, c);
         }
         // Offer both actions on each page while preserving the dictionary order within each list.
+        // An unchanged suffix without a dictionary meaning has already been written to the editor.
+        replacements.values().removeIf(c -> {
+            HanChoice.Action action = hanChoices.get(c).primary;
+            return action.meanings.isEmpty() && before.substring(before.length() - action.consumed)
+                    .equals(HanUnitBrackets.format(c.text, c.joinedHanRanges, 0).text);
+        });
         Iterator<CandidateEngine.Candidate> replace = replacements.values().iterator();
         Iterator<CandidateEngine.Candidate> append = additions.values().iterator();
         Iterator<CandidateEngine.Candidate> extend = mixed.values().iterator();
@@ -1074,7 +1080,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, 1));
         glyphRow = column();
         sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 1));
-        pad = new HandwritingPad(this, new HandwritingPad.Listener() {
+        pad = Handwriting.create(this, new HandwritingPad.Listener() {
             @Override public void onStrokeStarted(boolean first) {
                 recordAction("手写落笔", "");
                 if (first) {
@@ -1858,9 +1864,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         for (int i = 0; i < count; i++) {
             IpaKeyboard.Entry entry = ipaMatches.get(first + i);
             boolean firstChoice = first + i == 0;
-            boolean verbatim = firstChoice && !prefix.isEmpty();
-            TextView gloss = label(entry.gloss, GLOSS_SP, MUTED);
-            TextView form = candidateForm(entry.ipa, firstChoice ? RED : INK, verbatim ? "待选音标 " + prefix : null);
+            boolean verbatim = !prefix.isEmpty() && entry.ipa.equals(prefix);
+            TextView gloss = candidateGloss(entry.gloss);
+            TextView form = candidateForm(entry.ipa, verbatim && !entry.gloss.isEmpty() ? CORRECTION : firstChoice ? RED : INK, verbatim ? "待选音标 " + prefix : null);
             String category = verbatim ? "原文，" : entry.dialects == 0 ? "用户词，" : "";
             String description = (entry.gloss.isEmpty() ? category : entry.gloss + "，") + entry.ipa;
             LinearLayout card = addCandidateCard(gloss, form, verbatim || entry.dialects == 0 ? description : "补全 " + description,
@@ -2123,8 +2129,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             candidates = groupTypingChoices(ranked);
         }
         page = 0;
-        boolean verbatim = mode == SPELL && !draft.isEmpty();
-        choices.setContentDescription(verbatim || direct ? null : "待选拼写 " + draft);
+        choices.setContentDescription(direct || mode == SPELL && !candidates.isEmpty() ? null : "待选拼写 " + draft);
         showCandidates();
     }
 
@@ -2154,7 +2159,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         for (int i = first; i < first + count; i++) {
             CandidateEngine.Candidate c = candidates.get(i);
             boolean tujia = c.kind == CandidateEngine.Kind.TUJIA;
-            boolean verbatim = mode == SPELL && !draft.isEmpty() && i == 0;
+            boolean verbatim = mode == SPELL && !draft.isEmpty() && CandidateEngine.sameForm(c.text, draft);
             boolean nextSound = syllableHints.contains(c);
             HanChoice group = hanChoices.get(c);
             int glossLimit = mode == HAND ? 2 : Integer.MAX_VALUE;
@@ -2172,8 +2177,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             TextView gloss;
             if (group != null && group.primary.shortMeanings.size() > 1) {
                 gloss = numberedGloss(shortText, HanChoice.gloss(group.primary.shortMeanings, false, glossLimit));
-            } else gloss = label(hasGloss ? shortText : "", GLOSS_SP, MUTED);
-            int formColor = verbatim || tujia && i == 0 ? RED : INK;
+            } else gloss = candidateGloss(hasGloss ? shortText : "");
+            boolean exactReading = (verbatim || mode == HAND && !handAsHan() && c.text.equals(handOutput))
+                    && tujia && !c.syllableOnly && !c.meaning.isEmpty();
+            int formColor = exactReading ? CORRECTION : tujia && i == 0 ? RED : INK;
             boolean handHan = mode == HAND && handAsHan();
             boolean append = mode == HAND && (handAsHan() ? group == null && !mixed : nextSound || wordHints.contains(c));
             CharSequence shown = HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges);
@@ -2182,7 +2189,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 formColor = INK;
                 if (group != null && matchedAt != null) {
                     String raw = matchedAt.before.substring(matchedAt.before.length() - group.primary.consumed);
-                    if (!raw.contentEquals(shown)) formColor = CORRECTION;
+                    if (!raw.contentEquals(shown) || !group.primary.meanings.isEmpty()) formColor = CORRECTION;
                 }
             }
             if (mixed) {
@@ -2228,7 +2235,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private LinearLayout addCandidateCard(TextView gloss, TextView form, String description, Runnable select) {
         LinearLayout card = column();
         card.setGravity(Gravity.CENTER);
-        card.setBackground(pressable(shape(Color.TRANSPARENT, 0), 6));
+        card.setBackground(pressable(shape(0xfff6ece4, 7), 7));
+        gloss.setPadding(dp(4), 0, dp(4), 0);
         gloss.setDuplicateParentStateEnabled(true);
         gloss.setTextColor(pressColors(MUTED));
         if (gloss.getText().length() == 0) {
@@ -2243,7 +2251,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         card.setFocusable(true);
         KeyboardTap.bind(card, select);
         card.setTag(form);
-        choices.addView(card, weighted(0));
+        LinearLayout.LayoutParams slot = new LinearLayout.LayoutParams(0, -1);
+        slot.setMargins(dp(2), dp(3), dp(2), dp(3));
+        choices.addView(card, slot);
         return card;
     }
 
@@ -2304,7 +2314,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             int minimum = Math.min(dp(48), available / count);
             int[] extraWidths = new int[count];
             int totalExtra = 0;
-            // Measure the output line alone. Glosses fit inside the resulting cards.
+            // Reserve the form first, then distribute spare space for the gloss above it.
             for (int i = 0; i < count; i++) {
                 TextView form = (TextView) getChildAt(i).getTag();
                 int natural = (int) Math.ceil(naturalFormWidth(form))
@@ -2313,8 +2323,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 totalExtra += extraWidths[i];
             }
             float scale = Math.min(1f, (float) (available - count * minimum) / Math.max(1, totalExtra));
+            int spare = Math.max(0, available - count * minimum - totalExtra);
+            int columns = candidateColumns();
             for (int i = 0; i < count; i++) {
-                getChildAt(i).getLayoutParams().width = minimum + (int) (extraWidths[i] * scale);
+                int share = spare / columns;
+                getChildAt(i).getLayoutParams().width = minimum + (int) (extraWidths[i] * scale) + share;
             }
         }
     }
@@ -2339,6 +2352,25 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         control.setVisibility(visible ? View.VISIBLE : View.GONE);
         control.setEnabled(enabled);
         control.setAlpha(enabled ? 1f : .35f);
+    }
+
+    private TextView candidateGloss(String value) {
+        TextView gloss = label(value, GLOSS_SP, MUTED);
+        String[] senses = value.split("[；;]");
+        if (senses.length < 2) return gloss;
+        gloss.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+            int room = r - l - gloss.getCompoundPaddingLeft() - gloss.getCompoundPaddingRight() - 1;
+            if (room <= 0) return;
+            String shown = "";
+            for (String sense : senses) {
+                String next = shown.isEmpty() ? sense : shown + "；" + sense;
+                if (gloss.getPaint().measureText(next) <= room) shown = next;
+                else if (!shown.isEmpty()) break;
+            }
+            if (shown.isEmpty()) shown = senses[0];
+            if (!shown.contentEquals(gloss.getText())) gloss.setText(shown);
+        });
+        return gloss;
     }
 
     private TextView numberedGloss(String spaced, String compactText) {
@@ -2908,19 +2940,19 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void iconKey(LinearLayout parent, ToolbarIcon.Mark mark, String description, float weight, Runnable action) {
         TextView button = key(parent, "", description, weight, false, action);
+        setKeyIcon(button, mark);
+    }
+
+    private void handIconKey(LinearLayout parent, ToolbarIcon.Mark mark, String description, KeyLook look, Runnable action) {
+        setKeyIcon(key(parent, "", description, 1, look, false, action), mark);
+    }
+
+    private void setKeyIcon(TextView button, ToolbarIcon.Mark mark) {
         Drawable symbol = new ToolbarIcon(mark, button);
         symbol.setBounds(0, 0, dp(28), dp(21));
         SpannableString icon = new SpannableString("\ufffc");
         icon.setSpan(new ImageSpan(symbol, ImageSpan.ALIGN_CENTER), 0, icon.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         button.setText(icon);
-    }
-
-    private void handIconKey(LinearLayout parent, ToolbarIcon.Mark mark, String description, KeyLook look, Runnable action) {
-        TextView button = key(parent, "", description, 1, look, false, action);
-        LayerDrawable face = new LayerDrawable(new Drawable[]{new ToolbarIcon(mark, button)});
-        face.setLayerSize(0, dp(28), dp(21));
-        face.setLayerGravity(0, Gravity.CENTER);
-        button.setForeground(face);
     }
 
     private Drawable pressable(Drawable rest, int radius) {
