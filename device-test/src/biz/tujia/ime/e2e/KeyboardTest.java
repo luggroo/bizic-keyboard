@@ -967,7 +967,7 @@ public final class KeyboardTest extends Instrumentation {
         String[][] examples = {
                 {"bangricai", "中午，半日猜"}, {"bangfrixcaix", "中午，半日猜"},
                 {"rix", "做，日"}, {"rif", "日"}, {"rir", "多，日"},
-                {"riv", "将做，日"}, {"zix", "两，兹"}, {"cix", "雌"}, {"six", "斯"}
+                {"riv", "将做，日"}, {"zix", "两，兹"}, {"cix", "此"}, {"six", "使"}
         };
         StringBuilder committed = new StringBuilder();
         for (String[] example : examples) {
@@ -993,6 +993,9 @@ public final class KeyboardTest extends Instrumentation {
                     day = visibleForm("日");
                 }
                 tap(day.bounds.centerX(), day.bounds.centerY());
+            } else if (!example[1].contains("，")) {
+                Card written = findPagedCard(example[1], false);
+                tap(written.bounds.centerX(), written.bounds.centerY());
             } else pressCandidate(example[1], false);
             committed.append(example[1].substring(example[1].lastIndexOf('，') + 1));
             expectText(host.second, committed.toString());
@@ -1361,13 +1364,7 @@ public final class KeyboardTest extends Instrumentation {
         AccessibilityNodeInfo row = rowBesidePager();
         try {
             do {
-                List<Card> items = rowCards(row);
-                if (wanted.equals("下一音节 紧，jìn")) {
-                    List<String> labels = new ArrayList<>();
-                    for (Card item : items) labels.add(item.name);
-                    stage("Searching jìn, candidate page: " + labels);
-                }
-                for (Card candidate : items) {
+                for (Card candidate : rowCards(row)) {
                     if (wanted.equals(byName ? candidate.name : outputLine(candidate))) return candidate;
                 }
             } while (advanceCandidatePage(row));
@@ -1650,11 +1647,11 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, marked + " gá");
 
             // 北部词典仅有“紧”这一独立义项。显式第四调前缀缩小句首联想，
-            // 保留上方汉义，并把完整预测一次写入外部编辑器。
+            // 完整词条现在优先显示为词语补全，保留汉义并一次写入外部编辑器。
             tapField(host.second);
             type("j");
             holdTone("i", "ì");
-            Card oneSense = findPagedCard("下一音节 紧，jìn", true);
+            Card oneSense = findPagedCard("补全 紧，jìn", true);
             if (!oneSense.lines.equals(Arrays.asList("紧", "jìn")))
                 throw new AssertionError("Expected the verified sole sense above jìn: " + oneSense.lines);
             captureFrame("prediction-jin-before.png");
