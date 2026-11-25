@@ -115,4 +115,18 @@ const grouped=w.eval(`groupHandMatches([
   {ids:'c',length:1,meaning:'肉',short:'肉',kind:0}
 ],new Map([['a','sǐ'],['b','sǐ'],['c','sí']]),'斯')`);
 if(grouped.length!==2 || grouped.map(c=>c.roman).join(',')!=='sǐ,sí')throw Error('incorrect matching by tone');
-console.log('DOM checks passed');dom.window.close();
+console.log('DOM checks passed');
+// Vowel keys use visible tone hints only in Han and marked spelling modes.
+click('#typeMode');click('#kbMore');chooseForm('#menuOutputs','diacritic');
+const vowel=d.querySelector('#keys .key[data-letter="a"]');
+if(vowel.getAttribute('aria-label')!=='a'||!vowel.classList.contains('tone-enabled'))throw Error('marked vowel key lacks tone hints');
+if([...vowel.querySelectorAll('.tone-hint')].map(x=>x.textContent).join('')!=='ˉˊˇˋ')throw Error('missing tone symbols');
+vowel.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));
+if(d.querySelector('#toneKeys').hidden||d.querySelectorAll('#toneKeys .tone-key').length!==5)throw Error('tone picker did not open');
+d.querySelectorAll('#toneKeys .tone-key')[3].click();
+if(!d.querySelector('#draft').value.endsWith('à'))throw Error('tone selection did not enter vowel');
+click('#kbMore');chooseForm('#menuOutputs','ye');
+if(vowel.classList.contains('tone-enabled'))throw Error('Ye mode must not show tone hints');
+vowel.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));
+if(!d.querySelector('#toneKeys').hidden)throw Error('Ye mode must not open tone picker');
+console.log('Tone picker, hints and Ye mode passed');dom.window.close();

@@ -68,7 +68,27 @@ assert(!nenzi.includes('冷直')&&!nenzi.includes('楞直'));
 assert(exact('bifzixkar',0,0).includes('bifzixkar'));
 assert(exact('bizika',0,1).includes('bízīkǎ'));assert(!exact('bifzixkar',0,1).includes('bízīkǎ'));
 assert(ctx.core.handwrittenWords('玻离',1,0).some(c=>c.form==='波俐' && c.length===2));
+const rareStroke=[[[13,31],[21,31],[42,26]],[[25,8],[29,13],[25,47],[18,64],[6,81]],
+  [[32,38],[34,41],[33,64],[35,76],[44,83],[63,85],[83,79],[89,75],[90,62]],
+  [[57,7],[61,12],[51,33],[40,47]],[[61,21],[72,34],[81,41],[93,43]],
+  [[50,43],[54,47],[53,59],[49,67],[43,72]],[[65,40],[68,44],[68,77]]];
+assert.deepStrictEqual(Array.from(ctx.core.recognizeStrong(rareStroke)),['尬']);
+assert.deepStrictEqual(Array.from(ctx.core.recognizeStrong([[[15,40],[85,39]],[[48,8],[46,90]]])),[]);
+
 vm.runInContext(read(path.join(root,'tools/web-demo/ui/notepad.js'))+'\nthis.format=bracketHanUnits',ctx);
 const result=ctx.format(' 克移波俐',['克移','波','俐']);assert.equal(result.text,' ˻克移˼波俐');
 vm.runInContext(read(path.join(web,'hand-data.js'))+'\n'+read(path.join(root,'tools/web-demo/ui/hand-model.js'))+'\nthis.openHandModel=openHandModel',ctx);
-(async()=>{let model=await ctx.openHandModel();let output=await model.run({image:new ctx.ort.Tensor('float32',new Float32Array(4096),[1,1,64,64])});assert.equal(output[model.outputNames[0]].data.length,3755);console.log('Offline engine, dictionary, brackets and handwriting model passed')})().catch(e=>{console.error(e);process.exit(1)});
+(async()=>{
+  let model=await ctx.openHandModel();
+  let output=await model.run({image:new ctx.ort.Tensor('float32',new Float32Array(4096),[1,1,64,64])});
+  assert.equal(output[model.outputNames[0]].data.length,3755);
+  const demo={tujiaHandData:{labels:'木大'},Float32Array,ort:{Tensor:function(){}},
+    core:{recognize:()=>['尬','木'],recognizeStrong:()=>['尬']}};
+  vm.createContext(demo);
+  vm.runInContext(read(path.join(root,'tools/web-demo/ui/hand-model.js'))+
+    `\nhandImage=()=>new Float32Array(4096);openHandModel=async()=>({outputNames:['out'],run:async()=>({out:{data:new Float32Array([2,1])}})});this.run=recognizeHand`,demo);
+  assert.equal((await demo.run(rareStroke,100,100))[0],'尬');
+  demo.core.recognizeStrong=()=>[];
+  assert.equal((await demo.run(rareStroke,100,100))[0],'木');
+  console.log('Offline engine, dictionary, brackets and handwriting model passed');
+})().catch(e=>{console.error(e);process.exit(1)});

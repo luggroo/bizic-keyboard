@@ -34,11 +34,11 @@
 | 唱一句土家山歌， | bízī sānggō nā zē cáng， | 币子山歌哪遮唱， |
 | 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖里。 |
 
-[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [输入演示录像](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4)
+[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [山歌输入演示](https://github.com/luggroo/bizic-keyboard/releases/latest/download/shange-demo.mp4) · [声调与音标演示](https://raw.githubusercontent.com/luggroo/bizic-keyboard/main/docs/media/tone-demo.mp4)
 
 「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
-无调输入 `go` 时，候选栏只出现一个「过」。上方写「¹他 ²讨」，空间紧时显示「¹他²讨」。点一下就写入「过」。长按可查看这两个义项，以及山歌里用本字「过」表示“过错”的借词用法。输入 `gǒ` 或 `gor` 可以选「郭」表示“他”。[安卓上输入 go](qa/results/api35-033-han-go.png) · [安卓上输入 gǒ](qa/results/api35-033-han-marked-go.png)
+无调输入 `go` 时，候选栏只出现一个「过」。上方显示「讨」。点一下就写入「过」；长按可查看「讨」和借词「过错」的完整释义。输入 `gǒ` 或 `gor` 可以选「郭」表示“他”。
 
 「哥哥」和「山歌」这样的本字词在汉字候选中只占一行。词表把 `gōgō` 释为“哥哥”。故事里的汉译保留原句语气。呼语 `ǎkō’ǎ` 多一个音节，可以选出“哥哥啊”。[学堂“哥哥”词条](https://tujia.biz/?id=w809#dictionary) · [龙山故事原文](https://tujia.biz/?id=tlp-longshan-stories-02-01#corpus)
 

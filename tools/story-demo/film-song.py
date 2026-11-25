@@ -27,13 +27,19 @@ a=parser.parse_args(); out=a.output.resolve();out.mkdir(parents=True,exist_ok=Tr
 rows=load('shange-spelling.tsv'); aligned=load('shange.tsv'); assert len(rows)==len(aligned)
 dictionary=HERE.parents[1]/'shared/bundle/Assets/words.tsv'
 with dictionary.open(encoding='utf-8') as stream:
-    loan_ids={entry['id'] for entry in csv.DictReader(stream,delimiter='\t')
-              if entry.get('presentation')=='plainHanLoan'}
+    current = {entry['id']: entry for entry in csv.DictReader(stream, delimiter='\t')}
+loan_ids = {ident for ident, entry in current.items() if entry.get('presentation') == 'plainHanLoan'}
+# The source TSV records the original song gloss and older sample spellings.
+# Film the keyboard's current reviewed form and meaning for each same lexeme.
+for entry, units in zip(rows, aligned):
+    actual = current[entry['id']]
+    entry['han'], entry['gloss'] = actual['recommended'], actual['meaning']
+    units['text'], units['meaning'], units['hanUnits'] = actual['recommended'], actual['meaning'], actual['hanUnits']
 script=out/'song-input.tsv'; syl=[]; line=0; source_lines=[]; words=[]; modes=[]
 with script.open('w',encoding='utf-8',newline='') as stream:
     w=csv.writer(stream,delimiter='\t',lineterminator='\n'); w.writerow(['keys','text','meaning','after'])
     for i,(entry,units) in enumerate(zip(rows,aligned)):
-        mode='spell' if line==0 else 'hand' if i>=len(rows)-2 else 'han'
+        mode='spell' if line==0 else 'hand' if entry['id']=='xu213-4-6' else 'han'
         modes.append(mode)
         chosen=entry['diacritic'] if mode=='spell' else entry['han']
         after=entry['after'] or (' ' if mode=='spell' else '')

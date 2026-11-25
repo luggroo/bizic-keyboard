@@ -108,8 +108,8 @@ TJIPen *tji_pen_open(const uint8_t *data, size_t length) {
 void tji_pen_close(TJIPen *pen) { delete pen; }
 size_t tji_glyph_count(const TJIPen *pen) { return pen ? static_cast<size_t>(pen->model.size()) : 0; }
 
-TJIChoices *tji_recognize(const TJIPen *pen, const float *xy, size_t point_count,
-                         const size_t *ends, size_t count, int32_t limit) {
+static TJIChoices *recognizeImpl(const TJIPen *pen, const float *xy, size_t point_count,
+                                 const size_t *ends, size_t count, int32_t limit, bool strongOnly) {
     if (!pen || (point_count && !xy) || (count && !ends) ||
         point_count > std::numeric_limits<size_t>::max() / 2) return nullptr;
     try {
@@ -122,10 +122,21 @@ TJIChoices *tji_recognize(const TJIPen *pen, const float *xy, size_t point_count
         }
         if (start != point_count) return nullptr;
         auto result = std::make_unique<TJIChoices>();
-        for (auto& glyph : pen->model.recognize(strokes, limit))
-            result->items.push_back({std::move(glyph), {}, 0});
+        bool strong = false;
+        auto found = pen->model.recognize(strokes, limit, strongOnly ? &strong : nullptr);
+        if (!strongOnly || strong)
+            for (auto& glyph : found) result->items.push_back({std::move(glyph), {}, 0});
         return result.release();
     } catch (...) { return nullptr; }
+}
+
+TJIChoices *tji_recognize(const TJIPen *pen, const float *xy, size_t point_count,
+                         const size_t *ends, size_t count, int32_t limit) {
+    return recognizeImpl(pen, xy, point_count, ends, count, limit, false);
+}
+TJIChoices *tji_recognize_strong(const TJIPen *pen, const float *xy, size_t point_count,
+                                const size_t *ends, size_t count) {
+    return recognizeImpl(pen, xy, point_count, ends, count, 1, true);
 }
 
 size_t tji_choices_count(const TJIChoices *r) { return r ? r->items.size() : 0; }

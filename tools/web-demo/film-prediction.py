@@ -31,7 +31,7 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
         page.mouse.down();shot(seconds);page.mouse.up()
     def type_raw(raw):
         for key in raw:
-            press(page.get_by_role('button',name=key.upper(),exact=True));shot(.24)
+            press(page.locator('#keys .key[data-letter="'+key+'"]'));shot(.24)
     def find_card(name,kind,gloss=None):
         cards=page.locator('#candidates button[data-source="'+kind+'"]').filter(has=page.locator('strong').filter(has_text=re.compile('^'+re.escape(name)+'$')))
         if gloss:cards=cards.filter(has=page.locator('small').filter(has_text=gloss))
@@ -48,6 +48,15 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
     def body():return page.locator('#result').inner_text()
     def newline():page.locator('#draft').press('Enter')
     shot(1)
+    if not args.readings:
+        vowel=page.locator('#keys .key[data-letter="a"]')
+        box=vowel.bounding_box();assert box
+        page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2)
+        page.mouse.down();page.wait_for_timeout(520);page.locator('#toneKeys').wait_for(state='visible');shot(1.4)
+        toned=page.locator('#toneKeys .tone-key').filter(has_text=re.compile('^à$')).bounding_box();assert toned
+        page.mouse.move(toned['x']+toned['width']/2,toned['y']+toned['height']/2,steps=5);shot(.8);page.mouse.up();shot(1)
+        assert page.locator('#draft').input_value()=='à'
+        page.locator('#draft').fill('');shot(.4)
     if args.readings:
         press(page.locator('#kbMore'));shot(.5);press(page.locator('#menuHan'));shot(.7)
         examples=[('ga','架','吃'),('jia','架',''),('gaf','架','吃'),('banricai','半日猜','中午'),('sanggo','山歌',''),('gazi','夹子',''),('hai','鞋',''),
@@ -73,8 +82,8 @@ with TemporaryDirectory() as temp,sync_playwright() as pw:
         choose('mǒng','sound');choose('gǎ','sound')
         assert body().splitlines()[-1]=='bízīkǎ mǒng gǎ'
         newline();press(page.locator('#kbMore'));shot(.6);press(page.locator('#menuHan'));shot(.6)
-        type_raw('bizika');choose('币子咔','exact');choose('萌','sound');type_raw('ga');choose('夹','exact')
-        assert body().splitlines()[-1]=='币子咔萌夹'
+        type_raw('bizika');choose('秘兹佧','exact');choose('萌','sound');type_raw('ga');choose('夹','exact')
+        assert body().splitlines()[-1]=='秘兹佧萌夹'
         newline();type_raw('go');choose('过','exact','他')
         newline();type_raw('gor');choose('郭','exact','他')
         assert body().splitlines()[-2:]==['过','郭']

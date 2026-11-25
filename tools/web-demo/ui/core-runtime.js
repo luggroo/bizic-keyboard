@@ -69,7 +69,7 @@ function openTujiaCore(data){
     });
   }
   let pen=0;
-  function recognize(paths){
+  function recognize(paths,strong=false){
     if(!paths.length)return [];
     if(!pen)pen=withBuffers([data.pen],([p])=>api.tji_pen_open(p.addr,p.size));
     const xy=[],ends=[];
@@ -78,7 +78,8 @@ function openTujiaCore(data){
       ends.push(xy.length/2);
     }
     return withBuffers([new Uint8Array(new Float32Array(xy).buffer),new Uint8Array(new Uint32Array(ends).buffer)],([a,b])=>
-      choices(api.tji_recognize(pen,a.addr,xy.length/2,b.addr,ends.length,8)).map(c=>c.form));
+      choices(strong ? api.tji_recognize_strong(pen,a.addr,xy.length/2,b.addr,ends.length)
+                     : api.tji_recognize(pen,a.addr,xy.length/2,b.addr,ends.length,8)).map(c=>c.form));
   }
   return {lookup:(...p)=>words('tji_lookup_with_orthography',...p),
     nextWords:(...p)=>words('tji_next_words',...p),
@@ -89,5 +90,5 @@ function openTujiaCore(data){
       choices(api.tji_spelling_completions(dict,s.addr,h.addr,mode,style))),
     handPrefix:raw=>withBuffers([raw],([s])=>api.tji_score_handwriting_prefix(dict,s.addr)),
     handwrittenWords:(...p)=>words('tji_handwritten_words',...p),
-    completions:(...p)=>words('tji_handwriting_suggestions',...p),recognize,suffix,space};
+    completions:(...p)=>words('tji_handwriting_suggestions',...p),recognize,recognizeStrong:paths=>recognize(paths,true),suffix,space};
 }
