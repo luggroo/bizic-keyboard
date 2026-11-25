@@ -98,7 +98,7 @@ public final class SetupActivity extends Activity {
 
         LinearLayout editor = section(body, 24);
         editor.addView(label("试打", 18, INK, true));
-        addSpaced(editor, label("点键盘上的「设置」，选「谐音字」。输入 bizika，点“土家族”下面的「币子咔」。", 14, MUTED, false), 6);
+        addSpaced(editor, label("点键盘上的「设置」，选「谐音字」。输入 bizika，点“土家族”下面的「秘兹佧」。", 14, MUTED, false), 6);
         EditText trial = new EditText(this);
         trial.setId(R.id.trial_editor);
         trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -158,9 +158,11 @@ public final class SetupActivity extends Activity {
 
     private void copyCrash(String report) {
         ClipData clip = ClipData.newPlainText("土家语输入法崩溃日志", report);
-        PersistableBundle extras = new PersistableBundle();
-        extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
-        clip.getDescription().setExtras(extras);
+        if (Build.VERSION.SDK_INT >= 33) {
+            PersistableBundle extras = new PersistableBundle();
+            extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
+            clip.getDescription().setExtras(extras);
+        }
         getSystemService(ClipboardManager.class).setPrimaryClip(clip);
         if (Build.VERSION.SDK_INT < 33) {
             Toast.makeText(this, "已复制崩溃日志", Toast.LENGTH_SHORT).show();

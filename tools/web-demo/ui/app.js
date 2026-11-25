@@ -721,7 +721,7 @@ render();
 
 $('showScene').onclick=()=>{
   restoreManual();choose(mode);keyboardOpen(true);
-  change(sentenceWords.map(practiceInput).join('')+'。');
+  change(sentenceWords.map(entry=>mode===1?entry.word:practiceInput(entry)).join('')+'。');
   $('playStatus').textContent='点首选可输入整句；点短词后可继续选词';
 };
 

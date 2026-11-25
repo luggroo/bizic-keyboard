@@ -60,7 +60,7 @@ with sync_playwright() as pw:
     def expected_sound(output_mode):
         keyboard(output_mode,True)
         page.locator('#draft').fill('bizika')
-        choose('币子咔' if output_mode else 'bízīkǎ','[data-source="exact"]')
+        choose('秘兹佧' if output_mode else 'bízīkǎ','[data-source="exact"]')
         snap(page,'after-word')
         card=page.locator('#candidates [data-source="sound"]').first
         form=card.locator('strong').inner_text();assert form==('萌' if output_mode else 'mǒng')
@@ -276,8 +276,8 @@ with sync_playwright() as pw:
     assert page.evaluate("""core.matchesPrefix('jiangga','jianfgax',"jián'gā")""")
     assert not page.evaluate("core.matchesPrefix('tangie','taxniex','tāniē')")
     page.locator('#showScene').click()
-    meal=visible_form('讶叶架。');meal.click()
-    assert text().endswith('讶叶架。') and not page.locator('#draft').input_value()
+    meal=visible_form('牙叶架。');meal.click()
+    assert text().endswith('牙叶架。') and not page.locator('#draft').input_value()
     page.locator('#draft').fill('banricaigaf')
     visible_form('半日猜').click();assert page.locator('#draft').input_value()=='gaf'
     visible_form('架').click()

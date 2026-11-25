@@ -12,7 +12,7 @@ const w=dom.window,d=w.document;const click=s=>d.querySelector(s).click();
 function input(s){let e=d.querySelector('#draft');e.value=s;e.dispatchEvent(new w.Event('input',{bubbles:true}));}
 console.log('errors',JSON.stringify(errors));if(errors.length)process.exit(1);
 const result=d.querySelector('#result');
-const outputs=[['ye','bifzixkar','用叶氏拼音'],['diacritic','bízīkǎ','用带调号拼音'],['han','币子咔','用汉字谐音']];
+const outputs=[['ye','bifzixkar','用叶氏拼音'],['diacritic','bízīkǎ','用带调号拼音'],['han','秘兹佧','用汉字谐音']];
 function checkButtons(group){
   const keys=Array.from(d.querySelector(group).children);
   if(keys.length!==3)throw Error('missing output choices in '+group);
@@ -45,7 +45,7 @@ input('bizika');click('#openSettings');chooseForm('#orthography','diacritic');
 if(d.querySelector('#orthography [aria-pressed=true]').dataset.form!=='diacritic' ||
    d.querySelector('#draft').value!=='bizika' || w.localStorage.getItem('tujia-orthography')!=='diacritic')throw Error('Settings selection failed');
 d.querySelector('#settingsPanel').close();candidate('bízīkǎ');
-for(const [form,sentence] of [['ye','ngaf yer gaf。'],['diacritic','ngá yě gá。'],['han','讶叶架。']]){
+for(const [form,sentence] of [['ye','ngaf yer gaf。'],['diacritic','ngá yě gá。'],['han','牙叶架。']]){
   click('#kbMore');chooseForm('#menuOutputs',form);click('#showScene');candidate(sentence).click();
   if(!result.value.endsWith(sentence))throw Error('Sentence practice ignored '+form);
 }
@@ -94,8 +94,8 @@ if(!details.includes('súsú')||!details.includes('雪'))throw Error('missing re
 click('#readBack');
 if(result.value!=='树树')throw Error('viewing a match modified the note');
 for(const [form,sample] of outputs){
-  result.value='前币子咔后';result.setSelectionRange(4,4);click('#handMode');
-  candidate('币子咔').click();checkButtons('#readOutputs');chooseForm('#readOutputs',form);
+  result.value='前秘兹佧后';result.setSelectionRange(4,4);click('#handMode');
+  candidate('秘兹佧').click();checkButtons('#readOutputs');chooseForm('#readOutputs',form);
   if(result.value!=='前'+sample+'后' || result.selectionStart!==1+sample.length)throw Error('Incorrect handwritten range: '+result.value);
   if(d.querySelector('#handMode').getAttribute('aria-pressed')!=='true' ||
      d.querySelector('#menuOutputs [aria-pressed=true]').dataset.form!=='han')throw Error('One-off conversion changed handwriting mode');
