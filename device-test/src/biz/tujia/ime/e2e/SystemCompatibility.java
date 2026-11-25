@@ -100,7 +100,9 @@ final class SystemCompatibility {
                 Bundle range = new Bundle();
                 range.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_START_INT, 0);
                 range.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_SELECTION_END_INT, text.length());
-                matches = node.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, range);
+                // Some system WebView shells have already selected the full URL
+                // but return false for a redundant accessibility selection action.
+                node.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, range);
             }
         } else if (type.equals("cancel")) {
             matches = (desc.equals("取消") || desc.equals("关闭") || desc.equals("向上导航")
