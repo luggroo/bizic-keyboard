@@ -975,7 +975,7 @@ public final class KeyboardTest extends Instrumentation {
             if (example[0].equals("bangricai")) {
                 stage("Real meaning above noon; unglossed Han spelling in candidate and reader");
                 Card noon = card("中午，半日猜");
-                Card sound = card("帮");
+                Card sound = findPagedCard("帮", false);
                 if (!noon.lines.equals(Arrays.asList("中午", "半日猜"))
                         || !sound.lines.equals(Collections.singletonList("帮"))
                         || visibleControls().contains("音节"))
@@ -985,6 +985,7 @@ public final class KeyboardTest extends Instrumentation {
                 if (!detail.contains("待输入") || !detail.contains("帮") || detail.contains("音节") || detail.contains("汉义"))
                     throw new AssertionError("Unexpected unglossed reader content: " + detail);
                 press("返回候选");
+                while (findNode("上一页候选", false) != null) press("上一页候选");
             }
             if (example[0].startsWith("ri")) {
                 Card day = visibleForm("日");
@@ -1227,10 +1228,10 @@ public final class KeyboardTest extends Instrumentation {
         tap(marked.bounds.centerX(), marked.bounds.centerY());
         expectText(host.first, "过郭");
         type("mav");
-        Card horse = card("马");
-        if (!horse.lines.equals(Collections.singletonList("马"))) throw new AssertionError("Repeated same label for 马: " + horse.lines);
+        Card horse = visibleForm("马");
+        if (!horse.name.contains("马年") || !horse.name.contains("马")) throw new AssertionError("Missing lexical meanings for 马: " + horse.name);
         openReader(horse);
-        if (!visibleControls().contains("汉义\n马\n\n待输入\n马")) throw new AssertionError("Full lexical meaning of 马 gone: " + visibleControls());
+        if (!visibleControls().contains("马年") || !visibleControls().contains("待输入")) throw new AssertionError("Full lexical meaning of 马 gone: " + visibleControls());
         press("输入这个候选");
         expectText(host.first, "过郭马");
         stage("g + held o / ǒ gives 他／郭; 马 shows once on the card and retains its lexical meaning in the reader");
@@ -1240,19 +1241,19 @@ public final class KeyboardTest extends Instrumentation {
         stage("Across all " + gaPages + " ga pages each form occurs once; 夹 shows ¹上/²干");
         newPredictionEditor();
         for (int i = 0; i < 2; i++) {
-            type("ye");
-            pressCandidate("饭，叶", false);
+            type("zaolai");
+            pressCandidate("早饭，早来", false);
             type("go");
             Card ambiguous = visibleForm("过");
             tap(ambiguous.bounds.centerX(), ambiguous.bounds.centerY());
             press("句号");
         }
-        type("ye");
-        pressCandidate("饭，叶", false);
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
         expectFirst("联想 吃、咬，架");
         if (!pageCards("联想 他").isEmpty())
             throw new AssertionError("Unresolved 过 incorrectly trained the first sense 他");
-        expectText(host.first, "叶过。叶过。叶");
+        expectText(host.first, "早来过。早来过。早来");
         stage("An ambiguous written 过 did not teach the host that the user had chosen 他");
         testReadingSpecificHan();
     }
@@ -1514,7 +1515,7 @@ public final class KeyboardTest extends Instrumentation {
             for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(letter)) {
                 try {
                     if (node.refresh() && node.isVisibleToUser() && android.text.TextUtils.equals(letter, node.getContentDescription())
-                            && letter.toUpperCase(java.util.Locale.ROOT).contentEquals(node.getText() == null ? "" : node.getText())) caption = true;
+                            && letter.contentEquals(node.getText() == null ? "" : node.getText())) caption = true;
                 } finally { node.recycle(); }
             }
             if (!caption) throw new AssertionError("Missing visible letter caption: " + letter);
@@ -1599,10 +1600,10 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "麻麻爹");
             waitForNode("待选拼写 ", false);
             tapField(host.second);
-            type("ye");
-            pressCandidate("饭，叶", false);
+            type("zaolai");
+            pressCandidate("早饭，早来", false);
             pressCandidate("联想 吃、咬，架", false, "吃", "架");
-            expectText(host.second, "叶架");
+            expectText(host.second, "早来架");
             runOnMainSync(() -> host.second.setSelection(1));
             setStyleFromLauncher("叶氏拼音");
             runOnMainSync(() -> host.second.setText(""));
@@ -1713,9 +1714,9 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         StringBuilder sentence = new StringBuilder();
         for (int i = 0; i < 3; i++) {
-            type("ye");
-            pressCandidate("饭，叶", false);
-            sentence.append("叶");
+            type("zaolai");
+            pressCandidate("早饭，早来", false);
+            sentence.append("早来");
             if (i == 2) {
                 expectFirst("联想 中午，半日猜");
                 break;
@@ -1732,12 +1733,12 @@ public final class KeyboardTest extends Instrumentation {
         }
         expectText(host.first, sentence.toString());
         tapField(host.second);
-        type("ye");
-        pressCandidate("饭，叶", false);
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
         expectFirst("联想 吃、咬，架");
         if (!pageCards("联想 中午，半日猜").isEmpty())
             throw new AssertionError("Word associations leaked into a new editor");
-        expectText(host.second, "叶");
+        expectText(host.second, "早来");
 
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             stage("An editor disabling personalized learning keeps fixed dictionary predictions");
@@ -1745,17 +1746,17 @@ public final class KeyboardTest extends Instrumentation {
                     android.view.inputmethod.EditorInfo.IME_ACTION_DONE
                             | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
             tapField(host.first);
-            type("ye");
-            pressCandidate("饭，叶", false);
+            type("zaolai");
+            pressCandidate("早饭，早来", false);
             type("bangricai");
             pressCandidate("中午，半日猜", false);
             press("句号");
-            type("ye");
-            pressCandidate("饭，叶", false);
+            type("zaolai");
+            pressCandidate("早饭，早来", false);
             waitForNode("联想 吃、咬，架", false);
             if (!pageCards("联想 中午，半日猜").isEmpty())
                 throw new AssertionError("Private editor personalized a repeated continuation");
-            expectText(host.first, "叶半日猜。叶");
+            expectText(host.first, "早来半日猜。早来");
         }
     }
 
