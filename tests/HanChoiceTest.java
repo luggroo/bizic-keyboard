@@ -1,6 +1,7 @@
 package biz.tujia.ime;
 
 import java.io.FileInputStream;
+import java.io.SequenceInputStream;
 import java.io.File;
 import java.util.List;
 
@@ -74,6 +75,20 @@ public final class HanChoiceTest {
             expect("", jia.primary.ids());
             expect("", jia.primary.lastSyllable());
             expect("", jia.primary.fullMeanings());
+        }
+        // The installed keyboard also loads the northern extension; many
+        // same-form senses are absent from the smaller base fixture above.
+        try (CandidateEngine full = new CandidateEngine(
+                new SequenceInputStream(new FileInputStream(args[0]), new FileInputStream(new File(assets, "northern-words.tsv"))),
+                new FileInputStream(new File(assets, "ngrams.tsv")),
+                new FileInputStream(new File(assets, "syllable_bigrams.tsv")),
+                new FileInputStream(new File(assets, "syllable_senses.tsv")))) {
+            HanChoice fullGa = group(full.lookup("ga", CandidateEngine.Mode.HAN), "夹");
+            String gaGloss = HanChoice.gloss(fullGa.primary.shortMeanings, false);
+            if (!gaGloss.startsWith("¹上²干") || fullGa.primary.shortMeanings.size() < 3)
+                throw new AssertionError("Northern 夹 senses missing or reordered: " + gaGloss);
+            HanChoice nga = group(full.lookup("nga", CandidateEngine.Mode.HAN), "牙");
+            expect("¹我²压", HanChoice.gloss(nga.primary.shortMeanings, false));
         }
         System.out.println("Han form grouping, pronunciation consensus, short glosses and prefix boundaries passed");
     }

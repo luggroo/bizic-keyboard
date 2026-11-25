@@ -523,7 +523,7 @@ public final class KeyboardTest extends Instrumentation {
         stage("Brief sense and full reader");
         type("boxlirhxif");
         Card child = card("小孩、儿童，波俐");
-        if (!child.lines.equals(Arrays.asList("小孩", "波俐")))
+        if (!"波俐".equals(outputLine(child)) || !child.name.contains("小孩"))
             throw new AssertionError("Unexpected brief sense or word: " + child.lines);
         openReader(child);
         if (!visibleControls().contains("小孩、儿童"))
@@ -901,6 +901,7 @@ public final class KeyboardTest extends Instrumentation {
     private String launcherControl(String query, boolean prefix, boolean click) {
         long deadline = SystemClock.uptimeMillis() + WAIT_MS;
         do {
+            waitForUnrelatedSystemApp();
             AccessibilityNodeInfo root = ui.getRootInActiveWindow();
             if (root != null) {
                 try {
@@ -1470,7 +1471,7 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         type("marmardi");
         Card word = card("补全 女人，麻麻爹");
-        if (!word.lines.equals(Arrays.asList("女人", "麻麻爹")))
+        if (!"麻麻爹".equals(outputLine(word)) || !word.name.contains("女人"))
             throw new AssertionError("Three-Han candidate lines: " + word.lines);
         stage("Three-Han candidate: " + word.name + " " + word.bounds.toShortString() + ", lines=" + word.lines);
         assertEditorAboveKeyboard(host.first, "打字");
@@ -1866,10 +1867,29 @@ public final class KeyboardTest extends Instrumentation {
         return found;
     }
 
+    // Full northern entries can add meanings to a card without changing its
+    // action or written form. Require every expected meaning and exact output.
+    private boolean candidateNameMatches(String expected, String actual) {
+        if (expected.equals(actual)) return true;
+        int cut = expected.lastIndexOf('，'), actualCut = actual.lastIndexOf('，');
+        if (cut <= 0 || actualCut <= 0 || !expected.substring(cut).equals(actual.substring(actualCut))) return false;
+        String wanted = expected.substring(0, cut), seen = actual.substring(0, actualCut);
+        for (String prefix : new String[]{"补全 ", "联想 ", "下一音节 "}) {
+            if (wanted.startsWith(prefix) != seen.startsWith(prefix)) return false;
+            if (wanted.startsWith(prefix)) { wanted = wanted.substring(prefix.length()); seen = seen.substring(prefix.length()); }
+        }
+        if (wanted.equals("原文") || wanted.equals("汉语")) return false;
+        List<String> seenSenses = Arrays.asList(seen.split("[、；]"));
+        for (String sense : wanted.split("[、；]")) if (sense.isEmpty() || !seenSenses.contains(sense)) return false;
+        return true;
+    }
+
     private Card card(String name) {
-        waitForNode(name, false);
-        for (Card item : pageCards(name)) if (name.equals(item.name)) return item;
-        throw new AssertionError("Missing card on current page: " + name);
+        int comma = name.lastIndexOf('，');
+        String search = comma > 0 ? name.substring(comma + 1) : name;
+        waitForNode(search, false);
+        for (Card item : pageCards(search)) if (candidateNameMatches(name, item.name)) return item;
+        throw new AssertionError("Missing card on current page: " + name + "; screen=" + visibleControls());
     }
 
     List<Card> fourCards() {
@@ -1886,9 +1906,9 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void expectFirst(String name) {
-        waitForNode(name, false);
+        card(name);
         List<Card> page = pageCards("，");
-        if (page.isEmpty() || !name.equals(page.get(0).name))
+        if (page.isEmpty() || !candidateNameMatches(name, page.get(0).name))
             throw new AssertionError("First candidate should be " + name + ", saw " + visibleControls());
     }
 
@@ -1896,8 +1916,11 @@ public final class KeyboardTest extends Instrumentation {
         // The first form is the more frequent lexical entry. The two senses of 夹 share its card.
         if (!page.get(0).lines.equals(Arrays.asList("吃", "架")))
             throw new AssertionError("Unexpected top ga candidate: " + page.get(0).lines);
-        assertNumberedCard(page.get(1), "¹上²干", "夹");
-        openReader(page.get(1));
+        Card ambiguous = page.get(1);
+        if (ambiguous.lines.size() != 2 || !ambiguous.lines.get(0).replace(" ", "").startsWith("¹上²干")
+                || !"夹".equals(outputLine(ambiguous)))
+            throw new AssertionError("The top 夹 senses changed: " + ambiguous.lines);
+        openReader(ambiguous);
         String detail = visibleControls();
         if (!detail.contains("汉义") || !detail.contains("上") || !detail.contains("干、渴"))
             throw new AssertionError("Merged 夹 lost a full sense: " + detail);
@@ -2043,6 +2066,11 @@ public final class KeyboardTest extends Instrumentation {
         // to expose the current page before deciding the intended item is absent.
         for (int page = 0; page < 8; page++) {
             Rect match = pollNode(label, suffix, page == 0 ? 1500 : 500);
+            if (match == null && !suffix && label.lastIndexOf('，') > 0) {
+                String written = label.substring(label.lastIndexOf('，') + 1);
+                for (Card item : pageCards(written))
+                    if (candidateNameMatches(label, item.name)) { match = item.bounds; break; }
+            }
             if (label.indexOf('，') < 0 && match != null) {
                 // The same character can also occur in lexical cards with a real meaning.
                 match = null;
