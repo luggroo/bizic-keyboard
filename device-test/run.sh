@@ -128,7 +128,8 @@ if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
-"$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
+"$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" \
+    -e freshInstall "$added_ime" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
     for frame in failure three-output-menu three-output-commits ipa-layout ipa-layout-large ipa-popup ipa-candidates ipa-options handwriting-sidebar handwriting-options prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
