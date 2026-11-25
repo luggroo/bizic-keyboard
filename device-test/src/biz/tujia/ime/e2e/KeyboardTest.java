@@ -471,7 +471,7 @@ public final class KeyboardTest extends Instrumentation {
         drawStroke(pad, .50f,.43f, .54f,.47f, .53f,.59f, .49f,.67f, .43f,.72f);
         drawStroke(pad, .65f,.40f, .68f,.44f, .68f,.77f);
         expectText(host.second, "ngaf yer ga诶sangx尬");
-        waitForNode("干、渴，夹", false);
+        waitForNode("干、渴、夹，夹", false);
         pressCandidate("吃、咬，架", false);
         expectText(host.second, "ngaf yer ga诶sangx架");
         press("退格");
