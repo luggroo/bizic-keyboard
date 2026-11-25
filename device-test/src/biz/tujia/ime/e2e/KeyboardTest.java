@@ -666,6 +666,13 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testDirectionalTones() {
+        stage("Ye spelling keeps a long-held vowel as ordinary input");
+        newPredictionEditor();
+        press("叶氏拼音");
+        holdKey("a");
+        waitForNode("待选拼写 a", false);
+        expectText(host.first, "a");
+        waitAbsent("取消选声调");
         stage("Marked spelling and Han output share a four-direction vowel picker");
         for (String output : new String[]{"调号拼音", "谐音字"}) {
             newPredictionEditor();
