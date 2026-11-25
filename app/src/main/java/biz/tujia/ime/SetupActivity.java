@@ -129,8 +129,8 @@ public final class SetupActivity extends Activity {
             CrashReports.setRecording(checked);
         });
         addSpaced(diagnostics, record, 8);
-        addSpaced(diagnostics, label("密码、数字、邮箱地址、网址等输入框会自动跳过记录。"
-                + "应用标记为私密的输入框也受保护。", 14, INK, true), 4);
+        addSpaced(diagnostics, label("不会记录密码框、数字输入框、邮箱地址栏、网址栏和应用标记为私密的输入框里的内容。",
+                14, INK, true), 4);
         addSpaced(diagnostics, label("勾选后，键盘在普通输入框里只保留最近 " + CrashReports.EVENT_LIMIT
                 + " 次操作，包括按键和选词。崩溃日志保存在本机，你可以先预览，再决定是否发送。"
                 + "你可以随时取消勾选。", 14, MUTED, false), 6);
