@@ -20,7 +20,6 @@ import android.text.StaticLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextPaint;
@@ -54,7 +53,6 @@ import java.util.Set;
 public final class TujiaIme extends InputMethodService implements LexiconStore.Listener {
     private static final int COLUMNS = 4, HISTORY_LIMIT = 32;
     private static final int LETTER_SP = 20, FORM_SP = 20, GLOSS_SP = 14, TAB_SP = 15;
-    private static final float IPA_HINT_SCALE = .57f;
     private static final int SPELL = 0, HAN = 1, HAND = 2, VOICE = 3, IPA = 4;
     private static final int INK = 0xff392b27, MUTED = 0xff745950, RED = 0xffab3929;
     private static final int PAPER = 0xfffffaf5, BOARD = 0xfffae9df, HEADER = 0xfffff1e8;
@@ -1273,48 +1271,57 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         key(line, action, action, 1.3f, true, this::enter);
     }
 
-    private TextView ipaKey(LinearLayout line, String text, float weight, KeyLook look,
-                            boolean selected, Runnable tap, String... alternatives) {
+    private View ipaKey(LinearLayout line, String text, float weight, KeyLook look,
+                        boolean selected, Runnable tap, String... alternatives) {
         String primary = IpaKeyboard.display(text);
-        TextView key = key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
-        if ((!symbols && look == KeyLook.LETTER) || alternatives.length > 0) {
-            // Reserve the smaller first line even on keys with no alternatives.
-            String hint = alternatives.length == 0 ? "\u00a0" : IpaKeyboard.display(alternatives[0]);
-            if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
-            fitIpaCaption(key, hint, primary);
+        if (alternatives.length == 0 && symbols)
+            return key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
+        String hint = alternatives.length == 0 ? "" : IpaKeyboard.display(alternatives[0]);
+        if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
+
+        LinearLayout key = column();
+        int background = look == KeyLook.LETTER ? Color.TRANSPARENT : selected ? RED : UTILITY;
+        Drawable rest = pressable(shape(background, 9), 9);
+        if (look != KeyLook.LETTER) rest = new InsetDrawable(rest, dp(2), dp(4), dp(2), dp(4));
+        key.setBackground(rest);
+        key.setPadding(dp(2), dp(3), dp(2), dp(4));
+        key.setContentDescription(IpaKeyboard.description(text));
+        key.setSelected(selected);
+        key.setFocusable(true);
+        int color = look != KeyLook.LETTER && selected ? WHITE : INK;
+        // Use identical vertical slots on every letter, including those without a hint.
+        key.addView(ipaKeyLine(hint, compact ? 10 : 11, color), new LinearLayout.LayoutParams(-1, 0, 2));
+        key.addView(ipaKeyLine(primary, letterSp(), color), new LinearLayout.LayoutParams(-1, 0, 3));
+        KeyboardTap.bind(key, tap);
+        if (alternatives.length > 0) {
+            key.setHapticFeedbackEnabled(false);
+            key.setOnLongClickListener(v -> {
+                showIpaAlternatives(key, alternatives);
+                return true;
+            });
         }
-        if (alternatives.length == 0) return key;
-        key.setHapticFeedbackEnabled(false);
-        key.setOnLongClickListener(v -> {
-            showIpaAlternatives(key, alternatives);
-            return true;
-        });
+        line.addView(key, weighted(weight));
         return key;
     }
 
-    private void fitIpaCaption(TextView key, String hint, String primary) {
-        SpannableStringBuilder caption = new SpannableStringBuilder(hint).append('\n').append(primary);
-        caption.setSpan(new RelativeSizeSpan(IPA_HINT_SCALE), 0, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        key.setSingleLine(false);
-        key.setMaxLines(2);
-        key.setHorizontallyScrolling(true);
-        key.setIncludeFontPadding(true);
-        if (android.os.Build.VERSION.SDK_INT >= 28) key.setFallbackLineSpacing(false);
-        key.setPadding(0, dp(2), 0, dp(3));
-        key.setText(caption);
-        float preferred = key.getTextSize();
-        TextPaint natural = new TextPaint(key.getPaint());
-        android.graphics.Paint.FontMetricsInt metrics = natural.getFontMetricsInt();
-        float preferredHeight = metrics.bottom - metrics.top
-                + IPA_HINT_SCALE * (metrics.descent - metrics.ascent);
-        key.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
-            int room = b - t - key.getPaddingTop() - key.getPaddingBottom();
-            if (room <= 0 || r <= l) return;
-            float size = Math.min(preferred, preferred * room / preferredHeight);
-            if (Math.abs(key.getTextSize() - size) >= .1f)
-                key.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            fitTextWidth(key, caption, r - l - dp(2), .6f);
+    private TextView ipaKeyLine(String text, int sizeSp, int color) {
+        TextView caption = label(text, sizeSp, color);
+        caption.setIncludeFontPadding(true);
+        caption.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        caption.setDuplicateParentStateEnabled(true);
+        caption.setTextColor(pressColors(color));
+        if (android.os.Build.VERSION.SDK_INT >= 28) caption.setFallbackLineSpacing(false);
+        float preferred = caption.getTextSize();
+        android.graphics.Paint.FontMetricsInt metrics = caption.getPaint().getFontMetricsInt();
+        int preferredHeight = metrics.bottom - metrics.top;
+        caption.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
+            if (b <= t || r <= l) return;
+            float size = preferred * Math.min(1f, (float) (b - t) / preferredHeight);
+            if (Math.abs(caption.getTextSize() - size) >= .1f)
+                caption.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            fitTextWidth(caption, text, r - l, .65f);
         });
+        return caption;
     }
 
     private void closeIpaAlternatives() {

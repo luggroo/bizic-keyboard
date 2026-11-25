@@ -7,9 +7,7 @@ import android.app.Instrumentation;
 import android.app.UiAutomation;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.SystemClock;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -37,6 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /** Cross-process test. All key and candidate selection is through the installed soft keyboard. */
 public final class KeyboardTest extends Instrumentation {
     private static final String IME_PACKAGE = "biz.tujia.ime";
+    static final String WALK_HAN = "走、去、去；离开，诶";
     private static final long WAIT_MS = 15000;
     private UiAutomation ui;
     private AccessibilityNodeInfo imeRoot;
@@ -89,6 +88,10 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
+            if (suite.equals("ipa")) {
+                new SystemTypography(this, host).ipa();
+                if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
+            }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
@@ -140,9 +143,6 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.first);
         press("音标");
         assertEditorAboveKeyboard(host.first, "音标");
-        assertIpaRow("qwertyuiop");
-        assertIpaRow("asdfghjkl");
-        assertIpaRow("zxcvbnm");
         captureFrame("ipa-layout.png");
         runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
         press("m");
@@ -208,38 +208,6 @@ public final class KeyboardTest extends Instrumentation {
         press("打字");
     }
 
-    private void assertIpaRow(String letters) {
-        RectF line = null;
-        for (char letter : letters.toCharArray()) {
-            String name = String.valueOf(letter);
-            Rect key = waitForNode(name, false);
-            for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(name)) {
-                try {
-                    if (!node.isVisibleToUser() || !name.contentEquals(node.getContentDescription())) continue;
-                    CharSequence caption = node.getText();
-                    int glyph = caption == null ? -1 : caption.length() - 1;
-                    if (glyph < 2 || caption.charAt(glyph - 1) != '\n' || caption.charAt(glyph) != letter)
-                        throw new AssertionError("IPA key has no shared hint and letter lines: " + name);
-                    if (!node.getAvailableExtraData().contains(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY))
-                        continue;
-                    Bundle request = new Bundle();
-                    request.putInt(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_START_INDEX, glyph);
-                    request.putInt(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_LENGTH, 1);
-                    String locations = AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY;
-                    if (!node.refreshWithExtraData(locations, request)) continue;
-                    Parcelable[] boxes = node.getExtras().getParcelableArray(locations);
-                    if (boxes == null || boxes.length != 1 || !(boxes[0] instanceof RectF)) continue;
-                    RectF box = (RectF) boxes[0];
-                    if (box.top <= key.top || box.bottom >= key.bottom)
-                        throw new AssertionError("IPA letter reaches outside its key: " + name + " " + box + " " + key);
-                    if (line == null) line = box;
-                    else if (Math.abs(box.bottom - line.bottom) > 2f)
-                        throw new AssertionError("IPA letter out of line: " + name + " " + box + " " + line);
-                } finally { node.recycle(); }
-            }
-        }
-    }
-
     private void holdKey(String label) {
         Rect rect = waitForNode(label, false);
         long start = SystemClock.uptimeMillis();
@@ -286,7 +254,7 @@ public final class KeyboardTest extends Instrumentation {
         tap(prefix.bounds.centerX(), prefix.bounds.centerY());
         expectText(host.first, "麻麻爹");
         waitForNode("待选拼写 hxif", false);
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.first, "麻麻爹诶");
 
         type("jir");
@@ -315,7 +283,7 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         assertEditorAboveKeyboard(host.second, "打字");
         type("hxif");
-        pressCandidate("走，诶", false);
+        pressCandidate(WALK_HAN, false);
         expectText(host.second, "ngaf yer ga诶");
 
         press("手写");
