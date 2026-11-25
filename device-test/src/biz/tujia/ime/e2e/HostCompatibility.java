@@ -168,7 +168,7 @@ final class HostCompatibility {
         keys.press("m");
         keys.press("a");
         expectDom("note", "ma");
-        keys.pressCandidate("补全 奶，mã²¹", false);
+        keys.press("补全 奶，mã²¹");
         expectDom("note", "mã²¹");
         keys.press("换行");
         keys.press("n");

@@ -67,7 +67,7 @@ final class SystemTypography {
         test.captureFrame(frame + ".png");
         test.press("m");
         test.press("a");
-        test.pressCandidate("补全 奶，mã²¹", false);
+        test.press("补全 奶，mã²¹");
         test.expectText(host.first, "mã²¹");
     }
 

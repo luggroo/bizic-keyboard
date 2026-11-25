@@ -152,7 +152,7 @@ public final class KeyboardTest extends Instrumentation {
         runOnMainSync(() -> host.first.setSelection(4));
         waitForNode("输入音标查看候选", false);
         runOnMainSync(() -> host.first.setSelection(5));
-        pressCandidate("补全 奶，mã²¹", false);
+        press("补全 奶，mã²¹");
         expectText(host.first, "前 /mã²¹ 后");
 
         press("空格");
@@ -204,6 +204,7 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.first);
         waitForNode("英文直输", false);
         waitAbsent("音标");
+        awaitKeyboardAtRest();
         press("m");
         press("a");
         waitAbsent("补全 奶，mã²¹");
