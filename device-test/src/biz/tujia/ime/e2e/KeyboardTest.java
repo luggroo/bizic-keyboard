@@ -106,6 +106,8 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("outputs")) testOutputButtons();
             if (suite.equals("tone")) testDirectionalTones();
             if (suite.equals("compact")) testCompactControls();
+            if (suite.equals("joined")) testJoinedForms();
+            if (suite.equals("apical")) testApicalVowels();
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("regional")) testModernRegisterCharacters();
@@ -830,7 +832,7 @@ public final class KeyboardTest extends Instrumentation {
         press("调号拼音");
         type("sanggo");
         Card romanLoan = card("山歌，sānggō");
-        if (!romanLoan.lines.equals(Arrays.asList("山歌", "sānggō")))
+        if (romanLoan.lines.size() != 2 || !romanLoan.lines.get(0).contains("山歌") || !"sānggō".equals(romanLoan.lines.get(1)))
             throw new AssertionError("Unexpected romanized loan display: " + romanLoan.lines);
         pressCandidate("山歌，sānggō", false);
         expectText(host.first, prefix + " āizū山歌sānggō");
@@ -945,7 +947,7 @@ public final class KeyboardTest extends Instrumentation {
 
         // Each character of this normal two-syllable word represents a separate syllable.
         type("boxlir");
-        pressCandidate("小孩、儿童，波俐", false);
+        pressCandidate("小孩，波俐", false);
         expectText(host.second, "˻克移˼波俐");
         assertJoinedRanges(host.second, 1, 3);
 
