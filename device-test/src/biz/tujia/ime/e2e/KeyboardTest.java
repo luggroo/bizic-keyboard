@@ -694,6 +694,19 @@ public final class KeyboardTest extends Instrumentation {
             waitForNode("待选拼写 ā", false);
             expectText(host.first, output.equals("调号拼音") ? "ā" : "");
         }
+        stage("Tone can be selected by holding and sliding without lifting");
+        newPredictionEditor();
+        press("调号拼音");
+        Rect vowel = waitForNode("a", false);
+        long toneDown = SystemClock.uptimeMillis();
+        inject(toneDown, MotionEvent.ACTION_DOWN, vowel.centerX(), vowel.centerY());
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 180);
+        Rect upwardTone = waitForNode("ā", false);
+        inject(toneDown, MotionEvent.ACTION_MOVE, upwardTone.centerX(), upwardTone.centerY());
+        SystemClock.sleep(160);
+        captureFrame("tone-marked-slide.png");
+        inject(toneDown, MotionEvent.ACTION_UP, upwardTone.centerX(), upwardTone.centerY());
+        expectText(host.first, "ā");
         stage("IPA alternatives can be selected with a single hold and slide");
         newPredictionEditor();
         press("音标");
