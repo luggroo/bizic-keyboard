@@ -44,6 +44,19 @@ class BaojingWords(unittest.TestCase):
                                 ('mifjixkax', ['泌基佧', '秘基佧'])]:
             self.assertEqual([c.text for c in self.full(query) if c.gloss == '土家族'], expected, query)
 
+    def test_reviewed_near_synonyms(self):
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+        from keyboard_gloss import normalize_meaning
+        self.assertEqual(normalize_meaning('石；石头'), normalize_meaning('石头'))
+        self.assertEqual(normalize_meaning('兵；士兵'), normalize_meaning('士兵'))
+        self.assertEqual(normalize_meaning('他；她'), '他')
+        self.assertEqual(normalize_meaning('燕子；吞咽'), '燕子；吞咽')
+        self.assertEqual(normalize_meaning('雪'), '雪')
+        self.assertEqual(normalize_meaning('月亮'), '月亮')
+        stones = [c for c in self.full('aba') if c.gloss == '石头']
+        self.assertEqual(len(stones), 1)
+
     def test_pronouns_and_distinct_homophones(self):
         self.assertEqual([(c.text,c.short) for c in self.full('ngaf') if c.gloss == '我'], [('讶','我')])
         self.assertEqual([(c.text,c.short) for c in self.full('nif') if c.gloss == '你'], [('伲','你')])

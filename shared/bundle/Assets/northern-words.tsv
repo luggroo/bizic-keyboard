@@ -81,7 +81,7 @@ w80	-zor		地方	着			0	tujia	地方	-zo	-zǒ	着
 w81	a		(叹词)				0	phonetic	(叹词)	a	a			
 w82	ax		饿	阿			0	tujia	饿	a	ā	阿		
 w83	af		过	啊			0	tujia	过	a	á	啊		
-w85	ar		取	吖			0	tujia	取	a	ǎ	吖		
+w85	ar		拿	吖			0	tujia	拿	a	ǎ	吖		
 w86	ar		娶	吖			0	tujia	娶	a	ǎ	吖		
 w87	ar		接	吖			0	tujia	接	a	ǎ	吖		
 w88	av		喂	阿			0	tujia	喂	a	à	阿		
@@ -94,11 +94,11 @@ w97	afbux		比较	啊补			0	tujia	比较	abu	ábū	啊|补
 w98	arbur		葛	吖不			0	tujia	葛	abu	ǎbǔ	吖|不		
 w100	arcar		悬崖	吖查			0	tujia	悬崖	aca	ǎcǎ	吖|查		
 w101	axcir		没有外壳的	阿尺			0	tujia	没有外壳的	aci	ācǐ	阿|尺		
-w102	afcix		爱	啊此			0	tujia	爱	aci	ácī	啊|此		
+w102	afcix		喜欢	啊此			0	tujia	喜欢	aci	ácī	啊|此		
 w103	afciv		大声	啊此			0	tujia	大声	aci	ácì	啊|此		
 w104	arcor		山洞	吖撮			0	tujia	山洞	aco	ǎcǒ	吖|撮		
 w105	arcov		姐夫	吖搓			0	tujia	姐夫	aco	ǎcò	吖|搓		
-w106	afdax		姐	啊打			0	tujia	姐	ada	ádā	啊|打		
+w106	afdax		姐姐	啊打			0	tujia	姐姐	ada	ádā	啊|打		
 w107	afdaxbif		小姐姐	啊打币			0	tujia	小姐姐	adabi	ádābí	啊|打|币		
 w108	afdaxcixbax		大姐姐	啊打此巴			0	tujia	大姐姐	adaciba	ádācībā	啊|打|此|巴		
 w109	axdoxnier		那样	阿多业			0	tujia	那样	adonie	ādōniě	阿|多|业		
@@ -109,7 +109,7 @@ w114	arhar-max		石匠	吖蛤吗			0	tujia	石匠	aha-ma	ǎhǎ-mā	吖|蛤|吗
 w115	axhongx		生	阿轰			0	tujia	生	ahong	āhōng	阿|轰		
 w116	arhongxcaix		淡黄	吖轰采			0	tujia	淡黄	ahongcai	ǎhōngcāi	吖|轰|采		
 w117	afhux		扶	啊呼			0	tujia	扶	ahu	áhū	啊|呼		
-w118	afhxix		学	啊诶			0	tujia	学	ahxi	áhxī	啊|诶		
+w118	afhxix		学习	啊诶			0	tujia	学习	ahxi	áhxī	啊|诶		
 w119	arjixlar		岩脚	吖几辣			0	tujia	岩脚	ajila	ǎjīlǎ	吖|几|辣		
 w121	axjier		追	阿节			0	tujia	追	ajie	ājiě	阿|节		
 w122	afjiex		树枝	啊姐			0	tujia	树枝	ajie	ájiē	啊|姐		
@@ -120,7 +120,7 @@ w126	axkoxcixbax		大哥	阿可此巴			0	tujia	大哥	akociba	ākōcībā	阿|�
 w128	aflax		搅拌	啊拉			0	tujia	搅拌	ala	álā	啊|拉		
 w130	axliex		蛋	阿咧			0	tujia	蛋	alie	āliē	阿|咧		
 w131	afliex		勤	啊咧			0	tujia	勤	alie	áliē	啊|咧		
-w132	axmax		祖母	阿吗			0	tujia	祖母	ama	āmā	阿|吗		
+w132	axmax		奶奶	阿吗			0	tujia	奶奶	ama	āmā	阿|吗		
 w133	axmix		阿妹	阿米			0	tujia	阿妹	ami	āmī	阿|米		
 w135	arnier		(叹词)	吖业			0	tujia	(叹词)	anie	ǎniě	吖|业		
 w136	arpaxlaxhuf		山涧	吖啪拉互			0	tujia	山涧	apalahu	ǎpālāhú	吖|啪|拉|互		
@@ -162,8 +162,8 @@ w180	angxax		针	安阿			0	tujia	针	ang'a	āng'ā	安|阿
 w181	angxbeix		叔父	安杯			0	tujia	叔父	angbei	āngbēi	安|杯		
 w182	angfdor		我们自己	岸夺			0	tujia	我们自己	angdo	ángdǒ	岸|夺		
 w183	angrgar		洼地	昂夹			0	tujia	洼地	angga	ǎnggǎ	昂|夹		
-w184	angxkax		剪	安卡			0	tujia	剪	angka	āngkā	安|卡		
-w185	angxngaiv		弟	安挨			0	tujia	弟	angngai	āngngài	安|挨		
+w184	angxkax		修剪	安卡			0	tujia	修剪	angka	āngkā	安|卡		
+w185	angxngaiv		弟弟	安挨			0	tujia	弟弟	angngai	āngngài	安|挨		
 w186	angxngaixbif		小弟弟	安挨币			0	tujia	小弟弟	angngaibi	āngngāibí	安|挨|币		
 w187	angxngaix cixbax		大弟弟	安挨此巴			0	tujia	大弟弟	angngai ciba	āngngāi cībā	安|挨|此|巴		
 w188	angfnix		我们	岸你			0	tujia	我们	angni	ángnī	岸|你		
@@ -183,7 +183,7 @@ w201	baf		八	坝			0	tujia	八	ba	bá	坝
 w202	bar		山坡	八			0	tujia	山坡	ba	bǎ	八		
 w204	baxbax		糍粑	巴巴			0	tujia	糍粑	baba	bābā	巴|巴		
 w205	bavborhxif		慢走	巴博诶			0	tujia	慢走	babohxi	bàbǒhxí	巴|博|诶		
-w206	barbux		外祖母	八补			0	tujia	外祖母	babu	bǎbū	八|补		
+w206	barbux		外婆	八补			0	tujia	外婆	babu	bǎbū	八|补		
 w207	bavcaf		好看	巴岔			0	tujia	好看	baca	bàcá	巴|岔		
 w208	bar dar		下山	八达			0	tujia	下山	ba da	bǎ dǎ	八|达		
 w209	bafdangx		床单	坝单			0	tujia	床单	badang	bádāng	坝|单		
@@ -262,7 +262,7 @@ w293	biaov		表	表			0	tujia	表	biao	biào	表		plainHanLoan
 w294	biaoxyanr		表扬	表扬			0	tujia	表扬	biaoyan	biāoyǎn	表|扬		plainHanLoan
 w295	biev		掉	憋			0	tujia	掉	bie	biè	憋		
 w298	biexlir		遗失	憋立			0	tujia	遗失	bieli	biēlǐ	憋|立		
-w299	binx		兵；士兵	兵			0	tujia	兵；士兵	bin	bīn	兵		
+w299	binx		士兵	兵			0	tujia	士兵	bin	bīn	兵		
 w300	binf		病	并			0	tujia	病	bin	bín	并		
 w301	binx dangx		当兵	兵单			0	tujia	当兵	bin dang	bīn dāng	兵|单		
 w302	biuf		女儿	比右			0	tujia	女儿	biu	biú	比右		
@@ -286,7 +286,7 @@ w321	buf		不	不	布		0	tujia	不	bu	bú	不		plainHanLoan
 w323	buv		船	补			0	tujia	船	bu	bù	补		
 w324	buv		浸	补			0	tujia	浸	bu	bù	补		
 w325	buv af		渡船	补啊			0	tujia	渡船	bu a	bù á	补|啊		
-w326	buxbur		摸	补不			0	tujia	摸	bubu	būbǔ	补|不		
+w326	buxbur		抚摸	补不			0	tujia	抚摸	bubu	būbǔ	补|不		
 w327	buxcextongv		蜘蛛网	补车通			0	tujia	蜘蛛网	bucetong	būcētòng	补|车|通		
 w328	buxcix		灵魂	补此			0	tujia	灵魂	buci	būcī	补|此		
 w329	buxcix		蜘蛛	补此			0	tujia	蜘蛛	buci	būcī	补|此		
@@ -338,7 +338,7 @@ w383	cangf		唱	唱			0	tujia	唱	cang	cáng	唱
 w384	cangr		场	场			0	tujia	场	cang	cǎng	场		
 w385	cangrcangr		淋淋	场场			0	tujia	淋淋	cangcang	cǎngcǎng	场|场		
 w386	cangr gangv		赶场	场甘			0	tujia	赶场	cang gang	cǎng gàng	场|甘		
-w387	cangfgox		唱歌	唱哥			0	tujia	唱歌	canggo	cánggō	唱|哥		
+w387	cangfgox		唱	唱哥			0	tujia	唱	canggo	cánggō	唱|哥		
 w388	cangxjiax		参加	昌家			0	tujia	参加	cangjia	cāngjiā	昌|家		
 w389	cangrsif		时常	场是			0	tujia	时常	cangsi	cǎngsí	场|是		
 w390	cangrxianr		长香	场闲			0	tujia	长香	cangxian	cǎngxiǎn	场|闲		
@@ -715,7 +715,7 @@ w800	gox		歌	歌	哥		0	tujia	歌	go	gō	歌		plainHanLoan
 w801	gof		他	个	过		0	tujia	他	go	gó	个		
 w803	gof		个	个	过		0	tujia	个	go	gó	个		plainHanLoan
 w804	gor		卡	郭			0	tujia	卡	go	gǒ	郭		
-w805	gox cangf		唱歌	哥唱			0	tujia	唱歌	go cang	gō cáng	哥|唱		
+w805	gox cangf		唱	哥唱			0	tujia	唱	go cang	gō cáng	哥|唱		
 w806	gofdor		(他)自己	过夺			0	tujia	(他)自己	godo	gódǒ	过|夺		
 w807	gofdornier		(他)自己的	过夺业			0	tujia	(他)自己的	godonie	gódǒniě	过|夺|业		
 w808	gofguix		嫂子	过轨			0	tujia	嫂子	gogui	góguī	过|轨		
@@ -770,7 +770,7 @@ w861	henv		厉害	很			0	tujia	厉害	hen	hèn	很
 w862	henxdox		很多	很多			0	tujia	很多	hendo	hēndō	很|多		
 w863	henxmax		英雄	很吗			0	tujia	英雄	henma	hēnmā	很|吗		
 w868	hongf		靠	奉			0	tujia	靠	hong	hóng	奉		
-w869	hongxbax		墙壁	轰巴			0	tujia	墙壁	hongba	hōngbā	轰|巴		
+w869	hongxbax		墙	轰巴			0	tujia	墙	hongba	hōngbā	轰|巴		
 w870	hongrhuanv		总是	红欢			0	tujia	总是	honghuan	hǒnghuàn	红|欢		
 w871	hongrtongr		(虎吼声)	红铜			0	tujia	(虎吼声)	hongtong	hǒngtǒng	红|铜		
 w872	houf		厚	厚	后		0	tujia	厚	hou	hóu	厚		plainHanLoan
@@ -954,7 +954,7 @@ w1082	kaxbax		茅草	卡巴			0	tujia	茅草	kaba	kābā	卡|巴
 w1083	karbar		板子	咔八			0	tujia	板子	kaba	kǎbǎ	咔|八		
 w1084	karbar kif-max		锯木匠	咔八克意吗			0	tujia	锯木匠	kaba ki-ma	kǎbǎ kí-mā	咔|八|克意|吗		
 w1087	kaxbiexliex		粥	卡憋咧			0	tujia	粥	kabielie	kābiēliē	卡|憋|咧		
-w1088	karbur		外祖母	咔不			0	tujia	外祖母	kabu	kǎbǔ	咔|不		
+w1088	karbur		外婆	咔不			0	tujia	外婆	kabu	kǎbǔ	咔|不		
 w1090	karcar		围圈	咔查			0	tujia	围圈	kaca	kǎcǎ	咔|查		
 w1092	kaxcaxmuxcax		垃圾	卡差母差			0	tujia	垃圾	kacamuca	kācāmūcā	卡|差|母|差		
 w1093	karceir		(刺声)	咔尺			0	tujia	(刺声)	kacei	kǎcěi	咔|尺		
@@ -1415,7 +1415,7 @@ w1616	niaor		(叹词)	尼摇			0	tujia	(叹词)	niao	niǎo	尼摇
 w1617	niaofbaox		膀胱	尼要苞			0	tujia	膀胱	niaobao	niáobāo	尼要|苞		
 w1618	niex		和	捏			0	tujia	和	nie	niē	捏		
 w1620	niex		日	捏			0	tujia	日	nie	niē	捏		
-w1621	nief		睡	镍			0	tujia	睡	nie	nié	镍		
+w1621	nief		睡觉	镍			0	tujia	睡觉	nie	nié	镍		
 w1623	niev		天/日	捏			0	tujia	天/日	nie	niè	捏		
 w1624	niev		笑	捏			0	tujia	笑	nie	niè	捏		
 w1625	nierbar		父母	业八			0	tujia	父母	nieba	niěbǎ	业|八		
@@ -1643,7 +1643,7 @@ w1881	rav		弓箭	日阿			0	tujia	弓箭	ra	rà	日阿
 w1882	rarbar		公鸡	日锕八			0	tujia	公鸡	raba	rǎbǎ	日锕|八		
 w1883	rarbar		食指	日锕八			0	tujia	食指	raba	rǎbǎ	日锕|八		
 w1884	rarbirlax		鸡草	日锕必拉			0	tujia	鸡草	rabila	rǎbǐlā	日锕|必|拉		
-w1885	rafcer		茶水	日啊策			0	tujia	茶水	race	rácě	日啊|策		
+w1885	rafcer		茶	日啊策			0	tujia	茶	race	rácě	日啊|策		
 w1886	rafgux		茶叶	日啊古			0	tujia	茶叶	ragu	rágū	日啊|古		
 w1887	rargurcov		鸡圈	日锕谷搓			0	tujia	鸡圈	raguco	rǎgǔcò	日锕|谷|搓		
 w1888	rarkixcir		野葱	日锕克以尺			0	tujia	野葱	rakici	rǎkīcǐ	日锕|克以|尺		
@@ -2406,7 +2406,7 @@ w2755	zuifhaov		最好	坠好			0	tujia	最好	zuihao	zuíhào	坠|好
 w2756	zuifhouf		最后	坠后			0	tujia	最后	zuihou	zuíhóu	坠|后		
 w2757	zunxbeir		准备	准北			0	tujia	准备	zunbei	zūnběi	准|北		
 w2758	zox		挂	左			0	tujia	挂	zo	zō	左		
-w2759	zof		捉	坐			0	tujia	捉	zo	zó	坐		
+w2759	zof		抓	坐			0	tujia	抓	zo	zó	坐		
 w2760	zov		媳妇	左			0	tujia	媳妇	zo	zò	左		
 w2761	zox ar		娶媳妇	左吖			0	tujia	娶媳妇	zo a	zō ǎ	左|吖		
 w2762	zoxbax		男的	左巴			0	tujia	男的	zoba	zōbā	左|巴		
@@ -2457,11 +2457,11 @@ w2889	axjiex		熟	阿姐			0	tujia	熟	ajie	ājiē	阿|姐
 w2891	axkoux		角落	阿口			0	tujia	角落	akou	ākōu	阿|口		
 w2898	axniex		感叹词	阿捏			0	tujia	感叹词	anie	āniē	阿|捏		
 w2901	axrex		我的女儿	阿惹			0	tujia	我的女儿	are	ārē	阿|惹		
-w2913	afcex		茶水	啊车			0	tujia	茶水	ace	ácē	啊|车		
+w2913	afcex		茶	啊车			0	tujia	茶	ace	ácē	啊|车		
 w2926	afliex		勤	啊咧			0	tujia	勤	alie	áliē	啊|咧		
 w2928	afqiv		大声	啊起			0	tujia	大声	aqi	áqì	啊|起		
-w2930	afsix		新的	啊使			0	tujia	新的	asi	ásī	啊|使		
-w2933	afyix		学	啊以			0	tujia	学	ayi	áyī	啊|以		
+w2930	afsix		新	啊使			0	tujia	新	asi	ásī	啊|使		
+w2933	afyix		学习	啊以			0	tujia	学习	ayi	áyī	啊|以		
 w2945	arbav		父亲	吖巴			0	tujia	父亲	aba	ǎbà	吖|巴		
 w2952	arhongxcaix		淡黄	吖轰采			0	tujia	淡黄	ahongcai	ǎhōngcāi	吖|轰|采		
 w2953	arhongxceix		淡黄	吖轰此			0	tujia	淡黄	ahongcei	ǎhōngcēi	吖|轰|此		
@@ -2514,7 +2514,7 @@ w3151	bofbox		薄；瘦；细（原义未细分）	播波			0	tujia	薄；瘦；
 w3155	borloxlox		圆	博啰啰			0	tujia	圆	bololo	bǒlōlō	博|啰|啰		
 w3163	buxcer		眼泪	补策			0	tujia	眼泪	buce	būcě	补|策		
 w3172	buxlor		松	补罗			0	tujia	松	bulo	būlǒ	补|罗		
-w3173	buxmur		摸	补木			0	tujia	摸	bumu	būmǔ	补|木		
+w3173	buxmur		抚摸	补木			0	tujia	抚摸	bumu	būmǔ	补|木		
 w3190	bufxiuf		不是	布秀			0	tujia	不是	buxiu	búxiú	布|秀		
 w3200	cax		一半	差			0	tujia	一半	ca	cā	差		
 w3207	caf		好	岔			0	tujia	好	ca	cá	岔		
@@ -3034,9 +3034,9 @@ stedt-rn-289365	aixdux		那里	哎都			0	tujia	那里	aidu	āidū	哎|都
 stedt-rn-289365@2	aoxdux		那里	凹都			0	tujia	那里	aodu	āodū	凹|都		
 stedt-rn-289364	aix		那；那个	哎			0	tujia	那；那个	ai	āi	哎		
 stedt-rn-289364@2	aox		那；那个	凹			0	tujia	那；那个	ao	āo	凹		
-stedt-rn-455168	angf		我们（第一人称复数）	岸			0	tujia	我们	ang	áng	岸		
+stedt-rn-455168	angf		我们	岸			0	tujia	我们	ang	áng	岸		
 stedt-rn-455166	angfdor		我们自己	岸夺			0	tujia	我们自己	angdo	ángdǒ	岸|夺		
-stedt-rn-455167	angfnix		我们（第一人称复数）	岸你			0	tujia	我们	angni	ángnī	岸|你		
+stedt-rn-455167	angfnix		我们	岸你			0	tujia	我们	angni	ángnī	岸|你		
 stedt-rn-453903	angxbeix		叔父	安杯			0	tujia	叔父	angbei	āngbēi	安|杯		
 stedt-rn-453905	angxngaivbif		最小的弟弟	安挨币			0	tujia	最小的弟弟	angngaibi	āngngàibí	安|挨|币		
 stedt-rn-453906	angxngaivcixbax		最大的弟弟	安挨此巴			0	tujia	最大的弟弟	angngaiciba	āngngàicībā	安|挨|此|巴		
@@ -3073,7 +3073,7 @@ stedt-rn-357226	arkoxaxngaix		兄弟	吖可阿挨			0	tujia	兄弟	ako'angai	ǎk
 stedt-rn-288712	arkox		哥哥	吖可			0	tujia	哥哥	ako	ǎkō	吖|可		
 stedt-rn-288712@2	axrexnaxdix		哥哥	阿惹哪低			0	tujia	哥哥	arenadi	ārēnādī	阿|惹|哪|低		
 stedt-rn-288697	arniex		母亲	吖捏			0	tujia	母亲	anie	ǎniē	吖|捏		
-stedt-rn-288485	arbar		石；石头	吖八			0	tujia	石；石头	aba	ǎbǎ	吖|八		
+stedt-rn-288485	arbar		石头	吖八			0	tujia	石头	aba	ǎbǎ	吖|八		
 stedt-rn-288736	arbarburcif		石灰	吖八不次			0	tujia	石灰	ababuci	ǎbǎbǔcí	吖|八|不|次		
 stedt-rn-288736@2	sifhuix		石灰	是灰			0	tujia	石灰	sihui	síhuī	是|灰		
 stedt-rn-357382	arbax		舅舅；母亲的兄弟	吖巴			0	tujia	舅舅；母亲的兄弟	aba	ǎbā	吖|巴		
@@ -3081,13 +3081,13 @@ stedt-rn-288731	arpif		墙	吖譬			0	tujia	墙	api	ǎpí	吖|譬
 stedt-rn-288731@2	hongxbax		墙	轰巴			0	tujia	墙	hongba	hōngbā	轰|巴		
 stedt-rn-289286	arpixpix		酸	吖匹匹			0	tujia	酸	apipi	ǎpīpī	吖|匹|匹		
 stedt-rn-400206	arbix		酸	吖比			0	tujia	酸	abi	ǎbī	吖|比		
-stedt-rn-288486	arbuflif		沙子	吖布利			0	tujia	沙子	abuli	ǎbúlí	吖|布|利		
+stedt-rn-288486	arbuflif		沙	吖布利			0	tujia	沙	abuli	ǎbúlí	吖|布|利		
 stedt-rn-396878	arsir		白	吖石			0	tujia	白	asi	ǎsǐ	吖|石		
 stedt-rn-289245	arsir		白	吖石			0	tujia	白	asi	ǎsǐ	吖|石		
 stedt-rn-289245@2	arsirkuxlix		白	吖石苦里			0	tujia	白	asikuli	ǎsǐkūlī	吖|石|苦|里		
 stedt-rn-356337	arniex		母亲	吖捏			0	tujia	母亲	anie	ǎniē	吖|捏		
 stedt-rn-357439	arniex		舅母；母亲兄弟的妻子	吖捏			0	tujia	舅母；母亲兄弟的妻子	anie	ǎniē	吖|捏		
-stedt-rn-454261	ar		拿；取	吖			0	tujia	拿；取	a	ǎ	吖		
+stedt-rn-454261	ar		拿	吖			0	tujia	拿	a	ǎ	吖		
 stedt-rn-454163	arbarcov		石屋	吖八搓			0	tujia	石屋	abaco	ǎbǎcò	吖|八|搓		
 stedt-rn-453499	arbuflix		小石头	吖布里			0	tujia	小石头	abuli	ǎbúlī	吖|布|里		
 stedt-rn-453901	arkovcixbax		大哥	吖可此巴			0	tujia	大哥	akociba	ǎkòcībā	吖|可|此|巴		
@@ -3127,20 +3127,20 @@ stedt-rn-209073	afzax		跨过沟	啊渣			0	tujia	跨过沟	aza	ázā	啊|渣
 stedt-rn-288779	afcex		茶	啊车			0	tujia	茶	ace	ácē	啊|车		
 stedt-rn-288779@2	roxbux		茶	若补			0	tujia	茶	robu	rōbū	若|补		
 stedt-rn-373730	afciextixkux		水壶；锅				0	phonetic	水壶；锅	acietiku	áciētīkū			
-stedt-rn-289126	afcix		爱	啊此			0	tujia	爱	aci	ácī	啊|此		
-stedt-rn-402633	afcix		爱；喜欢	啊此			0	tujia	爱；喜欢	aci	ácī	啊|此		
+stedt-rn-289126	afcix		喜欢	啊此			0	tujia	喜欢	aci	ácī	啊|此		
+stedt-rn-402633	afcix		喜欢	啊此			0	tujia	喜欢	aci	ácī	啊|此		
 stedt-rn-406785	afzix		传染	啊子			0	tujia	传染	azi	ázī	啊|子		
 stedt-rn-353298	afriex		声音				0	phonetic	声音	arie	áriē			
 stedt-rn-206115	afriex		嗓音；声音				0	phonetic	嗓音；声音	arie	áriē			
 stedt-rn-402922	afhxax		耙田	啊呃阿			0	tujia	耙田	ahxa	áhxā	啊|呃阿		
-stedt-rn-289027	afhxif		学	啊诶			0	tujia	学	ahxi	áhxí	啊|诶		
+stedt-rn-289027	afhxif		学习	啊诶			0	tujia	学习	ahxi	áhxí	啊|诶		
 stedt-rn-288921	afhxif		教育	啊诶			0	tujia	教育	ahxi	áhxí	啊|诶		
 stedt-rn-288921@2	jiaofyouf		教育	叫又			0	tujia	教育	jiaoyou	jiáoyóu	叫|又		
-stedt-rn-430867	afhxix		学	啊诶			0	tujia	学	ahxi	áhxī	啊|诶		
+stedt-rn-430867	afhxix		学习	啊诶			0	tujia	学习	ahxi	áhxī	啊|诶		
 stedt-rn-229473	afnixniexhur		我们两个	啊你捏胡			0	tujia	我们两个	aniniehu	ánīniēhǔ	啊|你|捏|胡		
 stedt-rn-454070	axcir		去壳的谷物	阿尺			0	tujia	去壳的谷物	aci	ācǐ	阿|尺		
-stedt-rn-455203	axdoxnier		那样；如此	阿多业			0	tujia	那样；如此	adonie	ādōniě	阿|多|业		
-stedt-rn-453889	axmax		祖母；奶奶	阿吗			0	tujia	祖母；奶奶	ama	āmā	阿|吗		
+stedt-rn-455203	axdoxnier		那样	阿多业			0	tujia	那样	adonie	ādōniě	阿|多|业		
+stedt-rn-453889	axmax		奶奶	阿吗			0	tujia	奶奶	ama	āmā	阿|吗		
 stedt-rn-453891	axmixbifkuix		最小的妹妹	阿米币亏			0	tujia	最小的妹妹	amibikui	āmībíkuī	阿|米|币|亏		
 stedt-rn-454071	axper		谷穗	阿迫			0	tujia	谷穗	ape	āpě	阿|迫		
 stedt-rn-455163	avser		谁	阿色			0	tujia	谁	ase	àsě	阿|色		
@@ -3160,7 +3160,7 @@ stedt-rn-397991	axgar		干；干燥	阿夹			0	tujia	干；干燥	aga	āgǎ	阿|
 stedt-rn-411945	axgar		干燥	阿夹			0	tujia	干燥	aga	āgǎ	阿|夹		
 stedt-rn-289264	axgar		干；干燥	阿夹			0	tujia	干；干燥	aga	āgǎ	阿|夹		
 stedt-rn-289264@2	gar		干；干燥	夹			0	tujia	干；干燥	ga	gǎ	夹		
-stedt-rn-289043	angxkax		剪；修剪	安卡			0	tujia	剪；修剪	angka	āngkā	安|卡		
+stedt-rn-289043	angxkax		修剪	安卡			0	tujia	修剪	angka	āngkā	安|卡		
 stedt-rn-381893	axkiux		角；拐角				0	phonetic	角；拐角	akiu	ākiū			
 stedt-rn-127281	axlex		动物的卵；蛋				0	phonetic	动物的卵；蛋	ale	ālē			
 stedt-rn-127281@2	axliex		动物的卵；蛋	阿咧			0	tujia	动物的卵；蛋	alie	āliē	阿|咧		
@@ -3206,7 +3206,7 @@ stedt-rn-454012	bangx		装填枪弹	班			0	tujia	装填枪弹	bang	bāng	班
 stedt-rn-453514	baoxbaox		露头；露出的岩石	苞苞			0	tujia	露头；露出的岩石	baobao	bāobāo	苞|苞		
 stedt-rn-453515	baoxzenx		露头；露出的岩石	苞诊			0	tujia	露头；露出的岩石	baozen	bāozēn	苞|诊		
 stedt-rn-453510	bar		山坡	八			0	tujia	山坡	ba	bǎ	八		
-stedt-rn-453907	barbux		外祖母；外婆	八补			0	tujia	外祖母；外婆	babu	bǎbū	八|补		
+stedt-rn-453907	barbux		外婆	八补			0	tujia	外婆	babu	bǎbū	八|补		
 stedt-rn-453512	barzif		泥；土	八致			0	tujia	泥；土	bazi	bǎzí	八|致		
 stedt-rn-454270	bax		粘；贴	巴			0	tujia	粘；贴	ba	bā	巴		
 stedt-rn-453620	baxsox		桑树	巴所			0	tujia	桑树	baso	bāsō	巴|所		
@@ -3368,7 +3368,7 @@ stedt-rn-455183	gofdornier		他的	过夺业			0	tujia	他的	godonie	gódǒniě
 stedt-rn-454313	gov		吵架	哥			0	tujia	吵架	go	gò	哥		
 stedt-rn-455040	guf		现在相关性小词（动词后）	固			0	tujia	现在相关性小词（动词后）	gu	gú	固		
 stedt-rn-454310	gur		登上；上去	谷			0	tujia	登上；上去	gu	gǔ	谷		
-stedt-rn-454759	guxcer		哭泣	古策			0	tujia	哭泣	guce	gūcě	古|策		
+stedt-rn-454759	guxcer		哭	古策			0	tujia	哭	guce	gūcě	古|策		
 stedt-rn-453787	guxduv		蹲	古都			0	tujia	蹲	gudu	gūdù	古|都		
 stedt-rn-454309	guxzuv		挖空；掏空	古珠			0	tujia	挖空；掏空	guzu	gūzù	古|珠		
 stedt-rn-456309	hax		知道	哈			0	tujia	知道	ha	hā	哈		
@@ -3526,7 +3526,7 @@ stedt-rn-288477	yixzax		洞穴	以渣			0	tujia	洞穴	yiza	yīzā	以|渣
 stedt-rn-288477@2	dongrgaf		洞穴	洞尬			0	tujia	洞穴	dongga	dǒnggá	洞|尬		
 stedt-rn-423788	yongrhuaf		溶化（溶化了）	容化			0	tujia	溶化（溶化了）	yonghua	yǒnghuá	容|化		
 stedt-rn-423829	yongrhuaf		使溶解	容化			0	tujia	使溶解	yonghua	yǒnghuá	容|化		
-stedt-rn-431784	yongvbaof		拥抱	勇抱			0	tujia	拥抱	yongbao	yòngbáo	勇|抱		
+stedt-rn-431784	yongvbaof		抱	勇抱			0	tujia	抱	yongbao	yòngbáo	勇|抱		
 stedt-rn-289306	yongxgangx		勇敢	勇甘			0	tujia	勇敢	yonggang	yōnggāng	勇|甘		
 stedt-rn-289195	yongxhur		支持；赞成	勇胡			0	tujia	支持；赞成	yonghu	yōnghǔ	勇|胡		
 stedt-rn-393513	gaif		这；这个	盖			0	tujia	这；这个	gai	gái	盖		
@@ -3573,7 +3573,7 @@ stedt-rn-382327	garhaf		上（桌子上）	夹下	夹吓		0	tujia	上（桌子�
 stedt-rn-382537	garhaf		上（挂在墙上）	夹下	夹吓		0	tujia	上（挂在墙上）	gaha	gǎhá	夹|下		
 stedt-rn-454179	kar		木头；柴火	咔			0	tujia	木头；柴火	ka	kǎ	咔		
 stedt-rn-453642	karafjiex		树枝	咔啊姐			0	tujia	树枝	ka'ajie	kǎ'ájiē	咔|啊|姐		
-stedt-rn-453908	karbur		外祖母；外婆	咔不			0	tujia	外祖母；外婆	kabu	kǎbǔ	咔|不		
+stedt-rn-453908	karbur		外婆	咔不			0	tujia	外婆	kabu	kǎbǔ	咔|不		
 stedt-rn-453853	karkav		抬丧	咔卡			0	tujia	抬丧	kaka	kǎkà	咔|卡		
 stedt-rn-455250	karkeixlaxleix		悄悄地	咔克诶拉肋			0	tujia	悄悄地	kakeilalei	kǎkēilālēi	咔|克诶|拉|肋		
 stedt-rn-453921	karkir		岳父	咔克移			0	tujia	岳父	kaki	kǎkǐ	咔|克移		
@@ -3830,7 +3830,7 @@ stedt-rn-288942	gongxnier		工业	公业			0	tujia	工业	gongnie	gōngniě	公|
 stedt-rn-288941	gongxcangx		工厂	公昌			0	tujia	工厂	gongcang	gōngcāng	公|昌		
 stedt-rn-352941	guxcier		汗				0	phonetic	汗	gucie	gūciě			
 stedt-rn-418613	guxzux		抠	古珠			0	tujia	抠	guzu	gūzū	古|珠		
-stedt-rn-433789	guxzux		抓；捉	古珠			0	tujia	抓；捉	guzu	gūzū	古|珠		
+stedt-rn-433789	guxzux		抓	古珠			0	tujia	抓	guzu	gūzū	古|珠		
 stedt-rn-288915	gongxrinrgaixjif		无产阶级				0	phonetic	无产阶级	gongrin'gaiji	gōngrǐn'gāijí			
 stedt-rn-288679	gongxrinr		工人				0	phonetic	工人	gongrin	gōngrǐn			
 stedt-rn-288679@2	hur rix-max		工人	胡日吗			0	tujia	工人	hu ri-ma	hǔ rī-mā	胡|日|吗		
@@ -4077,8 +4077,8 @@ stedt-rn-453571	lifbax		公虎	利巴			0	tujia	公虎	liba	líbā	利|巴
 stedt-rn-454099	lifbux		米；谷物	利补			0	tujia	米；谷物	libu	líbū	利|补		
 stedt-rn-453572	lifgaxcirwofgaxcir		螳螂	利尕尺卧尕尺			0	tujia	螳螂	ligaciwogaci	lígācǐwógācǐ	利|尕|尺|卧|尕|尺		
 stedt-rn-453574	lifnirgar		母虎	利尼夹			0	tujia	母虎	liniga	línǐgǎ	利|尼|夹		
-stedt-rn-127189	lir		说话	立			0	tujia	说话	li	lǐ	立		
-stedt-rn-207798	lir		说；说话	立			0	tujia	说；说话	li	lǐ	立		
+stedt-rn-127189	lir		说	立			0	tujia	说	li	lǐ	立		
+stedt-rn-207798	lir		说	立			0	tujia	说	li	lǐ	立		
 stedt-rn-204891	lirxir		兴趣；利息（原义未细分）	立昔			0	tujia	兴趣；利息	lixi	lǐxǐ	立|昔		
 stedt-rn-454768	lir		说；讲话	立			0	tujia	说；讲话	li	lǐ	立		
 stedt-rn-360888	lif		老虎	利			0	tujia	老虎	li	lí	利		
@@ -4465,7 +4465,7 @@ stedt-rn-288699	niercix		伯母	业此			0	tujia	伯母	nieci	niěcī	业|此
 stedt-rn-288699@2	baxyexarniex		伯母	巴也吖捏			0	tujia	伯母	baye'anie	bāyē'ǎniē	巴|也|吖|捏		
 stedt-rn-127149	nef		睡；睡着				0	phonetic	睡；睡着	ne	né			
 stedt-rn-127149@2	nief		睡；睡着	镍			0	tujia	睡；睡着	nie	nié	镍		
-stedt-rn-43459	nief		睡	镍			0	tujia	睡	nie	nié	镍		
+stedt-rn-43459	nief		睡觉	镍			0	tujia	睡觉	nie	nié	镍		
 stedt-rn-127283	nefkixrex		打鼾				0	phonetic	打鼾	nekire	nékīrē			
 stedt-rn-127283@2	nefkixriex		打鼾				0	phonetic	打鼾	nekirie	nékīriē			
 stedt-rn-127283@3	niefkixrex		打鼾	镍克以惹			0	tujia	打鼾	niekire	niékīrē	镍|克以|惹		
@@ -4587,9 +4587,9 @@ stedt-rn-186429	baofhuxzix		豹	抱呼子			0	tujia	豹	baohuzi	báohūzī	抱|�
 stedt-rn-366342	baoxgux		玉米	苞古			0	tujia	玉米	baogu	bāogū	苞|古		
 stedt-rn-220599	baoxhuf		保护	苞互			0	tujia	保护	baohu	bāohú	苞|互		
 stedt-rn-453987	pafnix		老太太	怕你			0	tujia	老太太	pani	pánī	怕|你		
-stedt-rn-288711	barbux		外祖母；外婆	八补			0	tujia	外祖母；外婆	babu	bǎbū	八|补		
-stedt-rn-288711@2	karbur		外祖母；外婆	咔不			0	tujia	外祖母；外婆	kabu	kǎbǔ	咔|不		
-stedt-rn-288711@3	muxsixarniex		外祖母；外婆	母使吖捏			0	tujia	外祖母；外婆	musi'anie	mūsī'ǎniē	母|使|吖|捏		
+stedt-rn-288711	barbux		外婆	八补			0	tujia	外婆	babu	bǎbū	八|补		
+stedt-rn-288711@2	karbur		外婆	咔不			0	tujia	外婆	kabu	kǎbǔ	咔|不		
+stedt-rn-288711@3	muxsixarniex		外婆	母使吖捏			0	tujia	外婆	musi'anie	mūsī'ǎniē	母|使|吖|捏		
 stedt-rn-288495	bartir		底部	八提			0	tujia	底部	bati	bǎtǐ	八|提		
 stedt-rn-382379	bartir		下（桌子下）	八提			0	tujia	下（桌子下）	bati	bǎtǐ	八|提		
 stedt-rn-182961	bartir		下面	八提			0	tujia	下面	bati	bǎtǐ	八|提		
@@ -4790,7 +4790,7 @@ stedt-rn-376771	bianxdanr		扁担	编旦			0	tujia	扁担	biandan	biāndǎn	编|
 stedt-rn-376771@2	bianxdangr		扁担	编旦			0	tujia	扁担	biandang	biāndǎng	编|旦		
 stedt-rn-375691	bianxzir		鞭子	编直			0	tujia	鞭子	bianzi	biānzǐ	编|直		
 stedt-rn-199077	biaof		手表	比要			0	tujia	手表	biao	biáo	比要		
-stedt-rn-289196	biaoxyanr		表扬；赞扬	表扬			0	tujia	表扬；赞扬	biaoyan	biāoyǎn	表|扬		
+stedt-rn-289196	biaoxyanr		表扬	表扬			0	tujia	表扬	biaoyan	biāoyǎn	表|扬		
 stedt-rn-289178	bianf		变化；转变	变			0	tujia	变化；转变	bian	bián	变		
 stedt-rn-404751	bief		插入；把标志插进土里	鳖			0	tujia	插入；把标志插进土里	bie	bié	鳖		
 stedt-rn-212592	bief		插入	鳖			0	tujia	插入	bie	bié	鳖		
@@ -4815,7 +4815,7 @@ stedt-rn-394739	bif		小	币			0	tujia	小	bi	bí	币
 stedt-rn-127271	biflax		肠子	币拉			0	tujia	肠子	bila	bílā	币|拉		
 stedt-rn-43400	biflax		肠子	币拉			0	tujia	肠子	bila	bílā	币|拉		
 stedt-rn-352688	biflax		肠子	币拉			0	tujia	肠子	bila	bílā	币|拉		
-stedt-rn-433786	biflax		抓；捉	币拉			0	tujia	抓；捉	bila	bílā	币|拉		
+stedt-rn-433786	biflax		抓	币拉			0	tujia	抓	bila	bílā	币|拉		
 stedt-rn-208308	biflax		搔	币拉			0	tujia	搔	bila	bílā	币|拉		
 stedt-rn-288659	bifsofdiex		年轻男子；小伙子	币唆爹			0	tujia	年轻男子；小伙子	bisodie	bísódiē	币|唆|爹		
 stedt-rn-289258	bifsofdiex		年轻	币唆爹			0	tujia	年轻	bisodie	bísódiē	币|唆|爹		
@@ -4919,7 +4919,7 @@ stedt-rn-356962	befbex		伯父；父亲的哥哥	百柏			0	tujia	伯父；父�
 stedt-rn-196374	befbex		伯父	百柏			0	tujia	伯父	bebe	bébē	百|柏		
 stedt-rn-190560	befcaix		白菜	百采			0	tujia	白菜	becai	bécāi	百|采		
 stedt-rn-403194	bev		搬家	柏			0	tujia	搬家	be	bè	柏		
-stedt-rn-403715	bev		拥抱；抱	柏			0	tujia	拥抱；抱	be	bè	柏		
+stedt-rn-403715	bev		抱	柏			0	tujia	抱	be	bè	柏		
 stedt-rn-208767	bev		抱婴儿	柏			0	tujia	抱婴儿	be	bè	柏		
 stedt-rn-210144	bev		搬东西	柏			0	tujia	搬东西	be	bè	柏		
 stedt-rn-365165	bexliexsix		梨	柏咧使			0	tujia	梨	beliesi	bēliēsī	柏|咧|使		
@@ -5041,9 +5041,9 @@ stedt-rn-288785	saxmix		油炸面圈；油炸面点	沙米			0	tujia	油炸面�
 stedt-rn-194691	saxbuxxier		疟疾	沙补雪			0	tujia	疟疾	sabuxie	sābūxiě	沙|补|雪		
 stedt-rn-288575	saxtux		虾	沙土			0	tujia	虾	satu	sātū	沙|土		
 stedt-rn-368770	saxcier		丝				0	phonetic	丝	sacie	sāciě			
-stedt-rn-347269	saxzix		沙子	沙子			0	tujia	沙子	sazi	sāzī	沙|子		
+stedt-rn-347269	saxzix		沙	沙子			0	tujia	沙	sazi	sāzī	沙|子		
 stedt-rn-454393	senr		容忍	神			0	tujia	容忍	sen	sěn	神		
-stedt-rn-455200	sef		你们（第二人称复数）	社			0	tujia	你们	se	sé	社		
+stedt-rn-455200	sef		你们	社			0	tujia	你们	se	sé	社		
 stedt-rn-455201	sefdor		你们自己	社夺			0	tujia	你们自己	sedo	sédǒ	社|夺		
 stedt-rn-127273	ser		粪；屎	色			0	tujia	粪；屎	se	sě	色		
 stedt-rn-127273@2	sier		粪；屎				0	phonetic	粪；屎	sie	siě			
@@ -5897,13 +5897,13 @@ stedt-rn-288772@2	yer		米饭	叶			0	tujia	米饭	ye	yě	叶
 stedt-rn-288770	zirhxer		生米	直额			0	tujia	生米	zihxe	zǐhxě	直|额		
 stedt-rn-367527	zirhxer		米；稻；饭（原义未细分）	直额			0	tujia	米；稻；饭	zihxe	zǐhxě	直|额		
 stedt-rn-199893	zirhxer		生米	直额			0	tujia	生米	zihxe	zǐhxě	直|额		
-stedt-rn-127164	zif		哭；哭泣	致			0	tujia	哭；哭泣	zi	zí	致		
-stedt-rn-43462	zif		哭；哭泣	致			0	tujia	哭；哭泣	zi	zí	致		
+stedt-rn-127164	zif		哭	致			0	tujia	哭	zi	zí	致		
+stedt-rn-43462	zif		哭	致			0	tujia	哭	zi	zí	致		
 stedt-rn-289338	zif		长形物量词	致			0	tujia	长形物量词	zi	zí	致		
 stedt-rn-289340	zif		细长物量词	致			0	tujia	细长物量词	zi	zí	致		
 stedt-rn-388619	zif		笔的量词	致			0	tujia	笔的量词	zi	zí	致		
 stedt-rn-418751	zif		哭	致			0	tujia	哭	zi	zí	致		
-stedt-rn-216621	zif		哭泣	致			0	tujia	哭泣	zi	zí	致		
+stedt-rn-216621	zif		哭	致			0	tujia	哭	zi	zí	致		
 stedt-rn-127265	zifzif		胆	致致			0	tujia	胆	zizi	zízí	致|致		
 stedt-rn-43404	zifzif		胆；胆汁	致致			0	tujia	胆；胆汁	zizi	zízí	致|致		
 stedt-rn-422858	zifzix		翘（翘尾巴）	致子			0	tujia	翘（翘尾巴）	zizi	zízī	致|子		
@@ -6129,7 +6129,7 @@ stedt-rn-400003	jianf		容易	见			0	tujia	容易	jian	jián	见
 stedt-rn-370012	jianfgax		手镯	见尕			0	tujia	手镯	jian'ga	jián'gā	见|尕		
 stedt-rn-369962	jianfgaxbufliv		戒指	见尕布里			0	tujia	戒指	jian'gabuli	jián'gābúlì	见|尕|布|里		
 stedt-rn-396124	jianx		尖	尖			0	tujia	尖	jian	jiān	尖		
-stedt-rn-415603	jianx		剪	尖			0	tujia	剪	jian	jiān	尖		
+stedt-rn-415603	jianx		修剪	尖			0	tujia	修剪	jian	jiān	尖		
 stedt-rn-203463	jianx		剪子	尖			0	tujia	剪子	jian	jiān	尖		
 stedt-rn-374879	jianxjianx		剪子	尖尖			0	tujia	剪子	jianjian	jiānjiān	尖|尖		
 stedt-rn-288928	jiaorwuf		阶级意识	脚务			0	tujia	阶级意识	jiaowu	jiǎowú	脚|务		
@@ -6382,10 +6382,10 @@ stedt-rn-455075	xif		一般名词化标记	细			0	tujia	一般名词化标记	x
 stedt-rn-454510	xifpongv		绿叶蔬菜	细蓬			0	tujia	绿叶蔬菜	xipong	xípòng	细|蓬		
 stedt-rn-455076	xirtaif		最高程度助词；很、非常	昔太			0	tujia	最高程度助词；很、非常	xitai	xǐtái	昔|太		
 stedt-rn-455154	xix		砖、钱、木板、瓦等的量词	希			0	tujia	砖、钱、木板、瓦等的量词	xi	xī	希		
-stedt-rn-453828	xiv		听；听见	希			0	tujia	听；听见	xi	xì	希		
+stedt-rn-453828	xiv		听	希			0	tujia	听	xi	xì	希		
 stedt-rn-288687	hinxmax		英雄				0	phonetic	英雄	hinma	hīnmā			
 stedt-rn-288687@2	yinxxianr		英雄	因闲			0	tujia	英雄	yinxian	yīnxiǎn	因|闲		
-stedt-rn-288948	hor		拿；取	和			0	tujia	拿；取	ho	hǒ	和		
+stedt-rn-288948	hor		拿	和			0	tujia	拿	ho	hǒ	和		
 stedt-rn-420799	hor		拿；握；取	和			0	tujia	拿；握；取	ho	hǒ	和		
 stedt-rn-420845	hor		拿住了；得到了	和			0	tujia	拿住了；得到了	ho	hǒ	和		
 stedt-rn-212133	hor		揉（揉面）	和			0	tujia	揉（揉面）	ho	hǒ	和		
@@ -6403,7 +6403,7 @@ stedt-rn-410934	huanx		翻身（在床上翻身）	欢			0	tujia	翻身（在床
 stedt-rn-221211	huanx		方	欢			0	tujia	方	huan	huān	欢		
 stedt-rn-190407	huanxguar		黄瓜	欢刮			0	tujia	黄瓜	huan'gua	huān'guǎ	欢|刮		
 stedt-rn-410973	huanxduif		反对	欢队			0	tujia	反对	huandui	huānduí	欢|队		
-stedt-rn-429588	huanxxiv		喜欢；爱	欢希			0	tujia	喜欢；爱	huanxi	huānxì	欢|希		
+stedt-rn-429588	huanxxiv		喜欢	欢希			0	tujia	喜欢	huanxi	huānxì	欢|希		
 stedt-rn-216723	huanxxiv		喜欢；像（原义未细分）	欢希			0	tujia	喜欢；像	huanxi	huānxì	欢|希		
 stedt-rn-289110	huar		分发	哗			0	tujia	分发	hua	huǎ	哗		
 stedt-rn-224985	huar		光滑	哗			0	tujia	光滑	hua	huǎ	哗		
@@ -6546,7 +6546,7 @@ stedt-rn-197598	riexbiof		孙子				0	phonetic	孙子	riebio	riēbió
 stedt-rn-356660	riexbiuf		孙女；外孙女（原义未区分）				0	phonetic	孙女；外孙女	riebiu	riēbiú			
 stedt-rn-387141	riexhix		四十				0	phonetic	四十	riehi	riēhī			
 stedt-rn-230748	riexriexmor		慢慢地				0	phonetic	慢慢地	rieriemo	riēriēmǒ			
-stedt-rn-454801	zif		哭；哭泣	致			0	tujia	哭；哭泣	zi	zí	致		
+stedt-rn-454801	zif		哭	致			0	tujia	哭	zi	zí	致		
 stedt-rn-455162	zif		细长物量词	致			0	tujia	细长物量词	zi	zí	致		
 stedt-rn-127276	rir		阴茎	日			0	tujia	阴茎	ri	rǐ	日		
 stedt-rn-350995	rir		男性生殖器	日			0	tujia	男性生殖器	ri	rǐ	日		
@@ -6601,9 +6601,9 @@ stedt-rn-453887	zoxar		娶儿媳妇	左吖			0	tujia	娶儿媳妇	zo'a	zō'ǎ	�
 stedt-rn-453950	zoxnirmuxnir		亲友	左尼母尼			0	tujia	亲友	zonimuni	zōnǐmūnǐ	左|尼|母|尼		
 stedt-rn-454443	zuf		出来；起床	住			0	tujia	出来；起床	zu	zú	住		
 stedt-rn-455080	zuf		从属助词；从句标记	住			0	tujia	从属助词；从句标记	zu	zú	住		
-stedt-rn-127174	rur		听见	如			0	tujia	听见	ru	rǔ	如		
+stedt-rn-127174	rur		听	如			0	tujia	听	ru	rǔ	如		
 stedt-rn-207951	rur		气味；闻（原义未细分）	如			0	tujia	气味；闻	ru	rǔ	如		
-stedt-rn-428086	rurliaox		听见	如了			0	tujia	听见	ruliao	rǔliāo	如|了		
+stedt-rn-428086	rurliaox		听	如了			0	tujia	听	ruliao	rǔliāo	如|了		
 stedt-rn-43476	rongf		乌鸦叫；啼叫	日瓮			0	tujia	乌鸦叫；啼叫	rong	róng	日瓮		
 stedt-rn-397324	ruv		轻（重量）	汝			0	tujia	轻（重量）	ru	rù	汝		
 stedt-rn-222282	ruv		光；轻（原义未细分）	汝			0	tujia	光；轻	ru	rù	汝		
@@ -6642,10 +6642,10 @@ stedt-rn-423138	hxar		娶妻	呃锕			0	tujia	娶妻	hxa	hxǎ	呃锕
 stedt-rn-425583	hxar		接收；接受	呃锕			0	tujia	接收；接受	hxa	hxǎ	呃锕		
 stedt-rn-429444	hxar		吸（吸气）	呃锕			0	tujia	吸（吸气）	hxa	hxǎ	呃锕		
 stedt-rn-214479	hxar		拿回；收起	呃锕			0	tujia	拿回；收起	hxa	hxǎ	呃锕		
-stedt-rn-346384	hxarkor		岩石	呃锕阔			0	tujia	岩石	hxako	hxǎkǒ	呃锕|阔		
+stedt-rn-346384	hxarkor		石头	呃锕阔			0	tujia	石头	hxako	hxǎkǒ	呃锕|阔		
 stedt-rn-181329	hxarkor		悬崖	呃锕阔			0	tujia	悬崖	hxako	hxǎkǒ	呃锕|阔		
 stedt-rn-347217	hxarbar		石头	呃锕八			0	tujia	石头	hxaba	hxǎbǎ	呃锕|八		
-stedt-rn-182145	hxarbar		石；石头	呃锕八			0	tujia	石；石头	hxaba	hxǎbǎ	呃锕|八		
+stedt-rn-182145	hxarbar		石头	呃锕八			0	tujia	石头	hxaba	hxǎbǎ	呃锕|八		
 stedt-rn-289028	hxaf		写	呃啊			0	tujia	写	hxa	hxá	呃啊		
 stedt-rn-289149	hxaf		渡河	呃啊			0	tujia	渡河	hxa	hxá	呃啊		
 stedt-rn-413313	hxaf		过（过桥）	呃啊			0	tujia	过（过桥）	hxa	hxá	呃啊		
@@ -6711,7 +6711,7 @@ stedt-rn-196425	niercix		大姑；父亲的姐姐	业此			0	tujia	大姑；父�
 stedt-rn-387294	nierhix		七十	业黑以			0	tujia	七十	niehi	niěhī	业|黑以		
 stedt-rn-357121	nierniex		婶母；父亲弟弟的妻子	业捏			0	tujia	婶母；父亲弟弟的妻子	nienie	niěniē	业|捏		
 stedt-rn-196527	nierniex		婶母（原英文亲属说明截断）	业捏			0	tujia	婶母	nienie	niěniē	业|捏		
-stedt-rn-426349	nief		睡	镍			0	tujia	睡	nie	nié	镍		
+stedt-rn-426349	nief		睡觉	镍			0	tujia	睡觉	nie	nié	镍		
 stedt-rn-426394	nief		入睡；睡着	镍			0	tujia	入睡；睡着	nie	nié	镍		
 stedt-rn-422614	niefzux		起来；站起来	镍珠			0	tujia	起来；站起来	niezu	niézū	镍|珠		
 stedt-rn-362013	niefbix		鸟	镍比			0	tujia	鸟	niebi	niébī	镍|比		
@@ -7287,7 +7287,7 @@ yubao-60757-v-0609	baofyinx		笨蛋	抱因			0	tujia	笨蛋	baoyin	báoyīn	抱|
 yubao-60757-v-0610	parpux		爷爷	爬铺			0	tujia	爷爷	papu	pǎpū	爬|铺		
 yubao-60757-v-0611	axmax		奶奶	阿吗			0	tujia	奶奶	ama	āmā	阿|吗		
 yubao-60757-v-0612	baxpur		外祖父	巴扑			0	tujia	外祖父	bapu	bāpǔ	巴|扑		
-yubao-60757-v-0613	barbux karbux		外祖母	八补咔补			0	tujia	外祖母	babu kabu	bǎbū kǎbū	八|补|咔|补		
+yubao-60757-v-0613	barbux karbux		外婆	八补咔补			0	tujia	外婆	babu kabu	bǎbū kǎbū	八|补|咔|补		
 yubao-60757-v-0614	arniexarbax nierbar		父母	吖捏吖巴业八			0	tujia	父母	anie'aba nieba	ǎniē'ǎbā niěbǎ	吖|捏|吖|巴|业|八		
 yubao-60757-v-0615	bar		父亲	八			0	tujia	父亲	ba	bǎ	八		
 yubao-60757-v-0616	nier		母亲	业			0	tujia	母亲	nie	niě	业		
@@ -7372,7 +7372,7 @@ yubao-60757-v-0724	cixpux		本子	此铺			0	tujia	本子	cipu	cīpū	此|铺
 yubao-60757-v-0733	gurlixguryev		捉迷藏	谷里谷也			0	tujia	捉迷藏	guliguye	gǔlīgǔyè	谷|里|谷|也		
 yubao-60757-v-0734	eflaxkev		跳绳	饿拉客			0	tujia	跳绳	elake	élākè	饿|拉|客		
 yubao-60757-v-0735	rax		毽子	日阿			0	tujia	毽子	ra	rā	日阿		
-yubao-60757-v-0739	goxsanv		唱歌	哥伞			0	tujia	唱歌	gosan	gōsàn	哥|伞		
+yubao-60757-v-0739	goxsanv		唱	哥伞			0	tujia	唱	gosan	gōsàn	哥|伞		
 yubao-60757-v-0740	sefbaxriv		演戏	社巴日			0	tujia	演戏	sebari	sébārì	社|巴|日		
 yubao-60757-v-0741	herlof		锣鼓	赫箩			0	tujia	锣鼓	helo	hěló	赫|箩		
 yubao-60757-v-0750	caivhuaxcuf		猜谜语	采花处			0	tujia	猜谜语	caihuacu	càihuācú	采|花|处		
@@ -7397,7 +7397,7 @@ yubao-60757-v-0770	pif		吐	譬			0	tujia	吐	pi	pí	譬
 yubao-60757-v-0772	peixqioxhar		打喷嚏	胚起哟蛤			0	tujia	打喷嚏	peiqioha	pēiqiōhǎ	胚|起哟|蛤		
 yubao-60757-v-0773	zax		拿	渣			0	tujia	拿	za	zā	渣		
 yubao-60757-v-0774	lief		给	烈			0	tujia	给	lie	lié	烈		
-yubao-60757-v-0775	buxbur		摸	补不			0	tujia	摸	bubu	būbǔ	补|不		
+yubao-60757-v-0775	buxbur		抚摸	补不			0	tujia	抚摸	bubu	būbǔ	补|不		
 yubao-60757-v-0776	bief		伸	鳖			0	tujia	伸	bie	bié	鳖		
 yubao-60757-v-0777	biflax		挠	币拉			0	tujia	挠	bila	bílā	币|拉		
 yubao-60757-v-0778	kufsux		掐	库书			0	tujia	掐	kusu	kúsū	库|书		
@@ -7482,7 +7482,7 @@ yubao-60757-v-0863	daxhar		打架	打蛤			0	tujia	打架	daha	dāhǎ	打|蛤
 yubao-60757-v-0864	hix		休息	黑以			0	tujia	休息	hi	hī	黑以		
 yubao-60757-v-0865	safpex		打哈欠	萨拍			0	tujia	打哈欠	sape	sápē	萨|拍		
 yubao-60757-v-0866	niefbiex		打瞌睡	镍憋			0	tujia	打瞌睡	niebie	niébiē	镍|憋		
-yubao-60757-v-0867	nief		睡	镍			0	tujia	睡	nie	nié	镍		
+yubao-60757-v-0867	nief		睡觉	镍			0	tujia	睡觉	nie	nié	镍		
 yubao-60757-v-0868	niefkexrex		打呼噜	镍客惹			0	tujia	打呼噜	niekere	niékērē	镍|客|惹		
 yubao-60757-v-0869	murzir		做梦	木直			0	tujia	做梦	muzi	mǔzǐ	木|直		
 yubao-60757-v-0870	niefzuf		起床	镍住			0	tujia	起床	niezu	niézú	镍|住		
@@ -7753,7 +7753,7 @@ yubao-60757-v-1247	kuxzaxgar		山顶	苦渣夹			0	tujia	山顶	kuzaga	kūzāgǎ
 yubao-60757-v-1248	kuxliex		山峰	苦咧			0	tujia	山峰	kulie	kūliē	苦|咧		
 yubao-60757-v-1250	kuxjir		山脚	苦吉			0	tujia	山脚	kuji	kūjǐ	苦|吉		
 yubao-60757-v-1253	artur		岩洞	吖突			0	tujia	岩洞	atu	ǎtǔ	吖|突		
-yubao-60757-v-1254	arbar		岩石	吖八			0	tujia	岩石	aba	ǎbǎ	吖|八		
+yubao-60757-v-1254	arbar		石头	吖八			0	tujia	石头	aba	ǎbǎ	吖|八		
 yubao-60757-v-1257	bixtiexcixbax		平原	比贴此巴			0	tujia	平原	bitieciba	bītiēcībā	比|贴|此|巴		
 yubao-60757-v-1258	sifbiexbax		滑坡	是憋巴			0	tujia	滑坡	sibieba	síbiēbā	是|憋|巴		
 yubao-60757-v-1259	baxrar		陡坡	巴日锕			0	tujia	陡坡	bara	bārǎ	巴|日锕		
@@ -7796,7 +7796,7 @@ yubao-60757-v-1317	mixpax		火把	米啪			0	tujia	火把	mipa	mīpā	米|啪
 yubao-60757-v-1318	mixsir		火星	米石			0	tujia	火星	misi	mīsǐ	米|石		
 yubao-60757-v-1319	mixlax		火舌	米拉			0	tujia	火舌	mila	mīlā	米|拉		
 yubao-60757-v-1321	mixarbax		火石	米吖巴			0	tujia	火石	mi'aba	mī'ǎbā	米|吖|巴		
-yubao-60757-v-1325	cermongx		井	策蒙			0	tujia	井	cemong	cěmōng	策|蒙		
+yubao-60757-v-1325	cermongx		水井	策蒙			0	tujia	水井	cemong	cěmōng	策|蒙		
 yubao-60757-v-1326	pexcer		沸水	拍策			0	tujia	沸水	pece	pēcě	拍|策		
 yubao-60757-v-1327	loxcer		温水	啰策			0	tujia	温水	loce	lōcě	啰|策		
 yubao-60757-v-1329	loxniex		春天	啰捏			0	tujia	春天	lonie	lōniē	啰|捏		
@@ -8086,7 +8086,7 @@ yubao-60757-v-1747	hongxbanx		墙板	轰班			0	tujia	墙板	hongban	hōngbān	�
 yubao-60757-v-1749	karbar		木板	咔八			0	tujia	木板	kaba	kǎbǎ	咔|八		
 yubao-60757-v-1750	wanfbanx		天花板	旺班			0	tujia	天花板	wanban	wánbān	旺|班		
 yubao-60757-v-1751	laxmenr		门板	拉门			0	tujia	门板	lamen	lāměn	拉|门		
-yubao-60757-v-1752	arpif		墙壁	吖譬			0	tujia	墙壁	api	ǎpí	吖|譬		
+yubao-60757-v-1752	arpif		墙	吖譬			0	tujia	墙	api	ǎpí	吖|譬		
 yubao-60757-v-1753	arpifwor		围墙	吖譬沃			0	tujia	围墙	apiwo	ǎpíwǒ	吖|譬|沃		
 yubao-60757-v-1754	arpifcif		砌墙	吖譬次			0	tujia	砌墙	apici	ǎpící	吖|譬|次		
 yubao-60757-v-1755	zuanxarpif		砖墙	庄吖譬			0	tujia	砖墙	zuan'api	zuān'ǎpí	庄|吖|譬		
@@ -8291,7 +8291,7 @@ yubao-60757-v-2174	tiersifgax		阴毛	铁是尕			0	tujia	阴毛	tiesiga	tiěsí
 yubao-60757-v-2175	niefkixbuflix		睾丸	镍克以布里			0	tujia	睾丸	niekibuli	niékībúlī	镍|克以|布|里		
 yubao-60757-v-2176	guxcer		汗	古策			0	tujia	汗	guce	gūcě	古|策		
 yubao-60757-v-2177	niergaf		汗垢	业尬			0	tujia	汗垢	niega	niěgá	业|尬		
-yubao-60757-v-2178	cersir		唾沫	策石			0	tujia	唾沫	cesi	cěsǐ	策|石		
+yubao-60757-v-2178	cersir		口水	策石			0	tujia	口水	cesi	cěsǐ	策|石		
 yubao-60757-v-2187	ser		药	色			0	tujia	药	se	sě	色		
 yubao-60757-v-2188	serbuflix		药丸	色布里			0	tujia	药丸	sebuli	sěbúlī	色|布|里		
 yubao-60757-v-2189	serpifpix		药粉	色譬匹			0	tujia	药粉	sepipi	sěpípī	色|譬|匹		
@@ -8520,7 +8520,7 @@ yubao-60757-v-2582	enr		来	恩			0	tujia	来	en	ěn	恩
 yubao-60757-v-2583	mief		吹	蔑			0	tujia	吹	mie	mié	蔑		
 yubao-60757-v-2584	cir		拉	尺			0	tujia	拉	ci	cǐ	尺		
 yubao-60757-v-2585	dir		挖	的			0	tujia	挖	di	dǐ	的		
-yubao-60757-v-2586	zof		捉	坐			0	tujia	捉	zo	zó	坐		
+yubao-60757-v-2586	zof		抓	坐			0	tujia	抓	zo	zó	坐		
 yubao-60757-v-2587	biflax		挠	币拉			0	tujia	挠	bila	bílā	币|拉		
 yubao-60757-v-2588	lar		圈	辣			0	tujia	圈	la	lǎ	辣		
 yubao-60757-v-2589	hex		刺	嘿			0	tujia	刺	he	hē	嘿		
@@ -8627,7 +8627,7 @@ yubao-60757-v-2724	ceryif		洒水	策意			0	tujia	洒水	ceyi	cěyí	策|意
 yubao-60757-v-2725	songxkox		返回	松可			0	tujia	返回	songko	sōngkō	松|可		
 yubao-60757-v-2729	tafbox		包庇	拓波			0	tujia	包庇	tabo	tábō	拓|波		
 yubao-60757-v-2731	ef		偷盗	饿			0	tujia	偷盗	e	é	饿		
-yubao-60757-v-2733	rurdor		听见	如夺			0	tujia	听见	rudo	rǔdǒ	如|夺		
+yubao-60757-v-2733	rurdor		听	如夺			0	tujia	听	rudo	rǔdǒ	如|夺		
 yubao-60757-v-2734	efboxrur		偷听	饿波如			0	tujia	偷听	eboru	ébōrǔ	饿|波|如		
 yubao-60757-v-2736	biv		瞄准	比			0	tujia	瞄准	bi	bì	比		
 yubao-60757-v-2738	sixsax		啃	使沙			0	tujia	啃	sisa	sīsā	使|沙		
@@ -8848,7 +8848,7 @@ yubao-60756-v-0047	arkor		石头	吖阔			0	tujia	石头	ako	ǎkǒ	吖|阔
 yubao-60756-v-0048	baxlax		土	巴拉			0	tujia	土	bala	bālā	巴|拉		
 yubao-60756-v-0049	baxlaxkavbirlier		泥	巴拉卡必列			0	tujia	泥	balakabilie	bālākàbǐliě	巴|拉|卡|必|列		
 yubao-60756-v-0050	suivninx		水泥				0	phonetic	水泥	suinin	suìnīn			
-yubao-60756-v-0051	saxzir		沙子	沙直			0	tujia	沙子	sazi	sāzǐ	沙|直		
+yubao-60756-v-0051	saxzir		沙	沙直			0	tujia	沙	sazi	sāzǐ	沙|直		
 yubao-60756-v-0052	zuangx		砖	庄			0	tujia	砖	zuang	zuāng	庄		
 yubao-60756-v-0053	wax		瓦	瓦			0	tujia	瓦	wa	wā	瓦		
 yubao-60756-v-0054	meif		煤	妹			0	tujia	煤	mei	méi	妹		
@@ -9247,7 +9247,7 @@ yubao-60756-v-0460	enrqief		耳朵	恩怯			0	tujia	耳朵	enqie	ěnqié	恩|怯
 yubao-60756-v-0461	enxqix		鼻子	嗯起			0	tujia	鼻子	enqi	ēnqī	嗯|起		
 yubao-60756-v-0462	enxqixlax		鼻涕	嗯起拉			0	tujia	鼻涕	enqila	ēnqīlā	嗯|起|拉		
 yubao-60756-v-0463	xir		擤	昔			0	tujia	擤	xi	xǐ	昔		
-yubao-60756-v-0464	zarqir		嘴巴	扎其			0	tujia	嘴巴	zaqi	zǎqǐ	扎|其		
+yubao-60756-v-0464	zarqir		嘴	扎其			0	tujia	嘴	zaqi	zǎqǐ	扎|其		
 yubao-60756-v-0465	zarqirtarpar		嘴唇	扎其踏爬			0	tujia	嘴唇	zaqitapa	zǎqǐtǎpǎ	扎|其|踏|爬		
 yubao-60756-v-0466	carpircex		口水	查皮车			0	tujia	口水	capice	cǎpǐcē	查|皮|车		
 yubao-60756-v-0467	yirlar		舌头	移辣			0	tujia	舌头	yila	yǐlǎ	移|辣		
@@ -9397,7 +9397,7 @@ yubao-60756-v-0609	novgaxbax		笨蛋				0	phonetic	笨蛋	nogaba	nògābā
 yubao-60756-v-0610	parpuf		爷爷	爬菩			0	tujia	爷爷	papu	pǎpú	爬|菩		
 yubao-60756-v-0611	arbor		奶奶	吖博			0	tujia	奶奶	abo	ǎbǒ	吖|博		
 yubao-60756-v-0612	gaxgongr		外祖父	尕功			0	tujia	外祖父	gagong	gāgǒng	尕|功		
-yubao-60756-v-0613	gaxpox		外祖母	尕坡			0	tujia	外祖母	gapo	gāpō	尕|坡		
+yubao-60756-v-0613	gaxpox		外婆	尕坡			0	tujia	外婆	gapo	gāpō	尕|坡		
 yubao-60756-v-0614	nierbar		父母	业八			0	tujia	父母	nieba	niěbǎ	业|八		
 yubao-60756-v-0615	arbax		父亲	吖巴			0	tujia	父亲	aba	ǎbā	吖|巴		
 yubao-60756-v-0616	arniex		母亲	吖捏			0	tujia	母亲	anie	ǎniē	吖|捏		
@@ -9520,8 +9520,8 @@ yubao-60756-v-0735	rarjirhar		毽子	日锕吉蛤			0	tujia	毽子	rajiha	rǎjǐ
 yubao-60756-v-0736	hongxzenr		风筝	轰真			0	tujia	风筝	hongzen	hōngzěn	轰|真		
 yubao-60756-v-0737	sivzirwur		舞狮	使直吾			0	tujia	舞狮	siziwu	sìzǐwǔ	使|直|吾		
 yubao-60756-v-0738	paofzur		鞭炮	炮祝			0	tujia	鞭炮	paozu	páozǔ	炮|祝		
-yubao-60756-v-0739	canrgor		唱歌	场郭			0	tujia	唱歌	can'go	cǎn'gǒ	场|郭		
-yubao-60756-v-0739@2	gofcanr		唱歌	过场			0	tujia	唱歌	gocan	gócǎn	过|场		
+yubao-60756-v-0739	canrgor		唱	场郭			0	tujia	唱	can'go	cǎn'gǒ	场|郭		
+yubao-60756-v-0739@2	gofcanr		唱	过场			0	tujia	唱	gocan	gócǎn	过|场		
 yubao-60756-v-0740	xircanr		演戏	昔场			0	tujia	演戏	xican	xǐcǎn	昔|场		
 yubao-60756-v-0741	lorgurjiarsir		锣鼓	罗谷甲石			0	tujia	锣鼓	logujiasi	lǒgǔjiǎsǐ	罗|谷|甲|石		
 yubao-60756-v-0742	qinrkex		二胡	琴客			0	tujia	二胡	qinke	qǐnkē	琴|客		
@@ -9556,7 +9556,7 @@ yubao-60756-v-0770	pir		吐	皮			0	tujia	吐	pi	pǐ	皮
 yubao-60756-v-0772	peivcaorhar		打喷嚏	胚朝蛤			0	tujia	打喷嚏	peicaoha	pèicǎohǎ	胚|朝|蛤		
 yubao-60756-v-0773	zav		拿	渣			0	tujia	拿	za	zà	渣		
 yubao-60756-v-0774	lier		给	列			0	tujia	给	lie	liě	列		
-yubao-60756-v-0775	burbur		摸	不不			0	tujia	摸	bubu	bǔbǔ	不|不		
+yubao-60756-v-0775	burbur		抚摸	不不			0	tujia	抚摸	bubu	bǔbǔ	不|不		
 yubao-60756-v-0776	cenx		伸	撑			0	tujia	伸	cen	cēn	撑		
 yubao-60756-v-0777	pirlar		挠	皮辣			0	tujia	挠	pila	pǐlǎ	皮|辣		
 yubao-60756-v-0778	kursur		掐	窟俗			0	tujia	掐	kusu	kǔsǔ	窟|俗		
@@ -9647,7 +9647,7 @@ yubao-60756-v-0863	daxhax		打架	打哈			0	tujia	打架	daha	dāhā	打|哈
 yubao-60756-v-0864	houv		休息	吼			0	tujia	休息	hou	hòu	吼		
 yubao-60756-v-0865	haxxirhar		打哈欠	哈昔蛤			0	tujia	打哈欠	haxiha	hāxǐhǎ	哈|昔|蛤		
 yubao-60756-v-0866	niexbiexzex		打瞌睡	捏憋者			0	tujia	打瞌睡	niebieze	niēbiēzē	捏|憋|者		
-yubao-60756-v-0867	nier		睡	业			0	tujia	睡	nie	niě	业		
+yubao-60756-v-0867	nier		睡觉	业			0	tujia	睡觉	nie	niě	业		
 yubao-60756-v-0868	purhanrhav		打呼噜	扑含哈			0	tujia	打呼噜	puhanha	pǔhǎnhà	扑|含|哈		
 yubao-60756-v-0869	murjircur		做梦	木吉出			0	tujia	做梦	mujicu	mǔjǐcǔ	木|吉|出		
 yubao-60756-v-0870	zurxier		起床	祝雪			0	tujia	起床	zuxie	zǔxiě	祝|雪		
@@ -10017,7 +10017,7 @@ yubao-60756-v-1249	banrsanryaor		山腰	半闪摇			0	tujia	山腰	bansanyao	bǎ
 yubao-60756-v-1250	kuvzarbartir		山脚	苦扎八提			0	tujia	山脚	kuzabati	kùzǎbǎtǐ	苦|扎|八|提		
 yubao-60756-v-1251	beiryinrsanr		阴山	北吟闪			0	tujia	阴山	beiyinsan	běiyǐnsǎn	北|吟|闪		
 yubao-60756-v-1253	ngairdongf		岩洞	岩动			0	tujia	岩洞	ngaidong	ngǎidóng	岩|动		
-yubao-60756-v-1254	arkor		岩石	吖阔			0	tujia	岩石	ako	ǎkǒ	吖|阔		
+yubao-60756-v-1254	arkor		石头	吖阔			0	tujia	石头	ako	ǎkǒ	吖|阔		
 yubao-60756-v-1255	dirsuirngaix		花岗岩	的随挨			0	tujia	花岗岩	disuingai	dǐsuǐngāi	的|随|挨		
 yubao-60756-v-1256	hurpararkor		鹅卵石	胡爬吖阔			0	tujia	鹅卵石	hupa'ako	hǔpǎ'ǎkǒ	胡|爬|吖|阔		
 yubao-60756-v-1258	tarkardier		滑坡	踏咔碟			0	tujia	滑坡	takadie	tǎkǎdiě	踏|咔|碟		
@@ -10082,7 +10082,7 @@ yubao-60756-v-1321	mixsex		火石	米舍			0	tujia	火石	mise	mīsē	米|舍
 yubao-60756-v-1322	hoxcanr		火铲	喝场			0	tujia	火铲	hocan	hōcǎn	喝|场		
 yubao-60756-v-1323	qixyux		汽油	起迂			0	tujia	汽油	qiyu	qīyū	起|迂		
 yubao-60756-v-1324	yurqif		油漆	于气			0	tujia	油漆	yuqi	yǔqí	于|气		
-yubao-60756-v-1325	canx		井	昌			0	tujia	井	can	cān	昌		
+yubao-60756-v-1325	canx		水井	昌			0	tujia	水井	can	cān	昌		
 yubao-60756-v-1326	cevguvlurguvlur		沸水	车古录古录			0	tujia	沸水	cegulugulu	cègùlǔgùlǔ	车|古|录|古|录		
 yubao-60756-v-1327	wenxsuir		温水	温随			0	tujia	温水	wensui	wēnsuǐ	温|随		
 yubao-60756-v-1328	jianxsuir		碱水	尖随			0	tujia	碱水	jiansui	jiānsuǐ	尖|随		
@@ -10456,7 +10456,7 @@ yubao-60756-v-1748	lourbanr		楼板				0	phonetic	楼板	louban	lǒubǎn
 yubao-60756-v-1749	banxzir		木板	班直			0	tujia	木板	banzi	bānzǐ	班|直		
 yubao-60756-v-1750	tiangxhuarbanr		天花板	添哗半			0	tujia	天花板	tianghuaban	tiānghuǎbǎn	添|哗|半		
 yubao-60756-v-1751	coxmenxbanv		门板	搓闷班			0	tujia	门板	comenban	cōmēnbàn	搓|闷|班		
-yubao-60756-v-1752	qianrpif		墙壁	钱譬			0	tujia	墙壁	qianpi	qiǎnpí	钱|譬		
+yubao-60756-v-1752	qianrpif		墙	钱譬			0	tujia	墙	qianpi	qiǎnpí	钱|譬		
 yubao-60756-v-1753	weirqianx		围墙	微纤			0	tujia	围墙	weiqian	wěiqiān	微|纤		
 yubao-60756-v-1754	qianrcix		砌墙	钱此			0	tujia	砌墙	qianci	qiǎncī	钱|此		
 yubao-60756-v-1755	hoxzuangxqianx		砖墙	喝庄纤			0	tujia	砖墙	hozuangqian	hōzuāngqiān	喝|庄|纤		
@@ -10866,7 +10866,7 @@ yubao-60756-v-2174	xirgar		阴毛	昔夹			0	tujia	阴毛	xiga	xǐgǎ	昔|夹
 yubao-60756-v-2175	liexpaixburlair		睾丸	咧排不来			0	tujia	睾丸	liepaibulai	liēpāibǔlǎi	咧|排|不|来		
 yubao-60756-v-2176	loxcex		汗	啰车			0	tujia	汗	loce	lōcē	啰|车		
 yubao-60756-v-2177	niefgar		汗垢	镍夹			0	tujia	汗垢	niega	niégǎ	镍|夹		
-yubao-60756-v-2178	carpircex		唾沫	查皮车			0	tujia	唾沫	capice	cǎpǐcē	查|皮|车		
+yubao-60756-v-2178	carpircex		口水	查皮车			0	tujia	口水	capice	cǎpǐcē	查|皮|车		
 yubao-60756-v-2179	yixyanv		医院	以央			0	tujia	医院	yiyan	yīyàn	以|央		
 yubao-60756-v-2180	yaorpux		药店	摇铺			0	tujia	药店	yaopu	yǎopū	摇|铺		
 yubao-60756-v-2181	zongxyix		中医	中以			0	tujia	中医	zongyi	zōngyī	中|以		
@@ -11012,7 +11012,7 @@ yubao-60756-v-2329	parzer		汉族	爬则			0	tujia	汉族	paze	pǎzě	爬|则
 yubao-60756-v-2330	laoxbeivxinr		老百姓	老杯行			0	tujia	老百姓	laobeixin	lāobèixǐn	老|杯|行		
 yubao-60756-v-2331	xinf		姓	信			0	tujia	姓	xin	xín	信		
 yubao-60756-v-2332	covcirkar		主人	搓尺咔			0	tujia	主人	cocika	còcǐkǎ	搓|尺|咔		
-yubao-60756-v-2333	binx		兵	兵			0	tujia	兵	bin	bīn	兵		
+yubao-60756-v-2333	binx		士兵	兵			0	tujia	士兵	bin	bīn	兵		
 yubao-60756-v-2334	laoxsix		老师	老使			0	tujia	老师	laosi	lāosī	老|使		
 yubao-60756-v-2335	xiaorsenrngax		学生	削神桠			0	tujia	学生	xiaosennga	xiǎosěnngā	削|神|桠		
 yubao-60756-v-2336	dirrenx		敌人	的忍			0	tujia	敌人	diren	dǐrēn	的|忍		
@@ -11256,7 +11256,7 @@ yubao-60756-v-2582	enxjir		来	嗯吉			0	tujia	来	enji	ēnjǐ	嗯|吉
 yubao-60756-v-2583	miex		吹	咩			0	tujia	吹	mie	miē	咩		
 yubao-60756-v-2584	yev		拉	也			0	tujia	拉	ye	yè	也		
 yubao-60756-v-2585	dir		挖	的			0	tujia	挖	di	dǐ	的		
-yubao-60756-v-2586	zor		捉	着			0	tujia	捉	zo	zǒ	着		
+yubao-60756-v-2586	zor		抓	着			0	tujia	抓	zo	zǒ	着		
 yubao-60756-v-2588	axlax		圈	阿拉			0	tujia	圈	ala	ālā	阿|拉		
 yubao-60756-v-2589	hex		刺	嘿			0	tujia	刺	he	hē	嘿		
 yubao-60756-v-2590	cor		搓	撮			0	tujia	搓	co	cǒ	撮		
@@ -11271,7 +11271,7 @@ yubao-60756-v-2598	lanv		溢	朗			0	tujia	溢	lan	làn	朗
 yubao-60756-v-2599	qiv		取名	起			0	tujia	取名	qi	qì	起		
 yubao-60756-v-2600	xivbarnanrnanf		晾衣	希八南难			0	tujia	晾衣	xibanannan	xìbǎnǎnnán	希|八|南|难		
 yubao-60756-v-2601	purpur		补	扑扑			0	tujia	补	pupu	pǔpǔ	扑|扑		
-yubao-60756-v-2602	anxnanr		剪	安南			0	tujia	剪	annan	ānnǎn	安|南		
+yubao-60756-v-2602	anxnanr		修剪	安南			0	tujia	修剪	annan	ānnǎn	安|南		
 yubao-60756-v-2603	tiex		裁	贴			0	tujia	裁	tie	tiē	贴		
 yubao-60756-v-2604	har		织	蛤			0	tujia	织	ha	hǎ	蛤		
 yubao-60756-v-2605	zax		扎	渣			0	tujia	扎	za	zā	渣		
@@ -11400,7 +11400,7 @@ yubao-60756-v-2728	renrzuir		认罪	人缀			0	tujia	认罪	renzui	rěnzuǐ	人|
 yubao-60756-v-2729	baoxpix		包庇	苞匹			0	tujia	包庇	baopi	bāopī	苞|匹		
 yubao-60756-v-2731	hxer		偷盗	额			0	tujia	偷盗	hxe	hxě	额		
 yubao-60756-v-2732	duf		毒	杜			0	tujia	毒	du	dú	杜		
-yubao-60756-v-2733	rurdor		听见	如夺			0	tujia	听见	rudo	rǔdǒ	如|夺		
+yubao-60756-v-2733	rurdor		听	如夺			0	tujia	听	rudo	rǔdǒ	如|夺		
 yubao-60756-v-2734	tartaifrur		偷听	踏太如			0	tujia	偷听	tatairu	tǎtáirǔ	踏|太|如		
 yubao-60756-v-2735	baxdox		看见	巴多			0	tujia	看见	bado	bādō	巴|多		
 yubao-60756-v-2736	miaorzunx		瞄准	瞄准			0	tujia	瞄准	miaozun	miǎozūn	瞄|准		
@@ -11714,7 +11714,7 @@ yubao-60823-v-0047	hxafbaf		石头	呃啊坝			0	tujia	石头	hxaba	hxábá	呃�
 yubao-60823-v-0048	rox		土	若			0	tujia	土	ro	rō	若		
 yubao-60823-v-0049	barjif		泥	八记			0	tujia	泥	baji	bají	八|记		
 yubao-60823-v-0050	suixnix		水泥	水你			0	tujia	水泥	suini	suīnī	水|你		
-yubao-60823-v-0051	hxafcirpif		沙子	呃啊尺譬			0	tujia	沙子	hxacipi	hxácǐpí	呃啊|尺|譬		
+yubao-60823-v-0051	hxafcirpif		沙	呃啊尺譬			0	tujia	沙	hxacipi	hxácǐpí	呃啊|尺|譬		
 yubao-60823-v-0052	zuanx		砖	庄			0	tujia	砖	zuan	zuān	庄		
 yubao-60823-v-0053	coxaxduxcix		瓦	搓阿都此			0	tujia	瓦	co'aduci	cō'ādūcī	搓|阿|都|此		
 yubao-60823-v-0054	mer		煤	麦			0	tujia	煤	me	me	麦		
@@ -12120,7 +12120,7 @@ yubao-60823-v-0460	wongrqief		耳朵				0	phonetic	耳朵	wongqie	wongqié
 yubao-60823-v-0461	wongxqix		鼻子				0	phonetic	鼻子	wongqi	wōngqī			
 yubao-60823-v-0462	wongxqixlaf		鼻涕				0	phonetic	鼻涕	wongqila	wōngqīlá			
 yubao-60823-v-0463	xiflax		擤	细拉			0	tujia	擤	xila	xílā	细|拉		
-yubao-60823-v-0464	zafqix		嘴巴	炸起			0	tujia	嘴巴	zaqi	záqī	炸|起		
+yubao-60823-v-0464	zafqix		嘴	炸起			0	tujia	嘴	zaqi	záqī	炸|起		
 yubao-60823-v-0465	zafqixtaxpax		嘴唇	炸起他啪			0	tujia	嘴唇	zaqitapa	záqītāpā	炸|起|他|啪		
 yubao-60823-v-0466	cerxif		口水	策细			0	tujia	口水	cexi	cexí	策|细		
 yubao-60823-v-0467	yiflax		舌头	意拉			0	tujia	舌头	yila	yílā	意|拉		
@@ -12268,7 +12268,7 @@ yubao-60823-v-0609	haxbaor		笨蛋	哈包			0	tujia	笨蛋	habao	hābao	哈|包
 yubao-60823-v-0610	diexdier		爷爷	爹碟			0	tujia	爷爷	diedie	diēdie	爹|碟		
 yubao-60823-v-0611	axmar		奶奶	阿麻			0	tujia	奶奶	ama	āma	阿|麻		
 yubao-60823-v-0612	gaxgongr		外祖父	尕功			0	tujia	外祖父	gagong	gāgong	尕|功		
-yubao-60823-v-0613	gaxpox		外祖母	尕坡			0	tujia	外祖母	gapo	gāpō	尕|坡		
+yubao-60823-v-0613	gaxpox		外婆	尕坡			0	tujia	外婆	gapo	gāpō	尕|坡		
 yubao-60823-v-0614	nierbaf		父母	业坝			0	tujia	父母	nieba	niebá	业|坝		
 yubao-60823-v-0615	arbax		父亲	吖巴			0	tujia	父亲	aba	ǎbā	吖|巴		
 yubao-60823-v-0616	arniex		母亲	吖捏			0	tujia	母亲	anie	ǎniē	吖|捏		
@@ -12393,7 +12393,7 @@ yubao-60823-v-0735	rarharcif		毽子	日锕蛤次			0	tujia	毽子	rahaci	rahac�
 yubao-60823-v-0736	hongxdenx		风筝	轰灯			0	tujia	风筝	hongden	hōngdēn	轰|灯		
 yubao-60823-v-0737	sixzirwanr		舞狮	使直王			0	tujia	舞狮	siziwan	sīziwan	使|直|王		
 yubao-60823-v-0738	paofrur		鞭炮	炮如			0	tujia	鞭炮	paoru	páoru	炮|如		
-yubao-60823-v-0739	goxcanf		唱歌	哥唱			0	tujia	唱歌	gocan	gōcán	哥|唱		
+yubao-60823-v-0739	goxcanf		唱	哥唱			0	tujia	唱	gocan	gōcán	哥|唱		
 yubao-60823-v-0740	xifcanf		演戏	细唱			0	tujia	演戏	xican	xícán	细|唱		
 yubao-60823-v-0741	gux		锣鼓	古			0	tujia	锣鼓	gu	gū	古		
 yubao-60823-v-0742	wongrqix		二胡				0	phonetic	二胡	wongqi	wongqī			
@@ -12428,7 +12428,7 @@ yubao-60823-v-0770	pif		吐	譬			0	tujia	吐	pi	pí	譬
 yubao-60823-v-0772	penfjiaorhar		打喷嚏	喷脚蛤			0	tujia	打喷嚏	penjiaoha	pénjiaoha	喷|脚|蛤		
 yubao-60823-v-0773	zux		拿	珠			0	tujia	拿	zu	zū	珠		
 yubao-60823-v-0774	lief		给	烈			0	tujia	给	lie	lié	烈		
-yubao-60823-v-0775	buxbux		摸	补补			0	tujia	摸	bubu	būbū	补|补		
+yubao-60823-v-0775	buxbux		抚摸	补补			0	tujia	抚摸	bubu	būbū	补|补		
 yubao-60823-v-0776	cenx		伸	撑			0	tujia	伸	cen	cēn	撑		
 yubao-60823-v-0777	xinxngax		挠	新桠			0	tujia	挠	xinnga	xīnngā	新|桠		
 yubao-60823-v-0778	kufrux		掐	库汝			0	tujia	掐	kuru	kúrū	库|汝		
@@ -12518,7 +12518,7 @@ yubao-60823-v-0863	daxhax		打架	打哈			0	tujia	打架	daha	dāhā	打|哈
 yubao-60823-v-0864	her		休息	赫			0	tujia	休息	he	he	赫		
 yubao-60823-v-0865	sifsixhxevbarpox		打哈欠	是使呃八坡			0	tujia	打哈欠	sisihxebapo	sísīhxèbapō	是|使|呃|八|坡		
 yubao-60823-v-0866	niexbiaox		打瞌睡	捏表			0	tujia	打瞌睡	niebiao	niēbiāo	捏|表		
-yubao-60823-v-0867	nief		睡	镍			0	tujia	睡	nie	nié	镍		
+yubao-60823-v-0867	nief		睡觉	镍			0	tujia	睡觉	nie	nié	镍		
 yubao-60823-v-0868	maofhux		打呼噜	冒呼			0	tujia	打呼噜	maohu	máohū	冒|呼		
 yubao-60823-v-0869	murjif		做梦	木记			0	tujia	做梦	muji	mují	木|记		
 yubao-60823-v-0870	zurliux		起床	祝柳			0	tujia	起床	zuliu	zuliū	祝|柳		
@@ -12889,7 +12889,7 @@ yubao-60823-v-1250	guvzarbartif		山脚	古扎八替			0	tujia	山脚	guzabati	g
 yubao-60823-v-1251	guvzartanxnier		阴山	古扎坦业			0	tujia	阴山	guzatannie	gùzǎtānnie	古|扎|坦|业		
 yubao-60823-v-1252	guxzarzivger		阳山	古扎子格			0	tujia	阳山	guzazige	gūzǎzìge	古|扎|子|格		
 yubao-60823-v-1253	afdongrgaf		岩洞	啊洞尬			0	tujia	岩洞	adongga	ádonggá	啊|洞|尬		
-yubao-60823-v-1254	hxafbaf		岩石	呃啊坝			0	tujia	岩石	hxaba	hxábá	呃啊|坝		
+yubao-60823-v-1254	hxafbaf		石头	呃啊坝			0	tujia	石头	hxaba	hxábá	呃啊|坝		
 yubao-60823-v-1255	hxarbarkavpur		花岗岩	呃锕八卡扑			0	tujia	花岗岩	hxabakapu	hxabǎkàpu	呃锕|八|卡|扑		
 yubao-60823-v-1256	jixzirngair		鹅卵石	几直岩			0	tujia	鹅卵石	jizingai	jīzingai	几|直|岩		
 yubao-60823-v-1257	pinvyanf		平原	拼样			0	tujia	平原	pinyan	pìnyán	拼|样		
@@ -12960,7 +12960,7 @@ yubao-60823-v-1321	hoxlianx		火石	喝两			0	tujia	火石	holian	hōliān	喝|
 yubao-60823-v-1322	mivtiexcix		火铲	米贴此			0	tujia	火铲	mitieci	mìtiēcī	米|贴|此		
 yubao-60823-v-1323	qiryoux		汽油	其友			0	tujia	汽油	qiyou	qiyōu	其|友		
 yubao-60823-v-1324	yanrqif		油漆	扬气			0	tujia	油漆	yanqi	yanqí	扬|气		
-yubao-60823-v-1325	cermux		井	策母			0	tujia	井	cemu	cěmū	策|母		
+yubao-60823-v-1325	cermux		水井	策母			0	tujia	水井	cemu	cěmū	策|母		
 yubao-60823-v-1326	cexpex		沸水	车拍			0	tujia	沸水	cepe	cēpē	车|拍		
 yubao-60823-v-1327	wenxkaivsuir		温水	温开随			0	tujia	温水	wenkaisui	wēnkàisui	温|开|随		
 yubao-60823-v-1328	jianxsuir		碱水	尖随			0	tujia	碱水	jiansui	jiānsui	尖|随		
@@ -13382,7 +13382,7 @@ yubao-60823-v-1748	karbaf		楼板	咔坝			0	tujia	楼板	kaba	kǎbá	咔|坝
 yubao-60823-v-1749	karbaf		木板	咔坝			0	tujia	木板	kaba	kǎbá	咔|坝		
 yubao-60823-v-1750	karbaf		天花板	咔坝			0	tujia	天花板	kaba	kabá	咔|坝		
 yubao-60823-v-1751	karbaf		门板	咔坝			0	tujia	门板	kaba	kabá	咔|坝		
-yubao-60823-v-1752	tanxcix		墙壁	坦此			0	tujia	墙壁	tanci	tāncī	坦|此		
+yubao-60823-v-1752	tanxcix		墙	坦此			0	tujia	墙	tanci	tāncī	坦|此		
 yubao-60823-v-1753	tanxcix		围墙	坦此			0	tujia	围墙	tanci	tāncī	坦|此		
 yubao-60823-v-1754	zuanxqief		砌墙	庄怯			0	tujia	砌墙	zuanqie	zuānqié	庄|怯		
 yubao-60823-v-1755	zuanxtanxcix		砖墙	庄坦此			0	tujia	砖墙	zuantanci	zuāntāncī	庄|坦|此		
@@ -13805,7 +13805,7 @@ yubao-60823-v-2174	tiexxirgaf		阴毛	贴昔尬			0	tujia	阴毛	tiexiga	tiēxǐ
 yubao-60823-v-2175	liexpexbuflix		睾丸	咧拍布里			0	tujia	睾丸	liepebuli	liēpēbúlī	咧|拍|布|里		
 yubao-60823-v-2176	soxtiurcer		汗	所提由策			0	tujia	汗	sotiuce	sōtiǔce	所|提由|策		
 yubao-60823-v-2177	niefgar		汗垢	镍夹			0	tujia	汗垢	niega	niéga	镍|夹		
-yubao-60823-v-2178	carpixcex		唾沫	查匹车			0	tujia	唾沫	capice	capīcē	查|匹|车		
+yubao-60823-v-2178	carpixcex		口水	查匹车			0	tujia	口水	capice	capīcē	查|匹|车		
 yubao-60823-v-2179	binfbaxniercox		医院	并巴业搓			0	tujia	医院	binbanieco	bínbāniecō	并|巴|业|搓		
 yubao-60823-v-2180	yaorlurniercox		药店	摇录业搓			0	tujia	药店	yaolunieco	yaoluniěcō	摇|录|业|搓		
 yubao-60823-v-2181	zongxyix		中医	中以			0	tujia	中医	zongyi	zōngyī	中|以		
@@ -13958,7 +13958,7 @@ yubao-60823-v-2329	paxkar		汉族	啪咔			0	tujia	汉族	paka	pāka	啪|咔
 yubao-60823-v-2330	jiefrixmar		老百姓	借日麻			0	tujia	老百姓	jierima	jiérīma	借|日|麻		
 yubao-60823-v-2331	xinf		姓	信			0	tujia	姓	xin	xín	信		
 yubao-60823-v-2332	sifzuxkar		主人	是珠咔			0	tujia	主人	sizuka	sízūka	是|珠|咔		
-yubao-60823-v-2333	binx		兵	兵			0	tujia	兵	bin	bīn	兵		
+yubao-60823-v-2333	binx		士兵	兵			0	tujia	士兵	bin	bīn	兵		
 yubao-60823-v-2334	pofgax		老师	破尕			0	tujia	老师	poga	pógā	破|尕		
 yubao-60823-v-2335	xiaorsenx		学生	削生			0	tujia	学生	xiaosen	xiaosēn	削|生		
 yubao-60823-v-2336	courrenf		敌人	仇任			0	tujia	敌人	couren	cǒurén	仇|任		
@@ -14210,7 +14210,7 @@ yubao-60823-v-2582	yirjif		来	移记			0	tujia	来	yiji	yǐjí	移|记
 yubao-60823-v-2583	mief		吹	蔑			0	tujia	吹	mie	mié	蔑		
 yubao-60823-v-2584	yex		拉	也			0	tujia	拉	ye	yē	也		
 yubao-60823-v-2585	dir		挖	的			0	tujia	挖	di	di	的		
-yubao-60823-v-2586	zof		捉	坐			0	tujia	捉	zo	zó	坐		
+yubao-60823-v-2586	zof		抓	坐			0	tujia	抓	zo	zó	坐		
 yubao-60823-v-2587	karkexzuax		挠	咔客爪			0	tujia	挠	kakezua	kakēzuā	咔|客|爪		
 yubao-60823-v-2588	axlax		圈	阿拉			0	tujia	圈	ala	ālā	阿|拉		
 yubao-60823-v-2589	dof		刺	剁			0	tujia	刺	do	dó	剁		
@@ -14226,7 +14226,7 @@ yubao-60823-v-2598	manx		溢	满			0	tujia	溢	man	mān	满
 yubao-60823-v-2599	minrzirnaoxax		取名	名直脑阿			0	tujia	取名	minzinao'a	mǐnzināo'ā	名|直|脑|阿		
 yubao-60823-v-2600	xivbarnarnaf		晾衣	希八拿那			0	tujia	晾衣	xibanana	xìbanǎná	希|八|拿|那		
 yubao-60823-v-2601	pufpux		补	菩铺			0	tujia	补	pupu	púpū	菩|铺		
-yubao-60823-v-2602	jianx		剪	尖			0	tujia	剪	jian	jiān	尖		
+yubao-60823-v-2602	jianx		修剪	尖			0	tujia	修剪	jian	jiān	尖		
 yubao-60823-v-2603	cair		裁	才			0	tujia	裁	cai	cai	才		
 yubao-60823-v-2604	tax		织	他			0	tujia	织	ta	tā	他		
 yubao-60823-v-2605	sux		扎	书			0	tujia	扎	su	sū	书		
@@ -14356,7 +14356,7 @@ yubao-60823-v-2729	weirbof		包庇	微播			0	tujia	包庇	weibo	weibó	微|播
 yubao-60823-v-2730	tierluf		卖淫	铁路			0	tujia	卖淫	tielu	tielú	铁|路		
 yubao-60823-v-2731	yerhxef		偷盗	叶轭			0	tujia	偷盗	yehxe	yehxé	叶|轭		
 yubao-60823-v-2732	dur		毒	独			0	tujia	毒	du	du	独		
-yubao-60823-v-2733	xiurnaof		听见	修闹			0	tujia	听见	xiunao	xiunáo	修|闹		
+yubao-60823-v-2733	xiurnaof		听	修闹			0	tujia	听	xiunao	xiunáo	修|闹		
 yubao-60823-v-2734	hxermovrur		偷听	额摸如			0	tujia	偷听	hxemoru	hxemòru	额|摸|如		
 yubao-60823-v-2735	baxdox		看见	巴多			0	tujia	看见	bado	bādō	巴|多		
 yubao-60823-v-2736	zunxbor		瞄准	准博			0	tujia	瞄准	zunbo	zūnbo	准|博		

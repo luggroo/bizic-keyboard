@@ -9,12 +9,45 @@ EQUIVALENTS = {
     '藏东西': '藏', '收藏': '藏',
     '真的；真实的；真；真实': '真', '真的': '真', '真实的': '真', '真实': '真',
     '他自己／她自己／它自己': '他自己',
+    '我们（第一人称复数）': '我们', '你们（第二人称复数）': '你们',
     '您': '你', '讨（讨饭）': '讨', '讨(讨饭)': '讨',
     '小孩儿': '小孩', '儿童': '小孩', '孩童': '小孩', '孩子': '小孩',
 }
 
+# Explicit equivalences, used on complete glosses or on a list whose members
+# all denote the same sense. Multi-sense lists remain intact.
+SYNONYMS = {
+    alias: canonical
+    for canonical, aliases in {
+        '拿': ('拿', '取'), '石头': ('石', '石头', '岩石'),
+        '茶': ('茶', '茶水'), '喜欢': ('爱', '喜欢'),
+        '姐姐': ('姐', '姐姐'), '弟弟': ('弟', '弟弟'),
+        '那样': ('那样', '如此'), '学习': ('学', '学习'),
+        '奶奶': ('奶奶', '祖母'), '外婆': ('外婆', '外祖母'),
+        '新': ('新', '新的'), '换': ('换', '更换'),
+        '修剪': ('剪', '修剪'), '抱': ('抱', '拥抱'),
+        '墙': ('墙', '墙壁'), '嘴': ('嘴', '嘴巴'),
+        '沙': ('沙', '沙子'), '泥': ('泥', '泥土'),
+        '小孩': ('小孩', '孩子', '小孩儿', '儿童', '孩童'),
+        '唱': ('唱', '唱歌'), '士兵': ('兵', '士兵'),
+        '表扬': ('表扬', '赞扬'), '抓': ('抓', '捉'),
+        '移动': ('移动', '挪动'), '抚摸': ('摸', '抚摸'),
+        '哭': ('哭', '哭泣'), '跑': ('跑', '奔跑'),
+        '高兴': ('高兴', '开心'), '生气': ('生气', '发怒'),
+        '看': ('看', '观看'), '听': ('听', '听见'),
+        '睡觉': ('睡觉', '睡'), '走': ('走', '行走'),
+        '说': ('说', '说话'), '水井': ('井', '水井'),
+        '鼻涕': ('鼻涕', '鼻液'), '口水': ('口水', '唾沫'),
+    }.items() for alias in aliases
+}
+
 def normalize_meaning(value):
-    return EQUIVALENTS.get(value.strip(), value.strip())
+    value = value.strip()
+    if value in EQUIVALENTS:
+        return EQUIVALENTS[value]
+    parts = [part.strip() for part in re.split(r'[、，,；;/／]', value)]
+    mapped = [SYNONYMS.get(part, part) for part in parts]
+    return mapped[0] if mapped and len(set(mapped)) == 1 else value
 
 def short_gloss(value):
     value = normalize_meaning(value)
@@ -32,7 +65,8 @@ def update_row(row):
     if row['meaning'] == '土家族' and row['word'] in preferred and row.get('recommended'):
         old = row['recommended']
         han = preferred[row['word']]
-        row['aliases'] = ' '.join(dict.fromkeys([*row.get('aliases', '').split(), old]))
+        if old != han:
+            row['aliases'] = ' '.join(dict.fromkeys([*row.get('aliases', '').split(), old]))
         row['recommended'], row['hanUnits'] = han, '|'.join(han)
     if row['word'] in ('nif', 'gof'):
         wanted = {('nif', '你'): '伲', ('gof', '他'): '个'}.get((row['word'], row['meaning']))

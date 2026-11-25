@@ -8,6 +8,11 @@ const ctx={console,atob,Uint8Array,Int32Array,Uint32Array,Float32Array,TextEncod
 vm.createContext(ctx);
 vm.runInContext(read(path.join(web,'engine-data.js'))+'\n'+read(path.join(root,'tools/web-demo/ui/core-runtime.js'))+'\nthis.core=openTujiaCore(tujiaCoreData)',ctx);
 const exact=(query,mode,style)=>ctx.core.lookup(query,mode,style).filter(c=>c.length===query.length).map(c=>c.form);
+for(const [query, expected] of [
+  ['bizika',['秘兹佧','币子佧']], ['bijika',['秘基佧','币基佧']], ['mijika',['泌基佧','秘基佧']]]) {
+  const forms=Array.from(exact(query,1,0)).filter(x=>expected.includes(x));
+  assert.deepStrictEqual(forms,expected,query);
+}
 assert(exact('haf',1,0).includes('下'));assert(exact('xiaf',1,0).includes('夏'));
 for(const onset of ['b','p','m','d','t','l','g','k','ng','h','z','c','s','r','w','y','zh','ch','sh']){
   for(const mode of [0,1])for(const style of [0,1]){
