@@ -21,6 +21,7 @@ for(const [query,readings] of [['bizika',['bifzixkar']],['bijika',['bifjixkar']]
   const forms=Array.from(exact(query,0,0));
   for(const reading of readings) assert.equal(forms.filter(x=>x===reading).length,1,query);
 }
+for(const [key,form] of [['max','马'],['mav','马'],['mar','麻'],['maf','祃']]){assert(exact(key,1,0).includes(form),key);assert(!exact(key,1,0).includes('妈'),key)}
 assert(exact('ngaf',1,0).includes('牙'));assert(!exact('ngaf',1,0).includes('讶'));
 assert(exact('lex',1,0).includes('咧'));
 assert(exact('haf',1,0).includes('下'));assert(exact('xiaf',1,0).includes('夏'));

@@ -61,6 +61,15 @@ class BaojingWords(unittest.TestCase):
         self.assertIn('压', same[0].gloss)
         self.assertEqual(same[0].ids, '')
 
+    def test_ma_tone_defaults(self):
+        for query, character in [('max', '马'), ('mav', '马'), ('mar', '麻'), ('maf', '祃')]:
+            candidates = [c for c in self.model.choices(query) if c.consumed == utf16(query) and c.kind == 0]
+            self.assertTrue(any(c.text == character for c in candidates), query)
+            self.assertFalse(any(c.text == '妈' for c in candidates), query)
+        for r in self.rows:
+            if r['kind'] == 'tujia' and r['presentation'] != 'plainHanLoan' and 'ma' in r['word']:
+                self.assertNotIn('妈', r['recommended'], r['id'])
+
     def test_song_sentence_final_particle(self):
         self.assertTrue(any(c.text == '咧' and c.gloss == '陈述语气'
                             for c in self.full('lex')))
