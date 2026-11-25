@@ -33,7 +33,8 @@ for(const onset of ['b','p','m','d','t','l','g','k','ng','h','z','c','s','r','w'
 for(const [a,b] of [['fa','hua'],['fu','hu'],['fo','huo'],['fen','feng'],['lin','ling'],['ling','leng'],['ding','deng'],['ting','teng']]){
   assert.deepStrictEqual(Array.from(exact(a,1,0)).sort(),Array.from(exact(b,1,0)).sort(),a+'/'+b);
 }
-assert(exact('ning',1,0).includes('宁'));assert(!exact('neng',1,0).includes('宁'));
+assert(exact('ning',1,0).includes('宁'));assert(!exact('neng',1,0).includes('宁'));assert(!exact('ling',1,0).includes('宁'));
+assert(exact('nen',1,0).includes('零'));assert(exact('neng',1,0).includes('零'));assert(exact('neng',1,0).includes('棱'));
 assert(exact('ling',1,0).includes('零'));assert(exact('leng',1,0).includes('零'));
 assert(exact('ling',1,0).includes('棱'));assert(exact('leng',1,0).includes('棱'));
 assert(exact('lingchen',1,0).includes('凌晨'));assert(exact('lengchen',1,0).includes('凌晨'));

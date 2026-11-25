@@ -650,12 +650,20 @@ void checkRegionalFuzzyInputs() {
         "fu\tfux\tfu\t夫\t夫\t\t夫\t1\ttujia\t夫\tfu\tfū\t夫\t\t\n"
         "ban\tbanx\tban\t半\t半\t\t半\t1\ttujia\t半\tban\tbān\t半\t\t\n";
     Lexicon model(rows);
-    for (const auto& input : {"lin", "ling", "len", "leng"}) {
+    for (const auto& input : {"lin", "ling", "len", "leng", "nen", "neng"}) {
         const auto c = model.lookup(input, Mode::Han);
         check(offers(c, "零", "零", editorLength(input)) && offers(c, "棱", "棱", editorLength(input)), "dental in/en with nasal codas");
     }
+    for (const auto& input : {"nen", "neng", "lin", "leng"}) {
+        const auto raw = model.lookup(input, Mode::Pinyin, Orthography::Ye);
+        const auto marked = model.lookup(input, Mode::Pinyin, Orthography::Diacritic);
+        check(offers(raw, "linx", "零", editorLength(input)) && offers(raw, "lenx", "棱", editorLength(input)) &&
+              offers(marked, "līn", "零", editorLength(input)) && offers(marked, "lēn", "棱", editorLength(input)),
+              "Fuzzy lookup retains each Tujia word's recommended spelling and tone");
+    }
     check(offers(model.lookup("ning", Mode::Han), "宁", "宁", 4) &&
-          !offers(model.lookup("neng", Mode::Han), "宁", "宁", 4), "n retains in/en distinction");
+          !offers(model.lookup("neng", Mode::Han), "宁", "宁", 4) &&
+          !offers(model.lookup("ling", Mode::Han), "宁", "宁", 4), "ning stays separate from merged nen/lin/len");
     for (const auto& input : {"fa", "hua"}) {
         const auto c = model.lookup(input, Mode::Han);
         check(offers(c, "发", "发", editorLength(input)) && offers(c, "花", "花", editorLength(input)), "f/hu onsets");

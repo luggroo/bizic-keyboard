@@ -71,7 +71,8 @@ def build(source, vocabulary, out):
     vocabulary_keys = {**words, **supplementary}
     for han, key in vocabulary_keys.items():
         if len(han) == 1:
-            aliases[han].update(local.get(han, ()))
+            # User distinguishes ning from the len/lin/nen merger.
+            aliases[han].update(v for v in local.get(han, ()) if han != '宁' or not v.startswith('l'))
             continue
         syllables = lazy_pinyin(han)
         if "".join(syllables) != key or len(syllables) != len(han):

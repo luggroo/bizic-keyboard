@@ -359,6 +359,7 @@ constexpr char32_t optionalU = 0x110001; // o/uo are alternate input spellings a
 constexpr char32_t onsetFHu = 0x110002; // f / hu before a non-u vowel
 constexpr char32_t onsetFHuU = 0x110003; // f / h before an existing u
 constexpr char32_t onsetFHo = 0x110004; // f / h with the existing o/uo alternation
+constexpr char32_t onsetLN = 0x110005; // l-in/l-en share n-en, but never n-in
 constexpr char32_t dentalNasal = 0x110010; // e/i before n after d,t,l; tone retained
 
 bool onsetLetter(char32_t c) {
@@ -414,10 +415,11 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
                 piece.push_back(optionalG);
                 piece.append(syllable, end, syllable.size() - end);
             } else piece = syllable;
-            if (coda >= 3 && (syllable[0] == U'd' || syllable[0] == U't' || syllable[0] == U'l') && coda == 3 && syllable[2] == U'n') {
+            if (coda == 3 && syllable[2] == U'n' && (syllable[0] == U'd' || syllable[0] == U't' || syllable[0] == U'l' ||
+                (syllable[0] == U'n' && std::u32string_view(U"eēéěè").find(syllable[1]) != std::u32string_view::npos))) {
                 constexpr std::u32string_view vowels = U"eiēīéíěǐèì";
                 const auto v = vowels.find(syllable[1]);
-                if (v != vowels.npos) piece[1] = dentalNasal + v / 2;
+                if (v != vowels.npos) { piece[1] = dentalNasal + v / 2; if (syllable[0] == U'l' || syllable[0] == U'n') piece[0] = onsetLN; }
             }
             if (!syllable.empty() && syllable[0] == U'f' && syllable.size() > 1 && nasalA(syllable[1])) {
                 piece[0] = (std::u32string_view(U"uūúǔù").find(syllable[1]) != std::u32string_view::npos) ? onsetFHuU : onsetFHu;
@@ -434,7 +436,7 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
             pattern += piece;
         }
         if (matched == segments.size() && at == form.size() &&
-            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos || pattern.find(onsetFHu) != pattern.npos || pattern.find(onsetFHuU) != pattern.npos || pattern.find(onsetFHo) != pattern.npos || std::any_of(pattern.begin(), pattern.end(), [](char32_t c){ return c >= dentalNasal && c < dentalNasal + 5; }))) return pattern;
+            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos || pattern.find(onsetFHu) != pattern.npos || pattern.find(onsetFHuU) != pattern.npos || pattern.find(onsetFHo) != pattern.npos || pattern.find(onsetLN) != pattern.npos || std::any_of(pattern.begin(), pattern.end(), [](char32_t c){ return c >= dentalNasal && c < dentalNasal + 5; }))) return pattern;
     }
     return {};
 }
@@ -489,6 +491,15 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
             }
             return cached = 0;
         }
+        if (edge == onsetLN) {
+            if (i >= input.size()) return cached = 0;
+            if (input[i] == U'l') return cached = self(self, p + 1, i + 1);
+            if (input[i] == U'n') {
+                if (i + 1 < input.size() && std::u32string_view(U"iīíǐì").find(input[i + 1]) != std::u32string_view::npos) return cached = 0;
+                return cached = self(self, p + 1, i + 1);
+            }
+            return cached = 0;
+        }
         if (edge >= dentalNasal && edge < dentalNasal + 5) {
             constexpr std::u32string_view e = U"eēéěè", v = U"iīíǐì";
             const auto n = edge - dentalNasal;
@@ -511,6 +522,8 @@ std::string nasalBucket(std::u32string_view form) {
         const bool beforeO = i + 1 == form.size() || std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos;
         if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') || (cp == U'u' && afterOnset && beforeO)) continue;
         if (cp == onsetFHu || cp == onsetFHuU || cp == onsetFHo) cp = U'f';
+        else if (cp == onsetLN) cp = U'l';
+        else if (cp == U'n' && i + 2 < form.size() && std::u32string_view(U"eēéěè").find(form[i + 1]) != std::u32string_view::npos && form[i + 2] == U'n') cp = U'l';
         else if (cp >= dentalNasal && cp < dentalNasal + 5) cp = ev[cp - dentalNasal];
         else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos) cp = U'f';
         else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"uūúǔù").find(form[i + 1]) != std::u32string_view::npos) {
