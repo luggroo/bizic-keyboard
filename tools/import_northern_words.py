@@ -117,8 +117,17 @@ def build(site):
                 compact = re.sub(r"[\s’'()-]", '', word)
                 parts = form['parts']
                 units = orthography.units(parts, [''] * len(parts)) if parts and all(parts) and ''.join(parts) == compact else []
-                if not all(units):
-                    units = han_units(compact, orthography)
+                if units and not all(units):
+                    # The source segmentation is authoritative. A reviewed loan
+                    # component may supply an otherwise unknown syllable's glyph.
+                    partial = units[:]
+                    for component in components.get((w['id'] if i == 0 else f"{w['id']}@{i+1}", word), []):
+                        start, end = int(component['start']), int(component['end'])
+                        if (component['meaning'] == normalize_meaning(' '.join(w['zh'].split()))
+                                and 1 <= start <= end <= len(partial)
+                                and end - start + 1 == len(component['han'])):
+                            partial[start - 1:end] = list(component['han'])
+                    units = partial if all(partial) else han_units(compact, orthography)
                 plain = unicodedata.normalize('NFC', ''.join(c for c in unicodedata.normalize('NFD', marked)
                                                             if c not in '\u0304\u0301\u030c\u0300'))
                 row_id = w['id'] if i == 0 else f"{w['id']}@{i+1}"
