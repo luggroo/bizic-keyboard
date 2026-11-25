@@ -659,7 +659,7 @@ struct Lexicon::Impl {
     WordIndex syllables;
     OptionalIndex nasalWords, nasalShortKeys, nasalSyllables, nasalChinese;
     std::unordered_map<char32_t, WordIds> variantInitials;
-    WordIndex chineseKeys;
+    WordIndex chineseKeys, handExtensions;
     std::unordered_map<std::string, size_t> lexicalIds;
     struct Following { size_t id; uint64_t count; };
     bool rankedPredictions = false;
@@ -839,11 +839,26 @@ struct Lexicon::Impl {
                     throw std::invalid_argument("Variant groups do not align with Han units: " + entry.id);
                 addUnique(variantInitials[entry.units.front().front()], id);
             }
+            const auto canonical = dictionaryScalars(entry.han);
+            if (!entry.meaning.empty() && std::all_of(canonical.begin(), canonical.end(), hanCharacter)) {
+                std::string prefix;
+                int utf16 = 0;
+                for (size_t i = 0; i + 1 < canonical.size(); ++i) {
+                    appendUtf8(prefix, canonical[i]);
+                    utf16 += canonical[i] > 0xffff ? 2 : 1;
+                    if (canonical.size() - i - 1 > 2) continue;
+                    // A word boundary cannot divide a two-Han syllable.
+                    bool inside = false;
+                    for (size_t j = 0; j + 1 < entry.joinedRanges.size(); j += 2)
+                        if (entry.joinedRanges[j] < utf16 && utf16 < entry.joinedRanges[j + 1]) inside = true;
+                    if (!inside) handExtensions[prefix].push_back(id);
+                }
+            }
             if (!phrase) {
                 std::vector<std::u32string> written;
                 for (size_t i = 1; i < entry.writtenForms.size(); ++i)
                     written.push_back(dictionaryScalars(entry.writtenForms[i]));
-                handwriting.add(id, frequency, dictionaryScalars(entry.han), entry.units, entry.variants, std::move(written));
+                handwriting.add(id, frequency, canonical, entry.units, entry.variants, std::move(written));
             }
             entries.push_back(std::move(entry));
         }
@@ -1435,7 +1450,8 @@ struct Lexicon::Impl {
                std::all_of(q.scalars.begin(), q.scalars.end(), hanCharacter);
     }
 
-    std::vector<Candidate> handSuffixes(const std::string& input, Mode mode, Orthography style, bool next) const {
+    std::vector<Candidate> handSuffixes(const std::string& input, Mode mode, Orthography style, bool next,
+                                        bool includeExtensions = false) const {
         size_t byteStart = input.size();
         constexpr size_t limit = HandwordIndex::contextCharacters;
         // Two displayed Han characters can have an additional opening and closing mark.
@@ -1469,16 +1485,41 @@ struct Lexicon::Impl {
         std::reverse(glyphs.begin(), glyphs.end());
         const auto hits = handwriting.lookup(glyphs, next);
         std::vector<Candidate> result;
-        std::unordered_set<char32_t> emitted;
+        std::unordered_map<char32_t, size_t> byNextGlyph;
+        std::unordered_set<std::string> extended;
         for (const auto& hit : hits) {
             if (!consumed[hit.length]) continue;
             if (next) {
-                if (!hanCharacter(hit.next) || !emitted.insert(hit.next).second) continue;
-                Candidate c{"", "", 0};
-                appendUtf8(c.text, hit.next);
-                result.push_back(std::move(c));
+                if (!hanCharacter(hit.next)) continue;
+                const auto [at, inserted] = byNextGlyph.emplace(hit.next, result.size());
+                if (inserted) {
+                    Candidate c{"", "", 0};
+                    appendUtf8(c.text, hit.next);
+                    result.push_back(std::move(c));
+                }
+                // Several words can share the next glyph. Use the highest ranked
+                // completed word with a gloss, even if a longer prefix was seen first.
+                auto& c = result[at->second];
+                if (hit.completesWord && (c.meaning.empty() || (hit.exactCompletion && !c.exactHandCompletion))) {
+                    const auto& word = entries[hit.id];
+                    c.meaning = word.meaning;
+                    c.shortMeaning = word.shortMeaning;
+                }
+                c.exactHandCompletion |= hit.exactCompletion;
             } else {
                 result.push_back(lexical(hit.id, mode, style, consumed[hit.length]));
+                // Extend the longest matched word. A homophone of just its final
+                // character can still be offered as a separate correction.
+                if (!includeExtensions || consumed[hit.length] != result.front().consumed) continue;
+                const auto& base = entries[hit.id];
+                if (!extended.insert(base.han).second) continue;
+                const auto longer = handExtensions.find(base.han);
+                if (longer == handExtensions.end()) continue;
+                for (auto id : longer->second) {
+                    auto c = lexical(id, mode, style, consumed[hit.length]);
+                    c.handPrefixLength = base.hanLength;
+                    result.push_back(std::move(c));
+                }
             }
         }
         return result;
@@ -1697,9 +1738,9 @@ std::vector<Candidate> Lexicon::handwritingSuggestions(const std::string& input,
     return impl_->handwritingSuggestions(input, mode, style);
 }
 
-std::vector<Candidate> Lexicon::handwrittenWords(const std::string& before, Mode mode, Orthography style) const {
+std::vector<Candidate> Lexicon::handwrittenWords(const std::string& before, Mode mode, Orthography style, bool includeExtensions) const {
     if (mode < Mode::Pinyin || mode > Mode::Handwriting || style < Orthography::Ye || style > Orthography::Diacritic) return {};
-    return impl_->handSuffixes(before, mode, style, false);
+    return impl_->handSuffixes(before, mode, style, false, includeExtensions && mode == Mode::Han);
 }
 
 std::vector<Candidate> Lexicon::nextHandwrittenGlyphs(const std::string& before) const {

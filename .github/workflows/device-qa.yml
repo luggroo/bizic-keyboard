@@ -20,7 +20,7 @@ on:
         description: 'Device suite'
         type: choice
         default: all
-        options: [all, core, host, web, window, sounds, compact, long-word, typography, han-senses, regional, hand-words, ipa, outputs]
+        options: [all, core, host, web, window, sounds, compact, long-word, typography, han-senses, regional, hand-words, hand-ux, ipa, ipa-detail, ipa-150, ui-layout, outputs]
       release_tag:
         description: 'Optional release tag (for example v0.3.0). Leave blank to build this commit.'
         type: string

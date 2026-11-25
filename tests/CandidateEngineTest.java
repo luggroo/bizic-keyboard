@@ -245,6 +245,15 @@ public final class CandidateEngineTest {
             }
             List<Candidate> child = dictionary.handwrittenWords("波粒", Mode.HAN, Orthography.YE);
             check(child.stream().anyMatch(c -> c.meaning.equals("小孩")), "Recorded child sense remains searchable");
+            List<Candidate> extended = dictionary.handwrittenWordsAndExtensions("前波粒");
+            check(extended.stream().anyMatch(c -> c.text.equals("波立垄") && c.meaning.equals("生孩子")
+                    && c.handPrefixLength == 2 && c.consumed == 2), "Correct a word and extend it by one character");
+            check(extended.stream().anyMatch(c -> c.text.equals("波立庆爹") && c.meaning.equals("子女")
+                    && c.handPrefixLength == 2 && c.text.substring(c.handPrefixLength).equals("庆爹")), "Append two characters with the whole word's gloss");
+            check(extended.stream().filter(c -> c.handPrefixLength > 0).allMatch(c -> {
+                int extra = c.text.codePointCount(c.handPrefixLength, c.text.length());
+                return c.consumed == 2 && (extra == 1 || extra == 2);
+            }), "Extend the matched word by one or two characters without changing only its last syllable");
             List<Candidate> pronoun = dictionary.handwrittenWords("阿安", Mode.HAN, Orthography.YE);
             check(offers(pronoun, "阿安", "我", 2) && offers(pronoun, "阿安", "我", 1), "One Han form can have two different suffix ranges");
             List<Candidate> marked = dictionary.handwrittenWords("前˻阿安˼", Mode.HAN, Orthography.YE);
@@ -266,7 +275,7 @@ public final class CandidateEngineTest {
                 check(split.stream().allMatch(c -> c.consumed <= 2) && offers(split, "布里", "水果", 2), "Host boundary " + separator);
             }
             List<Candidate> next = dictionary.nextHandwrittenGlyphs("玻");
-            check(next.stream().anyMatch(c -> c.text.equals("俐")) &&
+            check(next.stream().anyMatch(c -> c.text.equals("俐") && c.shortMeaning.equals("小孩")) &&
                     next.stream().allMatch(c -> c.consumed == 0 && c.text.codePointCount(0, c.text.length()) == 1), "Append just the next glyph");
         }
         String source = "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\n" +
@@ -279,6 +288,15 @@ public final class CandidateEngineTest {
             check(result.size() == 1 && offers(result, "甲乙丙丁", "四", 5), "Four scalars, five UTF-16 units; fifth graph is outside the window");
             List<Candidate> marked = test.handwrittenWords("戊˻𠀀另˼˻近丁˼", Mode.HAN, Orthography.YE);
             check(marked.size() == 1 && offers(marked, "甲乙丙丁", "四", 9), "Read four Han across both marked syllables");
+            check(offers(test.nextHandwrittenGlyphs("戊甲乙丙"), "丁", "五", 0),
+                    "One appended character can complete a five-character word");
+            check(offers(test.nextHandwrittenGlyphs("甲"), "乙", "", 0),
+                    "An unfinished prefix has no whole-word gloss");
+            check(test.nextHandwrittenGlyphs("戊甲乙丙").stream().anyMatch(c -> c.text.equals("丁") && c.exactHandCompletion),
+                    "The marker identifies the exact overlap with an existing dictionary word");
+            check(test.nextHandwrittenGlyphs("甲").stream().noneMatch(c -> c.exactHandCompletion)
+                    && test.nextHandwrittenGlyphs("戊𠀀另近").stream().noneMatch(c -> c.exactHandCompletion),
+                    "An incomplete or homophonous prefix does not qualify for the marker");
         }
     }
 }

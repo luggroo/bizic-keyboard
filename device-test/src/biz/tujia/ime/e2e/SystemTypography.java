@@ -3,7 +3,9 @@ package biz.tujia.ime.e2e;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
@@ -28,6 +30,40 @@ final class SystemTypography {
         this.host = host;
     }
 
+    void ipa150() throws Exception {
+        String startingScale = shell("settings get system font_scale");
+        try {
+            checkIpaInk(1.5f, host.getResources().getDisplayMetrics().densityDpi, "ipa-layout-150");
+            for (String tone : new String[]{"21", "35", "33", "13", "55", "53"})
+                if (test.pollNode(tone, false, 5000) == null)
+                    throw new AssertionError("Missing full-size IPA tone hint: " + tone);
+            test.stage("IPA alternatives remain visible and selectable at 150% font size");
+            test.holdKey("t");
+            Rect previous = null;
+            Rect chosen = null;
+            int minimum = Math.round(47 * host.getResources().getDisplayMetrics().density);
+            for (String option : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ"}) {
+                Rect current = test.waitForClickableNode(option);
+                if (current.width() < minimum || current.height() < minimum
+                        || previous != null && previous.right > current.left)
+                    throw new AssertionError("Cramped IPA alternative " + option + ": " + current);
+                previous = current;
+                if (option.equals("tsʰ")) chosen = current;
+            }
+            test.captureFrame("ipa-alternatives-150.png");
+            test.tap(chosen.centerX(), chosen.centerY());
+            test.expectText(host.first, "mã²¹ tsʰ");
+            test.holdKey("r");
+            Rect tone21 = test.waitForClickableNode("声调 21");
+            test.tap(tone21.centerX(), tone21.centerY());
+            test.expectText(host.first, "mã²¹ tsʰ²¹");
+            test.testToneHints150();
+        } finally {
+            if ("null".equals(startingScale)) shell("settings delete system font_scale");
+            else shell("settings put system font_scale " + Float.parseFloat(startingScale));
+        }
+    }
+
     void ipa() throws Exception {
         String startingScale = shell("settings get system font_scale");
         String densities = shell("wm density");
@@ -37,6 +73,8 @@ final class SystemTypography {
         try {
             checkIpaInk(1f, baseline, "ipa-layout");
             checkIpaInk(1.6f, narrow, "ipa-layout-large");
+            checkIpaInk(2f, narrow, "ipa-layout-largest");
+            checkLargeHandAndSettings(narrow);
         } finally {
             shell("wm density " + (override == 0 ? "reset" : Integer.toString(override)));
             if ("null".equals(startingScale)) shell("settings delete system font_scale");
@@ -47,28 +85,113 @@ final class SystemTypography {
     private void checkIpaInk(float scale, int density, String frame) throws Exception {
         setConfiguration(scale, density);
         test.newPredictionEditor();
+        test.press("打字");
+        test.awaitKeyboardAtRest();
+        if (Math.abs(scale - 1.5f) < .001f) assertToolbarUnderline("打字");
+        Rect typingQ = test.waitForNode("q", false);
+        Bitmap typing = test.getUiAutomation().takeScreenshot();
+        if (typing == null) throw new AssertionError("Missing typing layout screenshot");
+        int typingInk;
+        try { typingInk = inkHeight(typing, typingQ); } finally { typing.recycle(); }
+        if (Math.abs(scale - 1.5f) < .001f) test.captureFrame("typing-layout-150.png");
         test.press("音标");
         test.assertEditorAboveKeyboard(host.first, "音标");
         test.awaitKeyboardAtRest();
+        if (Math.abs(scale - 1.5f) < .001f) {
+            assertToolbarUnderline("音标");
+            for (String hints : new String[]{"ə ɛ", "ts tsʰ", "ɑ ʌ", "ʂ ʃ", "ŋ ȵ"})
+                if (test.pollNode(hints, false, 5000) == null)
+                    throw new AssertionError("Missing 150% IPA key hints: " + hints);
+        }
         Rect[] keys = new Rect[8];
         String letters = "weqpbnga";
         for (int i = 0; i < letters.length(); i++) keys[i] = test.waitForNode(letters.substring(i, i + 1), false);
         Bitmap shot = test.getUiAutomation().takeScreenshot();
         if (shot == null) throw new AssertionError("Missing IPA layout screenshot");
         int[] bottoms = new int[keys.length];
+        int ipaQ;
         try {
             for (int i = 0; i < keys.length; i++) bottoms[i] = ipaInkBottom(shot, keys[i], letters.charAt(i));
+            ipaQ = inkHeight(shot, keys[2]);
         } finally { shot.recycle(); }
         test.stage("IPA baseline at font " + scale + " and density " + density + ": "
-                + letters + " " + java.util.Arrays.toString(bottoms));
+                + letters + " " + java.util.Arrays.toString(bottoms) + "; Q ink typing/IPA=" + typingInk + "/" + ipaQ);
+        if (Math.abs(typingInk - ipaQ) > 2)
+            throw new AssertionError("Typing and IPA Q differ in size: " + typingInk + " vs " + ipaQ);
         if (Math.abs(bottoms[0] - bottoms[1]) > 2 || Math.abs(bottoms[2] - bottoms[3]) > 2
                 || Math.abs(bottoms[4] - bottoms[5]) > 2 || bottoms[6] <= bottoms[7])
             throw new AssertionError("Misaligned IPA letters or clipped g descender: " + frame);
+        if (scale >= 2f) {
+            DisplayMetrics metrics = host.getResources().getDisplayMetrics();
+            Paint form = new Paint();
+            form.setTypeface(Typeface.DEFAULT_BOLD);
+            form.setTextSize(sp(16, metrics));
+            for (String word : new String[]{"ai⁵⁵", "ŋa²⁴"}) {
+                KeyboardTest.Card card = test.visibleForm(word);
+                Rect line = card.lineBounds.get(card.lineBounds.size() - 1);
+                if (form.measureText(word) > line.width() - 12 * metrics.density)
+                    throw new AssertionError("IPA candidate has no room for its full tone: " + word + " " + line);
+            }
+            test.press("下一页候选");
+            test.waitForNode("补全 kuɔ²⁴", false);
+            test.press("上一页候选");
+            Rect symbols = test.waitForNode("字母或符号", false), done = test.waitForNode("完成", false);
+            test.awaitKeyboardAtRest();
+            Bitmap controls = test.getUiAutomation().takeScreenshot();
+            if (controls == null) throw new AssertionError("Missing large-font action keys");
+            try {
+                assertKeyInkFits(controls, symbols, false, metrics.density, "符号");
+                assertKeyInkFits(controls, done, true, metrics.density, "完成");
+            } finally { controls.recycle(); }
+        }
         test.captureFrame(frame + ".png");
         test.press("m");
         test.press("a");
         test.press("补全 奶，mã²¹");
         test.expectText(host.first, "mã²¹");
+    }
+
+    private static void assertKeyInkFits(Bitmap shot, Rect area, boolean light, float density, String label) {
+        int first = area.right, last = area.left;
+        for (int y = Math.max(0, area.top); y < Math.min(area.bottom, shot.getHeight()); y++) {
+            for (int x = Math.max(0, area.left); x < Math.min(area.right, shot.getWidth()); x++) {
+                int color = shot.getPixel(x, y);
+                boolean ink = light ? Color.red(color) > 240 && Color.green(color) > 240 && Color.blue(color) > 240
+                        : Color.green(color) < 126 && Color.blue(color) < 126;
+                if (ink) { first = Math.min(first, x); last = Math.max(last, x); }
+            }
+        }
+        int inset = Math.max(1, Math.round(2 * density));
+        if (last < first || first < area.left + inset || last >= area.right - inset)
+            throw new AssertionError("Action label is clipped at the largest font: " + label + " " + area
+                    + "; ink=" + first + ".." + last);
+    }
+
+    private void checkLargeHandAndSettings(int density) throws Exception {
+        setConfiguration(2f, density);
+        test.newPredictionEditor();
+        test.press("打字");
+        test.press("设置");
+        int twoLineHeight = Math.round(sp(15, host.getResources().getDisplayMetrics()) * 2.1f);
+        for (String option : new String[]{"叶氏拼音", "调号拼音", "谐音字"})
+            test.scrollKeyboardTo(option, twoLineHeight);
+        test.scrollKeyboardTo("更多设置", Math.round(46 * host.getResources().getDisplayMetrics().density));
+        test.captureFrame("settings-largest-scrolled.png");
+        test.press("设置");
+
+        test.press("手写");
+        test.setHandwritingOutput(true);
+        int minimum = Math.round(47 * host.getResources().getDisplayMetrics().density);
+        test.runOnMainSync(() -> { host.first.setText("前波粒后"); host.first.setSelection(3); });
+        test.longPressHandForm("波俐");
+        test.waitForNode("已写「波粒」", false);
+        Rect recommended = test.waitForNode("用推荐字", false);
+        Rect marked = test.waitForNode("用调号拼音", false);
+        if (recommended.height() < minimum || marked.height() < minimum || recommended.right > marked.left)
+            throw new AssertionError("Handwriting choices overlap or are clipped: " + recommended + " / " + marked);
+        test.captureFrame("hand-detail-largest.png");
+        test.press("用推荐字");
+        test.expectText(host.first, "前波俐后");
     }
 
     private static int ipaInkBottom(Bitmap shot, Rect key, char letter) {
@@ -304,6 +427,29 @@ final class SystemTypography {
         }
         if (last < first) throw new AssertionError("No visible text at physical " + area);
         return last - first + 1;
+    }
+
+    void assertToolbarUnderline(String selected) {
+        String[] tabs = {"打字", "手写", "音标"};
+        Rect[] bounds = new Rect[tabs.length];
+        for (int i = 0; i < tabs.length; i++) bounds[i] = test.waitForNode(tabs[i], false);
+        Bitmap shot = test.getUiAutomation().takeScreenshot();
+        if (shot == null) throw new AssertionError("Missing toolbar screenshot");
+        float density = host.getResources().getDisplayMetrics().density;
+        try {
+            for (int i = 0; i < tabs.length; i++) {
+                Rect area = bounds[i];
+                int y = area.bottom - Math.max(1, Math.round(1.5f * density));
+                for (int x = area.left + 1; x < area.right - 1; x++) {
+                    int color = shot.getPixel(x, y);
+                    boolean red = Color.red(color) > 120 && Color.green(color) < 110 && Color.blue(color) < 100
+                            && Color.red(color) > Color.green(color) * 1.5f;
+                    if (red != tabs[i].equals(selected))
+                        throw new AssertionError("Unexpected underline at " + x + "," + y + " in "
+                                + tabs[i] + " " + area + " with " + selected + " selected");
+                }
+            }
+        } finally { shot.recycle(); }
     }
 
     private static int intAfter(String text, String label) {

@@ -18,6 +18,8 @@ struct HandHit {
     unsigned rank;
     uint64_t frequency;
     char32_t next;
+    bool completesWord;
+    bool exactCompletion;
 };
 
 class HandwordIndex {
@@ -65,14 +67,18 @@ public:
             for (size_t index : first->second) {
                 const Word& word = words[index];
                 const size_t beginning = hits.size();
-                auto emit = [&](unsigned rank, char32_t next) {
+                auto emit = [&](unsigned rank, char32_t next, bool completesWord) {
                     if (continuations != (next != 0)) return;
                     for (size_t i = beginning; i < hits.size(); ++i) {
                         if (hits[i].next != next) continue;
                         hits[i].rank = std::min(hits[i].rank, rank);
+                        hits[i].completesWord |= completesWord;
                         return;
                     }
-                    hits.push_back({word.id, length, rank, word.frequency, next});
+                    bool exact = next && word.canonical.size() == length + 1
+                            && word.canonical.back() == next
+                            && std::equal(raw.begin(), raw.end(), word.canonical.begin());
+                    hits.push_back({word.id, length, rank, word.frequency, next, completesWord, exact});
                 };
                 match(word, raw, emit);
             }
@@ -122,7 +128,10 @@ private:
                 following.emplace_back(end, rank);
             };
             for (auto [pos, rank] : positions) {
-                if (pos == raw.size()) { emit(rank, unit.front()); continue; }
+                if (pos == raw.size()) {
+                    emit(rank, unit.front(), i + 1 == word.units.size() && unit.size() == 1);
+                    continue;
+                }
                 if (i < word.variants.size() && word.variants[i].find(raw[pos]) != std::u32string::npos)
                     advance(pos + 1, std::max(rank, 5u));
                 size_t k = 0;
@@ -132,19 +141,20 @@ private:
                 }
                 if (rank == absent) continue;
                 if (k == unit.size()) advance(pos, rank);
-                else emit(rank, unit[k]);
+                else emit(rank, unit[k], i + 1 == word.units.size() && k + 1 == unit.size());
             }
             positions.swap(following);
         }
-        for (auto [pos, rank] : positions) if (pos == raw.size()) emit(rank, 0);
+        for (auto [pos, rank] : positions) if (pos == raw.size()) emit(rank, 0, true);
         for (const auto& alias : word.aliases) {
             if (raw.size() > alias.size()) continue;
             unsigned rank = 1;
             for (size_t i = 0; i < raw.size() && rank < absent; ++i)
                 rank = std::max(rank, distance(raw[i], alias[i]));
             if (rank == absent) continue;
-            if (alias.size() == raw.size()) emit(rank, 0);
-            else emit(rank, alias.size() == word.canonical.size() ? word.canonical[raw.size()] : alias[raw.size()]);
+            if (alias.size() == raw.size()) emit(rank, 0, true);
+            else emit(rank, alias.size() == word.canonical.size() ? word.canonical[raw.size()] : alias[raw.size()],
+                      raw.size() + 1 == alias.size());
         }
     }
 };

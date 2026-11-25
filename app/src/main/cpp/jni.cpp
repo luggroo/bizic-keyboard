@@ -98,12 +98,13 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             case 4: found = lexicon->spellingCompletions(input, bytes(env, history), form, style); break;
             case 5: found = lexicon->handwrittenWords(input, form, style); break;
             case 6: found = lexicon->nextHandwrittenGlyphs(input); break;
+            case 8: found = lexicon->handwrittenWords(input, form, style, true); break;
             case 7: found = lexicon->spellingOnSpace(input, style); break;
             default: throw std::invalid_argument("Unknown candidate operation");
         }
         jclass item = env->FindClass("biz/tujia/ime/CandidateEngine$Candidate");
         if (!item) return nullptr;
-        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V");
+        jmethodID init = env->GetMethodID(item, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II[IZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;IZ)V");
         if (!init) return nullptr;
         jobjectArray result = env->NewObjectArray(lengthOf(found.size()), item, nullptr);
         if (!result) return nullptr;
@@ -132,7 +133,8 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             jobject value = env->NewObject(item, init, text, meaning, shortMeaning,
                                             static_cast<jint>(candidate.kind), static_cast<jint>(candidate.consumed),
                                             ranges, static_cast<jboolean>(candidate.syllableOnly), ids, syllable,
-                                            static_cast<jboolean>(candidate.plainHanLoan), sense);
+                                            static_cast<jboolean>(candidate.plainHanLoan), sense, candidate.handPrefixLength,
+                                            static_cast<jboolean>(candidate.exactHandCompletion));
             if (!value) return nullptr;
             env->SetObjectArrayElement(result, static_cast<jsize>(i), value);
             env->DeleteLocalRef(value);

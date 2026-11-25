@@ -30,6 +30,10 @@ struct Candidate {
     // Shared by lexical Han choices with the same full toneless reading and meaning.
     // lexemeIds still identifies the actual selected reading for prediction.
     std::string hanSenseId{};
+    // UTF-16 end of the existing word in a full handwriting extension.
+    int handPrefixLength = 0;
+    // Appending the candidate completes a word with an unchanged, nonempty written prefix.
+    bool exactHandCompletion = false;
 };
 
 bool matchesSpellingPrefix(const std::string& input, const std::string& ye, const std::string& marked, bool allowYe = true);
@@ -46,7 +50,8 @@ public:
     std::vector<Candidate> spellingOnSpace(const std::string& input, Orthography style) const;
 
     std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;
-    std::vector<Candidate> handwrittenWords(const std::string& beforeCaret, Mode output, Orthography style) const;
+    std::vector<Candidate> handwrittenWords(const std::string& beforeCaret, Mode output, Orthography style,
+                                            bool includeExtensions = false) const;
     std::vector<Candidate> nextHandwrittenGlyphs(const std::string& beforeCaret) const;
     int handwritingContextLength() const;
     std::vector<Candidate> nextSyllables(const std::string& context, Orthography style) const;
