@@ -43,6 +43,9 @@ async function recognizeHand(paths,width,height){
   const result=await session.run({image:new ort.Tensor('float32',image,[1,1,64,64])});
   const scores=result[session.outputNames[0]].data;
   const ranking=Array.from(scores,(_,i)=>i).sort((a,b)=>scores[b]-scores[a]);
-  const extra=core.recognize(paths).filter(c=>!modelKnown.has(c)).slice(0,2);
-  return [...ranking.slice(0,6-extra.length).map(i=>modelLabels[i]),...extra];
+  const templates=core.recognize(paths);
+  const extra=templates.filter(c=>!modelKnown.has(c)).slice(0,2);
+  const strong=templates.length && !modelKnown.has(templates[0]) && core.recognizeStrong(paths)[0]===templates[0] ? templates[0] : null;
+  if(strong)extra.splice(extra.indexOf(strong),1);
+  return [...(strong?[strong]:[]),...ranking.slice(0,6-extra.length-(strong?1:0)).map(i=>modelLabels[i]),...extra];
 }

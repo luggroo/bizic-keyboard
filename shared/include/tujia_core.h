@@ -56,6 +56,9 @@ size_t tji_glyph_count(const TJIPen *pen);
 /* xy holds 2 * point_count floats. Each stroke end is an exclusive point index. */
 TJIChoices *tji_recognize(const TJIPen *pen, const float *xy, size_t point_count,
                          const size_t *stroke_ends, size_t stroke_count, int32_t limit);
+/* Returns the top template only when its match is strong and distinctive. */
+TJIChoices *tji_recognize_strong(const TJIPen *pen, const float *xy, size_t point_count,
+                                const size_t *stroke_ends, size_t stroke_count);
 
 /* Pointers to choice strings stay valid until tji_choices_close. */
 size_t tji_choices_count(const TJIChoices *choices);
