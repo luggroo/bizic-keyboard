@@ -1875,7 +1875,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(-2, -2, gravities[i]);
                 p.setMargins(dp(1), dp(1), dp(1), dp(1));
                 hints[i].setLayoutParams(p);
-                hints[i].setTranslationY(dp(i == 2 ? 5 : (gravities[i] & Gravity.TOP) == Gravity.TOP ? 2 : 0));
+                hints[i].setTranslationY(dp(i == 2 ? 14 : (gravities[i] & Gravity.TOP) == Gravity.TOP ? 4 : 5));
             }
         };
         position.accept(Character.toLowerCase(vowel) == 'a' ? -1 : 0);
