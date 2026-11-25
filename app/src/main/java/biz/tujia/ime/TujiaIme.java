@@ -464,9 +464,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         TextView button = key(toolbar, label, desc, 1, selected, action);
         int preferredIconWidth = dp(compact ? 16 : 18);
         int iconGap = label.isEmpty() ? 0 : dp(3);
-        int sideGap = dp(3);
+        int sideGap = label.isEmpty() ? 0 : dp(3);
         int textWidth = (int)Math.ceil(button.getPaint().measureText(label));
-        int natural = Math.max(dp(44), preferredIconWidth + iconGap + textWidth + dp(4));
+        int natural = Math.max(dp(label.isEmpty() ? 40 : 44), preferredIconWidth + iconGap + textWidth + dp(4));
         int available = getResources().getDisplayMetrics().widthPixels
                 - surface.getPaddingLeft() - surface.getPaddingRight();
         int compositionWidth = dp(mode == HAND && handAsHan() ? 86 : 48);
