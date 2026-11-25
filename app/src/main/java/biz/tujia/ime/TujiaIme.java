@@ -352,7 +352,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 getResources().getDisplayMetrics().density);
         boolean portrait = getResources().getDisplayMetrics().heightPixels >= getResources().getDisplayMetrics().widthPixels;
         compact = !portrait && screen < 500 || screen < 400;
-        toolbar = row(); composition = row(); choices = row(); body = column();
+        toolbar = row(); composition = row(); choices = new CandidateRow(); body = column();
         toolbar.setBackground(edge(HEADER, RULE, Gravity.TOP));
         composition.setBackgroundColor(HEADER);
         LinearLayout strip = row();
@@ -1569,17 +1569,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             gloss.setDuplicateParentStateEnabled(true);
             card.addView(gloss, new LinearLayout.LayoutParams(-1, textHeight(glossSp())));
             int formColor = first + i == 0 ? RED : INK;
-            TextView form = cardLine(entry.ipa, formSp(), 16, formColor, true);
-            form.setTextColor(pressColors(formColor));
-            form.setDuplicateParentStateEnabled(true);
+            TextView form = candidateForm(entry.ipa, formColor);
             card.addView(form, new LinearLayout.LayoutParams(-1, textHeight(formSp())));
             card.setContentDescription("补全 " + (entry.gloss.isEmpty() ? "" : entry.gloss + "，") + entry.ipa);
             card.setFocusable(true);
             KeyboardTap.bind(card, () -> completeIpa(editor, prefix, entry.ipa));
-            choices.addView(card, weighted(1));
-        }
-        if (count < COLUMNS) {
-            choices.addView(new View(this), weighted(COLUMNS - count));
+            addCandidateCard(card, form);
         }
     }
 
@@ -1679,7 +1674,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         toneCancel.setText("取消");
         toneCancel.setContentDescription("取消选声调");
         choices.removeAllViews();
-        preview.setText(draft.isEmpty() ? "选择声调" : draft);
+        boolean showPrompt = mode == SPELL || draft.isEmpty();
+        preview.setText(showPrompt ? "选择声调" : draft);
+        if (showPrompt) preview.setContentDescription("选择声调");
         toneCancel.setVisibility(View.VISIBLE);
         prevChoices.setVisibility(View.GONE);
         nextChoices.setVisibility(View.GONE);
@@ -1728,13 +1725,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     : engine.spellingCompletions(draft, recentWords, output, orthography);
             List<CandidateEngine.Candidate> dictionary = engine == null || draft.isEmpty()
                     ? Collections.emptyList() : engine.lookup(draft, output, orthography);
-            candidates = groupTypingChoices(addSuggestions(dictionary, wordCompletions, recentWords, previousSyllable, output, draft));
+            List<CandidateEngine.Candidate> ranked =
+                    addSuggestions(dictionary, wordCompletions, recentWords, previousSyllable, output, draft);
+            if (mode == SPELL) ranked = CandidateEngine.prioritizeVerbatim(draft, dictionary, ranked);
+            candidates = groupTypingChoices(ranked);
         }
         page = 0;
-        preview.setText(draft);
+        boolean verbatim = mode == SPELL && !draft.isEmpty();
+        preview.setText(verbatim ? "" : draft);
         preview.setTextColor(draft.isEmpty() ? MUTED : RED);
         preview.setTypeface(draft.isEmpty() ? Typeface.DEFAULT : MEDIUM);
-        preview.setContentDescription("待选拼写 " + draft);
+        preview.setContentDescription(verbatim ? null : "待选拼写 " + draft);
         showCandidates();
     }
 
@@ -1768,6 +1769,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (i > first) rest = marker(rest, RULE, 1, compact ? 19 : 26, Gravity.START | Gravity.CENTER_VERTICAL);
             card.setBackground(pressable(rest, 6));
             boolean tujia = c.kind == CandidateEngine.Kind.TUJIA;
+            boolean verbatim = mode == SPELL && !draft.isEmpty() && i == 0;
             boolean nextSound = syllableHints.contains(c);
             HanChoice group = hanChoices.get(c);
             int glossLimit = mode == HAND ? 2 : Integer.MAX_VALUE;
@@ -1788,9 +1790,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 meaning.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             card.addView(meaning, new LinearLayout.LayoutParams(-1, textHeight(glossSize)));
-            TextView text = cardLine(HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges), formSp(), 16, tujia && i == 0 ? RED : INK, true);
-            text.setDuplicateParentStateEnabled(true);
-            text.setTextColor(pressColors(tujia && i == 0 ? RED : INK));
+            int formColor = verbatim || tujia && i == 0 ? RED : INK;
+            TextView text = candidateForm(HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges), formColor);
+            if (verbatim) {
+                text.setEllipsize(TextUtils.TruncateAt.START);
+                text.setContentDescription("待选拼写 " + draft);
+            }
             card.addView(text, new LinearLayout.LayoutParams(-1, textHeight(formSp())));
             KeyboardTap.bind(card, () -> choose(c));
             card.setHapticFeedbackEnabled(false);
@@ -1802,15 +1807,80 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     : tujia ? c.text : categoryName(c) + "，" + c.text;
             card.setContentDescription(hint + description);
             card.setFocusable(true);
-            choices.addView(card, weighted(1));
+            addCandidateCard(card, text);
         }
-        // Keep a single result as easy to locate as the first of a full group.
-        if (count < COLUMNS) {
-            View end = new View(this);
-            end.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-            LinearLayout.LayoutParams blank = weighted(COLUMNS - count);
-            blank.setMargins(dp(COLUMNS - count), dp(1), dp(COLUMNS - count), dp(1));
-            choices.addView(end, blank);
+    }
+
+    private void addCandidateCard(LinearLayout card, TextView form) {
+        card.setTag(form);
+        choices.addView(card, weighted(0));
+    }
+
+    private TextView candidateForm(CharSequence value, int color) {
+        TextView form = label(value, formSp(), color);
+        form.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        form.setPadding(dp(6), 0, dp(6), 0);
+        form.setDuplicateParentStateEnabled(true);
+        form.setTextColor(pressColors(color));
+        form.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+            int room = r - l - form.getCompoundPaddingLeft() - form.getCompoundPaddingRight() - 1;
+            if (room <= 0) return;
+            float preferred = sp(formSp());
+            float width = naturalFormWidth(form);
+            float size = Math.max(sp(16), preferred * Math.min(1f, room / Math.max(1f, width)));
+            if (Math.abs(form.getTextSize() - size) > .01f) form.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            if (getResources().getConfiguration().fontScale >= 1.3f
+                    && keyboardFrame.getWidth() <= dp(360) && shortHanWord(value)) {
+                fitTextWidth(form, value, room, .75f);
+            }
+        });
+        return form;
+    }
+
+    private float naturalFormWidth(TextView form) {
+        TextPaint paint = new TextPaint(form.getPaint());
+        paint.setTextSize(sp(formSp()));
+        paint.setTextScaleX(1f);
+        return Layout.getDesiredWidth(form.getText(), paint);
+    }
+
+    private final class CandidateRow extends LinearLayout {
+        CandidateRow() {
+            super(TujiaIme.this);
+            setBaselineAligned(false);
+        }
+
+        @Override protected void onMeasure(int widthSpec, int heightSpec) {
+            int count = getChildCount();
+            if (count != 0 && getChildAt(0).getTag() instanceof TextView
+                    && MeasureSpec.getMode(widthSpec) == MeasureSpec.EXACTLY) {
+                sizeCandidateCards(MeasureSpec.getSize(widthSpec), count);
+            }
+            super.onMeasure(widthSpec, heightSpec);
+        }
+
+        private void sizeCandidateCards(int width, int count) {
+            int available = width - getPaddingLeft() - getPaddingRight();
+            for (int i = 0; i < count; i++) {
+                LayoutParams params = (LayoutParams) getChildAt(i).getLayoutParams();
+                available -= params.leftMargin + params.rightMargin;
+            }
+            available = Math.max(0, available);
+            int minimum = Math.min(dp(48), available / count);
+            int[] extraWidths = new int[count];
+            int totalExtra = 0;
+            // Measure the output line alone. Glosses fit inside the resulting cards.
+            for (int i = 0; i < count; i++) {
+                TextView form = (TextView) getChildAt(i).getTag();
+                int natural = (int) Math.ceil(naturalFormWidth(form))
+                        + form.getCompoundPaddingLeft() + form.getCompoundPaddingRight() + dp(2);
+                extraWidths[i] = Math.max(0, Math.min(available, natural) - minimum);
+                totalExtra += extraWidths[i];
+            }
+            float scale = Math.min(1f, (float) (available - count * minimum) / Math.max(1, totalExtra));
+            for (int i = 0; i < count; i++) {
+                getChildAt(i).getLayoutParams().width = minimum + (int) (extraWidths[i] * scale);
+            }
         }
     }
 
@@ -2049,6 +2119,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             chooseHand(c);
             return;
         }
+        if (mode == SPELL && c.kind == CandidateEngine.Kind.LITERAL) {
+            commitRaw();
+            return;
+        }
         boolean prediction = wordHints.contains(c) || syllableHints.contains(c);
         int consumed = action != null ? action.consumed : prediction ? draft.length() : c.consumed;
         if (consumed > draft.length() || consumed < 0 || consumed == 0 && !draft.isEmpty()) return;
@@ -2072,7 +2146,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void space() {
         if (inIpaMode()) { typeIpa(" "); return; }
         if (selectingTone) { updateCandidates(); return; }
-        if (!draft.isEmpty() && engine == null && !lexiconFailed) return;
+        if (!draft.isEmpty() && mode != SPELL && engine == null && !lexiconFailed) return;
         if (!draft.isEmpty() && !candidates.isEmpty()) choose(candidates.get(0));
         else if (!draft.isEmpty()) commitRaw();
         else commit(" ", false);

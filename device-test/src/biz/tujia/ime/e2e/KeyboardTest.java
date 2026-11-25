@@ -91,6 +91,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("ipa")) {
                 testIpaSettings();
                 testHandwritingSidebar();
+                testVerbatimSpelling();
                 new SystemTypography(this, host).ipa();
                 if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
             }
@@ -163,6 +164,8 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("补全 我，ŋa²⁴", false);
         waitForNode("补全 kuɔ²⁴", false);
         waitForNode("补全 ȵi²⁴", false);
+        if (card("补全 kuɔ²⁴").bounds.width() <= card("补全 那，ai⁵⁵").bounds.width())
+            throw new AssertionError("The longer IPA form should be wider despite the shorter gloss");
         captureFrame("ipa-candidates.png");
         press("设置");
         waitSelectedControl("北部");
@@ -520,10 +523,62 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("待选拼写 hxif", false);
     }
 
+    private void testVerbatimSpelling() {
+        stage("Verbatim spelling stays first, widens with the draft, and uses exact glosses");
+        for (String output : new String[]{"叶氏拼音", "调号拼音"}) {
+            runOnMainSync(() -> host.first.setText(""));
+            tapField(host.first);
+            press(output);
+            type("p");
+            int shortWidth = card("原文，p").bounds.width();
+            press("退格");
+            type("pifpav");
+            expectFirst("原文，pifpav");
+            Card original = card("原文，pifpav");
+            if (!original.lines.equals(Collections.singletonList("pifpav")))
+                throw new AssertionError("Unexpected gloss on unmatched spelling: " + original.lines);
+            if (original.bounds.width() <= shortWidth)
+                throw new AssertionError("Original spelling slot did not widen");
+            if (!original.bounds.contains(waitForNode("待选拼写 pifpav", false)))
+                throw new AssertionError("Original spelling still appears in the toolbar");
+            tap(original.bounds.centerX(), original.bounds.centerY());
+            expectText(host.first, "pifpav");
+
+            type("ga");
+            boolean marked = "调号拼音".equals(output);
+            expectFirst(marked ? "乌鸦，ga" : "原文，ga");
+            String recommendation = marked ? "gá" : "gaf";
+            pressCandidate("吃、咬，" + recommendation, false);
+            expectText(host.first, "pifpav " + recommendation);
+            if (!marked) {
+                type("bizika");
+                if (visibleForm("bifzixkar").bounds.width() <= visibleForm("bizika").bounds.width())
+                    throw new AssertionError("The longer Ye recommendation should have the wider card");
+                pressCandidate("土家族，bifzixkar", false);
+            }
+        }
+
+        runOnMainSync(() -> host.first.setText(""));
+        tapField(host.first);
+        press("谐音字");
+        type("ga");
+        int singleHan = visibleForm("架").bounds.width();
+        if (singleHan != visibleForm("夹").bounds.width())
+            throw new AssertionError("One-character Han choices should have the same minimum width despite their glosses");
+        press("退格");
+        press("退格");
+        type("bizika");
+        if (visibleForm("秘兹佧").bounds.width() <= singleHan)
+            throw new AssertionError("The longer Han choice should be wider");
+        pressCandidate("土家族，秘兹佧", false);
+        expectText(host.first, "秘兹佧");
+    }
+
     private void testOutputButtons() {
-        stage("Three direct output choices preserve an unfinished spelling");
         String previous = setStyleFromLauncher("谐音字");
         try {
+            testVerbatimSpelling();
+            stage("Three direct output choices preserve an unfinished spelling");
             runOnMainSync(() -> host.first.setText(""));
             tapField(host.first);
             press("谐音字");
@@ -573,6 +628,7 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.first);
         press("叶氏拼音");
         type("bifzika");
+        expectFirst("原文，bifzika");
         pressCandidate("土家族，bifzixkar", false);
         press("句号");
         type("ga");
@@ -587,6 +643,7 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.first);
         press("调号拼音");
         type("ga");
+        expectFirst("乌鸦，ga");
         pressCandidate("吃、咬，gá", false);
         expectText(host.first, prefix + "gá");
         type("zhongguo");
@@ -611,6 +668,7 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("待选拼写 āiz", false);
         holdTone("u", "ū");
         waitForNode("待选拼写 āizū", false);
+        expectFirst("从前，āizū");
         pressCandidate("从前，āizū", false);
         expectText(host.first, prefix + " āizū");
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -121,6 +122,31 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> lookup(String input, Mode mode, Orthography orthography) {
         return candidates(input, mode, orthography, 0);
+    }
+
+    static List<Candidate> prioritizeVerbatim(String draft, List<Candidate> dictionary, List<Candidate> ranked) {
+        if (draft.isEmpty()) return ranked;
+        Candidate original = null;
+        for (Candidate match : dictionary) {
+            if (match.kind == Kind.TUJIA && !match.syllableOnly && match.consumed == draft.length()
+                    && match.text.equals(draft)) {
+                original = match;
+                break;
+            }
+        }
+        if (original == null) {
+            original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
+                    new int[0], false, "", "", false, "");
+        }
+        List<Candidate> choices = new ArrayList<>(ranked.size() + 1);
+        choices.add(original);
+        String visibleDraft = Normalizer.normalize(draft, Normalizer.Form.NFC);
+        for (Candidate candidate : ranked) {
+            if (!visibleDraft.equals(Normalizer.normalize(candidate.text, Normalizer.Form.NFC))) {
+                choices.add(candidate);
+            }
+        }
+        return choices;
     }
 
     public List<Candidate> handwritingSuggestions(String acceptedHan, Mode outputMode, Orthography style) {
