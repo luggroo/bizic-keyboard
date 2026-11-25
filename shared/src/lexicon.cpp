@@ -351,10 +351,15 @@ using Segments = std::vector<std::pair<std::string, std::string>>;
 
 bool romanSeparator(char32_t c) { return space(c) || c == U'-' || c == U'\'' || c == 0x2019; }
 
-bool nasalA(char32_t c) { return c == U'a' || c == U'ā' || c == U'á' || c == U'ǎ' || c == U'à'; }
+bool nasalA(char32_t c) { return std::u32string_view(U"aāáǎàeēéěèiīíǐìoōóǒòuūúǔùüǖǘǚǜ").find(c) != std::u32string_view::npos; }
 
 constexpr char32_t optionalG = 0x110000; // an internal index edge, never a Unicode input character
 constexpr char32_t optionalU = 0x110001; // o/uo are alternate input spellings after an onset
+
+constexpr char32_t onsetFHu = 0x110002; // f / hu before a non-u vowel
+constexpr char32_t onsetFHuU = 0x110003; // f / h before an existing u
+constexpr char32_t onsetFHo = 0x110004; // f / h with the existing o/uo alternation
+constexpr char32_t dentalNasal = 0x110010; // e/i before n after d,t,l; tone retained
 
 bool onsetLetter(char32_t c) {
     return std::u32string_view(U"bcdfghjklmnpqrstvwxyz").find(c) != std::u32string_view::npos;
@@ -399,18 +404,37 @@ std::u32string nasalPattern(const std::u32string& form, const Segments& segments
             const bool simpleO = onset && vowel + 1 == end &&
                     std::u32string_view(U"oōóǒò").find(syllable[vowel]) != std::u32string_view::npos &&
                     std::all_of(plain.begin(), plain.begin() + onset, onsetLetter);
+            std::u32string piece;
             if (alternateO && simpleO) {
-                pattern.append(syllable, 0, onset);
-                pattern.push_back(optionalU);
-                pattern.append(syllable, onset + (hasU ? 1 : 0), syllable.size() - onset - (hasU ? 1 : 0));
+                piece.append(syllable, 0, onset);
+                piece.push_back(optionalU);
+                piece.append(syllable, onset + (hasU ? 1 : 0), syllable.size() - onset - (hasU ? 1 : 0));
             } else if (coda >= 2 && nasalA(syllable[coda - 2]) && syllable[coda - 1] == U'n') {
-                pattern.append(syllable, 0, coda);
-                pattern.push_back(optionalG);
-                pattern.append(syllable, end, syllable.size() - end);
-            } else pattern += syllable;
+                piece.append(syllable, 0, coda);
+                piece.push_back(optionalG);
+                piece.append(syllable, end, syllable.size() - end);
+            } else piece = syllable;
+            if (coda >= 3 && (syllable[0] == U'd' || syllable[0] == U't' || syllable[0] == U'l') && coda == 3 && syllable[2] == U'n') {
+                constexpr std::u32string_view vowels = U"eiēīéíěǐèì";
+                const auto v = vowels.find(syllable[1]);
+                if (v != vowels.npos) piece[1] = dentalNasal + v / 2;
+            }
+            if (!syllable.empty() && syllable[0] == U'f' && syllable.size() > 1 && nasalA(syllable[1])) {
+                piece[0] = (std::u32string_view(U"uūúǔù").find(syllable[1]) != std::u32string_view::npos) ? onsetFHuU : onsetFHu;
+            } else if (syllable.size() > 1 && syllable[0] == U'h' &&
+                       std::u32string_view(U"uūúǔù").find(syllable[1]) != std::u32string_view::npos) {
+                const bool glide = syllable[1] == U'u' && syllable.size() > 2 && nasalA(syllable[2]);
+                piece[0] = glide ? onsetFHu : onsetFHuU;
+                if (glide) {
+                    if (piece.size() > 1 && piece[1] == optionalU) { /* o/uo shares this glide */ }
+                    else if (piece.size() > 1 && piece[1] == U'u') piece.erase(1, 1);
+                }
+            }
+            if (alternateO && simpleO && onset == 1 && (syllable[0] == U'f' || syllable[0] == U'h')) piece[0] = onsetFHo;
+            pattern += piece;
         }
         if (matched == segments.size() && at == form.size() &&
-            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos)) return pattern;
+            (pattern.find(optionalG) != pattern.npos || pattern.find(optionalU) != pattern.npos || pattern.find(onsetFHu) != pattern.npos || pattern.find(onsetFHuU) != pattern.npos || pattern.find(onsetFHo) != pattern.npos || std::any_of(pattern.begin(), pattern.end(), [](char32_t c){ return c >= dentalNasal && c < dentalNasal + 5; }))) return pattern;
     }
     return {};
 }
@@ -447,24 +471,32 @@ std::string toneBucket(std::u32string_view form) {
 }
 
 bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool prefix) {
-    std::vector<size_t> positions{0}, next;
-    for (size_t i = 0;; ++i) {
-        for (size_t p = 0; p < positions.size(); ++p) {
-            size_t pos = positions[p];
-            if (pos < pattern.size() && optionalLetter(pattern[pos]) &&
-                std::find(positions.begin(), positions.end(), pos + 1) == positions.end())
-                positions.push_back(pos + 1);
+    const size_t width = input.size() + 1;
+    std::vector<int8_t> memo((pattern.size() + 1) * width, -1);
+    const auto match = [&](auto&& self, size_t p, size_t i) -> bool {
+        auto& cached = memo[p * width + i];
+        if (cached != -1) return cached;
+        if (i == input.size() && prefix) return cached = 1;
+        if (p == pattern.size()) return cached = (i == input.size());
+        const char32_t edge = pattern[p], optional = optionalLetter(edge);
+        if (optional && self(self, p + 1, i)) return cached = 1;
+        if (edge == onsetFHu || edge == onsetFHuU || edge == onsetFHo) {
+            if (i < input.size() && input[i] == U'f' && self(self, p + 1, i + 1)) return cached = 1;
+            if (i < input.size() && input[i] == U'h') {
+                if ((edge == onsetFHuU || edge == onsetFHo) && self(self, p + 1, i + 1)) return cached = 1;
+                if (edge == onsetFHu && i + 1 < input.size() && input[i + 1] == U'u' && self(self, p + 1, i + 2)) return cached = 1;
+                if (edge == onsetFHu && prefix && i + 1 == input.size()) return cached = 1;
+            }
+            return cached = 0;
         }
-        if (i == input.size()) return !positions.empty() &&
-                (prefix || std::find(positions.begin(), positions.end(), pattern.size()) != positions.end());
-        next.clear();
-        for (size_t pos : positions) {
-            if (pos < pattern.size() && (pattern[pos] == input[i] || (optionalLetter(pattern[pos]) && optionalLetter(pattern[pos]) == input[i])))
-                next.push_back(pos + 1);
+        if (edge >= dentalNasal && edge < dentalNasal + 5) {
+            constexpr std::u32string_view e = U"eēéěè", v = U"iīíǐì";
+            const auto n = edge - dentalNasal;
+            return cached = (i < input.size() && (input[i] == e[n] || input[i] == v[n]) && self(self, p + 1, i + 1));
         }
-        if (next.empty()) return false;
-        positions.swap(next);
-    }
+        return cached = (i < input.size() && (edge == input[i] || optional == input[i]) && self(self, p + 1, i + 1));
+    };
+    return match(match, 0, 0);
 }
 
 // A coarse hash only locates possible patterns. The optional-edge matcher
@@ -472,12 +504,22 @@ bool patternMatches(std::u32string_view pattern, std::u32string_view input, bool
 std::string nasalBucket(std::u32string_view form) {
     std::string key;
     bool afterAn = false, previousA = false;
+    constexpr std::u32string_view ev = U"eēéěè", iv = U"iīíǐì";
     for (size_t i = 0; i < form.size(); ++i) {
         char32_t cp = form[i];
-        const bool afterOnset = i > 0 && onsetLetter(form[i - 1]);
+        const bool afterOnset = i > 0 && (onsetLetter(form[i - 1]) || form[i - 1] == onsetFHu || form[i - 1] == onsetFHuU || form[i - 1] == onsetFHo);
         const bool beforeO = i + 1 == form.size() || std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos;
-        if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') ||
-            (cp == U'u' && afterOnset && beforeO)) continue;
+        if (cp == optionalG || cp == optionalU || (afterAn && cp == U'g') || (cp == U'u' && afterOnset && beforeO)) continue;
+        if (cp == onsetFHu || cp == onsetFHuU || cp == onsetFHo) cp = U'f';
+        else if (cp >= dentalNasal && cp < dentalNasal + 5) cp = ev[cp - dentalNasal];
+        else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"oōóǒò").find(form[i + 1]) != std::u32string_view::npos) cp = U'f';
+        else if (cp == U'h' && !(i && std::u32string_view(U"zcs").find(form[i - 1]) != std::u32string_view::npos) && i + 1 < form.size() && std::u32string_view(U"uūúǔù").find(form[i + 1]) != std::u32string_view::npos) {
+            cp = U'f';
+            if (form[i + 1] == U'u' && i + 2 < form.size() && nasalA(form[i + 2])) ++i;
+        } else if (i > 0 && (form[i - 1] == U'd' || form[i - 1] == U't' || form[i - 1] == U'l') &&
+                   i + 1 < form.size() && form[i + 1] == U'n') {
+            auto n = iv.find(cp); if (n != iv.npos) cp = ev[n];
+        }
         appendUtf8(key, cp);
         afterAn = previousA && cp == U'n';
         previousA = nasalA(cp);
@@ -499,7 +541,7 @@ struct OptionalIndex {
         auto& existing = exact[bucketKey(pattern)];
         for (size_t index : existing) if (forms[index].id == id && forms[index].pattern == pattern) return;
         existing.push_back(key);
-        longest = std::max(longest, pattern.size());
+        longest = std::max(longest, pattern.size() + static_cast<size_t>(std::count(pattern.begin(), pattern.end(), onsetFHu)));
         if (complete) for (size_t end = 1; end < pattern.size(); ++end)
             addUnique(prefixes[bucketKey(std::u32string_view(pattern).substr(0, end))], key);
         forms.push_back({std::move(pattern), id});
@@ -1101,8 +1143,6 @@ struct Lexicon::Impl {
             compact.erase(std::remove(compact.begin(), compact.end(), '\''), compact.end());
             index(chineseKeys, compact, id, maxChinese);
         }
-        if (reading.find("an") == reading.npos && reading.find('o') == reading.npos &&
-            reading.find_first_not_of("abcdefghijklmnopqrstuvwxyz'") == reading.npos) return;
         const auto addOptionalReading = [&](const std::string& value) {
             Segments parts;
             for (const auto& syllable : split(value, '\'')) parts.emplace_back(syllable, syllable);
