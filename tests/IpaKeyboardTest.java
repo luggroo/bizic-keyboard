@@ -13,8 +13,14 @@ public final class IpaKeyboardTest {
         for (String[] shortcut : tones) options(shortcut);
         options("s", "ʂ", "ʃ");
         options("z", "ʐ", "ʒ", "ʑ");
-        options("t", "ts", "tsʰ", "tɕ", "tɕʰ", "tʰ");
+        options("t", "ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ");
+        options("d", "dz", "dʑ", "ɖ");
+        options("a", "ɑ", "ʌ", "ã");
+        options("e", "ə", "ɛ", "ẽ");
         options("i", "ɪ", "ɨ", "ɿ", "ʅ", "ĩ");
+        options("o", "ɔ", "ø", "õ");
+        options("u", "ɯ", "ʊ", "ʉ", "ũ");
+        options("y", "ɤ", "ɥ", "ỹ");
         check(Arrays.stream(IpaKeyboard.SYMBOLS).flatMap(Arrays::stream).flatMap(Arrays::stream)
                 .noneMatch(value -> value.matches("[a-zA-Z]")), "ordinary letter on the IPA symbols page");
         check(IpaKeyboard.description("\u0325").equals("清化"), "unvoiced diacritic label");

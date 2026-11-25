@@ -165,18 +165,22 @@ public final class KeyboardTest extends Instrumentation {
         }
         expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³ 后");
         holdKey("t");
-        for (String affricate : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ"}) waitForNode(affricate, false);
+        for (String option : new String[]{"ts", "tsʰ", "tɕ", "tɕʰ", "tʰ", "ʈ", "ʈʰ"}) waitForNode(option, false);
         captureFrame("ipa-popup.png");
         press("tsʰ");
+        holdKey("t");
+        press("ʈʰ");
+        holdKey("d");
+        press("ɖ");
         holdKey("?");
         waitForNode("ʔ", false);
         press("ʕ");
         press("字母或符号");
         press("清化");
         press("浊化");
-        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325\u032c 后");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325\u032c 后");
         press("退格");
-        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325 后");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʈʰɖʕ\u0325 后");
         press("字母或符号");
         tapField(host.second);
         press("切换大小写");
