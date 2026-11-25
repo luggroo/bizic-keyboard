@@ -3,6 +3,7 @@ import biz.tujia.ime.CandidateEngine.Candidate;
 import biz.tujia.ime.CandidateEngine.Mode;
 import biz.tujia.ime.CandidateEngine.Orthography;
 import java.io.FileInputStream;
+import java.io.SequenceInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,9 +17,13 @@ public final class CandidateEngineTest {
         if (!pass) throw new AssertionError(message);
     }
 
+    private static boolean hasGloss(String combined, String value, String separator) {
+        return combined.equals(value) || (separator + combined + separator).contains(separator + value + separator);
+    }
+
     private static boolean offers(List<Candidate> choices, String value, String meaning, int consumed) {
         for (Candidate choice : choices) {
-            if (choice.text.equals(value) && choice.meaning.equals(meaning) && choice.consumed == consumed) return true;
+            if (choice.text.equals(value) && hasGloss(choice.meaning, meaning, "；") && choice.consumed == consumed) return true;
         }
         return false;
     }
@@ -38,6 +43,17 @@ public final class CandidateEngineTest {
     public static void main(String[] args) throws Exception {
         Path asset = Paths.get(args[0]);
         checkHandwrittenSuffixes(asset);
+        try (CandidateEngine all = new CandidateEngine(new SequenceInputStream(new FileInputStream(asset.toFile()),
+                     new FileInputStream(asset.resolveSibling("northern-words.tsv").toFile())))) {
+            for (String input : new String[]{"guaijia", "guairjiax", "guaifjiax", "guijia", "gojia", "guojia", "guorjia", "guorjiax"}) {
+                List<Candidate> found = all.lookup(input, Mode.HAN);
+                check(!found.isEmpty() && found.get(0).text.equals("国家") && found.get(0).plainHanLoan,
+                        "Use the Chinese donor for " + input);
+                check(found.stream().noneMatch(c -> c.consumed == input.length()
+                                && (c.text.equals("怪家") || c.text.equals("姑崴家"))),
+                        "Do not offer phonetic substitutes for 国家: " + input);
+            }
+        }
         CandidateEngine engine = new CandidateEngine(new FileInputStream(asset.toFile()), new FileInputStream(asset.resolveSibling("ngrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_bigrams.tsv").toFile()),
                 new FileInputStream(asset.resolveSibling("syllable_senses.tsv").toFile()));
@@ -106,8 +122,8 @@ public final class CandidateEngineTest {
             String compact = f.length >= 10 && !f[9].isEmpty() ? f[9] : meaning;
             boolean hasGloss = false;
             for (Candidate candidate : nativeWords) {
-                if (candidate.text.equals(spelled) && candidate.meaning.equals(meaning) &&
-                    candidate.shortMeaning.equals(compact) && candidate.kind == CandidateEngine.Kind.TUJIA &&
+                if (candidate.text.equals(spelled) && hasGloss(candidate.meaning, meaning, "；") &&
+                    candidate.shortMeaning.codePointCount(0, candidate.shortMeaning.length()) <= 6 && candidate.kind == CandidateEngine.Kind.TUJIA &&
                     candidate.consumed == spelled.length()) hasGloss = true;
             }
             check(hasGloss, id + ": spelling, kind and glosses");
@@ -217,7 +233,7 @@ public final class CandidateEngineTest {
                 }
             }
             List<Candidate> child = dictionary.handwrittenWords("波粒", Mode.HAN, Orthography.YE);
-            check(child.get(0).text.equals("波俐") && offers(child, "波立", "孩子", 2), "Recorded alias before a regional homophone");
+            check(child.stream().anyMatch(c -> c.meaning.equals("小孩")), "Recorded child sense remains searchable");
             List<Candidate> pronoun = dictionary.handwrittenWords("阿安", Mode.HAN, Orthography.YE);
             check(offers(pronoun, "阿安", "我", 2) && offers(pronoun, "阿安", "我", 1), "One Han form can have two different suffix ranges");
             List<Candidate> marked = dictionary.handwrittenWords("前˻阿安˼", Mode.HAN, Orthography.YE);

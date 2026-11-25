@@ -103,7 +103,7 @@ final class HostCompatibility {
             await(caption + " focus", destination::hasFocus);
             keys.waitForNode("完成", false);
             keys.type("hxif");
-            keys.pressCandidate("走，诶", false);
+            keys.pressCandidate(KeyboardTest.WALK_HAN, false);
             keys.expectText(destination, "诶");
             keys.expectText(active, "架");
         }
@@ -123,7 +123,7 @@ final class HostCompatibility {
             keys.press(second);
             String expected = first + second;
             keys.expectText(host.first, expected);
-            if (keys.pollNode("更多", false, 200) != null || keys.pollNode("吃、咬，架", false, 200) != null)
+            if (keys.pollNode("设置", false, 200) != null || keys.pollNode("吃、咬，架", false, 200) != null)
                 throw new AssertionError("Lexical prediction visible on a password field");
             AtomicReference<String> transformed = new AtomicReference<>();
             keys.runOnMainSync(() -> transformed.set(host.first.getTransformationMethod()
@@ -134,17 +134,7 @@ final class HostCompatibility {
 
     void webEditors() throws Exception {
         keys.stage("Android System WebView: input, textarea, DOM focus change and password");
-        keys.runOnMainSync(host::webScenario);
-        long deadline = SystemClock.uptimeMillis() + 20000;
-        while (!"true".equals(js("!!document.getElementById('secret')"))) {
-            if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("WebView document did not load");
-            SystemClock.sleep(80);
-        }
-        CountDownLatch painted = new CountDownLatch(1);
-        keys.runOnMainSync(() -> host.web.postVisualStateCallback(1L, new android.webkit.WebView.VisualStateCallback() {
-            @Override public void onComplete(long requestId) { painted.countDown(); }
-        }));
-        if (!painted.await(10, TimeUnit.SECONDS)) throw new AssertionError("WebView did not present the form");
+        openWeb();
         tapDom("word");
         commitEating();
         expectDom("word", "架");
@@ -157,7 +147,7 @@ final class HostCompatibility {
         expectDom("note", "半日猜");
         keys.press("换行");
         keys.type("hxif");
-        keys.pressCandidate("走，诶", false);
+        keys.pressCandidate(KeyboardTest.WALK_HAN, false);
         expectDom("note", "半日猜\n诶");
         expectDom("word", "架");
         keys.press("隐藏键盘");
@@ -166,8 +156,44 @@ final class HostCompatibility {
         keys.press("g");
         keys.press("a");
         expectDom("secret", "ga");
-        if (keys.pollNode("更多", false, 200) != null)
+        if (keys.pollNode("设置", false, 200) != null)
             throw new AssertionError("Lexical mode on a WebView password");
+    }
+
+    void ipaWeb() throws Exception {
+        keys.stage("IPA completion in a WebView editor and password isolation");
+        openWeb();
+        tapDom("note");
+        keys.press("音标");
+        keys.press("m");
+        keys.press("a");
+        expectDom("note", "ma");
+        keys.press("补全 奶，mã²¹");
+        expectDom("note", "mã²¹");
+        keys.press("换行");
+        keys.press("n");
+        expectDom("note", "mã²¹\nn");
+        tapDom("secret");
+        keys.waitForNode("英文直输", false);
+        keys.press("m");
+        keys.press("a");
+        keys.waitAbsent("补全 奶，mã²¹");
+        expectDom("secret", "ma");
+        expectDom("note", "mã²¹\nn");
+    }
+
+    private void openWeb() throws Exception {
+        keys.runOnMainSync(host::webScenario);
+        long deadline = SystemClock.uptimeMillis() + 20000;
+        while (!"true".equals(js("!!document.getElementById('secret')"))) {
+            if (SystemClock.uptimeMillis() > deadline) throw new AssertionError("WebView document did not load");
+            SystemClock.sleep(80);
+        }
+        CountDownLatch painted = new CountDownLatch(1);
+        keys.runOnMainSync(() -> host.web.postVisualStateCallback(1L, new android.webkit.WebView.VisualStateCallback() {
+            @Override public void onComplete(long requestId) { painted.countDown(); }
+        }));
+        if (!painted.await(10, TimeUnit.SECONDS)) throw new AssertionError("WebView did not present the form");
     }
 
     private String js(String expression) throws Exception {

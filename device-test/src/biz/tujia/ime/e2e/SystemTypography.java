@@ -28,6 +28,64 @@ final class SystemTypography {
         this.host = host;
     }
 
+    void ipa() throws Exception {
+        String startingScale = shell("settings get system font_scale");
+        String densities = shell("wm density");
+        int physical = intAfter(densities, "Physical density"), override = intAfter(densities, "Override density");
+        int baseline = override == 0 ? physical : override;
+        int narrow = Math.round(host.getResources().getDisplayMetrics().widthPixels * 160f / 320);
+        try {
+            checkIpaInk(1f, baseline, "ipa-layout");
+            checkIpaInk(1.6f, narrow, "ipa-layout-large");
+        } finally {
+            shell("wm density " + (override == 0 ? "reset" : Integer.toString(override)));
+            if ("null".equals(startingScale)) shell("settings delete system font_scale");
+            else shell("settings put system font_scale " + Float.parseFloat(startingScale));
+        }
+    }
+
+    private void checkIpaInk(float scale, int density, String frame) throws Exception {
+        setConfiguration(scale, density);
+        test.newPredictionEditor();
+        test.press("音标");
+        test.assertEditorAboveKeyboard(host.first, "音标");
+        test.awaitKeyboardAtRest();
+        Rect[] keys = new Rect[8];
+        String letters = "weqpbnga";
+        for (int i = 0; i < letters.length(); i++) keys[i] = test.waitForNode(letters.substring(i, i + 1), false);
+        Bitmap shot = test.getUiAutomation().takeScreenshot();
+        if (shot == null) throw new AssertionError("Missing IPA layout screenshot");
+        int[] bottoms = new int[keys.length];
+        try {
+            for (int i = 0; i < keys.length; i++) bottoms[i] = ipaInkBottom(shot, keys[i], letters.charAt(i));
+        } finally { shot.recycle(); }
+        test.stage("IPA baseline at font " + scale + " and density " + density + ": "
+                + letters + " " + java.util.Arrays.toString(bottoms));
+        if (Math.abs(bottoms[0] - bottoms[1]) > 2 || Math.abs(bottoms[2] - bottoms[3]) > 2
+                || Math.abs(bottoms[4] - bottoms[5]) > 2 || bottoms[6] <= bottoms[7])
+            throw new AssertionError("Misaligned IPA letters or clipped g descender: " + frame);
+        test.captureFrame(frame + ".png");
+        test.press("m");
+        test.press("a");
+        test.press("补全 奶，mã²¹");
+        test.expectText(host.first, "mã²¹");
+    }
+
+    private static int ipaInkBottom(Bitmap shot, Rect key, char letter) {
+        // Only measure the main glyph, below the smaller alternatives.
+        for (int y = key.bottom - 1; y >= key.top + Math.round(key.height() * .43f); y--) {
+            int dark = 0;
+            for (int x = key.left + 3; x < key.right - 3; x++) {
+                int color = shot.getPixel(x, y);
+                if (Color.green(color) < 126 && Color.blue(color) < 126) dark++;
+            }
+            if (dark < 2) continue;
+            if (key.bottom - y < 3) throw new AssertionError("IPA letter touches the bottom edge: " + letter);
+            return y;
+        }
+        throw new AssertionError("No main IPA glyph for " + letter);
+    }
+
     void run() throws Exception {
         String startingScale = shell("settings get system font_scale");
         String densities = shell("wm density");

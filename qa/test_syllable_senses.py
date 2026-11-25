@@ -21,7 +21,7 @@ def main():
     assert runtime['jinv']['shortGloss'] == '紧' and not runtime['jinv']['han']
     assert {'w1051', 'w3991'} <= set(audit['jinv']['independentEntries'].split())
     assert audit['jinv']['compoundWords'] == audit['jinv']['boundWords'] == '0'
-    assert runtime['mangf'] == dict(syllable='mangf', shortGloss='慢', lexemeId='w1473', han='漫')
+    assert runtime['mangf'] == dict(syllable='mangf', shortGloss='慢', lexemeId='w1473', han='慢')
     assert 'mongr' not in runtime
     assert audit['mongr']['independentMeanings'] == '午'
     assert 'yubao-60757-v-2498' in audit['mongr']['independentEntries'].split()

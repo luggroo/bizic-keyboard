@@ -31,6 +31,7 @@ jobs:
           ./tools/test-ismantic.sh "$RUNNER_TEMP/onnxruntime.jar"
       - name: Check prediction training and reviewed syllable meanings
         run: |
+          python3 qa/test_survey_loans.py
           python3 qa/test_prediction_training.py
           python3 qa/test_syllable_senses.py
           python3 qa/test_candidate_senses.py

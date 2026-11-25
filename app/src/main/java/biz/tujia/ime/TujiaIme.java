@@ -2,6 +2,7 @@ package biz.tujia.ime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -13,6 +14,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.content.res.ColorStateList;
 import android.inputmethodservice.InputMethodService;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.InputType;
 import android.text.StaticLayout;
 import android.text.SpannableStringBuilder;
@@ -22,6 +25,7 @@ import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextPaint;
 import android.util.TypedValue;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,6 +40,7 @@ import android.widget.TextView;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,13 +54,29 @@ import java.util.Set;
 public final class TujiaIme extends InputMethodService implements LexiconStore.Listener {
     private static final int COLUMNS = 4, HISTORY_LIMIT = 32;
     private static final int LETTER_SP = 20, FORM_SP = 20, GLOSS_SP = 14, TAB_SP = 15;
-    private static final int SPELL = 0, HAN = 1, HAND = 2, VOICE = 3;
+    private static final int SPELL = 0, HAN = 1, HAND = 2, IPA = 4;
     private static final int INK = 0xff392b27, MUTED = 0xff745950, RED = 0xffab3929;
     private static final int PAPER = 0xfffffaf5, BOARD = 0xfffae9df, HEADER = 0xfffff1e8;
     private static final int RULE = 0xffddc5b7, UTILITY = 0xffefd7c7, WHITE = Color.WHITE;
     private static final int PRESSED = 0xffb63d2a, FOCUS = 0xffedc1a8;
     private static final Typeface MEDIUM = Typeface.create("sans-serif-medium", Typeface.NORMAL);
     private enum KeyLook { LETTER, TAB, UTILITY, SPACE, PRIMARY, PLAIN }
+    private enum HandFormat {
+        HAN("汉字", "币子咔", CandidateEngine.Orthography.YE),
+        YE("叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE),
+        DIACRITIC("调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC),
+        IPA("国际音标", "pi²⁴tsɿ⁵⁵kʰa²¹", CandidateEngine.Orthography.IPA);
+
+        final String label, example;
+        final CandidateEngine.Orthography style;
+
+        HandFormat(String label, String example, CandidateEngine.Orthography style) {
+            this.label = label;
+            this.example = example;
+            this.style = style;
+        }
+    }
+
     private CandidateEngine engine;
     private boolean inputViewActive, lexiconFailed;
     private Configuration displayConfiguration;
@@ -64,7 +85,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private CandidateEngine.Orthography orthography = CandidateEngine.Orthography.YE;
     private int mode, typingMode, page, glyphPage, selStart, selEnd;
     private int historyLimit;
-    private boolean shifted, symbols, direct, numeric, handAsHan, compact, handPanelActive;
+    private boolean shifted, symbols, direct, numeric, compact, handPanelActive;
+    private HandFormat handFormat;
     private String draft = "";
     private List<CandidateEngine.Candidate> candidates = Collections.emptyList();
     private final Map<CandidateEngine.Candidate, HanChoice> hanChoices = new HashMap<>();
@@ -79,6 +101,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private CandidateEngine.Candidate inspectedCandidate;
     private TextView preview, moreButton, prevChoices, nextChoices, toneCancel;
     private boolean selectingTone;
+    private IpaKeyboard ipaLexicon;
+    private boolean ipaLoading, ipaLoadFailed, destroyed;
+    private String shownIpaPrefix;
+    private int shownIpaDialects;
+    private List<IpaKeyboard.Entry> ipaMatches = Collections.emptyList();
+    private FrameLayout ipaAlternatives;
     private HandwritingPad pad;
     private HandAnchor strokeAnchor;
     private HandAnchor matchedAt;
@@ -104,23 +132,30 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         super.onCreate();
         displayConfiguration = new Configuration(getResources().getConfiguration());
         LexiconStore.load(this, this);
-        handAsHan = getSharedPreferences("keyboard", MODE_PRIVATE).getBoolean("hand_as_han", true);
-        mode = getSharedPreferences("keyboard", MODE_PRIVATE).getInt("mode", HAN);
-        if (mode < SPELL || mode > HAND) mode = HAN;
-        int savedTyping = getSharedPreferences("keyboard", MODE_PRIVATE).getInt("typing_mode", mode);
-        typingMode = savedTyping == SPELL ? SPELL : HAN;
+        SharedPreferences settings = getSharedPreferences("keyboard", MODE_PRIVATE);
+        HandFormat previousHandFormat = settings.getBoolean("hand_as_han", true) ? HandFormat.HAN
+                : KeyboardSettings.spelling(this) == CandidateEngine.Orthography.DIACRITIC ? HandFormat.DIACRITIC : HandFormat.YE;
+        int savedHandFormat = settings.getInt("hand_output", previousHandFormat.ordinal());
+        HandFormat[] formats = HandFormat.values();
+        handFormat = savedHandFormat >= 0 && savedHandFormat < formats.length ? formats[savedHandFormat] : previousHandFormat;
+        int savedTyping = settings.getInt("typing_mode", settings.getInt("mode", SPELL));
+        typingMode = savedTyping == HAN ? HAN : SPELL;
+        mode = typingMode;
     }
 
     @Override public void onLexiconLoaded(CandidateEngine ready) {
         engine = ready;
         lexiconFailed = ready == null;
+        shownIpaPrefix = null;
         if (inputViewActive && !selectingTone && readingPanel == null) updateCandidates();
     }
 
     @Override public boolean onEvaluateFullscreenMode() { return false; }
 
     @Override public void onDestroy() {
+        destroyed = true;
         inputViewActive = false;
+        closeIpaAlternatives();
         LexiconStore.detach(this);
         engine = null;
         super.onDestroy();
@@ -241,6 +276,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         super.onFinishInputView(finishingInput);
     }
 
+    @Override public void onWindowHidden() {
+        super.onWindowHidden();
+        if (reflowEditor != null) return;
+        mode = typingMode;
+        symbols = numeric;
+        shifted = false;
+    }
+
     @Override public void onFinishInput() {
         inputViewActive = false;
         if (!sameReflowEditor(getCurrentInputEditorInfo())) resetDraft();
@@ -248,6 +291,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void resetDraft() {
+        closeIpaAlternatives();
+        shownIpaPrefix = null;
         closeHandDetail();
         handNext = false;
         closeReading();
@@ -286,10 +331,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         selStart = newStart;
         selEnd = newEnd;
+        if (inIpaMode() && inputViewActive) showIpaCandidates();
     }
 
     private void layoutKeyboard() {
         if (surface == null) return;
+        closeIpaAlternatives();
+        shownIpaPrefix = null;
         closeHandDetail();
         closeReading();
         closeMore();
@@ -308,7 +356,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         LinearLayout strip = row();
         strip.setBackground(edge(PAPER, RULE, Gravity.BOTTOM));
         body.setBackgroundColor(BOARD);
-        int toolbarHeight = Math.max(dp(compact ? 33 : 40), textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(8));
+        int toolbarHeight = Math.max(dp(compact ? 36 : 42),
+                textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(compact ? 17 : 21));
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(glossSp()) + textHeight(formSp()) + dp(4));
@@ -316,7 +365,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int maximum = dp(Math.max(120, screen - (portrait ? 140 : 80)));
         int total = Math.min(maximum, toolbarHeight + choicesHeight + 4 * targetRow);
         if (direct) total = Math.min(maximum, toolbarHeight + 4 * targetRow);
-        if (direct || mode == VOICE) choicesHeight = 0;
+        if (direct) choicesHeight = 0;
         int bodyHeight = Math.max(dp(64), total - toolbarHeight - choicesHeight);
         surface.addView(toolbar, new LinearLayout.LayoutParams(-1, toolbarHeight));
         surface.addView(strip, new LinearLayout.LayoutParams(-1, choicesHeight));
@@ -330,9 +379,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             surface.setLayoutParams(new FrameLayout.LayoutParams(-1, panelHeight));
         }
         buildToolbar();
-        if (!direct && mode != VOICE) prevChoices = pageControl(strip, "‹", "上一页候选", -1);
+        if (!direct) prevChoices = pageControl(strip, "‹", "上一页候选", -1);
         strip.addView(choices, new LinearLayout.LayoutParams(0, -1, 1));
-        if (!direct && mode != VOICE) nextChoices = pageControl(strip, "›", "下一页候选", 1);
+        if (!direct) nextChoices = pageControl(strip, "›", "下一页候选", 1);
         buildBody();
         updateCandidates();
     }
@@ -375,20 +424,30 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             toolbar.addView(label(numeric ? "数字" : "英文直输", 17, MUTED), weighted(1));
             stripKey("🌐", "切换输入法", false, this::pickIme);
         } else {
-            stripKey("打字", "打字", mode == SPELL || mode == HAN, () -> switchMode(typingMode));
-            stripKey("手写", "手写", mode == HAND, () -> switchMode(HAND));
+            stripIconKey("打字", "打字", ToolbarIcon.Mark.TYPE, mode == SPELL || mode == HAN, () -> switchMode(typingMode));
+            stripIconKey("手写", "手写", ToolbarIcon.Mark.WRITE, mode == HAND, () -> switchMode(HAND));
+            stripIconKey("音标", "音标", ToolbarIcon.Mark.IPA, mode == IPA, () -> switchMode(IPA));
         }
         toolbar.addView(composition, new LinearLayout.LayoutParams(0, -1, 1));
         buildComposition();
-        if (!direct) moreButton = stripKey("更多", "更多", false, this::toggleMore);
-        stripKey("收起", "隐藏键盘", false, () -> requestHideSelf(0));
+        if (!direct) moreButton = stripIconKey("设置", "设置", ToolbarIcon.Mark.SETTINGS, false, this::toggleMore);
+        stripIconKey("收起", "隐藏键盘", ToolbarIcon.Mark.HIDE, false, () -> requestHideSelf(0));
+    }
+
+    private TextView stripIconKey(String label, String desc, ToolbarIcon.Mark mark, boolean selected, Runnable action) {
+        TextView button = stripKey(label, desc, selected, action);
+        Drawable icon = new ToolbarIcon(mark, button);
+        icon.setBounds(0, 0, dp(compact ? 20 : 24), dp(compact ? 15 : 18));
+        button.setCompoundDrawables(null, icon, null, null);
+        button.setCompoundDrawablePadding(dp(1));
+        return button;
     }
 
     private TextView stripKey(String label, String desc, boolean selected, Runnable action) {
         TextView key = key(toolbar, label, desc, 1, selected, action);
         int natural = Math.max(dp(42), (int)Math.ceil(key.getPaint().measureText(label)) + dp(8));
         int width = getResources().getDisplayMetrics().widthPixels - surface.getPaddingLeft() - surface.getPaddingRight();
-        int pixels = direct ? natural : Math.min(natural, Math.max(dp(34), (width - dp(54)) / 4));
+        int pixels = direct ? natural : Math.min(natural, Math.max(dp(32), (width - dp(54)) / 5));
         key.setLayoutParams(new LinearLayout.LayoutParams(pixels, -1));
         if (pixels < natural) key.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
                 fitTextWidth(key, key.getText(), r - l - dp(2), .72f));
@@ -396,6 +455,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void toggleMore() {
+        closeIpaAlternatives();
         closeHandDetail();
         if (morePanel != null) { closeMore(); return; }
         if (selectingTone) updateCandidates();
@@ -406,23 +466,30 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         moreButton.setSelected(true);
         moreButton.setTextColor(pressColors(RED));
         if (mode == HAND) {
+            menuCaption("手写输出 · 识别汉字后，选择上屏写法");
             LinearLayout outputs = menuRow();
-            outputs.addView(label("手写输出", compact ? 15 : 18, MUTED), weighted(1));
-            key(outputs, handAsHan ? "记音 ▾" : "拼写 ▾", "切换手写输出", 1,
-                    KeyLook.UTILITY, false, this::toggleHandOutput);
+            for (HandFormat format : HandFormat.values()) {
+                menuChoice(outputs, format.label, format.example, format == handFormat, () -> setHandOutput(format));
+            }
+        } else if (mode == IPA) {
+            menuCaption("音标补全词库 · 可多选，两项都不选即关闭");
+            LinearLayout dialects = menuRow();
+            ipaDialectChoice(dialects, "北部", IpaKeyboard.NORTH);
+            ipaDialectChoice(dialects, "南部", IpaKeyboard.SOUTH);
         } else {
+            menuCaption("打字输出 · 选择候选上屏后的写法");
             LinearLayout outputs = menuRow();
             outputChoice(outputs, "叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE);
             outputChoice(outputs, "调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC);
             outputChoice(outputs, "谐音字", "币子咔", null);
         }
         LinearLayout tools = menuRow();
-        key(tools, "语音", "语音", 1, KeyLook.PLAIN, false, () -> switchMode(VOICE));
-        key(tools, "键盘设置", "键盘设置", 1, KeyLook.PLAIN, false, () -> {
+        key(tools, "返回打字", "返回打字", 1, KeyLook.PRIMARY, false, () -> switchMode(typingMode));
+        key(tools, "更多设置", "更多设置", 1, KeyLook.PLAIN, false, () -> {
             closeMore();
             startActivity(new Intent(this, SetupActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         });
-        if (!candidates.isEmpty() || !draft.isEmpty()) {
+        if (mode != IPA && (!candidates.isEmpty() || !draft.isEmpty())) {
             LinearLayout actions = menuRow();
             if (!candidates.isEmpty()) key(actions, "看候选全文", "长按候选看全文", 1, KeyLook.PLAIN, false, () -> {
                 closeMore();
@@ -438,15 +505,38 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void outputChoice(LinearLayout row, String name, String example, CandidateEngine.Orthography style) {
         boolean selected = style == null ? typingMode == HAN : typingMode == SPELL && orthography == style;
-        TextView choice = key(row, name + "\n" + example, name, 1, KeyLook.TAB, selected, () -> {
+        menuChoice(row, name, example, selected, () -> {
             if (style != null) {
                 orthography = style;
                 KeyboardSettings.setSpelling(this, style);
             }
             switchMode(style == null ? HAN : SPELL);
         });
+    }
+
+    private void menuCaption(String text) {
+        TextView caption = cardLine(text, compact ? 12 : 14, 12, MUTED, false);
+        morePanel.addView(caption, lineWithMinimum(compact ? 22 : 27, compact ? 12 : 14));
+    }
+
+    private void menuChoice(LinearLayout row, String name, String example, boolean selected, Runnable action) {
+        TextView choice = key(row, name + "\n" + example, name, 1, KeyLook.TAB, selected, action);
         choice.setSingleLine(false);
         choice.setMaxLines(2);
+        choice.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
+            if (r > l) fitTextWidth(choice, choice.getText(), r - l - dp(4), .65f);
+        });
+    }
+
+    private void ipaDialectChoice(LinearLayout row, String name, int flag) {
+        int selected = KeyboardSettings.ipaDialects(this);
+        boolean checked = (selected & flag) != 0;
+        key(row, (checked ? "☑ " : "☐ ") + name, name, 1, KeyLook.TAB, checked, () -> {
+            KeyboardSettings.setIpaDialects(this, KeyboardSettings.ipaDialects(this) ^ flag);
+            closeMore();
+            showIpaCandidates();
+            toggleMore();
+        });
     }
 
     private LinearLayout menuRow() {
@@ -455,10 +545,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         return r;
     }
 
-    private void toggleHandOutput() {
-        handAsHan = !handAsHan;
-        getSharedPreferences("keyboard", MODE_PRIVATE).edit().putBoolean("hand_as_han", handAsHan).apply();
+    private boolean handAsHan() {
+        return handFormat == HandFormat.HAN;
+    }
+
+    private void setHandOutput(HandFormat format) {
         closeMore();
+        if (format == handFormat) return;
+        handFormat = format;
+        getSharedPreferences("keyboard", MODE_PRIVATE).edit().putInt("hand_output", format.ordinal()).apply();
         clearHandSession();
         glyphs = Collections.emptyList();
         handNext = false;
@@ -490,9 +585,6 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 typingMode = mode;
                 getSharedPreferences("keyboard", MODE_PRIVATE).edit().putInt("typing_mode", typingMode).apply();
             }
-            if (mode != VOICE) {
-                getSharedPreferences("keyboard", MODE_PRIVATE).edit().putInt("mode", mode).apply();
-            }
             symbols = false;
             shifted = false;
         }
@@ -504,10 +596,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         prevChoices = null;
         nextChoices = null;
         toneCancel = null;
-        boolean choosing = !direct && mode != VOICE;
+        boolean choosing = !direct;
         preview = label("", compact ? 14 : 16, INK);
         wordsTab = nextTab = null;
-        if (choosing && mode == HAND && handAsHan) {
+        if (choosing && mode == HAND && handAsHan()) {
             wordsTab = handTab("已写成词", false);
             nextTab = handTab("接着写", true);
             return;
@@ -516,7 +608,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         preview.setPadding(dp(2), 0, dp(2), 0);
         preview.setEllipsize(TextUtils.TruncateAt.START);
         composition.addView(preview, new LinearLayout.LayoutParams(0, -1, 1));
-        if (choosing) {
+        if (choosing && mode != IPA) {
             toneCancel = textControl("取消", "取消选声调", this::updateCandidates);
             toneCancel.setVisibility(View.GONE);
         }
@@ -555,7 +647,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         v.setContentDescription(description);
         KeyboardTap.bind(v, () -> {
             page += direction;
-            showCandidates();
+            if (inIpaMode()) renderIpaPage();
+            else showCandidates();
         });
         v.setFocusable(true);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(compact ? 20 : 24), -1);
@@ -564,14 +657,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void buildBody() {
-        if (!direct && mode == VOICE) {
-            TextView hint = label("语音模型尚未上线", compact ? 16 : 18, INK);
-            body.addView(hint, new LinearLayout.LayoutParams(-1, 0, 1));
-            LinearLayout controls = row();
-            key(controls, "用拼写输入", "切换到土家语拼写", 1, true, () -> switchMode(SPELL));
-            key(controls, "用手写输入", "切换到手写", 1, false, () -> switchMode(HAND));
-            body.addView(controls, lineWithMinimum(compact ? 30 : 40, compact ? 14 : 15));
-        } else if (!direct && mode == HAND) {
+        if (!direct && mode == HAND) {
             buildHandwriting();
         } else {
             buildKeys();
@@ -625,13 +711,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private CandidateEngine.Mode handMode() {
-        return handAsHan ? CandidateEngine.Mode.HAN : CandidateEngine.Mode.HANDWRITING;
+        return handAsHan() ? CandidateEngine.Mode.HAN : CandidateEngine.Mode.HANDWRITING;
     }
 
     private List<CandidateEngine.Candidate> handExact(String raw) {
         if (engine == null || raw.isEmpty()) return Collections.emptyList();
         List<CandidateEngine.Candidate> full = new ArrayList<>();
-        for (CandidateEngine.Candidate c : engine.lookup(raw, handMode(), orthography))
+        for (CandidateEngine.Candidate c : engine.lookup(raw, handMode(), handFormat.style))
             if (c.kind == CandidateEngine.Kind.TUJIA && c.consumed == raw.length()) full.add(c);
         return full;
     }
@@ -658,7 +744,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void readSentenceBoundary() {
-        if (!inputViewActive || direct || mode == VOICE) return;
+        if (!inputViewActive || direct || mode == IPA) return;
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
         CharSequence left = ic.getTextBeforeCursor(1, 0);
@@ -698,14 +784,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void loadHints(String words, String sound, CandidateEngine.Mode output) {
+        CandidateEngine.Orthography style = mode == HAND ? handFormat.style : orthography;
         if (words.equals(cachedWordContext) && sound.equals(cachedSoundContext)
-                && cachedHintMode == output && cachedHintStyle == orthography) return;
+                && cachedHintMode == output && cachedHintStyle == style) return;
         cachedWordContext = words;
         cachedSoundContext = sound;
         cachedHintMode = output;
-        cachedHintStyle = orthography;
-        allWordHints = words.isEmpty() ? Collections.emptyList() : engine.nextWords(words, output, orthography);
-        allSoundHints = sound.isEmpty() ? Collections.emptyList() : engine.nextSyllables(sound, output, orthography);
+        cachedHintStyle = style;
+        allWordHints = words.isEmpty() ? Collections.emptyList() : engine.nextWords(words, output, style);
+        allSoundHints = sound.isEmpty() ? Collections.emptyList() : engine.nextSyllables(sound, output, style);
         markedWords = yeWords = markedSounds = null;
     }
 
@@ -838,7 +925,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void refreshHandCandidates() {
         hanChoices.clear();
-        if (handAsHan) {
+        if (handAsHan()) {
             refreshCommittedWords();
             return;
         }
@@ -848,7 +935,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         boolean closed = pending.isEmpty() && handLocked;
         List<CandidateEngine.Candidate> exact = closed ? Collections.emptyList() : handExact(raw);
         wordCompletions = engine == null || raw.isEmpty() || closed ? Collections.emptyList()
-                : engine.handwritingSuggestions(raw, handMode(), orthography);
+                : engine.handwritingSuggestions(raw, handMode(), handFormat.style);
         String wordContext = recentWords, soundContext = previousSyllable;
         if (!pending.isEmpty()) {
             CandidateEngine.Candidate best = exact.isEmpty() ? null : exact.get(0);
@@ -860,7 +947,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         page = 0;
         SpannableStringBuilder display = new SpannableStringBuilder(raw);
         if (!wordCompletions.isEmpty()) {
-            List<CandidateEngine.Candidate> written = handAsHan ? wordCompletions :
+            List<CandidateEngine.Candidate> written = handAsHan() ? wordCompletions :
                     engine.handwritingSuggestions(raw, CandidateEngine.Mode.HAN, orthography);
             for (CandidateEngine.Candidate word : written) {
                 if (word.text.startsWith(raw) && word.text.length() > raw.length()) {
@@ -922,8 +1009,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void buildHandwriting() {
         handPanelActive = true;
-        glyphRow = row();
-        body.addView(glyphRow, lineWithMinimum(compact ? 29 : 34, compact ? 18 : 19));
+        LinearLayout workspace = row();
+        body.addView(workspace, new LinearLayout.LayoutParams(-1, -1));
+        LinearLayout sidebar = column();
+        workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, 44));
+        glyphRow = column();
+        sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 3));
         pad = new HandwritingPad(this, new HandwritingPad.Listener() {
             @Override public void onStrokeStarted(boolean first) {
                 if (first) {
@@ -946,21 +1037,23 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 glyphPage = 0;
                 if (!pad.hasInk()) strokeAnchor = null;
                 showGlyphs();
-                if (!handAsHan || strokeAnchor == null) refreshHandCandidates();
+                if (!handAsHan() || strokeAnchor == null) refreshHandCandidates();
             }
             @Override public void onSettled() {
                 if (handPanelActive && !glyphs.isEmpty() && strokeAnchor != null) acceptGlyph(glyphs.get(0), false);
             }
         });
         pad.setContentDescription("汉字手写区");
-        body.addView(pad, new LinearLayout.LayoutParams(-1, 0, 1));
+        workspace.addView(pad, new LinearLayout.LayoutParams(0, -1, 56));
         LinearLayout controls = row();
-        body.addView(controls, lineWithMinimum(compact ? 29 : 38, compact ? 14 : 15));
+        sidebar.addView(controls, new LinearLayout.LayoutParams(-1, 0, 1));
         key(controls, "撤笔", "撤销一笔", 1, false, () -> pad.undoStroke());
         key(controls, "清笔迹", "清除笔迹", 1, false, () -> pad.clear());
-        key(controls, "退格", "退格", 1, false, this::backspace);
+        LinearLayout editing = row();
+        sidebar.addView(editing, new LinearLayout.LayoutParams(-1, 0, 1));
+        key(editing, "退格", "退格", 1, false, this::backspace);
         String action = enterLabel();
-        key(controls, action, action, 1, true, () -> {
+        key(editing, action, action, 1, true, () -> {
             clearHandSession();
             glyphs = Collections.emptyList();
             showGlyphs();
@@ -973,20 +1066,32 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void showGlyphs() {
         if (glyphRow == null) return;
         glyphRow.removeAllViews();
-        if (glyphs.isEmpty()) {
-            return;
-        }
-        TextView label = label(strokeAnchor == null ? "改字" : "字形", compact ? 13 : 15, MUTED);
-        glyphRow.addView(label, new LinearLayout.LayoutParams(dp(compact ? 33 : 42), -1));
-        for (int i = glyphPage * 5; i < Math.min((glyphPage + 1) * 5, glyphs.size()); i++) {
-            String glyph = glyphs.get(i);
-            key(glyphRow, glyph, "手写字形 " + glyph, 1, false, () -> acceptGlyph(glyph, strokeAnchor == null));
-        }
+        if (glyphs.isEmpty()) return;
+        LinearLayout heading = row();
+        glyphRow.addView(heading, new LinearLayout.LayoutParams(-1, 0, 1));
+        heading.addView(label(strokeAnchor == null ? "改字" : "字形", compact ? 13 : 15, MUTED), weighted(1));
         if (glyphs.size() > 5) {
-            key(glyphRow, "换组", "更多手写字形", 1, false, () -> {
+            key(heading, "换组", "更多手写字形", 1, KeyLook.PLAIN, false, () -> {
                 glyphPage = (glyphPage + 1) % ((glyphs.size() + 4) / 5);
                 showGlyphs();
             });
+        } else {
+            heading.addView(new View(this), weighted(1));
+        }
+        for (int row = 0; row < 2; row++) {
+            LinearLayout options = row();
+            glyphRow.addView(options, new LinearLayout.LayoutParams(-1, 0, 1));
+            for (int column = 0; column < 3; column++) {
+                int slot = row * 3 + column;
+                int index = glyphPage * 5 + slot;
+                if (slot >= 5 || index >= glyphs.size()) {
+                    options.addView(new View(this), weighted(1));
+                    continue;
+                }
+                String glyph = glyphs.get(index);
+                key(options, glyph, "手写字形 " + glyph, 1, KeyLook.PLAIN, false,
+                        () -> acceptGlyph(glyph, strokeAnchor == null));
+            }
         }
     }
 
@@ -999,14 +1104,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             return;
         }
         String oldHandGlyph = handOwned;
-        boolean combined = !handAsHan && !correction && extendsHandWord(glyph);
+        boolean combined = !handAsHan() && !correction && extendsHandWord(glyph);
         String prefix = correction ? handPrefix : combined ? handRaw : "";
         String previousOutput = correction ? handPrefixOutput : combined ? handOutput : "";
         String raw = prefix + glyph;
         List<CandidateEngine.Candidate> lexical = handExact(raw);
         CandidateEngine.Candidate best = lexical.isEmpty() ? null : lexical.get(0);
         String out = raw;
-        if (!handAsHan) {
+        if (!handAsHan()) {
             if (best != null) out = best.text;
             else if (!previousOutput.isEmpty()) {
                 List<CandidateEngine.Candidate> single = handExact(glyph);
@@ -1015,7 +1120,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
         }
         String history = correction || combined ? handHistory : recentWords;
-        int[] ranges = handAsHan && best != null && out.equals(best.text) ? best.joinedHanRanges : null;
+        int[] ranges = handAsHan() && best != null && out.equals(best.text) ? best.joinedHanRanges : null;
         if (!writeHand(cursor, out, ranges, combined || correction)) { discardHandWork(); return; }
         handNext = false;
         handRaw = raw;
@@ -1023,7 +1128,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handPrefix = prefix;
         handPrefixOutput = previousOutput;
         handHistory = history;
-        if (handAsHan && engine != null) {
+        if (handAsHan() && engine != null) {
             String preceding = cursor.before;
             if (correction && preceding.endsWith(oldHandGlyph))
                 preceding = preceding.substring(0, preceding.length() - oldHandGlyph.length());
@@ -1048,7 +1153,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void chooseHand(CandidateEngine.Candidate c) {
         CrashReports.event(getCurrentInputEditorInfo(), "手写选词", c.text);
-        if (handAsHan) {
+        if (handAsHan()) {
             if (strokeAnchor != null) {
                 if (!glyphs.isEmpty()) acceptGlyph(glyphs.get(0), false);
                 return;
@@ -1208,11 +1313,287 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         refreshHandCandidates();
     }
 
+    private boolean inIpaMode() {
+        return mode == IPA && !direct;
+    }
+
+    private void buildIpaKeys() {
+        closeIpaAlternatives();
+        body.removeAllViews();
+        String[][][] layout = symbols ? IpaKeyboard.SYMBOLS : IpaKeyboard.LETTERS;
+        for (int i = 0; i < layout.length; i++) {
+            LinearLayout line = row();
+            body.addView(line, new LinearLayout.LayoutParams(-1, 0, 1));
+            if (i == 2) {
+                if (symbols) {
+                    ipaKey(line, IpaKeyboard.NASAL, 1.25f, KeyLook.UTILITY, false,
+                            () -> typeIpa(IpaKeyboard.NASAL), IpaKeyboard.SYLLABIC, IpaKeyboard.TIE);
+                } else {
+                    ipaKey(line, "⇧", 1.25f, KeyLook.UTILITY, shifted, () -> {
+                        shifted = !shifted;
+                        buildIpaKeys();
+                    }, IpaKeyboard.NASAL, IpaKeyboard.SYLLABIC, IpaKeyboard.TIE)
+                            .setContentDescription("切换大小写");
+                }
+            }
+            for (String[] options : layout[i]) {
+                String text = shifted ? options[0].toUpperCase(Locale.ROOT) : options[0];
+                ipaKey(line, text, 1, KeyLook.LETTER, false, () -> typeIpa(text),
+                        Arrays.copyOfRange(options, 1, options.length));
+            }
+            if (i == 2) key(line, "⌫", "退格", 1.25f, false, this::backspace);
+        }
+        LinearLayout line = row();
+        body.addView(line, new LinearLayout.LayoutParams(-1, 0, 1));
+        key(line, symbols ? "字母" : "符号", "字母或符号", 1.25f, false, () -> {
+            symbols = !symbols;
+            shifted = false;
+            buildIpaKeys();
+        });
+        key(line, "🌐", "切换输入法", .9f, false, this::pickIme);
+        key(line, "/", "/", .8f, KeyLook.PLAIN, false, () -> typeIpa("/"));
+        key(line, "空格", "空格", 2.35f, KeyLook.SPACE, false, this::space);
+        ipaKey(line, "?", .8f, KeyLook.UTILITY, false, () -> typeIpa("?"), "ʕ", "ʔ", "[", "]");
+        String action = enterLabel();
+        key(line, action, action, 1.3f, true, this::enter);
+    }
+
+    private View ipaKey(LinearLayout line, String text, float weight, KeyLook look,
+                        boolean selected, Runnable tap, String... alternatives) {
+        String primary = IpaKeyboard.display(text);
+        if (alternatives.length == 0 && symbols)
+            return key(line, primary, IpaKeyboard.description(text), weight, look, selected, tap);
+        String hint = alternatives.length == 0 ? "" : IpaKeyboard.display(alternatives[0]);
+        if (alternatives.length > 1) hint += " " + IpaKeyboard.display(alternatives[1]);
+
+        LinearLayout key = column();
+        int background = look == KeyLook.LETTER ? Color.TRANSPARENT : selected ? RED : UTILITY;
+        Drawable rest = pressable(shape(background, 9), 9);
+        if (look != KeyLook.LETTER) rest = new InsetDrawable(rest, dp(2), dp(4), dp(2), dp(4));
+        key.setBackground(rest);
+        key.setPadding(dp(2), dp(3), dp(2), dp(4));
+        key.setContentDescription(IpaKeyboard.description(text));
+        key.setSelected(selected);
+        key.setFocusable(true);
+        int color = look != KeyLook.LETTER && selected ? WHITE : INK;
+        // Use identical vertical slots on every letter, including those without a hint.
+        key.addView(ipaKeyLine(hint, compact ? 10 : 11, color), new LinearLayout.LayoutParams(-1, 0, 2));
+        key.addView(ipaKeyLine(primary, letterSp(), color), new LinearLayout.LayoutParams(-1, 0, 3));
+        KeyboardTap.bind(key, tap);
+        if (alternatives.length > 0) {
+            key.setHapticFeedbackEnabled(false);
+            key.setOnLongClickListener(v -> {
+                showIpaAlternatives(key, alternatives);
+                return true;
+            });
+        }
+        line.addView(key, weighted(weight));
+        return key;
+    }
+
+    private TextView ipaKeyLine(String text, int sizeSp, int color) {
+        TextView caption = label(text, sizeSp, color);
+        caption.setIncludeFontPadding(true);
+        caption.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        caption.setDuplicateParentStateEnabled(true);
+        caption.setTextColor(pressColors(color));
+        if (android.os.Build.VERSION.SDK_INT >= 28) caption.setFallbackLineSpacing(false);
+        float preferred = caption.getTextSize();
+        android.graphics.Paint.FontMetricsInt metrics = caption.getPaint().getFontMetricsInt();
+        int preferredHeight = metrics.bottom - metrics.top;
+        caption.addOnLayoutChangeListener((v, l, t, r, b, oldL, oldT, oldR, oldB) -> {
+            if (b <= t || r <= l) return;
+            float size = preferred * Math.min(1f, (float) (b - t) / preferredHeight);
+            if (Math.abs(caption.getTextSize() - size) >= .1f)
+                caption.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+            fitTextWidth(caption, text, r - l, .65f);
+        });
+        return caption;
+    }
+
+    private void closeIpaAlternatives() {
+        if (ipaAlternatives == null) return;
+        keyboardFrame.removeView(ipaAlternatives);
+        ipaAlternatives = null;
+    }
+
+    private void showIpaAlternatives(View anchor, String[] alternatives) {
+        closeIpaAlternatives();
+        if (keyboardFrame.getWidth() == 0) return;
+        int[] origin = new int[2], position = new int[2], strip = new int[2];
+        keyboardFrame.getLocationInWindow(origin);
+        origin[0] += keyboardFrame.getPaddingLeft();
+        origin[1] += keyboardFrame.getPaddingTop();
+        anchor.getLocationInWindow(position);
+        choices.getLocationInWindow(strip);
+        int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+        int availableHeight = keyboardFrame.getHeight() - keyboardFrame.getPaddingTop() - keyboardFrame.getPaddingBottom();
+        if (room <= dp(4) || availableHeight <= 0) return;
+        int width = Math.min(room - dp(4), dp(53) * alternatives.length);
+        int height = Math.min(availableHeight, Math.max(dp(44), textHeight(formSp()) + dp(8)));
+        int left = Math.max(0, Math.min(room - width,
+                position[0] - origin[0] + (anchor.getWidth() - width) / 2));
+        int top = position[1] - origin[1] - height;
+        if (top < strip[1] + choices.getHeight() - origin[1])
+            top = position[1] - origin[1] + anchor.getHeight();
+        top = Math.max(0, Math.min(availableHeight - height, top));
+
+        ipaAlternatives = new FrameLayout(this);
+        ipaAlternatives.setOnClickListener(v -> closeIpaAlternatives());
+        ipaAlternatives.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        LinearLayout menu = row();
+        menu.setBackground(shape(RED, 8));
+        menu.setPadding(dp(1), dp(1), dp(1), dp(1));
+        for (String value : alternatives) {
+            key(menu, IpaKeyboard.display(value), IpaKeyboard.description(value), 1, KeyLook.SPACE, false,
+                    () -> typeIpa(value));
+        }
+        FrameLayout.LayoutParams menuBounds = new FrameLayout.LayoutParams(width, height);
+        menuBounds.leftMargin = left;
+        menuBounds.topMargin = top;
+        ipaAlternatives.addView(menu, menuBounds);
+        keyboardFrame.addView(ipaAlternatives, new FrameLayout.LayoutParams(-1, -1));
+    }
+
+    private void typeIpa(String text) {
+        closeIpaAlternatives();
+        if (commit(text, false)) showIpaCandidates();
+        if (shifted) {
+            shifted = false;
+            buildIpaKeys();
+        }
+    }
+
+    private void loadIpaLexicon() {
+        ipaLoading = true;
+        new Thread(() -> {
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            IpaKeyboard loaded = null;
+            try {
+                loaded = new IpaKeyboard(getAssets().open("ipa-completions.tsv"));
+            } catch (java.io.IOException failure) {
+                Log.e("TujiaIME", "Could not load bundled IPA completions", failure);
+            }
+            IpaKeyboard result = loaded;
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (destroyed) return;
+                ipaLexicon = result;
+                ipaLoading = false;
+                ipaLoadFailed = result == null;
+                shownIpaPrefix = null;
+                if (inputViewActive && inIpaMode()) showIpaCandidates();
+            });
+        }, "Tujia-IPA-lexicon").start();
+    }
+
+    private String ipaPrefix(InputConnection editor) {
+        return IpaKeyboard.completionPrefix(editor.getTextBeforeCursor(IpaKeyboard.MAX_PREFIX + 1, 0),
+                editor.getTextAfterCursor(1, 0));
+    }
+
+    private void showIpaCandidates() {
+        if (choices == null) return;
+        int dialects = KeyboardSettings.ipaDialects(this);
+        if (dialects == 0) {
+            choices.removeAllViews();
+            shownIpaDialects = 0;
+            updatePageControls(0);
+            return;
+        }
+        if (ipaLexicon == null && !ipaLoading && !ipaLoadFailed) loadIpaLexicon();
+        InputConnection editor = getCurrentInputConnection();
+        String prefix = editor == null || selStart != selEnd ? null : ipaPrefix(editor);
+        String displayKey = prefix == null ? " " : prefix;
+        if (dialects == shownIpaDialects && displayKey.equals(shownIpaPrefix)) return;
+        shownIpaPrefix = displayKey;
+        shownIpaDialects = dialects;
+        page = 0;
+        if (ipaLexicon == null || prefix == null) {
+            ipaMatches = Collections.emptyList();
+        } else if (prefix.isEmpty() && engine != null) {
+            ipaMatches = ipaLexicon.starters(engine.ipaOpenings(), dialects);
+        } else {
+            ipaMatches = ipaLexicon.complete(prefix, dialects);
+        }
+        renderIpaPage();
+    }
+
+    private void renderIpaPage() {
+        choices.removeAllViews();
+        updatePageControls(ipaMatches.size());
+        if (ipaMatches.isEmpty()) {
+            String message = " ".equals(shownIpaPrefix) ? "输入音标查看候选"
+                    : ipaLoading ? "正在加载音标词库" : ipaLoadFailed ? "音标词库未载入" : "无匹配候选";
+            choices.addView(label(message, glossSp(), MUTED), weighted(1));
+            return;
+        }
+        InputConnection editor = getCurrentInputConnection();
+        String prefix = shownIpaPrefix;
+        int first = page * COLUMNS;
+        int count = Math.min(COLUMNS, ipaMatches.size() - first);
+        for (int i = 0; i < count; i++) {
+            IpaKeyboard.Entry entry = ipaMatches.get(first + i);
+            LinearLayout card = column();
+            card.setGravity(Gravity.CENTER);
+            Drawable rest = shape(Color.TRANSPARENT, 0);
+            if (i > 0) rest = marker(rest, RULE, 1, compact ? 19 : 26, Gravity.START | Gravity.CENTER_VERTICAL);
+            card.setBackground(pressable(rest, 6));
+            TextView gloss = cardLine(entry.gloss, glossSp(), 13, MUTED, false);
+            gloss.setTextColor(pressColors(MUTED));
+            gloss.setDuplicateParentStateEnabled(true);
+            card.addView(gloss, new LinearLayout.LayoutParams(-1, textHeight(glossSp())));
+            int formColor = first + i == 0 ? RED : INK;
+            TextView form = cardLine(entry.ipa, formSp(), 16, formColor, true);
+            form.setTextColor(pressColors(formColor));
+            form.setDuplicateParentStateEnabled(true);
+            card.addView(form, new LinearLayout.LayoutParams(-1, textHeight(formSp())));
+            card.setContentDescription("补全 " + (entry.gloss.isEmpty() ? "" : entry.gloss + "，") + entry.ipa);
+            card.setFocusable(true);
+            KeyboardTap.bind(card, () -> completeIpa(editor, prefix, entry.ipa));
+            choices.addView(card, weighted(1));
+        }
+        if (count < COLUMNS) {
+            choices.addView(new View(this), weighted(COLUMNS - count));
+        }
+    }
+
+    private void completeIpa(InputConnection editor, String prefix, String replacement) {
+        if (!inputViewActive || !inIpaMode() || editor != getCurrentInputConnection()) return;
+        long cursor = cursorAt(editor);
+        int end = (int) cursor, start = end - prefix.length();
+        if ((int) (cursor >>> 32) != end || start < 0 || !prefix.equals(ipaPrefix(editor))) return;
+        if (prefix.isEmpty()) {
+            typeIpa(replacement);
+            return;
+        }
+        closeMore();
+        closeIpaAlternatives();
+        editor.beginBatchEdit();
+        try {
+            boolean selected = !editor.setComposingRegion(start, end);
+            if (selected && !editor.setSelection(start, end)) return;
+            if (editor.commitText(replacement, 1)) {
+                expect(start + replacement.length());
+            } else if (selected) {
+                editor.setSelection(end, end);
+            } else {
+                editor.finishComposingText();
+            }
+        } finally {
+            editor.endBatchEdit();
+        }
+        showIpaCandidates();
+    }
+
     private static boolean sameHandForm(String raw, CandidateEngine.Candidate form) {
         return raw.equals(form.text) || raw.equals(HanUnitBrackets.format(form.text, form.joinedHanRanges, 0).text);
     }
 
     private void buildKeys() {
+        if (inIpaMode()) {
+            buildIpaKeys();
+            return;
+        }
         body.removeAllViews();
         String[] rows = symbols ? new String[]{"1234567890", "@#$%&*-+/", direct ? ",.:;?!()" : "，。：；？！（）"}
                 : new String[]{"qwertyuiop", "asdfghjkl", "zxcvbnm"};
@@ -1305,9 +1686,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         closeReading();
         selectingTone = false;
         if (toneCancel != null) toneCancel.setVisibility(View.GONE);
-        if (direct || mode == VOICE || !inputViewActive) {
+        if (direct || !inputViewActive) {
             hanChoices.clear();
             candidates = wordHints = syllableHints = Collections.emptyList();
+        } else if (mode == IPA) {
+            preview.setText("");
+            showIpaCandidates();
+            return;
         } else if (mode == HAND) {
             refreshHandCandidates();
             return;
@@ -1329,19 +1714,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void showCandidates() {
         choices.removeAllViews();
-        boolean multiplePages = candidates.size() > COLUMNS;
-        if (prevChoices != null) {
-            updatePageControl(prevChoices, multiplePages, page > 0);
-            updatePageControl(nextChoices, multiplePages, (page + 1) * COLUMNS < candidates.size());
-        }
+        updatePageControls(candidates.size());
         if (candidates.isEmpty()) {
             String text;
-            if (direct || mode == VOICE) text = "";
+            if (direct) text = "";
             else if (engine == null) text = lexiconFailed ? "词库未载入，点此重试" : "正在加载词库，可先输入拼写";
             else if (draft.isEmpty() || mode == HAND) text = "";
-            else text = "未找到词，可在更多里输入原拼写";
+            else text = "未找到词，可在设置里输入原拼写";
             TextView status = label(text, compact ? 15 : 18, MUTED);
-            if (!direct && mode != VOICE && lexiconFailed) {
+            if (!direct && lexiconFailed) {
                 KeyboardTap.bind(status, () -> {
                     lexiconFailed = false;
                     updateCandidates();
@@ -1405,6 +1786,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             blank.setMargins(dp(COLUMNS - count), dp(1), dp(COLUMNS - count), dp(1));
             choices.addView(end, blank);
         }
+    }
+
+    private void updatePageControls(int count) {
+        if (prevChoices == null) return;
+        boolean multiplePages = count > COLUMNS;
+        updatePageControl(prevChoices, multiplePages, page > 0);
+        updatePageControl(nextChoices, multiplePages, (page + 1) * COLUMNS < count);
     }
 
     private void updatePageControl(TextView control, boolean visible, boolean enabled) {
@@ -1485,7 +1873,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void openReading(CandidateEngine.Candidate candidate) { openReading(candidate, 0); }
 
     private void openReading(CandidateEngine.Candidate candidate, int alternateIndex) {
-        if (mode == HAND && handAsHan && !handNext) { openHandDetail(candidate, 0); return; }
+        if (mode == HAND && handAsHan() && !handNext) { openHandDetail(candidate, 0); return; }
         closeMore();
         closeReading();
         inspectedCandidate = candidate;
@@ -1521,7 +1909,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             String meanings = action.fullMeanings();
             if (!meanings.isEmpty()) detail.append("\n汉义\n").append(meanings);
         }
-        if (soundHint && (mode == HAN || mode == HAND && handAsHan)) {
+        if (soundHint && (mode == HAN || mode == HAND && handAsHan())) {
             for (CandidateEngine.Candidate spelling : engine.nextSyllables(cachedSoundContext,
                     CandidateEngine.Mode.PINYIN, orthography)) {
                 if (candidate.lastSyllable.equals(spelling.lastSyllable)) {
@@ -1628,7 +2016,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void choose(CandidateEngine.Candidate c, HanChoice.Action action) {
-        if (!inputViewActive || direct || mode == VOICE || !candidates.contains(c)) return;
+        if (!inputViewActive || direct || !candidates.contains(c)) return;
         closeMore();
         closeReading();
         if (mode == HAND) {
@@ -1656,6 +2044,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void space() {
+        if (inIpaMode()) { typeIpa(" "); return; }
         if (selectingTone) { updateCandidates(); return; }
         if (!draft.isEmpty() && engine == null && !lexiconFailed) return;
         if (!draft.isEmpty() && !candidates.isEmpty()) choose(candidates.get(0));
@@ -1680,7 +2069,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             boolean multiline = info != null && (info.inputType & InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_TEXT
                     && (info.inputType & InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0;
             if (!multiline || !commit("\n", false)) sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER);
-            if (!direct && mode != VOICE && multiline) {
+            if (inIpaMode() && multiline) {
+                showIpaCandidates();
+            } else if (!direct && multiline) {
                 recentWords = history;
                 beginSentence();
                 updateCandidates();
@@ -1772,6 +2163,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     @Override public boolean onKeyDown(int code, KeyEvent ev) {
+        if (ipaAlternatives != null && (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE)) {
+            closeIpaAlternatives();
+            return true;
+        }
         if (handDetail != null && (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE)) {
             closeHandDetail();
             return true;
@@ -1808,7 +2203,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     return super.onKeyDown(code, ev);
             }
         }
-        if (!isInputViewShown() || !ev.hasNoModifiers() || direct || mode == VOICE)
+        if (isInputViewShown() && inIpaMode() &&
+                (ev.hasNoModifiers() || ev.hasModifiers(KeyEvent.META_SHIFT_ON))) {
+            if (code == KeyEvent.KEYCODE_DEL) { backspace(); return true; }
+            int c = ev.getUnicodeChar();
+            if (c > 0 && Character.isValidCodePoint(c) && !Character.isISOControl(c)) {
+                typeIpa(new String(Character.toChars(c)));
+                return true;
+            }
+        }
+        if (!isInputViewShown() || !ev.hasNoModifiers() || direct)
             return super.onKeyDown(code, ev);
         if (code == KeyEvent.KEYCODE_DEL) { backspace(); return true; }
         if (code == KeyEvent.KEYCODE_SPACE) { space(); return true; }

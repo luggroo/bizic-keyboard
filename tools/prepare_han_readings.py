@@ -13,6 +13,7 @@ from import_mandarin import PYPINYIN, checked
 DATA = Path(__file__).resolve().parent / "data"
 EXAMPLE = re.compile(r"[\u3400-\u9fff~]+")
 HAN_GRAPH = re.compile(r"[\u3400-\u9fff]")
+O_RIME = re.compile(r"(?:zh|ch|sh|[bpmfdtnlgkhjqxzcsrwy])u?o")
 
 
 def build(source, vocabulary, out):
@@ -70,12 +71,14 @@ def build(source, vocabulary, out):
     vocabulary_keys = {**words, **supplementary}
     for han, key in vocabulary_keys.items():
         if len(han) == 1:
-            aliases[han].update(local.get(han, ()))
+            # User distinguishes ning from the len/lin/nen merger.
+            aliases[han].update(v for v in local.get(han, ()) if han != '宁' or not v.startswith('l'))
             continue
         syllables = lazy_pinyin(han)
         if "".join(syllables) != key or len(syllables) != len(han):
             raise ValueError(f"Phrase pronunciation changed for {han}")
-        if any(s.endswith(("an", "ang")) for s in syllables):
+        # Preserve attested boundaries for regional initial, nasal and o/uo matching.
+        if any(s.endswith(("an", "ang", "en", "eng", "in", "ing", "un", "ung", "on", "ong")) or O_RIME.fullmatch(s) or s.startswith(("f", "hu")) for s in syllables):
             aliases[han].add("'".join(syllables))
         attested = examples.get(han, ())
         context = defaultdict(set)

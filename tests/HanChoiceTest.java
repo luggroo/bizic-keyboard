@@ -26,9 +26,9 @@ public final class HanChoiceTest {
                 new FileInputStream(new File(assets, "syllable_bigrams.tsv")),
                 new FileInputStream(new File(assets, "syllable_senses.tsv")))) {
             HanChoice go = group(engine.lookup("go", CandidateEngine.Mode.HAN), "过");
-            expect("¹他 ²讨", HanChoice.gloss(go.primary.shortMeanings, true));
-            expect("¹他²讨", HanChoice.gloss(go.primary.shortMeanings, false));
-            expect("他、讨、过错", go.primary.fullMeanings());
+            expect("讨", HanChoice.gloss(go.primary.shortMeanings, true));
+            expect("讨", HanChoice.gloss(go.primary.shortMeanings, false));
+            expect("讨、过错", go.primary.fullMeanings());
             expect("", go.primary.ids());
             expect("gof", go.primary.lastSyllable());
             HanChoice ga = group(engine.lookup("ga", CandidateEngine.Mode.HAN), "夹");

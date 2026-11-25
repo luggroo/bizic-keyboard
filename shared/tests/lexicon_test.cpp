@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -40,11 +41,15 @@ int editorLength(const std::string& text) {
 bool offers(const std::vector<Candidate>& choices, const std::string& text,
             const std::string& meaning, int consumed) {
     return std::any_of(choices.begin(), choices.end(), [&](const Candidate& c) {
-        return c.text == text && c.meaning == meaning && c.consumed == consumed;
+        return c.text == text && (c.meaning == meaning || ("；" + c.meaning + "；").find("；" + meaning + "；") != std::string::npos) && c.consumed == consumed;
     });
 }
 
 void checkNasalReadings(const Lexicon& model) {
+    for (const auto& q : {"lingchen", "lengchen"})
+        check(offers(model.lookup(q, Mode::Han), "凌晨", "", editorLength(q)), "Regional nasal spellings preserve phrase boundaries");
+    check(offers(model.lookup("ningyuan", Mode::Han), "宁愿", "", 8) &&
+          !offers(model.lookup("nengyuan", Mode::Han), "宁愿", "", 8), "Ning remains distinct from neng in a phrase");
     for (const std::string q : {"banricai", "bangricai", "bánrīcāi", "bánrīcāi", "banfrixcaix"}) {
         check(offers(model.lookup(q, Mode::Han), "半日猜", "中午", editorLength(q)), "Nasal noon " + q);
         check(offers(model.lookup(q + "gaf", Mode::Han), "半日猜", "中午", editorLength(q)), "Original prefix boundary " + q);
@@ -84,11 +89,50 @@ void checkNasalReadings(const Lexicon& model) {
     check(offers(model.lookup("ga", Mode::Han), "架", "吃、咬", 2) &&
           !offers(model.lookup("jia", Mode::Han), "架", "吃、咬", 3), "Tujia meanings belong to their actual readings");
     for (const std::string q : {"buoxlir", "buōlǐ"})
-        check(offers(model.lookup(q, Mode::Han), "波俐", "小孩、儿童", editorLength(q)), "buo preserves the word and consumed prefix");
+        check(offers(model.lookup(q, Mode::Han), "波俐", "小孩", editorLength(q)), "buo preserves the word and consumed prefix");
     check(offers(model.lookup("arkuox", Mode::Han), "吖可", "哥哥", 6), "kuo matches ko inside a word");
     check(tujia::matchesSpellingPrefix("buo", "boxlir", "bōlǐ") &&
           tujia::matchesSpellingPrefix("kuo", "kox", "kō") &&
           !tujia::matchesSpellingPrefix("buo", "bux", "bū"), "Optional u stays inside bo and ko syllables");
+    const auto complete = [&](const std::string& input, Mode mode, Orthography style) {
+        std::multiset<std::string> forms;
+        for (const Candidate& c : model.lookup(input, mode, style)) {
+            if (c.consumed == editorLength(input))
+                forms.insert(std::to_string(static_cast<int>(c.kind)) + "\t" + c.text + "\t" + c.meaning + "\t" + c.lexemeIds);
+        }
+        return forms;
+    };
+    const auto allChoices = [&](const std::string& input, Mode mode, Orthography style) {
+        std::vector<std::string> forms;
+        for (const Candidate& c : model.lookup(input, mode, style))
+            forms.push_back(std::to_string(static_cast<int>(c.kind)) + "\t" + c.text + "\t" + c.meaning + "\t" + c.lexemeIds);
+        return forms;
+    };
+    for (const std::string onset : {"b","p","m","f","d","t","n","l","g","k","ng","h","hx",
+                                    "j","q","x","z","c","s","r","w","y","zh","ch","sh"}) {
+        for (Mode mode : {Mode::Han, Mode::Pinyin}) for (Orthography style : {Orthography::Ye, Orthography::Diacritic}) {
+            const auto o = onset + "o", uo = onset + "uo";
+            check(complete(o, mode, style) == complete(uo, mode, style), "Equivalent o/uo candidates for " + onset);
+            check(allChoices(o, mode, style) == allChoices(uo, mode, style), "Equivalent full o/uo lists for " + onset);
+        }
+    }
+    check(complete("gojia", Mode::Han, Orthography::Ye) == complete("guojia", Mode::Han, Orthography::Ye) &&
+          mandarin("gojia", "国家") && mandarin("guojia", "国家"), "Both spellings find the same Chinese phrase");
+    check(complete("zhonggo", Mode::Han, Orthography::Ye) == complete("zhongguo", Mode::Han, Orthography::Ye) &&
+          mandarin("zhonggo", "中国"), "Alternate vowel in a later syllable");
+    check(tujia::matchesSpellingPrefix("guǒ", "gor", "gǒ") &&
+          !tujia::matchesSpellingPrefix("guǒ", "gox", "gō") &&
+          !tujia::matchesSpellingPrefix("guo", "gux", "gū") &&
+          !tujia::matchesSpellingPrefix("duao", "daox", "dāo") &&
+          tujia::matchesSpellingPrefix("guobang", "goxbanx", "gōbān") &&
+          tujia::matchesSpellingPrefix("guoxbang", "goxbanx", "gōbān") &&
+          !tujia::matchesSpellingPrefix("guofbang", "goxbanx", "gōbān"),
+          "Vowel spelling must preserve tone and syllable boundaries");
+    const auto joined = model.lookup("guo", Mode::Han);
+    const auto spaced = model.lookup("gu o", Mode::Han);
+    check(std::none_of(joined.begin(), joined.end(), [](const Candidate& c) { return c.consumed == 2; }) &&
+          std::any_of(spaced.begin(), spaced.end(), [](const Candidate& c) { return c.consumed == 3; }),
+          "The glide does not create a shorter candidate, but an explicit split remains possible");
     check(offers(model.lookup("cir", Mode::Han), "尺", "梳通", 3) &&
           offers(model.lookup("jix", Mode::Han), "挤", "打架", 3) &&
           offers(model.lookup("liv", Mode::Han), "理", "穿成串", 3), "Reviewed homophone spellings");
@@ -104,7 +148,7 @@ void checkHanSenses(const Lexicon& lexicon) {
     const auto untoned = lexicon.lookup("go", Mode::Han);
     const auto toned = lexicon.lookup("gǒ", Mode::Han);
     const auto other = lexicon.lookup("gor", Mode::Han);
-    check(offers(untoned, "过", "他", 2) && offers(untoned, "过", "过错", 2),
+    check(offers(untoned, "个", "他", 2) && offers(untoned, "过", "过错", 2),
           "Identical Han forms may carry two distinct senses");
     check(std::count_if(untoned.begin(), untoned.end(), [](const Candidate& c) {
         return c.meaning == "他";
@@ -383,9 +427,9 @@ void checkContext(const Lexicon& lex) {
     const auto han = Mode::Han;
     const auto ye = Orthography::Ye;
     const auto marked = Orthography::Diacritic;
-    check(offers(lex.handwritingSuggestions("玻", han, ye), "波俐", "小孩、儿童", 1), "Alias prefix as complete word");
-    check(offers(lex.handwritingSuggestions("波", Mode::Handwriting, ye), "boxlir", "小孩、儿童", 1), "Handwriting to spelling completion");
-    check(!offers(lex.handwritingSuggestions("波俐", han, ye), "波俐", "小孩、儿童", 2), "Exact lexeme is not a completion");
+    check(offers(lex.handwritingSuggestions("玻", han, ye), "波俐", "小孩", 1), "Alias prefix as complete word");
+    check(offers(lex.handwritingSuggestions("波", Mode::Handwriting, ye), "boxlir", "小孩", 1), "Handwriting to spelling completion");
+    check(!offers(lex.handwritingSuggestions("波俐", han, ye), "波俐", "小孩", 2), "Exact lexeme is not a completion");
     check(lex.scoreHandwritingPrefix("波俐") == 2 && lex.scoreHandwritingPrefix("玻") > 0 &&
           lex.scoreHandwritingPrefix("波。") == 0 && lex.scoreHandwritingPrefix("") == 0, "Recognition evidence and boundaries");
     check(!lex.nextWords("w2548",han,ye).empty() && lex.nextWords("w2548",han,ye).front().lexemeIds == "w684", "Attested 饭→吃");
@@ -575,6 +619,65 @@ void checkDirectSyllableCommit() {
     check(fallback.size()==2 && fallback.front().text=="也" && fallback.front().meaning.empty(), "No evidence asset still produces sound references");
 }
 
+
+void checkCompactPinyinGlosses() {
+    const std::string words =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "a\trir\tri\t肢体、米糕、桶等的量词\t日\t\t日\t2\ttujia\t肢体、米糕、桶等的量词\tri\trǐ\t日\t\t\n"
+        "b\trir\tri\t多\t日\t\t日\t1\ttujia\t多\tri\trǐ\t日\t\t\n";
+    Lexicon fixture(words);
+    auto roman = fixture.lookup("rir", Mode::Pinyin);
+    auto p = std::find_if(roman.begin(), roman.end(), [](const Candidate& c) { return c.text == "rir" && c.consumed == 3; });
+    check(p != roman.end() && p->shortMeaning == "多" &&
+          p->meaning.find("肢体、米糕、桶等的量词") != std::string::npos,
+          "Pinyin hints omit whole overlong senses, not misleading fragments");
+    auto han = fixture.lookup("rir", Mode::Han);
+    check(std::any_of(han.begin(), han.end(), [](const Candidate& c) {
+        return c.meaning == "肢体、米糕、桶等的量词" && c.shortMeaning == c.meaning;
+    }), "Han hints retain their longer distinct sense");
+}
+
+
+void checkRegionalFuzzyInputs() {
+    const std::string rows =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "len\tlenx\tlen\t棱\t棱\t\t棱\t1\ttujia\t棱\tlen\tlēn\t棱\t\t\n"
+        "lin\tlinx\tlin\t零\t零\t\t零\t1\ttujia\t零\tlin\tlīn\t零\t\t\n"
+        "nin\tninx\tnin\t宁\t宁\t\t宁\t1\ttujia\t宁\tnin\tnīn\t宁\t\t\n"
+        "nen\tnenx\tnen\t嫩\t嫩\t\t嫩\t1\ttujia\t嫩\tnen\tnēn\t嫩\t\t\n"
+        "fa\tfax\tfa\t发\t发\t\t发\t1\ttujia\t发\tfa\tfā\t发\t\t\n"
+        "hua\thuax\thua\t花\t花\t\t花\t1\ttujia\t花\thua\thuā\t花\t\t\n"
+        "fu\tfux\tfu\t夫\t夫\t\t夫\t1\ttujia\t夫\tfu\tfū\t夫\t\t\n"
+        "ban\tbanx\tban\t半\t半\t\t半\t1\ttujia\t半\tban\tbān\t半\t\t\n";
+    Lexicon model(rows);
+    for (const auto& input : {"lin", "ling", "len", "leng", "nen", "neng"}) {
+        const auto c = model.lookup(input, Mode::Han);
+        check(offers(c, "零", "零", editorLength(input)) && offers(c, "棱", "棱", editorLength(input)), "dental in/en with nasal codas");
+    }
+    for (const auto& input : {"nen", "neng", "lin", "leng"}) {
+        const auto raw = model.lookup(input, Mode::Pinyin, Orthography::Ye);
+        const auto marked = model.lookup(input, Mode::Pinyin, Orthography::Diacritic);
+        check(offers(raw, "linx", "零", editorLength(input)) && offers(raw, "lenx", "棱", editorLength(input)) &&
+              offers(marked, "līn", "零", editorLength(input)) && offers(marked, "lēn", "棱", editorLength(input)),
+              "Fuzzy lookup retains each Tujia word's recommended spelling and tone");
+    }
+    check(offers(model.lookup("ning", Mode::Han), "宁", "宁", 4) &&
+          !offers(model.lookup("neng", Mode::Han), "宁", "宁", 4) &&
+          !offers(model.lookup("ling", Mode::Han), "宁", "宁", 4), "ning stays separate from merged nen/lin/len");
+    for (const auto& input : {"fa", "hua"}) {
+        const auto c = model.lookup(input, Mode::Han);
+        check(offers(c, "发", "发", editorLength(input)) && offers(c, "花", "花", editorLength(input)), "f/hu onsets");
+    }
+    check(offers(model.lookup("hu", Mode::Han), "夫", "夫", 2) &&
+          !offers(model.lookup("ha", Mode::Han), "发", "发", 2), "fu/hu without treating ha as fa");
+    check(offers(model.lookup("bang", Mode::Han), "半", "半", 4), "front and back nasal");
+    check(offers(model.lookup("huā", Mode::Pinyin, Orthography::Diacritic), "fā", "发", 3) &&
+          !offers(model.lookup("huá", Mode::Pinyin, Orthography::Diacritic), "fā", "发", 3), "f/hu preserves tone");
+    check(tujia::matchesSpellingPrefix("hua", "fax", "fā") &&
+          tujia::matchesSpellingPrefix("leng", "linx", "līn") &&
+          !tujia::matchesSpellingPrefix("neng", "ninx", "nīn"), "fuzzy spelling completions");
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -596,6 +699,8 @@ int main(int argc, char** argv) {
         check(senseFile.good(), "Cannot open independently reviewed syllable senses");
         std::ostringstream senses; senses << senseFile.rdbuf();
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
+        checkRegionalFuzzyInputs();
+        checkCompactPinyinGlosses();
         checkDirectSyllableCommit();
         checkMongContexts(lexicon);
         checkNasalReadings(lexicon);
