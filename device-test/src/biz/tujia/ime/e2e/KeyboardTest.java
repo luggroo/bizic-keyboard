@@ -473,6 +473,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, "ngaf yer ga诶sangx尬");
         waitForNode("干、渴、夹，夹", false);
         pressCandidate("吃、咬，架", false);
+        press("用推荐字");
         expectText(host.second, "ngaf yer ga诶sangx架");
         press("退格");
         expectText(host.second, "ngaf yer ga诶sangx");
