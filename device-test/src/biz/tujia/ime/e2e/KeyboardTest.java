@@ -141,11 +141,12 @@ public final class KeyboardTest extends Instrumentation {
         runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
                 EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
+        runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
         press("音标");
         assertEditorAboveKeyboard(host.first, "音标");
         captureFrame("ipa-layout.png");
-        runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
         press("m");
+        expectText(host.first, "前 /m 后");
         press("a");
         expectText(host.first, "前 /ma 后");
         runOnMainSync(() -> host.first.setSelection(4));
