@@ -973,24 +973,25 @@ public final class KeyboardTest extends Instrumentation {
         for (String[] example : examples) {
             type(example[0]);
             if (example[0].equals("bangricai")) {
-                stage("Real meaning above noon; unglossed Han spelling in candidate and reader");
+                stage("Real meaning above noon");
                 Card noon = card("中午，半日猜");
-                Card sound = findPagedCard("帮", false);
-                if (!noon.lines.equals(Arrays.asList("中午", "半日猜"))
-                        || !sound.lines.equals(Collections.singletonList("帮"))
-                        || visibleControls().contains("音节"))
-                    throw new AssertionError("Unexpected displayed candidate gloss: " + visibleControls());
-                openReader(sound);
-                String detail = visibleControls();
-                if (!detail.contains("待输入") || !detail.contains("帮") || detail.contains("音节") || detail.contains("汉义"))
-                    throw new AssertionError("Unexpected unglossed reader content: " + detail);
-                press("返回候选");
-                while (findNode("上一页候选", false) != null) press("上一页候选");
+                if (!noon.lines.equals(Arrays.asList("中午", "半日猜")))
+                    throw new AssertionError("Unexpected displayed noon gloss: " + noon.lines);
             }
             if (example[0].startsWith("ri")) {
                 Card day = visibleForm("日");
                 if (example[1].contains("，") && !day.name.contains(example[1].split("，")[0]))
                     throw new AssertionError("Missing lexical meaning for " + example[0] + ": " + day.name);
+                if (example[0].equals("rif")) {
+                    if (!day.lines.equals(Collections.singletonList("日")))
+                        throw new AssertionError("Bare syllable has a displayed gloss: " + day.lines);
+                    openReader(day);
+                    String detail = visibleControls();
+                    if (!detail.contains("待输入\n日") || detail.contains("音节"))
+                        throw new AssertionError("Bare syllable reader is mislabeled: " + detail);
+                    press("返回候选");
+                    day = visibleForm("日");
+                }
                 tap(day.bounds.centerX(), day.bounds.centerY());
             } else pressCandidate(example[1], false);
             committed.append(example[1].substring(example[1].lastIndexOf('，') + 1));
@@ -1360,7 +1361,13 @@ public final class KeyboardTest extends Instrumentation {
         AccessibilityNodeInfo row = rowBesidePager();
         try {
             do {
-                for (Card candidate : rowCards(row)) {
+                List<Card> items = rowCards(row);
+                if (wanted.equals("下一音节 紧，jìn")) {
+                    List<String> labels = new ArrayList<>();
+                    for (Card item : items) labels.add(item.name);
+                    stage("Searching jìn, candidate page: " + labels);
+                }
+                for (Card candidate : items) {
                     if (wanted.equals(byName ? candidate.name : outputLine(candidate))) return candidate;
                 }
             } while (advanceCandidatePage(row));
