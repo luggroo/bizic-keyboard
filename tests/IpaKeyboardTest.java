@@ -34,16 +34,36 @@ public final class IpaKeyboardTest {
         prefix("³⁵", "", "");
         prefix(new String(new char[65]).replace('\0', 'a'), "", "");
         prefix(new String(new char[65]).replace('\0', 'a') + " ma", "", "ma");
-        check(keyboard.complete("").isEmpty(), "empty input generated a completion");
-        check(keyboard.complete("qqqqqq").isEmpty(), "an unknown prefix generated a completion");
-        contains(keyboard.complete("ma"), "mã²¹", "奶");
-        contains(keyboard.complete("ma\u0303²"), "mã²¹", "奶");
-        contains(keyboard.complete("ʔali"), "ʔa¹³lie⁵⁵", "蛋");
-        contains(keyboard.complete("ʔa¹³li"), "ʔa¹³lie⁵⁵", "蛋");
-        check(keyboard.complete("ʔa²¹li").stream().noneMatch(entry -> entry.ipa.equals("ʔa¹³lie⁵⁵")),
+        check("".equals(IpaKeyboard.completionPrefix("前 / ", "")), "missing starters after a space");
+        check(IpaKeyboard.completionPrefix("前 /m", "a 后") == null, "starters inside a word");
+        check(IpaKeyboard.completionPrefix("²¹", "") == null, "starters after a standalone tone");
+        int north = IpaKeyboard.NORTH, south = IpaKeyboard.SOUTH, both = IpaKeyboard.ALL_DIALECTS;
+        contains(keyboard.complete("", both), "mã²¹", "奶");
+        contains(keyboard.complete("", south), "a²¹ dʑe²¹ be²¹", "手指");
+        check(keyboard.complete("", 0).isEmpty(), "disabled dictionary suggested a starter");
+        check(keyboard.complete("ma", 0).isEmpty(), "disabled dictionary suggested a completion");
+        check(keyboard.complete("qqqqqq", both).isEmpty(), "an unknown prefix generated a completion");
+        contains(keyboard.complete("ma", north), "mã²¹", "奶");
+        contains(keyboard.complete("ma\u0303²", north), "mã²¹", "奶");
+        check(keyboard.complete("ma", south).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
+                "a Northern completion leaked into Southern suggestions");
+        contains(keyboard.complete("ʔa²¹le", south), "ʔa²¹ le⁵⁵", "蛋");
+        contains(keyboard.complete("ba³³n", south), "ba³³nõ²¹", "乌鸦");
+        check(keyboard.complete("ba³³n", north).stream().noneMatch(entry -> entry.ipa.equals("ba³³nõ²¹")),
+                "a Southern completion leaked into Northern suggestions");
+        check(keyboard.complete("ʔa¹³le", both).stream().noneMatch(entry -> entry.ipa.equals("ʔa²¹ le⁵⁵")),
                 "a supplied tone was ignored");
-        check(keyboard.complete("mã²¹").stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
+        check(keyboard.complete("mã²¹", both).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
                 "an already complete spelling was suggested again");
+        try (CandidateEngine engine = new CandidateEngine(Files.newInputStream(Paths.get(args[1])),
+                null, null, null, null, Files.newInputStream(Paths.get(args[2])))) {
+            check(engine.handwritingSuggestions("波", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.IPA)
+                    .stream().anyMatch(entry -> entry.text.equals("pɔ⁵⁵li²¹")), "missing handwritten IPA word");
+            check(engine.lookup("波俐", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.YE)
+                    .stream().anyMatch(entry -> entry.text.equals("boxlir")), "missing handwritten Ye output");
+            check(engine.lookup("波俐", CandidateEngine.Mode.HANDWRITING, CandidateEngine.Orthography.DIACRITIC)
+                    .stream().anyMatch(entry -> entry.text.equals("bōlǐ")), "missing handwritten diacritic output");
+        }
         System.out.println("IPA shortcuts, symbol keys, editor boundaries and dictionary completions passed.");
     }
 
