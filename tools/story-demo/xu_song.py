@@ -10,7 +10,7 @@ SOURCE_ID = 'xu-tujia-annotated-2-13'
 SOURCE_URL = 'https://tujia.biz/?id=' + SOURCE_ID + '#corpus?corpusCollection=xu-tujia-annotated-texts'
 SENSES = {'1pl':'我们', 'INJ':'语气词', 'EMP':'强调', 'STRP':'状态助词', 'IND':'陈述语气'}
 # -xi is used in a status complement in line 4. Keep the reviewed unstressed grammar glyph.
-GRAMMAR = {('ɕi⁵⁵', 'STRP'): '兮'}
+GRAMMAR = {('ɕi⁵⁵', 'STRP'): '兮', ('lɨe⁵⁵', 'IND'): '咧'}
 
 from han_orthography import PLAIN_HAN_LOANS
 

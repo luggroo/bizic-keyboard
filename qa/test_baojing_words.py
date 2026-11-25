@@ -61,6 +61,10 @@ class BaojingWords(unittest.TestCase):
         self.assertIn('压', same[0].gloss)
         self.assertEqual(same[0].ids, '')
 
+    def test_song_sentence_final_particle(self):
+        self.assertTrue(any(c.text == '咧' and c.gloss == '陈述语气'
+                            for c in self.full('lex')))
+
     def test_reviewed_near_synonyms(self):
         import sys
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
@@ -75,7 +79,7 @@ class BaojingWords(unittest.TestCase):
         self.assertEqual(len(stones), 1)
 
     def test_pronouns_and_distinct_homophones(self):
-        self.assertEqual([(c.text,c.short) for c in self.full('ngaf') if c.gloss == '我'], [('讶','我')])
+        self.assertEqual([(c.text,c.short) for c in self.full('ngaf') if c.gloss == '我'], [('牙','我')])
         self.assertEqual([(c.text,c.short) for c in self.full('nif') if c.gloss == '你'], [('伲','你')])
         go = self.full('gof')
         self.assertEqual([c.text for c in go if c.gloss == '他'], ['个'])
