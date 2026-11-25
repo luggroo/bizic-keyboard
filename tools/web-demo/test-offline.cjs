@@ -30,6 +30,16 @@ for(const onset of ['b','p','m','d','t','l','g','k','ng','h','z','c','s','r','w'
     assert.deepStrictEqual(Array.from(exact(onset+'o',mode,style)).sort(),Array.from(exact(onset+'uo',mode,style)).sort(),onset);
   }
 }
+for(const [a,b] of [['fa','hua'],['fu','hu'],['fo','huo'],['fen','feng'],['lin','ling'],['ling','leng'],['ding','deng'],['ting','teng']]){
+  assert.deepStrictEqual(Array.from(exact(a,1,0)).sort(),Array.from(exact(b,1,0)).sort(),a+'/'+b);
+}
+assert(exact('ning',1,0).includes('宁'));assert(!exact('neng',1,0).includes('宁'));assert(!exact('ling',1,0).includes('宁'));
+assert(exact('nen',1,0).includes('零'));assert(exact('neng',1,0).includes('零'));assert(exact('neng',1,0).includes('棱'));
+assert(exact('ling',1,0).includes('零'));assert(exact('leng',1,0).includes('零'));
+assert(exact('ling',1,0).includes('棱'));assert(exact('leng',1,0).includes('棱'));
+assert(exact('lingchen',1,0).includes('凌晨'));assert(exact('lengchen',1,0).includes('凌晨'));
+assert(exact('ningyuan',1,0).includes('宁愿'));assert(!exact('nengyuan',1,0).includes('宁愿'));
+assert(exact('fanguo',1,0).includes('翻过'));assert(exact('huanguo',1,0).includes('翻过'));
 assert.deepStrictEqual(Array.from(exact('gojia',1,0)).sort(),Array.from(exact('guojia',1,0)).sort());
 for(const input of ['guaijia','guairjiax','guaifjiax','guijia','gojia','guojia','gorjia','guorjia']){
   const choices=exact(input,1,0);assert.equal(choices[0],'国家');assert(!choices.includes('怪家')&&!choices.includes('姑崴家'));

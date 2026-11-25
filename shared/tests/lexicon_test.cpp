@@ -46,6 +46,10 @@ bool offers(const std::vector<Candidate>& choices, const std::string& text,
 }
 
 void checkNasalReadings(const Lexicon& model) {
+    for (const auto& q : {"lingchen", "lengchen"})
+        check(offers(model.lookup(q, Mode::Han), "凌晨", "", editorLength(q)), "Regional nasal spellings preserve phrase boundaries");
+    check(offers(model.lookup("ningyuan", Mode::Han), "宁愿", "", 8) &&
+          !offers(model.lookup("nengyuan", Mode::Han), "宁愿", "", 8), "Ning remains distinct from neng in a phrase");
     for (const std::string q : {"banricai", "bangricai", "bánrīcāi", "bánrīcāi", "banfrixcaix"}) {
         check(offers(model.lookup(q, Mode::Han), "半日猜", "中午", editorLength(q)), "Nasal noon " + q);
         check(offers(model.lookup(q + "gaf", Mode::Han), "半日猜", "中午", editorLength(q)), "Original prefix boundary " + q);
@@ -633,6 +637,47 @@ void checkCompactPinyinGlosses() {
     }), "Han hints retain their longer distinct sense");
 }
 
+
+void checkRegionalFuzzyInputs() {
+    const std::string rows =
+        "id\tword\tkey\tmeaning\trecommended\taliases\tvariants\tfrequency\tkind\tshortGloss\tplain\tdiacritic\thanUnits\tromanAliases\tpresentation\n"
+        "len\tlenx\tlen\t棱\t棱\t\t棱\t1\ttujia\t棱\tlen\tlēn\t棱\t\t\n"
+        "lin\tlinx\tlin\t零\t零\t\t零\t1\ttujia\t零\tlin\tlīn\t零\t\t\n"
+        "nin\tninx\tnin\t宁\t宁\t\t宁\t1\ttujia\t宁\tnin\tnīn\t宁\t\t\n"
+        "nen\tnenx\tnen\t嫩\t嫩\t\t嫩\t1\ttujia\t嫩\tnen\tnēn\t嫩\t\t\n"
+        "fa\tfax\tfa\t发\t发\t\t发\t1\ttujia\t发\tfa\tfā\t发\t\t\n"
+        "hua\thuax\thua\t花\t花\t\t花\t1\ttujia\t花\thua\thuā\t花\t\t\n"
+        "fu\tfux\tfu\t夫\t夫\t\t夫\t1\ttujia\t夫\tfu\tfū\t夫\t\t\n"
+        "ban\tbanx\tban\t半\t半\t\t半\t1\ttujia\t半\tban\tbān\t半\t\t\n";
+    Lexicon model(rows);
+    for (const auto& input : {"lin", "ling", "len", "leng", "nen", "neng"}) {
+        const auto c = model.lookup(input, Mode::Han);
+        check(offers(c, "零", "零", editorLength(input)) && offers(c, "棱", "棱", editorLength(input)), "dental in/en with nasal codas");
+    }
+    for (const auto& input : {"nen", "neng", "lin", "leng"}) {
+        const auto raw = model.lookup(input, Mode::Pinyin, Orthography::Ye);
+        const auto marked = model.lookup(input, Mode::Pinyin, Orthography::Diacritic);
+        check(offers(raw, "linx", "零", editorLength(input)) && offers(raw, "lenx", "棱", editorLength(input)) &&
+              offers(marked, "līn", "零", editorLength(input)) && offers(marked, "lēn", "棱", editorLength(input)),
+              "Fuzzy lookup retains each Tujia word's recommended spelling and tone");
+    }
+    check(offers(model.lookup("ning", Mode::Han), "宁", "宁", 4) &&
+          !offers(model.lookup("neng", Mode::Han), "宁", "宁", 4) &&
+          !offers(model.lookup("ling", Mode::Han), "宁", "宁", 4), "ning stays separate from merged nen/lin/len");
+    for (const auto& input : {"fa", "hua"}) {
+        const auto c = model.lookup(input, Mode::Han);
+        check(offers(c, "发", "发", editorLength(input)) && offers(c, "花", "花", editorLength(input)), "f/hu onsets");
+    }
+    check(offers(model.lookup("hu", Mode::Han), "夫", "夫", 2) &&
+          !offers(model.lookup("ha", Mode::Han), "发", "发", 2), "fu/hu without treating ha as fa");
+    check(offers(model.lookup("bang", Mode::Han), "半", "半", 4), "front and back nasal");
+    check(offers(model.lookup("huā", Mode::Pinyin, Orthography::Diacritic), "fā", "发", 3) &&
+          !offers(model.lookup("huá", Mode::Pinyin, Orthography::Diacritic), "fā", "发", 3), "f/hu preserves tone");
+    check(tujia::matchesSpellingPrefix("hua", "fax", "fā") &&
+          tujia::matchesSpellingPrefix("leng", "linx", "līn") &&
+          !tujia::matchesSpellingPrefix("neng", "ninx", "nīn"), "fuzzy spelling completions");
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
@@ -654,6 +699,7 @@ int main(int argc, char** argv) {
         check(senseFile.good(), "Cannot open independently reviewed syllable senses");
         std::ostringstream senses; senses << senseFile.rdbuf();
         Lexicon lexicon(asset, ngrams.str(), sounds.str(), senses.str());
+        checkRegionalFuzzyInputs();
         checkCompactPinyinGlosses();
         checkDirectSyllableCommit();
         checkMongContexts(lexicon);
