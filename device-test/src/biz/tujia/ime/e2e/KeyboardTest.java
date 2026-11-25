@@ -521,19 +521,19 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("待选拼写 ", false);
 
         stage("Brief sense and full reader");
-        type("boxlirhxif");
-        Card child = card("小孩、儿童，波俐");
-        if (!"波俐".equals(outputLine(child)) || !child.name.contains("小孩"))
-            throw new AssertionError("Unexpected brief sense or word: " + child.lines);
-        openReader(child);
-        if (!visibleControls().contains("小孩、儿童"))
+        type("gafhxif");
+        Card eating = card("吃、咬，架");
+        if (!"架".equals(outputLine(eating)) || !eating.name.contains("吃"))
+            throw new AssertionError("Unexpected brief sense or word: " + eating.lines);
+        openReader(eating);
+        if (!visibleControls().contains("吃、咬"))
             throw new AssertionError("Full sense missing from reader");
         expectText(host.second, "ngaf yer ga诶sangx中国");
         assertEditorAboveKeyboard(host.second, "返回候选");
         press("返回候选");
-        waitForNode("待选拼写 boxlirhxif", false);
-        pressCandidate("小孩、儿童，波俐", false);
-        expectText(host.second, "ngaf yer ga诶sangx中国波俐");
+        waitForNode("待选拼写 gafhxif", false);
+        pressCandidate("吃、咬，架", false);
+        expectText(host.second, "ngaf yer ga诶sangx中国架");
         waitForNode("待选拼写 hxif", false);
     }
 
@@ -1887,8 +1887,12 @@ public final class KeyboardTest extends Instrumentation {
     private Card card(String name) {
         int comma = name.lastIndexOf('，');
         String search = comma > 0 ? name.substring(comma + 1) : name;
-        waitForNode(search, false);
-        for (Card item : pageCards(search)) if (candidateNameMatches(name, item.name)) return item;
+        long deadline = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            for (Card item : pageCards(search))
+                if (candidateNameMatches(name, item.name)) return item;
+            SystemClock.sleep(60);
+        } while (SystemClock.uptimeMillis() < deadline);
         throw new AssertionError("Missing card on current page: " + name + "; screen=" + visibleControls());
     }
 
