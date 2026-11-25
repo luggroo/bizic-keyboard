@@ -195,6 +195,29 @@ Java_biz_tujia_ime_NativeCore_strokeCount(JNIEnv* env, jclass, jlong handle) {
     return guarded<jint>(env, CALL_ERROR, [&] { return lengthOf(model<tujia::Strokes>(handle)->size()); });
 }
 
+extern "C" JNIEXPORT jstring JNICALL
+Java_biz_tujia_ime_NativeCore_recognizeStrongStroke(JNIEnv* env, jclass, jlong handle, jobjectArray input) {
+    return guarded<jstring>(env, CALL_ERROR, [&]() -> jstring {
+        if (!input) throw std::invalid_argument("Missing handwriting strokes");
+        const jsize count = env->GetArrayLength(input);
+        std::vector<std::vector<float>> strokes;
+        strokes.reserve(count);
+        for (jsize i = 0; i < count; ++i) {
+            auto points = static_cast<jfloatArray>(env->GetObjectArrayElement(input, i));
+            if (!points) throw std::invalid_argument("Missing handwriting points");
+            const jsize length = env->GetArrayLength(points);
+            if (length < 2 || length % 2 != 0) throw std::invalid_argument("Invalid handwriting stroke");
+            auto& stroke = strokes.emplace_back(static_cast<size_t>(length));
+            env->GetFloatArrayRegion(points, 0, length, stroke.data());
+            env->DeleteLocalRef(points);
+            if (env->ExceptionCheck()) return nullptr;
+        }
+        bool strong = false;
+        const auto found = model<tujia::Strokes>(handle)->recognize(strokes, 1, &strong);
+        return strong && !found.empty() ? stringToJava(env, found[0]) : nullptr;
+    });
+}
+
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_biz_tujia_ime_NativeCore_recognize(JNIEnv* env, jclass, jlong handle, jobjectArray input, jint limit) {
     return guarded<jobjectArray>(env, CALL_ERROR, [&]() -> jobjectArray {

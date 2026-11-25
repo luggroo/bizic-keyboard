@@ -29,6 +29,13 @@ public class StrokeRecognizerTest {
         expect(model,"尅",6,p(8,22,52,21),p(30,7,29,37),p(13,34,13,54),
                 p(13,34,49,34,49,54),p(13,54,49,54),p(23,55,19,71,5,88),
                 p(36,55,36,83,39,89,83,89,91,86,92,79),p(52,31,94,30),p(78,9,78,75,71,72),p(57,47,66,59));
+        List<float[]> rare = Arrays.asList(p(13,31,21,31,42,26), p(25,8,29,13,25,47,18,64,6,81),
+                p(32,38,34,41,33,64,35,76,44,83,63,85,83,79,89,75,90,62),
+                p(57,7,61,12,51,33,40,47), p(61,21,72,34,81,41,93,43),
+                p(50,43,54,47,53,59,49,67,43,72), p(65,40,68,44,68,77));
+        if (!"尬".equals(model.strongMatch(rare))) throw new AssertionError("Clear rare glyph should match");
+        if (model.strongMatch(Arrays.asList(p(15,40,45,39,85,39),p(48,8,46,90))) != null)
+            throw new AssertionError("Simple marks should not use strong matching");
         System.out.println("Handwriting model: "+model.size()+" offline glyphs.");
     }
 }

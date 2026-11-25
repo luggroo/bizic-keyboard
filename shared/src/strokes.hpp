@@ -11,7 +11,8 @@ class Strokes {
 public:
     explicit Strokes(const std::string& tsv);
     int size() const;
-    std::vector<std::string> recognize(const std::vector<std::vector<float>>& strokes, int limit) const;
+    std::vector<std::string> recognize(const std::vector<std::vector<float>>& strokes, int limit,
+                                       bool* strong = nullptr) const;
 
 private:
     struct Model;
