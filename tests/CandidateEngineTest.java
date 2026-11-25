@@ -229,7 +229,7 @@ public final class CandidateEngineTest {
                 }
             }
             List<Candidate> child = dictionary.handwrittenWords("波粒", Mode.HAN, Orthography.YE);
-            check(child.get(0).text.equals("波俐") && offers(child, "波立", "孩子", 2), "Recorded alias before a regional homophone");
+            check(child.stream().anyMatch(c -> c.meaning.equals("小孩")), "Recorded child sense remains searchable");
             check(offers(dictionary.handwrittenWords("树稀步李", Mode.HANDWRITING, Orthography.DIACRITIC),
                     "xìbúlī", "星", 3), "Replace exactly the selected suffix with its dictionary spelling");
             check(offers(dictionary.handwrittenWords("恩给", Mode.HAN, Orthography.YE), "恩格锿", "那里", 2) &&

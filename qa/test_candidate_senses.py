@@ -40,9 +40,9 @@ class HanSenseTest(unittest.TestCase):
         self.assertTrue(any(item.ids and item.text == '太' and item.gloss == '没有' for item in tai))
         self.assertTrue(any(item.kind == 1 and item.text == '台' for item in tai))
         go = [item for item in self.model.choices('go') if item.ids and item.consumed == 2]
-        self.assertEqual([item.text for item in go if item.gloss == '他'], ['过'])
+        self.assertEqual([item.text for item in go if item.gloss == '他'], ['个'])
         senses = {(item.gloss, item.plain_han_loan) for item in go if item.text == '过'}
-        self.assertEqual(senses, {('他', False), ('讨', False), ('过错', True)})
+        self.assertEqual(senses, {('讨', False), ('过错', True)})
         tanie = self.model.choices('tanie')
         self.assertIn(('他捏', '后面'), {(item.text, item.gloss) for item in tanie})
         self.assertIn(('他业', '后头'), {(item.text, item.gloss) for item in tanie})
@@ -69,7 +69,7 @@ class HanSenseTest(unittest.TestCase):
         choices = self.model.choices('gore')
         boundaries = {(item.text, self.model.suffix('gore', item.consumed))
                       for item in choices if item.gloss == '他'}
-        self.assertEqual(boundaries, {('过', 're'), ('郭', 'e')})
+        self.assertEqual(boundaries, {('个', 're'), ('郭', 'e')})
 
     def test_longshan_brother_and_separately_written_particles(self):
         for query in ('goxgox', 'goxgov', 'gogo'):

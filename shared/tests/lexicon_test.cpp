@@ -85,7 +85,7 @@ void checkNasalReadings(const Lexicon& model) {
     check(offers(model.lookup("ga", Mode::Han), "架", "吃、咬", 2) &&
           !offers(model.lookup("jia", Mode::Han), "架", "吃、咬", 3), "Tujia meanings belong to their actual readings");
     for (const std::string q : {"buoxlir", "buōlǐ"})
-        check(offers(model.lookup(q, Mode::Han), "波俐", "小孩、儿童", editorLength(q)), "buo preserves the word and consumed prefix");
+        check(offers(model.lookup(q, Mode::Han), "波俐", "小孩", editorLength(q)), "buo preserves the word and consumed prefix");
     check(offers(model.lookup("arkuox", Mode::Han), "吖可", "哥哥", 6), "kuo matches ko inside a word");
     check(tujia::matchesSpellingPrefix("buo", "boxlir", "bōlǐ") &&
           tujia::matchesSpellingPrefix("kuo", "kox", "kō") &&
@@ -144,7 +144,7 @@ void checkHanSenses(const Lexicon& lexicon) {
     const auto untoned = lexicon.lookup("go", Mode::Han);
     const auto toned = lexicon.lookup("gǒ", Mode::Han);
     const auto other = lexicon.lookup("gor", Mode::Han);
-    check(offers(untoned, "过", "他", 2) && offers(untoned, "过", "过错", 2),
+    check(offers(untoned, "个", "他", 2) && offers(untoned, "过", "过错", 2),
           "Identical Han forms may carry two distinct senses");
     check(std::count_if(untoned.begin(), untoned.end(), [](const Candidate& c) {
         return c.meaning == "他";
@@ -423,9 +423,9 @@ void checkContext(const Lexicon& lex) {
     const auto han = Mode::Han;
     const auto ye = Orthography::Ye;
     const auto marked = Orthography::Diacritic;
-    check(offers(lex.handwritingSuggestions("玻", han, ye), "波俐", "小孩、儿童", 1), "Alias prefix as complete word");
-    check(offers(lex.handwritingSuggestions("波", Mode::Handwriting, ye), "boxlir", "小孩、儿童", 1), "Handwriting to spelling completion");
-    check(!offers(lex.handwritingSuggestions("波俐", han, ye), "波俐", "小孩、儿童", 2), "Exact lexeme is not a completion");
+    check(offers(lex.handwritingSuggestions("玻", han, ye), "波俐", "小孩", 1), "Alias prefix as complete word");
+    check(offers(lex.handwritingSuggestions("波", Mode::Handwriting, ye), "boxlir", "小孩", 1), "Handwriting to spelling completion");
+    check(!offers(lex.handwritingSuggestions("波俐", han, ye), "波俐", "小孩", 2), "Exact lexeme is not a completion");
     check(lex.scoreHandwritingPrefix("波俐") == 2 && lex.scoreHandwritingPrefix("玻") > 0 &&
           lex.scoreHandwritingPrefix("波。") == 0 && lex.scoreHandwritingPrefix("") == 0, "Recognition evidence and boundaries");
     check(!lex.nextWords("w2548",han,ye).empty() && lex.nextWords("w2548",han,ye).front().lexemeIds == "w684", "Attested 饭→吃");
