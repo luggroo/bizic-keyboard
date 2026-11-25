@@ -156,6 +156,7 @@ public final class KeyboardTest extends Instrumentation {
                 EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
         waitSelectedControl("打字");
+        press("调号拼音");
         if (pollNode("联想 那，āi", false, 45_000) == null)
             throw new AssertionError("Typing starter missing after cold dictionary initialization: " + visibleControls());
         waitForNode("联想 我，ngá", false);
