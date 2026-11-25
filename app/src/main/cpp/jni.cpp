@@ -99,6 +99,7 @@ Java_biz_tujia_ime_NativeCore_lookup(JNIEnv* env, jclass, jlong handle, jbyteArr
             case 5: found = lexicon->handwrittenWords(input, form, style); break;
             case 6: found = lexicon->nextHandwrittenGlyphs(input); break;
             case 8: found = lexicon->handwrittenWords(input, form, style, true); break;
+            case 9: found = lexicon->handwritingReadings(input, style, bytes(env, history)); break;
             case 7: found = lexicon->spellingOnSpace(input, style); break;
             default: throw std::invalid_argument("Unknown candidate operation");
         }

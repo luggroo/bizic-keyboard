@@ -120,7 +120,11 @@ public final class KeyboardTest extends Instrumentation {
                 testHandwrittenSuffixes();
                 testContinuousHandwriting();
             }
-            if (suite.equals("hand-ux")) testHandLookupActions();
+            if (suite.equals("hand-ux")) {
+                testHandLookupActions();
+                testHandwritingSidebar();
+                testHandToneReadings();
+            }
             if (suite.equals("typography")) new SystemTypography(this, host).run();
             if (suite.equals("web")) new HostCompatibility(this, host).webEditors();
             if (suite.equals("system")) new SystemCompatibility(this).run();
@@ -356,10 +360,23 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Handwriting pad did not expand vertically: " + pad);
         drawThree(pad);
         expectText(host.first, "三");
-        for (String label : new String[]{"改字", "手写字形 三", "更多手写字形", "重写", "退格"}) {
+        if (findNode("改字", false) != null || findNode("换组", false) != null)
+            throw new AssertionError("Handwriting grid still shows a separate header");
+        int inset = Math.round(5 * host.getResources().getDisplayMetrics().density);
+        for (String label : new String[]{"手写字形 三", "更多手写字形", "重写", "退格"}) {
             Rect control = waitForNode(label, false);
-            if (control.right > pad.left || control.top < pad.top || control.bottom > pad.bottom)
+            if (control.right > pad.left || control.top < pad.top - inset || control.bottom > pad.bottom + inset)
                 throw new AssertionError(label + " is outside the left side of the handwriting pad: " + control);
+        }
+        Rect globe = waitForNode("切换输入法", false), comma = waitForNode("逗号", false);
+        Rect space = waitForNode("空格", false), period = waitForNode("句号", false), menu = waitForNode("更多标点", false);
+        Rect eraser = waitForNode("重写", false), back = waitForNode("退格", false);
+        if (Math.abs(globe.centerX() - eraser.centerX()) > 1 || Math.abs(comma.centerX() - back.centerX()) > 1
+                || Math.abs(2 * space.centerX() - globe.left - menu.right) > 2)
+            throw new AssertionError("Footer and handwriting grid do not share their column centers");
+        for (Rect key : new Rect[]{globe, comma, period, menu}) {
+            if (Math.abs(key.width() - globe.width()) > 2 || key.top != space.top || key.bottom != space.bottom)
+                throw new AssertionError("Misaligned handwriting footer key: " + key);
         }
         captureFrame("handwriting-sidebar.png");
         press("更多手写字形");
@@ -376,7 +393,7 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         pad = waitForNode("汉字手写区", false);
         drawBo(pad);
-        waitForNode("改字", false);
+        expectText(host.first, "pɔ⁵⁵");
         drawLi(pad);
         expectText(host.first, "pɔ⁵⁵li²¹");
         setHandwritingOutput(true);
@@ -384,6 +401,49 @@ public final class KeyboardTest extends Instrumentation {
         press("设置");
         waitForNode("打字输出 · 选择候选上屏后的写法", false);
         press("设置");
+    }
+
+    private void testHandToneReadings() {
+        stage("Four distinct handwriting tones come before predictions");
+        newPredictionEditor();
+        press("手写");
+        setHandwritingOutput("叶氏拼音");
+        Rect pad = waitForNode("汉字手写区", false);
+        drawStroke(pad, .26f,.28f, .31f,.33f, .36f,.52f);
+        drawStroke(pad, .30f,.28f, .35f,.29f, .68f,.25f, .73f,.28f, .66f,.42f);
+        drawStroke(pad, .37f,.47f, .43f,.48f, .69f,.45f);
+        drawStroke(pad, .46f,.08f, .51f,.12f, .50f,.53f, .48f,.67f, .38f,.79f, .15f,.88f);
+        drawStroke(pad, .22f,.56f, .34f,.59f, .65f,.84f, .74f,.89f, .94f,.88f);
+        expectText(host.first, "siv", 90000);
+        assertHandTonePage("siv", "six", "sir", "sif");
+        captureFrame("hand-tones-ye.png");
+        tapForm("sir");
+        expectText(host.first, "sir");
+
+        tapField(host.second);
+        setHandwritingOutput("国际音标");
+        pad = waitForNode("汉字手写区", false);
+        drawStroke(pad, .41f,.36f, .46f,.37f, .81f,.30f, .87f,.31f);
+        drawStroke(pad, .65f,.11f, .69f,.16f, .70f,.64f, .68f,.71f, .54f,.66f);
+        drawStroke(pad, .45f,.47f, .51f,.51f, .54f,.55f);
+        drawStroke(pad, .22f,.14f, .30f,.19f, .33f,.23f);
+        drawStroke(pad, .13f,.44f, .18f,.44f, .28f,.41f, .31f,.44f, .27f,.54f, .32f,.68f, .30f,.71f);
+        drawStroke(pad, .12f,.76f, .16f,.78f, .30f,.74f, .67f,.85f, .75f,.87f, .92f,.83f);
+        expectText(host.second, "kuɔ²⁴", 90000);
+        assertHandTonePage("kuɔ²⁴", "kuɔ⁵⁵", "kuɔ⁵¹", "kuɔ²¹");
+        captureFrame("hand-tones-ipa.png");
+        tapForm("kuɔ²¹");
+        expectText(host.second, "kuɔ²¹");
+        setHandwritingOutput(true);
+    }
+
+    private void assertHandTonePage(String... expected) {
+        AccessibilityNodeInfo row = candidateRow(visibleForm(expected[0]));
+        try {
+            List<String> forms = new ArrayList<>();
+            for (Card item : rowCards(row)) forms.add(outputLine(item));
+            if (!forms.equals(Arrays.asList(expected))) throw new AssertionError("Unexpected tone page: " + forms);
+        } finally { row.recycle(); }
     }
 
     void holdKey(String label) {

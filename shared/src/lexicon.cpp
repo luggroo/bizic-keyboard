@@ -1327,7 +1327,8 @@ struct Lexicon::Impl {
 
     // A written reading is one choice even when its sources have different
     // meanings. Keep all meanings visible and do not claim one specific sense.
-    static void mergePinyinMeaning(Candidate& candidate, const Entry& entry) {
+    template<class Reading>
+    static void mergePinyinMeaning(Candidate& candidate, const Reading& entry) {
         auto append = [](std::string& target, const std::string& value, const std::string& separator) {
             if (value.empty()) return;
             if (target.empty()) { target = value; return; }
@@ -1443,6 +1444,74 @@ struct Lexicon::Impl {
             if (!e.meaning.empty()) c.hanSenseId = entries[e.hanSenseGroup].id;
         }
         return c;
+    }
+
+    std::vector<Candidate> handReadings(const std::string& input, Orthography style, const std::string& readings) const {
+        Query q;
+        if (!glyphQuery(input, q)) return {};
+        const int consumed = q.utf16At.back();
+        auto exact = lookup(input, Mode::Handwriting, style);
+        std::vector<std::string> keys;
+        if (q.scalars.size() == 1) {
+            if (!readings.empty()) keys = split(readings, ' ');
+            if (keys.empty()) {
+                for (const auto& c : exact) {
+                    const auto ref = standardHan.find(c.lastSyllable);
+                    if (ref == standardHan.end() || entries[ref->second].output(Mode::Handwriting, style) != c.text)
+                        continue;
+                    keys.push_back(c.lastSyllable);
+                    for (char tone : std::string("xvrf")) {
+                        std::string key = c.lastSyllable.substr(0, c.lastSyllable.size() - 1) + tone;
+                        if (key != c.lastSyllable) keys.push_back(key);
+                    }
+                    break;
+                }
+            }
+        }
+        std::vector<Candidate> out;
+        std::unordered_set<std::string> toneForms;
+        std::unordered_set<std::string> toneKeys(keys.begin(), keys.end());
+        for (const auto& key : keys) {
+            const auto ref = standardHan.find(key);
+            if (readings.empty() && ref == standardHan.end()) continue;
+            Candidate tone{ref == standardHan.end() ? key : entries[ref->second].output(Mode::Handwriting, style), "", consumed};
+            tone.lastSyllable = key;
+            tone.syllableOnly = true;
+            // A reference character supplies a sound. Only lexical entries or an
+            // independently attested syllable sense can supply its meaning.
+            for (size_t id : bucket(spellings, key)) {
+                const auto& e = entries[id];
+                if (e.word != key || e.meaning.empty()) continue;
+                if (tone.syllableOnly) {
+                    tone.meaning = e.meaning;
+                    tone.shortMeaning = e.shortMeaning;
+                    tone.lexemeIds = e.id;
+                    tone.syllableOnly = false;
+                } else {
+                    mergePinyinMeaning(tone, e);
+                }
+            }
+            const auto sense = syllableSenses.find(key);
+            if (tone.syllableOnly && sense != syllableSenses.end() && !sense->second.gloss.empty()) {
+                tone.meaning = tone.shortMeaning = sense->second.gloss;
+                tone.lexemeIds = sense->second.lexemeId;
+                tone.syllableOnly = false;
+            }
+            std::string compact = compactPinyinGloss(tone.shortMeaning);
+            if (!compact.empty()) tone.shortMeaning = compact;
+            toneForms.insert(tone.text);
+            out.push_back(std::move(tone));
+        }
+        std::unordered_map<std::string, size_t> otherForms;
+        for (auto& c : exact) {
+            if (c.consumed != consumed || c.kind != CandidateKind::Tujia || toneForms.count(c.text)) continue;
+            const auto source = lexicalIds.find(c.lexemeIds);
+            if (source != lexicalIds.end() && toneKeys.count(entries[source->second].word)) continue;
+            const auto [at, first] = otherForms.emplace(c.text, out.size());
+            if (first) out.push_back(std::move(c));
+            else if (!c.syllableOnly) mergePinyinMeaning(out[at->second], c);
+        }
+        return out;
     }
 
     bool glyphQuery(const std::string& input, Query& q) const {
@@ -1726,6 +1795,10 @@ std::vector<Candidate> Lexicon::lookup(const std::string& input, Mode mode, Orth
     if (mode != Mode::Pinyin && mode != Mode::Han && mode != Mode::Handwriting) return {};
     if (orthography != Orthography::Ye && orthography != Orthography::Diacritic) return {};
     return impl_->lookup(input, mode, orthography);
+}
+
+std::vector<Candidate> Lexicon::handwritingReadings(const std::string& han, Orthography style, const std::string& readings) const {
+    return impl_->handReadings(han, style, readings);
 }
 
 std::vector<Candidate> Lexicon::spellingOnSpace(const std::string& input, Orthography style) const {

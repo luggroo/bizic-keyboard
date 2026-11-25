@@ -232,7 +232,25 @@ public final class CandidateEngineTest {
     private static void checkHandwrittenSuffixes(Path asset) throws Exception {
         try (CandidateEngine dictionary = new CandidateEngine(new java.io.SequenceInputStream(
                 Files.newInputStream(asset), Files.newInputStream(asset.resolveSibling("northern-words.tsv"))),
-                null, null, null, Files.newInputStream(asset.resolveSibling("handwriting-readings.tsv")))) {
+                null, null, Files.newInputStream(asset.resolveSibling("syllable_senses.tsv")),
+                Files.newInputStream(asset.resolveSibling("handwriting-readings.tsv")),
+                Files.newInputStream(Paths.get("app/src/main/assets/handwriting-ipa.tsv")),
+                Files.newInputStream(Paths.get("app/src/main/assets/handwriting-tones.tsv")))) {
+            for (Object[] sample : new Object[][]{
+                    {"史", Orthography.YE, Arrays.asList("siv", "six", "sir", "sif")},
+                    {"史", Orthography.DIACRITIC, Arrays.asList("sì", "sī", "sǐ", "sí")},
+                    {"史", Orthography.IPA, Arrays.asList("sɿ⁵¹", "sɿ⁵⁵", "sɿ²¹", "sɿ²⁴")},
+                    {"过", Orthography.YE, Arrays.asList("gof", "gox", "gov", "gor")},
+                    {"三", Orthography.IPA, Arrays.asList("sã⁵⁵", "sã⁵¹", "sã²¹", "sã²⁴")}}) {
+                List<Candidate> tones = dictionary.handwritingReadings((String)sample[0], (Orthography)sample[1]);
+                List<String> forms = new java.util.ArrayList<>();
+                for (Candidate tone : tones) forms.add(tone.text);
+                check(forms.size() >= 4 && forms.subList(0, 4).equals(sample[2])
+                        && forms.size() == new java.util.HashSet<>(forms).size(), "Distinct tones for " + sample[0] + ": " + forms);
+            }
+            Candidate guo = dictionary.handwritingReadings("过", Orthography.YE).get(0);
+            check(guo.meaning.contains("他") && guo.meaning.contains("过错") && guo.meaning.contains("讨")
+                    && !guo.shortMeaning.isEmpty(), "One gof card keeps all attested senses");
             for (String raw : Arrays.asList("树稀布理", "树稀步李", "前面还有字树稀步李")) {
                 List<Candidate> choices = dictionary.handwrittenWords(raw, Mode.HAN, Orthography.DIACRITIC);
                 check(offers(choices, "树希布里", "板栗", 4) && offers(choices, "希布里", "星", 3) &&
