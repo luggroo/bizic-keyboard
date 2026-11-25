@@ -79,11 +79,16 @@ h1 span {display:block;color:var(--red)}
 #kbMore[aria-expanded=true]::after {transform:rotate(225deg)}
 #kbMore[aria-expanded=true] {color:var(--red)}
 #kbMorePanel {position:absolute;z-index:4;top:var(--tools-height);inset-inline:0;background:#fff8ed;box-shadow:0 9px 18px -14px #482a15;padding:8px 12px;border-bottom:1px solid #c6a58a}
-#kbMorePanel .outputMenu,#kbMorePanel .otherMenu {display:grid;grid-template-columns:1fr 1fr}
+#kbMorePanel .otherMenu {display:grid;grid-template-columns:1fr 1fr}
 #kbMorePanel .outputMenu {border-bottom:1px solid var(--key-rule)}
 #kbMorePanel button {min-height:45px;text-align:left;padding:3px 10px;font:560 1rem/1.25 var(--sans)}
-.outputMenu button[aria-pressed=true] {font-weight:700;color:#8c301c}
-.outputMenu button[aria-pressed=true]::after {content:"✓";margin-left:7px}
+.outputMenu {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.outputMenu .formChoice,#kbMorePanel .formChoice {position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25em;min-width:0;min-height:3.8em;padding:.35em .06em .55em;text-align:center;font:600 1rem/1.22 var(--sans);color:#392b27;overflow-wrap:anywhere}
+.formChoice {container-type:inline-size}
+.formChoice .sample {font-size:min(.86em,20cqi);font-weight:500;color:#625e5b}
+.formChoice>span {max-width:100%;font-size:min(1em,30cqi)}
+.outputMenu .formChoice[aria-pressed=true] {color:var(--red)}
+.formChoice[aria-pressed=true]::after {content:"";position:absolute;bottom:1px;width:30px;height:3px;background:var(--red);border-radius:2px}
 #raw {color:#7a3623}
 #typing {flex:1;min-height:0;display:flex;flex-direction:column}
 .candidateBar {flex:none;height:62px;gap:3px}
@@ -117,9 +122,7 @@ h1 span {display:block;color:var(--red)}
 #han {grid-column:1/-1;justify-content:space-around}
 #han::before {content:"例字";font-size:0.8125rem;color:#635144;padding-inline:3px}
 #han button {flex:1;height:100%;text-align:center;font-size:1.25rem}
-.voice {margin:auto;text-align:center}
-.voice h2 {font:600 1.625rem var(--serif)}
-.voice button,#formLookup>button {min-height:44px;color:var(--red);text-decoration:underline;text-underline-offset:.2em}
+#formLookup>button {min-height:44px;color:var(--red);text-decoration:underline;text-underline-offset:.2em}
 .joined-han {display:inline-block;vertical-align:baseline;width:1.68em;white-space:nowrap;border-bottom:.065em solid currentColor;line-height:1.05}
 .joined-han>span {display:inline-block;transform:scaleX(.84);transform-origin:left center}
 .practice {display:flex;flex-wrap:wrap;gap:22px;margin-top:6px}
@@ -156,7 +159,7 @@ footer {border-top:1px solid var(--rule);padding:18px 0 35px;font-size:0.9375rem
 dialog {width:min(calc(100% - 32px),390px);border:0;border-top:3px solid var(--red);padding:24px;background:var(--page);color:var(--ink)}
 dialog::backdrop {background:#2f28245e}
 dialog h2 {font:600 1.6875rem var(--serif);margin-bottom:17px}
-dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:var(--page);min-height:44px;padding:4px}
+dialog .outputMenu {margin:8px 0 14px}
 #closeSettings {background:var(--red);color:white;padding:0 21px;min-height:43px;margin-top:19px}
 @media (prefers-reduced-motion:no-preference) {
   .keyboard-open #keyboardPanel {animation:dock-arrive .16s ease-out}
@@ -296,6 +299,7 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
       <div class="demo-menu">
         <h2 class="kicker">试一试</h2>
         <div class="demo-select" role="group" aria-label="选择演示">
+          <button id="tryForms">试写毕兹卡</button>
           <button id="demoHan" aria-pressed="true">记音写山歌</button>
           <button id="demoTujia" aria-pressed="false">无调输拼写</button>
           <button id="demoTone" aria-pressed="false">打调号拼音</button>
@@ -310,28 +314,26 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
       <div id="art" hidden aria-hidden="true"></div>
     </section>
     <section id="play" aria-labelledby="note-heading">
-      <div class="panelhead"><h2 id="note-heading">记事本</h2><button id="openSettings" aria-haspopup="dialog">拼写设置</button></div>
+      <div class="panelhead"><h2 id="note-heading">记事本</h2><button id="openSettings" aria-haspopup="dialog">输出设置</button></div>
       <div id="inputDock"><div class="paper"><span id="notebook-title">山歌两首</span><div id="result" role="textbox" contenteditable="true" aria-multiline="true" tabindex="0" aria-label="记事本正文" aria-describedby="notebook-title" data-placeholder="点这里写山歌…"></div><div class="editorFoot"><small id="count">0 字符</small></div></div><div class="kb" id="keyboardPanel" hidden><div class="kbhead">
           <div class="inputModes" role="group" aria-label="输入方式"><button id="typeMode" type="button">打字</button><button id="handMode" type="button">手写</button></div>
           <div class="liveDraft" id="draftBar"><input id="draft" aria-label="输入草稿" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="none" dir="auto"></div>
-          <button id="kbMore" type="button" aria-controls="kbMorePanel" aria-expanded="false">更多</button>
+          <button id="kbMore" type="button" aria-controls="kbMorePanel" aria-expanded="false">设置</button>
           <button id="hideKeyboard" type="button" aria-label="收起土家语键盘"><span class="buttonLabel">收起</span></button>
         </div>
-        <div id="kbMorePanel" role="group" aria-label="更多输入选项" hidden>
-          <div class="outputMenu" role="group" aria-label="输出形式">
-            <button id="menuSpell" type="button">土家语拼写</button><button id="menuHan" type="button">汉字记音</button>
-          </div>
-          <div class="otherMenu"><button id="menuVoice" type="button">语音输入</button><button id="kbSettings" type="button" aria-label="打开拼写设置" aria-haspopup="dialog">拼写设置</button></div>
+        <div id="kbMorePanel" role="group" aria-label="键盘设置" hidden>
+          <div class="outputMenu" id="menuOutputs" role="group" aria-label="输出形式"></div>
+          <div class="otherMenu"><button id="menuBackToTyping" type="button">返回打字</button><button id="kbSettings" type="button" aria-haspopup="dialog">更多设置</button></div>
           <button id="raw" type="button" hidden>用原拼写</button>
         </div>
-        <div id="typing"><div class="candidateBar"><button id="previousCandidates" aria-label="上一页候选">‹</button><div class="candidates" id="candidates" aria-live="polite"></div><button id="nextCandidates" aria-label="下一页候选">›</button></div><div id="keys"><div id="toneKeys" role="group" aria-label="选择元音调号" hidden></div></div><div id="hand" hidden><div class="pad"><canvas id="canvas" aria-label="手写区域"></canvas></div><div class="tools"><button id="moreForms">关联词</button><button id="undo">撤一笔</button><button id="reset">重写</button></div><div id="han" class="candidates" role="group" aria-label="选择手写示例字"></div></div></div><div id="voice" class="voice" hidden><h2>语音输入待上线</h2><p class="sub">可以先用拼音或汉字记音。</p><button id="back">返回打字</button></div></div></div>
+        <div id="typing"><div class="candidateBar"><button id="previousCandidates" aria-label="上一页候选">‹</button><div class="candidates" id="candidates" aria-live="polite"></div><button id="nextCandidates" aria-label="下一页候选">›</button></div><div id="keys"><div id="toneKeys" role="group" aria-label="选择元音调号" hidden></div></div><div id="hand" hidden><div class="pad"><canvas id="canvas" aria-label="手写区域"></canvas></div><div class="tools"><button id="moreForms">关联词</button><button id="undo">撤一笔</button><button id="reset">重写</button></div><div id="han" class="candidates" role="group" aria-label="选择手写示例字"></div></div></div></div></div>
       <div id="formLookup" hidden></div>
       <div class="practice" role="group" aria-label="试选候选词"><button id="showScene">试输整句</button><button id="tryPrefix">试选前三字</button><button id="tryNext">试点下个音节</button></div>
     </section>
   </div>
   <div class="references">
     <aside class="reference-tools">
-      <section aria-labelledby="modes-heading"><h2 id="modes-heading">输入方式</h2><div class="choices" id="choices"></div></section>
+      <section aria-labelledby="modes-heading"><h2 id="modes-heading">输入方式</h2><div id="typingOutputs" class="outputMenu" role="group" aria-label="打字输出形式"></div><div class="choices" id="choices"></div></section>
     </aside>
     <section id="library" aria-labelledby="library-heading">
       <h2 id="library-heading">毕兹学堂试用词表</h2>
@@ -350,5 +352,6 @@ dialog select {width:100%;margin:8px 0 14px;border:1px solid #80766a;background:
 </footer>
 <dialog id="candidateReading" aria-labelledby="readForm">
   <h2 id="readForm"></h2><div id="readMeaning"></div><div id="readEdits"></div>
+  <div id="readOutputs" class="outputMenu" role="group" aria-label="将这个词写成" hidden></div>
   <div class="readActions"><button id="readBack" type="button">返回候选</button><button id="readChoose" type="button">输入这个词</button></div>
-</dialog><dialog id="settingsPanel"><form method="dialog"><h2>输出设置</h2><p><label for="orthography">土家语输出</label></p><select id="orthography"><option value="ye">叶氏拼音 · bifzixkar</option><option value="diacritic">调号拼音 · bízīkǎ</option><option value="han">谐音字 · 币子咔</option></select><p class="sub">长按元音键可选调号。</p><button id="closeSettings" value="done">完成</button></form></dialog><script src="words.js"></script><script src="story-words.js"></script><script src="engine-data.js"></script><script src="core-runtime.js"></script><script src="notepad.js"></script><script src="ort.min.js"></script><script src="hand-data.js"></script><script src="hand-model.js"></script><script src="app.js"></script></body></html>
+</dialog><dialog id="settingsPanel" aria-labelledby="outputTitle"><form method="dialog"><h2 id="outputTitle">输出形式</h2><div id="orthography" class="outputMenu" role="group" aria-labelledby="outputTitle"></div><p class="sub">长按元音键可选调号。</p><button id="closeSettings" value="done">完成</button></form></dialog><script src="words.js"></script><script src="story-words.js"></script><script src="engine-data.js"></script><script src="core-runtime.js"></script><script src="notepad.js"></script><script src="ort.min.js"></script><script src="hand-data.js"></script><script src="hand-model.js"></script><script src="app.js"></script></body></html>

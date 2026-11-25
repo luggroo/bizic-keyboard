@@ -54,7 +54,8 @@ import java.util.Set;
 public final class TujiaIme extends InputMethodService implements LexiconStore.Listener {
     private static final int COLUMNS = 4, HISTORY_LIMIT = 32;
     private static final int LETTER_SP = 20, FORM_SP = 20, GLOSS_SP = 14, TAB_SP = 15;
-    private static final int SPELL = 0, HAN = 1, HAND = 2, IPA = 4;
+    static final int SPELL = 0, HAN = 1;
+    private static final int HAND = 2, IPA = 4;
     private static final int INK = 0xff392b27, MUTED = 0xff745950, RED = 0xffab3929;
     private static final int PAPER = 0xfffffaf5, BOARD = 0xfffae9df, HEADER = 0xfffff1e8;
     private static final int RULE = 0xffddc5b7, UTILITY = 0xffefd7c7, WHITE = Color.WHITE;
@@ -138,8 +139,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         int savedHandFormat = settings.getInt("hand_output", previousHandFormat.ordinal());
         HandFormat[] formats = HandFormat.values();
         handFormat = savedHandFormat >= 0 && savedHandFormat < formats.length ? formats[savedHandFormat] : previousHandFormat;
-        int savedTyping = settings.getInt("typing_mode", settings.getInt("mode", SPELL));
-        typingMode = savedTyping == HAN ? HAN : SPELL;
+        typingMode = KeyboardSettings.typingMode(this);
         mode = typingMode;
     }
 
@@ -266,6 +266,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         inputViewActive = true;
         orthography = KeyboardSettings.spelling(this);
         if (sameReflowEditor(editor)) return;
+        typingMode = KeyboardSettings.typingMode(this);
+        if (mode <= HAN) mode = typingMode;
         readSentenceBoundary();
         layoutKeyboard();
     }
@@ -479,9 +481,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         } else {
             menuCaption("打字输出 · 选择候选上屏后的写法");
             LinearLayout outputs = menuRow();
-            outputChoice(outputs, "叶氏拼音", "bifzixkar", CandidateEngine.Orthography.YE);
-            outputChoice(outputs, "调号拼音", "bízīkǎ", CandidateEngine.Orthography.DIACRITIC);
-            outputChoice(outputs, "谐音字", "币子咔", null);
+            for (OutputForm form : OutputForm.values()) outputChoice(outputs, form);
         }
         LinearLayout tools = menuRow();
         key(tools, "返回打字", "返回打字", 1, KeyLook.PRIMARY, false, () -> switchMode(typingMode));
@@ -503,14 +503,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
     }
 
-    private void outputChoice(LinearLayout row, String name, String example, CandidateEngine.Orthography style) {
-        boolean selected = style == null ? typingMode == HAN : typingMode == SPELL && orthography == style;
-        menuChoice(row, name, example, selected, () -> {
-            if (style != null) {
-                orthography = style;
-                KeyboardSettings.setSpelling(this, style);
-            }
-            switchMode(style == null ? HAN : SPELL);
+    private void outputChoice(LinearLayout row, OutputForm form) {
+        OutputForm active = OutputForm.current(typingMode == HAN, orthography);
+        menuChoice(row, form.name, form.example, form == active, () -> {
+            KeyboardSettings.setTypingOutput(this, form);
+            orthography = KeyboardSettings.spelling(this);
+            switchMode(form == OutputForm.HAN ? HAN : SPELL);
         });
     }
 
@@ -1260,20 +1258,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             discardHandWork();
             return;
         }
-        Map<String, CandidateEngine.Candidate> spellings = new HashMap<>();
-        for (CandidateEngine.Candidate roman : engine.handwrittenWords(anchor.before, CandidateEngine.Mode.HANDWRITING,
-                CandidateEngine.Orthography.DIACRITIC)) {
-            spellings.put(roman.lexemeIds, roman);
-        }
+        Map<String, CandidateEngine.Candidate> spellings = handSpellings(anchor, CandidateEngine.Orthography.DIACRITIC);
         List<CandidateEngine.Candidate> distinct = new ArrayList<>();
         Set<String> seen = new HashSet<>();
         for (CandidateEngine.Candidate c : senses) {
-            CandidateEngine.Candidate spelling = spellings.get(c.lexemeIds);
+            CandidateEngine.Candidate spelling = spellings.get(handMatchKey(c));
             if (spelling != null && seen.add(c.consumed + "\t" + spelling.text + "\t" + c.meaning)) distinct.add(c);
         }
         if (distinct.isEmpty()) return;
         int current = index % distinct.size();
-        CandidateEngine.Candidate c = distinct.get(current), roman = spellings.get(c.lexemeIds);
+        CandidateEngine.Candidate c = distinct.get(current), roman = spellings.get(handMatchKey(c));
         String raw = anchor.before.substring(anchor.before.length() - c.consumed);
         closeHandDetail();
         for (int i = 0; i < body.getChildCount(); i++) body.getChildAt(i).setVisibility(View.GONE);
@@ -1297,7 +1291,20 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         handDetail.addView(actions, lineWithMinimum(compact ? 33 : 41, compact ? 14 : 16));
         String hanLabel = sameHandForm(raw, c) ? "保留原写法" : "用推荐字";
         key(actions, hanLabel, hanLabel, 1, false, () -> applyHandWord(anchor, c, c, raw));
+        CandidateEngine.Candidate ye = handSpellings(anchor, CandidateEngine.Orthography.YE).get(handMatchKey(c));
+        if (ye != null) key(actions, "用叶氏拼音", "用叶氏拼音", 1, false, () -> applyHandWord(anchor, c, ye, raw));
         key(actions, "用调号拼音", "用调号拼音", 1, true, () -> applyHandWord(anchor, c, roman, raw));
+    }
+
+    private Map<String, CandidateEngine.Candidate> handSpellings(HandAnchor anchor, CandidateEngine.Orthography style) {
+        Map<String, CandidateEngine.Candidate> forms = new HashMap<>();
+        for (CandidateEngine.Candidate form : engine.handwrittenWords(anchor.before, CandidateEngine.Mode.HANDWRITING, style))
+            forms.put(handMatchKey(form), form);
+        return forms;
+    }
+
+    private static String handMatchKey(CandidateEngine.Candidate candidate) {
+        return candidate.consumed + "\t" + candidate.lexemeIds;
     }
 
     private void applyHandWord(HandAnchor shown, CandidateEngine.Candidate lexical, CandidateEngine.Candidate form, String raw) {

@@ -38,15 +38,13 @@ with sync_playwright() as pw:
         reset()
         page.locator('#take').click()
         page.locator('#result').click()
-        if mode==2:page.locator('#handMode').click()
+        if mode==2:
+            page.locator('#handMode').click()
         else:
             page.locator('#typeMode').click()
-            page.locator('#kbMore').click()
-            page.locator('#menuHan' if mode else '#menuSpell').click()
-        if marked:
-            page.locator('#kbMore').click();page.locator('#kbSettings').click()
-            page.locator('#orthography').select_option('diacritic')
-            page.locator('#closeSettings').click()
+        page.locator('#kbMore').click()
+        key = '#menuMarked' if marked and mode!=1 else '#menuSpell' if mode==0 else '#menuHan'
+        page.locator(key).click()
     def text():return page.locator('#result').evaluate('e=>e.value')
     def choose(text,attr=''):
         card=page.locator('#candidates button'+attr).filter(has=page.locator('strong').filter(has_text=re.compile('^'+re.escape(text)+'$'))).first
@@ -62,7 +60,7 @@ with sync_playwright() as pw:
     def expected_sound(output_mode):
         keyboard(output_mode,True)
         page.locator('#draft').fill('bizika')
-        choose('币兹咔' if output_mode else 'bízīkǎ','[data-source="exact"]')
+        choose('币子咔' if output_mode else 'bízīkǎ','[data-source="exact"]')
         snap(page,'after-word')
         card=page.locator('#candidates [data-source="sound"]').first
         form=card.locator('strong').inner_text();assert form==('萌' if output_mode else 'mǒng')
@@ -124,13 +122,22 @@ with sync_playwright() as pw:
         if (width,percent) in [(390,100),(320,100),(320,160),(320,200)]:snap(page,'compact-toolbar-'+tag)
         page.locator('#kbMore').click()
         assert geometry()==base and page.locator('#kbMore').get_attribute('aria-expanded')=='true'
-        assert page.locator('#kbMorePanel').evaluate('e=>e.clientWidth>=e.scrollWidth && e.offsetTop+e.offsetHeight<=e.parentElement.clientHeight')
+        def check_picker():
+            panel=page.locator('#kbMorePanel')
+            assert panel.evaluate('e=>e.clientWidth>=e.scrollWidth && e.offsetTop+e.offsetHeight<=e.parentElement.clientHeight'),(width,percent)
+            keys=panel.locator('.formChoice')
+            assert keys.count()==3
+            for key in keys.all():
+                sample=key.locator('small').bounding_box()
+                label=key.locator('span').bounding_box()
+                assert sample['y']+sample['height']<=label['y']+1,(width,percent,sample,label)
+        check_picker()
         if (width,percent) in [(390,100),(320,160)]:snap(page,'more-menu-'+tag)
         page.keyboard.press('Escape')
         assert not page.locator('#kbMorePanel').is_visible() and geometry()==base
         page.locator('#result').press('k')
         assert page.locator('#draft').input_value()=='k' and text()=='' and geometry()==base
-        page.locator('#kbMore').click();page.locator('#menuHan').click()
+        page.locator('#kbMore').click();check_picker();page.locator('#menuHan').click()
         assert page.locator('#draft').input_value()=='k' and geometry()==base
         page.locator('#handMode').click()
         assert page.locator('#canvas').is_visible() and bounds('#keyboardPanel')==base[1]
@@ -143,11 +150,12 @@ with sync_playwright() as pw:
             if percent in [100,160,200]:snap(page,'three-han-'+tag)
             if percent==200:
                 page.locator('#draft').fill('ga')
-                card=page.locator('#candidates button').filter(has=page.get_by_text('夹吓',exact=True))
+                form=page.evaluate("wordById.get('w698').recommended")
+                card=visible_form(form)
                 assert card.locator('small').inner_text()=='上面'
                 assert card.locator('strong').evaluate('e=>e.scrollWidth<=e.clientWidth')
                 snap(page,'ga-merged-320-200')
-                card.click();assert text()=='夹吓'
+                card.click();assert text()==form
             if percent in [160,200]:
                 page.locator('#draft').fill('go')
                 label=page.locator('#candidates .glossPair').first
@@ -166,7 +174,7 @@ with sync_playwright() as pw:
     choose('萌','[data-source="sound"]')
     assert text()=='bízīkǎ萌'
     assert page.evaluate("editorContext().ids==='' && editorContext().sound===''")
-    page.locator('#kbMore').click();page.locator('#menuSpell').click()
+    page.locator('#kbMore').click();page.locator('#menuMarked').click()
     page.locator('#draft').fill('gǎ');choose('gǎ')
     assert text()=='bízīkǎ萌gǎ'
     page.get_by_role('button',name='。',exact=True).click()
@@ -174,8 +182,9 @@ with sync_playwright() as pw:
     page.locator('#result').fill('改了正文')
     assert page.locator('#candidates [data-source="sound"]').count()==0
     keyboard(0,True)
-    page.locator('#draft').fill('karm')
-    tree=page.locator('#candidates button[data-source="completion"]').filter(has=page.get_by_text('kǎmǒng',exact=True)).first
+    page.locator('#draft').fill('kam')
+    tree=visible_form('kǎmǒng')
+    assert tree.get_attribute('data-source')=='completion'
     assert tree.locator('small').inner_text()=='树';tree.click()
     assert text()=='kǎmǒng' and page.locator('#draft').input_value()==''
     keyboard(0)
@@ -205,7 +214,7 @@ with sync_playwright() as pw:
     brother=page.locator('#candidates .word').filter(has=page.get_by_text('哥哥',exact=True)).first
     assert brother.locator('strong').inner_text()=='哥哥' and brother.locator('small').inner_text()==''
     page.locator('#draft').fill('akoa')
-    assert page.evaluate("candidateItems.some(c=>c.form==='吖科吖' && c.meaning==='哥哥啊')")
+    assert page.evaluate("candidateItems.some(c=>c.form===wordById.get('ls60-21').recommended && c.meaning==='哥哥啊')")
     keyboard(1)
     page.locator('#draft').fill('ga')
     assert page.evaluate("candidateItems.some(c=>c.form==='架' && c.fullGloss.includes('吃、咬'))")
@@ -266,9 +275,9 @@ with sync_playwright() as pw:
     assert page.evaluate("core.matchesPrefix('áng','anf','án') && core.matchesPrefix('sān','sangx','sāng')")
     assert page.evaluate("""core.matchesPrefix('jiangga','jianfgax',"jián'gā")""")
     assert not page.evaluate("core.matchesPrefix('tangie','taxniex','tāniē')")
-    page.locator('#draft').fill('banricaiyergaf')
-    meal=visible_form('半日猜叶架');meal.click()
-    assert text().endswith('半日猜叶架') and not page.locator('#draft').input_value()
+    page.locator('#showScene').click()
+    meal=visible_form('讶叶架。');meal.click()
+    assert text().endswith('讶叶架。') and not page.locator('#draft').input_value()
     page.locator('#draft').fill('banricaigaf')
     visible_form('半日猜').click();assert page.locator('#draft').input_value()=='gaf'
     visible_form('架').click()

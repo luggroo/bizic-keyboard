@@ -10,20 +10,20 @@ for(const row of tujiaCoreData.words.split('\n')){
     hanUnits:units.split('|'),aliases:aliases?aliases.split(' '):[],romanAliases:roman?roman.split(' '):[],presentation});
 }
 let orthography='ye', demoSpelling=null, tonePlayback=false;
-try{orthography=localStorage.getItem('tujia-orthography')==='diacritic'?'diacritic':'ye'}catch{}
-function spelling(e){return (demoSpelling || orthography)==='diacritic'?e.diacritic:e.word}
-function saveOrthography(form){
-  if(form==='han'){selectOutput(true);return}
-  orthography=form;demoSpelling=null;
-  try{localStorage.setItem('tujia-orthography',form)}catch{}
-  $('orthography').value=form;
-  selectOutput(false);
-}
-const names=['土家语拼音','汉字记音','手写记音','语音输入'];
-const hints=['输入字母，选择土家语词','用汉字的读音找词','手写汉字，继续记音','待上线'];
-const icons=['Aa','字','✎','◌'];
 let handHan=true, handSession=null, handTimer=0, inkRevision=0;
-let mode=0, typingMode=0, speaking=false, drafts=['',''], strokes=[], drawingPointer=null;
+let mode=0, typingMode=0, drafts=['',''], strokes=[], drawingPointer=null;
+try{
+  orthography=localStorage.getItem('tujia-orthography')==='diacritic'?'diacritic':'ye';
+  typingMode=mode=localStorage.getItem('tujia-typing-output')==='han'?1:0;
+  handHan=localStorage.getItem('tujia-hand-output')!=='spelling';
+}catch{}
+function spelling(e){return (demoSpelling || orthography)==='diacritic'?e.diacritic:e.word}
+const exampleWord=wordById.get('xu213-1-3');
+const outputChoices=[
+  {form:'ye',name:'用叶氏拼音',sample:exampleWord.word,menuId:'menuSpell'},
+  {form:'diacritic',name:'用带调号拼音',sample:exampleWord.diacritic,menuId:'menuMarked'},
+  {form:'han',name:'用汉字谐音',sample:exampleWord.recommended,menuId:'menuHan'}
+];
 const draft=$('draft'), output=$('result'), canvas=$('canvas');
 installNoteEditor(output);
 function button(label,action,cl=''){
@@ -32,6 +32,19 @@ function button(label,action,cl=''){
 }
 function node(tag,txt,cl=''){
   const el=document.createElement(tag);el.textContent=txt;el.className=cl;return el;
+}
+function addOutputChoices(group,onPick){
+  for(const {form,name,sample,menuId} of outputChoices){
+    const key=button('',()=>onPick(form),'formChoice');
+    key.type='button';key.dataset.form=form;
+    if(group.id==='menuOutputs')key.id=menuId;
+    key.append(node('small',sample,'sample'),node('span',name));
+    key.setAttribute('aria-label',name+'，'+sample);
+    group.append(key);
+  }
+}
+function markOutput(group,active){
+  for(const key of group.children)key.setAttribute('aria-pressed',String(key.dataset.form===active));
 }
 for(const count of [10,10,9,6]){
   const row=node('div','','ar');
@@ -73,21 +86,33 @@ $('hideKeyboard').onclick=()=>{takeOver();keyboardOpen(false);output.blur()};
 function choose(i,scroll=false){
   closeToneKeys();setMore(false);
   if(i!==2){clearTimeout(handTimer);inkRevision++;handSession=null}
-  speaking=i===3;
-  if(!speaking){mode=i;if(i<2)typingMode=i}
+  mode=i;
+  if(i<2 && !demoActive)typingMode=i;
   render();
   if(scroll)keyboardOpen(true);
   if(scroll && matchMedia('(max-width:800px)').matches)$('play').scrollIntoView({block:'start'});
 }
-function selectOutput(han){
-  if(!speaking && mode===2){handHan=han;setMore(false);render()}
-  else choose(han?1:0);
+function selectOutput(form,where){
+  if(demoActive)takeOver();
+  const han=form==='han',hand=mode===2 && where!=='typing';
+  if(!han)orthography=form;
+  if(!hand || where==='settings')typingMode=han?1:0;
+  if(hand || where==='settings')handHan=han;
+  try{
+    localStorage.setItem('tujia-orthography',orthography);
+    if(!hand || where==='settings')localStorage.setItem('tujia-typing-output',han?'han':'spelling');
+    if(hand || where==='settings')localStorage.setItem('tujia-hand-output',han?'han':'spelling');
+  }catch{}
+  if(hand){
+    clearTimeout(handTimer);inkRevision++;handSession=null;strokes=[];glyphButtons();setMore(false);render();
+  }else choose(typingMode,where==='typing');
 }
 $('typeMode').onclick=()=>choose(typingMode);
 $('handMode').onclick=()=>choose(2);
-$('menuSpell').onclick=()=>selectOutput(false);
-$('menuHan').onclick=()=>selectOutput(true);
-$('menuVoice').onclick=()=>choose(3);
+addOutputChoices($('menuOutputs'),form=>selectOutput(form,'keyboard'));
+addOutputChoices($('typingOutputs'),form=>selectOutput(form,'typing'));
+addOutputChoices($('orthography'),form=>selectOutput(form,'settings'));
+$('menuBackToTyping').onclick=()=>choose(typingMode);
 $('kbMore').onclick=()=>setMore($('kbMorePanel').hidden);
 document.addEventListener('pointerdown',event=>{
   if(!event.target.closest('#kbMore,#kbMorePanel'))setMore(false);
@@ -98,27 +123,29 @@ document.addEventListener('keydown',event=>{
   }
 });
 function render(){
-  const selected=speaking?3:mode;
+  const selected=mode;
   $('demoHand').setAttribute('aria-pressed',selected===2);
   $('demoHan').setAttribute('aria-pressed',selected===1);
   $('demoTujia').setAttribute('aria-pressed',selected===0 && !tonePlayback);
   $('demoTone').setAttribute('aria-pressed',selected===0 && tonePlayback);
-  $('choices').replaceChildren(...names.map((name,i)=>{
+  $('choices').replaceChildren(...[['手写记音','手写汉字，继续记音','✎']].map(([name,hint,icon])=>{
+    const i=2;
     const el=button('',()=>choose(i,true),'choice'+(selected===i?' active':''));
-    const info=node('span','');info.append(node('strong',name),node('small',hints[i]));
-    el.append(node('span',icons[i],'icon'),info,node('span',selected===i?'●':'○','check'));
+    const info=node('span','');info.append(node('strong',name),node('small',hint));
+    el.append(node('span',icon,'icon'),info,node('span',selected===i?'●':'○','check'));
     el.setAttribute('aria-pressed',i===selected);return el;
   }));
   $('typeMode').setAttribute('aria-pressed',String(selected<2));
   $('handMode').setAttribute('aria-pressed',String(selected===2));
   const han=mode===2?handHan:mode===1;
-  $('menuSpell').setAttribute('aria-pressed',String(!han));
-  $('menuHan').setAttribute('aria-pressed',String(han));
-  $('typing').hidden=speaking;$('voice').hidden=!speaking;
+  const active=han?'han':demoSpelling||orthography;
+  markOutput($('menuOutputs'),active);
+  markOutput($('orthography'),active);
+  markOutput($('typingOutputs'),selected<2?active:null);
   $('keys').hidden=mode===2;$('hand').hidden=mode!==2;
   draft.value=drafts[mode===2?1:0];
   candidates();
-  if(mode===2 && !speaking)paint();
+  if(mode===2)paint();
 }
 function change(value){
   if(value && mode===2)handSession=null;
@@ -181,6 +208,10 @@ let firstCommit=null;
 let committedContext=null, editRevision=0;
 function compositionMode(){return mode===2?(handHan?1:2):mode}
 function outputForm(entry){return compositionMode()===1?entry.recommended:spelling(entry)}
+function practiceInput(entry){
+  if(mode===2)return entry.recommended;
+  return mode===1?entry.plain:spelling(entry);
+}
 function editorContext(){
   const at=output.selectionStart, before=output.value.slice(0,at);
   if(at===output.selectionEnd){
@@ -236,7 +267,15 @@ let readingChoice=null;
 function openReading(item){
   if(reading.open)return;
   readingChoice=item;
-  $('readChoose').textContent=item.source==='hand-match'?'完成':'输入这个词';
+  const handMatch=item.source==='hand-match';
+  $('readChoose').hidden=handMatch;
+  $('readOutputs').hidden=!handMatch;
+  $('readOutputs').replaceChildren();
+  if(handMatch){
+    item.prepare();
+    addOutputChoices($('readOutputs'),form=>{reading.close();item.replaceWith(form)});
+    for(const key of $('readOutputs').children)key.disabled=!item.forms[key.dataset.form];
+  }
   putHanUnits($('readForm'),item.form,item.units);
   const meanings=item.readerLines||[item.fullGloss].filter(Boolean);
   $('readMeaning').replaceChildren(...meanings.map(text=>node('p',text)));
@@ -376,6 +415,7 @@ function groupHanCards(items,raw){
 // its complete accented reading and meaning; keep different tones separate.
 function groupHandMatches(matches,romans,before){
   const groups=new Map();
+  const cursor=output.selectionStart,revision=editRevision;
   for(const c of matches){
     const actual=before.slice(-c.length);
     const roman=romans.get(c.ids)||'';
@@ -388,6 +428,23 @@ function groupHandMatches(matches,romans,before){
     const item={form:actual,short:label,roman,
       meaning:first.meaning,fullGloss:first.meaning,readerLines:[roman,first.meaning].filter(Boolean),
       source:'hand-match',id:variants.length===1?first.ids:'',kind:first.kind,consumed:first.length,commit:()=>{}};
+    item.prepare=()=>{
+      const formFor=style=>core.handwrittenWords(before,2,style).find(c=>c.ids===first.ids && c.length===first.length);
+      item.forms={han:first,ye:formFor(0),diacritic:formFor(1)};
+      item.replaceWith=form=>{
+        const c=item.forms[form],start=cursor-actual.length;
+        if(!c || revision!==editRevision || output.selectionStart!==cursor || output.selectionEnd!==cursor ||
+           output.value.slice(start,cursor)!==actual)return;
+        const units=unitsFromRanges(c.form,c.ranges);
+        const formatted=bracketHanUnits(c.form,units);
+        if(formatted.text!==actual){
+          output.setRangeText(formatted.text,start,cursor,'end',formatted.units);
+          editRevision++;count();
+        }
+        committedContext={at:output.selectionEnd,ids:first.ids,sound:first.sound};
+        handSession=null;candidates();
+      };
+    };
     item.commit=()=>openReading(item);
     return item;
   });
@@ -396,9 +453,9 @@ function candidates(){
   const hand=mode===2 && !draft.value ? activeHand() : null;
   const value=draft.value||hand?.raw||'',val=value.trim(),outputMode=compositionMode();
   const style=(demoSpelling||orthography)==='diacritic'?1:0;
-  $('draftBar').classList.toggle('has-text',!!draft.value && !speaking);
+  $('draftBar').classList.toggle('has-text',!!draft.value);
   // A handwritten glyph is already in the editor. Only pending spelling appears in the toolbar.
-  $('raw').disabled=!val;$('raw').hidden=mode===1||!draft.value||speaking;
+  $('raw').disabled=!val;$('raw').hidden=mode===1||!draft.value;
   $('raw').textContent=mode?'用原字':'用原拼写';
   $('raw').setAttribute('aria-label',mode&&val?'输入原字 '+val:$('raw').textContent);
   candidateItems=[];
@@ -456,7 +513,7 @@ function candidates(){
     const matches=groupHandMatches(core.handwrittenWords(before,1,style),romans,before);
     candidateItems.unshift(...matches);
   }
-  if(!speaking && !(mode===2 && handHan && !draft.value)){
+  if(!(mode===2 && handHan && !draft.value)){
     const prefix=mode===2?'':val;
     const words=ids?core.nextWords(ids,outputMode,style):[];
     const sounds=sound?core.nextSounds(sound,outputMode,style):[];
@@ -490,9 +547,8 @@ draft.onkeydown=e=>{
   if(firstCommit)firstCommit();else if(mode!==1)submit(draft.value);
 };
 $('raw').onclick=()=>{setMore(false);submit(draft.value)};
-$('back').onclick=()=>choose(typingMode);
 output.addEventListener('keydown',event=>{
-  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||mode===2||speaking)return;
+  if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||mode===2)return;
   if(!/^[A-Za-z'āáǎàēéěèīíǐìōóǒòūúǔù]$/u.test(event.key))return;
   event.preventDefault();editKey(event.key.toLowerCase());draft.focus({preventScroll:true});
 });
@@ -665,12 +721,17 @@ render();
 
 $('showScene').onclick=()=>{
   restoreManual();choose(mode);keyboardOpen(true);
-  change(sentenceWords.map(e=>mode===2?e.recommended:e.word).join('')+'。');
+  change(sentenceWords.map(practiceInput).join('')+'。');
   $('playStatus').textContent='点首选可输入整句；点短词后可继续选词';
 };
 
+$('tryForms').onclick=()=>{
+  restoreManual();choose(typingMode,true);change(exampleWord.plain);setMore(true);
+  $('playStatus').textContent='选一种写法，再点「土家族」下面的词';
+};
+
 $('tryNext').onclick=()=>{
-  restoreManual();choose(0,true);change('boxlir');
+  restoreManual();choose(0,true);change(practiceInput(wordById.get('w309')));
   $('playStatus').textContent='点「小孩」，再点想接着输入的词或音节';
 };
 
@@ -700,7 +761,7 @@ function restoreManual(){
   const old=saved;takeOver();
   if(old){
     committedContext=old.context;output.value=old.value; output.restoreGroups?.(old.units);output.setSelectionRange(old.start,old.end);drafts=old.drafts;
-    choose(old.mode);if(old.voice)choose(3);count();
+    choose(old.mode);count();
   }
 }
 function matchesStoryWord(item,entry){
@@ -763,9 +824,9 @@ function advance(){
   }
 }
 function startPlayback(){
-  if(!demoActive)saved={value:output.value,context:committedContext,units:output.noteGroups?.(),drafts:drafts.slice(),mode,voice:speaking,
+  if(!demoActive)saved={value:output.value,context:committedContext,units:output.noteGroups?.(),drafts:drafts.slice(),mode,
     start:output.selectionStart,end:output.selectionEnd};
-  clearTimeout(timer);mark(null);demoSpelling=tonePlayback?'diacritic':null;demoActive=true;playing=true;token=0;letter=0;phase='focus';
+  clearTimeout(timer);mark(null);demoSpelling=tonePlayback?'diacritic':'ye';demoActive=true;playing=true;token=0;letter=0;phase='focus';
   committedContext=null;choose(hanPlayback?1:0);change('');output.value='';output.setSelectionRange(0,0);count();
   keyboardOpen(false);updateTransport('打开《山歌两首》记事本','暂停');
   timer=setTimeout(advance,850);
@@ -775,7 +836,7 @@ $('pause').onclick=()=>{
   else if(demoActive && token<noteWords.length){playing=true;updateTransport('正在写山歌','暂停');advance()}
   else startPlayback();
 };
-$('take').onclick=()=>{takeOver();candidates();draft.focus()};
+$('take').onclick=()=>{takeOver();choose(typingMode);keyboardOpen(true);draft.focus()};
 function handleManual(e){
   if(!demoActive || e.target.closest('.transport,.demo-select,#settingsPanel,#openSettings,#kbSettings'))return;
   takeOver(!!e.target.closest('#toneKeys'));
@@ -789,16 +850,14 @@ function switchPlayback(han,tones=false){
   $('demoTone').setAttribute('aria-pressed',tones);
   startPlayback();
 }
-const settings=$('settingsPanel');$('orthography').value=orthography;
+const settings=$('settingsPanel');
 let resumeAfterSettings=false;
 $('kbSettings').onclick=$('openSettings').onclick=()=>{
   setMore(false);
-  $('orthography').value=compositionMode()===1?'han':demoSpelling || orthography;
   resumeAfterSettings=playing;
   clearTimeout(timer);playing=false;mark(null);
   if(settings.showModal)settings.showModal();else settings.setAttribute('open','');
 };
-$('orthography').onchange=()=>saveOrthography($('orthography').value);
 settings.addEventListener('close',()=>{
   if(resumeAfterSettings && demoActive){playing=true;if(phase==='commit')phase='review';schedule(300)}
   resumeAfterSettings=false;
@@ -818,7 +877,7 @@ function renderLibrary(){
   for(const entry of matches.slice(libraryPage*pageSize,(libraryPage+1)*pageSize)){
     const row=node('div','','lexrow');
     const tryWord=button('',()=>{
-      restoreManual();choose(mode,true);change(mode===2?entry.recommended:entry.word);
+      restoreManual();choose(mode,true);change(practiceInput(entry));
       $('playStatus').textContent='点候选词，放入输入框';
       $('play').scrollIntoView({block:'start'});
     });

@@ -35,6 +35,10 @@ public final class Playback extends Instrumentation {
     private final StringBuilder expected = new StringBuilder();
     private boolean fastCards;
     private boolean readingPace;
+    private static final String YE_BUTTON = "叶氏拼音";
+    private static final String MARKED_BUTTON = "调号拼音";
+    private static final String HAN_BUTTON = "谐音字";
+    private String spellingButton = YE_BUTTON;
     private final StringBuilder filmTrace=new StringBuilder();
     private boolean afterSymbolPage;
     private final Map<Integer,Rect> candidateTiles=new HashMap<>();
@@ -229,15 +233,8 @@ public final class Playback extends Instrumentation {
     }
 
     private void warmHandwriting() {
-        boolean menu = lookupKeyboard("更多") != null;
-        if (menu) press("更多",100);
-        require("切换手写输出");
-        if (lookupKeyboard("拼写 ▾") != null) {
-            press("切换手写输出",100);
-        } else {
-            require("记音 ▾");
-            if (menu) press("更多",100);
-        }
+        press("设置",100);
+        press("汉字",100);
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {
@@ -460,13 +457,14 @@ public final class Playback extends Instrumentation {
         Intent settings = new Intent().setClassName(IME, IME + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         runOnMainSync(() -> host.startActivity(settings));
-        Rect open = appContaining("拼写输出 ·");
+        Rect open = appContaining("打字输出 ·");
         SystemClock.sleep(500);
         tap(open,90);
-        Rect row = appLabel(style);
+        spellingButton = "带调号拼音".equals(style) ? MARKED_BUTTON : YE_BUTTON;
+        Rect row = appLabel(spellingButton + ("带调号拼音".equals(style) ? "，bízīkǎ" : "，bifzixkar"));
         SystemClock.sleep(850);
         tap(row,90);
-        appLabel("拼写输出 · " + style);
+        appLabel("打字输出 · " + spellingButton);
         SystemClock.sleep(700);
         long t=SystemClock.uptimeMillis();
         ui.injectInputEvent(new KeyEvent(t,t,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK,0),true);
@@ -876,15 +874,16 @@ public final class Playback extends Instrumentation {
 
     private void press(String label,long duration) {
         if ("汉字记音".equals(label) || "土家语拼写".equals(label)) {
+            label = "汉字记音".equals(label) ? HAN_BUTTON : spellingButton;
             require("隐藏键盘");
-            if (lookupKeyboard(label) == null && lookupKeyboard("更多") != null) {
-                // The handwriting More menu configures handwritten output.
+            if (lookupKeyboard(label) == null && lookupKeyboard("设置") != null) {
+                // The settings menu follows the current input mode.
                 // Return to typing before choosing the keyboard's output script.
                 if (lookupKeyboard("q") == null) {
                     tap(require("打字"),100);
                     require("q");
                 }
-                tap(require("更多"),100);
+                tap(require("设置"),100);
                 require(label);
                 shot("mode-options");
             }

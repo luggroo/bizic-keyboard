@@ -1,6 +1,7 @@
 package biz.tujia.ime;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 final class KeyboardSettings {
     private static final String FILE = "keyboard";
@@ -26,9 +27,22 @@ final class KeyboardSettings {
         return marked ? CandidateEngine.Orthography.DIACRITIC : CandidateEngine.Orthography.YE;
     }
 
-    static void setSpelling(Context context, CandidateEngine.Orthography spelling) {
-        context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
-                .putBoolean(TONE_MARKS, spelling == CandidateEngine.Orthography.DIACRITIC).apply();
+    static int typingMode(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
+        int saved = prefs.getInt("typing_mode", prefs.getInt("mode", TujiaIme.SPELL));
+        return saved == TujiaIme.HAN ? TujiaIme.HAN : TujiaIme.SPELL;
+    }
+
+    static OutputForm typingOutput(Context context) {
+        return OutputForm.current(typingMode(context) == TujiaIme.HAN, spelling(context));
+    }
+
+    static void setTypingOutput(Context context, OutputForm form) {
+        int typing = form == OutputForm.HAN ? TujiaIme.HAN : TujiaIme.SPELL;
+        SharedPreferences.Editor edit = context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
+                .putInt("typing_mode", typing);
+        if (form.spelling != null) edit.putBoolean(TONE_MARKS, form == OutputForm.MARKED);
+        edit.apply();
     }
 
     static int ipaDialects(Context context) {

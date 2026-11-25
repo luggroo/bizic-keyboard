@@ -95,6 +95,7 @@ public final class KeyboardTest extends Instrumentation {
                 if (android.os.Build.VERSION.SDK_INT >= 35) new HostCompatibility(this, host).ipaWeb();
             }
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
+            if (suite.equals("outputs")) testOutputButtons();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
@@ -519,6 +520,54 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("待选拼写 hxif", false);
     }
 
+    private void testOutputButtons() {
+        stage("Three direct output choices preserve an unfinished spelling");
+        String previous = setStyleFromLauncher("谐音字");
+        try {
+            runOnMainSync(() -> host.first.setText(""));
+            tapField(host.first);
+            press("谐音字");
+            String expected = "";
+            String[][] forms = {{"叶氏拼音", "bifzixkar"}, {"调号拼音", "bízīkǎ"}, {"谐音字", "币子咔"}};
+            for (String[] form : forms) {
+                type("bizika");
+                tapControl("设置");
+                for (String[] key : forms) waitForNode(key[0], false);
+                captureFrame("three-output-menu.png");
+                tapControl(form[0]);
+                waitForNode("待选拼写 bizika", false);
+                Card word = visibleForm(form[1]);
+                if (!word.name.contains("土家族")) throw new AssertionError("Missing meaning: " + word.name);
+                tap(word.bounds.centerX(), word.bounds.centerY());
+                press("句号");
+                expected += form[1] + "。";
+                expectText(host.first, expected);
+            }
+            captureFrame("three-output-commits.png");
+            stage("App settings and the keyboard agree on each output choice");
+            for (String[] form : forms) {
+                setStyleFromLauncher(form[0]);
+                tapField(host.second);
+                press("打字");
+                tapControl("设置");
+                waitSelectedControl(form[0]);
+                tapControl("设置");
+                waitAbsent(form[0]);
+            }
+            tapField(host.first);
+            press("手写");
+            setHandwritingOutput(true);
+            for (String[] form : forms) {
+                runOnMainSync(() -> { host.first.setText("前币子咔后"); host.first.setSelection(4); });
+                press("已写成词");
+                tapForm("币子咔");
+                tapControl("谐音字".equals(form[0]) ? "保留原写法" : "用" + form[0]);
+                expectText(host.first, "前" + form[1] + "后");
+                waitSelectedControl("手写");
+            }
+        } finally { setStyleFromLauncher(previous); }
+    }
+
     private void testSpellingStyle() {
         stage("Toneless input, Ye spelling and persistent tone-mark spelling");
         tapField(host.first);
@@ -533,7 +582,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, prefix);
 
         press("调号拼音");
-        if (!"带调号拼音".equals(setStyleFromLauncher(null)))
+        if (!"调号拼音".equals(setStyleFromLauncher(null)))
             throw new AssertionError("Output setting did not survive closing and reopening the launcher");
         tapField(host.first);
         press("调号拼音");
@@ -595,12 +644,14 @@ public final class KeyboardTest extends Instrumentation {
         Intent settings = new Intent().setClassName(IME_PACKAGE, IME_PACKAGE + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getTargetContext().startActivity(settings);
-        String label = launcherControl("拼写输出 · ", true, false);
-        String previous = label.substring("拼写输出 · ".length());
+        String label = launcherControl("打字输出 · ", true, false);
+        String previous = label.substring("打字输出 · ".length());
         if (requested != null && !requested.equals(previous)) {
             launcherControl(label, false, true);
-            launcherControl(requested, false, true);
-            launcherControl("拼写输出 · " + requested, false, false);
+            String example = "调号拼音".equals(requested) ? "bízīkǎ"
+                    : "叶氏拼音".equals(requested) ? "bifzixkar" : "币子咔";
+            launcherControl(requested + "，" + example, false, true);
+            launcherControl("打字输出 · " + requested, false, false);
         }
         returnFromKeyboardSettings();
         return previous;
@@ -1341,7 +1392,7 @@ public final class KeyboardTest extends Instrumentation {
             press("退格");
             expectText(host.first, spelling);
 
-            setStyleFromLauncher("带调号拼音");
+            setStyleFromLauncher("调号拼音");
             newPredictionEditor();
             press("调号拼音");
             Card toned = nextSoundCard();

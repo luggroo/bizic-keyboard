@@ -11,7 +11,7 @@ parser.add_argument('movie',type=Path)
 parser.add_argument('--short',type=Path,help='Filename of standalone native chapter (defaults to one-tap.mp4)')
 args=parser.parse_args()
 song=args.song.resolve();capture=args.prediction.resolve();target=args.movie.resolve()
-assert (capture/'saved-note.txt').read_text()=='bízīkǎ mǒng gǎ。\n币兹咔萌夹。'
+assert (capture/'saved-note.txt').read_text()=='bízīkǎ mǒng gǎ。\n币子咔萌夹。'
 files=sorted((capture/'frames').glob('*.png'));tags=[p.stem.split('-',1)[1] for p in files]
 sequence=[]
 def show(label,start,end,length):
