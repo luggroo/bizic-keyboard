@@ -144,6 +144,45 @@ void appendUtf8(std::string& out, char32_t c) {
     }
 }
 
+
+// A pinyin card has room for at most six Unicode characters. Keep complete
+// labels only, deduplicate them, and retain the full definition separately.
+std::string compactPinyinGloss(const std::string& text) {
+    constexpr size_t limit = 6;
+    std::vector<std::u32string> parts;
+    std::u32string part;
+    int depth = 0;
+    const auto flush = [&]() {
+        while (!part.empty() && space(part.front())) part.erase(part.begin());
+        while (!part.empty() && space(part.back())) part.pop_back();
+        if (!part.empty() && std::find(parts.begin(), parts.end(), part) == parts.end())
+            parts.push_back(part);
+        part.clear();
+    };
+    for (char32_t cp : dictionaryScalars(text)) {
+        if (cp == U'（' || cp == U'(') ++depth;
+        if ((cp == U'）' || cp == U')') && depth) --depth;
+        if (!depth && (cp == U'；' || cp == U';' || cp == U'·')) flush();
+        else part.push_back(cp);
+    }
+    flush();
+    std::string result;
+    size_t used = 0;
+    for (const auto& value : parts) {
+        const size_t extra = value.size() + (result.empty() ? 0 : 1);
+        if (used + extra > limit) continue;
+        if (!result.empty()) appendUtf8(result, U'；');
+        for (char32_t cp : value) appendUtf8(result, cp);
+        used += extra;
+    }
+    return result;
+}
+
+void compactPinyinCandidates(std::vector<Candidate>& candidates, Mode mode) {
+    if (mode == Mode::Pinyin)
+        for (auto& c : candidates) c.shortMeaning = compactPinyinGloss(c.shortMeaning);
+}
+
 struct Query {
     std::string folded;
     std::u32string scalars;
@@ -965,6 +1004,7 @@ struct Lexicon::Impl {
             }
             out.push_back(std::move(c));
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 
@@ -1224,7 +1264,7 @@ struct Lexicon::Impl {
         };
         if (candidate.meaning != entry.meaning) candidate.lexemeIds.clear();
         append(candidate.meaning, entry.meaning, "；");
-        append(candidate.shortMeaning, entry.shortMeaning, "、");
+        append(candidate.shortMeaning, entry.shortMeaning, "；");
     }
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode, Orthography orthography) const {
@@ -1305,6 +1345,7 @@ struct Lexicon::Impl {
         const char32_t first = q.scalars[start];
         const bool latin = mode != Mode::Handwriting && ((first >= U'a' && first <= U'z') || romanAccents.find(first) != romanAccents.npos);
         if (written || latin) appendChinese(result, q, start, written);
+        compactPinyinCandidates(result, mode);
         return result;
     }
 
@@ -1426,8 +1467,19 @@ struct Lexicon::Impl {
         for (auto id : predictedIds(context)) {
             if (output == Mode::Han && entries[id].han.empty()) continue;
             if (output == Mode::Han && !senses.insert(entries[id].hanSenseGroup).second) continue;
+            if (output == Mode::Pinyin) {
+                const auto& entry = entries[id];
+                const auto existing = std::find_if(out.begin(), out.end(), [&](const Candidate& c) {
+                    return c.text == entry.output(output, style);
+                });
+                if (existing != out.end()) {
+                    mergePinyinMeaning(*existing, entry);
+                    continue;
+                }
+            }
             out.push_back(lexical(id, output, style, 0));
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 
@@ -1471,6 +1523,7 @@ struct Lexicon::Impl {
                 out.push_back(lexical(id, output, style, q.utf16At.back()));
             }
         }
+        compactPinyinCandidates(out, output);
         return out;
     }
 

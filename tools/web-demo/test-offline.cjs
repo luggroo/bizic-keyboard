@@ -13,6 +13,8 @@ for(const [query, expected] of [
   const forms=Array.from(exact(query,1,0)).filter(x=>expected.includes(x));
   assert.deepStrictEqual(forms,expected,query);
 }
+const ri=ctx.core.lookup('rǐ',0,1).filter(c=>c.form==='rǐ'&&c.length===2);
+assert.equal(ri.length,1);assert.equal(ri[0].short,'多；男生殖器');
 const sameReading=ctx.core.lookup('ngaf',0,0).filter(c=>c.length===4&&c.form==='ngaf');
 assert.equal(sameReading.length,1);assert(sameReading[0].meaning.includes('我')&&sameReading[0].meaning.includes('压'));
 for(const [query,readings] of [['bizika',['bifzixkar']],['bijika',['bifjixkar']],['mijika',['mirjirkar','mifjixkax']]]) {
