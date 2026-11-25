@@ -39,7 +39,7 @@ script=out/'song-input.tsv'; syl=[]; line=0; source_lines=[]; words=[]; modes=[]
 with script.open('w',encoding='utf-8',newline='') as stream:
     w=csv.writer(stream,delimiter='\t',lineterminator='\n'); w.writerow(['keys','text','meaning','after'])
     for i,(entry,units) in enumerate(zip(rows,aligned)):
-        mode='spell' if line==0 else 'hand' if i>=len(rows)-2 else 'han'
+        mode='spell' if line==0 else 'hand' if i==len(rows)-2 else 'han'
         modes.append(mode)
         chosen=entry['diacritic'] if mode=='spell' else entry['han']
         after=entry['after'] or (' ' if mode=='spell' else '')
