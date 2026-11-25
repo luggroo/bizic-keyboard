@@ -22,7 +22,8 @@ forms = defaultdict(list)
 for note in notes:
     donor = note.get('donor', '')
     if (note.get('kind') != '借词来源' or note.get('scope') != 'whole' or
-            not note.get('text', '').startswith('借自汉语') or not donor or not note.get('reviewedForms')):
+            not (note.get('text', '').startswith('借自汉语') or
+                 note.get('text', '').startswith('可能借自')) or not donor or not note.get('reviewedForms')):
         continue
     for source in note.get('wordIds', []):
         ident = canonical.get(source, source)
@@ -52,11 +53,54 @@ with (ROOT / 'shared/bundle/Assets/northern-words.tsv').open(encoding='utf-8') a
         if row['word'] == 'xiaf' and donor != '夏':
             continue
         # A whole-word form must align one written Han character per syllable.
-        if len(donor) != len(row['hanUnits'].split('|')):
+        if donor != row['meaning'] or len(donor) != len(row['hanUnits'].split('|')):
             continue
         choice = choices[0]
         rows.append([row['id'], row['word'], donor, row['meaning'], choice[1], choice[2]])
-path = ROOT / 'tools/data/northern-han-loans.tsv'
+# Also screen the primary keyboard vocabulary. Only exact whole-word glosses
+# with a matching documented IPA and aligned character count are eligible.
+core_rows = []
+with (ROOT / 'shared/bundle/Assets/words.tsv').open(encoding='utf-8') as f:
+    for row in csv.DictReader(f, delimiter='\t'):
+        choices = forms.get(row['id'], [])
+        donors = {x[0] for x in choices}
+        if row['kind'] != 'tujia' or len(donors) != 1:
+            continue
+        donor = next(iter(donors))
+        if row['meaning'] != donor or len(donor) != len(row['hanUnits'].split('|')):
+            continue
+        if row['word'] == 'xiaf' and donor != '夏':
+            continue
+        choice = choices[0]
+        core_rows.append([row['id'], row['word'], donor, row['meaning'], choice[1], choice[2]])
+# Duplicate entries from different sources can preserve the same exact
+# tone-marked word and sense. Apply the same donor spelling across them,
+# otherwise an unannotated duplicate can outrank the documented loan.
+by_spelling = defaultdict(list)
+for ident, ye, donor, meaning, note_id, basis in rows + core_rows:
+    by_spelling[(ye, meaning)].append((donor, note_id, basis))
+for name, target, header in [('northern-words.tsv', rows, False), ('words.tsv', core_rows, True)]:
+    known = {r[0] for r in target}
+    with (ROOT / 'shared/bundle/Assets' / name).open(encoding='utf-8') as f:
+        for row in csv.DictReader(f, fieldnames=None if header else fields, delimiter='\t'):
+            choices = by_spelling.get((row['word'], row['meaning']), [])
+            donors = {choice[0] for choice in choices}
+            if row['id'] in known or row['kind'] != 'tujia' or len(donors) != 1:
+                continue
+            donor, note_id, basis = choices[0]
+            if donor != row['meaning'] or len(donor) != len(row['hanUnits'].split('|')):
+                continue
+            if row['word'] == 'xiaf' and donor != '夏':
+                continue
+            target.append([row['id'], row['word'], donor, row['meaning'], note_id,
+                           '同拼写同义对应：' + basis])
+core_path = ROOT / 'tools/data/core-han-loans.tsv'
+with core_path.open('w', encoding='utf-8', newline='') as f:
+    out = csv.writer(f, delimiter='\t', lineterminator='\n')
+    out.writerow(['id','ye','han','meaning','noteId','basis'])
+    out.writerows(core_rows)
+print(len(core_rows), 'core whole-word donor forms')
+path = ROOT / 'tools/data/northern-han-loans.tsv' 
 with path.open('w', encoding='utf-8', newline='') as f:
     out = csv.writer(f, delimiter='\t', lineterminator='\n')
     out.writerow(['id','ye','han','meaning','noteId','basis'])

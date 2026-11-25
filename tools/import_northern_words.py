@@ -10,7 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from han_orthography import Orthography
-from keyboard_gloss import update_row, ethnonym_variants
+from keyboard_gloss import update_row, ethnonym_variants, normalize_meaning
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "shared/bundle/Assets"
@@ -82,7 +82,7 @@ def build(site):
                                                             if c not in "\u0304\u0301\u030c\u0300"))
                 row_id = ident if i == 0 and not base else f"{ident}@{i+1}"
                 loan = loans.get((row_id, word.lower()))
-                if loan and loan['meaning'] != gloss:
+                if loan and loan['meaning'] != normalize_meaning(gloss):
                     raise ValueError(f"Loan sense no longer aligns: {row_id}")
                 old = ''.join(units)
                 if loan:
@@ -110,9 +110,17 @@ def build(site):
                                                             if c not in '\u0304\u0301\u030c\u0300'))
                 row_id = w['id'] if i == 0 else f"{w['id']}@{i+1}"
                 gloss = ' '.join(w['zh'].split())
+                loan = loans.get((row_id, word))
+                if loan and loan['meaning'] != normalize_meaning(gloss):
+                    raise ValueError(f'Survey loan sense no longer aligns: {row_id}')
+                old = ''.join(units)
+                if loan:
+                    units = list(loan['han'])
                 row = update_row(dict(id=row_id, word=word, plain=plain, diacritic=marked,
                     meaning=gloss, shortGloss=gloss, kind='tujia' if units else 'phonetic', frequency=0,
-                    recommended=''.join(units), hanUnits='|'.join(units)))
+                    recommended=''.join(units), hanUnits='|'.join(units),
+                    aliases=old if loan and old != ''.join(units) else '',
+                    presentation='plainHanLoan' if loan else ''))
                 writer.writerow(row)
                 added.extend(ethnonym_variants(row))
         for row in existing.values():

@@ -5,7 +5,7 @@ w1476	mangxmangx	mangmang	饭	满满	忙忙 芒芒	满忙芒盲茫莽慢 满忙�
 w1585	ngaf	e	我	牙	俄 压	压牙哑芽衙	105	tujia	我	nga	ngá	牙		
 w2548	yer	ye	饭	叶	月 耶	叶耶	10	tujia	饭	ye	yě	叶		
 w1216	laf	la	一	拉	那	那拉辣蜡拿哪喇腊呐挪纳	0	tujia	一	la	lá	拉		
-w1459	mav	ma	马	马		马蚂码骂麻马抹嘛	2	tujia	马	ma	mà	马		
+w1459	mav	ma	马	马		马蚂码骂麻马抹嘛	2	tujia	马	ma	mà	马		plainHanLoan
 w2059	sir	si	肉	石	十 四	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	7	tujia	肉	si	sǐ	石		
 w2318	tur	tu	头	突	图	图突秃土吐兔途屠徒涂	1	tujia	头	tu	tǔ	突		
 w1298	laov	lao	老	老		老脑恼闹劳捞涝	1	tujia	老	lao	lào	老		plainHanLoan
@@ -15,7 +15,7 @@ w1409	luf	lu	六	六	路 露	路露怒六绿鹿奴炉努录卢卤庐虏陆颅鲁
 w2433	xivcar	xica	跑	希查	洗茶 洗擦	洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧 茶插擦察差叉择岔诧查搽	9	tujia	跑	xica	xìcǎ	希|查		
 w1222	lar	la	关	辣	辣 拉	辣蜡拿腊呐纳拉那哪喇挪	2	tujia	关	la	lǎ	辣		
 w1827	qief	qie	回、次	怯	缺 切	缺截切茄劫且怯捷	0	tujia	次	qie	qié	怯		
-w999	jianx	jian	尖	尖	尖 肩 江	尖肩奸见剪件建卷健剑江姜	0	tujia	尖	jian	jiān	尖		
+w999	jianx	jian	尖	尖	尖 肩 江	尖肩奸见剪件建卷健剑江姜	0	tujia	尖	jian	jiān	尖		plainHanLoan
 w203	bav	ba	看	把		把靶八巴坝爸疤罢芭霸	120	tujia	看	ba	bà	把		
 w1776	qif	qi	七	七	去 气	去气器契汽砌企弃吃七取骑曲棋溪起妻戚漆乞凄启岂栖讫迄趣娶歧其区旗脐齐祈蛆掘期驱渠倔奇屈拙祁趋	3	tujia	七	qi	qí	七		plainHanLoan
 w611	diex	die	慢、迟	爹	得 碟	得碟	1	tujia	慢	die	diē	爹		
@@ -50,7 +50,7 @@ w2457	xianr	xian	关	闲	嫌 线	嫌现线先选县显险鲜闲衔	3	tujia	关	x
 w510	daf	da	穿（衣服）	褡	大	大打达搭答	1	tujia	穿衣	da	dá	褡		
 w322	bur	bu	生	不		不卜布步部补怖簿	0	tujia	生	bu	bǔ	不		
 w2643	zaovguxdiex	zaogudie	早晨	早古爹	早箍得 早姑碟	早找爪澡蚤枣灶照罩糟招朝兆召昭沼肇赵遭 箍姑菇咕孤辜谷骨古鼓故股顾估贾雇 爹得碟	0	tujia	早晨	zaogudie	zàogūdiē	早|古|爹		
-w1811	qianv	qian	浅	抢	浅	浅前钱圈全欠牵钳劝权签遣	0	tujia	浅	qian	qiàn	抢		
+w1811	qianv	qian	浅	浅	浅 抢	浅前钱圈全欠牵钳劝权签遣	0	tujia	浅	qian	qiàn	浅		plainHanLoan
 w1256	lavqixkux	laqiku	路边	拉起苦	哪溪枯 拉妻裤	哪喇拉辣蜡那拿腊呐挪纳 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 枯哭苦裤库窟酷	0	tujia	路边	laqiku	làqīkū	拉|起|苦		
 w84	af	a	写	啊	还	还阿啊	0	tujia	写	a	á	啊		
 w833	havrir	hari	知道	哈日	下日	下还瞎虾哈 日撕	3	tujia	知道	hari	hàrǐ	哈|日		
@@ -67,7 +67,7 @@ w2615	zaf	za	洗	炸	炸 闸	炸蔗诈榨闸栅扎杂渣眨札铡	1	tujia	洗	za
 w2450	xianx	xian	香	香	先	先现线选县嫌显险鲜仙	7	tujia	香	xian	xiān	香		
 w1764	puxcir	puci	少	铺尺	铺尺 铺次	铺谱脖卜普仆捕勃扑曝浦瀑甫讣脯萨蒲 尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	1	tujia	少	puci	pūcǐ	铺|尺		
 w1598	nix	ni	找	妮	义 你	义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	43	tujia	找	ni	nī	妮		
-w1993	sangx	sang	山	山	三 伤 桑	伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	山	sang	sāng	山		
+w1993	sangx	sang	山	山	三 伤 桑	伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	山	sang	sāng	山		plainHanLoan
 w847	haov	hao	好	好	号	好号豪毫浩耗	7	tujia	好	hao	hào	好		plainHanLoan
 w2747	zuxzuv	zuzu	站	珠珠	猪主 租组	猪租蛛珠朱诛诸竹主住柱烛足卒助祖煮粥帚注筑组阻嘱著铸驻 主祖煮帚组阻猪竹住柱烛足卒租助粥蛛注珠筑朱嘱著诛诸铸驻	6	tujia	站	zuzu	zūzù	珠|珠		
 w140	arpifpix	apipi	酸	吖譬匹	还屁皮 阿皮皮	吖还阿啊 屁皮匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾 皮屁匹劈霹僻庇痞痹譬辟避鄙疲啤琵脾	0	tujia	酸	apipi	ǎpípī	吖|譬|匹		
@@ -80,7 +80,7 @@ w1280	langr	lang	臭	栏	廊 狼 蓝	狼囊廊郎浪朗蓝兰	0	tujia	臭	lang	l
 w2125	sixsixmarzir	sisimazi	牙齿	使使麻直	师师麻直 丝丝麻紫	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 麻抹嘛马骂蚂马码 直织侄指植蜘殖汁置值掷质执职蛰子治字纸知制资寺紫这自枝只翅脂之支趾志芝至止址巳肢致兹咨姿峙智柠滋炙痔稚窒	1	tujia	牙齿	sisimazi	sīsīmǎzǐ	使|使|麻|直		
 w2426	xiv	xi	听	悉	洗	洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	1	tujia	听	xi	xì	悉		
 w2621	zafqix	zaqi	嘴	炸起	炸溪 闸妻	炸蔗诈榨闸栅扎杂渣眨札铡 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	2	tujia	嘴	zaqi	záqī	炸|起		
-w1805	qianx	qian	千	纤	圈 签	圈牵签前钱全欠浅钳劝权	0	tujia	千	qian	qiān	纤		
+w1805	qianx	qian	千	千	圈 签 纤	圈牵签前钱全欠浅钳劝权	0	tujia	千	qian	qiān	千		plainHanLoan
 w165	aif	ai	二	唉	哎	哎	2	tujia	二	ai	ái	唉		
 w2167	sursur	susu	月亮	俗俗	叔叔 粟粟	叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏	2	tujia	月亮	susu	sǔsǔ	俗|俗		
 w2422	xif	xi	细	细	戏 系	系吸戏细西洗喜息席习锡许希徐惜稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀序绪遂隧须需墟戌嘘绥虚	0	tujia	细	xi	xí	细		plainHanLoan
@@ -88,7 +88,7 @@ w1167	kur	ku	裤子	窟	哭 裤	哭窟酷苦裤库枯	0	tujia	裤子	ku	kǔ	窟
 w2058	sif	si	四	四	事	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶	0	tujia	四	si	sí	四		plainHanLoan
 w1577	mur	mu	木	木		木目母	0	tujia	木	mu	mǔ	木		plainHanLoan
 w233	bangfrixcaix	bangricai	中午	半日猜	棒撕猜 磅日猜 棒日衣猜	棒傍磅蚌帮绑榜梆谤邦半办 撕日 猜差菜柴财采彩睬蔡才材裁豺	0	tujia	中午	bangricai	bángrīcāi	半|日|猜		
-w1473	mangf	mang	慢	漫	忙 芒 慢	忙芒盲茫莽慢漫	0	tujia	慢	mang	máng	漫		
+w1473	mangf	mang	慢	慢	忙 芒 慢 漫	忙芒盲茫莽慢漫	0	tujia	慢	mang	máng	慢		plainHanLoan
 w1284	langfgax	langga	黑	浪尕	浪蟹 浪家	浪狼朗囊廊郎 尕蟹家加夹嫁甲架稼	0	tujia	黑	langga	lánggā	浪|尕		
 w2685	zif	zi	哭	致	治 字	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰	5	tujia	哭	zi	zí	致		
 w439	cir	ci	出	尺	尺 次	尺池迟匙刺次此齿雌伺侈痴秩耻赐词持瓷磁辞驰	0	tujia	出	ci	cǐ	尺		
@@ -98,7 +98,7 @@ w1568	mor	mo	猫	莫	磨 沫	磨末木模沫魔寞摩膜莫摸抹摹	0	tujia	猫
 w1283	langrcangr	langcang	地方	栏场	廊仓 狼长 蓝蚕	狼囊廊郎浪朗蓝兰 长尝唱仓厂苍场倡敞昌沧猖畅蚕	4	tujia	地方	langcang	lǎngcǎng	栏|场		
 w1224	lav	la	路	喇	哪 拉	哪喇拉辣蜡那拿腊呐挪纳	21	tujia	路	la	là	喇		
 w1469	mafnix	mani	我们	祃你	骂义 马你	祃骂马麻蚂马抹码嘛 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	2	tujia	我们	mani	mánī	祃|你		
-w1721	pir	pi	皮	皮		皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	皮	pi	pǐ	皮		
+w1721	pir	pi	皮	皮		皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	皮	pi	pǐ	皮		plainHanLoan
 w1296	laor	lao	太阳	劳	劳 捞	劳捞涝老闹脑恼	4	tujia	太阳	lao	lǎo	劳		
 w698	garhaf	gaha	上面	夹下	夹下 夹哈 夹吓	夹甲嫁蟹家架加稼 下还瞎虾哈	9	tujia	上面	gaha	gǎhá	夹|下		
 w1183	kuxzav	kuza	山	苦渣	枯扎 裤扎	枯哭苦裤库窟酷 扎闸杂炸渣蔗眨诈榨札栅铡	10	tujia	山	kuza	kūzà	苦|渣		
@@ -131,23 +131,23 @@ w2493	xievcax	xieca	三角架	写差	写差 写擦	写血雪斜协谢歇靴些�
 w2431	xirbuflix	xibuli	草籽	昔布里	息布栗 席布里	息席习锡徐惜媳膝泣婿夕携熄袭恤悉昔析西洗喜系吸许希戏细稀凄嘻熙牺犀戌绥须序需墟嘘绪虚遂隧 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	1	tujia	草籽	xibuli	xǐbúlī	昔|布|里		
 w1677	pafnix	pani	老妇人	怕你	怕义 耙你	怕帕爬拔趴跋耙划琶 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊	0	tujia	老妇人	pani	pánī	怕|你		
 w2419	xix	xi	块	希	西	西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	0	tujia	块	xi	xī	希		
-w297	biefdix	biedi	别的	鳖低	别低	别憋 低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	0	tujia	别的	biedi	biédī	鳖|低		
+w297	biefdix	biedi	别的	别的	别低 鳖低	别憋 低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	0	tujia	别的	biedi	biédī	别|的		plainHanLoan
 w2708	ziflax zaf	zilaza	纺纱	致拉炸	治拉炸 字拉闸	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰 拉挪辣蜡那拿哪喇腊呐纳 炸蔗诈榨闸栅扎杂渣眨札铡	0	tujia	纺纱	zilaza	zílā zá	致|拉|炸	ziflaxzaf zílāzá	
 w2216	tafpav	tapa	皮肤	拓啪	踏趴 獭耙	踏塔他獭塌 趴爬怕拔帕跋耙划琶	2	tujia	皮肤	tapa	tápà	拓|啪		
 w2130	sifxianx	sixian	实现	是香	事先 四先	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 先现线选县嫌显险鲜仙	0	tujia	实现	sixian	síxiān	是|香		
 w1236	laxgarpir	lagapi	裂开	拉夹皮		拉挪辣蜡那拿哪喇腊呐纳 夹甲嫁蟹家架加稼 皮匹劈霹僻庇痹譬辟避屁痞鄙疲啤琵脾	0	tujia	裂开	lagapi	lāgǎpǐ	拉|夹|皮		
 w1024	jiefdax	jieda	翅膀	借打	借大 借打	借结姐接节决杰绝介解截缀揭倔洁竭诀 大打达搭答	0	tujia	翅膀	jieda	jiédā	借|打		
 w1461	mavbianxzix	mabianzi	鞭子	马编子	马变知 马扁资 马边资	马马蚂码骂麻马抹嘛 变扁便边编 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	鞭子	mabianzi	màbiānzī	马|编|子		
-w1579	mufjianx	mujian	木匠	目尖	木肩 母尖 木江	母木目 尖肩奸见剪件建卷健剑江姜	0	tujia	木匠	mujian	mújiān	目|尖		
+w1579	mufjianx	mujian	木匠	木匠	木肩 母尖 木江 目尖	母木目 尖肩奸见剪件建卷健剑江姜	0	tujia	木匠	mujian	mújiān	木|匠		plainHanLoan
 w296	biev	bie	一些	憋	别	别憋	0	tujia	一些	bie	biè	憋		
-w596	dianf	dian	电	电	垫 店	垫店点典	0	tujia	电	dian	dián	电		
+w596	dianf	dian	电	电	垫 店	垫店点典	0	tujia	电	dian	dián	电		plainHanLoan
 w1531	mifdaxnier	midanie	大后天	谜打业	没大业 迷打列	没谜米眉密弥泌灭糜觅迷 大打达搭答 业列孽捏	0	tujia	大后天	midanie	mídāniě	谜|打|业		
 w557	dangxsir	dangsi	当时	单石	当十 当四 担四	当党荡担单 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶	1	tujia	当时	dangsi	dāngsǐ	单|石		
 w1035	jiefrix	jieri	劳动	借日	借撕 借日衣	借结姐接节决杰绝介解截缀揭倔洁竭诀 撕日	15	tujia	劳动	jieri	jiérī	借|日		
 w1983	sar rix	sari	做事	刹日	杀撕 沙日 刹日衣	杀刹煞沙杉撒纱洒傻厦萨 撕日	0	tujia	做事	sari	sǎ rī	刹|日	sarrix sǎrī	
 w2089	sirjier	sijie	时节	石节	十结 四节	十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 结接节决杰绝姐借截缀洁竭诀解揭介倔	3	tujia	时节	sijie	sǐjiě	石|节		
 w2222	tartierbox	tatiebo	别出声	踏铁波	踏铁波 獭铁波	踏塔獭塌他 铁贴跌特 波玻菠薄剥拨簿博缚钵驳	1	tujia	别出声	tatiebo	tǎtiěbō	踏|铁|波		
-w2483	xiaorxiaof	xiaoxiao	学校	削笑	小笑 小校	小笑校孝酵宵效消啸嚣晓硝萧销霄学削 笑校孝酵效啸小宵消嚣晓硝萧销霄学削	0	tujia	学校	xiaoxiao	xiǎoxiáo	削|笑		
+w2483	xiaorxiaof	xiaoxiao	学校	学校	小笑 小校 削笑	小笑校孝酵宵效消啸嚣晓硝萧销霄学削 笑校孝酵效啸小宵消嚣晓硝萧销霄学削	0	tujia	学校	xiaoxiao	xiǎoxiáo	学|校		plainHanLoan
 w2724	zixzixbuflix	zizibuli	子弹	子子布里	知知布栗 资资布里	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	0	tujia	子弹	zizibuli	zīzībúlī	子|子|布|里		
 w2221	tafsix	tasi	懦弱	拓使	踏师 獭丝	拓踏塔他獭塌 师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶	0	tujia	懦弱	tasi	tásī	拓|使		
 w1534	mixmax	mima	蜜蜂	米马	米马 米妈	米眉密没谜弥泌灭糜觅迷 马马马骂麻蚂抹码嘛	0	tujia	蜜蜂	mima	mīmā	米|马		
@@ -156,8 +156,8 @@ w335	buv dar	buda	下船	补达		补布步不部卜怖簿 达搭答大打	0	tuji
 w815	haf	ha	排	下	下 哈 吓	下还瞎虾哈	0	tujia	排	ha	há	下		
 w2683	zix	zi	两	兹	知 资	知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	两	zi	zī	兹		
 w367	cardirgar	cadiga	画眉	查的夹	茶笛夹 擦笛夹	茶插擦察差叉择岔诧查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 夹甲嫁蟹家架加稼	0	tujia	画眉	cadiga	cǎdǐgǎ	查|的|夹		
-w585	difdianx	didian	地点	地点	地点 弟点	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 点垫店典	0	tujia	地点	didian	dídiān	地|点		
-w2648	zaoxtav	zaota	糟蹋	早他	糟踏 早他	糟招朝召昭沼遭早找灶照罩爪澡蚤兆枣肇赵 踏塔他獭塌	0	tujia	糟蹋	zaota	zāotà	早|他		
+w585	difdianx	didian	地点	地点	地点 弟点	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 点垫店典	0	tujia	地点	didian	dídiān	地|点		plainHanLoan
+w2648	zaoxtav	zaota	糟蹋	糟蹋	糟踏 早他	糟招朝召昭沼遭早找灶照罩爪澡蚤兆枣肇赵 踏塔他獭塌	0	tujia	糟蹋	zaota	zāotà	糟|蹋		plainHanLoan
 w2217	taxqixcax	taqica	织布机	他起差	他溪差 他妻擦	他踏塔獭塌 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁 差叉茶插擦择察岔诧查搽	0	tujia	织布机	taqica	tāqīcā	他|起|差		
 w2080	sifgaix	sigai	世界	是改	事街 四盖	事四柿世市式试是士饲似侍示视嗜氏肆誓逝十时石食实失使师死丝什屎释撕匙湿思适始识尸厕斯司拾施私史嘶室狮矢蚀诗饰驶 街该阶皆盖解改戒介届械芥诫钙	0	tujia	世界	sigai	sígāi	是|改		
 w1021	jier	jie	醉	节	结	结接节决杰绝姐借截缀洁竭诀解揭介倔	2	tujia	醉	jie	jiě	节		
@@ -184,12 +184,12 @@ w1974	sar lir	sali	说	刹立	杀栗 沙粒	杀刹煞沙杉撒纱洒傻厦萨 �
 w224	baixzix	baizi	跛子	摆子	摆知 摆资	摆拜败湃稗 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	跛子	baizi	bāizī	摆|子		
 w1258	laxsirlaxniex	lasilanie	时时刻刻	拉石拉捏	拉十拉捏 拉四拉捏	拉挪辣蜡那拿哪喇腊呐纳 十时石食实失什释匙湿适识厕拾室矢蚀饰事四使师死柿世丝市式试是屎撕思士始饲尸似斯侍司施示私视史嗜嘶氏狮肆誓诗逝驶 拉挪辣蜡那拿哪喇腊呐纳 捏业列孽	0	tujia	时时刻刻	lasilanie	lāsǐlāniē	拉|石|拉|捏		
 w366	cafdircafgaf	cadicaga	很好	岔的岔尬	插笛插嫁 擦笛擦架	插择岔诧茶擦差叉察查搽 笛的得滴跌蝶敌叠嫡德狄谍迭地弟低递第底帝抵爹 插择岔诧茶擦差叉察查搽 嫁架稼夹蟹家甲加	0	tujia	很好	cadicaga	cádǐcágá	岔|的|岔|尬		
-w235	bangxzangx	bangzang	班长	班展	帮张 邦张 班攒	帮梆邦绑棒榜傍磅蚌谤班搬 展张章脏樟长藏掌丈帐涨仗葬杖障攒	2	tujia	班长	bangzang	bāngzāng	班|展		
+w235	bangxzangx	bangzang	班长	班长	帮张 邦张 班攒 班展	帮梆邦绑棒榜傍磅蚌谤班搬 展张章脏樟长藏掌丈帐涨仗葬杖障攒	2	tujia	班长	bangzang	bāngzāng	班|长		plainHanLoan
 w374	carqix	caqi	锦鸡	查起	茶溪 擦妻	茶插擦察差叉择岔诧查搽 溪妻凄栖去气器吃七取骑曲棋契起汽戚漆乞砌企启岂弃讫迄区蛆驱趋娶歧其旗脐齐祈趣掘期渠倔奇屈拙祁	0	tujia	锦鸡	caqi	cǎqī	查|起		
 w1936	rirdifrirgaf	ridiriga	多	日地日尬	日地日嫁 日弟日架	日撕 地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 日撕 嫁架稼夹蟹家甲加	0	tujia	多	ridiriga	rǐdírǐgá	日|地|日|尬		
 w1743	pof	po	斗	破	破 坡	破婆泼坡扑颇	0	tujia	斗	po	pó	破		
 w127	axlar	ala	贴	阿辣	阿辣 啊拉	阿啊还 辣蜡拿腊呐纳拉那哪喇挪	0	tujia	贴	ala	ālǎ	阿|辣		
-w1170	kuvcaif	kucai	苦菜	苦菜	苦菜 裤菜	苦哭裤库枯窟酷 菜蔡柴财猜差采彩睬才材裁豺	0	tujia	苦菜	kucai	kùcái	苦|菜		
+w1170	kuvcaif	kucai	苦菜	苦菜	苦菜 裤菜	苦哭裤库枯窟酷 菜蔡柴财猜差采彩睬才材裁豺	0	tujia	苦菜	kucai	kùcái	苦|菜		plainHanLoan
 w2324	tuxtux	tutu	拾	土土		土图吐兔突秃途屠徒涂 土图吐兔突秃途屠徒涂	0	tujia	拾	tutu	tūtū	土|土		
 w1466	marlif	mali	走得快	麻利	麻利 麻例	麻抹嘛马骂蚂马码 利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎	1	tujia	走得快	mali	mǎlí	麻|利		
 w2074	sixbax zaf	sibaza	洗衣服	使巴炸	师巴炸 丝把闸	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 巴疤芭把八坝爸罢霸靶 炸蔗诈榨闸栅扎杂渣眨札铡	0	tujia	洗衣服	sibaza	sībā zá	使|巴|炸	sixbaxzaf sībāzá	
@@ -197,17 +197,17 @@ w1989	savzuf	sazu	冬季	沙住	撒住 厦足	撒洒傻厦萨沙杉杀纱刹煞 
 w99	arbuflix	abuli	沙	吖布里	还布栗 阿布里	还阿啊 布步部怖簿不补卜 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	0	tujia	沙	abuli	ǎbúlī	吖|布|里		
 w543	davxiv	daxi	帮助	打希	打洗	打大达搭答 洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	6	tujia	帮助	daxi	dàxì	打|希		
 w379	caifkur	caiku	油菜渣滓	菜窟	菜哭 菜裤	菜蔡柴财猜差采彩睬才材裁豺 哭窟酷苦裤库枯	0	tujia	油菜渣滓	caiku	cáikǔ	菜|窟		
-w589	difsangx	disang	第三	地伞	地伤 弟桑 弟三	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 伞伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	第三	disang	dísāng	地|伞		
+w589	difsangx	disang	第三	第三	地伤 弟桑 弟三 地伞	地弟递第帝低笛的得底滴跌蝶敌抵叠嫡德爹狄谍迭 伞伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	第三	disang	dísāng	第|三		plainHanLoan
 w238	baoxbux	baobu	玉米	苞补	包布 包补	包苞胞褒鲍抱饱宝刨豹保报暴爆堡 布步不部补卜怖簿	10	tujia	玉米	baobu	bāobū	苞|补		
 w1182	kuxsurgaf	kusuga	亮	苦俗尬	枯叔嫁 裤粟架	枯哭苦裤库窟酷 叔熟属缩宿索赎续速俗淑粟肃树数书鼠输竖梳诉术述舒酥素庶戍枢殊漱疏苏 尬嫁架稼夹蟹家甲加	0	tujia	明亮	kusuga	kūsǔgá	苦|俗|尬		
 w90	arbax	aba	奶奶	吖巴	还巴 阿把	还阿啊 巴疤芭把八坝爸罢霸靶	0	tujia	奶奶	aba	ǎbā	吖|巴		
 w175	aixtax	aita	否则	哎他		哎 他踏塔獭塌	0	tujia	否则	aita	āitā	哎|他		
 w1987	saxtux	satu	虾	沙土		沙杉纱杀撒洒傻刹厦煞萨 土图吐兔突秃途屠徒涂	0	tujia	虾	satu	sātū	沙|土		
-w2632	zangf	zang	帐	丈	脏 藏 暂	脏藏丈帐仗葬杖障张章长掌涨樟暂	0	tujia	帐	zang	záng	丈		
-w2469	xianxzangx	xianzang	乡长	香展	先张 先攒	香先现线选县嫌显险鲜仙 展张章脏樟长藏掌丈帐涨仗葬杖障攒	5	tujia	乡长	xianzang	xiānzāng	香|展		
+w2632	zangf	zang	帐	帐	脏 藏 暂 丈	脏藏丈帐仗葬杖障张章长掌涨樟暂	0	tujia	帐	zang	záng	帐		plainHanLoan
+w2469	xianxzangx	xianzang	乡长	乡长	先张 先攒 香展	香先现线选县嫌显险鲜仙 展张章脏樟长藏掌丈帐涨仗葬杖障攒	5	tujia	乡长	xianzang	xiānzāng	乡|长		plainHanLoan
 w1975	sar lir-max	salima	说话者	刹立马	杀栗马 沙粒妈	杀刹煞沙杉撒纱洒傻厦萨 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤 马马马骂麻蚂抹码嘛	0	tujia	说话者	salima	sǎ lǐ-mā	刹|立|马	sarlirmax sǎlǐmā	
 w129	aflix	ali	换	啊里	还栗	还阿啊 栗里理利犁猎裂力粒丽篱梨立厉李烈狸礼肋离列厘痢例俐劣励勒吏璃荔莉鲤黎	1	tujia	换	ali	álī	啊|里		
-w285	bifxix	bixi	必需	币希	被西 币西	被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖 西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	0	tujia	必需	bixi	bíxī	币|希		
+w285	bifxix	bixi	必需	必需	被西 币西 币希	被币闭弊备敝毙秘蔽鼻笔比壁逼必臂彼憋毕碧蓖 西希稀凄嘻熙牺犀洗喜息席系吸习锡许徐惜戏细媳膝泣婿夕携熄袭恤悉昔析须需墟嘘虚序戌绥绪遂隧	0	tujia	必需	bixi	bíxī	必|需		plainHanLoan
 w1542	mivtangr	mitang	火坑	米弹	米糖	米眉密没谜弥泌灭糜觅迷 弹糖汤挡烫趟倘搪档躺	1	tujia	火坑	mitang	mìtǎng	米|弹		
 w1338	lifbux har	libuha	打谷子	利补蛤	利布还 例补哈	利丽厉痢例俐励吏荔莉栗里理犁猎裂力粒篱梨立李烈狸礼肋离列厘劣勒璃鲤黎 布步不部补卜怖簿 还瞎下虾哈	0	tujia	打谷子	libuha	líbū hǎ	利|补|蛤	lifbuxhar líbūhǎ	
 w2168	sufsux zif	susuzi	下雪	树书致	树书治 素苏字	树数竖诉术述素庶戍漱书鼠叔熟属输缩宿索赎梳续舒速酥俗枢殊淑疏粟肃苏 书输梳舒酥枢殊疏苏树数鼠叔熟属竖缩宿索赎诉术续述速素俗庶戍淑漱粟肃 治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰	0	tujia	下雪	susuzi	súsū zí	树|书|致	sufsuxzif súsūzí	
@@ -236,7 +236,7 @@ w2079	sirgar	siga	时候	石夹	十夹 四夹	十时石食实失什释匙湿适�
 w1744	poxbox	pobo	放好	坡波		坡破婆泼扑颇 波玻菠薄剥拨簿博缚钵驳	0	tujia	放好	pobo	pōbō	坡|波		
 w2711	zifnixzix	zinizi	侄女	致你子	治义知 字你资	治字制寺这自翅志至巳致峙智柠炙痔稚窒子指直织纸知侄资紫植枝只蜘脂殖之支趾汁置芝值止址掷肢质兹咨姿执滋职蛰 义女犁力泥历梨立蚁李艺律你疑宜捏腻仪倪孽尼溺聂议谊逆镊 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	侄女	zinizi	zínīzī	致|你|子		
 w142	arqiv	aqi	伯父	吖起	还取 阿起	还阿啊 取起启岂去气器吃七骑曲棋契溪妻汽戚漆乞砌企凄弃栖讫迄娶歧其区旗脐齐祈蛆趣掘期驱渠倔奇屈拙祁趋	1	tujia	伯父	aqi	ǎqì	吖|起		
-w230	bangfbianx	bangbian	半边	办编	棒变 磅扁 半边	棒傍磅蚌帮绑榜梆谤邦半办 变扁便边编	2	tujia	半边	bangbian	bángbiān	办|编		
+w230	bangfbianx	bangbian	半边	半边	棒变 磅扁 半边 办编	棒傍磅蚌帮绑榜梆谤邦半办 变扁便边编	2	tujia	半边	bangbian	bángbiān	半|边		plainHanLoan
 w961	jirbirtax	jibita	脚底	吉必他	击鼻他 即臂他	击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距 鼻笔壁逼必臂毕碧被比币闭弊备彼憋敝毙秘蓖蔽 他踏塔獭塌	0	tujia	脚底	jibita	jǐbǐtā	吉|必|他		
 w2239	tangfzix	tangzi	探子	炭子	烫知 烫资 炭资	烫趟搪糖汤挡倘档躺炭探 知资枝之支芝肢兹咨姿滋子指直织治字纸侄制寺紫这自植只蜘翅脂殖趾志汁置值至止址巳掷致质峙执智柠炙痔稚窒职蛰	0	tujia	探子	tangzi	tángzī	炭|子		
 w2098	sixlax	sila	爬	使拉	师拉 丝拉	师丝撕思尸斯司施私嘶狮诗十时石事四食实失使死柿世市式试是什屎释匙湿适士始识饲似厕侍拾示视史嗜室氏矢肆蚀誓逝饰驶 拉挪辣蜡那拿哪喇腊呐纳	0	tujia	爬	sila	sīlā	使|拉		
@@ -266,7 +266,7 @@ w1421	lov	lo	人	倮	螺	螺锣	3	tujia	人	lo	lò	倮
 w1422	lov	lo	暖和	裸	螺	螺锣	0	tujia	暖和	lo	lò	裸		
 w309	boxlir	boli	小孩	波俐	波粒	波玻菠薄剥拨簿博缚钵驳 栗犁猎裂力粒丽篱梨立烈狸肋离列厘劣勒璃黎里理利厉李礼痢例俐励吏荔莉鲤	44	tujia	小孩	boli	bōlǐ	波|俐		
 w1418	lof	lo	煮	烙		螺锣	0	tujia	煮	lo	ló	烙		
-w1419	lof	lo	锣	锣		螺锣	0	tujia	锣	lo	ló	锣		
+w1419	lof	lo	锣	锣		螺锣	0	tujia	锣	lo	ló	锣		plainHanLoan
 w874	hur	hu	喝	壶		幅	12	tujia	喝	hu	hǔ	壶		
 w876	hur	hu	湖	湖		幅	0	tujia	湖	hu	hǔ	湖		plainHanLoan
 w597	dianv	dian	点数	点		点典	0	tujia	点数	dian	diàn	点		
@@ -275,42 +275,42 @@ w2373	wox	wo	洗	沃		握	6	tujia	洗	wo	wō	沃
 w2374	wox	wo	我	我		握	0	tujia	我	wo	wō	我		
 w1388	longx	long	咳嗽	咙		拢陇	0	tujia	咳嗽	long	lōng	咙		
 w1390	longx	long	收拢	拢		拢陇	0	tujia	收拢	long	lōng	拢		plainHanLoan
-w618	dongx	dong	冬	冬		东冬	0	tujia	冬	dong	dōng	冬		
+w618	dongx	dong	冬	冬		东冬	0	tujia	冬	dong	dōng	冬		plainHanLoan
 w619	dongx	dong	鼓声	咚		东冬	0	tujia	鼓声	dong	dōng	咚		
-w2294	tongr	tong	铜	铜		铜	1	tujia	铜	tong	tǒng	铜		
+w2294	tongr	tong	铜	铜		铜	1	tujia	铜	tong	tǒng	铜		plainHanLoan
 w2296	tongr	tong	桐树	桐		铜	0	tujia	桐树	tong	tǒng	桐		plainHanLoan
 w2290	tongx	tong	捅	捅		通	2	tujia	捅	tong	tōng	捅		plainHanLoan
 w2291	tongx	tong	通过	通		通	0	tujia	通过	tong	tōng	通		
-w2292	tongx	tong	桶	桶		通	0	tujia	桶	tong	tōng	桶		
+w2292	tongx	tong	桶	桶		通	0	tujia	桶	tong	tōng	桶		plainHanLoan
 w714	gangx	gang	敢	敢		钢刚肛缸冈岗纲讲虹杠港	0	tujia	敢	gang	gāng	敢		plainHanLoan
 w715	gangx	gang	钢	钢		钢刚肛缸冈岗纲讲虹杠港	0	tujia	钢	gang	gāng	钢		plainHanLoan
 w838	hangr	hang	含、容纳	含		寒	0	tujia	含	hang	hǎng	含		
-w839	hangr	hang	咸	咸		寒	0	tujia	咸	hang	hǎng	咸		
-w2232	tangr	tang	糖	糖		糖汤挡烫趟倘搪档躺	0	tujia	糖	tang	tǎng	糖		
+w839	hangr	hang	咸	咸		寒	0	tujia	咸	hang	hǎng	咸		plainHanLoan
+w2232	tangr	tang	糖	糖		糖汤挡烫趟倘搪档躺	0	tujia	糖	tang	tǎng	糖		plainHanLoan
 w2233	tangr	tang	拨弹	弹		糖汤挡烫趟倘搪档躺	0	tujia	拨弹	tang	tǎng	弹		
 w2234	tangr	tang	锣声	镗		糖汤挡烫趟倘搪档躺	0	tujia	锣声	tang	tǎng	镗		
 w1011	jiaox	jiao	浇	浇		交焦	0	tujia	浇	jiao	jiāo	浇		plainHanLoan
-w1012	jiaox	jiao	教	教		交焦	0	tujia	教	jiao	jiāo	教		
+w1012	jiaox	jiao	教	教		交焦	0	tujia	教	jiao	jiāo	教		plainHanLoan
 w574	dix	di	滴	滴		低爹地弟笛递的得第底滴跌蝶帝敌抵叠嫡德狄谍迭	0	tujia	滴	di	dī	滴		plainHanLoan
 w2423	xif	xi	熄	熄		系吸戏细西洗喜息席习锡许希徐惜稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀序绪遂隧须需墟戌嘘绥虚	0	tujia	熄	xi	xí	熄		plainHanLoan
 w1017	jiex	jie	揭	揭		结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	揭	jie	jiē	揭		plainHanLoan
 w1018	jiex	jie	竹节	节		结姐借接节决杰绝揭倔解截缀介洁竭诀	0	tujia	竹节	jie	jiē	节		plainHanLoan
 w785	guaf	gua	刮	刮		挂	0	tujia	刮	gua	guá	刮		plainHanLoan
 w786	guaf	gua	挂	挂		挂	0	tujia	挂	gua	guá	挂		plainHanLoan
-w1778	qir	qi	旗	旗		吃七骑曲棋戚漆乞讫迄去气器取契溪起妻汽砌企凄启岂弃栖歧其旗脐齐祈掘期渠倔奇屈拙祁娶区蛆趣驱趋	0	tujia	旗	qi	qǐ	旗		
+w1778	qir	qi	旗	旗		吃七骑曲棋戚漆乞讫迄去气器取契溪起妻汽砌企凄启岂弃栖歧其旗脐齐祈掘期渠倔奇屈拙祁娶区蛆趣驱趋	0	tujia	旗	qi	qǐ	旗		plainHanLoan
 w1780	qir	qi	骑	骑		吃七骑曲棋戚漆乞讫迄去气器取契溪起妻汽砌企凄启岂弃栖歧其旗脐齐祈掘期渠倔奇屈拙祁娶区蛆趣驱趋	0	tujia	骑	qi	qǐ	骑		plainHanLoan
-w1046	jinx	jin	筋	筋		经茎	0	tujia	筋	jin	jīn	筋		
+w1046	jinx	jin	筋	筋		经茎	0	tujia	筋	jin	jīn	筋		plainHanLoan
 w1047	jinx	jin	经常	经		经茎	0	tujia	经常	jin	jīn	经		
-w1048	jinx	jin	斤	斤		经茎	0	tujia	斤	jin	jīn	斤		
+w1048	jinx	jin	斤	斤		经茎	0	tujia	斤	jin	jīn	斤		plainHanLoan
 w1775	qif	qi	刷漆	漆		去气器契汽砌企弃吃七取骑曲棋溪起妻戚漆乞凄启岂栖讫迄趣娶歧其区旗脐齐祈蛆掘期驱渠倔奇屈拙祁趋	0	tujia	刷漆	qi	qí	漆		
 w1777	qif	qi	气	气		去气器契汽砌企弃吃七取骑曲棋溪起妻戚漆乞凄启岂栖讫迄趣娶歧其区旗脐齐祈蛆掘期驱渠倔奇屈拙祁趋	0	tujia	气	qi	qí	气		plainHanLoan
-w1992	sangx	sang	三	三		伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	三	sang	sāng	三		
-w2271	tianr	tian	甜	甜		田甜	0	tujia	甜	tian	tiǎn	甜		
+w1992	sangx	sang	三	三		伤商丧桑上偿响嗓尚尝裳赏三	0	tujia	三	sang	sāng	三		plainHanLoan
+w2271	tianr	tian	甜	甜		田甜	0	tujia	甜	tian	tiǎn	甜		plainHanLoan
 w2272	tianr	tian	田（姓氏）	田		田甜	0	tujia	田姓	tian	tiǎn	田		
 w1595	ngaof	ngao	凹	凹		袄	0	tujia	凹	ngao	ngáo	凹		plainHanLoan
 w1596	ngaof	ngao	熬过、忍受	熬		袄	0	tujia	忍受	ngao	ngáo	熬		plainHanLoan
-w2508	xinx	xin	新	新		星	0	tujia	新	xin	xīn	新		
-w2509	xinx	xin	心	心		星	0	tujia	心	xin	xīn	心		
+w2508	xinx	xin	新	新		星	0	tujia	新	xin	xīn	新		plainHanLoan
+w2509	xinx	xin	心	心		星	0	tujia	心	xin	xīn	心		plainHanLoan
 w2427	xiv	xi	锋利	犀		洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	0	tujia	锋利	xi	xì	犀		
 w2428	xiv	xi	牵	系		洗喜许西息席系吸习锡希徐惜戏细稀媳膝泣婿夕携熄袭凄嘻恤悉昔析熙牺犀须序需墟戌嘘绥绪虚遂隧	0	tujia	牵	xi	xì	系		
 w957	jir	ji	脚	及	屐	击汁积极急集及吉渠局菊给吸级籍疾脊济即寂棘激稽绩缉藉辑迹鸡记句锯几举季饥剧寄机系计挤技纪已肌基继妓姬忌既祭讥际具车居驹俱巨惧拒拘据矩聚距	3	tujia	脚	ji	jǐ	及		
@@ -508,7 +508,7 @@ xu213-1-2	hufnix	huni	大家	互你		互 你妮	19	tujia	大家	huni	húnī	互|
 xu213-1-3	bifzixkar	bizika	土家族	秘兹佧	币子咔	币 子兹 咔	16	tujia	土家族	bizika	bízīkǎ	秘|兹|佧		
 xu213-1-4	ox	o	语气词	喔		喔	18	tujia	语气词	o	ō	喔		
 xu213-2-1	sangxgox	sanggo	山歌	山歌	伤哥	伤 哥	2	tujia	山歌	sanggo	sānggō	山|歌		plainHanLoan
-xu213-2-2	cangf	cang	唱	唱		唱	3	tujia	唱	cang	cáng	唱		
+xu213-2-2	cangf	cang	唱	唱		唱	3	tujia	唱	cang	cáng	唱		plainHanLoan
 xu213-2-3	diex	die	强调	爹		爹	12	tujia	强调	die	diē	爹		
 xu213-2-4	bifzixsar	bizisa	土家语	币子刹		币 子兹 刹	1	tujia	土家语	bizisa	bízīsǎ	币|子|刹		
 xu213-3-1	bifzix	bizi	土家的	币子		币 子兹	1	tujia	土家的	bizi	bízī	币|子		
