@@ -3,6 +3,9 @@ package biz.tujia.ime;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +14,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -28,6 +33,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,14 +43,13 @@ public final class SetupActivity extends Activity {
     private static final int INK = 0xff382b26;
     private static final int MUTED = 0xff755b50;
     private static final int RED = 0xffa43827;
+    private static final String BUG_EMAIL = "ikuroucju+keyboardbug@gmail.com";
     private InputMethodManager keyboard;
     private TextView status;
     private Button enable;
     private Button select;
     private Button spelling;
     private Button ipaCompletion;
-    private EditText trial;
-    private android.widget.CheckBox record;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -94,7 +99,7 @@ public final class SetupActivity extends Activity {
         LinearLayout editor = section(body, 24);
         editor.addView(label("试打", 18, INK, true));
         addSpaced(editor, label("点键盘上的「设置」，选「谐音字」。输入 bizika，点“土家族”下面的「币子咔」。", 14, MUTED, false), 6);
-        trial = new EditText(this);
+        EditText trial = new EditText(this);
         trial.setId(R.id.trial_editor);
         trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         trial.setTextColor(0xff223541);
@@ -108,50 +113,69 @@ public final class SetupActivity extends Activity {
         trial.setBackground(shape(0xfff3f6f7, 0xff8c9ea7, 10));
         trial.setPadding(dp(12), dp(10), dp(12), dp(10));
         addSpaced(editor, trial, 12);
-        record = new android.widget.CheckBox(this);
-        record.setText("记录本次试打，供崩溃时排查");
-        record.setSaveEnabled(false);
-        record.setChecked(KeyboardSettings.trialRecording(this));
-        record.setOnCheckedChangeListener((button, checked) -> {
-            KeyboardSettings.setTrialRecording(this, checked);
-            CrashReports.recordTrial(checked);
-        });
-        addSpaced(editor, record, 8);
-        addSpaced(editor, label("仅记录此框内最近 64 次输入、选词等操作。崩溃时保存在本机，可在分享前查看。", 14, MUTED, false), 4);
-        addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
         spelling = action("", false, v -> chooseSpelling());
         addSpaced(body, spelling, 16);
         ipaCompletion = action("", false, v -> chooseIpaCompletion());
         addSpaced(body, ipaCompletion, 8);
+
+        LinearLayout diagnostics = section(body, 24);
+        diagnostics.addView(label("崩溃排查", 18, INK, true));
+        CheckBox record = new CheckBox(this);
+        record.setText("记录键盘操作");
+        record.setSaveEnabled(false);
+        record.setChecked(KeyboardSettings.crashRecording(this));
+        record.setOnCheckedChangeListener((button, checked) -> {
+            KeyboardSettings.setCrashRecording(this, checked);
+            CrashReports.setRecording(checked);
+        });
+        addSpaced(diagnostics, record, 8);
+        addSpaced(diagnostics, label("勾选后，在其他应用里也会记录最近 " + CrashReports.EVENT_LIMIT
+                + " 次操作，包括按键与所选词。密码、数字、邮箱地址、网址及应用标记为私密的输入框会跳过。"
+                + "崩溃日志保存在本机，发送前可先查看。", 14, MUTED, false), 4);
+        addSpaced(diagnostics, action("查看上次崩溃日志", false, v -> showCrash()), 8);
+        TextView contact = label(BUG_EMAIL, 14, MUTED, false);
+        contact.setTextIsSelectable(true);
+        addSpaced(diagnostics, contact, 4);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
     }
 
-    @Override protected void onStart() {
-        super.onStart();
-        CrashReports.recordTrial(record.isChecked());
-    }
-
-    @Override protected void onStop() {
-        CrashReports.recordTrial(false);
-        super.onStop();
-    }
-
     private void showCrash() {
         String report = CrashReports.read(this);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("上次崩溃报告")
-                .setMessage(report.isEmpty() ? "暂无崩溃报告。" : report)
-                .setNegativeButton("关闭", null);
-        if (!report.isEmpty()) {
-            dialog.setNeutralButton("删除", (d, w) -> CrashReports.clear(this));
-            dialog.setPositiveButton("分享", (d, w) -> {
-                Intent send = new Intent(Intent.ACTION_SEND).setType("text/plain")
-                        .putExtra(Intent.EXTRA_TEXT, report);
-                startActivity(Intent.createChooser(send, "分享崩溃报告"));
-            });
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("上次崩溃日志");
+        if (report.isEmpty()) {
+            builder.setMessage("暂无崩溃日志。").setPositiveButton("关闭", null).show();
+            return;
         }
-        dialog.show();
+        AlertDialog dialog = builder.setMessage(report)
+                .setNeutralButton("删除", (d, w) -> CrashReports.clear(this))
+                .setNegativeButton("发邮件", null)
+                .setPositiveButton("复制日志", null).show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> copyCrash(report));
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> emailCrash(report));
+    }
+
+    private void copyCrash(String report) {
+        ClipData clip = ClipData.newPlainText("土家语输入法崩溃日志", report);
+        PersistableBundle extras = new PersistableBundle();
+        extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
+        clip.getDescription().setExtras(extras);
+        getSystemService(ClipboardManager.class).setPrimaryClip(clip);
+        if (Build.VERSION.SDK_INT < 33) {
+            Toast.makeText(this, "已复制崩溃日志", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void emailCrash(String report) {
+        Uri mail = Uri.parse("mailto:" + BUG_EMAIL
+                + "?subject=" + Uri.encode("土家语输入法崩溃日志")
+                + "&body=" + Uri.encode(report.replace("\n", "\r\n")));
+        try {
+            startActivity(new Intent(Intent.ACTION_SENDTO, mail));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "没有可用的邮件应用，请复制日志后发送。", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void refresh() {
