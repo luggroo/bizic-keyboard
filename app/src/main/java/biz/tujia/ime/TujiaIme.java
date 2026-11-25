@@ -359,7 +359,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         strip.setBackground(edge(PAPER, RULE, Gravity.BOTTOM));
         body.setBackgroundColor(BOARD);
         int toolbarHeight = Math.max(dp(compact ? 36 : 42),
-                textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(compact ? 17 : 21));
+                textHeight(compact ? TAB_SP - 1 : TAB_SP) + dp(12));
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(glossSp()) + textHeight(formSp()) + dp(4));
@@ -437,22 +437,41 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private TextView stripIconKey(String label, String desc, ToolbarIcon.Mark mark, boolean selected, Runnable action) {
-        TextView button = stripKey(label, desc, selected, action);
+        TextView button = key(toolbar, label, desc, 1, selected, action);
+        int preferredIconWidth = dp(compact ? 16 : 18);
+        int iconGap = dp(3);
+        int sideGap = dp(3);
+        int textWidth = (int)Math.ceil(button.getPaint().measureText(label));
+        int natural = Math.max(dp(44), preferredIconWidth + iconGap + textWidth + dp(4));
+        int available = getResources().getDisplayMetrics().widthPixels
+                - surface.getPaddingLeft() - surface.getPaddingRight();
+        int compositionWidth = dp(mode == HAND && handAsHan() ? 86 : 48);
+        int maxWidth = (available - compositionWidth) / 5 - 2 * sideGap;
+        int width = direct ? natural : Math.min(natural, Math.max(dp(32), maxWidth));
+        int iconWidth = Math.min(preferredIconWidth, width / 3);
         Drawable icon = new ToolbarIcon(mark, button);
-        icon.setBounds(0, 0, dp(compact ? 20 : 24), dp(compact ? 15 : 18));
-        button.setCompoundDrawables(null, icon, null, null);
-        button.setCompoundDrawablePadding(dp(1));
+        icon.setBounds(0, 0, iconWidth, Math.round(iconWidth * .75f));
+        button.setCompoundDrawables(icon, null, null, null);
+        button.setCompoundDrawablePadding(iconGap);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, -1);
+        params.setMargins(sideGap, 0, sideGap, 0);
+        button.setLayoutParams(params);
+        button.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+            int room = r - l - iconWidth - iconGap;
+            if (room <= dp(2)) return;
+            fitTextWidth(button, label, room - dp(2), 0f);
+            int textPixels = (int)Math.ceil(button.getPaint().measureText(label));
+            int padding = Math.max(0, (room - textPixels) / 2);
+            if (button.getPaddingLeft() != padding) button.setPadding(padding, 0, padding, 0);
+        });
         return button;
     }
 
     private TextView stripKey(String label, String desc, boolean selected, Runnable action) {
         TextView key = key(toolbar, label, desc, 1, selected, action);
         int natural = Math.max(dp(42), (int)Math.ceil(key.getPaint().measureText(label)) + dp(8));
-        int width = getResources().getDisplayMetrics().widthPixels - surface.getPaddingLeft() - surface.getPaddingRight();
-        int pixels = direct ? natural : Math.min(natural, Math.max(dp(32), (width - dp(54)) / 5));
-        key.setLayoutParams(new LinearLayout.LayoutParams(pixels, -1));
-        if (pixels < natural) key.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
-                fitTextWidth(key, key.getText(), r - l - dp(2), .72f));
+        key.setLayoutParams(new LinearLayout.LayoutParams(natural, -1));
         return key;
     }
 
@@ -619,7 +638,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             refreshHandCandidates();
         });
         tab.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
-                fitTextWidth(tab, name, r - l - dp(2), .65f));
+                fitTextWidth(tab, name, r - l - dp(2), 0f));
         return tab;
     }
 
