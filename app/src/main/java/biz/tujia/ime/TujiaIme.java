@@ -617,8 +617,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         preview = label("", compact ? 14 : 16, INK);
         wordsTab = nextTab = null;
         if (choosing && mode == HAND && handAsHan()) {
-            wordsTab = handTab("已写成词", false);
-            nextTab = handTab("接着写", true);
+            wordsTab = handTab("查词义", false);
+            nextTab = handTab("接下字", true);
             return;
         }
         preview.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
