@@ -83,6 +83,7 @@ public final class KeyboardTest extends Instrumentation {
                 }
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
+            if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("all") || suite.equals("window")) new HostCompatibility(this, host).window();
             if (suite.equals("compact")) testCompactControls();
             if (suite.equals("long-word")) testLongWordCard();
@@ -125,6 +126,46 @@ public final class KeyboardTest extends Instrumentation {
             Log.w("TujiaImeE2E", "Could not save " + name, e);
             return false;
         } finally { shot.recycle(); }
+    }
+
+    private void testIpaInput() {
+        stage("IPA literal input, tone alternatives and offline completions");
+        tapField(host.first);
+        press("音标");
+        runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
+        press("m");
+        press("a");
+        expectText(host.first, "前 /ma 后");
+        pressCandidate("补全 奶，mã²¹", false);
+        expectText(host.first, "前 /mã²¹ 后");
+
+        press("空格");
+        for (String letter : new String[]{"v", "x", "r", "f", "j", "l"}) press(letter);
+        expectText(host.first, "前 /mã²¹ vxrfjl 后");
+        String[][] shortcuts = {{"v", "53"}, {"x", "55"}, {"r", "21"}, {"f", "35"}, {"j", "33"}, {"l", "13"}};
+        for (String[] shortcut : shortcuts) {
+            holdKey(shortcut[0]);
+            press("声调 " + shortcut[1]);
+        }
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³ 后");
+        holdKey("t");
+        press("tsʰ");
+        holdKey("?");
+        press("ʕ");
+        press("字母或符号");
+        press("清化");
+        press("浊化");
+        expectText(host.first, "前 /mã²¹ vxrfjl⁵³⁵⁵²¹³⁵³³¹³tsʰʕ\u0325\u032c 后");
+        press("打字");
+    }
+
+    private void holdKey(String label) {
+        Rect rect = waitForNode(label, false);
+        long start = SystemClock.uptimeMillis();
+        inject(start, MotionEvent.ACTION_DOWN, rect.centerX(), rect.centerY());
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 120L);
+        inject(start, MotionEvent.ACTION_UP, rect.centerX(), rect.centerY());
+        waitForIdleSync();
     }
 
     private void testFirstInput() {
@@ -604,7 +645,7 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private Rect[] compactToolbarSnapshot() {
-        String[] labels = {"打字", "手写", "更多", "隐藏键盘"};
+        String[] labels = {"打字", "手写", "音标", "更多", "隐藏键盘"};
         if (findNode("打字", false) == null) return null;
         for (AccessibilityNodeInfo typing : imeRoot.findAccessibilityNodeInfosByText(labels[0])) {
             try {
@@ -621,7 +662,7 @@ public final class KeyboardTest extends Instrumentation {
                             if (!child.isVisibleToUser() || !child.isClickable()) continue;
                             for (int k = 0; k < labels.length; k++) {
                                 if (!android.text.TextUtils.equals(labels[k], child.getContentDescription())) continue;
-                                if (k == 3 && !android.text.TextUtils.equals("收起", child.getText())) continue;
+                                if (k == labels.length - 1 && !android.text.TextUtils.equals("收起", child.getText())) continue;
                                 bounds[k] = new Rect();
                                 child.getBoundsInScreen(bounds[k]);
                             }
@@ -641,12 +682,12 @@ public final class KeyboardTest extends Instrumentation {
         do {
             Rect[] controls = compactToolbarSnapshot();
             if (controls != null && Arrays.equals(previous, controls)) {
-                stage("One IME toolbar, 打字/手写/更多/收起 bounds: " + Arrays.toString(controls));
+                stage("One IME toolbar, 打字/手写/音标/更多/收起 bounds: " + Arrays.toString(controls));
                 for (int i = 0; i < controls.length; i++) {
                     Rect area = controls[i];
                     if (area.isEmpty() || area.top != controls[0].top || area.bottom != controls[0].bottom
                             || (i > 0 && controls[i - 1].right > area.left))
-                        throw new AssertionError("The four stable sibling IME controls are not on one ordered line: " + Arrays.toString(controls));
+                        throw new AssertionError("The IME controls are not on one ordered line: " + Arrays.toString(controls));
                 }
                 return;
             }
@@ -1457,7 +1498,7 @@ public final class KeyboardTest extends Instrumentation {
             awaitKeyboardAtRest();
             return;
         }
-        if ("手写".equals(label) || "打字".equals(label)) {
+        if ("手写".equals(label) || "打字".equals(label) || "音标".equals(label)) {
             awaitKeyboardAtRest();
             tapControl(label);
             waitSelectedControl(label);
