@@ -43,7 +43,14 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: bash qa/ci-device.sh
+          script: |
+            bash qa/ci-device.sh
+            mkdir -p build/tone-default
+            cp -a build/device-qa/. build/tone-default/
+            adb shell settings put system font_scale 2.0
+            bash qa/ci-device.sh
+            mkdir -p build/device-qa/default
+            cp -a build/tone-default/. build/device-qa/default/
       - uses: actions/upload-artifact@v4
         if: always()
         with:
