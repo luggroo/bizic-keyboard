@@ -41,6 +41,7 @@ public final class SetupActivity extends Activity {
     private Button enable;
     private Button select;
     private Button spelling;
+    private Button ipaCompletion;
     private EditText trial;
     private android.widget.CheckBox record;
 
@@ -119,6 +120,8 @@ public final class SetupActivity extends Activity {
         addSpaced(editor, action("查看上次崩溃报告", false, v -> showCrash()), 8);
         spelling = action("", false, v -> chooseSpelling());
         addSpaced(body, spelling, 16);
+        ipaCompletion = action("", false, v -> chooseIpaCompletion());
+        addSpaced(body, ipaCompletion, 8);
         Button info = action("关于词库与手写字形", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
@@ -169,6 +172,10 @@ public final class SetupActivity extends Activity {
         select.setText(selected ? "切换系统键盘" : "选择土家语键盘");
         boolean toneMarks = KeyboardSettings.spelling(this) == CandidateEngine.Orthography.DIACRITIC;
         spelling.setText(toneMarks ? "拼写输出 · 带调号拼音" : "拼写输出 · 叶氏拼音");
+        int dialects = KeyboardSettings.ipaDialects(this);
+        String ipaSummary = dialects == IpaKeyboard.ALL_DIALECTS ? "北部、南部"
+                : dialects == IpaKeyboard.NORTH ? "北部" : dialects == IpaKeyboard.SOUTH ? "南部" : "关闭";
+        ipaCompletion.setText("音标补全 · " + ipaSummary);
     }
 
     private void chooseSpelling() {
@@ -181,6 +188,19 @@ public final class SetupActivity extends Activity {
                     refresh();
                     dialog.dismiss();
                 }).setNegativeButton("取消", null).show();
+    }
+
+    private void chooseIpaCompletion() {
+        int dialects = KeyboardSettings.ipaDialects(this);
+        boolean[] checked = {(dialects & IpaKeyboard.NORTH) != 0, (dialects & IpaKeyboard.SOUTH) != 0};
+        new AlertDialog.Builder(this).setTitle("音标补全词库")
+                .setMultiChoiceItems(new String[]{"北部", "南部"}, checked, (dialog, index, enabled) -> checked[index] = enabled)
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, choice) -> {
+                    int selected = (checked[0] ? IpaKeyboard.NORTH : 0) | (checked[1] ? IpaKeyboard.SOUTH : 0);
+                    KeyboardSettings.setIpaDialects(this, selected);
+                    refresh();
+                }).show();
     }
 
     @Override protected void onResume() { super.onResume(); refresh(); }

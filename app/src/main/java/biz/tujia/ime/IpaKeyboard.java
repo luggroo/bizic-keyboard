@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 /** Layout and offline prefix matching for literal IPA input. */
 final class IpaKeyboard {
     static final int COLUMNS = 3, MAX_PREFIX = 64;
+    static final int NORTH = 1, SOUTH = 2, ALL_DIALECTS = NORTH | SOUTH;
     static final String NASAL = "\u0303", SYLLABIC = "\u0329", TIE = "\u0361";
     private static final String DIGITS = "¹²³⁴⁵";
     private static final String LETTER = "[\\p{sc=Latin}\\p{Lm}]";
@@ -42,8 +43,10 @@ final class IpaKeyboard {
 
     static final class Entry {
         final String ipa, gloss, spelling;
+        final int dialects;
 
-        Entry(String ipa, String gloss) {
+        Entry(int dialects, String ipa, String gloss) {
+            this.dialects = dialects;
             this.ipa = ipa;
             this.gloss = gloss;
             spelling = normalize(ipa);
@@ -56,9 +59,11 @@ final class IpaKeyboard {
         entries = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(source, StandardCharsets.UTF_8))) {
             for (String line; (line = reader.readLine()) != null;) {
-                if (line.startsWith("#")) continue;
-                int tab = line.indexOf('\t');
-                if (tab > 0) entries.add(new Entry(line.substring(0, tab), line.substring(tab + 1)));
+                if (line.isEmpty() || line.startsWith("#")) continue;
+                int tab = line.indexOf('\t', 2);
+                if (tab <= 2 || line.charAt(1) != '\t' || line.charAt(0) < '1' || line.charAt(0) > '3')
+                    throw new IOException("Invalid IPA dictionary row");
+                entries.add(new Entry(line.charAt(0) - '0', line.substring(2, tab), line.substring(tab + 1)));
             }
         }
     }
@@ -71,15 +76,32 @@ final class IpaKeyboard {
         return match.group();
     }
 
-    List<Entry> complete(String prefix) {
-        if (prefix.isEmpty()) return Collections.emptyList();
+    static String completionPrefix(CharSequence before, CharSequence after) {
+        if (before == null || after == null || NEXT.matcher(after).lookingAt()) return null;
+        String prefix = prefix(before, after);
+        if (!prefix.isEmpty() || before.length() == 0) return prefix;
+        int last = Character.offsetByCodePoints(before, before.length(), -1);
+        return NEXT.matcher(before.subSequence(last, before.length())).lookingAt() ? null : "";
+    }
+
+    List<Entry> complete(String prefix, int dialects) {
+        if (prefix == null || dialects == 0) return Collections.emptyList();
+        if (prefix.isEmpty()) {
+            List<Entry> starters = new ArrayList<>(COLUMNS);
+            for (Entry entry : entries) {
+                if ((entry.dialects & dialects) == 0 || entry.ipa.startsWith("-")) continue;
+                starters.add(entry);
+                if (starters.size() == COLUMNS) break;
+            }
+            return starters;
+        }
         String current = normalize(prefix);
         Matcher exact = completionPattern(current, false).matcher("");
         Matcher relaxed = completionPattern(current, true).matcher("");
         List<Entry> results = new ArrayList<>(COLUMNS);
         List<Entry> secondary = new ArrayList<>(COLUMNS);
         for (Entry entry : entries) {
-            if (entry.spelling.equals(current)) continue;
+            if ((entry.dialects & dialects) == 0 || entry.spelling.equals(current)) continue;
             if (exact.reset(entry.spelling).lookingAt()) {
                 results.add(entry);
                 if (results.size() == COLUMNS) return results;
