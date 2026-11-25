@@ -2138,7 +2138,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             natural.setTextScaleX(1f);
             String display = Layout.getDesiredWidth(spaced, natural) <= room ? spaced : compactText;
             if (!display.contentEquals(view.getText())) view.setText(display);
-            fitTextWidth(view, display, room, .78f);
+            // Keep two short numbered meanings visible even on narrow screens
+            // at the largest system font size. Longer lists may still truncate.
+            boolean shortPair = compactText.codePointCount(0, compactText.length()) <= 6
+                    && compactText.startsWith("¹") && compactText.contains("²") && !compactText.contains("³");
+            fitTextWidth(view, display, room, shortPair ? .55f : .78f);
         });
         return view;
     }
