@@ -1755,19 +1755,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 char c = shifted && !symbols ? Character.toUpperCase(raw) : raw;
                 String shown = String.valueOf(c).toUpperCase(Locale.ROOT);
                 TextView letter = key(r, shown, String.valueOf(c), 1, KeyLook.LETTER, false, () -> typeChar(c));
-                if (!direct && !symbols) {
+                if (!direct && !symbols && (mode == HAN
+                        || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC)) {
                     String tones = toneChoices(c);
                     if (!tones.isEmpty()) {
-                        boolean directional = mode == HAN
-                                || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC;
-                        if (directional) letter.setForeground(new ToneHints(sp(8)));
+                        letter.setForeground(new ToneHints(sp(8)));
                         letter.setHapticFeedbackEnabled(false);
                         letter.setOnLongClickListener(v -> {
-                            if (directional) showDirectionalTones(letter, c, tones);
-                            else showTones(tones);
+                            showDirectionalTones(letter, c, tones);
                             return true;
                         });
-                        if (directional) KeyboardTap.bindFlick(letter, new KeyboardTap.Flick() {
+                        KeyboardTap.bindFlick(letter, new KeyboardTap.Flick() {
                             private int direction(float dx, float dy) {
                                 return ToneFlick.direction(dx, dy, dp(18));
                             }
@@ -1811,24 +1809,6 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             default: return "";
         }
         return Character.isUpperCase(vowel) ? tones.toUpperCase(Locale.ROOT) : tones;
-    }
-
-    private void showTones(String tones) {
-        recordAction("打开声调选择", tones);
-        selectingTone = true;
-        toneCancel.setText("取消");
-        toneCancel.setContentDescription("取消选声调");
-        choices.removeAllViews();
-        boolean showPrompt = mode == SPELL || draft.isEmpty();
-        preview.setText(showPrompt ? "选择声调" : draft);
-        if (showPrompt) preview.setContentDescription("选择声调");
-        toneCancel.setVisibility(View.VISIBLE);
-        prevChoices.setVisibility(View.GONE);
-        nextChoices.setVisibility(View.GONE);
-        for (char toned : tones.toCharArray()) {
-            String title = String.valueOf(toned);
-            key(choices, title, title, 1, false, () -> typeChar(toned));
-        }
     }
 
     private void typeChar(char c) {
