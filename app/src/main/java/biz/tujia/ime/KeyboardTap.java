@@ -14,6 +14,7 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
     private float downX, downY;
 
     interface Flick {
+        default void start(float x, float y) { }
         void move(float dx, float dy);
         void finish(float dx, float dy);
         void cancel();
@@ -84,7 +85,10 @@ final class KeyboardTap implements View.OnTouchListener, View.OnAttachStateChang
     }
 
     @Override public void run() {
-        if (pointer >= 0 && key.isEnabled() && key.isShown()) held = key.performLongClick();
+        if (pointer >= 0 && key.isEnabled() && key.isShown()) {
+            held = key.performLongClick();
+            if (held && flick != null) flick.start(downX, downY);
+        }
     }
 
     private void cancel() {

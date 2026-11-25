@@ -689,6 +689,17 @@ public final class KeyboardTest extends Instrumentation {
             waitForNode("待选拼写 ā", false);
             expectText(host.first, output.equals("调号拼音") ? "ā" : "");
         }
+        stage("IPA alternatives can be selected with a single hold and slide");
+        newPredictionEditor();
+        press("音标");
+        Rect anchor = waitForNode("t", false);
+        long down = SystemClock.uptimeMillis();
+        inject(down, MotionEvent.ACTION_DOWN, anchor.centerX(), anchor.centerY());
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 180);
+        Rect target = waitForNode("tsʰ", false);
+        inject(down, MotionEvent.ACTION_MOVE, target.centerX(), target.centerY());
+        inject(down, MotionEvent.ACTION_UP, target.centerX(), target.centerY());
+        expectText(host.first, "tsʰ");
     }
 
     private void testOutputButtons() {
