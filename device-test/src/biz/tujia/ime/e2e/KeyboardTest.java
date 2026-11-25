@@ -681,7 +681,8 @@ public final class KeyboardTest extends Instrumentation {
             Rect level = waitForNode("ā", false), rising = waitForNode("á", false);
             Rect fallingRising = waitForNode("ǎ", false), falling = waitForNode("à", false);
             if (!(level.centerY() < rising.centerY() && fallingRising.centerY() > rising.centerY()
-                    && falling.centerX() < level.centerX() && rising.centerX() > level.centerX())) {
+                    && falling.centerX() > level.centerX() && falling.centerY() == level.centerY()
+                    && rising.centerX() > level.centerX())) {
                 throw new AssertionError("Tone choices did not surround the vowel in four directions");
             }
             press("ā");
