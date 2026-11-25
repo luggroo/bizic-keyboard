@@ -115,6 +115,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private FrameLayout keyAlternatives;
     private TextView[] toneFlickKeys;
     private int toneFlickEdge;
+    private Rect ipaFlickBounds;
+    private TextView[] ipaFlickKeys;
     private HandwritingPad pad;
     private HandAnchor strokeAnchor;
     private HandAnchor matchedAt;
@@ -1457,6 +1459,25 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 showIpaAlternatives(key, alternatives);
                 return true;
             });
+            KeyboardTap.bindFlick(key, new KeyboardTap.Flick() {
+                private float startX, startY;
+                @Override public void start(float x, float y) { startX = x; startY = y; }
+                private int choice(float dx, float dy) {
+                    if (ipaFlickBounds == null) return -1;
+                    Rect anchor = keyBounds(key);
+                    int x = Math.round(anchor.left + startX + dx);
+                    int y = Math.round(anchor.top + startY + dy);
+                    if (!ipaFlickBounds.contains(x, y)) return -1;
+                    return Math.min(alternatives.length - 1,
+                            (x - ipaFlickBounds.left) * alternatives.length / ipaFlickBounds.width());
+                }
+                @Override public void move(float dx, float dy) { highlightIpaChoice(choice(dx, dy)); }
+                @Override public void finish(float dx, float dy) {
+                    int selectedIndex = choice(dx, dy);
+                    if (selectedIndex >= 0) typeIpa(alternatives[selectedIndex]);
+                }
+                @Override public void cancel() { closeKeyAlternatives(); }
+            });
         }
         line.addView(key, weighted(weight));
         return key;
@@ -1487,6 +1508,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         keyboardFrame.removeView(keyAlternatives);
         keyAlternatives = null;
         toneFlickKeys = null;
+        ipaFlickBounds = null;
+        ipaFlickKeys = null;
     }
 
     private void showIpaAlternatives(View anchor, String[] alternatives) {
@@ -1505,11 +1528,25 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         LinearLayout menu = row();
         menu.setBackground(shape(RED, 8));
         menu.setPadding(dp(1), dp(1), dp(1), dp(1));
-        for (String value : alternatives) {
-            key(menu, IpaKeyboard.display(value), IpaKeyboard.description(value), 1, KeyLook.SPACE, false,
+        TextView[] keys = new TextView[alternatives.length];
+        for (int i = 0; i < alternatives.length; i++) {
+            String value = alternatives[i];
+            keys[i] = key(menu, IpaKeyboard.display(value), IpaKeyboard.description(value), 1, KeyLook.SPACE, false,
                     () -> typeIpa(value));
         }
         openKeyAlternatives(menu, width, height, left, top);
+        int menuLeft = Math.max(0, Math.min(room - width, left));
+        int menuTop = Math.max(0, Math.min(availableHeight - height, top));
+        ipaFlickBounds = new Rect(menuLeft, menuTop, menuLeft + width, menuTop + height);
+        ipaFlickKeys = keys;
+    }
+
+    private void highlightIpaChoice(int selected) {
+        if (ipaFlickKeys == null) return;
+        for (int i = 0; i < ipaFlickKeys.length; i++) {
+            ipaFlickKeys[i].setBackground(pressable(shape(i == selected ? RED : PAPER, 8), 8));
+            ipaFlickKeys[i].setTextColor(pressColors(i == selected ? WHITE : INK));
+        }
     }
 
     private Rect keyBounds(View view) {
@@ -1774,11 +1811,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                         || mode == SPELL && orthography == CandidateEngine.Orthography.DIACRITIC)) {
                     String tones = toneChoices(c);
                     if (!tones.isEmpty()) {
-                        letter.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                        letter.setForeground(new ToneHints(sp(10), () -> {
                             int room = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
-                            int width = Math.min(Math.min(room / 3, dp(48)), v.getWidth());
-                            if (width > 0) letter.setForeground(new ToneHints(sp(8), toneEdge(v, width)));
-                        });
+                            int width = Math.min(Math.min(room / 3, dp(48)), letter.getWidth());
+                            return width > 0 ? toneEdge(letter, width) : 0;
+                        }));
                         letter.setHapticFeedbackEnabled(false);
                         letter.setOnLongClickListener(v -> {
                             showDirectionalTones(letter, c, tones);
