@@ -144,14 +144,35 @@ public final class KeyboardTest extends Instrumentation {
                 EditorInfo.IME_ACTION_NONE | EditorInfo.IME_FLAG_NO_ENTER_ACTION, true));
         tapField(host.first);
         waitSelectedControl("打字");
+        waitForNode("联想 那，āi", false);
+        waitForNode("联想 我，ngá", false);
+        waitForNode("下一音节 gó", false);
+        waitForNode("下一音节 ní", false);
+        press("手写");
+        press("更多");
+        waitSelectedControl("汉字");
+        press("返回打字");
+        waitSelectedControl("打字");
         runOnMainSync(() -> { host.first.setText("前 / 后"); host.first.setSelection(3); });
         press("音标");
         assertEditorAboveKeyboard(host.first, "音标");
         captureFrame("ipa-layout.png");
-        waitForNode("补全 奶，mã²¹", false);
+        waitForNode("补全 那，ai⁵⁵", false);
+        waitForNode("补全 我，ŋa²⁴", false);
+        waitForNode("补全 kuɔ²⁴", false);
+        waitForNode("补全 ȵi²⁴", false);
         captureFrame("ipa-candidates.png");
+        press("更多");
+        waitSelectedControl("北部");
+        if (isSelectedControl("南部")) throw new AssertionError("Southern IPA enabled by default");
+        press("更多");
+        press("下一页候选");
+        waitAbsent("补全 那，ai⁵⁵");
+        press("上一页候选");
+        waitForNode("补全 那，ai⁵⁵", false);
         press("m");
         expectText(host.first, "前 /m 后");
+        press("下一页候选");
         press("a");
         expectText(host.first, "前 /ma 后");
         runOnMainSync(() -> host.first.setSelection(4));
@@ -237,7 +258,7 @@ public final class KeyboardTest extends Instrumentation {
         stage("IPA dictionary settings select Southern, Northern, both or no completions");
         runOnMainSync(() -> { host.second.setText(""); });
         tapField(host.second);
-        changeIpaDictionaries("南部", "北部");
+        changeIpaDictionaries("南部", "北部", "南部");
         press("音标");
         press("更多");
         waitForNode("音标补全词库 · 可多选，两项都不选即关闭", false);
@@ -247,11 +268,11 @@ public final class KeyboardTest extends Instrumentation {
         waitSelectedControl("北部");
         press("北部");
         press("更多");
-        String fingers = "a²¹ dʑe²¹ be²¹";
-        press("补全 手指，" + fingers);
-        expectText(host.second, fingers);
+        String southernI = "ŋo³³";
+        press("补全 我，" + southernI);
+        expectText(host.second, southernI);
         press("空格");
-        waitForNode("补全 手指，" + fingers, false);
+        waitForNode("补全 我，" + southernI, false);
         waitAbsent("补全 奶，mã²¹");
         press("b");
         press("a");
@@ -259,24 +280,25 @@ public final class KeyboardTest extends Instrumentation {
         press("声调 33");
         press("n");
         press("补全 乌鸦，ba³³nõ²¹");
-        expectText(host.second, fingers + " ba³³nõ²¹");
+        expectText(host.second, southernI + " ba³³nõ²¹");
 
         changeIpaDictionaries("关闭", "南部");
         press("音标");
         press("空格");
-        waitAbsent("补全 手指，" + fingers);
+        waitAbsent("补全 我，" + southernI);
         press("m");
         press("a");
         waitAbsent("补全 奶，mã²¹");
         waitAbsent("无匹配候选");
-        expectText(host.second, fingers + " ba³³nõ²¹ ma");
+        expectText(host.second, southernI + " ba³³nõ²¹ ma");
 
         changeIpaDictionaries("北部", "北部");
         press("音标");
         press("空格");
-        waitForNode("补全 奶，mã²¹", false);
-        waitAbsent("补全 手指，" + fingers);
+        waitForNode("补全 那，ai⁵⁵", false);
+        waitAbsent("补全 我，" + southernI);
         changeIpaDictionaries("北部、南部", "南部");
+        changeIpaDictionaries("北部", "南部");
     }
 
     private void changeIpaDictionaries(String expected, String... toggles) {
@@ -435,10 +457,9 @@ public final class KeyboardTest extends Instrumentation {
         press("退格");
         expectText(host.second, "ngaf yer ga诶sangx");
 
-        press("语音");
-        stage("Voice placeholder");
-        waitForNode("语音模型尚未上线", false);
-        press("切换到土家语拼写");
+        press("更多");
+        press("返回打字");
+        waitSelectedControl("打字");
         waitForNode("退格", false);
         expectText(host.second, "ngaf yer ga诶sangx");
 
@@ -1161,7 +1182,7 @@ public final class KeyboardTest extends Instrumentation {
         press("谐音字");
         runOnMainSync(() -> { host.first.setText("正文"); host.first.setSelection(2); });
         assertCompactToolbar();
-        for (String extra : new String[]{"叶氏拼音", "谐音字", "语音", "确定拼写"}) waitAbsent(extra);
+        for (String extra : new String[]{"叶氏拼音", "谐音字", "返回打字", "确定拼写"}) waitAbsent(extra);
         assertEditorAboveKeyboard(host.first, "打字");
         waitForNode("待选拼写 ", false);
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("待选拼写 ")) {
@@ -1203,7 +1224,7 @@ public final class KeyboardTest extends Instrumentation {
         waitSelectedControl("更多");
         waitSelectedControl("谐音字");
         waitForNode("叶氏拼音", false);
-        waitForNode("语音", false);
+        waitForNode("返回打字", false);
         waitForNode("确定拼写", false);
         expectText(host.first, "正文");
         captureFrame("compact-more.png");
@@ -1662,17 +1683,16 @@ public final class KeyboardTest extends Instrumentation {
 
     void press(String label) {
         boolean typingOutput = "调号拼音".equals(label) || "叶氏拼音".equals(label) || "谐音字".equals(label);
-        if (typingOutput || "语音".equals(label)) {
+        if (typingOutput) {
             awaitKeyboardAtRest();
-            if (typingOutput && !isSelectedControl("打字")) {
+            if (!isSelectedControl("打字")) {
                 tapControl("打字");
                 waitSelectedControl("打字");
             }
             tapControl("更多");
             tapControl(label);
             waitAbsent(label);
-            if (typingOutput) waitSelectedControl("打字");
-            else waitForNode("语音模型尚未上线", false);
+            waitSelectedControl("打字");
             awaitKeyboardAtRest();
             return;
         }

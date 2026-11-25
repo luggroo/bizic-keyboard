@@ -163,6 +163,12 @@ public final class CandidateEngine implements AutoCloseable {
         return candidates(previousSyllable, output, style, 3);
     }
 
+    List<Candidate> ipaOpenings() {
+        List<Candidate> ranked = new ArrayList<>(nextWords("<s>", Mode.PINYIN, Orthography.IPA));
+        ranked.addAll(nextSyllables("<s>", Orthography.IPA));
+        return ranked;
+    }
+
     public synchronized int scoreHandwritingPrefix(String acceptedHan) {
         if (model == 0) throw new IllegalStateException("Dictionary closed");
         return acceptedHan == null || acceptedHan.isEmpty() ? 0 : NativeCore.scoreHandwritingPrefix(model, NativeCore.encode(acceptedHan));
