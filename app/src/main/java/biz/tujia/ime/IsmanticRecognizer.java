@@ -60,13 +60,24 @@ final class IsmanticRecognizer implements AutoCloseable {
             for (int i = 0; i < order.length; i++) order[i] = i;
             Arrays.sort(order, (a, b) -> Float.compare(scores[b], scores[a]));
 
+            List<String> templateChoices = templates.recognize(strokes, 12);
             List<String> extra = new ArrayList<>();
-            for (String character : templates.recognize(strokes, 12)) {
+            for (String character : templateChoices) {
                 if (!known.contains(character) && !extra.contains(character)) extra.add(character);
                 if (extra.size() == Math.min(2, limit)) break;
             }
             List<String> candidates = new ArrayList<>();
-            for (int i = 0; i < Math.min(order.length, limit - extra.size()); i++) {
+            // A few Tujia writing characters are absent from the neural model.
+            // Restore a rare glyph only when its top template is a clear match.
+            if (!templateChoices.isEmpty() && extra.contains(templateChoices.get(0))) {
+                String strong = templates.strongMatch(strokes);
+                if (strong != null && strong.equals(templateChoices.get(0))) {
+                    candidates.add(strong);
+                    extra.remove(strong);
+                }
+            }
+            int neuralLimit = Math.min(order.length, limit - extra.size() - candidates.size());
+            for (int i = 0; i < neuralLimit; i++) {
                 candidates.add(characters.get(order[i]));
             }
             candidates.addAll(extra);

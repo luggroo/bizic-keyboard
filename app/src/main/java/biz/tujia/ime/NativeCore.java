@@ -37,4 +37,5 @@ final class NativeCore {
     static native void freeStrokes(long model);
     static native int strokeCount(long model);
     static native String[] recognize(long model, float[][] strokes, int limit);
+    static native String recognizeStrongStroke(long model, float[][] strokes);
 }

@@ -471,7 +471,7 @@ public final class KeyboardTest extends Instrumentation {
         drawStroke(pad, .50f,.43f, .54f,.47f, .53f,.59f, .49f,.67f, .43f,.72f);
         drawStroke(pad, .65f,.40f, .68f,.44f, .68f,.77f);
         expectText(host.second, "ngaf yer ga诶sangx尬");
-        waitForNode("干、渴，夹", false);
+        waitForNode("干、渴、夹，夹", false);
         pressCandidate("吃、咬，架", false);
         expectText(host.second, "ngaf yer ga诶sangx架");
         press("退格");
@@ -694,6 +694,19 @@ public final class KeyboardTest extends Instrumentation {
             waitForNode("待选拼写 ā", false);
             expectText(host.first, output.equals("调号拼音") ? "ā" : "");
         }
+        stage("Tone can be selected by holding and sliding without lifting");
+        newPredictionEditor();
+        press("调号拼音");
+        Rect vowel = waitForNode("a", false);
+        long toneDown = SystemClock.uptimeMillis();
+        inject(toneDown, MotionEvent.ACTION_DOWN, vowel.centerX(), vowel.centerY());
+        SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 180);
+        Rect upwardTone = waitForNode("ā", false);
+        inject(toneDown, MotionEvent.ACTION_MOVE, upwardTone.centerX(), upwardTone.centerY());
+        SystemClock.sleep(160);
+        captureFrame("tone-marked-slide.png");
+        inject(toneDown, MotionEvent.ACTION_UP, upwardTone.centerX(), upwardTone.centerY());
+        expectText(host.first, "ā");
         stage("IPA alternatives can be selected with a single hold and slide");
         newPredictionEditor();
         press("音标");
@@ -747,7 +760,7 @@ public final class KeyboardTest extends Instrumentation {
             setHandwritingOutput(true);
             for (String[] form : forms) {
                 runOnMainSync(() -> { host.first.setText("前秘兹佧后"); host.first.setSelection(4); });
-                press("已写成词");
+                press("查词义");
                 tapForm("秘兹佧");
                 tapControl("谐音字".equals(form[0]) ? "保留原写法" : "用" + form[0]);
                 expectText(host.first, "前" + form[1] + "后");
@@ -991,7 +1004,7 @@ public final class KeyboardTest extends Instrumentation {
         drawBo(pad);
         // The first stroke also loads the offline model on software-emulated devices.
         expectText(host.first, "首波", 90000);
-        waitForNode("已写成词", false);
+        waitForNode("查词义", false);
         drawLi(pad);
         expectText(host.first, "首波俐");
         if (!pad.equals(waitForNode("汉字手写区", false)))
@@ -999,7 +1012,7 @@ public final class KeyboardTest extends Instrumentation {
         tapForm("波俐");
         press("保留原写法");
         expectText(host.first, "首波俐");
-        press("接着写");
+        press("接下字");
         pressCandidate("联想 一，哪", false, "一", "哪");
         expectText(host.first, "首波俐哪");
 
@@ -1015,10 +1028,10 @@ public final class KeyboardTest extends Instrumentation {
         tapField(host.second);
         drawBo(pad);
         expectText(host.second, corrected + "波");
-        press("接着写");
+        press("接下字");
         tapForm("俐");
         expectText(host.second, corrected + "波俐");
-        press("接着写");
+        press("接下字");
         Card prediction = nextSoundCard();
         tap(prediction.bounds.centerX(), prediction.bounds.centerY());
         String expectedSecond = corrected + "波俐" + outputLine(prediction);
@@ -1055,7 +1068,7 @@ public final class KeyboardTest extends Instrumentation {
         press("手写");
         setHandwritingOutput(true);
         runOnMainSync(() -> host.first.setSelection(5));
-        press("已写成词");
+        press("查词义");
         Rect pad = waitForNode("汉字手写区", false);
         List<Card> row = pageCards("，");
         visibleForm("树希布里");
@@ -1070,21 +1083,21 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, "前树xìbúlī以后");
         if (!pad.equals(waitForNode("汉字手写区", false))) throw new AssertionError("Handwriting panel resized");
         runOnMainSync(() -> { host.first.setText("前波粒后"); host.first.setSelection(3); });
-        press("已写成词");
+        press("查词义");
         visibleForm("波立");
         tapForm("波俐");
         press("用推荐字");
         expectText(host.first, "前波俐后");
         runOnMainSync(() -> { host.first.setText("借米提卡铺"); host.first.setSelection(5); });
-        press("已写成词");
+        press("查词义");
         visibleForm("卡铺");
         waitAbsent("指甲花，借米提卡铺");
         runOnMainSync(() -> { host.first.setText("树稀。步李"); host.first.setSelection(5); });
-        press("已写成词");
+        press("查词义");
         visibleForm("布里");
         waitAbsent("板栗，树希布里");
         runOnMainSync(() -> { host.first.setText("前阿安后"); host.first.setSelection(3); });
-        press("已写成词");
+        press("查词义");
         Card pronoun = visibleForm("˻阿安˼");
         if (pageCards("阿安").size() != 1) throw new AssertionError("The two suffix boundaries must share a card");
         tap(pronoun.bounds.centerX(), pronoun.bounds.centerY());
@@ -1648,7 +1661,7 @@ public final class KeyboardTest extends Instrumentation {
             expectText(host.first, "波俐");
             tapForm("波俐");
             press("保留原写法");
-            press("接着写");
+            press("接下字");
             Card hand = nextSoundCard();
             String afterChild = outputLine(hand);
             if (!Character.isIdeographic(afterChild.codePointAt(0)))

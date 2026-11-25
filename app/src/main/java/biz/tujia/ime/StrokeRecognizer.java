@@ -25,6 +25,12 @@ final class StrokeRecognizer implements AutoCloseable {
         return Arrays.asList(NativeCore.recognize(model, strokes.toArray(new float[0][]), limit));
     }
 
+    synchronized String strongMatch(List<float[]> strokes) {
+        if (model == 0) throw new IllegalStateException("Handwriting model closed");
+        if (strokes == null || strokes.isEmpty()) return null;
+        return NativeCore.recognizeStrongStroke(model, strokes.toArray(new float[0][]));
+    }
+
     @Override public synchronized void close() {
         if (model != 0) {
             NativeCore.freeStrokes(model);

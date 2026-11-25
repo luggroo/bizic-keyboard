@@ -124,14 +124,14 @@ capture=0
 if [[ -n "${TUJIA_E2E_EVIDENCE:-}" ]]; then
     capture=1
     mkdir -p "$TUJIA_E2E_EVIDENCE"
-    for frame in tone-marked-idle tone-marked-popup tone-han-idle tone-han-popup failure three-output-menu three-output-commits ipa-layout ipa-layout-large ipa-popup ipa-candidates ipa-options handwriting-sidebar handwriting-options prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
+    for frame in tone-marked-idle tone-marked-popup tone-marked-slide tone-han-idle tone-han-popup failure three-output-menu three-output-commits ipa-layout ipa-layout-large ipa-popup ipa-candidates ipa-options handwriting-sidebar handwriting-options prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         "$adb_bin" shell rm -f "/sdcard/Android/data/$fixture_pkg/files/$frame.png"
     done
 fi
 "$adb_bin" shell am instrument -w -r -e suite "$suite" -e captureFailure "$capture" \
     -e freshInstall "$added_ime" "$fixture_pkg/.KeyboardTest" | tee "$work/raw-result"
 if [[ "$capture" == 1 ]]; then
-    for frame in tone-marked-idle tone-marked-popup tone-han-idle tone-han-popup failure three-output-menu three-output-commits ipa-layout ipa-layout-large ipa-popup ipa-candidates ipa-options handwriting-sidebar handwriting-options prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
+    for frame in tone-marked-idle tone-marked-popup tone-marked-slide tone-han-idle tone-han-popup failure three-output-menu three-output-commits ipa-layout ipa-layout-large ipa-popup ipa-candidates ipa-options handwriting-sidebar handwriting-options prediction-han-before prediction-han-after prediction-jin-before prediction-jin-after compact-idle compact-typing compact-more compact-handwriting compact-three-han compact-three-han-after sense-{go,marked-go,ga-native,jia-mandarin,gogo-loan} regional-{ga,jia} typography-{small,default,115,large,160,largest,default-dense,160-dense,largest-dense,draft,hand,hand-before-second,numbered-go}; do
         remote="/sdcard/Android/data/$fixture_pkg/files/$frame.png"
         if "$adb_bin" shell test -f "$remote"; then
             "$adb_bin" pull "$remote" "$TUJIA_E2E_EVIDENCE/$frame.png"

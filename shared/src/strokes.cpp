@@ -225,7 +225,8 @@ Strokes::Strokes(const std::string& tsv) : model_(std::make_shared<Model>(tsv)) 
 
 int Strokes::size() const { return static_cast<int>(model_->glyphs.size()); }
 
-std::vector<std::string> Strokes::recognize(const Paths& input, int limit) const {
+std::vector<std::string> Strokes::recognize(const Paths& input, int limit, bool* strong) const {
+    if (strong) *strong = false;
     if (limit <= 0 || input.empty() || !std::all_of(input.begin(), input.end(), validPath)) return {};
     try {
         const Shape drawn(input);
@@ -243,6 +244,10 @@ std::vector<std::string> Strokes::recognize(const Paths& input, int limit) const
         if (matches.size() > nearest) matches.resize(nearest);
         for (auto& match : matches) match.score += orderPenalty(drawn, match.glyph->shape);
         std::stable_sort(matches.begin(), matches.end(), byScore);
+        // Only promote an omitted-model character on a very close, distinctive
+        // template match; otherwise retain the neural model's existing ranking.
+        if (strong && input.size() >= 3 && matches.size() >= 2)
+            *strong = matches[0].score < .5f && matches[1].score - matches[0].score > .15f;
         std::vector<std::string> result;
         const auto countToReturn = std::min(matches.size(), static_cast<std::size_t>(limit));
         result.reserve(countToReturn);
