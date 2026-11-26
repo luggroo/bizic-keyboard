@@ -1,5 +1,6 @@
-// Android 7's stock Chromium 52 predates the Playwright protocol. Exercise its
+// Android 7's stock Chromium 51/52 predates the Playwright protocol. Exercise its
 // real WebView using the DevTools commands it implements. Requires Node 22+.
+// Set BIZIC_PROFILE_GZIP=1 to time the original decoder on the same APK index.
 'use strict';
 const assert = require('node:assert/strict');
 const {setTimeout: delay} = require('node:timers/promises');
@@ -23,6 +24,9 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     });
     const pending = new Map();
     let sequence = 0;
+    ws.addEventListener('close', () => {
+      for (const done of pending.values()) done({error: {message: 'WebView debugger disconnected'}});
+    });
     info.consoleErrors = [];
     ws.addEventListener('message', ({data}) => {
       const message = JSON.parse(data);
@@ -221,6 +225,12 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
       const gzip = execFileSync('python3', ['-c',
         'import sys, zipfile; sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read("assets/learning/prepared/word-search.json.gz"))',
         apk], {maxBuffer: 16 * 1024 * 1024}).toString('base64');
+      // Old DevTools sockets impose a frame-size limit below the complete
+      // index. Transfer the fixture outside the measured interval.
+      await value('window.readerGzipChunks = []; true');
+      for (let offset = 0; offset < gzip.length; offset += 32768) {
+        await value('window.readerGzipChunks.push(' + JSON.stringify(gzip.slice(offset, offset + 32768)) + ');true');
+      }
       await value(`(function (encoded) {
         var text=atob(encoded), bytes=new Uint8Array(text.length);
         for (var n=0; n<text.length; n++) bytes[n]=text.charCodeAt(n);
@@ -228,7 +238,7 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
         preparedJSON(response).then(function () { window.readerRawDecode=performance.now()-began; },
           function (error) { window.readerRawDecode=String(error); });
         return true;
-      }(${JSON.stringify(gzip)}))`);
+      }(window.readerGzipChunks.join(''))); delete window.readerGzipChunks; true`);
       await wait('typeof window.readerRawDecode !== "undefined"', 'raw gzip comparison');
       info.wordIndex.rawGzipDecodeMs = await value('window.readerRawDecode');
       assert.equal(typeof info.wordIndex.rawGzipDecodeMs, 'number');

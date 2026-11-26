@@ -98,6 +98,7 @@ public final class KeyboardTest extends Instrumentation {
                 testPrivateKeyboard();
                 if (freshInstall) testCrashRecordingDefault();
                 testUserDictionary();
+                testLearningPredictions();
             }
             if (suite.equals("ipa-detail")) testIpaDetail();
             if (suite.equals("ipa")) {
@@ -820,6 +821,22 @@ public final class KeyboardTest extends Instrumentation {
         type("bizika");
         press("空格");
         expectText(host.first, "ngaf yer pifpav bízīkǎ ");
+    }
+
+    private void testLearningPredictions() {
+        stage("Regional fuzzy spelling and fixed next words commit to a separate editor");
+        newPredictionEditor();
+        press("调号拼音");
+        type("fa");
+        pressCandidate("，huā", true);
+        expectText(host.first, "huā");
+        newPredictionEditor();
+        press("谐音字");
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
+        expectFirst("联想 吃、咬，架");
+        pressCandidate("联想 吃、咬，架", false);
+        expectText(host.first, "早来架");
     }
 
     private void testPrivateKeyboard() {

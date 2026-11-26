@@ -47,7 +47,7 @@ NODE_PATH="$PWD/build/qa-node/node_modules" node qa/learning-device.cjs "$ANDROI
 
 `bizic-dictionary` 路径应指向与内容快照对应的词典代码。测试在关闭网络、输入法尚未启用时安装 APK，在系统 WebView 里操作页面并保存整屏截图。Android 7 的原厂 WebView 按系统镜像可能为 Chromium 51 或 52，测试使用其支持的 DevTools 命令。设备指纹、浏览器版本、联网状态和逐项结果见 `build/qa-reader/results.json`。
 
-跨应用输入测试由独立编辑器接收按键。`learning-ime` 涵盖冷启动候选、分词、两种拼写、个人词和敏感输入框。`typing-only` 检查候选布局并实测 IPA 补全。
+跨应用输入测试由独立编辑器接收按键。`learning-ime` 涵盖冷启动候选、分词、两种拼写、模糊音、下词联想、个人词和敏感输入框。`typing-only` 检查候选布局并实测 IPA 补全。
 
 ```sh
 ./tools/test-core.sh

@@ -7,7 +7,6 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {promisify} = require('node:util');
 const {setTimeout: delay} = require('node:timers/promises');
-const {_android} = require('playwright');
 
 const command = promisify(execFile);
 const pkg = 'biz.tujia.ime';
@@ -70,7 +69,6 @@ async function keyboardRoundTrip(info) {
 
 async function main() {
   if (!evidence) throw Error('Expected SERIAL APK DICTIONARY_MOBILE_SUITE EVIDENCE_DIRECTORY');
-  const {exerciseLearningUI} = require(path.resolve(suite));
   assert(await shell('getprop', 'ro.kernel.qemu') === '1' ||
          await shell('getprop', 'ro.boot.qemu') === '1', 'Select a disposable emulator');
   assert(!(await shell('pm', 'list', 'packages', pkg)).split('\n').includes('package:' + pkg),
@@ -119,6 +117,8 @@ async function main() {
     if (Number(info.api) <= 25 || process.env.TUJIA_QA_RAW_CDP === '1') {
       await require('./learning-legacy.cjs').exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, apk});
     } else {
+      const {_android} = require('playwright');
+      const {exerciseLearningUI} = require(path.resolve(suite));
       devices = await _android.devices({omitDriverInstall: true});
       const device = devices.find(item => item.serial() === serial);
       assert(device, 'Playwright could not attach to the selected emulator');
