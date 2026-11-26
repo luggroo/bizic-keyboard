@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the four native libraries and compare every packaged dictionary asset to source."""
+"""Verify native library coverage and compare each packaged dictionary asset to source."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -18,7 +18,7 @@ def verify(apk, typing_only):
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])
-    packages = {"arm64-v8a", "armeabi-v7a", "x86", "x86_64"}
+    packages = {"arm64-v8a", "armeabi-v7a", "x86_64"}
     with ZipFile(apk) as archive:
         names = archive.namelist()
         if len(names) != len(set(names)):

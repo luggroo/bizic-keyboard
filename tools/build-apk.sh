@@ -79,7 +79,7 @@ if [[ "$application_id" == "biz.tujia.ime" ]]; then
   cmake_dir="$ANDROID_HOME/cmake/3.22.1/bin"
   cmake_bin="${CMAKE_BIN:-$cmake_dir/cmake}"
   ninja_bin="${NINJA_BIN:-$cmake_dir/ninja}"
-  for abi in arm64-v8a armeabi-v7a x86 x86_64; do
+  for abi in arm64-v8a armeabi-v7a x86_64; do
     native_dir="$work/native/$abi"
     "$cmake_bin" -S "$root_dir/shared" -B "$native_dir" -G Ninja \
       -DCMAKE_MAKE_PROGRAM="$ninja_bin" \
