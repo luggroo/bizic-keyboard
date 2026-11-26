@@ -12,7 +12,7 @@ final class KeyboardSettings {
 
     static boolean crashRecording(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
-        return prefs.getBoolean(CRASH_RECORDING, prefs.getBoolean("trial_recording", false));
+        return prefs.getBoolean(CRASH_RECORDING, prefs.getBoolean("trial_recording", true));
     }
 
     static void setCrashRecording(Context context, boolean enabled) {

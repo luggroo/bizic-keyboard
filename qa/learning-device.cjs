@@ -54,11 +54,16 @@ async function activeActivity(name) {
     && line.includes(pkg + '/.' + name));
 }
 
+async function hierarchy(file, compressed = false) {
+  const result = await shell('uiautomator', 'dump', ...(compressed ? ['--compressed'] : []), file);
+  // Android 7 can exit successfully with no file while its accessibility window is changing.
+  return result.includes('dumped to: ' + file) ? await shell('cat', file) : '';
+}
+
 async function privacyButton(id) {
   const file = '/data/local/tmp/bizic-reader-privacy.xml';
   return await waitFor(async () => {
-    await shell('uiautomator', 'dump', file);
-    const tree = await shell('cat', file);
+    const tree = await hierarchy(file);
     const node = tree.match(/<node\b[^>]*>/g)?.find(row => row.includes('resource-id="' + pkg + ':id/' + id + '"'));
     if (!node) return undefined;
     const position = node.match(/bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/);
@@ -100,8 +105,7 @@ async function returnFromPrivacy(info, language) {
 async function cancelExternal(info, url) {
   const file = '/data/local/tmp/bizic-reader-external.xml';
   await waitFor(async () => {
-    await shell('uiautomator', 'dump', file);
-    const xml = (await shell('cat', file)).replaceAll('&amp;', '&');
+    const xml = (await hierarchy(file)).replaceAll('&amp;', '&');
     return xml.includes('android:id/button1') && xml.includes('android:id/button2') && xml.includes(url);
   }, 'confirmed external destination URL and cancel action');
   await capture('external-link-confirmation');
@@ -121,14 +125,12 @@ async function readerSocket(api) {
 async function keyboardRoundTrip(info, language = 'zh') {
   await waitFor(async () => /(?:mResumedActivity|topResumedActivity|mCurrentFocus).*biz.tujia.ime\/\.SetupActivity/.test(
     await shell('dumpsys', 'activity', 'activities')), 'native keyboard management');
-  const hierarchy = '/data/local/tmp/bizic-reader-setup.xml';
+  const file = '/data/local/tmp/bizic-reader-setup.xml';
   try {
-    await waitFor(async () => {
-      await shell('uiautomator', 'dump', '--compressed', hierarchy);
-      return (await shell('cat', hierarchy)).includes(language.startsWith('en') ? 'Tujia keyboard' : '土家语输入法');
-    }, 'drawn keyboard management controls');
+    await waitFor(async () => (await hierarchy(file, true))
+      .includes(language.startsWith('en') ? 'Tujia keyboard' : '土家语输入法'), 'drawn keyboard management controls');
   } finally {
-    await shell('rm', '-f', hierarchy);
+    await shell('rm', '-f', file);
   }
   await capture('keyboard-management-' + (language.startsWith('en') ? 'en' : 'zh'));
   await shell('input', 'keyevent', 'KEYCODE_BACK');

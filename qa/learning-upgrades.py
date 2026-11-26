@@ -100,7 +100,7 @@ def main():
         (args.old_handwriting, [args.handwriting], "trial_recording", False),
     ]
     if args.previous_typing:
-        scenarios.append((args.previous_typing, [args.typing], None, False))
+        scenarios.append((args.previous_typing, [args.typing], None, True))
     fixture_package = PACKAGE + '.e2e'
     if args.fixture:
         if ('package:' + fixture_package) in shell('pm', 'list', 'packages', fixture_package).splitlines():

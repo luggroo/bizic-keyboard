@@ -39,6 +39,27 @@ def verify_offline_manifest(apk, aapt):
     if ".LearningResourceProvider" in tree or "biz.tujia.ime.learning.resources" in tree:
         raise ValueError(f"{apk.name} still registers the removed publication provider")
     print(f"{apk.name}: offline manifest check passed")
+    return tree
+
+
+def verify_component_icons(apk, aapt, manifest):
+    resources = subprocess.run([str(aapt), "dump", "resources", str(apk)],
+                               check=True, capture_output=True, text=True).stdout
+    resource_names = dict(re.findall(r"spec resource (0x[0-9a-f]+) biz\.tujia\.ime:([^:]+):", resources))
+    expected = {"application": "mipmap/ic_tujia_launcher", "service": "drawable/ic_tujia"}
+    seen = set()
+    blocks = re.finditer(r"(?m)^\s*E: (application|service) [^\n]*\n((?:[ \t]+A: [^\n]*\n)+)", manifest)
+    for match in blocks:
+        kind, attributes = match.groups()
+        if kind == "service" and '"biz.tujia.ime.TujiaIme"' not in attributes:
+            continue
+        icon = re.search(r"android:icon\(0x[0-9a-f]+\)=@(0x[0-9a-f]+)", attributes)
+        if not icon or resource_names.get(icon[1]) != expected[kind]:
+            raise ValueError(f"{apk.name}: {kind} should use @{expected[kind]}")
+        seen.add(kind)
+    if seen != expected.keys():
+        raise ValueError(f"{apk.name}: could not locate the packaged app and IME service")
+    print(f"{apk.name}: launcher and IME use their individual artwork")
 
 
 def verify(apk, typing_only):
@@ -86,5 +107,6 @@ if __name__ == "__main__":
     parser.add_argument("--aapt", type=Path, help="Verify the offline manifest with Android Build Tools aapt")
     args = parser.parse_args()
     if args.aapt:
-        verify_offline_manifest(args.apk, args.aapt)
+        manifest = verify_offline_manifest(args.apk, args.aapt)
+        verify_component_icons(args.apk, args.aapt, manifest)
     verify(args.apk, args.typing_only)

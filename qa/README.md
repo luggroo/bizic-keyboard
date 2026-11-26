@@ -45,7 +45,7 @@ NODE_PATH="$PWD/build/qa-node/node_modules" node qa/learning-device.cjs "$ANDROI
     ../bizic-dictionary/scripts/test-offline-mobile.cjs build/qa-reader
 ```
 
-`bizic-dictionary` 路径应指向与内容快照对应的词典代码。测试在关闭网络、输入法尚未启用时安装 APK，退出未同意的首次隐私说明后重新启动，并确认默认关闭操作记录。接受后，测试在系统 WebView 中使用抽屉、设置与词典并保存整屏截图，最后复验同意状态在冷启动后仍然有效。Android 7 的原厂 WebView 按系统镜像可能为 Chromium 51 或 52，测试使用其支持的 DevTools 命令。设备指纹、浏览器版本、联网状态和逐项结果见 `build/qa-reader/results.json`。
+`bizic-dictionary` 路径应指向与内容快照对应的词典代码。测试在关闭网络、输入法尚未启用时安装 APK，核对首次隐私说明首屏的离线声明和默认勾选的操作记录开关，退出后重新启动，再取消勾选并同意进入。接受后，测试在系统 WebView 中使用抽屉、设置与词典，重新打开隐私说明核对已保存的选择，并保存整屏截图。冷启动还会复验同意状态。Android 7 的原厂 WebView 按系统镜像可能为 Chromium 51 或 52，测试使用其支持的 DevTools 命令。设备指纹、浏览器版本、联网状态和逐项结果见 `build/qa-reader/results.json`。
 
 跨应用输入测试由独立编辑器接收按键。`learning-ime` 涵盖冷启动候选、分词、两种拼写、模糊音、下词联想、个人词和敏感输入框。`typing-only` 检查候选布局并实测 IPA 补全。
 
@@ -61,7 +61,7 @@ TUJIA_E2E_SUITE=hand-layout ./device-test/run.sh "$hand" build/qa-editor.apk
 TUJIA_E2E_SUITE=hand-landscape ./device-test/run.sh "$hand" build/qa-editor.apk
 ```
 
-私有存储测试在新装的测试包中开启操作记录，以合成输入核对密码、邮箱、网址、数字、电话以及禁止个性化的输入框均不会写入操作轨迹。它还检查关闭记录会清空轨迹，并验证三类个人词都可以跨实例重新读取。
+私有存储测试确认新装时默认开启操作记录，以合成输入核对密码、邮箱、网址、数字、电话以及禁止个性化的输入框均不会写入操作轨迹。它还检查关闭记录会清空轨迹，并验证三类个人词都可以跨实例重新读取。
 
 ```sh
 adb install "$typing"
@@ -71,7 +71,7 @@ adb uninstall biz.tujia.ime.e2e
 adb uninstall biz.tujia.ime
 ```
 
-升级复验用同一开发签名构建 `v0.3.6` 和当前版本，检查两条旧版升级路径以及新版两个变体间的双向替换。脚本写入测试词条、偏好和一份模拟崩溃记录，用 `adb install -r` 替换程序后逐项核对，并读取系统当前选中的输入法。它还分别复验新旧诊断偏好名中明确保存的开关值。可用 `--previous-typing` 加入上一个统一版 APK 并检查未设置时默认关闭。发布前还需用生产签名的候选 APK 验证 Releases 安装包的原位升级。
+升级复验用同一开发签名构建 `v0.3.6` 和当前版本，检查两条旧版升级路径以及新版两个变体间的双向替换。脚本写入测试词条、偏好和一份模拟崩溃记录，用 `adb install -r` 替换程序后逐项核对，并读取系统当前选中的输入法。它还分别复验新旧诊断偏好名中明确保存的开关值。可用 `--previous-typing` 加入上一个统一版 APK 并检查未保存诊断偏好时默认开启。发布前还需用生产签名的候选 APK 验证 Releases 安装包的原位升级。
 
 ```sh
 git fetch origin tag v0.3.6

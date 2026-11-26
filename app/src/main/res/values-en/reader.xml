@@ -4,7 +4,7 @@
     <string name="retry_reader">Try again</string>
     <string name="keyboard_settings">Keyboard settings</string>
     <string name="no_link_handler">No app can open this link.</string>
-    <string name="reader_privacy">The app runs offline. The keyboard processes input and saves your personal dictionary on this device. You choose whether to record keyboard actions. The app displays the address and asks before opening an external link in your browser.</string>
+    <string name="reader_privacy">The app runs offline. The keyboard processes input and saves your personal dictionary on this device. Keyboard action recording is on by default and you can turn it off at any time. The app displays the address and asks before opening an external link in your browser.</string>
     <string name="app_version">App version　%1$s</string>
     <string name="content_version">Bundled content version　%1$s</string>
 </resources>

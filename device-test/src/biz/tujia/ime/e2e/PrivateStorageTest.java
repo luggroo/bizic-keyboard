@@ -32,7 +32,7 @@ public final class PrivateStorageTest extends Instrumentation {
                 if (new File(app.getFilesDir(), "last-crash.txt").exists() ||
                         !app.getSharedPreferences("user_dictionary", 0).getAll().isEmpty())
                     throw new AssertionError("Use a fresh test installation");
-                if (actual) throw new AssertionError("Fresh diagnostic operation recording is enabled");
+                if (!actual) throw new AssertionError("Fresh diagnostic operation recording must be enabled");
                 checkDiagnostics(app);
                 checkDictionary(app);
             }

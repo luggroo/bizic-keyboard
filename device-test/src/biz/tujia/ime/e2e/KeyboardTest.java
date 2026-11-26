@@ -1170,9 +1170,20 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testCrashRecordingDefault() {
-        stage("Local diagnostic operation recording is opt-in on a fresh install");
+        stage("Local diagnostic operation recording starts enabled and a saved opt-out persists");
         openKeyboardSettings();
         String caption = "记录键盘操作";
+        assertSettingChecked(caption, true);
+        launcherControl(caption, false, true);
+        assertSettingChecked(caption, false);
+        launcherControl("不会记录密码框、数字输入框", true, false);
+        returnFromKeyboardSettings();
+        openKeyboardSettings();
+        assertSettingChecked(caption, false);
+        returnFromKeyboardSettings();
+    }
+
+    private void assertSettingChecked(String caption, boolean expected) {
         launcherControl(caption, false, false);
         AccessibilityNodeInfo root = ui.getRootInActiveWindow();
         Boolean checked = null;
@@ -1183,10 +1194,8 @@ public final class KeyboardTest extends Instrumentation {
                 } finally { node.recycle(); }
             }
         } finally { root.recycle(); }
-        launcherControl("不会记录密码框、数字输入框", true, false);
-        returnFromKeyboardSettings();
-        if (!Boolean.FALSE.equals(checked))
-            throw new AssertionError("Fresh install must show an unchecked diagnostic operation recording control");
+        if (!Boolean.valueOf(expected).equals(checked))
+            throw new AssertionError(caption + " should have checked=" + expected + "; saw " + checked);
     }
 
     private String setStyleFromLauncher(String requested) {

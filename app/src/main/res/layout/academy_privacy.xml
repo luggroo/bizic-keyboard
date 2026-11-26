@@ -44,16 +44,12 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary" />
-            <TextView style="@style/DisclosureBody" android:text="@string/privacy_intro" />
-            <CheckBox
-                android:id="@+id/privacy_diagnostics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:minHeight="48dp"
-                android:text="@string/privacy_record"
-                android:textSize="16sp"
-                android:textColor="?android:attr/textColorPrimary" />
+            <TextView
+                android:id="@+id/privacy_summary"
+                style="@style/DisclosureBody"
+                android:text="@string/privacy_intro"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="17sp" />
             <TextView style="@style/DisclosureSection" android:text="@string/privacy_local_title" />
             <TextView style="@style/DisclosureBody" android:text="@string/privacy_local" />
             <TextView style="@style/DisclosureSection" android:text="@string/privacy_diagnostic_title" />
@@ -67,6 +63,16 @@
                 android:textIsSelectable="true" />
         </LinearLayout>
     </ScrollView>
+    <CheckBox
+        android:id="@+id/privacy_diagnostics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:minHeight="48dp"
+        android:text="@string/privacy_record"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
