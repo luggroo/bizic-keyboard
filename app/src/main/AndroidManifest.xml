@@ -2,7 +2,7 @@
     <application
         android:name=".CrashReports"
         android:allowBackup="false"
-        android:icon="@drawable/ic_tujia"
+        android:icon="@mipmap/ic_tujia_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity

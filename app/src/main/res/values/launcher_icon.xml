@@ -1,0 +1,4 @@
+<resources>
+    <!-- Android 7.x legacy fallback. -->
+    <item type="mipmap" name="ic_tujia_launcher">@drawable/ic_tujia</item>
+</resources>
