@@ -19,6 +19,7 @@
             android:paddingEnd="24dp"
             android:paddingBottom="18dp">
             <LinearLayout
+                android:id="@+id/privacy_brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -37,6 +38,7 @@
                     android:textColor="?android:attr/colorAccent" />
             </LinearLayout>
             <TextView
+                android:id="@+id/privacy_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

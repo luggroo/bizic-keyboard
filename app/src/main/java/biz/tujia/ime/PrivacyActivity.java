@@ -31,6 +31,12 @@ public final class PrivacyActivity extends Activity {
         Context ui = new ContextThemeWrapper(strings, theme);
         setTitle(strings.getText(R.string.privacy_title));
         setContentView(LayoutInflater.from(ui).inflate(R.layout.academy_privacy, null));
+        if (strings.getResources().getConfiguration().fontScale >= 1.5f) {
+            // Preserve reading space for the offline disclosure above the fixed consent controls.
+            findViewById(R.id.privacy_brand).setVisibility(View.GONE);
+            TextView heading = findViewById(R.id.privacy_heading);
+            heading.setTextSize(20);
+        }
         View root = findViewById(R.id.privacy_screen);
         int canvas = getColor(dark ? R.color.academy_dark_canvas : R.color.academy_light_canvas);
         if (Build.VERSION.SDK_INT >= 26) {
