@@ -68,6 +68,8 @@ adb uninstall biz.tujia.ime.e2e
 adb uninstall biz.tujia.ime
 ```
 
+同一个测试 APK 提供独立的 PDF 接收器。联网时从学习页的翻译示例「乌鸦」打开逐词分析 PDF，返回后开启飞行模式，再点击同一链接。`adb logcat -d -s BizicResourceQA:I` 应显示两次 364,073 字节和同一 SHA-256，具体散列可在快照的 `optional-resources.json` 中按文件名 `example-en-crow.pdf` 查到。网络环境使用企业 HTTPS 代理时，测试设备需能验证该代理的证书。
+
 升级复验用同一开发签名构建 `v0.3.6` 和当前版本，检查两条旧版升级路径以及新版两个变体间的双向替换。脚本写入测试词条、偏好和一份模拟崩溃记录，用 `adb install -r` 替换程序后逐项核对，并读取系统当前选中的输入法。发布前还需用生产签名的候选 APK 验证 Releases 安装包的原位升级。
 
 ```sh
