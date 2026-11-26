@@ -1,6 +1,6 @@
 <resources>
     <string name="privacy_title">Privacy notice</string>
-    <string name="privacy_intro"><b>This app never connects to the internet.</b> Searches and keyboard input are processed on this device. Keyboard diagnostics are on by default and can be turned off at any time. External links open in your browser, which may use the internet.</string>
+    <string name="privacy_intro"><b>This app never connects to the internet.</b> Searches and typing stay on this device. Keyboard diagnostics are on by default and may record keystrokes and selections in ordinary text fields. You can turn them off at any time. Your browser may use the internet when opening an external link.</string>
     <string name="privacy_local_title">Typing and your personal dictionary</string>
     <string name="privacy_local">The keyboard processes keystrokes, candidates and predictions on this device. Personal dictionary learning is on by default. You can turn it off or clear your dictionary in Keyboard settings. The reader cannot access text you type in other apps or your personal dictionary.</string>
     <string name="privacy_diagnostic_title">Local crash reports</string>

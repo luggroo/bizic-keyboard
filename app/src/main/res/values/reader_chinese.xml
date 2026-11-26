@@ -1,7 +1,7 @@
 <resources>
     <!-- Shared by the default and explicit zh resource configurations. -->
     <string name="zh_privacy_title" translatable="false">隐私说明</string>
-    <string name="zh_privacy_intro" translatable="false"><b>本应用不联网。</b>查词和键盘输入均在本机处理。键盘操作诊断默认开启，可随时关闭。打开外部链接会跳转浏览器，浏览器可能联网。</string>
+    <string name="zh_privacy_intro" translatable="false"><b>本应用不联网。</b>查词和键盘输入均在本机处理。键盘操作诊断默认开启，可能记录普通输入框的按键和选词，可随时关闭。打开外部链接会跳转浏览器，浏览器可能联网。</string>
     <string name="zh_privacy_local_title" translatable="false">输入和个人词库</string>
     <string name="zh_privacy_local" translatable="false">键盘在本机处理按键、候选和联想。个人词库学习默认开启，可在输入法设置中关闭学习或清空个人词库。学习页面无法读取其他应用中的键盘输入或你的个人词库。</string>
     <string name="zh_privacy_diagnostic_title" translatable="false">本机崩溃诊断</string>
