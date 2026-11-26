@@ -2779,10 +2779,17 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         CharSequence output = wordSpacing ? wordForEditor(ic, text, joinedRanges, 0, "")
                 : HanUnitStyle.forEditor(text, joinedRanges, 0);
         int start = Math.min(selStart, selEnd);
-        if (!ic.commitText(output, 1)) return false;
-        pendingWordSeparator = false;
-        if (start >= 0) expect(start + output.length());
-        return true;
+        // The built-in editor can deliver onUpdateSelection before commitText returns.
+        // Publish the expected caret before the editor closes the batch and notifies us.
+        ic.beginBatchEdit();
+        try {
+            if (!ic.commitText(output, 1)) return false;
+            pendingWordSeparator = false;
+            if (start >= 0) expect(start + output.length());
+            return true;
+        } finally {
+            ic.endBatchEdit();
+        }
     }
 
     private CharSequence wordForEditor(InputConnection editor, String text, int[] joinedRanges,
@@ -2823,7 +2830,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (ic == null) return;
         recentWords = previousSyllable = "";
         if (selStart >= 0 && selEnd >= 0 && selStart != selEnd) {
-            if (ic.commitText("", 1)) { expect(Math.min(selStart, selEnd)); readSentenceBoundary(); updateCandidates(); }
+            int start = Math.min(selStart, selEnd);
+            ic.beginBatchEdit();
+            try {
+                if (!ic.commitText("", 1)) return;
+                expect(start);
+            } finally {
+                ic.endBatchEdit();
+            }
+            readSentenceBoundary();
+            updateCandidates();
             return;
         }
         CharSequence before = ic.getTextBeforeCursor(8, 0);
@@ -2840,11 +2856,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
         }
         int start = selStart;
-        if (ic.deleteSurroundingText(len, 0) && start >= 0) {
-            expect(Math.max(0, start - len));
-            readSentenceBoundary();
-            updateCandidates();
+        ic.beginBatchEdit();
+        try {
+            if (!ic.deleteSurroundingText(len, 0)) return;
+            if (start >= 0) expect(Math.max(0, start - len));
+        } finally {
+            ic.endBatchEdit();
         }
+        readSentenceBoundary();
+        updateCandidates();
     }
 
     @Override public boolean onKeyDown(int code, KeyEvent ev) {
