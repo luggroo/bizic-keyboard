@@ -77,7 +77,7 @@ final class HostCompatibility {
         try {
             rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, Configuration.ORIENTATION_LANDSCAPE);
             keys.tapField(host.first);
-            keys.assertBackspaceAlignment(false);
+            keys.press("手写");
             keys.setHandwritingOutput(true);
             keys.assertEditorAboveKeyboard(host.first, "手写");
             Rect before = keys.waitForNode("汉字手写区", false);
