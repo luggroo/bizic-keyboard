@@ -26,6 +26,7 @@ async function capture(name) {
   const png = await adb('exec-out', 'screencap', '-p');
   assert.equal(png.readUInt32BE(0), 0x89504e47);
   await fs.writeFile(path.join(evidence, name + '.png'), png);
+  return {width: png.readUInt32BE(16), height: png.readUInt32BE(20)};
 }
 
 async function waitFor(check, description) {
@@ -68,8 +69,9 @@ async function privacyButton(id) {
     if (!node) return undefined;
     const position = node.match(/bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/);
     if (!position) return undefined;
-    return {x: (Number(position[1]) + Number(position[3])) >> 1,
-      y: (Number(position[2]) + Number(position[4])) >> 1, checked: node.includes('checked="true"'),
+    const [left, top, right, bottom] = position.slice(1).map(Number);
+    return {left, top, right, bottom, x: (left + right) >> 1, y: (top + bottom) >> 1,
+      checked: node.includes('checked="true"'), enabled: node.includes('enabled="true"'),
       text: (node.match(/text="([^"]*)"/) || [])[1]};
   }, 'the native disclosure control ' + id);
 }
@@ -77,18 +79,39 @@ async function privacyButton(id) {
 async function acknowledgePrivacy(info) {
   await waitFor(() => activeActivity('PrivacyActivity'), 'first launch privacy disclosure');
   await privacyButton('privacy_accept');
-  await capture('first-launch-privacy');
+  const summary = await privacyButton('privacy_summary');
+  const initial = await privacyButton('privacy_diagnostics');
+  const screen = await capture('first-launch-privacy');
+  const english = summary.text.startsWith('This app never connects to the internet.');
+  if (english) {
+    assert.match(summary.text, /on by default/i);
+    assert.match(summary.text, /may record keystrokes and selections in ordinary text fields/i);
+    assert.match(summary.text, /turn (?:them|it) off|turned off|disable/i);
+  } else {
+    assert.match(summary.text, /^本应用不联网。/);
+    assert.match(summary.text, /可能记录普通输入框的按键和选词/);
+    assert.match(summary.text, /默认开启.*关闭/);
+  }
+  assert(summary.top < screen.height / 2, 'The offline statement should appear near the top');
+  for (const element of [summary, initial]) {
+    assert(element.left >= 0 && element.right <= screen.width && element.right > element.left);
+    assert(element.top >= 0 && element.bottom <= screen.height && element.bottom > element.top);
+  }
+  assert(initial.enabled && initial.checked);
+  info.firstLaunch = {language: english ? 'en' : 'zh', summary, diagnostics: initial, screen};
   await shell('input', 'keyevent', 'KEYCODE_BACK');
   await shell('am', 'force-stop', pkg);
   await shell('am', 'start', '-W', '-n', pkg + '/.LearningActivity');
   await waitFor(() => activeActivity('PrivacyActivity'), 'disclosure again after leaving before acceptance');
   const optional = await privacyButton('privacy_diagnostics');
-  assert.equal(optional.checked, false, 'Diagnostic recording must be unchecked on a fresh install');
+  assert(optional.enabled && optional.checked, 'Diagnostic recording must be on by default on a fresh install');
+  await shell('input', 'tap', String(optional.x), String(optional.y));
+  await waitFor(async () => !(await privacyButton('privacy_diagnostics')).checked, 'turn diagnostics off before entry');
   const button = await privacyButton('privacy_accept');
   info.launchStartedAt = Date.now();
   await shell('input', 'tap', String(button.x), String(button.y));
   await waitFor(() => activeActivity('LearningActivity'), 'first acknowledged learning launch');
-  info.checks.push('First-launch native disclosure stays pending after exit; diagnostic recording is opt-in');
+  info.checks.push('The initial viewport states the offline policy and shows the enabled diagnostic switch; exit leaves the disclosure pending and diagnostics can be turned off before entry');
 }
 
 async function returnFromPrivacy(info, language) {
@@ -96,6 +119,7 @@ async function returnFromPrivacy(info, language) {
   const english = language.startsWith('en');
   const button = await privacyButton('privacy_accept');
   assert.equal(button.text, english ? 'Save and return' : '保存并返回');
+  assert.equal((await privacyButton('privacy_diagnostics')).checked, false, 'First-launch opt-out must persist');
   await capture('reopened-privacy-' + (english ? 'en' : 'zh'));
   await shell('input', 'keyevent', 'KEYCODE_BACK');
   await waitFor(() => activeActivity('LearningActivity'), 'Back from privacy');
