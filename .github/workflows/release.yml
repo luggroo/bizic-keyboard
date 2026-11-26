@@ -54,7 +54,7 @@ jobs:
             shift
             grep -Fxq -- "$(sha256sum "$file")" SHA256SUMS
             "$signer" verify --verbose "$file"
-            python3 ../qa/verify-apk.py "$@" "$file"
+            python3 ../qa/verify-apk.py --aapt "$aapt" "$@" "$file"
             local package_info
             package_info=$("$aapt" dump badging "$file")
             [[ "$package_info" == "package: name='biz.tujia.ime'"*"versionName='${VERSION#v}'"* ]]

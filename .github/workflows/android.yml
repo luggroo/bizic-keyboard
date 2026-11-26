@@ -50,14 +50,14 @@ jobs:
         run: |
           apk=app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
-          python3 qa/verify-apk.py --typing-only "$apk"
+          python3 qa/verify-apk.py --aapt "$ANDROID_HOME/build-tools/35.0.0/aapt" --typing-only "$apk"
       - uses: actions/upload-artifact@v4
         with:
           name: bizic-keyboard-typing-only-debug
           path: app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
           if-no-files-found: error
       - name: Verify bundled dictionaries and native libraries
-        run: python3 qa/verify-apk.py app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
+        run: python3 qa/verify-apk.py --aapt "$ANDROID_HOME/build-tools/35.0.0/aapt" app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
       - uses: actions/upload-artifact@v4
         with:
           name: bizic-keyboard-debug

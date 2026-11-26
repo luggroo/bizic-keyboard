@@ -2,6 +2,7 @@
 """Verify native library coverage and compare each packaged dictionary asset to source."""
 import argparse
 import hashlib
+import subprocess
 import sys
 from pathlib import Path
 from zipfile import ZipFile
@@ -10,6 +11,17 @@ from zipfile import ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from prepare_learning_assets import read_snapshot
+
+
+def verify_offline_permissions(apk, aapt):
+    manifest = subprocess.run([str(aapt), "dump", "permissions", str(apk)],
+                              check=True, capture_output=True, text=True).stdout
+    if not manifest.startswith("package: "):
+        raise ValueError("Unable to read the packaged Android permissions")
+    for line in manifest.splitlines():
+        if line.startswith("uses-permission") and "name='android.permission.INTERNET'" in line:
+            raise ValueError(f"{apk.name} requests INTERNET in its merged manifest")
+    print(f"{apk.name}: offline permission check passed")
 
 
 def verify(apk, typing_only):
@@ -54,5 +66,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("apk", type=Path)
     parser.add_argument("--typing-only", action="store_true")
+    parser.add_argument("--aapt", type=Path, help="Verify offline permissions with Android Build Tools aapt")
     args = parser.parse_args()
+    if args.aapt:
+        verify_offline_permissions(args.apk, args.aapt)
     verify(args.apk, args.typing_only)
