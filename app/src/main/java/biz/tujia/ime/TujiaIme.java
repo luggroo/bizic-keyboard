@@ -2309,7 +2309,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         form.setSingleLine(false);
         form.setHorizontallyScrolling(false);
         form.setEllipsize(null);
-        form.setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
+        form.setBreakStrategy(android.graphics.text.LineBreaker.BREAK_STRATEGY_SIMPLE);
         form.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
         return form;
     }
