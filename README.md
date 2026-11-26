@@ -4,7 +4,12 @@
 
 ## 下载与试打
 
-[下载土家语输入法 0.3.5（安卓 APK）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.5/tujia-keyboard-0.3.5.apk)
+0.3.6 提供两个安卓安装包。
+
+- [手写版 · 拼音、手写和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6.apk)
+- [无手写版 · 拼音和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6-no-handwriting.apk)
+
+两个版本可以互相覆盖安装。0.3.5 公开版的签名与 0.3.6 不同，Android 无法直接覆盖升级。卸载旧版会清除它的设置和个人词库。
 
 1. 在手机上安装 APK，打开「土家语输入法」。
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
