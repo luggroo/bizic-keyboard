@@ -1,0 +1,36 @@
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
+
+abstract class PrepareLearningAssets extends DefaultTask {
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getSnapshot()
+
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getPin()
+
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE)
+    abstract RegularFileProperty getPreparer()
+
+    @OutputDirectory
+    abstract DirectoryProperty getOutputDirectory()
+
+    @Inject
+    abstract ExecOperations getExecOperations()
+
+    @TaskAction
+    void prepare() {
+        execOperations.exec {
+            commandLine 'python3', preparer.get().asFile, outputDirectory.get().asFile,
+                    '--snapshot', snapshot.get().asFile, '--pin', pin.get().asFile
+        }
+    }
+}
+
+androidComponents.onVariants(androidComponents.selector().all()) { variant ->
+    def task = tasks.register("prepare${variant.name.capitalize()}LearningAssets", PrepareLearningAssets) {
+        snapshot.set(rootProject.layout.projectDirectory.file('learning-content/learning.zip'))
+        pin.set(rootProject.layout.projectDirectory.file('learning-content/learning.sha256'))
+        preparer.set(rootProject.layout.projectDirectory.file('tools/prepare_learning_assets.py'))
+    }
+    variant.sources.assets.addGeneratedSourceDirectory(task, { it.outputDirectory })
+}

@@ -2,6 +2,10 @@
 
 这是一个可在其他安卓应用里使用的系统键盘。键盘收录 526 个北部土家语词和词组，另有 35,925 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。
 
+开发版「毕资学堂」从应用图标打开本机词典、参考语法、语料、文献目录和记音工具。初次安装即可离线阅读。用「输入法」打开键盘管理，能启用或选择系统键盘、试打、调整拼写与音标设置，并查看本机崩溃日志。
+
+学习页面只能读取安装包内的学习资料。点按资料下载链接后，应用通过 HTTPS 取回该项文件，存入本机供再次打开。其他网站链接交由浏览器打开。键盘输入、选词及个人词库都在设备上处理。崩溃记录沿用键盘设置中的选择，可在发送邮件前查看内容。
+
 ## 下载与试打
 
 0.3.6 提供两个安卓安装包，均支持 64 位 ARM、32 位 ARM 和 x86_64，最低系统要求是 Android 7.0。
@@ -123,7 +127,7 @@ final class KeyboardController: UIInputViewController {
 
 ## 构建安卓安装包
 
-使用 Android Studio 打开本目录，或在装有 JDK 17、Android SDK Platform 35、Build Tools 35.0.0、NDK 28.2.13676358 和 CMake 3.22.1 的环境中运行。Gradle Wrapper 和预生成的离线词表已随工程附带。
+使用 Android Studio 打开本目录，或在装有 JDK 17、Android SDK Platform 35、Build Tools 35.0.0、NDK 28.2.13676358 和 CMake 3.22.1 的环境中运行。离线资源校验使用 Python 3.9 或更新版本。工程附带 Gradle Wrapper、输入法词表和学习资源包。
 
 ```sh
 ./gradlew :app:assembleHandwritingDebug :app:assembleTypingOnlyDebug
@@ -138,6 +142,14 @@ final class KeyboardController: UIInputViewController {
 提交到 main 或打开拉取请求后，GitHub Actions 会运行核心测试、构建 APK 并校验签名。手写版下载 `bizic-keyboard-debug`，仅使用拼音和音标可下载 `bizic-keyboard-typing-only-debug`。手机上连续升级试用版，请使用 Releases 中由同一证书签名的 APK。[构建记录](https://github.com/luggroo/bizic-keyboard/actions/workflows/android.yml)
 
 本地构建脚本使用 Gradle 的 Android 调试签名。
+
+词典、语法和语料来自 `learning-content/learning.zip`。Gradle 会核对 `learning.sha256`、资源清单及每个文件的摘要，再将快照展开到 APK 的 `assets/learning/`。安装包内的 JavaScript、模板、字体和数据随应用版本分发。更新快照时，在 `bizic-dictionary` 中按 `docs/offline-reader.md` 运行 `scripts/export-offline.py`，核对来源提交，再一起替换 ZIP 与摘要。单独构建 Android 工程即可使用仓库内固定的快照。
+
+```sh
+python3 qa/test_learning_snapshot.py
+python3 qa/verify-apk.py --typing-only app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+python3 qa/apk_size.py app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+```
 
 ## 测试
 

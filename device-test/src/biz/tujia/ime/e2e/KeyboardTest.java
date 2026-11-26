@@ -92,6 +92,13 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("candidate-layout") || suite.equals("typing-only")) testCandidateLayout();
+            if (suite.equals("learning-ime")) {
+                testFirstInput();
+                testSpellingOnSpace();
+                testPrivateKeyboard();
+                if (freshInstall) testCrashRecordingDefault();
+                testUserDictionary();
+            }
             if (suite.equals("ipa-detail")) testIpaDetail();
             if (suite.equals("ipa")) {
                 testIpaSettings();
@@ -769,15 +776,32 @@ public final class KeyboardTest extends Instrumentation {
             expectOriginalAfterMatches(word);
             press("空格");
             for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+            expectText(host.first, word + " " + word + " " + prefix);
+            waitForNode(completion, false);
             expectFirst(completion);
             pressCandidate(completion, false);
             expectText(host.first, word + " " + word + " " + word);
+            if ("音标".equals(form)) {
+                int end = 3 * word.length() + 2;
+                runOnMainSync(() -> host.first.setSelection(end - 1));
+                waitForNode("输入音标查看候选", false);
+                runOnMainSync(() -> host.first.setSelection(end));
+                waitForNode("无匹配候选", false);
+            }
         }
         runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT,
                 EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
         tapField(host.first);
         press("叶氏拼音");
         type(prefix);
+        waitAbsent(completion);
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT,
+                EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
+        tapField(host.first);
+        press("音标");
+        for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+        expectText(host.first, prefix);
+        waitForNode("无匹配候选", false);
         waitAbsent(completion);
     }
 
@@ -796,6 +820,20 @@ public final class KeyboardTest extends Instrumentation {
         type("bizika");
         press("空格");
         expectText(host.first, "ngaf yer pifpav bízīkǎ ");
+    }
+
+    private void testPrivateKeyboard() {
+        stage("Password editors use direct input and hide learned and official candidates");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+        waitForNode("英文直输", false);
+        awaitKeyboardAtRest();
+        press("a");
+        expectText(host.first, "a");
+        waitAbsent("音标");
+        if (!pageCards("用户词，").isEmpty() || !pageCards("联想 ").isEmpty())
+            throw new AssertionError("Password editor displayed candidates");
     }
 
     private void testSeparatorAfterChoice() {

@@ -9,6 +9,7 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.text.InputType;
+import android.util.JsonReader;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -38,6 +40,7 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public final class SetupActivity extends Activity {
     private static final int INK = 0xff382b26;
@@ -119,7 +122,8 @@ public final class SetupActivity extends Activity {
         addSpaced(body, ipaCompletion, 8);
 
         LinearLayout diagnostics = section(body, 24);
-        diagnostics.addView(label("崩溃排查", 18, INK, true));
+        diagnostics.addView(label("隐私与崩溃排查", 18, INK, true));
+        addSpaced(diagnostics, label(getString(R.string.reader_privacy), 14, MUTED, false), 6);
         CheckBox record = new CheckBox(this);
         record.setText("记录键盘操作");
         record.setSaveEnabled(false);
@@ -138,7 +142,7 @@ public final class SetupActivity extends Activity {
         TextView contact = label(BUG_EMAIL, 14, MUTED, false);
         contact.setTextIsSelectable(true);
         addSpaced(diagnostics, contact, 4);
-        Button info = action(Handwriting.ENABLED ? "关于词库与手写字形" : "关于词库", false, v -> showSources());
+        Button info = action(Handwriting.ENABLED ? "版本、词库与手写字形" : "版本与词库来源", false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
     }
@@ -258,7 +262,23 @@ public final class SetupActivity extends Activity {
     }
 
     private void showSources() {
-        String source = "北部土家语词条来自 tujia.biz 北部词典及补充语料。";
+        StringBuilder versions = new StringBuilder();
+        try {
+            String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versions.append(getString(R.string.app_version, version)).append('\n');
+        } catch (PackageManager.NameNotFoundException ignored) {}
+        try (JsonReader reader = new JsonReader(new InputStreamReader(
+                getAssets().open("learning/offline-manifest.json"), StandardCharsets.UTF_8))) {
+            reader.beginObject();
+            while (reader.hasNext()) {
+                if (reader.nextName().equals("contentVersion")) {
+                    versions.append(getString(R.string.content_version, reader.nextString())).append('\n');
+                    break;
+                }
+                reader.skipValue();
+            }
+        } catch (IOException ignored) {}
+        String source = versions + "\n北部土家语词条来自 tujia.biz 北部词典及补充语料。";
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         if (Handwriting.ENABLED) {
             dialog.setTitle("词库与手写字形");

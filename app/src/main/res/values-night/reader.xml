@@ -1,0 +1,7 @@
+<resources>
+    <color name="reader_surface">#1B211D</color>
+    <style name="LearningTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/reader_surface</item>
+        <item name="android:colorAccent">#BCD3BD</item>
+    </style>
+</resources>

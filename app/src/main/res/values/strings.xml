@@ -1,5 +1,18 @@
 <resources>
-    <string name="app_name">土家语输入法</string>
+    <string name="app_name" translatable="false">毕资学堂</string>
+    <string name="ime_name" translatable="false">土家语输入法</string>
+    <string name="reader_unavailable">无法打开本机资料。请重试，或检查系统的 Android WebView 是否可用。</string>
+    <string name="retry_reader">重试</string>
+    <string name="keyboard_settings">输入法设置</string>
+    <string name="no_link_handler">没有可打开此链接的应用。</string>
+    <string name="reader_privacy">键盘在本机处理输入。学习页面和资料服务器都无法读取按键、选词或个人词库。点按学堂里的资料下载链接，会通过 HTTPS 下载文件并保存在本机。其他网站链接由浏览器打开。</string>
+    <string name="app_version">应用版本　%1$s</string>
+    <string name="content_version">内置资料版本　%1$s</string>
+    <color name="reader_surface">#FFFFFF</color>
+    <style name="LearningTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/reader_surface</item>
+        <item name="android:colorAccent">#345D47</item>
+    </style>
     <string name="subtype_name">北部土家语</string>
     <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>

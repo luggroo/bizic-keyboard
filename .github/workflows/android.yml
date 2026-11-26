@@ -22,6 +22,12 @@ jobs:
       - name: Install Android toolchain
         run: >-
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
+      - name: Test offline reader origin, assets and optional files
+        run: |
+          javac -d "$RUNNER_TEMP" app/src/main/java/biz/tujia/ime/LearningOrigin.java tests/LearningOriginTest.java app/src/main/java/biz/tujia/ime/OptionalFile.java tests/OptionalFileTest.java
+          java -cp "$RUNNER_TEMP" biz.tujia.ime.LearningOriginTest
+          java -cp "$RUNNER_TEMP" biz.tujia.ime.OptionalFileTest
+          python3 qa/test_learning_snapshot.py
       - name: Test shared input engine
         run: ./tools/test-core.sh
       - name: Test offline handwriting model

@@ -350,6 +350,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (newStart == newEnd && expectedSelections.contains(newEnd)) {
             while (!expectedSelections.isEmpty() && expectedSelections.removeFirst() != newEnd) { }
             if (!expectedSelections.isEmpty()) return;
+            // Own IPA edits already refreshed candidates at this cursor. Android 7 editors can
+            // time out on surrounding-text requests made inside the selection acknowledgement.
+            if (inIpaMode() && newEnd == selEnd && shownIpaPrefix != null
+                    && !" ".equals(shownIpaPrefix)) return;
         } else if (oldStart != newStart || oldEnd != newEnd) {
             if (newStart != selStart || newEnd != selEnd) {
                 if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;

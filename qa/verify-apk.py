@@ -2,19 +2,26 @@
 """Verify native library coverage and compare each packaged dictionary asset to source."""
 import argparse
 import hashlib
+import sys
 from pathlib import Path
 from zipfile import ZipFile
 
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+from prepare_learning_assets import read_snapshot
+
+
 def verify(apk, typing_only):
-    assets = Path(__file__).resolve().parents[1] / "shared/bundle/Assets"
+    assets = ROOT / "shared/bundle/Assets"
     expected = {path.relative_to(assets).as_posix(): path for path in assets.rglob("*") if path.is_file()}
-    android_assets = Path(__file__).resolve().parents[1] / "app/src/main/assets"
+    android_assets = ROOT / "app/src/main/assets"
     expected.update({p.relative_to(android_assets).as_posix(): p for p in android_assets.rglob("*") if p.is_file()})
     if typing_only:
         expected = {name: path for name, path in expected.items()
                     if not name.startswith(("handwriting/", "ismantic/"))
                     and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
+    learning = {"learning/" + name: data for name, data in read_snapshot().items()}
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])
@@ -24,18 +31,22 @@ def verify(apk, typing_only):
         if len(names) != len(set(names)):
             raise ValueError("Duplicate archive member")
         found = {name.removeprefix("assets/") for name in names if name.startswith("assets/") and not name.endswith("/")}
-        if found != set(expected):
-            raise ValueError(f"Unexpected asset inventory: {sorted(found ^ set(expected))}")
+        required = set(expected) | set(learning)
+        if found != required:
+            raise ValueError(f"Unexpected asset inventory: {sorted(found ^ required)}")
         for name, source in expected.items():
             if archive.read("assets/" + name) != source.read_bytes():
                 raise ValueError(f"Packaged asset differs from source: {name}")
+        for name, data in learning.items():
+            if archive.read("assets/" + name) != data:
+                raise ValueError(f"Packaged asset differs from pinned learning snapshot: {name}")
         native = {name for name in names if name.startswith("lib/") and name.endswith(".so")}
         if native != {f"lib/{abi}/{name}" for abi in packages for name in libraries}:
             raise ValueError(f"Unexpected set of native libraries: {sorted(native)}")
         for lib in native:
             if archive.read(lib)[:4] != b"\x7fELF":
                 raise ValueError(f"Invalid native library: {lib}")
-    print(f"{apk.name}: {len(expected)} matching assets, {len(native)} native libraries across {len(packages)} ABIs")
+    print(f"{apk.name}: {len(required)} matching assets, {len(native)} native libraries across {len(packages)} ABIs")
     print("SHA-256", hashlib.sha256(apk.read_bytes()).hexdigest())
 
 

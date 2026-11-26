@@ -30,3 +30,51 @@ python3 qa/verify-apk.py tujia-keyboard-0.3.3.apk
 ```
 
 第二条命令需要已解锁的 Android 测试设备、JDK 和 Android SDK。也可以在 GitHub 运行 Android 15 设备工作流并下载测试证据。[构建与签名检查](../.github/workflows/android.yml) · [Android 15 设备测试](../.github/workflows/device-qa.yml)
+
+## 毕资学堂离线版复验
+
+在键盘仓库根目录运行下列命令。准备 JDK 17、Android SDK 35、NDK `28.2.13676358`、CMake `3.22.1`、Node 22 及一台已解锁的空白 AVD。用 `adb devices` 查出模拟器序列号，替换示例中的 `emulator-5554`。飞机模式和升级测试分别检查首次安装前的状态，并在结束时卸载自己的测试包。旧版系统切换飞行模式需要 AOSP 的 userdebug 镜像。
+
+```sh
+export ANDROID_SERIAL=emulator-5554
+./gradlew :app:assembleTypingOnlyDebug :app:assembleHandwritingDebug
+typing=app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+hand=app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
+npm install --prefix build/qa-node --no-save --package-lock=false playwright@1.62.1
+NODE_PATH="$PWD/build/qa-node/node_modules" node qa/learning-device.cjs "$ANDROID_SERIAL" "$typing" \
+    ../bizic-dictionary/scripts/test-offline-mobile.cjs build/qa-reader
+```
+
+`bizic-dictionary` 路径应指向与内容快照对应的词典代码。测试在关闭网络、输入法尚未启用时安装 APK，在系统 WebView 里操作页面并保存整屏截图。Android 7 的原厂 WebView 按系统镜像可能为 Chromium 51 或 52，测试使用其支持的 DevTools 命令。设备指纹、浏览器版本、联网状态和逐项结果见 `build/qa-reader/results.json`。
+
+跨应用输入测试由独立编辑器接收按键。`learning-ime` 涵盖冷启动候选、分词、两种拼写、个人词和敏感输入框。`typing-only` 检查候选布局并实测 IPA 补全。
+
+```sh
+./tools/test-core.sh
+./tools/build-apk.sh --device-test build/qa-editor.apk
+TUJIA_E2E_SUITE=learning-ime TUJIA_E2E_EVIDENCE=build/qa-ime \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=typing-only TUJIA_E2E_EVIDENCE=build/qa-ime \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+```
+
+私有存储测试在新装的测试包中开启操作记录，以合成输入核对密码、邮箱、网址、数字、电话以及禁止个性化的输入框均不会写入操作轨迹。它还检查关闭记录会清空轨迹，并验证三类个人词都可以跨实例重新读取。
+
+```sh
+adb install "$typing"
+adb install build/qa-editor.apk
+adb shell am instrument -w -r biz.tujia.ime.e2e/.PrivateStorageTest
+adb uninstall biz.tujia.ime.e2e
+adb uninstall biz.tujia.ime
+```
+
+升级复验用同一开发签名构建 `v0.3.6` 和当前版本，检查两条旧版升级路径以及新版两个变体间的双向替换。脚本写入测试词条、偏好和一份模拟崩溃记录，用 `adb install -r` 替换程序后逐项核对，并读取系统当前选中的输入法。发布前还需用生产签名的候选 APK 验证 Releases 安装包的原位升级。
+
+```sh
+git fetch origin tag v0.3.6
+git worktree add --detach build/qa-baseline v0.3.6
+(cd build/qa-baseline && ./gradlew :app:assembleTypingOnlyDebug :app:assembleHandwritingDebug)
+python3 qa/learning-upgrades.py --serial "$ANDROID_SERIAL" \
+    --old-typing "build/qa-baseline/$typing" --old-handwriting "build/qa-baseline/$hand" \
+    --typing "$typing" --handwriting "$hand"
+```
