@@ -232,7 +232,7 @@ public final class Playback extends Instrumentation {
         throw new IllegalArgumentException("Unknown recording mode " + mode);
     }
 
-    private void warmHandwriting() {
+    private void selectHanHandwriting() {
         // Setup happens before filming, while the IME window and its touch coordinates may still move.
         long until = SystemClock.uptimeMillis() + 12000;
         boolean selected = false;
@@ -247,20 +247,8 @@ public final class Playback extends Instrumentation {
         require("汉字手写区");
         activateImeControl("重写");
         runOnMainSync(() -> host.editor.setText(""));
-        Rect warmPad=require("汉字手写区");
-        float side=.88f*Math.min(warmPad.width(),warmPad.height());
-        for (int i=0;i<3;i++) {
-            float y=warmPad.exactCenterY()+side*(i*.29f-.3f);
-            float half=side*(i==2 ? .4f : .25f);
-            drawLine(warmPad.exactCenterX()-half,y,warmPad.exactCenterX()+half,y);
-        }
-        // Warm the real recognition worker, then remove its real host commit.
-        long warmUntil=SystemClock.uptimeMillis()+90000;
-        while (editorText().isEmpty() && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(110);
-        if (editorText().isEmpty()) throw new AssertionError("Handwriting warm-up did not commit a character");
-        press("汉字记音",100);
-        runOnMainSync(() -> host.editor.setText(""));
-        expectEditor("");
+        // Warm-up ink can be committed asynchronously after the next mode opens.
+        // The first recorded stroke is the first input on the empty handwriting pad.
     }
 
     private void playReading(List<String[]> script,long noteId,int chunk) throws Exception {
@@ -272,8 +260,8 @@ public final class Playback extends Instrumentation {
         }
         if (hasSpelling) changeSpellingStyle("带调号拼音");
         openStyleKeyboard(hasHandwriting ? "手写" : modeLabel(current));
-        if (hasHandwriting) warmHandwriting();
-        press(modeLabel(current),100);
+        if (hasHandwriting) selectHanHandwriting();
+        if (!"hand".equals(current)) press(modeLabel(current),100);
         press("隐藏键盘",100);
         SystemClock.sleep(700);
         segment(0);
@@ -397,15 +385,6 @@ public final class Playback extends Instrumentation {
             SystemClock.sleep(55);
         }
         if (!pad.equals(require("汉字手写区"))) throw new AssertionError("Handwriting panel changed bounds");
-    }
-
-    private void drawLine(float x1,float y1,float x2,float y2) {
-        long down=SystemClock.uptimeMillis();
-        for (int j=0;j<=6;j++) {
-            float t=j/6f;
-            int action=j==0 ? MotionEvent.ACTION_DOWN : j==6 ? MotionEvent.ACTION_UP : MotionEvent.ACTION_MOVE;
-            injectStroke(down,action,x1+(x2-x1)*t,y1+(y2-y1)*t);
-        }
     }
 
     private void injectStroke(long down,int action,float x,float y) {
@@ -855,8 +834,13 @@ public final class Playback extends Instrumentation {
             Rect card=awaitCard(text,meaning,page==0 ? 2600 : 900);
             if (card!=null) {
                 if (slow) SystemClock.sleep(readingPace ? 2050 : 650);
-                tap(card,readingPace ? 230 : 20);
-                return;
+                AccessibilityNodeInfo live=currentCard(text,meaning);
+                if (live!=null) {
+                    try {
+                        if (live.performAction(AccessibilityNodeInfo.ACTION_CLICK)) return;
+                    } finally { live.recycle(); }
+                }
+                continue;
             }
             Rect next=lookupKeyboard("下一页候选");
             if (next==null) throw new AssertionError("Missing candidate " + description + ". Visible: " + shown());
