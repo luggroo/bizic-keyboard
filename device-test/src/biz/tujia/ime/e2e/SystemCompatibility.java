@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /** Optional checks against the stock applications installed in the AOSP system image. */
 final class SystemCompatibility {
@@ -16,6 +20,50 @@ final class SystemCompatibility {
     private final KeyboardTest keys;
 
     SystemCompatibility(KeyboardTest keys) { this.keys = keys; }
+
+    void trialEditor() throws IOException {
+        String pkg = "biz.tujia.ime";
+        keys.stage("Type, replace a candidate, delete and reopen the built-in trial editor");
+        launch(new Intent().setClassName(pkg, pkg + ".SetupActivity").addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        Rect field = appNode(pkg, "editable", "");
+        keys.tap(field.centerX(), field.centerY());
+        keys.press("调号拼音");
+        for (char key : "jiexie".toCharArray()) keys.press(String.valueOf(key));
+        appNode(pkg, "editable", "jiexie");
+        keys.press("退格");
+        appNode(pkg, "editable", "jiexi");
+        keys.press("e");
+        appNode(pkg, "editable", "jiexie");
+        keys.pickFarmerCompletion();
+        appNode(pkg, "editable", "jiěxiěrǐmǎ");
+        keys.press("退格");
+        appNode(pkg, "editable", "jiěxiěrǐm");
+        pressBack();
+        keys.waitAbsent("隐藏键盘");
+        // Leave and resume the same settings task with the accepted spelling in the field.
+        Intent fixture = new Intent(keys.getTargetContext(), EditorActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        keys.getContext().startActivity(fixture);
+        appNode(keys.getTargetContext().getPackageName(), "editable", "");
+        keys.getContext().startActivity(new Intent().setClassName(pkg, pkg + ".SetupActivity")
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+        field = appNode(pkg, "editable", "jiěxiěrǐm");
+        keys.tap(field.centerX(), field.centerY());
+        keys.press("退格");
+        appNode(pkg, "editable", "jiěxiěrǐ");
+        pressBack();
+        keys.waitAbsent("隐藏键盘");
+        keys.getContext().startActivity(fixture);
+        appNode(keys.getTargetContext().getPackageName(), "editable", "");
+    }
+
+    private void pressBack() throws IOException {
+        // Wait until the system input command has dispatched both key events.
+        try (InputStream output = new ParcelFileDescriptor.AutoCloseInputStream(
+                keys.getUiAutomation().executeShellCommand("input keyevent KEYCODE_BACK"))) {
+            while (output.read() != -1) { }
+        }
+    }
 
     void run() {
         keys.stage("Preinstalled AOSP Contacts: enter a name in an unsaved new contact");

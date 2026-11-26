@@ -23,6 +23,7 @@ import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodInfo;
@@ -64,7 +65,13 @@ public final class SetupActivity extends Activity {
             scroll.setOnApplyWindowInsetsListener((v, insets) -> {
                 android.graphics.Insets sides = insets.getInsets(WindowInsets.Type.systemBars()
                         | WindowInsets.Type.displayCutout() | WindowInsets.Type.ime());
-                v.setPadding(sides.left, sides.top, sides.right, sides.bottom);
+                // Resize the viewport so ScrollView keeps the focused editor above the IME.
+                ViewGroup.MarginLayoutParams layout = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                if (layout.leftMargin != sides.left || layout.topMargin != sides.top
+                        || layout.rightMargin != sides.right || layout.bottomMargin != sides.bottom) {
+                    layout.setMargins(sides.left, sides.top, sides.right, sides.bottom);
+                    v.setLayoutParams(layout);
+                }
                 return insets;
             });
         }
