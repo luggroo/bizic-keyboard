@@ -233,15 +233,20 @@ public final class Playback extends Instrumentation {
     }
 
     private void warmHandwriting() {
-        // Initialization may rebuild the keyboard after its window first appears.
-        // Select the output on the current control before touching the writing surface.
+        // Setup happens before filming, while the IME window and its touch coordinates may still move.
         long until = SystemClock.uptimeMillis() + 12000;
-        while (lookupKeyboard("汉字") == null && SystemClock.uptimeMillis() < until) {
-            if (lookupKeyboard("汉字手写区") == null) press("手写", 100);
-            else press("设置", 100);
-            SystemClock.sleep(300);
+        boolean selected = false;
+        while (!selected && SystemClock.uptimeMillis() < until) {
+            selected = activateImeControl("汉字");
+            if (!selected) {
+                activateImeControl(lookupKeyboard("汉字手写区") == null ? "手写" : "设置");
+                SystemClock.sleep(250);
+            }
         }
-        press("汉字", 100);
+        if (!selected) throw new AssertionError("Could not select Han handwriting output");
+        require("汉字手写区");
+        activateImeControl("重写");
+        runOnMainSync(() -> host.editor.setText(""));
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {
@@ -507,9 +512,14 @@ public final class Playback extends Instrumentation {
             InputMethodManager imm=(InputMethodManager)host.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(host.editor, InputMethodManager.SHOW_IMPLICIT);
         });
-        press(mode,100);
-        if ("手写".equals(mode)) require("汉字手写区");
-        else requireEmptyDraft();
+        if ("手写".equals(mode)) {
+            require("手写");
+            activateImeControl("手写");
+            require("汉字手写区");
+        } else {
+            press(mode,100);
+            requireEmptyDraft();
+        }
     }
 
     private void typeAfterSettings(String raw) {
@@ -897,6 +907,19 @@ public final class Playback extends Instrumentation {
         }
         tap(require(label),duration);
     }
+    private boolean activateImeControl(String label) {
+        if (lookupKeyboard(label) == null || keyboard == null) return false;
+        for (AccessibilityNodeInfo node : keyboard.findAccessibilityNodeInfosByText(label)) {
+            try {
+                if (node.refresh() && node.isVisibleToUser() && node.isClickable()
+                        && (android.text.TextUtils.equals(label, node.getContentDescription())
+                        || android.text.TextUtils.equals(label, node.getText()))
+                        && node.performAction(AccessibilityNodeInfo.ACTION_CLICK)) return true;
+            } finally { node.recycle(); }
+        }
+        return false;
+    }
+
     private Rect require(String value) {
         long end=SystemClock.uptimeMillis() + 16000;
         do {
