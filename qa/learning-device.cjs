@@ -48,19 +48,89 @@ async function airplaneMode(enabled) {
   await shell('su', '0', 'am', 'broadcast', '-a', 'android.intent.action.AIRPLANE_MODE', '--ez', 'state', enabled ? 'true' : 'false');
 }
 
-async function keyboardRoundTrip(info) {
+async function activeActivity(name) {
+  const dump = await shell('dumpsys', 'activity', 'activities');
+  return dump.split('\n').some(line => /mResumedActivity|topResumedActivity|mFocusedActivity/.test(line)
+    && line.includes(pkg + '/.' + name));
+}
+
+async function privacyButton(id) {
+  const file = '/data/local/tmp/bizic-reader-privacy.xml';
+  return await waitFor(async () => {
+    await shell('uiautomator', 'dump', file);
+    const tree = await shell('cat', file);
+    const node = tree.match(/<node\b[^>]*>/g)?.find(row => row.includes('resource-id="' + pkg + ':id/' + id + '"'));
+    if (!node) return undefined;
+    const position = node.match(/bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/);
+    if (!position) return undefined;
+    return {x: (Number(position[1]) + Number(position[3])) >> 1,
+      y: (Number(position[2]) + Number(position[4])) >> 1, checked: node.includes('checked="true"'),
+      text: (node.match(/text="([^"]*)"/) || [])[1]};
+  }, 'the native disclosure control ' + id);
+}
+
+async function acknowledgePrivacy(info) {
+  await waitFor(() => activeActivity('PrivacyActivity'), 'first launch privacy disclosure');
+  await privacyButton('privacy_accept');
+  await capture('first-launch-privacy');
+  await shell('input', 'keyevent', 'KEYCODE_BACK');
+  await shell('am', 'force-stop', pkg);
+  await shell('am', 'start', '-W', '-n', pkg + '/.LearningActivity');
+  await waitFor(() => activeActivity('PrivacyActivity'), 'disclosure again after leaving before acceptance');
+  const optional = await privacyButton('privacy_diagnostics');
+  assert.equal(optional.checked, false, 'Diagnostic recording must be unchecked on a fresh install');
+  const button = await privacyButton('privacy_accept');
+  info.launchStartedAt = Date.now();
+  await shell('input', 'tap', String(button.x), String(button.y));
+  await waitFor(() => activeActivity('LearningActivity'), 'first acknowledged learning launch');
+  info.checks.push('First-launch native disclosure stays pending after exit; diagnostic recording is opt-in');
+}
+
+async function returnFromPrivacy(info, language) {
+  await waitFor(() => activeActivity('PrivacyActivity'), 'native privacy screen reopened from the reader');
+  const english = language.startsWith('en');
+  const button = await privacyButton('privacy_accept');
+  assert.equal(button.text, english ? 'Save and return' : '保存并返回');
+  await capture('reopened-privacy-' + (english ? 'en' : 'zh'));
+  await shell('input', 'keyevent', 'KEYCODE_BACK');
+  await waitFor(() => activeActivity('LearningActivity'), 'Back from privacy');
+  info.checks.push('Privacy settings reopen from the WebView');
+}
+
+async function cancelExternal(info, url) {
+  const file = '/data/local/tmp/bizic-reader-external.xml';
+  await waitFor(async () => {
+    await shell('uiautomator', 'dump', file);
+    const xml = (await shell('cat', file)).replaceAll('&amp;', '&');
+    return xml.includes('android:id/button1') && xml.includes('android:id/button2') && xml.includes(url);
+  }, 'confirmed external destination URL and cancel action');
+  await capture('external-link-confirmation');
+  await shell('input', 'keyevent', 'KEYCODE_BACK');
+  info.checks.push('A user-tapped external HTTPS publication link shows the full URL and can be canceled');
+}
+
+async function readerSocket(api) {
+  const rows = (await shell('ps', ...(Number(api) >= 26 ? ['-A'] : []))).split('\n');
+  const reader = rows.find(line => line.trimEnd().endsWith(pkg + ':learning'));
+  if (!reader) return undefined;
+  const pid = reader.trim().split(/\s+/)[1];
+  const name = 'webview_devtools_remote_' + pid;
+  return (await shell('cat', '/proc/net/unix')).includes('@' + name) && name;
+}
+
+async function keyboardRoundTrip(info, language = 'zh') {
   await waitFor(async () => /(?:mResumedActivity|topResumedActivity|mCurrentFocus).*biz.tujia.ime\/\.SetupActivity/.test(
     await shell('dumpsys', 'activity', 'activities')), 'native keyboard management');
   const hierarchy = '/data/local/tmp/bizic-reader-setup.xml';
   try {
     await waitFor(async () => {
       await shell('uiautomator', 'dump', '--compressed', hierarchy);
-      return (await shell('cat', hierarchy)).includes('土家语输入法');
+      return (await shell('cat', hierarchy)).includes(language.startsWith('en') ? 'Tujia keyboard' : '土家语输入法');
     }, 'drawn keyboard management controls');
   } finally {
     await shell('rm', '-f', hierarchy);
   }
-  await capture('keyboard-management');
+  await capture('keyboard-management-' + (language.startsWith('en') ? 'en' : 'zh'));
   await shell('input', 'keyevent', 'KEYCODE_BACK');
   await waitFor(async () => /(?:mResumedActivity|topResumedActivity|mCurrentFocus).*biz.tujia.ime\/\.LearningActivity/.test(
     await shell('dumpsys', 'activity', 'activities')), 'return to the dictionary');
@@ -104,18 +174,11 @@ async function main() {
     await shell('input', 'keyevent', 'KEYCODE_WAKEUP');
     if (Number(info.api) >= 26) await shell('wm', 'dismiss-keyguard');
     else await shell('input', 'keyevent', 'KEYCODE_MENU');
-    info.launchStartedAt = Date.now();
     info.androidLaunch = await shell('am', 'start', '-W', '-n', pkg + '/.LearningActivity');
-    const socket = await waitFor(async () => {
-      const rows = (await shell('ps', ...(Number(info.api) >= 26 ? ['-A'] : []))).split('\n');
-      const reader = rows.find(line => line.trimEnd().endsWith(pkg + ':learning'));
-      if (!reader) return;
-      const pid = reader.trim().split(/\s+/)[1];
-      const name = 'webview_devtools_remote_' + pid;
-      return (await shell('cat', '/proc/net/unix')).includes('@' + name) && name;
-    }, 'the learning process WebView');
+    await acknowledgePrivacy(info);
+    const socket = await waitFor(() => readerSocket(info.api), 'the learning process WebView');
     if (Number(info.api) <= 25 || process.env.TUJIA_QA_RAW_CDP === '1') {
-      await require('./learning-legacy.cjs').exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, apk});
+      await require('./learning-legacy.cjs').exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, returnFromPrivacy, cancelExternal, apk});
     } else {
       const {_android} = require('playwright');
       const {exerciseLearningUI} = require(path.resolve(suite));
@@ -142,12 +205,28 @@ async function main() {
       info.navigatorOnline = await page.evaluate(() => navigator.onLine);
       info.domContentLoadedMs = await page.evaluate(() => performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart);
       await exerciseLearningUI(page, {capture, report: message => {info.checks.push(message); console.log(message);}});
-      const keyboard = page.locator('aside a[href^="/_app/keyboard"]').first();
-      await keyboard.click();
-      await keyboardRoundTrip(info);
+      await page.goto('https://appassets.androidplatform.net/index.html');
+      const initialLanguage = await page.evaluate(() => document.documentElement.lang);
+      await page.locator('#academy-home .academy-ime-manage').click();
+      await keyboardRoundTrip(info, initialLanguage);
+      await page.locator('.academy-menu-toggle:visible').first().click();
+      await page.locator('#academy-drawer [data-view="settings"]').click();
+      for (const language of ['en', 'zh']) {
+        await page.locator('#ui-language').selectOption(language);
+        await page.waitForFunction(expected => document.documentElement.lang.startsWith(expected), language);
+        await page.locator('#academy-settings a[href="/_app/privacy"]').click();
+        await returnFromPrivacy(info, language);
+        await page.locator('#academy-settings a[href="/_app/keyboard"]').click();
+        await keyboardRoundTrip(info, language);
+      }
     }
     assert.deepEqual(info.pageErrors, []);
     assert.deepEqual(info.externalRequests, []);
+    await shell('am', 'force-stop', pkg);
+    await shell('am', 'start', '-W', '-n', pkg + '/.LearningActivity');
+    await waitFor(() => readerSocket(info.api), 'the acknowledged reader without another first-run prompt');
+    assert(await activeActivity('LearningActivity'));
+    info.checks.push('Acknowledgement survives a cold process restart');
   } catch (error) {
     info.failure = error.stack;
     await capture('failure').catch(() => {});

@@ -12,12 +12,22 @@ final class KeyboardSettings {
 
     static boolean crashRecording(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
-        return prefs.getBoolean(CRASH_RECORDING, prefs.getBoolean("trial_recording", true));
+        return prefs.getBoolean(CRASH_RECORDING, prefs.getBoolean("trial_recording", false));
     }
 
     static void setCrashRecording(Context context, boolean enabled) {
         context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
                 .putBoolean(CRASH_RECORDING, enabled).apply();
+    }
+
+    static boolean personalLearning(Context context) {
+        return context.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+                .getBoolean("personal_learning", true);
+    }
+
+    static void setPersonalLearning(Context context, boolean enabled) {
+        context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
+                .putBoolean("personal_learning", enabled).apply();
     }
 
     private KeyboardSettings() { }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise all four in-place upgrades on an empty emulator with development-signed APKs."""
+"""Verify in-place IME upgrades and the preferences actually read by the installed new APK."""
 
 import argparse
 from pathlib import Path
@@ -13,8 +13,7 @@ PACKAGE = 'biz.tujia.ime'
 COMPONENT = PACKAGE + '/.TujiaIme'
 PREFERENCES = {
     'shared_prefs/keyboard.xml': {'spelling_tone_marks': ('boolean', 'false'),
-                                 'ipa_completion_dialects': ('int', '3'),
-                                 'crash_recording': ('boolean', 'false')},
+                                 'ipa_completion_dialects': ('int', '3')},
     'shared_prefs/user_dictionary.xml': {'YE\tqvqvupgrade': ('int', '3'),
                                         'IPA\tŋa': ('int', '2')},
 }
@@ -28,8 +27,11 @@ def main():
     parser.add_argument('--adb', default='adb')
     for name in ('old-typing', 'old-handwriting', 'typing', 'handwriting'):
         parser.add_argument('--' + name, required=True, type=Path, metavar='APK')
+    parser.add_argument('--fixture', type=Path, help='Matching instrumentation APK for runtime preference reads')
+    parser.add_argument('--previous-typing', type=Path, help='Previous unified typing APK with the same signer')
     args = parser.parse_args()
-    for apk in (args.old_typing, args.old_handwriting, args.typing, args.handwriting):
+    for apk in filter(None, (args.old_typing, args.old_handwriting, args.typing, args.handwriting,
+                             args.fixture, args.previous_typing)):
         if not apk.is_file():
             parser.error(f'Missing APK {apk}')
 
@@ -46,9 +48,9 @@ def main():
     def private_file(path):
         return adb('exec-out', 'run-as', PACKAGE, 'cat', path)
 
-    def seed_private_files():
+    def seed_private_files(expected):
         blobs = {REPORT_PATH: REPORT}
-        for path, prefs in PREFERENCES.items():
+        for path, prefs in expected.items():
             root = ET.Element('map')
             for name, (tag, value) in prefs.items():
                 ET.SubElement(root, tag, name=name, value=value)
@@ -61,8 +63,8 @@ def main():
     def setting(name):
         return shell('settings', 'get', 'secure', name)
 
-    def check_state():
-        for path, expected in PREFERENCES.items():
+    def check_state(preferences):
+        for path, expected in preferences.items():
             stored = {node.get('name'): (node.tag, node.get('value'))
                       for node in ET.fromstring(private_file(path))}
             for key, value in expected.items():
@@ -90,29 +92,55 @@ def main():
     if original in ('', 'null'):
         parser.error('The emulator needs an existing default keyboard')
 
-    for old, updates in [(args.old_typing, [args.typing, args.handwriting, args.typing]),
-                         (args.old_handwriting, [args.handwriting])]:
-        adb('install', str(old))
-        try:
-            seed_private_files()
-            wait_for_registration()
-            shell('ime', 'enable', COMPONENT)
-            shell('ime', 'set', COMPONENT)
-            check_state()
-            for new in updates:
-                result = adb('install', '-r', str(new)).decode().strip()
-                if 'Success' not in result.splitlines():
-                    raise AssertionError(f'{new.name}: {result}')
-                wait_for_registration()
-                check_state()
-                print(f'PASS {old.name} → {new.name}  •  {result.splitlines()[-1]}  •  '
-                      'selected IME, settings, user dictionary and crash record preserved', flush=True)
-                old = new
-        finally:
+    # The first two scenarios include both directions of the new flavor switch.
+    scenarios = [
+        (args.old_typing, [args.typing, args.handwriting, args.typing], "crash_recording", True),
+        (args.old_handwriting, [args.handwriting], "crash_recording", False),
+        (args.old_typing, [args.typing], "trial_recording", True),
+        (args.old_handwriting, [args.handwriting], "trial_recording", False),
+    ]
+    if args.previous_typing:
+        scenarios.append((args.previous_typing, [args.typing], None, False))
+    fixture_package = PACKAGE + '.e2e'
+    if args.fixture:
+        if ('package:' + fixture_package) in shell('pm', 'list', 'packages', fixture_package).splitlines():
+            parser.error('Use an emulator without an existing keyboard test fixture')
+        adb('install', str(args.fixture))
+    try:
+        for old, updates, key, recording in scenarios:
+            expected = {path: dict(prefs) for path, prefs in PREFERENCES.items()}
+            if key:
+                expected['shared_prefs/keyboard.xml'][key] = ('boolean', str(recording).lower())
+            adb('install', str(old))
             try:
-                shell('ime', 'set', original)
+                seed_private_files(expected)
+                wait_for_registration()
+                shell('ime', 'enable', COMPONENT)
+                shell('ime', 'set', COMPONENT)
+                check_state(expected)
+                for new in updates:
+                    result = adb('install', '-r', str(new)).decode().strip()
+                    if 'Success' not in result.splitlines():
+                        raise AssertionError(f'{new.name}: {result}')
+                    wait_for_registration()
+                    check_state(expected)
+                    if args.fixture:
+                        runtime = shell('am', 'instrument', '-w', '-r', '-e', 'expectedRecording',
+                                        str(recording).lower(), fixture_package + '/.PrivateStorageTest')
+                        if 'INSTRUMENTATION_RESULT: outcome=PASS' not in runtime.splitlines():
+                            raise AssertionError(runtime)
+                    print(f'PASS {old.name} → {new.name}  •  {key or "unset"}='
+                          f'{str(recording).lower()}  •  selected IME, settings, user dictionary and crash '
+                          'record preserved', flush=True)
+                    old = new
             finally:
-                adb('uninstall', PACKAGE)
+                try:
+                    shell('ime', 'set', original)
+                finally:
+                    adb('uninstall', PACKAGE)
+    finally:
+        if args.fixture:
+            adb('uninstall', fixture_package)
 
 
 if __name__ == '__main__':

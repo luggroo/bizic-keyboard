@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".CrashReports"
         android:allowBackup="false"
@@ -24,12 +23,10 @@
             android:label="@string/ime_name"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <provider
-            android:name=".LearningResourceProvider"
-            android:authorities="${applicationId}.learning.resources"
+        <activity
+            android:name=".PrivacyActivity"
             android:exported="false"
-            android:grantUriPermissions="true"
-            android:process=":learning" />
+            android:theme="@style/DisclosureTheme" />
         <service
             android:name=".TujiaIme"
             android:label="@string/ime_name"

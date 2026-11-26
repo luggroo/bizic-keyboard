@@ -14,16 +14,28 @@ import java.util.List;
 
 /** Exercises the installed keyboard's actual Android private storage, on a fresh test installation. */
 public final class PrivateStorageTest extends Instrumentation {
+    private Boolean expectedRecording;
+
     @Override public void onStart() {
         Bundle result = new Bundle();
         int status = Activity.RESULT_CANCELED;
         try {
             Context app = getTargetContext();
-            if (new File(app.getFilesDir(), "last-crash.txt").exists() ||
-                    !app.getSharedPreferences("user_dictionary", 0).getAll().isEmpty())
-                throw new AssertionError("Use a fresh test installation");
-            checkDiagnostics(app);
-            checkDictionary(app);
+            Class<?> settings = app.getClassLoader().loadClass("biz.tujia.ime.KeyboardSettings");
+            boolean actual = (boolean) method(settings, "crashRecording", Context.class).invoke(null, app);
+            boolean personal = (boolean) method(settings, "personalLearning", Context.class).invoke(null, app);
+            if (!personal) throw new AssertionError("Existing and fresh installations default to personal learning");
+            if (expectedRecording != null) {
+                if (actual != expectedRecording)
+                    throw new AssertionError("Upgraded keyboard did not honor the stored recording preference");
+            } else {
+                if (new File(app.getFilesDir(), "last-crash.txt").exists() ||
+                        !app.getSharedPreferences("user_dictionary", 0).getAll().isEmpty())
+                    throw new AssertionError("Use a fresh test installation");
+                if (actual) throw new AssertionError("Fresh diagnostic operation recording is enabled");
+                checkDiagnostics(app);
+                checkDictionary(app);
+            }
             result.putString("outcome", "PASS");
             status = Activity.RESULT_OK;
         } catch (Throwable failure) {
@@ -36,6 +48,9 @@ public final class PrivateStorageTest extends Instrumentation {
 
     @Override public void onCreate(Bundle arguments) {
         super.onCreate(arguments);
+        if (arguments != null && arguments.containsKey("expectedRecording")) {
+            expectedRecording = Boolean.valueOf(arguments.getString("expectedRecording"));
+        }
         start();
     }
 
@@ -87,22 +102,38 @@ public final class PrivateStorageTest extends Instrumentation {
         method(diagnostics, "clear", Context.class).invoke(null, app);
     }
 
-    private static void checkDictionary(Context app) throws Exception {
+    private void checkDictionary(Context app) throws Exception {
         Class<?> dictionary = app.getClassLoader().loadClass("biz.tujia.ime.UserDictionary");
         Class<?> form = app.getClassLoader().loadClass("biz.tujia.ime.UserDictionary$Form");
         java.lang.reflect.Constructor<?> create = dictionary.getDeclaredConstructor(Context.class);
         create.setAccessible(true);
         Method register = method(dictionary, "register", form, String.class);
         Method complete = method(dictionary, "completions", form, String.class);
+        Object first = create.newInstance(app);
+        Object second = create.newInstance(app);
         for (Object output : form.getEnumConstants()) {
-            Object first = create.newInstance(app);
             register.invoke(first, output, "qvqrestore");
-            if (!((List<?>) complete.invoke(first, output, "qvq")).isEmpty())
+            waitForIdleSync();
+            if (!((List<?>) complete.invoke(second, output, "qvq")).isEmpty())
                 throw new AssertionError("A single use unlocked a private completion");
-            register.invoke(first, output, "qvqrestore");
-            Object reopened = create.newInstance(app);
-            if (!((List<?>) complete.invoke(reopened, output, "qvq")).contains("qvqrestore"))
-                throw new AssertionError("The stored completion did not reopen for " + output);
+            // The second instance must observe the first use before it can count the second.
+            register.invoke(second, output, "qvqrestore");
+            waitForIdleSync();
+            for (Object reader : new Object[]{first, second, create.newInstance(app)}) {
+                if (!((List<?>) complete.invoke(reader, output, "qvq")).contains("qvqrestore"))
+                    throw new AssertionError("A live or reopened instance lost the completion for " + output);
+            }
+        }
+        android.content.SharedPreferences stored = app.getSharedPreferences("user_dictionary", 0);
+        android.content.SharedPreferences.Editor edit = stored.edit();
+        for (String key : stored.getAll().keySet()) edit.remove(key);
+        edit.apply();
+        waitForIdleSync();
+        for (Object reader : new Object[]{first, second, create.newInstance(app)}) {
+            for (Object output : form.getEnumConstants()) {
+                if (!((List<?>) complete.invoke(reader, output, "qvq")).isEmpty())
+                    throw new AssertionError("A cleared word remained in memory for " + output);
+            }
         }
     }
 }

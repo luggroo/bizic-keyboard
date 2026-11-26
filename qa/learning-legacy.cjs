@@ -9,14 +9,13 @@ const {execFileSync} = require('node:child_process');
 const origin = 'https://appassets.androidplatform.net';
 const start = origin + '/index.html';
 
-async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, apk}) {
+async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, returnFromPrivacy, cancelExternal, apk}) {
   const port = (await adb('forward', 'tcp:0', 'localabstract:' + socket)).toString().trim();
   let ws;
   try {
     const targets = await (await fetch('http://127.0.0.1:' + port + '/json/list')).json();
     const target = targets.find(item => item.type === 'page' && item.url.startsWith(origin));
     assert(target, 'The local WebView page is missing');
-    const frame = JSON.parse(target.description);
     ws = new WebSocket(target.webSocketDebuggerUrl);
     await new Promise((resolve, reject) => {
       ws.addEventListener('open', resolve, {once: true});
@@ -88,11 +87,24 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
       await ready(view);
     }
     async function click(selector, trusted = false) {
-      const query = 'document.querySelector(' + JSON.stringify(selector) + ')';
+      const query = 'Array.prototype.find.call(document.querySelectorAll(' + JSON.stringify(selector)
+        + '), function(node){return node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().height > 0})';
       await wait('!!' + query, selector);
       if (!trusted) { await value(query + '.click()'); return; }
       const point = await value('(function(el){el.scrollIntoView(true);var r=el.getBoundingClientRect();' +
           'return {x:r.left+r.width/2,y:r.top+r.height/2,viewport:window.innerWidth};})(' + query + ')');
+      // Android can advertise the debugging socket before laying out its first frame.
+      const frame = await (async () => {
+        const end = Date.now() + 20000;
+        do {
+          const pages = await (await fetch('http://127.0.0.1:' + port + '/json/list')).json();
+          const current = pages.find(item => item.id === target.id);
+          const box = current && JSON.parse(current.description);
+          if (box && box.width > 0 && box.height > 0) return box;
+          await delay(250);
+        } while (Date.now() < end);
+        throw Error('The foreground Android WebView did not report its laid-out bounds');
+      })();
       const scale = frame.width / point.viewport;
       assert(scale > 0, 'The Android WebView has no visible viewport');
       await shell('input', 'tap', String(Math.round(frame.screenX + scale * point.x)),
@@ -128,8 +140,24 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     assert.deepEqual(await value('window.readerTransport'), [true, true]);
     passed('Prepared JSON GET is decoded UTF-8 JSON; HEAD carries the same media type and an empty body');
     await capture('launch');
-    await click('aside a[href="/_app/keyboard"]', true);
-    await keyboardRoundTrip(info);
+    await value(`Promise.all(['GET','HEAD'].map(function(method) {
+      return fetch('/_app/ime-status.json', {method:method}).then(function(r) {
+        if (r.status !== 200) throw new Error('status ' + r.status);
+        return method === 'GET' ? r.json() : r.text();
+      });
+    })).then(function(result){window.drawerStatus=result});true`);
+    await wait('!!window.drawerStatus', 'read-only native IME status');
+    assert.deepEqual(await value('window.drawerStatus'), [{enabled:false, selected:false}, '']);
+    await click('.academy-menu-toggle', true);
+    await wait('document.body.classList.contains("academy-drawer-open")', 'open drawer');
+    await capture('drawer');
+    await click('#academy-drawer [data-view="settings"]', true);
+    await wait(`!!document.querySelector('#academy-settings a[href="/_app/privacy"]')`, 'settings');
+    const initialLanguage = await value('document.documentElement.lang');
+    await click('#academy-settings a[href="/_app/keyboard"]', true);
+    await keyboardRoundTrip(info, initialLanguage);
+    await click('#academy-settings a[href="/_app/privacy"]', true);
+    await returnFromPrivacy(info, initialLanguage);
     await visit('#grammar/north/101/1', 'grammar');
     assert(await value('/声母|韵母/.test(document.querySelector(".grammar-article").innerText)'));
     await capture('grammar-north');
@@ -151,8 +179,13 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     await visit('?id=brassett-2006#sources', 'sources');
     await wait('!!document.querySelector("#detail[open] .grammar-summary")', 'bibliography');
     assert(await value('/2006/.test(document.querySelector("#detail-body").innerText)'));
-    assert(await value('!!document.querySelector("#detail-body a[href^=\'/_app/resource/\']")'));
+    assert(await value('!!document.querySelector("#detail-body a[href^=\'https://\']")'));
     await capture('bibliography');
+    const publication = '#detail-body a[href^="https://"]';
+    const externalUrl = await value('document.querySelector(' + JSON.stringify(publication) + ').href');
+    await click(publication, true);
+    await cancelExternal(info, externalUrl);
+
     await click('#close');
     await wait('!document.querySelector("#detail[open]")', 'close source');
     // Time the existing reader functions on the minimum-API engine. This is
@@ -181,7 +214,8 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
       return true;
     }())`);
     const wordStart = Date.now();
-    await click('aside nav [data-view="words"]');
+    await click('.academy-menu-toggle', true);
+    await click('#academy-drawer [data-view="words"]', true);
     await ready('words');
     info.wordIndex = await value('window.readerIndexTimings');
     info.wordIndex.observedRouteMs = Date.now() - wordStart;
@@ -208,9 +242,10 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
       'document.querySelector("#notation-input").value="kei21"');
     await click('#notation-converter button');
     await wait('!!notationState.result', 'notation conversion');
-    passed('Bibliographic metadata, explicit optional publication link and local notation converter');
+    passed('Bibliographic metadata, external publication link and local notation converter');
 
-    await visit('#words', 'words');
+    await click('.academy-menu-toggle', true);
+    await click('#academy-drawer [data-view="settings"]', true);
     await value('document.querySelector("#ui-language").value="en";' +
       'document.querySelector("#ui-language").dispatchEvent(new Event("change",{bubbles:true}));' +
       'document.querySelector("#academy-theme").value="dark";' +
@@ -218,6 +253,16 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     await wait('document.documentElement.lang === "en" && document.documentElement.dataset.theme === "dark"', 'English/dark');
     await capture('english-dark');
     passed('English interface and dark theme');
+    for (const language of ['en', 'zh']) {
+      await value('document.querySelector("#ui-language").value=' + JSON.stringify(language) +
+        ';document.querySelector("#ui-language").dispatchEvent(new Event("change",{bubbles:true}))');
+      await wait('document.documentElement.lang.indexOf(' + JSON.stringify(language) + ')===0', 'reader language');
+      await click('#academy-settings a[href="/_app/privacy"]', true);
+      await returnFromPrivacy(info, language);
+      await click('#academy-settings a[href="/_app/keyboard"]', true);
+      await keyboardRoundTrip(info, language);
+    }
+    passed('Reader language carries through to the native privacy and keyboard settings screens');
     if (process.env.BIZIC_PROFILE_GZIP === '1') {
       // Compare native streaming above with the original fallback on the same
       // index. Decode base64 before starting the timer; only public APK bytes

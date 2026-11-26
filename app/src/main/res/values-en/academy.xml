@@ -1,0 +1,19 @@
+<resources>
+    <string name="privacy_title">Privacy notice</string>
+    <string name="privacy_intro">Bizic Academy includes the Tujia dictionary, grammars and corpus on this device. You can read them without an account or an enabled keyboard.</string>
+    <string name="privacy_local_title">Typing and your personal dictionary</string>
+    <string name="privacy_local">The keyboard processes keystrokes, candidates and predictions on this device. Personal dictionary learning is on by default. You can turn it off or clear your dictionary in Keyboard settings. The reader cannot access text you type in other apps or your personal dictionary.</string>
+    <string name="privacy_diagnostic_title">Local crash reports</string>
+    <string name="privacy_diagnostic">After a keyboard crash, the app keeps one report on this device with the time, app and Android versions, thread name, error type and stack trace. Detailed recording is optional and off on a new installation. When enabled, a report can include the last %1$d keystrokes and selections in ordinary text fields. The keyboard skips password, number, phone, email and URL fields, and fields marked private. You can review or delete the report in Keyboard settings.</string>
+    <string name="privacy_record">Include recent keyboard actions in crash reports</string>
+    <string name="privacy_external_title">Links and feedback</string>
+    <string name="privacy_external">The app has no internet permission and does not upload input, dictionaries or reports. It shows the address and asks before opening an external link in your browser. You can choose to copy a report or share feedback through your email app.</string>
+    <string name="privacy_operator">Developer　Zhou Yulou (周煜楼)\nContact　yulouzhou+bizic@qq.com\nUpdated　November 26, 2026</string>
+    <string name="privacy_continue">Agree and enter</string>
+    <string name="privacy_leave">Exit</string>
+    <string name="privacy_save">Save and return</string>
+    <string name="external_link_title">Open in your browser?</string>
+    <string name="external_link_message">You will leave Bizic Academy and open this address in your browser.\n\n%1$s</string>
+    <string name="external_link_open">Open browser</string>
+    <string name="ime_settings_unavailable">Open Android system settings and enable the Tujia keyboard under keyboard management.</string>
+</resources>

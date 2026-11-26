@@ -1,0 +1,8 @@
+<resources>
+    <style name="DarkSetupTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#211D1D</item>
+        <item name="android:colorAccent">#FFAFA0</item>
+        <item name="android:statusBarColor">#211D1D</item>
+        <item name="android:navigationBarColor">#211D1D</item>
+    </style>
+</resources>

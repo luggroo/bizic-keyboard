@@ -1,5 +1,0 @@
-<resources>
-    <string name="optional_opening">正在打开资料…</string>
-    <string name="optional_unavailable">暂时无法保存这份资料。请检查网络和设备剩余空间后重试。</string>
-    <string name="optional_viewer_missing">资料已保存在本机。请安装可打开此格式的应用后重试。</string>
-</resources>

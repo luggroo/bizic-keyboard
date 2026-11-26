@@ -7,8 +7,10 @@ final class LearningOrigin {
     static final String HOST = "appassets.androidplatform.net";
     static final String START_URL = "https://" + HOST + "/index.html";
     static final String KEYBOARD_PATH = "/_app/keyboard";
-    private static final String RESOURCE_PREFIX = "/_app/resource/";
-    private static final Pattern ID = Pattern.compile("[A-Za-z0-9_-]{1,96}");
+    static final String ENABLE_PATH = "/_app/keyboard/enable";
+    static final String SWITCH_PATH = "/_app/keyboard/switch";
+    static final String STATUS_PATH = "/_app/ime-status.json";
+    static final String PRIVACY_PATH = "/_app/privacy";
     private static final Pattern ASSET = Pattern.compile("(?:[A-Za-z0-9_][A-Za-z0-9_.-]*/)*[A-Za-z0-9_][A-Za-z0-9_.-]*");
 
     private LearningOrigin() {}
@@ -23,12 +25,6 @@ final class LearningOrigin {
         String name = encodedPath.substring(1);
         if (encodedPath.endsWith("/")) name += "index.html";
         return ASSET.matcher(name).matches() ? name : null;
-    }
-
-    static String resourceId(String encodedPath) {
-        if (encodedPath == null || !encodedPath.startsWith(RESOURCE_PREFIX)) return null;
-        String id = encodedPath.substring(RESOURCE_PREFIX.length());
-        return ID.matcher(id).matches() ? id : null;
     }
 
     static boolean isPreparedJson(String name) {

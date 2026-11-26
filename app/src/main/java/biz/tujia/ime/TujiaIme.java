@@ -96,6 +96,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private CandidateEngine.Orthography orthography = CandidateEngine.Orthography.YE;
     private int mode, typingMode, glyphPage, selStart, selEnd;
     private int historyLimit;
+    private int handEditRowHeight;
     private boolean shifted, symbols, direct, numeric, compact, handPanelActive;
     private HandFormat handFormat;
     private String draft = "";
@@ -106,6 +107,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private List<String> glyphs = Collections.emptyList();
     // Some editors merge selection notifications from successive commitText calls.
     private final ArrayDeque<Integer> expectedSelections = new ArrayDeque<>();
+    private int selectionRevision;
     private LinearLayout surface, toolbar, choices, candidateStrip, body, glyphRow, morePanel;
     private final ArrayList<Integer> previousCandidatePages = new ArrayList<>();
     private final int[] candidateWidths = new int[COLUMNS];
@@ -268,8 +270,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             selEnd = editor.initialSelEnd;
         }
         // Two tokens supply a fixed trigram context. Longer histories enable local adaptation.
-        historyLimit = android.os.Build.VERSION.SDK_INT >= 26 &&
-                (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) != 0 ? 2 : HISTORY_LIMIT;
+        historyLimit = (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) != 0
+                ? 2 : HISTORY_LIMIT;
         int type = editor.inputType & InputType.TYPE_MASK_CLASS;
         int variation = editor.inputType & InputType.TYPE_MASK_VARIATION;
         numeric = type == InputType.TYPE_CLASS_NUMBER || type == InputType.TYPE_CLASS_PHONE
@@ -319,6 +321,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void resetDraft() {
+        selectionRevision++;
         closeKeyAlternatives();
         shownIpaPrefix = null;
         ipaEdited = false;
@@ -347,6 +350,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     @Override public void onUpdateSelection(int oldStart, int oldEnd, int newStart, int newEnd,
                                              int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldStart, oldEnd, newStart, newEnd, candidatesStart, candidatesEnd);
+        int revision = ++selectionRevision;
         if (newStart == newEnd && expectedSelections.contains(newEnd)) {
             while (!expectedSelections.isEmpty() && expectedSelections.removeFirst() != newEnd) { }
             if (!expectedSelections.isEmpty()) return;
@@ -354,27 +358,43 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             // time out on surrounding-text requests made inside the selection acknowledgement.
             if (inIpaMode() && newEnd == selEnd && shownIpaPrefix != null
                     && !" ".equals(shownIpaPrefix)) return;
-        } else if (oldStart != newStart || oldEnd != newEnd) {
-            if (newStart != selStart || newEnd != selEnd) {
-                if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;
-                resetDraft();
-                selStart = newStart;
-                selEnd = newEnd;
-                readSentenceBoundary();
-                updateCandidates();
+        } else if (newStart != selStart || newEnd != selEnd) {
+            if ((draftInEditor || pendingWordSeparator) && surface != null && inputViewActive) {
+                // Some editors report an older caret while replying to a selection callback.
+                // Read the cursor once the callback has returned and the host can answer.
+                surface.post(() -> {
+                    if (selectionRevision == revision && inputViewActive) {
+                        verifyEditorSelection(newStart, newEnd);
+                    }
+                });
+            } else {
+                acceptEditorSelection(newStart, newEnd);
             }
+            return;
         }
         selStart = newStart;
         selEnd = newEnd;
         if (inIpaMode() && inputViewActive) showIpaCandidates();
     }
 
-    private boolean editorKeptSelection() {
+    private void acceptEditorSelection(int start, int end) {
+        resetDraft();
+        selStart = start;
+        selEnd = end;
+        readSentenceBoundary();
+        updateCandidates();
+    }
+
+    private void verifyEditorSelection(int start, int end) {
         InputConnection editor = getCurrentInputConnection();
-        if (editor == null) return false;
-        long actual = extractedCursor(editor);
-        return actual != -1 && (int) (actual >>> 32) == selStart && (int) actual == selEnd
-                && (draft.isEmpty() || TextUtils.equals(draft, editor.getTextBeforeCursor(draft.length(), 0)));
+        long actual = editor == null ? -1 : extractedCursor(editor);
+        if (actual != -1) {
+            start = (int) (actual >>> 32);
+            end = (int) actual;
+            if (start == selStart && end == selEnd && (draft.isEmpty()
+                    || TextUtils.equals(draft, editor.getTextBeforeCursor(draft.length(), 0)))) return;
+        }
+        acceptEditorSelection(start, end);
     }
 
     private void layoutKeyboard() {
@@ -408,12 +428,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(GLOSS_SP) + textHeight(formSp()) + dp(12));
-        int targetRow = Math.max(dp(compact ? 36 : 54), textHeight(letterSp()) + dp(6));
+        int targetRow = Math.max(dp(compact ? 44 : 54), textHeight(letterSp()) + dp(6));
         int maximum = dp(Math.max(120, screen - (portrait ? 140 : 80)));
+        int availableBody = Math.max(dp(64), maximum - toolbarHeight - choicesHeight);
+        handEditRowHeight = Math.min(dp(HAND_EDIT_ROW_DP), Math.min(targetRow, availableBody / 4));
         int bodyTarget = 4 * targetRow;
         if (!direct && mode == HAND) {
             int handRow = Math.max(dp(42), textHeight(compact ? 16 : 19) + dp(8));
-            bodyTarget = Math.max(bodyTarget, 3 * handRow + dp(2 * HAND_EDIT_ROW_DP + 12));
+            bodyTarget = Math.max(bodyTarget, 3 * handRow + 2 * handEditRowHeight + dp(12));
         }
         int total = Math.min(maximum, toolbarHeight + choicesHeight + bodyTarget);
         if (direct) total = Math.min(maximum, toolbarHeight + 4 * targetRow);
@@ -1116,12 +1138,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void buildHandwriting() {
         handPanelActive = true;
         LinearLayout workspace = row();
-        workspace.setPadding(dp(4), dp(2), dp(4), 0);
+        workspace.setPadding(0, dp(2), 0, 0);
         body.addView(workspace, new LinearLayout.LayoutParams(-1, 0, 1));
-        LinearLayout sidebar = column();
-        workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, 1));
-        glyphRow = column();
-        sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 1));
+        // Give the two sidebar keys room to tap on narrow screens.
+        boolean narrow = getResources().getConfiguration().screenWidthDp < 350;
+        int sideWeight = narrow ? 1 : 2;
+        int padWeight = narrow ? 2 : 5;
+        int spaceWeight = narrow ? 1 : 3;
         pad = Handwriting.create(this, new HandwritingPad.Listener() {
             @Override public void onStrokeStarted(boolean first) {
                 recordAction("手写落笔", "");
@@ -1159,13 +1182,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         pad.setContentDescription("汉字手写区");
         pad.setBackground(shape(PAPER, 10));
         FrameLayout writingArea = new FrameLayout(this);
-        workspace.addView(writingArea, new LinearLayout.LayoutParams(0, -1, 2));
+        workspace.addView(writingArea, new LinearLayout.LayoutParams(0, -1, padWeight));
         // Align the pad surface with the visible edges of the space and punctuation keys.
         int horizontalInset = dp(1) + dp(2), verticalInset = dp(1) + dp(4);
         writingArea.setPadding(horizontalInset, verticalInset, horizontalInset, verticalInset);
         writingArea.addView(pad, new FrameLayout.LayoutParams(-1, -1));
+
+        LinearLayout sidebar = column();
+        workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, sideWeight));
+        glyphRow = column();
+        sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 1));
         LinearLayout controls = row();
-        sidebar.addView(controls, new LinearLayout.LayoutParams(-1, dp(HAND_EDIT_ROW_DP)));
+        sidebar.addView(controls, new LinearLayout.LayoutParams(-1, handEditRowHeight));
         handIconKey(controls, ToolbarIcon.Mark.ERASER, "重写", KeyLook.UTILITY, () -> {
             recordAction("清除笔迹", "");
             handSeparators = "";
@@ -1173,11 +1201,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         });
         handIconKey(controls, ToolbarIcon.Mark.BACKSPACE, "退格", KeyLook.UTILITY, this::backspace);
         LinearLayout bottom = row();
-        bottom.setPadding(dp(4), 0, dp(4), 0);
-        body.addView(bottom, new LinearLayout.LayoutParams(-1, dp(HAND_EDIT_ROW_DP)));
+        body.addView(bottom, new LinearLayout.LayoutParams(-1, handEditRowHeight));
         LinearLayout left = row(), center = row(), right = row();
-        for (LinearLayout group : new LinearLayout[]{left, center, right})
-            bottom.addView(group, new LinearLayout.LayoutParams(0, -1, 1));
+        bottom.addView(left, new LinearLayout.LayoutParams(0, -1, sideWeight));
+        bottom.addView(center, new LinearLayout.LayoutParams(0, -1, spaceWeight));
+        bottom.addView(right, new LinearLayout.LayoutParams(0, -1, sideWeight));
         boolean han = handAsHan();
         handIconKey(left, ToolbarIcon.Mark.GLOBE, "切换输入法", KeyLook.UTILITY, this::pickIme);
         handIconKey(left, ToolbarIcon.Mark.COMMA, "逗号", KeyLook.UTILITY, () -> typeHandSeparator(han ? "，" : ","));
@@ -1199,7 +1227,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             for (String mark : group) key(line, mark, mark, 1, KeyLook.SPACE, false, () -> typeHandSeparator(mark));
         }
         Rect bounds = keyBounds(bottom);
-        int width = Math.min(bounds.width(), dp(4 * 54)), height = Math.min(dp(2 * HAND_EDIT_ROW_DP), bounds.top);
+        int width = Math.min(bounds.width(), dp(4 * 54)), height = Math.min(2 * handEditRowHeight, bounds.top);
         openKeyAlternatives(menu, width, height, bounds.right - width, bounds.top - height);
     }
 
@@ -2670,7 +2698,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private boolean canLearnWords() {
         EditorInfo editor = getCurrentInputEditorInfo();
-        return !direct && editor != null
+        return KeyboardSettings.personalLearning(this) && !direct && editor != null
                 && (editor.inputType & InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_TEXT
                 && (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) == 0;
     }
@@ -2782,10 +2810,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (ic == null || text.isEmpty()) return false;
         CharSequence output = wordSpacing ? wordForEditor(ic, text, joinedRanges, 0, "")
                 : HanUnitStyle.forEditor(text, joinedRanges, 0);
-        if (!ic.commitText(output, 1)) return false;
-        pendingWordSeparator = false;
-        if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + output.length());
-        return true;
+        int start = Math.min(selStart, selEnd);
+        // The built-in editor can deliver onUpdateSelection before commitText returns.
+        // Publish the expected caret before the editor closes the batch and notifies us.
+        ic.beginBatchEdit();
+        try {
+            if (!ic.commitText(output, 1)) return false;
+            pendingWordSeparator = false;
+            if (start >= 0) expect(start + output.length());
+            return true;
+        } finally {
+            ic.endBatchEdit();
+        }
     }
 
     private CharSequence wordForEditor(InputConnection editor, String text, int[] joinedRanges,
@@ -2800,6 +2836,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void expect(int pos) {
+        selectionRevision++;
         selStart = selEnd = pos;
         expectedSelections.add(pos);
         if (expectedSelections.size() > 32) expectedSelections.removeFirst();
@@ -2826,7 +2863,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (ic == null) return;
         recentWords = previousSyllable = "";
         if (selStart >= 0 && selEnd >= 0 && selStart != selEnd) {
-            if (ic.commitText("", 1)) { expect(Math.min(selStart, selEnd)); readSentenceBoundary(); updateCandidates(); }
+            int start = Math.min(selStart, selEnd);
+            ic.beginBatchEdit();
+            try {
+                if (!ic.commitText("", 1)) return;
+                expect(start);
+            } finally {
+                ic.endBatchEdit();
+            }
+            readSentenceBoundary();
+            updateCandidates();
             return;
         }
         CharSequence before = ic.getTextBeforeCursor(8, 0);
@@ -2842,11 +2888,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     len = prefix.length() - start;
             }
         }
-        if (ic.deleteSurroundingText(len, 0) && selStart >= 0) {
-            expect(Math.max(0, selStart - len));
-            readSentenceBoundary();
-            updateCandidates();
+        int start = selStart;
+        ic.beginBatchEdit();
+        try {
+            if (!ic.deleteSurroundingText(len, 0)) return;
+            if (start >= 0) expect(Math.max(0, start - len));
+        } finally {
+            ic.endBatchEdit();
         }
+        readSentenceBoundary();
+        updateCandidates();
     }
 
     @Override public boolean onKeyDown(int code, KeyEvent ev) {

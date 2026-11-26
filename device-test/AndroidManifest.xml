@@ -4,13 +4,6 @@
     <application android:label="土家语键盘设备测试" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false">
         <activity android:name=".EditorActivity" android:exported="false" android:configChanges="orientation|screenSize|keyboardHidden|fontScale|density|screenLayout|smallestScreenSize"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".PdfProbeActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="content" android:host="biz.tujia.ime.learning.resources" android:mimeType="application/pdf" />
-            </intent-filter>
-        </activity>
     </application>
     <instrumentation android:name=".KeyboardTest" android:targetPackage="biz.tujia.ime.e2e" android:label="土家语输入法跨应用测试" />
     <instrumentation android:name=".PrivateStorageTest" android:targetPackage="biz.tujia.ime" android:label="输入法私有存储测试" />

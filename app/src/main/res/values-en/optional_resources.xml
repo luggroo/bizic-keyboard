@@ -1,5 +1,0 @@
-<resources>
-    <string name="optional_opening">Opening resource…</string>
-    <string name="optional_unavailable">Couldn’t save this resource. Check your connection and available storage, then try again.</string>
-    <string name="optional_viewer_missing">Saved on this device. Install an app that can open this file type and try again.</string>
-</resources>

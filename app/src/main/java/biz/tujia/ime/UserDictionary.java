@@ -18,15 +18,34 @@ final class UserDictionary {
             "\\p{L}[\\p{L}\\p{M}¹²³⁴⁵]*(?:[-'’]\\p{L}[\\p{L}\\p{M}¹²³⁴⁵]*)*");
     private final SharedPreferences preferences;
     private final NavigableMap<String, Integer> uses = new TreeMap<>();
+    private final SharedPreferences.OnSharedPreferenceChangeListener listener =
+            (ignored, key) -> update(key);
 
     UserDictionary(Context context) {
         preferences = context.getSharedPreferences("user_dictionary", Context.MODE_PRIVATE);
+        reload();
+        preferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    private synchronized void reload() {
+        uses.clear();
         for (Map.Entry<String, ?> entry : preferences.getAll().entrySet()) {
             if (entry.getValue() instanceof Integer) uses.put(entry.getKey(), (Integer) entry.getValue());
         }
     }
 
-    void register(Form form, String word) {
+    private synchronized void update(String key) {
+        if (key == null) {
+            reload();
+        } else if (preferences.contains(key)) {
+            Object value = preferences.getAll().get(key);
+            if (value instanceof Integer) uses.put(key, (Integer) value);
+        } else {
+            uses.remove(key);
+        }
+    }
+
+    synchronized void register(Form form, String word) {
         if (!WORD.matcher(word).matches()) return;
         String key = form.name() + '\t' + word;
         int previous = uses.getOrDefault(key, 0);
@@ -36,11 +55,11 @@ final class UserDictionary {
         preferences.edit().putInt(key, count).apply();
     }
 
-    boolean contains(Form form, String word) {
+    synchronized boolean contains(Form form, String word) {
         return uses.getOrDefault(form.name() + '\t' + word, 0) >= MINIMUM_USES;
     }
 
-    List<String> completions(Form form, String prefix) {
+    synchronized List<String> completions(Form form, String prefix) {
         String namespace = form.name() + '\t';
         String start = namespace + prefix;
         List<Map.Entry<String, Integer>> found = new ArrayList<>();

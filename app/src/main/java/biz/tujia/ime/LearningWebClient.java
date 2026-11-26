@@ -1,7 +1,5 @@
 package biz.tujia.ime;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.webkit.RenderProcessGoneDetail;
@@ -10,12 +8,12 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +47,12 @@ final class LearningWebClient extends WebViewClient {
         if (!isLocal(uri)) return empty(403, "Forbidden");
         boolean head = "HEAD".equals(request.getMethod());
         if (!head && !"GET".equals(request.getMethod())) return empty(405, "Method Not Allowed");
+        if (LearningOrigin.STATUS_PATH.equals(uri.getEncodedPath()) && uri.getEncodedQuery() == null
+                && uri.getEncodedFragment() == null && !request.isForMainFrame()) {
+            byte[] bytes = head ? EMPTY : ImeStatus.read(activity).asJson().getBytes(StandardCharsets.UTF_8);
+            return new WebResourceResponse("application/json", "UTF-8", 200, "OK", HEADERS,
+                    new ByteArrayInputStream(bytes));
+        }
         String path = LearningOrigin.assetName(uri.getEncodedPath());
         if (path == null) return empty(404, "Not Found");
         InputStream body;
@@ -91,11 +95,21 @@ final class LearningWebClient extends WebViewClient {
             String path = uri.getEncodedPath();
             if (path != null && path.startsWith("/_app/")) {
                 if (explicit && uri.getEncodedQuery() == null && uri.getEncodedFragment() == null) {
-                    if (LearningOrigin.KEYBOARD_PATH.equals(path)) {
-                        activity.openKeyboard();
-                    } else {
-                        String id = LearningOrigin.resourceId(path);
-                        if (id != null) OptionalResources.open(activity, id);
+                    switch (path) {
+                        case LearningOrigin.KEYBOARD_PATH:
+                            activity.openKeyboard();
+                            break;
+                        case LearningOrigin.ENABLE_PATH:
+                            activity.enableKeyboard();
+                            break;
+                        case LearningOrigin.SWITCH_PATH:
+                            activity.showKeyboardPicker();
+                            break;
+                        case LearningOrigin.PRIVACY_PATH:
+                            activity.openPrivacy();
+                            break;
+                        default:
+                            break;
                     }
                 }
                 return true;
@@ -104,13 +118,13 @@ final class LearningWebClient extends WebViewClient {
         }
         if (explicit && "https".equals(uri.getScheme()) && uri.getHost() != null
                 && uri.getEncodedUserInfo() == null) {
-            try {
-                activity.startActivity(new Intent(Intent.ACTION_VIEW, uri).addCategory(Intent.CATEGORY_BROWSABLE));
-            } catch (ActivityNotFoundException | SecurityException unavailable) {
-                Toast.makeText(activity, R.string.no_link_handler, Toast.LENGTH_SHORT).show();
-            }
+            activity.confirmExternalLink(uri);
         }
         return true;
+    }
+
+    @Override public void onPageFinished(WebView view, String url) {
+        if (isLocal(Uri.parse(url))) activity.refreshReaderTheme();
     }
 
     @Override public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
