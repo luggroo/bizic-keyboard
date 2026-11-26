@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from prepare_learning_assets import read_snapshot
 
 
-def verify_offline_permissions(apk, aapt):
+def verify_offline_manifest(apk, aapt):
     manifest = subprocess.run([str(aapt), "dump", "permissions", str(apk)],
                               check=True, capture_output=True, text=True).stdout
     if not manifest.startswith("package: "):
@@ -21,7 +21,11 @@ def verify_offline_permissions(apk, aapt):
     for line in manifest.splitlines():
         if line.startswith("uses-permission") and "name='android.permission.INTERNET'" in line:
             raise ValueError(f"{apk.name} requests INTERNET in its merged manifest")
-    print(f"{apk.name}: offline permission check passed")
+    tree = subprocess.run([str(aapt), "dump", "xmltree", str(apk), "AndroidManifest.xml"],
+                          check=True, capture_output=True, text=True).stdout
+    if ".LearningResourceProvider" in tree or "biz.tujia.ime.learning.resources" in tree:
+        raise ValueError(f"{apk.name} still registers the removed publication provider")
+    print(f"{apk.name}: offline manifest check passed")
 
 
 def verify(apk, typing_only):
@@ -66,8 +70,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("apk", type=Path)
     parser.add_argument("--typing-only", action="store_true")
-    parser.add_argument("--aapt", type=Path, help="Verify offline permissions with Android Build Tools aapt")
+    parser.add_argument("--aapt", type=Path, help="Verify the offline manifest with Android Build Tools aapt")
     args = parser.parse_args()
     if args.aapt:
-        verify_offline_permissions(args.apk, args.aapt)
+        verify_offline_manifest(args.apk, args.aapt)
     verify(args.apk, args.typing_only)
