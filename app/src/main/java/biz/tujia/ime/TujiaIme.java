@@ -350,15 +350,15 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (newStart == newEnd && expectedSelections.contains(newEnd)) {
             while (!expectedSelections.isEmpty() && expectedSelections.removeFirst() != newEnd) { }
             if (!expectedSelections.isEmpty()) return;
-        } else if (oldStart != newStart || oldEnd != newEnd) {
-            if (newStart != selStart || newEnd != selEnd) {
-                if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;
-                resetDraft();
-                selStart = newStart;
-                selEnd = newEnd;
-                readSentenceBoundary();
-                updateCandidates();
-            }
+        } else if (newStart != selStart || newEnd != selEnd) {
+            // A composing-range notification may repeat an earlier caret (old == new).
+            // Check the live draft before letting that callback replace our editing position.
+            if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;
+            resetDraft();
+            selStart = newStart;
+            selEnd = newEnd;
+            readSentenceBoundary();
+            updateCandidates();
         }
         selStart = newStart;
         selEnd = newEnd;
@@ -2778,9 +2778,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (ic == null || text.isEmpty()) return false;
         CharSequence output = wordSpacing ? wordForEditor(ic, text, joinedRanges, 0, "")
                 : HanUnitStyle.forEditor(text, joinedRanges, 0);
+        int start = Math.min(selStart, selEnd);
         if (!ic.commitText(output, 1)) return false;
         pendingWordSeparator = false;
-        if (selStart >= 0 && selEnd >= 0) expect(Math.min(selStart, selEnd) + output.length());
+        if (start >= 0) expect(start + output.length());
         return true;
     }
 
@@ -2838,8 +2839,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                     len = prefix.length() - start;
             }
         }
-        if (ic.deleteSurroundingText(len, 0) && selStart >= 0) {
-            expect(Math.max(0, selStart - len));
+        int start = selStart;
+        if (ic.deleteSurroundingText(len, 0) && start >= 0) {
+            expect(Math.max(0, start - len));
             readSentenceBoundary();
             updateCandidates();
         }

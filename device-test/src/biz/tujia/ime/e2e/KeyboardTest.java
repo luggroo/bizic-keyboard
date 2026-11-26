@@ -23,6 +23,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -90,6 +91,10 @@ public final class KeyboardTest extends Instrumentation {
                 }
             }
             if (suite.equals("all") || suite.equals("host")) new HostCompatibility(this, host).run();
+            if (suite.equals("all") || suite.equals("trial")) {
+                testDelayedSelection();
+                new SystemCompatibility(this).trialEditor();
+            }
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("candidate-layout") || suite.equals("typing-only")) testCandidateLayout();
             if (suite.equals("ipa-detail")) testIpaDetail();
@@ -2059,6 +2064,42 @@ public final class KeyboardTest extends Instrumentation {
                 throw new AssertionError("Private editor personalized a repeated continuation");
             expectText(host.first, "早来半日猜。早来");
         }
+    }
+
+    private void testDelayedSelection() {
+        stage("Repeated old selections preserve backspace and completion; real caret moves are honored");
+        newPredictionEditor();
+        press("调号拼音");
+        type("jie");
+        expectText(host.first, "jie");
+        repeatOldSelection();
+        press("退格");
+        expectText(host.first, "ji");
+
+        for (char key : "exie".toCharArray()) press(String.valueOf(key));
+        expectText(host.first, "jiexie");
+        repeatOldSelection();
+        pickFarmerCompletion();
+        expectText(host.first, "jiěxiěrǐmǎ");
+        runOnMainSync(() -> host.first.setSelection(1));
+        press("退格");
+        expectText(host.first, "iěxiěrǐmǎ");
+    }
+
+    private void repeatOldSelection() {
+        // The reported composing range changes twice while the real caret stays at the end.
+        runOnMainSync(() -> {
+            InputMethodManager imm = host.getSystemService(InputMethodManager.class);
+            imm.updateSelection(host.first, 0, 0, 0, 2);
+            imm.updateSelection(host.first, 0, 0, -1, -1);
+        });
+    }
+
+    void pickFarmerCompletion() {
+        // The keyboard can accept a draft before the offline dictionary has loaded.
+        Rect item = pollNode("补全 农民，jiěxiěrǐmǎ", false, 120000);
+        if (item == null) throw new AssertionError("Missing completion for jiexie");
+        tap(item.centerX(), item.centerY());
     }
 
     void newPredictionEditor() {
