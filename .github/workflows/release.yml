@@ -1,83 +1,31 @@
-name: Publish signed Android preview
+name: Publish handwriting layout preview
 
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release tag (for example v0.3.0)'
-        required: true
-      bundle_commit:
-        description: 'Full commit SHA from the distribution branch containing release-assets/'
-        required: true
+on: workflow_dispatch
 
 permissions:
   contents: write
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    env:
-      VERSION: ${{ inputs.version }}
-      BUNDLE: ${{ inputs.bundle_commit }}
-      GH_TOKEN: ${{ github.token }}
+    if: github.ref == 'refs/heads/dist/handwriting-layout-preview'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify the signed APK against its source
-        shell: bash
+      - name: Verify and publish the tested preview
+        working-directory: release-assets
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && "$BUNDLE" =~ ^[0-9a-f]{40}$ ]]
-          test "$(git rev-parse "refs/remotes/origin/dist/$VERSION")" = "$BUNDLE"
-          test "$(git rev-parse "$BUNDLE^")" = "$GITHUB_SHA"
-          git restore --source="$BUNDLE" --worktree -- release-assets
-          cd release-assets
+          tag=v0.3.6-handwriting-layout
+          test "$(git rev-parse "refs/tags/$tag^{commit}")" = "$(git rev-parse HEAD^)"
           sha256sum -c SHA256SUMS
-          readings=wenbai-jishou-chongqing.xlsx
-          if [[ "$VERSION" == v0.3.3 || -f "$readings" ]]; then
-            grep -Fxq -- "$(sha256sum "$readings")" SHA256SUMS
-            unzip -tqq "$readings"
-            unzip -p "$readings" xl/workbook.xml >/dev/null
-          fi
-          readings_movie=jishou-readings-android.mp4
-          if [[ "$VERSION" == v0.3.3 || -f "$readings_movie" ]]; then
-            grep -Fxq -- "$(sha256sum "$readings_movie")" SHA256SUMS
-            test "$(head -c 8 "$readings_movie" | tail -c 4)" = ftyp
-          fi
-          apk="tujia-keyboard-${VERSION#v}.apk"
-          signer="$ANDROID_HOME/build-tools/35.0.0/apksigner"
-          aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
-          verify_apk() {
-            local file="$1"
-            shift
-            grep -Fxq -- "$(sha256sum "$file")" SHA256SUMS
-            "$signer" verify --verbose "$file"
-            python3 ../qa/verify-apk.py "$@" "$file"
-            local package_info
-            package_info=$("$aapt" dump badging "$file")
-            [[ "$package_info" == "package: name='biz.tujia.ime'"*"versionName='${VERSION#v}'"* ]]
-          }
-          verify_apk "$apk"
-          lite="${apk%.apk}-no-handwriting.apk"
-          if [[ "$VERSION" == v0.3.6 || -f "$lite" ]]; then
-            verify_apk "$lite" --typing-only
-            cert() { "$signer" verify --print-certs "$1" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p'; }
-            full_cert=$(cert "$apk")
-            [[ -n "$full_cert" && "$full_cert" == "$(cert "$lite")" ]]
-          fi
-      - name: Publish release attachments
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd release-assets
-          extras=()
-          lite="tujia-keyboard-${VERSION#v}-no-handwriting.apk"
-          if [[ -f "$lite" ]]; then extras+=("$lite"); fi
-          if [[ -f one-tap.mp4 ]]; then extras+=(one-tap.mp4); fi
-          if [[ -f wenbai-jishou-chongqing.xlsx ]]; then extras+=(wenbai-jishou-chongqing.xlsx); fi
-          if [[ -f jishou-readings-android.mp4 ]]; then extras+=(jishou-readings-android.mp4); fi
-          gh release create "$VERSION" --target "$GITHUB_SHA" --title "北部土家语输入法 ${VERSION#v}" \
-            --notes-file NOTES.md "tujia-keyboard-${VERSION#v}.apk" shange-demo.mp4 \
-            continuous-handwriting.mp4 shange-demo.zip orthography.xlsx SHA256SUMS "${extras[@]}"
+          apk=tujia-keyboard-0.3.6-handwriting-layout.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify "$apk"
+          python3 ../qa/verify-apk.py "$apk"
+          gh release create "$tag" --verify-tag --prerelease --latest=false \
+            --title '手写布局测试版 · 0.3.6' \
+            --notes '手写区放在左侧，退格键与拼音、音标模式对齐。此测试版包含试打框修复，可以覆盖安装 0.3.6。' \
+            "$apk#手写布局测试版 APK" 'handwriting-backspace-150.png#150% 字号截图' SHA256SUMS
