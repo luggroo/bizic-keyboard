@@ -44,7 +44,7 @@ android {
 
 androidComponents {
     onVariants(selector().withFlavor(new kotlin.Pair('input', 'typingOnly'))) { variant ->
-        variant.androidResources.ignoreAssetsPatterns.addAll('ismantic', 'handwriting', 'handwriting-readings.tsv', 'handwriting-ipa.tsv', 'handwriting-tones.tsv')
+        variant.androidResources.ignoreAssetsPatterns.addAll('ismantic', 'handwriting', 'handwriting-readings.tsv', 'handwriting-tones.tsv')
     }
 }
 

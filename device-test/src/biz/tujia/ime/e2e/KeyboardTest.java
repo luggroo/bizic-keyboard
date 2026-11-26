@@ -426,6 +426,7 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.first, "ga");
         press("空格");
         press("音标");
+        waitForNode("补全 那，ai⁵⁵", false);
         press("m");
         press("a");
         expectOriginalAfterMatches("ma");
@@ -434,6 +435,13 @@ public final class KeyboardTest extends Instrumentation {
         expectFirst("奶，mã²¹");
         checkCandidateLayout("mã²¹", true);
         captureFrame("candidate-ipa.png");
+        String word = "mã²¹pu³⁵li⁵⁵";
+        pressCandidate("补全 乳头，" + word, false);
+        expectText(host.first, "ga " + word);
+        expectFirst("乳头，" + word);
+        press("空格");
+        press("n");
+        expectText(host.first, "ga " + word + " n");
     }
 
     private void checkCandidateLayout(String witness, boolean green) {

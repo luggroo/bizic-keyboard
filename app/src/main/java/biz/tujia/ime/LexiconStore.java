@@ -39,7 +39,7 @@ final class LexiconStore {
                  InputStream syllables = app.getAssets().open("syllable_bigrams.tsv");
                  InputStream senses = app.getAssets().open("syllable_senses.tsv");
                  InputStream readings = Handwriting.ENABLED ? app.getAssets().open("handwriting-readings.tsv") : null;
-                 InputStream ipa = Handwriting.ENABLED ? app.getAssets().open("handwriting-ipa.tsv") : null;
+                 InputStream ipa = app.getAssets().open("handwriting-ipa.tsv");
                  InputStream tones = Handwriting.ENABLED ? app.getAssets().open("handwriting-tones.tsv") : null) {
                 result = new CandidateEngine(new java.io.SequenceInputStream(words, northern), ngrams, syllables, senses, readings, ipa, tones);
             } catch (IOException | RuntimeException | LinkageError failure) {

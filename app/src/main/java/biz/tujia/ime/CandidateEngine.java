@@ -144,6 +144,11 @@ public final class CandidateEngine implements AutoCloseable {
         }
     }
 
+    // A dictionary entry is inserted as one IPA word. Separately entered words retain their spaces.
+    static String ipaWord(String transcription) {
+        return transcription.replace(" ", "");
+    }
+
     private static Map<String, String> loadHandwritingIpa(InputStream source) throws IOException {
         if (source == null) return Collections.emptyMap();
         Map<String, String> forms = new HashMap<>();
@@ -152,7 +157,7 @@ public final class CandidateEngine implements AutoCloseable {
                 if (row.isEmpty() || row.startsWith("#")) continue;
                 int tab = row.indexOf('\t');
                 if (tab <= 0 || tab == row.length() - 1) throw new IOException("Invalid handwriting IPA row");
-                forms.put(row.substring(0, tab), row.substring(tab + 1));
+                forms.put(row.substring(0, tab), ipaWord(row.substring(tab + 1)));
             }
         }
         return forms;

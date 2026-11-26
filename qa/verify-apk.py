@@ -13,7 +13,8 @@ def verify(apk, typing_only):
     expected.update({p.relative_to(android_assets).as_posix(): p for p in android_assets.rglob("*") if p.is_file()})
     if typing_only:
         expected = {name: path for name, path in expected.items()
-                    if not name.startswith(("handwriting/", "ismantic/", "handwriting-"))}
+                    if not name.startswith(("handwriting/", "ismantic/"))
+                    and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])

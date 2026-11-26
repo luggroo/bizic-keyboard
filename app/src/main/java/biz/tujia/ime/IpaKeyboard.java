@@ -68,7 +68,8 @@ final class IpaKeyboard {
                 int tab = line.indexOf('\t', 2);
                 if (tab <= 2 || line.charAt(1) != '\t' || line.charAt(0) < '1' || line.charAt(0) > '3')
                     throw new IOException("Invalid IPA dictionary row");
-                entries.add(new Entry(line.charAt(0) - '0', line.substring(2, tab), line.substring(tab + 1)));
+                String ipa = CandidateEngine.ipaWord(line.substring(2, tab));
+                entries.add(new Entry(line.charAt(0) - '0', ipa, line.substring(tab + 1)));
             }
         }
     }
