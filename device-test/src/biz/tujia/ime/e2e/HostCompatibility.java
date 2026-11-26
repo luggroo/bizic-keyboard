@@ -45,6 +45,18 @@ final class HostCompatibility {
         keys.pressCandidate("吃、咬，架", false);
     }
 
+    void handLandscape() {
+        keys.stage("Compare backspace and touch targets across modes in landscape");
+        keys.newPredictionEditor();
+        try {
+            rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, Configuration.ORIENTATION_LANDSCAPE);
+            keys.tapField(host.first);
+            keys.assertBackspaceAlignment(false);
+        } finally {
+            rotate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, Configuration.ORIENTATION_PORTRAIT);
+        }
+    }
+
     void window() {
         keys.stage("Native multiline editor, newline, hide and reopen without losing content");
         configure(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE,
@@ -65,7 +77,7 @@ final class HostCompatibility {
         try {
             rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, Configuration.ORIENTATION_LANDSCAPE);
             keys.tapField(host.first);
-            keys.press("手写");
+            keys.assertBackspaceAlignment(false);
             keys.setHandwritingOutput(true);
             keys.assertEditorAboveKeyboard(host.first, "手写");
             Rect before = keys.waitForNode("汉字手写区", false);

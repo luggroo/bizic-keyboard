@@ -121,14 +121,16 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("long-word")) testLongWordCard();
             if (suite.equals("han-senses")) testHanSenses();
             if (suite.equals("regional")) testModernRegisterCharacters();
+            if (suite.equals("hand-layout")) testHandwritingSidebar();
+            if (suite.equals("hand-landscape")) new HostCompatibility(this, host).handLandscape();
             if (suite.equals("hand-words")) {
                 testHandLookupActions();
                 testHandwrittenSuffixes();
                 testContinuousHandwriting();
             }
             if (suite.equals("hand-ux")) {
-                testHandLookupActions();
                 testHandwritingSidebar();
+                testHandLookupActions();
                 testHandToneReadings();
             }
             if (suite.equals("typography")) new SystemTypography(this, host).run();
@@ -356,10 +358,32 @@ public final class KeyboardTest extends Instrumentation {
         waitSelectedControl("拼音");
     }
 
-    private void testHandwritingSidebar() {
-        stage("The tall handwriting pad keeps correction and editing controls to the left");
-        newPredictionEditor();
+    void assertBackspaceAlignment(boolean capture) {
+        press("拼音");
+        Rect pinyinBackspace = waitForNode("退格", false);
+        if (capture) captureFrame("backspace-pinyin.png");
+        press("音标");
+        Rect ipaBackspace = waitForNode("退格", false);
+        if (capture) captureFrame("backspace-ipa.png");
         press("手写");
+        Rect backspace = waitForNode("退格", false);
+        stage("Backspace bounds: pinyin " + pinyinBackspace + ", IPA " + ipaBackspace
+                + ", handwriting " + backspace);
+        int minimumTarget = Math.round(47 * host.getResources().getDisplayMetrics().density);
+        if (backspace.width() < minimumTarget || backspace.height() < minimumTarget)
+            throw new AssertionError("Handwriting backspace touch target is too small: " + backspace);
+        int alignment = Math.round(10 * host.getResources().getDisplayMetrics().density);
+        for (Rect previous : new Rect[]{pinyinBackspace, ipaBackspace}) {
+            if (Math.abs(previous.centerX() - backspace.centerX()) > alignment
+                    || Math.abs(previous.centerY() - backspace.centerY()) > alignment)
+                throw new AssertionError("Backspace moved between modes: " + previous + " / " + backspace);
+        }
+    }
+
+    private void testHandwritingSidebar() {
+        stage("The handwriting pad leaves backspace in the same corner as pinyin and IPA");
+        newPredictionEditor();
+        assertBackspaceAlignment(true);
         setHandwritingOutput(true);
         Rect pad = waitForNode("汉字手写区", false);
         if (pad.height() / host.getResources().getDisplayMetrics().density < 150)
@@ -371,13 +395,13 @@ public final class KeyboardTest extends Instrumentation {
         int inset = Math.round(5 * host.getResources().getDisplayMetrics().density);
         for (String label : new String[]{"手写字形 三", "更多手写字形", "重写", "退格"}) {
             Rect control = waitForNode(label, false);
-            if (control.right > pad.left || control.top < pad.top - inset || control.bottom > pad.bottom + inset)
-                throw new AssertionError(label + " is outside the left side of the handwriting pad: " + control);
+            if (control.left < pad.right || control.top < pad.top - inset || control.bottom > pad.bottom + inset)
+                throw new AssertionError(label + " is outside the right side of the handwriting pad: " + control);
         }
         Rect globe = waitForNode("切换输入法", false), comma = waitForNode("逗号", false);
         Rect space = waitForNode("空格", false), period = waitForNode("句号", false), menu = waitForNode("更多标点", false);
         Rect eraser = waitForNode("重写", false), back = waitForNode("退格", false);
-        if (Math.abs(globe.centerX() - eraser.centerX()) > 1 || Math.abs(comma.centerX() - back.centerX()) > 1
+        if (Math.abs(period.centerX() - eraser.centerX()) > 1 || Math.abs(menu.centerX() - back.centerX()) > 1
                 || Math.abs(2 * space.centerX() - globe.left - menu.right) > 2)
             throw new AssertionError("Footer and handwriting grid do not share their column centers");
         for (Rect key : new Rect[]{globe, comma, period, menu}) {
@@ -416,6 +440,10 @@ public final class KeyboardTest extends Instrumentation {
         press("设置");
         waitForNode("拼音输出 · 选择候选上屏后的写法", false);
         press("设置");
+        captureFrame("backspace-pinyin.png");
+        press("音标");
+        captureFrame("backspace-ipa.png");
+        press("拼音");
     }
 
     private void testCandidateLayout() {
@@ -1293,7 +1321,7 @@ public final class KeyboardTest extends Instrumentation {
         Rect pad = waitForNode("汉字手写区", false);
         Rect eraser = waitForNode("重写", false), backspace = waitForNode("退格", false);
         if (eraser.right > backspace.left || eraser.centerY() != backspace.centerY()
-                || backspace.right > pad.left || eraser.height() < minimum || backspace.height() < minimum)
+                || eraser.left < pad.right || eraser.height() < minimum || backspace.height() < minimum)
             throw new AssertionError("Handwriting editing keys are misplaced: " + eraser + " / " + backspace);
         drawStroke(pad, .20f, .28f, .78f, .28f);
         drawStroke(pad, .20f, .60f, .78f, .60f);

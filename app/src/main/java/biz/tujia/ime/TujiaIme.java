@@ -96,6 +96,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private CandidateEngine.Orthography orthography = CandidateEngine.Orthography.YE;
     private int mode, typingMode, glyphPage, selStart, selEnd;
     private int historyLimit;
+    private int handEditRowHeight;
     private boolean shifted, symbols, direct, numeric, compact, handPanelActive;
     private HandFormat handFormat;
     private String draft = "";
@@ -404,12 +405,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(GLOSS_SP) + textHeight(formSp()) + dp(12));
-        int targetRow = Math.max(dp(compact ? 36 : 54), textHeight(letterSp()) + dp(6));
+        int targetRow = Math.max(dp(compact ? 50 : 54), textHeight(letterSp()) + dp(6));
         int maximum = dp(Math.max(120, screen - (portrait ? 140 : 80)));
+        int availableBody = Math.max(dp(64), maximum - toolbarHeight - choicesHeight);
+        handEditRowHeight = Math.min(dp(HAND_EDIT_ROW_DP), Math.min(targetRow, availableBody / 4));
         int bodyTarget = 4 * targetRow;
         if (!direct && mode == HAND) {
             int handRow = Math.max(dp(42), textHeight(compact ? 16 : 19) + dp(8));
-            bodyTarget = Math.max(bodyTarget, 3 * handRow + dp(2 * HAND_EDIT_ROW_DP + 12));
+            bodyTarget = Math.max(bodyTarget, 3 * handRow + 2 * handEditRowHeight + dp(12));
         }
         int total = Math.min(maximum, toolbarHeight + choicesHeight + bodyTarget);
         if (direct) total = Math.min(maximum, toolbarHeight + 4 * targetRow);
@@ -1112,12 +1115,13 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private void buildHandwriting() {
         handPanelActive = true;
         LinearLayout workspace = row();
-        workspace.setPadding(dp(4), dp(2), dp(4), 0);
+        workspace.setPadding(0, dp(2), 0, 0);
         body.addView(workspace, new LinearLayout.LayoutParams(-1, 0, 1));
-        LinearLayout sidebar = column();
-        workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, 1));
-        glyphRow = column();
-        sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 1));
+        // Give the two sidebar keys room to tap on narrow screens.
+        boolean narrow = getResources().getConfiguration().screenWidthDp < 350;
+        int sideWeight = narrow ? 1 : 2;
+        int padWeight = narrow ? 2 : 5;
+        int spaceWeight = narrow ? 1 : 3;
         pad = Handwriting.create(this, new HandwritingPad.Listener() {
             @Override public void onStrokeStarted(boolean first) {
                 recordAction("手写落笔", "");
@@ -1155,13 +1159,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         pad.setContentDescription("汉字手写区");
         pad.setBackground(shape(PAPER, 10));
         FrameLayout writingArea = new FrameLayout(this);
-        workspace.addView(writingArea, new LinearLayout.LayoutParams(0, -1, 2));
+        workspace.addView(writingArea, new LinearLayout.LayoutParams(0, -1, padWeight));
         // Align the pad surface with the visible edges of the space and punctuation keys.
         int horizontalInset = dp(1) + dp(2), verticalInset = dp(1) + dp(4);
         writingArea.setPadding(horizontalInset, verticalInset, horizontalInset, verticalInset);
         writingArea.addView(pad, new FrameLayout.LayoutParams(-1, -1));
+
+        LinearLayout sidebar = column();
+        workspace.addView(sidebar, new LinearLayout.LayoutParams(0, -1, sideWeight));
+        glyphRow = column();
+        sidebar.addView(glyphRow, new LinearLayout.LayoutParams(-1, 0, 1));
         LinearLayout controls = row();
-        sidebar.addView(controls, new LinearLayout.LayoutParams(-1, dp(HAND_EDIT_ROW_DP)));
+        sidebar.addView(controls, new LinearLayout.LayoutParams(-1, handEditRowHeight));
         handIconKey(controls, ToolbarIcon.Mark.ERASER, "重写", KeyLook.UTILITY, () -> {
             recordAction("清除笔迹", "");
             handSeparators = "";
@@ -1169,11 +1178,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         });
         handIconKey(controls, ToolbarIcon.Mark.BACKSPACE, "退格", KeyLook.UTILITY, this::backspace);
         LinearLayout bottom = row();
-        bottom.setPadding(dp(4), 0, dp(4), 0);
-        body.addView(bottom, new LinearLayout.LayoutParams(-1, dp(HAND_EDIT_ROW_DP)));
+        body.addView(bottom, new LinearLayout.LayoutParams(-1, handEditRowHeight));
         LinearLayout left = row(), center = row(), right = row();
-        for (LinearLayout group : new LinearLayout[]{left, center, right})
-            bottom.addView(group, new LinearLayout.LayoutParams(0, -1, 1));
+        bottom.addView(left, new LinearLayout.LayoutParams(0, -1, sideWeight));
+        bottom.addView(center, new LinearLayout.LayoutParams(0, -1, spaceWeight));
+        bottom.addView(right, new LinearLayout.LayoutParams(0, -1, sideWeight));
         boolean han = handAsHan();
         handIconKey(left, ToolbarIcon.Mark.GLOBE, "切换输入法", KeyLook.UTILITY, this::pickIme);
         handIconKey(left, ToolbarIcon.Mark.COMMA, "逗号", KeyLook.UTILITY, () -> typeHandSeparator(han ? "，" : ","));
@@ -1195,7 +1204,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             for (String mark : group) key(line, mark, mark, 1, KeyLook.SPACE, false, () -> typeHandSeparator(mark));
         }
         Rect bounds = keyBounds(bottom);
-        int width = Math.min(bounds.width(), dp(4 * 54)), height = Math.min(dp(2 * HAND_EDIT_ROW_DP), bounds.top);
+        int width = Math.min(bounds.width(), dp(4 * 54)), height = Math.min(2 * handEditRowHeight, bounds.top);
         openKeyAlternatives(menu, width, height, bounds.right - width, bounds.top - height);
     }
 
