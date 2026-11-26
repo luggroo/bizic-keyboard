@@ -1366,14 +1366,17 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("补全 那，ai⁵⁵", false);
         if (suite.equals("ipa-detail")) captureFrame("ipa-ux-main.png");
         press("m");
+        captureFrame("ipa-ux-m.png");
         press("a");
         expectText(host.first, "ma");
+        captureFrame("ipa-ux-ma.png");
         openReader(card("补全 奶，mã²¹"));
         expectText(host.first, "ma");
         if (!visibleControls().contains("奶")) throw new AssertionError("IPA detail omitted the meaning");
         if (suite.equals("ipa-detail")) captureFrame("ipa-ux-detail.png");
         press("输入这个候选");
         expectText(host.first, "mã²¹");
+        captureFrame("ipa-ux-committed.png");
     }
 
     private void testHandwrittenSuffixes() {

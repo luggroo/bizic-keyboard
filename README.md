@@ -6,8 +6,8 @@
 
 0.3.6 提供两个安卓安装包，均支持 64 位 ARM、32 位 ARM 和 x86_64，最低系统要求是 Android 7.0。
 
-- [手写版 · 拼音、手写和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6.apk)
-- [无手写版 · 拼音和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6-no-handwriting.apk)
+- [土家语输入法_有手写_v0.3.6.apk](https://raw.githubusercontent.com/luggroo/bizic-keyboard/37fa27046d1c27ce3c74eb8819518fe68d8663f0/downloads/土家语输入法_有手写_v0.3.6.apk)
+- [土家语输入法_无手写_v0.3.6.apk](https://raw.githubusercontent.com/luggroo/bizic-keyboard/37fa27046d1c27ce3c74eb8819518fe68d8663f0/downloads/土家语输入法_无手写_v0.3.6.apk)
 
 两个版本可以互相覆盖安装。0.3.5 公开版的签名与 0.3.6 不同，Android 无法直接覆盖升级。卸载旧版会清除它的设置和个人词库。
 
@@ -33,12 +33,12 @@
 
 | 原文汉译 | 带调号拼写 | 记音汉字 |
 | --- | --- | --- |
-| 我们都是土家族， | ngánī húnī bízīkǎ ō， | 讶你互你币子咔喔， |
+| 我们都是土家族， | ngánī húnī bízīkǎ ō， | 牙你互你秘兹佧喔， |
 | 唱山歌都用土家语， | sānggō cáng diē bízīsǎ ō， | 山歌唱爹币子刹喔， |
 | 唱一句土家山歌， | bízī sānggō nā zē cáng， | 币子山歌哪遮唱， |
-| 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖里。 |
+| 唱得不好别怪我。 | cáng xī rè tái gó tà ǎ lē。 | 唱兮惹太过塔吖咧。 |
 
-[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [山歌输入演示](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/shange-demo.mp4) · [声调与音标演示](https://raw.githubusercontent.com/luggroo/bizic-keyboard/main/docs/media/tone-demo.mp4)
+[互动 Demo（解压后打开 index.html）](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/shange-demo.zip) · [逐词试打清单](tools/story-demo/shange-spelling.tsv) · [山歌输入演示](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/shange-demo.mp4) · [连续手写](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/continuous-handwriting.mp4) · [吉首文白异读](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/jishou-readings-android.mp4) · [声调与音标演示](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tone-demo.mp4)
 
 「记音」输出词表的推荐汉字。像《山歌两首》里的 `sānggō`，键盘按学堂词条直接给「山歌」，汉字上方留白。拼写输出仍显示“山歌”以便选词。候选区每页四格。长按候选可以查看完整释义。土家语词列在前面，普通汉字和汉语词列在后面。可以把几个词的拼写连着打。比如输入 `marmardiexhxif`，先点“女人”下的「麻麻爹」，再为余下的 `hxif` 选“走”下的「诶」。整句候选可用时，也可以一次上屏。
 
@@ -68,7 +68,7 @@
 
 在「拼写」下输入 `bizika`，选“土家族”下的 `bízīkǎ`。再点 `mǒng`，正文变为 `bízīkǎ mǒng`。如果选 `mǔn`，正文就用 `mǔn`。词义明确时，上方显示简短汉义。例如输入完整的 `kamong` 可以选“树”下的 `kǎmǒng`。单独预测到 `mǒng` 时汉义留空，因为它还出现在“呻吟”和“线”等词里。龙山有一个读作 `mǒng` 的地支词，选到这个词条时才显示“地支午”。[“树”的词条](https://tujia.biz/?id=w1102) · [龙山调查“午”](https://tujia.biz/?id=yubao-60757-v-2498) · [音节汉义核对](qa/syllable-senses.md)
 
-[看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.3/one-tap.mp4) · [查看点按前](qa/results/web-033-free-suggestions.png) · [查看点按后](qa/results/web-033-direct-sound.png)
+[看安卓记事本里点候选的短片](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/one-tap.mp4) · [网页连续点选](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/web-prediction.mp4) · [网页文白异读](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/web-readings.mp4) · [查看点按前](qa/results/v0.3.6/web-prediction-before.png) · [查看点按后](qa/results/v0.3.6/web-prediction-after.png)
 
 后续词按跨篇出现的搭配、词类和使用频率推荐。键盘也会参考你在当前输入框里刚选过的搭配。换输入框就清空这段记录。可用的词先显示，余下位置再给常接的音节。训练时排除了演示用的两篇作品。19 组整篇留出测试共 10,404 个词位，首屏下一词有 85 次命中目标词义。1,905 个词位能写出目标汉字，其中有 1,427 个可以点选到明确的词义。在这 1,427 个位置，利用下一词和前缀补全，可以把全拼的 5,481 次按键降到 3,252 次。[评测方法和分组结果](qa/prediction.md) · [1,000 组相邻音节](tools/data/syllable-bigrams-ranked.txt)
 

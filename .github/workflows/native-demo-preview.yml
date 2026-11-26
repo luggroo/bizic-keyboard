@@ -58,6 +58,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - name: Record real Android keyboard
+        env:
+          DEMO_SCENE: ${{ matrix.scene }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -65,7 +67,7 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: bash tools/story-demo/record-release-demo.sh ${{ matrix.scene }}
+          script: bash tools/story-demo/record-release-demo.sh "$DEMO_SCENE"
       - uses: actions/upload-artifact@v4
         with:
           name: native-demo-${{ matrix.scene }}

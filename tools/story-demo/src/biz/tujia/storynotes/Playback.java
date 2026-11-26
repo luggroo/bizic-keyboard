@@ -837,6 +837,7 @@ public final class Playback extends Instrumentation {
                 AccessibilityNodeInfo live=currentCard(text,meaning);
                 if (live!=null) {
                     try {
+                        shot("choice-target");
                         if (live.performAction(AccessibilityNodeInfo.ACTION_CLICK)) return;
                     } finally { live.recycle(); }
                 }

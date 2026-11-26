@@ -25,6 +25,7 @@ licenses += [root / 'shared/bundle/Assets/handwriting' / f for f in ('ARPHICPL.T
 licenses += [root / 'app/src/main/assets/ismantic' / f for f in ('LICENSE.txt', 'NOTICE.txt')]
 licenses += [root / 'tools/web-demo/licenses/onnxruntime.txt']
 license_text = '\n\n'.join(f'{p.name}\n{p.read_text(encoding="utf-8")}' for p in licenses if p.is_file())
+html = html.replace("</title>", f" · {args.version}</title>", 1)
 html += '\n<!-- Open-source licenses and data notices\n' + license_text.replace('--', '- -') + '\n-->\n'
 args.artifacts.mkdir(parents=True, exist_ok=True)
 (args.artifacts / 'index.html').write_text(html, encoding='utf-8')

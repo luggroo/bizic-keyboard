@@ -45,7 +45,7 @@ jobs:
           python3 tools/web-demo/embed-core.py build/input.wasm build/web/engine-data.js
           python3 tools/web-demo/embed-hand-model.py "$RUNNER_TEMP/onnx/package/dist" build/web
           node tools/web-demo/test-offline.cjs build/web "$RUNNER_TEMP/onnx/package/dist"
-          python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3
+          python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.6
           NODE_PATH="$RUNNER_TEMP/dom/node_modules" node tools/web-demo/test-dom.cjs build/artifacts/index.html
       - uses: actions/upload-artifact@v4
         with:

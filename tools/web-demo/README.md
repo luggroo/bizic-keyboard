@@ -14,7 +14,7 @@ cp -R tools/web-demo/ui/. build/web/
 WASI_SDK_PATH=/path/to/wasi-sdk tools/web-demo/build-core.sh build/input.wasm
 python3 tools/web-demo/embed-core.py build/input.wasm build/web/engine-data.js
 python3 tools/web-demo/embed-hand-model.py /path/to/onnxruntime-web/dist build/web
-python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.3
+python3 tools/web-demo/package.py build/web build/artifacts --version 0.3.6
 ```
 
 更新调查点词表时，先以毕兹学堂的网站源码为输入，按词条及具体读音同步整词和词内借词成分，再重建北部词表：

@@ -5,13 +5,14 @@ from pathlib import Path
 from PIL import Image,ImageDraw,ImageFont
 
 parser=argparse.ArgumentParser()
-parser.add_argument('song',type=Path)
+parser.add_argument('song',type=Path,nargs='?',help='Four-chapter song movie when appending')
 parser.add_argument('prediction',type=Path)
 parser.add_argument('movie',type=Path)
 parser.add_argument('--standalone',action='store_true',help='Render just the prediction chapter')
 parser.add_argument('--short',type=Path,help='Filename of standalone native chapter (defaults to one-tap.mp4)')
 args=parser.parse_args()
-song=args.song.resolve();capture=args.prediction.resolve();target=args.movie.resolve()
+if not args.standalone and args.song is None: parser.error('Specify the song to append to, or use --standalone')
+capture=args.prediction.resolve();target=args.movie.resolve()
 assert (capture/'saved-note.txt').read_text()=='bízīkǎ mǒng gǎ。\n秘兹佧萌夹。'
 files=sorted((capture/'frames').glob('*.png'));tags=[p.stem.split('-',1)[1] for p in files]
 sequence=[]
@@ -56,7 +57,7 @@ with tempfile.TemporaryDirectory() as temp:
     if args.standalone:
         shutil.copyfile(second,target)
         raise SystemExit(0)
-    meta=probe(song);n_start=int(meta['streams'][0]['nb_frames']);assert len(meta['chapters'])==4
+    song=args.song.resolve();meta=probe(song);n_start=int(meta['streams'][0]['nb_frames']);assert len(meta['chapters'])==4
     shutil.copyfile(second,args.short or target.with_name('one-tap.mp4'))
     metadata=d/'chapters.ffmeta'
     chapters=[(round(float(ch['start_time'])*30),round(float(ch['end_time'])*30),ch['tags']['title']) for ch in meta['chapters']]

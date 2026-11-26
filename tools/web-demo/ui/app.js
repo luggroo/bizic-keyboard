@@ -262,7 +262,22 @@ function unitsFromRanges(text,ranges){
   return [...units,...Array.from(text.slice(from))];
 }
 const cardsPerPage=4;
-let candidateItems=[],candidatePage=0;
+let candidateItems=[],candidatePage=0,candidatePages=[{start:0,widths:[]}];
+function paginateCandidates(){
+  const width=$('candidates').clientWidth;
+  const pages=[{start:0,widths:[]}];
+  let used=0;
+  const font=parseFloat(getComputedStyle(document.documentElement).fontSize)||16;
+  candidateItems.forEach((item,index)=>{
+    const em=Array.from(item.form).reduce((sum,ch)=>sum+(/\p{Script=Han}/u.test(ch)?1:.62),0);
+    const preferred=width?Math.min(width,Math.max(width/cardsPerPage,em*font*1.2+8)):1;
+    if(pages.at(-1).widths.length && used+preferred>(width||cardsPerPage)+.01){
+      pages.push({start:index,widths:[]});used=0;
+    }
+    pages.at(-1).widths.push(preferred);used+=preferred;
+  });
+  candidatePages=pages;
+}
 const reading=$('candidateReading');
 let readingChoice=null;
 function openReading(item){
@@ -328,12 +343,18 @@ function fitGlossPairs(){
 }
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(fitGlossPairs).observe($('candidates'));
 document.fonts?.ready.then(fitGlossPairs);
+window.addEventListener('resize',()=>showCandidatePage(0));
 function showCandidatePage(page){
   const box=$('candidates');
-  candidatePage=page;
-  const visible=candidateItems.slice(page*cardsPerPage,(page+1)*cardsPerPage);
+  if(page===0)paginateCandidates();
+  candidatePage=Math.min(page,candidatePages.length-1);
+  const {start,widths}=candidatePages[candidatePage];
+  const visible=candidateItems.slice(start,start+widths.length);
+  box.style.gridTemplateColumns=widths.map(w=>'minmax(0,'+w+'fr)').join(' ');
+
   box.replaceChildren(...visible.map(item=>{
     const el=wordButton(item.form,item.short,item.commit,item.units);
+    if((item.members||[item]).some(c=>c.source==='exact' && c.kind===0 && c.meaning && c.consumed===draft.value.length) || item.source==='hand-match')el.classList.add('dictionary-match');
     if(item.source==='hand-match' && item.roman){
       const small=el.firstElementChild;
       small.classList.add('hand-match-meta');
@@ -356,7 +377,7 @@ function showCandidatePage(page){
   }));
   if(!visible.length && draft.value)box.append(node('span','可继续输入','hint'));
   $('previousCandidates').disabled=page===0;
-  $('nextCandidates').disabled=(page+1)*cardsPerPage>=candidateItems.length;
+  $('nextCandidates').disabled=candidatePage+1>=candidatePages.length;
   firstCommit=visible[0]?.commit || null;
   fitGlossPairs();
 }
@@ -535,7 +556,9 @@ document.addEventListener('keydown',event=>{
   if(event.isComposing||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||
      !/^[1-4]$/.test(event.key)||$('keyboardPanel').hidden||(!draft.value && event.target===output)||
      !(event.target===draft||event.target===output||$('keyboardPanel').contains(event.target)))return;
-  const candidate=candidateItems[candidatePage*cardsPerPage+Number(event.key)-1];
+  const slot=Number(event.key)-1;
+  if(slot>=candidatePages[candidatePage].widths.length)return;
+  const candidate=candidateItems[candidatePages[candidatePage].start+slot];
   if(!candidate)return;
   event.preventDefault();
   if(demoActive)takeOver();
@@ -840,8 +863,9 @@ function advance(){
   }else if(phase==='review'){
     const index=candidateItems.findIndex(item=>matchesStoryWord(item,entry));
     if(index<0){playing=false;updateTransport('未找到“'+entry.meaning+'”的候选','重播');return}
-    showCandidatePage(Math.floor(index/cardsPerPage));
-    mark($('candidates').children[index%cardsPerPage]);phase='commit';schedule(token<2?3600:850);
+    const page=candidatePages.findIndex(p=>index>=p.start && index<p.start+p.widths.length);
+    showCandidatePage(page);
+    mark($('candidates').children[index-candidatePages[page].start]);phase='commit';schedule(token<2?3600:850);
   }else{
     const choice=candidateItems.find(item=>matchesStoryWord(item,entry));
     choice.commit();if(end)submit(end);

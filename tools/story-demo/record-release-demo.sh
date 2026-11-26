@@ -19,8 +19,10 @@ case "$scene" in
   readings) python3 tools/story-demo/film-readings.py "$out"
         cp "$out/jishou-readings-android.mp4" "$work/movies/" ;;
   prediction) python3 tools/story-demo/record.py tools/story-demo/prediction-spelling.tsv "$out" --reading-pace --input touch --keyframes --dry
-        python3 tools/story-demo/join-prediction.py --standalone /dev/null "$out" "$work/movies/one-tap.mp4" ;;
-  tone) bash tools/story-demo/record-tone.sh "$work/keyboard.apk" "$work/device-test.apk" "$work/movies/tone-demo.mp4" ;;
+        python3 tools/story-demo/join-prediction.py --standalone "$out" "$work/movies/one-tap.mp4" ;;
+  tone) bash tools/story-demo/record-tone.sh "$work/keyboard.apk" "$work/device-test.apk" "$out/tone.mp4"
+        TUJIA_E2E_SUITE=ipa-detail TUJIA_E2E_EVIDENCE="$out/ipa" ./device-test/run.sh "$work/keyboard.apk" "$work/device-test.apk"
+        python3 tools/story-demo/append-ipa-demo.py "$out/tone.mp4" "$out/ipa" "$work/movies/tone-demo.mp4" ;;
   *) exit 2 ;;
 esac
 for film in "$work"/movies/*.mp4; do ffmpeg -v error -xerror -i "$film" -f null -; done

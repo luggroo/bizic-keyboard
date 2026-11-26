@@ -60,8 +60,8 @@ def render(folder, rows):
         for i, (row, (start, end)) in enumerate(zip(rows, chapter_ranges)):
             choice = tags.index(f"choices{i}", start, end)
             commit = tags.index(f"commit{i}", choice + 1, end)
-            if tags[commit - 1] != "press":
-                raise ValueError("The selected candidate must have a recorded touch before it is committed.")
+            if tags[commit - 1] not in {"press", "choice-target"}:
+                raise ValueError("The selected candidate must have a recorded selection before it is committed.")
             reading = row["keys"].split(":")[1]
             title = f"{reading}　输入「{row['text']}」"
             chapters.append((len(playback), title))
