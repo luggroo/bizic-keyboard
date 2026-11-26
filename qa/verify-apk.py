@@ -2,6 +2,7 @@
 """Verify native library coverage and compare each packaged dictionary asset to source."""
 import argparse
 import hashlib
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -13,14 +14,26 @@ sys.path.insert(0, str(ROOT / "tools"))
 from prepare_learning_assets import read_snapshot
 
 
+NETWORK_PERMISSIONS = {
+    "android.permission.INTERNET",
+    "android.permission.ACCESS_NETWORK_STATE",
+    "android.permission.CHANGE_NETWORK_STATE",
+    "android.permission.ACCESS_WIFI_STATE",
+    "android.permission.CHANGE_WIFI_STATE",
+    "android.permission.CHANGE_WIFI_MULTICAST_STATE",
+}
+
+
 def verify_offline_manifest(apk, aapt):
     manifest = subprocess.run([str(aapt), "dump", "permissions", str(apk)],
                               check=True, capture_output=True, text=True).stdout
     if not manifest.startswith("package: "):
         raise ValueError("Unable to read the packaged Android permissions")
     for line in manifest.splitlines():
-        if line.startswith("uses-permission") and "name='android.permission.INTERNET'" in line:
-            raise ValueError(f"{apk.name} requests INTERNET in its merged manifest")
+        if line.startswith("uses-permission"):
+            permission = re.search(r"\bname='([^']+)'", line)
+            if permission and permission[1] in NETWORK_PERMISSIONS:
+                raise ValueError(f"{apk.name} requests {permission[1].split('.')[-1]} in its merged manifest")
     tree = subprocess.run([str(aapt), "dump", "xmltree", str(apk), "AndroidManifest.xml"],
                           check=True, capture_output=True, text=True).stdout
     if ".LearningResourceProvider" in tree or "biz.tujia.ime.learning.resources" in tree:
