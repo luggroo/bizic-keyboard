@@ -4,7 +4,7 @@
 
 ## 下载与试打
 
-0.3.6 提供两个安卓安装包。
+0.3.6 提供两个安卓安装包，均支持 64 位 ARM、32 位 ARM 和 x86_64，最低系统要求是 Android 7.0。
 
 - [手写版 · 拼音、手写和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6.apk)
 - [无手写版 · 拼音和音标](https://github.com/luggroo/bizic-keyboard/releases/download/v0.3.6/tujia-keyboard-0.3.6-no-handwriting.apk)
