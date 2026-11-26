@@ -893,17 +893,20 @@ public final class Playback extends Instrumentation {
         if ("汉字记音".equals(label) || "土家语拼写".equals(label)) {
             label = "汉字记音".equals(label) ? HAN_BUTTON : spellingButton;
             require("隐藏键盘");
-            if (lookupKeyboard(label) == null && lookupKeyboard("设置") != null) {
-                // The settings menu follows the current input mode.
-                // Return to typing before choosing the keyboard's output script.
-                if (lookupKeyboard("q") == null) {
-                    tap(require("拼音"),100);
-                    require("q");
+            if (lookupKeyboard(label) == null) {
+                activateImeControl("拼音");
+                require("q");
+                long until = SystemClock.uptimeMillis() + 12000;
+                while (lookupKeyboard(label) == null && SystemClock.uptimeMillis() < until) {
+                    if (lookupKeyboard("q") != null) activateImeControl("设置");
+                    SystemClock.sleep(200);
                 }
-                tap(require("设置"),100);
                 require(label);
                 shot("mode-options");
             }
+            if (!activateImeControl(label)) throw new AssertionError("Could not choose typing output " + label);
+            require("q");
+            return;
         }
         tap(require(label),duration);
     }

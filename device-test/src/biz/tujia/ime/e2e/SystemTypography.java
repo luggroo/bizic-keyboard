@@ -132,9 +132,13 @@ final class SystemTypography {
                 if (form.measureText(word) > line.width() - 12 * metrics.density)
                     throw new AssertionError("IPA candidate has no room for its full tone: " + word + " " + line);
             }
+            boolean thirdFits = test.pollNode("补全 kuɔ²⁴", false, 250) != null;
+            boolean fourthFits = test.pollNode("补全 ȵi²⁴", false, 250) != null;
             test.press("下一页候选");
-            test.waitForNode("补全 kuɔ²⁴", false);
+            test.waitAbsent("补全 那，ai⁵⁵");
+            test.waitForNode("补全 " + (fourthFits ? "kai²⁴" : thirdFits ? "ȵi²⁴" : "kuɔ²⁴"), false);
             test.press("上一页候选");
+            test.waitForNode("补全 那，ai⁵⁵", false);
             Rect symbols = test.waitForNode("字母或符号", false), done = test.waitForNode("完成", false);
             test.awaitKeyboardAtRest();
             Bitmap controls = test.getUiAutomation().takeScreenshot();
