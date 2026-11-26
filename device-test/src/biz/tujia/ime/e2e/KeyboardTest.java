@@ -381,6 +381,13 @@ public final class KeyboardTest extends Instrumentation {
         }
         for (Rect key : new Rect[]{globe, comma, period, menu, eraser, back, waitForNode("更多手写字形", false)})
             assertInk(key, false);
+        AccessibilityNodeInfo row = candidateRow(visibleForm("～月"));
+        try {
+            for (Card option : rowCards(row)) {
+                if (option.lines.size() != 2 || option.lines.get(0).trim().isEmpty())
+                    throw new AssertionError("Unglossed handwriting candidate: " + option.name);
+            }
+        } finally { row.recycle(); }
         captureFrame("handwriting-sidebar.png");
         press("更多手写字形");
         waitAbsent("手写字形 三");
@@ -440,6 +447,14 @@ public final class KeyboardTest extends Instrumentation {
                     if (!card.bounds.contains(line) || Math.abs(line.centerX() - card.bounds.centerX()) > 1)
                         throw new AssertionError("Gloss and form must share the same cell center: " + card.name);
                 }
+                Rect form = card.lineBounds.get(card.lineBounds.size() - 1);
+                android.util.DisplayMetrics metrics = host.getResources().getDisplayMetrics();
+                android.graphics.Paint font = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+                font.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+                font.setTextSize(android.util.TypedValue.applyDimension(android.util.TypedValue.COMPLEX_UNIT_SP, 16, metrics));
+                if (font.measureText(outputLine(card)) > form.width() - 12 * metrics.density + 1
+                        && form.height() < font.getFontSpacing() * 1.65f)
+                    throw new AssertionError("A candidate needs another line: " + card.name);
                 previousRight = card.bounds.right;
             }
         } finally { row.recycle(); }
@@ -681,7 +696,7 @@ public final class KeyboardTest extends Instrumentation {
             type("pifpav");
             expectText(host.first, "pifpav");
             expectOriginalAfterMatches("pifpav");
-            Card original = card("原文，pifpav");
+            Card original = findPagedCard("原文，pifpav", true);
             if (!original.lines.equals(Collections.singletonList("pifpav")))
                 throw new AssertionError("Unexpected gloss on unmatched spelling: " + original.lines);
             if (!original.bounds.contains(waitForNode("待选拼写 pifpav", false)))
@@ -1658,23 +1673,10 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private AccessibilityNodeInfo rowBesidePager() {
-        waitForNode("下一页候选", false);
-        for (AccessibilityNodeInfo arrow : imeRoot.findAccessibilityNodeInfosByText("下一页候选")) {
-            try {
-                if (!arrow.refresh() || !android.text.TextUtils.equals(arrow.getContentDescription(), "下一页候选")) continue;
-                AccessibilityNodeInfo strip = arrow.getParent();
-                if (strip == null) continue;
-                try {
-                    strip.refresh();
-                    for (int i = 0; i < strip.getChildCount(); i++) {
-                        AccessibilityNodeInfo child = strip.getChild(i);
-                        if (child == null) continue;
-                        if ("android.widget.LinearLayout".contentEquals(child.getClassName())
-                                && !rowCards(child).isEmpty()) return child;
-                        child.recycle();
-                    }
-                } finally { strip.recycle(); }
-            } finally { arrow.recycle(); }
+        waitForNode("隐藏键盘", false);
+        for (AccessibilityNodeInfo row : imeRoot.findAccessibilityNodeInfosByViewId(IME_PACKAGE + ":id/candidate_row")) {
+            if (row.refresh() && row.isVisibleToUser()) return row;
+            row.recycle();
         }
         throw new AssertionError("No candidate row beside its paging controls: " + visibleControls());
     }

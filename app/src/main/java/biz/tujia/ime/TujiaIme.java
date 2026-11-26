@@ -94,7 +94,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private InputConnection reflowEditor;
     private EditorInfo reflowInfo;
     private CandidateEngine.Orthography orthography = CandidateEngine.Orthography.YE;
-    private int mode, typingMode, page, glyphPage, selStart, selEnd;
+    private int mode, typingMode, glyphPage, selStart, selEnd;
     private int historyLimit;
     private boolean shifted, symbols, direct, numeric, compact, handPanelActive;
     private HandFormat handFormat;
@@ -106,7 +106,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private List<String> glyphs = Collections.emptyList();
     // Some editors merge selection notifications from successive commitText calls.
     private final ArrayDeque<Integer> expectedSelections = new ArrayDeque<>();
-    private LinearLayout surface, toolbar, choices, body, glyphRow, morePanel;
+    private LinearLayout surface, toolbar, choices, candidateStrip, body, glyphRow, morePanel;
+    private final ArrayList<Integer> previousCandidatePages = new ArrayList<>();
+    private final int[] candidateWidths = new int[COLUMNS];
+    private int pageStart, pageEnd, plannedStripWidth;
+    private int baseStripHeight, baseKeyboardHeight, candidateContentHeight;
     private ScrollView moreScroll;
     private FrameLayout keyboardFrame;
     private int panelHeight, baselinePanelHeight, baselineBodyHeight, panelCeiling;
@@ -325,7 +329,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         draft = "";
         draftInEditor = false;
         pendingWordSeparator = false;
-        page = 0;
+        resetCandidatePage();
         candidates = Collections.emptyList();
         hanChoices.clear();
         glyphs = Collections.emptyList();
@@ -385,9 +389,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 getResources().getDisplayMetrics().density);
         boolean portrait = getResources().getDisplayMetrics().heightPixels >= getResources().getDisplayMetrics().widthPixels;
         compact = !portrait && screen < 500 || screen < 400;
-        toolbar = row(); choices = new CandidateRow(); body = column();
+        toolbar = row();
+        choices = row();
+        choices.setId(R.id.candidate_row);
+        choices.setBaselineAligned(false);
+        body = column();
         toolbar.setBackgroundColor(HEADER);
         LinearLayout strip = row();
+        candidateStrip = strip;
         strip.setBackground(edge(PAPER, RULE, Gravity.BOTTOM));
         body.setBackgroundColor(BOARD);
         int toolbarHeight = Math.max(dp(compact ? 36 : 42),
@@ -410,16 +419,30 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         surface.addView(strip, new LinearLayout.LayoutParams(-1, choicesHeight));
         surface.addView(body, new LinearLayout.LayoutParams(-1, bodyHeight));
         baselineBodyHeight = bodyHeight;
+        baseStripHeight = choicesHeight;
         int verticalPadding = surface.getPaddingTop() + surface.getPaddingBottom();
         baselinePanelHeight = toolbarHeight + choicesHeight + bodyHeight + verticalPadding;
         panelCeiling = maximum + verticalPadding;
+        baseKeyboardHeight = baselinePanelHeight;
         panelHeight = baselinePanelHeight;
         if (surface.getParent() == keyboardFrame) {
             surface.setLayoutParams(new FrameLayout.LayoutParams(-1, panelHeight));
         }
         buildToolbar();
         if (!direct) prevChoices = pageControl(strip, "‹", "上一页候选", -1);
-        strip.addView(choices, new LinearLayout.LayoutParams(0, -1, 1));
+        ScrollView viewport = new ScrollView(this);
+        viewport.setFillViewport(true);
+        viewport.addView(choices);
+        strip.addView(viewport, new LinearLayout.LayoutParams(0, -1, 1));
+        strip.addOnLayoutChangeListener((view, l, t, r, b, ol, ot, or, ob) -> {
+            if (direct || r <= l || r - l == plannedStripWidth || strip != candidateStrip) return;
+            strip.post(() -> {
+                if (strip == candidateStrip && strip.getWidth() != plannedStripWidth) {
+                    resetCandidatePage();
+                    if (inIpaMode()) renderIpaPage(); else showCandidates();
+                }
+            });
+        });
         if (!direct) nextChoices = pageControl(strip, "›", "下一页候选", 1);
         buildBody();
         updateCandidates();
@@ -558,7 +581,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             LinearLayout actions = menuRow(false);
             if (!candidates.isEmpty()) key(actions, "看候选全文", "长按候选看全文", 1, KeyLook.PLAIN, false, () -> {
                 closeMore();
-                int index = COLUMNS * page;
+                int index = pageStart;
                 if (index < candidates.size()) openReading(candidates.get(index));
             });
             if (!draft.isEmpty() && mode != HAND) key(actions, "输入原拼写", "确定拼写", 1, KeyLook.PLAIN, false, () -> {
@@ -686,7 +709,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         v.setContentDescription(description);
         KeyboardTap.bind(v, () -> {
             recordAction(direction < 0 ? "候选上一页" : "候选下一页", "");
-            page += direction;
+            if (direction > 0) {
+                previousCandidatePages.add(pageStart);
+                pageStart = pageEnd;
+            } else if (!previousCandidatePages.isEmpty()) {
+                pageStart = previousCandidatePages.remove(previousCandidatePages.size() - 1);
+            }
             if (inIpaMode()) renderIpaPage();
             else showCandidates();
         });
@@ -942,6 +970,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 && (c.handPrefixLength > 0 || wordCompletions.contains(c));
     }
 
+    private String candidateGlossText(CandidateEngine.Candidate c) {
+        HanChoice group = hanChoices.get(c);
+        String gloss = group == null ? (hasMeaning(c) ? c.shortMeaning : "")
+                : HanChoice.gloss(group.primary.shortMeanings, true, mode == HAND ? 2 : Integer.MAX_VALUE);
+        if (hasCompletedHandMeaning(c)) {
+            return gloss.isEmpty() || c.meaning.codePointCount(0, c.meaning.length()) <= 6 ? c.meaning : gloss;
+        }
+        return gloss.equals(c.text) ? "" : gloss;
+    }
+
     private List<CandidateEngine.Candidate> groupTypingChoices(List<CandidateEngine.Candidate> ranked) {
         hanChoices.clear();
         Map<String, HanChoice> byForm = new LinkedHashMap<>();
@@ -994,9 +1032,11 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 wordContext, soundContext, handMode(), "");
         Map<String, CandidateEngine.Candidate> readings = new LinkedHashMap<>();
         for (CandidateEngine.Candidate c : exact) readings.putIfAbsent(c.text, c);
-        for (CandidateEngine.Candidate c : extras) readings.putIfAbsent(c.text, c);
+        for (CandidateEngine.Candidate c : extras) {
+            if (!candidateGlossText(c).isEmpty()) readings.putIfAbsent(c.text, c);
+        }
         candidates = new ArrayList<>(readings.values());
-        page = 0;
+        resetCandidatePage();
         showCandidates();
     }
 
@@ -1050,12 +1090,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             for (CandidateEngine.Candidate c : syllableHints) additions.putIfAbsent(c.text, c);
         }
         // Offer both actions on each page while preserving the dictionary order within each list.
-        // An unchanged suffix without a dictionary meaning has already been written to the editor.
-        replacements.values().removeIf(c -> {
-            HanChoice.Action action = hanChoices.get(c).primary;
-            return action.meanings.isEmpty() && before.substring(before.length() - action.consumed)
-                    .equals(HanUnitBrackets.format(c.text, c.joinedHanRanges, 0).text);
-        });
+        // The sidebar already offers unglossed recognition alternatives.
+        for (Map<String, CandidateEngine.Candidate> group : Arrays.asList(replacements, mixed, additions)) {
+            group.values().removeIf(c -> candidateGlossText(c).isEmpty());
+        }
         Iterator<CandidateEngine.Candidate> replace = replacements.values().iterator();
         Iterator<CandidateEngine.Candidate> append = additions.values().iterator();
         Iterator<CandidateEngine.Candidate> extend = mixed.values().iterator();
@@ -1067,7 +1105,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (append.hasNext()) candidates.add(append.next());
             else if (extend.hasNext()) candidates.add(extend.next());
         }
-        page = 0;
+        resetCandidatePage();
         showCandidates();
     }
 
@@ -1833,7 +1871,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (dialects == shownIpaDialects && displayKey.equals(shownIpaPrefix)) return;
         shownIpaPrefix = displayKey;
         shownIpaDialects = dialects;
-        page = 0;
+        resetCandidatePage();
         if (prefix != null && !prefix.isEmpty()) {
             List<String> learned = dialects == 0 ? Collections.emptyList()
                     : learnedCompletions(UserDictionary.Form.IPA, prefix);
@@ -1848,7 +1886,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void renderIpaPage() {
         choices.removeAllViews();
-        updatePageControls(ipaMatches.size());
+        prepareCandidatePage(ipaMatches.size());
         if (ipaMatches.isEmpty()) {
             if (shownIpaDialects == 0) return;
             String message = " ".equals(shownIpaPrefix) ? "输入音标查看候选"
@@ -1858,12 +1896,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         }
         InputConnection editor = getCurrentInputConnection();
         String prefix = shownIpaPrefix;
-        int columns = candidateColumns();
-        int first = page * columns;
-        int count = Math.min(columns, ipaMatches.size() - first);
-        for (int i = 0; i < count; i++) {
-            IpaKeyboard.Entry entry = ipaMatches.get(first + i);
-            boolean firstChoice = first + i == 0;
+        for (int i = pageStart; i < pageEnd; i++) {
+            IpaKeyboard.Entry entry = ipaMatches.get(i);
+            boolean firstChoice = i == 0;
             boolean verbatim = !prefix.isEmpty() && entry.ipa.equals(prefix);
             TextView gloss = candidateGloss(entry.gloss);
             TextView form = candidateForm(entry.ipa, verbatim && !entry.gloss.isEmpty() ? CORRECTION : firstChoice ? RED : INK, verbatim ? "待选音标 " + prefix : null);
@@ -2128,14 +2163,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
             candidates = groupTypingChoices(ranked);
         }
-        page = 0;
-        choices.setContentDescription(direct || mode == SPELL && !candidates.isEmpty() ? null : "待选拼写 " + draft);
+        resetCandidatePage();
         showCandidates();
     }
 
     private void showCandidates() {
         choices.removeAllViews();
-        updatePageControls(candidates.size());
+        prepareCandidatePage(candidates.size());
+        boolean showsDraft = false;
+        for (int i = pageStart; mode == SPELL && i < pageEnd; i++) {
+            if (CandidateEngine.sameForm(candidates.get(i).text, draft)) { showsDraft = true; break; }
+        }
+        choices.setContentDescription(direct || mode == HAND || showsDraft ? null : "待选拼写 " + draft);
         if (candidates.isEmpty()) {
             String text;
             if (direct) text = "";
@@ -2154,30 +2193,23 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             choices.addView(status, weighted(1));
             return;
         }
-        int first = page * COLUMNS;
-        int count = Math.min(COLUMNS, candidates.size() - first);
-        for (int i = first; i < first + count; i++) {
+        for (int i = pageStart; i < pageEnd; i++) {
             CandidateEngine.Candidate c = candidates.get(i);
             boolean tujia = c.kind == CandidateEngine.Kind.TUJIA;
             boolean verbatim = mode == SPELL && !draft.isEmpty() && CandidateEngine.sameForm(c.text, draft);
             boolean nextSound = syllableHints.contains(c);
             HanChoice group = hanChoices.get(c);
             int glossLimit = mode == HAND ? 2 : Integer.MAX_VALUE;
-            String shortText = group != null ? HanChoice.gloss(group.primary.shortMeanings, true, glossLimit) : hasMeaning(c) ? c.shortMeaning : "";
+            String shortText = candidateGlossText(c);
             String fullText = group != null ? (group.primary.meanings.isEmpty() ? "" : group.primary.fullMeanings()) : hasMeaning(c) ? c.meaning : "";
             boolean mixed = c.handPrefixLength > 0;
-            boolean completedHandWord = hasCompletedHandMeaning(c);
-            if (completedHandWord) {
-                fullText = c.meaning;
-                if (shortText.isEmpty() || fullText.codePointCount(0, fullText.length()) <= 6) shortText = fullText;
-            }
-            boolean hasGloss = !shortText.isEmpty() && (completedHandWord || !shortText.equals(c.text));
+            if (hasCompletedHandMeaning(c)) fullText = c.meaning;
             String hint = mixed ? "更正并续写 " : nextSound ? "下一音节 " : wordCompletions.contains(c) ? (mode == HAND ? "续写 " : "补全 ") :
                     wordHints.contains(c) ? "联想 " : "";
             TextView gloss;
             if (group != null && group.primary.shortMeanings.size() > 1) {
                 gloss = numberedGloss(shortText, HanChoice.gloss(group.primary.shortMeanings, false, glossLimit));
-            } else gloss = candidateGloss(hasGloss ? shortText : "");
+            } else gloss = candidateGloss(shortText);
             boolean exactReading = (verbatim || mode == HAND && !handAsHan() && c.text.equals(handOutput))
                     && tujia && !c.syllableOnly && !c.meaning.isEmpty();
             int formColor = exactReading ? CORRECTION : tujia && i == 0 ? RED : INK;
@@ -2240,20 +2272,30 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         gloss.setDuplicateParentStateEnabled(true);
         gloss.setTextColor(pressColors(MUTED));
         if (gloss.getText().length() == 0) {
-            gloss.setVisibility(View.INVISIBLE);
+            gloss.setVisibility(View.GONE);
             gloss.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         }
         card.addView(gloss, new LinearLayout.LayoutParams(-1, textHeight(GLOSS_SP)));
-        LinearLayout.LayoutParams formLayout = new LinearLayout.LayoutParams(-1, textHeight(formSp()));
-        formLayout.topMargin = dp(2);
+        int width = candidateWidths[choices.getChildCount()];
+        int room = Math.max(1, width - form.getPaddingLeft() - form.getPaddingRight() - dp(2));
+        float preferred = sp(formSp());
+        float natural = Layout.getDesiredWidth(form.getText(), form.getPaint());
+        form.setTextSize(TypedValue.COMPLEX_UNIT_PX, Math.max(sp(16), Math.min(preferred, preferred * room / Math.max(1f, natural))));
+        form.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        LinearLayout.LayoutParams formLayout = new LinearLayout.LayoutParams(-1, Math.max(textHeight(formSp()), form.getMeasuredHeight()));
+        formLayout.topMargin = gloss.getVisibility() == View.GONE ? 0 : dp(2);
         card.addView(form, formLayout);
         card.setContentDescription(description);
         card.setFocusable(true);
         KeyboardTap.bind(card, select);
-        card.setTag(form);
-        LinearLayout.LayoutParams slot = new LinearLayout.LayoutParams(0, -1);
+        LinearLayout.LayoutParams slot = new LinearLayout.LayoutParams(width, -1);
         slot.setMargins(dp(2), dp(3), dp(2), dp(3));
         choices.addView(card, slot);
+        int height = formLayout.height + formLayout.topMargin + slot.topMargin + slot.bottomMargin + dp(2);
+        if (gloss.getVisibility() != View.GONE) height += textHeight(GLOSS_SP);
+        candidateContentHeight = Math.max(candidateContentHeight, height);
+        if (choices.getChildCount() == pageEnd - pageStart) fitCandidateStrip(candidateContentHeight);
         return card;
     }
 
@@ -2263,102 +2305,85 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         form.setPadding(dp(6), 0, dp(6), 0);
         form.setDuplicateParentStateEnabled(true);
         form.setTextColor(pressColors(color));
-        if (originalDescription != null) {
-            form.setEllipsize(TextUtils.TruncateAt.START);
-            form.setContentDescription(originalDescription);
-        }
-        form.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
-            int room = r - l - form.getCompoundPaddingLeft() - form.getCompoundPaddingRight() - 1;
-            if (room <= 0) return;
-            float preferred = sp(formSp());
-            float width = naturalFormWidth(form);
-            float size = Math.max(sp(16), preferred * Math.min(1f, room / Math.max(1f, width)));
-            if (Math.abs(form.getTextSize() - size) > .01f) form.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            if (inIpaMode()) {
-                fitTextWidth(form, value, room, .86f);
-            } else if (getResources().getConfiguration().fontScale >= 1.3f
-                    && keyboardFrame.getWidth() <= dp(360) && shortHanWord(value)) {
-                fitTextWidth(form, value, room, .75f);
-            }
-        });
+        if (originalDescription != null) form.setContentDescription(originalDescription);
+        form.setSingleLine(false);
+        form.setHorizontallyScrolling(false);
+        form.setEllipsize(null);
+        form.setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
+        form.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
         return form;
     }
 
-    private float naturalFormWidth(TextView form) {
-        TextPaint paint = new TextPaint(form.getPaint());
-        paint.setTextSize(sp(formSp()));
-        paint.setTextScaleX(1f);
-        return Layout.getDesiredWidth(form.getText(), paint);
+    private void resetCandidatePage() {
+        pageStart = pageEnd = 0;
+        previousCandidatePages.clear();
     }
 
-    private final class CandidateRow extends LinearLayout {
-        CandidateRow() {
-            super(TujiaIme.this);
-            setBaselineAligned(false);
+    private void prepareCandidatePage(int total) {
+        plannedStripWidth = candidateStrip.getWidth();
+        if (plannedStripWidth <= 0) {
+            int window = keyboardFrame.getWidth() - keyboardFrame.getPaddingLeft() - keyboardFrame.getPaddingRight();
+            if (window <= 0) window = getResources().getDisplayMetrics().widthPixels;
+            plannedStripWidth = window - surface.getPaddingLeft() - surface.getPaddingRight();
         }
-
-        @Override protected void onMeasure(int widthSpec, int heightSpec) {
-            int count = getChildCount();
-            if (count != 0 && getChildAt(0).getTag() instanceof TextView
-                    && MeasureSpec.getMode(widthSpec) == MeasureSpec.EXACTLY) {
-                sizeCandidateCards(MeasureSpec.getSize(widthSpec), count);
+        candidateContentHeight = baseStripHeight;
+        if (pageStart >= total) resetCandidatePage();
+        int limit = Math.min(COLUMNS, total - pageStart);
+        TextPaint measure = new TextPaint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+        measure.setTypeface(Typeface.DEFAULT_BOLD);
+        int[] minimum = new int[limit], preferred = new int[limit];
+        int margins = 2 * dp(2), padding = 2 * dp(6) + dp(2);
+        int sum = 0;
+        for (int i = 0; i < limit; i++) {
+            int index = pageStart + i;
+            CharSequence value;
+            if (inIpaMode()) value = ipaMatches.get(index).ipa;
+            else {
+                CandidateEngine.Candidate c = candidates.get(index);
+                value = HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges);
+                if (mode == HAND && c.exactHandCompletion) value = new SpannableStringBuilder("～").append(value);
             }
-            super.onMeasure(widthSpec, heightSpec);
+            measure.setTextSize(sp(16));
+            minimum[i] = Math.max(dp(48), (int) Math.ceil(Layout.getDesiredWidth(value, measure)) + padding);
+            measure.setTextSize(sp(formSp()));
+            preferred[i] = Math.max(minimum[i], (int) Math.ceil(Layout.getDesiredWidth(value, measure)) + padding);
+            sum += minimum[i] + margins;
         }
-
-        private void sizeCandidateCards(int width, int count) {
-            int available = width - getPaddingLeft() - getPaddingRight();
-            for (int i = 0; i < count; i++) {
-                LayoutParams params = (LayoutParams) getChildAt(i).getLayoutParams();
-                available -= params.leftMargin + params.rightMargin;
-            }
-            available = Math.max(0, available);
-            int minimum = Math.min(dp(48), available / count);
-            int[] extraWidths = new int[count];
-            int totalExtra = 0;
-            // Reserve the form first, then distribute spare space for the gloss above it.
-            for (int i = 0; i < count; i++) {
-                TextView form = (TextView) getChildAt(i).getTag();
-                int natural = (int) Math.ceil(naturalFormWidth(form))
-                        + form.getCompoundPaddingLeft() + form.getCompoundPaddingRight() + dp(2);
-                extraWidths[i] = Math.max(0, Math.min(available, natural) - minimum);
-                totalExtra += extraWidths[i];
-            }
-            float scale = Math.min(1f, (float) (available - count * minimum) / Math.max(1, totalExtra));
-            int spare = Math.max(0, available - count * minimum - totalExtra);
-            int columns = candidateColumns();
-            for (int i = 0; i < count; i++) {
-                int share = spare / columns;
-                getChildAt(i).getLayoutParams().width = minimum + (int) (extraWidths[i] * scale) + share;
-            }
+        boolean paged = pageStart > 0 || total > limit || sum > plannedStripWidth && total > 1;
+        int available = Math.max(1, plannedStripWidth - (paged ? 2 * dp(compact ? 20 : 24) : 0));
+        int taken = 0, used = 0, growth = 0;
+        while (taken < limit && (taken == 0 || used + minimum[taken] + margins <= available)) {
+            used += minimum[taken] + margins;
+            growth += preferred[taken] - minimum[taken];
+            taken++;
         }
+        pageEnd = pageStart + taken;
+        int spare = Math.max(0, available - used);
+        for (int i = 0; i < taken; i++) {
+            int extra = preferred[i] - minimum[i];
+            int boost = growth > spare ? (int) ((long) spare * extra / growth) : extra;
+            candidateWidths[i] = Math.max(1, Math.min(available - margins,
+                    minimum[i] + boost + Math.max(0, spare - growth) / taken));
+        }
+        if (prevChoices != null) {
+            updatePageControl(prevChoices, paged, !previousCandidatePages.isEmpty());
+            updatePageControl(nextChoices, paged, pageEnd < total);
+        }
+        if (taken == 0) fitCandidateStrip(baseStripHeight);
     }
 
-    private void updatePageControls(int count) {
-        if (prevChoices == null) return;
-        int columns = candidateColumns();
-        boolean multiplePages = count > columns;
-        updatePageControl(prevChoices, multiplePages, page > 0);
-        updatePageControl(nextChoices, multiplePages, (page + 1) * columns < count);
-    }
-
-    private int candidateColumns() {
-        if (!inIpaMode()) return COLUMNS;
-        int width = keyboardFrame.getWidth();
-        if (width <= 0) width = getResources().getDisplayMetrics().widthPixels;
-        int available = Math.max(0, width - dp(54));
-        int limit = Math.max(2, Math.min(COLUMNS, (int) (available / (sp(formSp()) * 3.4f))));
-        // Keep a short tone-bearing form intact beside longer IPA completions.
-        // One column count for the entire result set also keeps page boundaries stable.
-        TextPaint paint = new TextPaint();
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setTextSize(sp(16));
-        int used = 0;
-        for (int i = 0; i < limit && i < ipaMatches.size(); i++) {
-            used += Math.max(dp(48), (int) Math.ceil(paint.measureText(ipaMatches.get(i).ipa)) + dp(14)) + dp(4);
-            if (used > available) return Math.max(2, i);
-        }
-        return limit;
+    private void fitCandidateStrip(int contentHeight) {
+        choices.setMinimumHeight(contentHeight);
+        int maxHeight = baseStripHeight + Math.max(0, panelCeiling - baseKeyboardHeight + baselineBodyHeight - dp(64));
+        int height = Math.min(contentHeight, maxHeight);
+        if (candidateStrip.getLayoutParams().height == height) return;
+        candidateStrip.setLayoutParams(new LinearLayout.LayoutParams(-1, height));
+        baselinePanelHeight = baseKeyboardHeight + height - baseStripHeight;
+        int fittedBody = Math.max(dp(64), baselineBodyHeight - Math.max(0, baselinePanelHeight - panelCeiling));
+        body.setLayoutParams(new LinearLayout.LayoutParams(-1, fittedBody));
+        panelHeight = baselinePanelHeight - baselineBodyHeight + fittedBody;
+        if (surface.getParent() == keyboardFrame) surface.setLayoutParams(new FrameLayout.LayoutParams(-1, panelHeight));
+        if (android.os.Build.VERSION.SDK_INT >= 35) fitSystemNavigation(keyboardFrame);
     }
 
     private void updatePageControl(TextView control, boolean visible, boolean enabled) {
@@ -2412,17 +2437,6 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         float width = Layout.getDesiredWidth(value, natural);
         float scale = Math.max(minimumScale, Math.min(1f, room / Math.max(1f, width)));
         if (Math.abs(view.getTextScaleX() - scale) > .001f) view.setTextScaleX(scale);
-    }
-
-    private static boolean shortHanWord(CharSequence value) {
-        int count = Character.codePointCount(value, 0, value.length());
-        if (count < 2 || count > 3) return false;
-        for (int at = 0; at < value.length();) {
-            int c = Character.codePointAt(value, at);
-            if (!Character.isIdeographic(c)) return false;
-            at += Character.charCount(c);
-        }
-        return true;
     }
 
     private static String categoryName(CandidateEngine.Candidate c) {

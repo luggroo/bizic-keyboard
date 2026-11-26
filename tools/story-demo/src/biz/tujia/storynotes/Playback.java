@@ -233,8 +233,15 @@ public final class Playback extends Instrumentation {
     }
 
     private void warmHandwriting() {
-        press("设置",100);
-        press("汉字",100);
+        // Initialization may rebuild the keyboard after its window first appears.
+        // Select the output on the current control before touching the writing surface.
+        long until = SystemClock.uptimeMillis() + 12000;
+        while (lookupKeyboard("汉字") == null && SystemClock.uptimeMillis() < until) {
+            if (lookupKeyboard("汉字手写区") == null) press("手写", 100);
+            else press("设置", 100);
+            SystemClock.sleep(300);
+        }
+        press("汉字", 100);
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {

@@ -1,3 +1,4 @@
 <resources>
+    <item name="candidate_row" type="id" />
     <item name="trial_editor" type="id" />
 </resources>
