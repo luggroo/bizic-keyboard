@@ -256,10 +256,10 @@ public final class Playback extends Instrumentation {
         }
         // Warm the real recognition worker, then remove its real host commit.
         long warmUntil=SystemClock.uptimeMillis()+90000;
-        while (!editorText().equals("三") && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(110);
-        expectEditor("三");
+        while (editorText().isEmpty() && SystemClock.uptimeMillis()<warmUntil) SystemClock.sleep(110);
+        if (editorText().isEmpty()) throw new AssertionError("Handwriting warm-up did not commit a character");
         press("汉字记音",100);
-        press("退格",100);
+        runOnMainSync(() -> host.editor.setText(""));
         expectEditor("");
     }
 

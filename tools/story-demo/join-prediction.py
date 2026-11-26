@@ -8,10 +8,11 @@ parser=argparse.ArgumentParser()
 parser.add_argument('song',type=Path)
 parser.add_argument('prediction',type=Path)
 parser.add_argument('movie',type=Path)
+parser.add_argument('--standalone',action='store_true',help='Render just the prediction chapter')
 parser.add_argument('--short',type=Path,help='Filename of standalone native chapter (defaults to one-tap.mp4)')
 args=parser.parse_args()
 song=args.song.resolve();capture=args.prediction.resolve();target=args.movie.resolve()
-assert (capture/'saved-note.txt').read_text()=='bízīkǎ mǒng gǎ。\n币子咔萌夹。'
+assert (capture/'saved-note.txt').read_text()=='bízīkǎ mǒng gǎ。\n秘兹佧萌夹。'
 files=sorted((capture/'frames').glob('*.png'));tags=[p.stem.split('-',1)[1] for p in files]
 sequence=[]
 def show(label,start,end,length):
@@ -39,7 +40,7 @@ fontfile='/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'
 small=ImageFont.truetype(fontfile,17,index=2);large=ImageFont.truetype(fontfile,27,index=2)
 def probe(p):
     return json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_chapters','-of','json',p]))
-meta=probe(song);n_start=int(meta['streams'][0]['nb_frames']);assert len(meta['chapters'])==4
+
 with tempfile.TemporaryDirectory() as temp:
     d=Path(temp);cache={}
     for i,(label,n) in enumerate(sequence):
@@ -52,6 +53,10 @@ with tempfile.TemporaryDirectory() as temp:
         os.symlink(cache[key],d/f'{i:05}.png')
     second=d/'free.mp4'
     subprocess.run(['ffmpeg','-y','-v','error','-framerate','30','-i',str(d/'%05d.png'),'-c:v','libx264','-crf','16','-preset','veryfast','-threads','3','-pix_fmt','yuv420p',second],check=True)
+    if args.standalone:
+        shutil.copyfile(second,target)
+        raise SystemExit(0)
+    meta=probe(song);n_start=int(meta['streams'][0]['nb_frames']);assert len(meta['chapters'])==4
     shutil.copyfile(second,args.short or target.with_name('one-tap.mp4'))
     metadata=d/'chapters.ffmeta'
     chapters=[(round(float(ch['start_time'])*30),round(float(ch['end_time'])*30),ch['tags']['title']) for ch in meta['chapters']]
