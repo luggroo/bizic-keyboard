@@ -9,6 +9,36 @@ const {execFileSync} = require('node:child_process');
 const origin = 'https://appassets.androidplatform.net';
 const start = origin + '/index.html';
 
+// Serialized into the stock Chromium 51/52 page for a real Android touch.
+function touchPoint(element) {
+  function visiblePoint() {
+    var rectangles = element.getClientRects();
+    for (var i = 0; i < rectangles.length; i++) {
+      var r = rectangles[i];
+      var left = Math.max(0, r.left), top = Math.max(0, r.top);
+      var right = Math.min(innerWidth, r.right), bottom = Math.min(innerHeight, r.bottom);
+      if (left >= right || top >= bottom) continue;
+      var x = (left + right) / 2, y = (top + bottom) / 2;
+      if (element.contains(document.elementFromPoint(x, y))) return {x: x, y: y, viewport: innerWidth};
+    }
+    return null;
+  }
+  var point = visiblePoint();
+  if (point) return point;
+  // Center the target inside each nested scroller so its sticky header cannot cover it.
+  for (var parent = element.parentElement; parent; parent = parent.parentElement) {
+    if (parent.scrollHeight > parent.clientHeight && /auto|scroll|overlay/.test(getComputedStyle(parent).overflowY)) {
+      var target = element.getBoundingClientRect(), box = parent.getBoundingClientRect();
+      parent.scrollTop += (target.top + target.bottom - box.top - box.bottom) / 2;
+    }
+  }
+  point = visiblePoint();
+  if (point) return point;
+  var rect = element.getBoundingClientRect();
+  window.scrollBy(0, (rect.top + rect.bottom - innerHeight) / 2);
+  return visiblePoint();
+}
+
 async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoundTrip, returnFromPrivacy, cancelExternal, apk}) {
   const port = (await adb('forward', 'tcp:0', 'localabstract:' + socket)).toString().trim();
   let ws;
@@ -91,8 +121,7 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
         + '), function(node){return node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().height > 0})';
       await wait('!!' + query, selector);
       if (!trusted) { await value(query + '.click()'); return; }
-      const point = await value('(function(el){el.scrollIntoView(true);var r=el.getBoundingClientRect();' +
-          'return {x:r.left+r.width/2,y:r.top+r.height/2,viewport:window.innerWidth};})(' + query + ')');
+      const point = await wait('(' + touchPoint.toString() + ')(' + query + ')', 'unobstructed ' + selector);
       // Android can advertise the debugging socket before laying out its first frame.
       const frame = await (async () => {
         const end = Date.now() + 20000;
@@ -153,11 +182,16 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     await capture('drawer');
     await click('#academy-drawer [data-view="settings"]', true);
     await wait(`!!document.querySelector('#academy-settings a[href="/_app/privacy"]')`, 'settings');
-    const initialLanguage = await value('document.documentElement.lang');
-    await click('#academy-settings a[href="/_app/keyboard"]', true);
-    await keyboardRoundTrip(info, initialLanguage);
-    await click('#academy-settings a[href="/_app/privacy"]', true);
-    await returnFromPrivacy(info, initialLanguage);
+    for (const language of ['en', 'zh']) {
+      await value('document.querySelector("#ui-language").value=' + JSON.stringify(language) +
+        ';document.querySelector("#ui-language").dispatchEvent(new Event("change",{bubbles:true}))');
+      await wait('document.documentElement.lang.indexOf(' + JSON.stringify(language) + ')===0', 'reader language');
+      await click('#academy-settings a[href="/_app/privacy"]', true);
+      await returnFromPrivacy(info, language);
+      await click('#academy-settings a[href="/_app/keyboard"]', true);
+      await keyboardRoundTrip(info, language);
+    }
+    passed('Reader language carries through to the native privacy and keyboard settings screens');
     await visit('#grammar/north/101/1', 'grammar');
     assert(await value('/声母|韵母/.test(document.querySelector(".grammar-article").innerText)'));
     await capture('grammar-north');
@@ -179,9 +213,9 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     await visit('?id=brassett-2006#sources', 'sources');
     await wait('!!document.querySelector("#detail[open] .grammar-summary")', 'bibliography');
     assert(await value('/2006/.test(document.querySelector("#detail-body").innerText)'));
-    assert(await value('!!document.querySelector("#detail-body a[href^=\'https://\']")'));
+    const publication = '#detail-body a[href^="https://theswissbay.ch/"][href$=".pdf"]';
+    assert(await value('!!document.querySelector(' + JSON.stringify(publication) + ')'));
     await capture('bibliography');
-    const publication = '#detail-body a[href^="https://"]';
     const externalUrl = await value('document.querySelector(' + JSON.stringify(publication) + ').href');
     await click(publication, true);
     await cancelExternal(info, externalUrl);
@@ -253,16 +287,6 @@ async function exerciseLegacyUI({adb, shell, socket, info, capture, keyboardRoun
     await wait('document.documentElement.lang === "en" && document.documentElement.dataset.theme === "dark"', 'English/dark');
     await capture('english-dark');
     passed('English interface and dark theme');
-    for (const language of ['en', 'zh']) {
-      await value('document.querySelector("#ui-language").value=' + JSON.stringify(language) +
-        ';document.querySelector("#ui-language").dispatchEvent(new Event("change",{bubbles:true}))');
-      await wait('document.documentElement.lang.indexOf(' + JSON.stringify(language) + ')===0', 'reader language');
-      await click('#academy-settings a[href="/_app/privacy"]', true);
-      await returnFromPrivacy(info, language);
-      await click('#academy-settings a[href="/_app/keyboard"]', true);
-      await keyboardRoundTrip(info, language);
-    }
-    passed('Reader language carries through to the native privacy and keyboard settings screens');
     if (process.env.BIZIC_PROFILE_GZIP === '1') {
       // Compare native streaming above with the original fallback on the same
       // index. Decode base64 before starting the timer; only public APK bytes
