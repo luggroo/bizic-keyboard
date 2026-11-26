@@ -37,15 +37,25 @@ jobs:
           python3 qa/test_candidate_senses.py
           python3 qa/test_orthography_revisions.py
       - name: Build APK
-        run: ./gradlew --no-daemon :app:assembleDebug
+        run: ./gradlew --no-daemon :app:assembleHandwritingDebug :app:assembleTypingOnlyDebug
       - name: Verify APK signature
-        run: '"$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose app/build/outputs/apk/debug/app-debug.apk'
+        run: '"$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk'
+      - name: Verify typing-only APK
+        run: |
+          apk=app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
+          python3 qa/verify-apk.py --typing-only "$apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bizic-keyboard-typing-only-debug
+          path: app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+          if-no-files-found: error
       - name: Verify bundled dictionaries and native libraries
-        run: python3 qa/verify-apk.py app/build/outputs/apk/debug/app-debug.apk
+        run: python3 qa/verify-apk.py app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
       - uses: actions/upload-artifact@v4
         with:
           name: bizic-keyboard-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
           if-no-files-found: error
 
   lint:
@@ -58,9 +68,9 @@ jobs:
           java-version: '17'
           cache: gradle
       - name: Run Android Lint
-        run: ./gradlew --no-daemon :app:lintDebug
+        run: ./gradlew --no-daemon :app:lintHandwritingDebug :app:lintTypingOnlyDebug
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: android-lint
-          path: app/build/reports/lint-results-debug.*
+          path: app/build/reports/lint-results-*

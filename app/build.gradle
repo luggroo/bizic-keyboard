@@ -11,8 +11,8 @@ android {
         applicationId 'biz.tujia.ime'
         minSdk 24
         targetSdk 35
-        versionCode 11
-        versionName '0.3.5'
+        versionCode 12
+        versionName '0.3.6'
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
         }
@@ -28,6 +28,11 @@ android {
             version '3.22.1'
         }
     }
+    flavorDimensions += 'input'
+    productFlavors {
+        handwriting { dimension 'input' }
+        typingOnly { dimension 'input' }
+    }
     sourceSets {
         main.assets.srcDirs = ['../shared/bundle/Assets', 'src/main/assets']
     }
@@ -37,6 +42,12 @@ android {
     }
 }
 
+androidComponents {
+    onVariants(selector().withFlavor(new kotlin.Pair('input', 'typingOnly'))) { variant ->
+        variant.androidResources.ignoreAssetsPatterns.addAll('ismantic', 'handwriting', 'handwriting-readings.tsv', 'handwriting-tones.tsv')
+    }
+}
+
 dependencies {
-    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
+    handwritingImplementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
 }

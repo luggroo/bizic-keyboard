@@ -218,7 +218,7 @@ public final class PerformanceTest extends Instrumentation {
     private Rect awaitTypingHeader() {
         long limit = SystemClock.uptimeMillis() + 90000;
         do {
-            Rect visible = find("打字");
+            Rect visible = find("拼音");
             if (visible != null) return visible;
             visible = find("汉字记音");  // 0.3.1/0.3.2 persistent tabs
             if (visible != null) return visible;

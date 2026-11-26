@@ -326,14 +326,14 @@ dialog .outputMenu {margin:8px 0 14px}
     <section id="play" aria-labelledby="note-heading">
       <div class="panelhead"><h2 id="note-heading">记事本</h2><button id="openSettings" aria-haspopup="dialog">输出设置</button></div>
       <div id="inputDock"><div class="paper"><span id="notebook-title">山歌两首</span><div id="result" role="textbox" contenteditable="true" aria-multiline="true" tabindex="0" aria-label="记事本正文" aria-describedby="notebook-title" data-placeholder="点这里写山歌…"></div><div class="editorFoot"><small id="count">0 字符</small></div></div><div class="kb" id="keyboardPanel" hidden><div class="kbhead">
-          <div class="inputModes" role="group" aria-label="输入方式"><button id="typeMode" type="button" aria-label="打字"><span class="toolbar-icon" aria-hidden="true">Aa</span>打字</button><button id="handMode" type="button" aria-label="手写"><span class="toolbar-icon" aria-hidden="true">✎</span>手写</button></div>
+          <div class="inputModes" role="group" aria-label="输入方式"><button id="typeMode" type="button" aria-label="拼音"><span class="toolbar-icon" aria-hidden="true">Aa</span>拼音</button><button id="handMode" type="button" aria-label="手写"><span class="toolbar-icon" aria-hidden="true">✎</span>手写</button></div>
           <div class="liveDraft" id="draftBar"><input id="draft" aria-label="输入草稿" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="none" dir="auto"></div>
           <button id="kbMore" type="button" aria-label="设置" aria-controls="kbMorePanel" aria-expanded="false"><span class="toolbar-icon" aria-hidden="true">⚙</span>设置</button>
           <button id="hideKeyboard" type="button" aria-label="收起土家语键盘"><span class="buttonLabel">收起</span></button>
         </div>
         <div id="kbMorePanel" role="group" aria-label="键盘设置" hidden>
           <div class="outputMenu" id="menuOutputs" role="group" aria-label="输出形式"></div>
-          <div class="otherMenu"><button id="menuBackToTyping" type="button">返回打字</button><button id="kbSettings" type="button" aria-haspopup="dialog">更多设置</button></div>
+          <div class="otherMenu"><button id="menuBackToTyping" type="button">返回拼音</button><button id="kbSettings" type="button" aria-haspopup="dialog">更多设置</button></div>
           <button id="raw" type="button" hidden>用原拼写</button>
         </div>
         <div id="typing"><div class="candidateBar"><button id="previousCandidates" aria-label="上一页候选">‹</button><div class="candidates" id="candidates" aria-live="polite"></div><button id="nextCandidates" aria-label="下一页候选">›</button></div><div id="keys"><div id="toneKeys" role="group" aria-label="选择元音调号" hidden></div></div><div id="hand" hidden><div class="pad"><canvas id="canvas" aria-label="手写区域"></canvas></div><div class="tools"><button id="moreForms">关联词</button><button id="undo">撤一笔</button><button id="reset">重写</button></div><div id="han" class="candidates" role="group" aria-label="选择手写示例字"></div></div></div></div></div>
@@ -343,7 +343,7 @@ dialog .outputMenu {margin:8px 0 14px}
   </div>
   <div class="references">
     <aside class="reference-tools">
-      <section aria-labelledby="modes-heading"><h2 id="modes-heading">输入方式</h2><div id="typingOutputs" class="outputMenu" role="group" aria-label="打字输出形式"></div><div class="choices" id="choices"></div></section>
+      <section aria-labelledby="modes-heading"><h2 id="modes-heading">输入方式</h2><div id="typingOutputs" class="outputMenu" role="group" aria-label="拼音输出形式"></div><div class="choices" id="choices"></div></section>
     </aside>
     <section id="library" aria-labelledby="library-heading">
       <h2 id="library-heading">毕兹学堂试用词表</h2>

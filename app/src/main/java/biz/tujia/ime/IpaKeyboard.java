@@ -68,7 +68,8 @@ final class IpaKeyboard {
                 int tab = line.indexOf('\t', 2);
                 if (tab <= 2 || line.charAt(1) != '\t' || line.charAt(0) < '1' || line.charAt(0) > '3')
                     throw new IOException("Invalid IPA dictionary row");
-                entries.add(new Entry(line.charAt(0) - '0', line.substring(2, tab), line.substring(tab + 1)));
+                String ipa = CandidateEngine.ipaWord(line.substring(2, tab));
+                entries.add(new Entry(line.charAt(0) - '0', ipa, line.substring(tab + 1)));
             }
         }
     }
@@ -103,7 +104,7 @@ final class IpaKeyboard {
         if (lexicon != null && dialects != 0 && input.length() <= MAX_PREFIX && HAS_LETTER.matcher(input).find()) {
             ranked = lexicon.complete(input, dialects);
             for (Entry entry : lexicon.entries) {
-                if ((entry.dialects & dialects) != 0 && entry.ipa.equals(input) && !entry.gloss.isEmpty()) {
+                if ((entry.dialects & dialects) != 0 && CandidateEngine.sameForm(entry.ipa, input) && !entry.gloss.isEmpty()) {
                     glosses.add(entry.gloss);
                 }
             }
@@ -121,7 +122,7 @@ final class IpaKeyboard {
         }
         StringJoiner gloss = new StringJoiner("；");
         for (String meaning : glosses) gloss.add(meaning);
-        return CandidateEngine.prependVerbatim(new Entry(dialects, input, gloss.toString()), ranked,
+        return CandidateEngine.rankOriginal(new Entry(dialects, input, gloss.toString()), !glosses.isEmpty(), ranked,
                 entry -> entry.ipa);
     }
 

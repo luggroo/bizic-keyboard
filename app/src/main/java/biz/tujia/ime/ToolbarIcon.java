@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 final class ToolbarIcon extends Drawable {
-    enum Mark { TYPE, WRITE, IPA, SETTINGS, HIDE, GLOBE, ERASER, BACKSPACE }
+    enum Mark { TYPE, WRITE, IPA, SETTINGS, HIDE, GLOBE, ERASER, BACKSPACE, NEXT, COMMA, CIRCLE_STOP, DOT, MORE }
 
     private final Mark mark;
     private final TextView button;
@@ -77,6 +77,35 @@ final class ToolbarIcon extends Drawable {
                 canvas.drawOval(8.5f, 1.5f, 15.5f, 16.5f, paint);
                 canvas.drawLine(5.5f, 6, 18.5f, 6, paint);
                 canvas.drawLine(5.5f, 12, 18.5f, 12, paint);
+                break;
+            case NEXT:
+                canvas.drawLine(5, 9, 19, 9, paint);
+                path.reset();
+                path.moveTo(13, 3);
+                path.lineTo(19, 9);
+                path.lineTo(13, 15);
+                canvas.drawPath(path, paint);
+                break;
+            case COMMA:
+                paint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(12.5f, 7, 1.9f, paint);
+                paint.setStyle(Paint.Style.STROKE);
+                path.reset();
+                path.moveTo(13.6f, 7);
+                path.quadTo(14, 10.7f, 10.4f, 12.7f);
+                canvas.drawPath(path, paint);
+                break;
+            case CIRCLE_STOP:
+                canvas.drawCircle(12, 9, 2.6f, paint);
+                break;
+            case DOT:
+            case MORE:
+                paint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(12, 9, 1.6f, paint);
+                if (mark == Mark.MORE) {
+                    canvas.drawCircle(6, 9, 1.6f, paint);
+                    canvas.drawCircle(18, 9, 1.6f, paint);
+                }
                 break;
             case ERASER:
                 path.reset();

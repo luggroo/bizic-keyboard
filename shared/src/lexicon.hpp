@@ -47,6 +47,7 @@ public:
 
     std::vector<Candidate> lookup(const std::string& input, Mode mode,
                                   Orthography orthography = Orthography::Ye) const;
+    std::vector<Candidate> handwritingReadings(const std::string& han, Orthography style, const std::string& readings) const;
     std::vector<Candidate> spellingOnSpace(const std::string& input, Orthography style) const;
 
     std::vector<Candidate> handwritingSuggestions(const std::string& glyphs, Mode output, Orthography style) const;

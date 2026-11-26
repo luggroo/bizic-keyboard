@@ -67,8 +67,8 @@ jobs:
             echo "$APK_SHA256  build/qa-keyboard.apk" | sha256sum --check
           else
             [[ -z "$APK_SHA256" ]]
-            ./gradlew --no-daemon :app:assembleDebug
-            cp app/build/outputs/apk/debug/app-debug.apk build/qa-keyboard.apk
+            ./gradlew --no-daemon :app:assembleHandwritingDebug
+            cp app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk build/qa-keyboard.apk
           fi
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose build/qa-keyboard.apk
           ./tools/build-apk.sh --device-test build/fixture.apk

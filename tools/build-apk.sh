@@ -13,9 +13,9 @@ if [[ "${1:-}" != "--device-test" && "${1:-}" != "--performance-test" ]]; then
   if (( $# > 1 )); then echo 'Usage: build-apk.sh [output.apk]' >&2; exit 1; fi
   out="${1:-$root_dir/build/biz.tujia.ime.apk}"
   case "$out" in /*) ;; *) out="$PWD/$out";; esac
-  (cd "$root_dir" && ./gradlew --no-daemon :app:assembleDebug)
+  (cd "$root_dir" && ./gradlew --no-daemon :app:assembleHandwritingDebug)
   mkdir -p "$(dirname "$out")"
-  cp "$root_dir/app/build/outputs/apk/debug/app-debug.apk" "$out"
+  cp "$root_dir/app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk" "$out"
   echo "APK: $out"
   exit 0
 fi

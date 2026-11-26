@@ -79,7 +79,7 @@ public final class CandidateEngine implements AutoCloseable {
                     ranges, syllableOnly, lexemeIds, lastSyllable, plainHanLoan, hanSenseId, 0, true);
         }
 
-        private Candidate asIpa(String value) {
+        private Candidate withReading(String value) {
             return new Candidate(value, meaning, shortMeaning, kind.ordinal(), consumed, new int[0], syllableOnly,
                     lexemeIds, lastSyllable, false, hanSenseId, 0, false);
         }
@@ -87,6 +87,19 @@ public final class CandidateEngine implements AutoCloseable {
 
     private long model;
     private final Map<String, String> handwritingIpa;
+    private final Map<Integer, HandTones> handwritingTones;
+
+    private static final class HandTones {
+        final String keys;
+        final String[] marked, ipa;
+        HandTones(String[] fields) throws IOException {
+            keys = fields[0];
+            marked = fields[1].split(" ");
+            ipa = fields[2].split(" ");
+            if (marked.length % 4 != 0 || marked.length != ipa.length || keys.split(" ").length != ipa.length)
+                throw new IOException("Unaligned handwriting tones: " + keys);
+        }
+    }
 
     public CandidateEngine(InputStream input) throws IOException {
         this(input, null);
@@ -113,9 +126,15 @@ public final class CandidateEngine implements AutoCloseable {
 
     public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams, InputStream syllableSenses,
                            InputStream regionalReadings, InputStream ipa) throws IOException {
+        this(input, ngrams, syllableBigrams, syllableSenses, regionalReadings, ipa, null);
+    }
+
+    public CandidateEngine(InputStream input, InputStream ngrams, InputStream syllableBigrams, InputStream syllableSenses,
+                           InputStream regionalReadings, InputStream ipa, InputStream tones) throws IOException {
         try (InputStream context = ngrams; InputStream sounds = syllableBigrams; InputStream senses = syllableSenses;
              InputStream readings = regionalReadings) {
             handwritingIpa = loadHandwritingIpa(ipa);
+            handwritingTones = loadHandTones(tones);
             model = NativeCore.loadLexicon(NativeCore.readAsset(input),
                     context == null ? new byte[0] : NativeCore.readAsset(context),
                     sounds == null ? new byte[0] : NativeCore.readAsset(sounds),
@@ -123,6 +142,11 @@ public final class CandidateEngine implements AutoCloseable {
                     readings == null ? new byte[0] : NativeCore.readAsset(readings));
             handwritingContextLength = NativeCore.handwritingContextLength(model);
         }
+    }
+
+    // A dictionary entry is inserted as one IPA word. Separately entered words retain their spaces.
+    static String ipaWord(String transcription) {
+        return transcription.replace(" ", "");
     }
 
     private static Map<String, String> loadHandwritingIpa(InputStream source) throws IOException {
@@ -133,7 +157,22 @@ public final class CandidateEngine implements AutoCloseable {
                 if (row.isEmpty() || row.startsWith("#")) continue;
                 int tab = row.indexOf('\t');
                 if (tab <= 0 || tab == row.length() - 1) throw new IOException("Invalid handwriting IPA row");
-                forms.put(row.substring(0, tab), row.substring(tab + 1));
+                forms.put(row.substring(0, tab), ipaWord(row.substring(tab + 1)));
+            }
+        }
+        return forms;
+    }
+
+    private static Map<Integer, HandTones> loadHandTones(InputStream source) throws IOException {
+        if (source == null) return Collections.emptyMap();
+        Map<Integer, HandTones> forms = new HashMap<>();
+        try (BufferedReader input = new BufferedReader(new InputStreamReader(source, StandardCharsets.UTF_8))) {
+            for (String row; (row = input.readLine()) != null;) {
+                if (row.isEmpty() || row.startsWith("#")) continue;
+                String[] fields = row.split("\t", -1);
+                if (fields.length != 4) throw new IOException("Invalid handwriting tone row");
+                HandTones family = new HandTones(fields);
+                fields[3].codePoints().forEach(cp -> forms.put(cp, family));
             }
         }
         return forms;
@@ -158,32 +197,36 @@ public final class CandidateEngine implements AutoCloseable {
         return recommended;
     }
 
+    static boolean sameForm(String left, String right) {
+        return Normalizer.normalize(left, Normalizer.Form.NFC).equals(Normalizer.normalize(right, Normalizer.Form.NFC));
+    }
+
     static List<Candidate> prioritizeVerbatim(String draft, List<Candidate> dictionary, List<Candidate> ranked) {
         if (draft.isEmpty()) return ranked;
         Candidate original = null;
         for (Candidate match : dictionary) {
-            if (match.kind == Kind.TUJIA && !match.syllableOnly && match.consumed == draft.length()
-                    && match.text.equals(draft)) {
+            if (match.kind == Kind.TUJIA && !match.syllableOnly && !match.meaning.isEmpty()
+                    && match.consumed == draft.length() && sameForm(match.text, draft)) {
                 original = match;
                 break;
             }
         }
-        if (original == null) {
+        boolean defined = original != null;
+        if (!defined) {
             original = new Candidate(draft, "", "", Kind.LITERAL.ordinal(), draft.length(),
                     new int[0], false, "", "", false, "", 0, false);
         }
-        return prependVerbatim(original, ranked, candidate -> candidate.text);
+        return rankOriginal(original, defined, ranked, candidate -> candidate.text);
     }
 
-    static <T> List<T> prependVerbatim(T original, List<T> ranked, Function<T, String> form) {
+    // An exact dictionary entry leads. An unglossed echo is a fallback after the alternatives.
+    static <T> List<T> rankOriginal(T original, boolean defined, List<T> ranked, Function<T, String> form) {
         List<T> choices = new ArrayList<>(ranked.size() + 1);
-        choices.add(original);
-        String visibleDraft = Normalizer.normalize(form.apply(original), Normalizer.Form.NFC);
+        String input = form.apply(original);
         for (T candidate : ranked) {
-            if (!visibleDraft.equals(Normalizer.normalize(form.apply(candidate), Normalizer.Form.NFC))) {
-                choices.add(candidate);
-            }
+            if (!sameForm(input, form.apply(candidate))) choices.add(candidate);
         }
+        if (defined || !choices.isEmpty()) choices.add(defined ? 0 : Math.min(3, choices.size()), original);
         return choices;
     }
 
@@ -202,6 +245,21 @@ public final class CandidateEngine implements AutoCloseable {
 
     public List<Candidate> handwrittenWordsAndExtensions(String beforeCaret) {
         return candidates(handwritingTail(beforeCaret), Mode.HAN, Orthography.YE, 8);
+    }
+
+    public synchronized List<Candidate> handwritingReadings(String han, Orthography style) {
+        if (model == 0) throw new IllegalStateException("Dictionary closed");
+        if (han == null || han.isEmpty() || style == null) return Collections.emptyList();
+        HandTones tones = han.codePointCount(0, han.length()) == 1 ? handwritingTones.get(han.codePointAt(0)) : null;
+        Candidate[] matches = NativeCore.lookup(model, NativeCore.encode(han), Mode.HANDWRITING.ordinal(),
+                nativeStyle(style), 9, NativeCore.encode(tones == null ? "" : tones.keys));
+        if (tones == null || style == Orthography.YE) return results(matches, Mode.HANDWRITING, style);
+        String[] forms = style == Orthography.IPA ? tones.ipa : tones.marked;
+        List<Candidate> rendered = new ArrayList<>(matches.length);
+        int count = Math.min(forms.length, matches.length);
+        for (int i = 0; i < count; i++) rendered.add(matches[i].withReading(forms[i]));
+        rendered.addAll(results(Arrays.copyOfRange(matches, count, matches.length), Mode.HANDWRITING, style));
+        return rendered;
     }
 
     public List<Candidate> nextHandwrittenGlyphs(String beforeCaret) {
@@ -282,7 +340,7 @@ public final class CandidateEngine implements AutoCloseable {
                 }
                 if (phrase.length() > 0) ipa = phrase.toString();
             }
-            if (ipa != null) converted.add(candidate.asIpa(ipa));
+            if (ipa != null) converted.add(candidate.withReading(ipa));
         }
         return converted;
     }

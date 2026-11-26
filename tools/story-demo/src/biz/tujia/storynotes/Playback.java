@@ -233,8 +233,20 @@ public final class Playback extends Instrumentation {
     }
 
     private void warmHandwriting() {
-        press("设置",100);
-        press("汉字",100);
+        // Setup happens before filming, while the IME window and its touch coordinates may still move.
+        long until = SystemClock.uptimeMillis() + 12000;
+        boolean selected = false;
+        while (!selected && SystemClock.uptimeMillis() < until) {
+            selected = activateImeControl("汉字");
+            if (!selected) {
+                activateImeControl(lookupKeyboard("汉字手写区") == null ? "手写" : "设置");
+                SystemClock.sleep(250);
+            }
+        }
+        if (!selected) throw new AssertionError("Could not select Han handwriting output");
+        require("汉字手写区");
+        activateImeControl("重写");
+        runOnMainSync(() -> host.editor.setText(""));
         Rect warmPad=require("汉字手写区");
         float side=.88f*Math.min(warmPad.width(),warmPad.height());
         for (int i=0;i<3;i++) {
@@ -457,14 +469,14 @@ public final class Playback extends Instrumentation {
         Intent settings = new Intent().setClassName(IME, IME + ".SetupActivity");
         settings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         runOnMainSync(() -> host.startActivity(settings));
-        Rect open = appContaining("打字输出 ·");
+        Rect open = appContaining("拼音输出 ·");
         SystemClock.sleep(500);
         tap(open,90);
         spellingButton = "带调号拼音".equals(style) ? MARKED_BUTTON : YE_BUTTON;
         Rect row = appLabel(spellingButton + ("带调号拼音".equals(style) ? "，bízīkǎ" : "，bifzixkar"));
         SystemClock.sleep(850);
         tap(row,90);
-        appLabel("打字输出 · " + spellingButton);
+        appLabel("拼音输出 · " + spellingButton);
         SystemClock.sleep(700);
         long t=SystemClock.uptimeMillis();
         ui.injectInputEvent(new KeyEvent(t,t,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK,0),true);
@@ -500,9 +512,14 @@ public final class Playback extends Instrumentation {
             InputMethodManager imm=(InputMethodManager)host.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(host.editor, InputMethodManager.SHOW_IMPLICIT);
         });
-        press(mode,100);
-        if ("手写".equals(mode)) require("汉字手写区");
-        else requireEmptyDraft();
+        if ("手写".equals(mode)) {
+            require("手写");
+            activateImeControl("手写");
+            require("汉字手写区");
+        } else {
+            press(mode,100);
+            requireEmptyDraft();
+        }
     }
 
     private void typeAfterSettings(String raw) {
@@ -876,20 +893,36 @@ public final class Playback extends Instrumentation {
         if ("汉字记音".equals(label) || "土家语拼写".equals(label)) {
             label = "汉字记音".equals(label) ? HAN_BUTTON : spellingButton;
             require("隐藏键盘");
-            if (lookupKeyboard(label) == null && lookupKeyboard("设置") != null) {
-                // The settings menu follows the current input mode.
-                // Return to typing before choosing the keyboard's output script.
-                if (lookupKeyboard("q") == null) {
-                    tap(require("打字"),100);
-                    require("q");
+            if (lookupKeyboard(label) == null) {
+                activateImeControl("拼音");
+                require("q");
+                long until = SystemClock.uptimeMillis() + 12000;
+                while (lookupKeyboard(label) == null && SystemClock.uptimeMillis() < until) {
+                    if (lookupKeyboard("q") != null) activateImeControl("设置");
+                    SystemClock.sleep(200);
                 }
-                tap(require("设置"),100);
                 require(label);
                 shot("mode-options");
             }
+            if (!activateImeControl(label)) throw new AssertionError("Could not choose typing output " + label);
+            require("q");
+            return;
         }
         tap(require(label),duration);
     }
+    private boolean activateImeControl(String label) {
+        if (lookupKeyboard(label) == null || keyboard == null) return false;
+        for (AccessibilityNodeInfo node : keyboard.findAccessibilityNodeInfosByText(label)) {
+            try {
+                if (node.refresh() && node.isVisibleToUser() && node.isClickable()
+                        && (android.text.TextUtils.equals(label, node.getContentDescription())
+                        || android.text.TextUtils.equals(label, node.getText()))
+                        && node.performAction(AccessibilityNodeInfo.ACTION_CLICK)) return true;
+            } finally { node.recycle(); }
+        }
+        return false;
+    }
+
     private Rect require(String value) {
         long end=SystemClock.uptimeMillis() + 16000;
         do {

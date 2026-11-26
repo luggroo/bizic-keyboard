@@ -1,0 +1,1438 @@
+# Northern Han loan readings, grouped by identical conversion choices.
+# https://github.com/luggroo/bizic-translator/blob/cd7a69207eaf11471a3670e5c949a53f2b78268f/data/loan-readings-north.tsv
+aix aiv air aif	āi ài ǎi ái	ai⁵⁵ ai⁵¹ ai²¹ ai²⁴	哎
+aor aox aov aof	ǎo āo ào áo	au²¹ au⁵⁵ au⁵¹ au²⁴	伛傴噢妪嫗燠
+aov aox aor aof	ào āo ǎo áo	au⁵¹ au⁵⁵ au²¹ au²⁴	靿
+ax ar av af ox ov or of	ā ǎ à á ō ò ǒ ó	a⁵⁵ a²¹ a⁵¹ a²⁴ ɔ⁵⁵ ɔ⁵¹ ɔ²¹ ɔ²⁴	阿
+ax av ar af	ā à ǎ á	a⁵⁵ a⁵¹ a²¹ a²⁴	啊
+baf bax bav bar	bá bā bà bǎ	pa²⁴ pa⁵⁵ pa⁵¹ pa²¹	坝壩罢罷霸
+baif baix baiv bair	bái bāi bài bǎi	pai²⁴ pai⁵⁵ pai⁵¹ pai²¹	呗唄惫憊扒拜敗湃稗粺败韛𢞎𢟡𢷎𤸶𦩋𫖔
+baif baix baiv bair paif paix paiv pair peif peix peiv peir	bái bāi bài bǎi pái pāi pài pǎi péi pēi pèi pěi	pai²⁴ pai⁵⁵ pai⁵¹ pai²¹ pʰai²⁴ pʰai⁵⁵ pʰai⁵¹ pʰai²¹ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	浿𬇙
+baiv baix bair baif	bài bāi bǎi bái	pai⁵¹ pai⁵⁵ pai²¹ pai²⁴	摆擺
+banf banx banv banr	bán bān bàn bǎn	pã²⁴ pã⁵⁵ pã⁵¹ pã²¹	伴傍办半坋扮棒玤畔磅蚌蚡辦魵鼢𫚍
+banf banx banv banr huenr huenx huenv huenf	bán bān bàn bǎn huěn huēn huèn huén	pã²⁴ pã⁵⁵ pã⁵¹ pã²¹ fɜ̃²¹ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²⁴	弅濆羵𣸣𫅗
+banv banx banr banf	bàn bān bǎn bán	pã⁵¹ pã⁵⁵ pã²¹ pã²⁴	昄板榜版牓綁绑蝂謗谤鈑钣
+banx banv banr banf	bān bàn bǎn bán	pã⁵⁵ pã⁵¹ pã²¹ pã²⁴	帮幫扳挷搒搬斑斒朌梆班縍肦般邦鞤頒颁𣪂𫄰
+banx banv banr banf pir pix piv pif	bān bàn bǎn bán pǐ pī pì pí	pã⁵⁵ pã⁵¹ pã²¹ pã²⁴ pʰi²¹ pʰi⁵⁵ pʰi⁵¹ pʰi²⁴	賁贲
+baof baox baov baor	báo bāo bào bǎo	pau²⁴ pau⁵⁵ pau⁵¹ pau²¹	㬥䛌䤖䶂儤報报抱爆菢虣袌襃豹鉋铇𡂟𢖔
+baof baox baov baor paor paox paov paof	báo bāo bào bǎo pǎo pāo pào páo	pau²⁴ pau⁵⁵ pau⁵¹ pau²¹ pʰau²¹ pʰau⁵⁵ pʰau⁵¹ pʰau²⁴	刨暴
+baov baox baor baof	bào bāo bǎo báo	pau⁵¹ pau⁵⁵ pau²¹ pau²⁴	䎂保堡堢宝寳寶珤緥葆褓飽饱駂鴇鸨
+baox baov baor baof	bāo bào bǎo báo	pau⁵⁵ pau⁵¹ pau²¹ pau²⁴	包胞苞裦褒鮑鲍
+baox baov baor baof paof paox paov paor	bāo bào bǎo báo páo pāo pào pǎo	pau⁵⁵ pau⁵¹ pau²¹ pau²⁴ pʰau²⁴ pʰau⁵⁵ pʰau⁵¹ pʰau²¹	脬
+bar bax bav baf	bǎ bā bà bá	pa²¹ pa⁵⁵ pa⁵¹ pa²⁴	八捌朳爸
+bav baf bax bar	bà bá bā bǎ	pa⁵¹ pa²⁴ pa⁵⁵ pa²¹	弝把欛灞𧟶
+bav bax bar baf	bà bā bǎ bá	pa⁵¹ pa⁵⁵ pa²¹ pa²⁴	靶
+bax bav bar baf	bā bà bǎ bá	pa⁵⁵ pa⁵¹ pa²¹ pa²⁴	巴疤笆芭豝鈀钯
+beif beir beix beiv	béi běi bēi bèi	pei²⁴ pei²¹ pei⁵⁵ pei⁵¹	狈狽
+beif beix beiv beir	béi bēi bèi běi	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹	倍焙輩辈
+beif beix beiv beir bor box bov bof peif peix peiv peir	béi bēi bèi běi bǒ bō bò bó péi pēi pèi pěi	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹ pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	軷𫐈
+beif beix beiv beir hueif hueix hueiv hueir hur hux huv huf peif peix peiv peir pur pux puv puf	béi bēi bèi běi huéi huēi huèi huěi hǔ hū hù hú péi pēi pèi pěi pǔ pū pù pú	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹ fei²⁴ fei⁵⁵ fei⁵¹ fei²¹ fu²¹ fu⁵⁵ fu⁵¹ fu²⁴ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹ pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴	茀
+beif beix beiv beir hueif hueix hueiv hueir peif peix peiv peir	béi bēi bèi běi huéi huēi huèi huěi péi pēi pèi pěi	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹ fei²⁴ fei⁵⁵ fei⁵¹ fei²¹ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	茷
+beif beix beiv beir peif peix peiv peir	béi bēi bèi běi péi pēi pèi pěi	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	㫲偝旆珮琲邶
+beif beix beiv beir peif peix peiv peir pur pux puv puf	béi bēi bèi běi péi pēi pèi pěi pǔ pū pù pú	pei²⁴ pei⁵⁵ pei⁵¹ pei²¹ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹ pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴	孛誖
+beir beif beix beiv	běi béi bēi bèi	pei²¹ pei²⁴ pei⁵⁵ pei⁵¹	貝贝
+beir beix beiv beif	běi bēi bèi béi	pei²¹ pei⁵⁵ pei⁵¹ pei²⁴	㼟䟮伯僰匐北帛柏檗白百舶菔蔔陌鮊鲌
+beir beix beiv beif huf hux huv hur	běi bēi bèi béi hú hū hù hǔ	pei²¹ pei⁵⁵ pei⁵¹ pei²⁴ fu²⁴ fu⁵⁵ fu⁵¹ fu²¹	踣
+beix beif beiv beir	bēi béi bèi běi	pei⁵⁵ pei²⁴ pei⁵¹ pei²¹	背
+beix beiv beir beif	bēi bèi běi béi	pei⁵⁵ pei⁵¹ pei²¹ pei²⁴	卑悲杯桮盃碑罴羆錍𥰘
+benf benx benv benr	bén bēn bèn běn	pɜ̃²⁴ pɜ̃⁵⁵ pɜ̃⁵¹ pɜ̃²¹	笨
+benv benf benx benr	bèn bén bēn běn	pɜ̃⁵¹ pɜ̃²⁴ pɜ̃⁵⁵ pɜ̃²¹	畚𤲙
+benv benx benr benf	bèn bēn běn bén	pɜ̃⁵¹ pɜ̃⁵⁵ pɜ̃²¹ pɜ̃²⁴	本
+benx benf benv benr	bēn bén bèn běn	pɜ̃⁵⁵ pɜ̃²⁴ pɜ̃⁵¹ pɜ̃²¹	奔
+bianf bianx bianv bianr	bián biān biàn biǎn	piã²⁴ piã⁵⁵ piã⁵¹ piã²¹	㭓变徧忭抃昪汳汴變辨辩辫辮辯
+bianf bianx bianv bianr huanv huanr huanx huanf	bián biān biàn biǎn huàn huǎn huān huán	piã²⁴ piã⁵⁵ piã⁵¹ piã²¹ fã⁵¹ fã²¹ fã⁵⁵ fã²⁴	笲
+bianf bianx bianv bianr huanx huanv huanr huanf	bián biān biàn biǎn huān huàn huǎn huán	piã²⁴ piã⁵⁵ piã⁵¹ piã²¹ xuã⁵⁵ xuã⁵¹ xuã²¹ xuã²⁴	𢬵
+bianf bianx bianv bianr panr panx panv panf	bián biān biàn biǎn pǎn pān pàn pán	piã²⁴ piã⁵⁵ piã⁵¹ piã²¹ pʰã²¹ pʰã⁵⁵ pʰã⁵¹ pʰã²⁴	卞弁
+bianf bianx bianv bianr pianr pianx pianv pianf	bián biān biàn biǎn piǎn piān piàn pián	piã²⁴ piã⁵⁵ piã⁵¹ piã²¹ pʰiã²¹ pʰiã⁵⁵ pʰiã⁵¹ pʰiã²⁴	便
+bianv bianx bianr bianf	biàn biān biǎn bián	piã⁵¹ piã⁵⁵ piã²¹ piã²⁴	匾惼緶缏蝙褊諞谝貶贬
+bianx bianv bianr bianf	biān biàn biǎn bián	piã⁵⁵ piã⁵¹ piã²¹ piã²⁴	笾箯籩編编边邊鞭鯿鳊
+biaov biaox biaor biaof	biào biāo biǎo biáo	piau⁵¹ piau⁵⁵ piau²¹ piau²⁴	㟽俵婊表裱褾
+biaox biaov biaor biaof	biāo biào biǎo biáo	piau⁵⁵ piau⁵¹ piau²¹ piau²⁴	幖彪标標滮瀌膘臕鏢鑣镖镳飇髟
+biaox biaov biaor biaof piaov piaor piaox piaof	biāo biào biǎo biáo piào piǎo piāo piáo	piau⁵⁵ piau⁵¹ piau²¹ piau²⁴ pʰiau⁵¹ pʰiau²¹ pʰiau⁵⁵ pʰiau²⁴	剽
+biaox biaov biaor biaof piaov piaox piaor piaof	biāo biào biǎo biáo piào piāo piǎo piáo	piau⁵⁵ piau⁵¹ piau²¹ piau²⁴ pʰiau⁵¹ pʰiau⁵⁵ pʰiau²¹ pʰiau²⁴	慓摽皫縹缥蔈藨醥鰾鳔麃𠬪
+biaox biaov biaor biaof sor sox sov sof	biāo biào biǎo biáo sǒ sō sò só	piau⁵⁵ piau⁵¹ piau²¹ piau²⁴ sɔ²¹ sɔ⁵⁵ sɔ⁵¹ sɔ²⁴	杓
+biav biax biar biaf	bià biā biǎ biá	pia⁵¹ pia⁵⁵ pia²¹ pia²⁴	瘪癟
+biav biax biar biaf bianv bianx bianr bianf	bià biā biǎ biá biàn biān biǎn bián	pia⁵¹ pia⁵⁵ pia²¹ pia²⁴ piã⁵¹ piã⁵⁵ piã²¹ piã²⁴	扁
+bier biex biev bief piex piev pier pief	biě biē biè bié piē piè piě pié	piɛ²¹ piɛ⁵⁵ piɛ⁵¹ piɛ²⁴ pʰiɛ⁵⁵ pʰiɛ⁵¹ pʰiɛ²¹ pʰiɛ²⁴	別别
+biex biev bier bief	biē biè biě bié	piɛ⁵⁵ piɛ⁵¹ piɛ²¹ piɛ²⁴	嫳瞥覕
+biex biev bier bief bix biv bir bif	biē biè biě bié bī bì bǐ bí	piɛ⁵⁵ piɛ⁵¹ piɛ²¹ piɛ²⁴ pi⁵⁵ pi⁵¹ pi²¹ pi²⁴	憋
+bif bix biv bir	bí bī bì bǐ	pi²⁴ pi⁵⁵ pi⁵¹ pi²¹	備备奰婢币幣庳弊敝斃毙淠濞犕獘祕秘笓篦糒蔽薜被贔赑鎞閉闭陛鞁鞴骳髲𢈷𤰇𦌠𨻼𫔇
+bif bix biv bir beix beiv beir beif	bí bī bì bǐ bēi bèi běi béi	pi²⁴ pi⁵⁵ pi⁵¹ pi²¹ pei⁵⁵ pei⁵¹ pei²¹ pei²⁴	㡙狴豍
+bif bix biv bir peif peix peiv peir	bí bī bì bǐ péi pēi pèi pěi	pi²⁴ pi⁵⁵ pi⁵¹ pi²¹ pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	㻗俻犻
+binf binx binv binr	bín bīn bìn bǐn	pĩ²⁴ pĩ⁵⁵ pĩ⁵¹ pĩ²¹	並并病竝迸𠊧
+binv binx binr binf	bìn bīn bǐn bín	pĩ⁵¹ pĩ⁵⁵ pĩ²¹ pĩ²⁴	䴵丙併倂偋寎屛幷怲抦摒昞柄棅炳禀秉稟簈蛃邴鉼鞸餅饼
+binv binx binr binf huanv huanx huanr huanf	bìn bīn bǐn bín huàn huān huǎn huán	pĩ⁵¹ pĩ⁵⁵ pĩ²¹ pĩ²⁴ fã⁵¹ fã⁵⁵ fã²¹ fã²⁴	枋
+binx binv binr binf	bīn bìn bǐn bín	pĩ⁵⁵ pĩ⁵¹ pĩ²¹ pĩ²⁴	㻞傧儐兵冰宾彬摈擯攽斌栟槟檳殡殯滨濒濱濵瀕玢繽缤膑臏虨豳賓賔贇赟邠鑌镔霦鬓鬢𩰗𩰝
+binx binv binr binf pongr pongx pongv pongf	bīn bìn bǐn bín pǒng pōng pòng póng	pĩ⁵⁵ pĩ⁵¹ pĩ²¹ pĩ²⁴ pʰɔ̃²¹ pʰɔ̃⁵⁵ pʰɔ̃⁵¹ pʰɔ̃²⁴	掤
+bir bix biv bif	bǐ bī bì bí	pi²¹ pi⁵⁵ pi⁵¹ pi²⁴	㓖㼣䟆佰偪堛壁弼彃必愊愎栢楅毕滗滭潷珌璧畢疈碧笔筆筚篳縪繴罼臂襞觱跸蹕躃躄逼鉍铋韠饆鼊鼻𤐧𤩹𦯉𪪼𫎳𫖒
+bir bix biv bif pir pix piv pif	bǐ bī bì bí pǐ pī pì pí	pi²¹ pi⁵⁵ pi⁵¹ pi²⁴ pʰi²¹ pʰi⁵⁵ pʰi⁵¹ pʰi²⁴	擘煏甓
+biv bix bir bif	bì bī bǐ bí	pi⁵¹ pi⁵⁵ pi²¹ pi²⁴	彼比
+biv bix bir bif piv pix pir pif	bì bī bǐ bí pì pī pǐ pí	pi⁵¹ pi⁵⁵ pi²¹ pi²⁴ pʰi⁵¹ pʰi⁵⁵ pʰi²¹ pʰi²⁴	㗗䃾俾匕吡啚妣朼疕秕粃髀𠐌𢔌
+bix biv bir bif	bī bì bǐ bí	pi⁵⁵ pi⁵¹ pi²¹ pi²⁴	蓖
+bongf bongx bongv bongr	bóng bōng bòng bǒng	pɔ̃²⁴ pɔ̃⁵⁵ pɔ̃⁵¹ pɔ̃²¹	蹦
+bongr bongx bongv bongf pongr pongx pongv pongf	bǒng bōng bòng bóng pǒng pōng pòng póng	pɔ̃²¹ pɔ̃⁵⁵ pɔ̃⁵¹ pɔ̃²⁴ pʰɔ̃²¹ pʰɔ̃⁵⁵ pʰɔ̃⁵¹ pʰɔ̃²⁴	蓬
+bongx bongv bongr bongf	bōng bòng bǒng bóng	pɔ̃⁵⁵ pɔ̃⁵¹ pɔ̃²¹ pɔ̃²⁴	伻俜娉崩帲弸怦抨甹砰祊竮絣繃绷荓軯逬閍閛𢓳𨸂
+bor box bov bof	bǒ bō bò bó	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴	剝剥博嚗妭拨搏撥欂犮盋礴簙缽胈膊茇薄袯襏襮鈸鉢鎛鑮钵钹镈餺馎駁駮驳魃鮁鱍鲅𤒺
+bor box bov bof buf bux buv bur	bǒ bō bò bó bú bū bù bǔ	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ pu²⁴ pu⁵⁵ pu⁵¹ pu²¹	簿
+bor box bov bof huar huax huav huaf	bǒ bō bò bó huǎ huā huà huá	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ fa²¹ fa⁵⁵ fa⁵¹ fa²⁴	墢
+bor box bov bof paof paox paov paor peir peix peiv peif	bǒ bō bò bó páo pāo pào pǎo pěi pēi pèi péi	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ pʰau²⁴ pʰau⁵⁵ pʰau⁵¹ pʰau²¹ pʰei²¹ pʰei⁵⁵ pʰei⁵¹ pʰei²⁴	礡
+bor box bov bof par pax pav paf	bǒ bō bò bó pǎ pā pà pá	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ pʰa²¹ pʰa⁵⁵ pʰa⁵¹ pʰa²⁴	坺
+bor box bov bof puv pux pur puf	bǒ bō bò bó pù pū pǔ pú	pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴ pʰu⁵¹ pʰu⁵⁵ pʰu²¹ pʰu²⁴	溥
+bov bof box bor	bò bó bō bǒ	pɔ⁵¹ pɔ²⁴ pɔ⁵⁵ pɔ²¹	簸
+box bov bor bof	bō bò bǒ bó	pɔ⁵⁵ pɔ⁵¹ pɔ²¹ pɔ²⁴	嶓波玻菠
+buf bux buv bur	bú bū bù bǔ	pu²⁴ pu⁵⁵ pu⁵¹ pu²¹	佈圃布怖抪步部
+buf bux buv bur puv pur pux puf	bú bū bù bǔ pù pǔ pū pú	pu²⁴ pu⁵⁵ pu⁵¹ pu²¹ pʰu⁵¹ pʰu²¹ pʰu⁵⁵ pʰu²⁴	酺
+buf bux buv bur puv pux pur puf	bú bū bù bǔ pù pū pǔ pú	pu²⁴ pu⁵⁵ pu⁵¹ pu²¹ pʰu⁵¹ pʰu⁵⁵ pʰu²¹ pʰu²⁴	䊇哺荹餔𩍘𩣝𫗦
+bur bux buv buf	bǔ bū bù bú	pu²¹ pu⁵⁵ pu⁵¹ pu²⁴	不
+buv bur bux buf puv pux pur puf	bù bǔ bū bú pù pū pǔ pú	pu⁵¹ pu²¹ pu⁵⁵ pu²⁴ pʰu⁵¹ pʰu⁵⁵ pʰu²¹ pʰu²⁴	鵏𬷕
+buv bux bur buf	bù bū bǔ bú	pu⁵¹ pu⁵⁵ pu²¹ pu²⁴	补補
+buv bux bur buf puv pux pur puf	bù bū bǔ bú pù pū pǔ pú	pu⁵¹ pu⁵⁵ pu²¹ pu²⁴ pʰu⁵¹ pʰu⁵⁵ pʰu²¹ pʰu²⁴	蔀
+caf cax cav car	cá cā cà cǎ	tsʰa²⁴ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹	䰩奓岔汊詫诧𧩫
+caf cax cav car cov cox cor cof zaf zax zav zar	cá cā cà cǎ cò cō cǒ có zá zā zà zǎ	tsʰa²⁴ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹ tsʰɔ⁵¹ tsʰɔ⁵⁵ tsʰɔ²¹ tsʰɔ²⁴ tsa²⁴ tsa⁵⁵ tsa⁵¹ tsa²¹	蓌
+caf cax cav car zaf zax zav zar	cá cā cà cǎ zá zā zà zǎ	tsʰa²⁴ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹ tsa²⁴ tsa⁵⁵ tsa⁵¹ tsa²¹	溠醡
+caif caix caiv cair	cái cāi cài cǎi	tsʰai²⁴ tsʰai⁵⁵ tsʰai⁵¹ tsʰai²¹	䌨埰縩蔡
+caif caix caiv cair kax kav kar kaf	cái cāi cài cǎi kā kà kǎ ká	tsʰai²⁴ tsʰai⁵⁵ tsʰai⁵¹ tsʰai²¹ kʰa⁵⁵ kʰa⁵¹ kʰa²¹ kʰa²⁴	菜
+cair caix caiv caif	cǎi cāi cài cái	tsʰai²¹ tsʰai⁵⁵ tsʰai⁵¹ tsʰai²⁴	侪儕才材柴祡纔裁豺財财
+caiv caix cair caif	cài cāi cǎi cái	tsʰai⁵¹ tsʰai⁵⁵ tsʰai²¹ tsʰai²⁴	䰂寀彩採棌睬綵采
+caix caiv cair caif	cāi cài cǎi cái	tsʰai⁵⁵ tsʰai⁵¹ tsʰai²¹ tsʰai²⁴	猜釵钗
+canf canx canv canr	cán cān càn cǎn	tsʰã²⁴ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²¹	㛑䚎䩨倡唱堫忏怅悵懺昶暢灿燦璨畅粲韔鬯𤮭𥇔𥈄𥠴𥹏𧀄
+canr canv canx canf	cǎn càn cān cán	tsʰã²¹ tsʰã⁵¹ tsʰã⁵⁵ tsʰã²⁴	场場
+canr canx canv canf	cǎn cān càn cán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴	㥏僝劖嚵塲孱巉常惭慙慚挦撏残殘毚淟潺瀺琠甞肠腆腸腼膓苌萇蚕蝉蟬蠶讒谗錾鏨鑱镵靦饞馋𠠥𥂫𧕽𧖟𩼝
+canr canx canv canf jianx jianv jianr jianf qianx qianv qianr qianf sax sav sar saf sanx sanv sanr sanf	cǎn cān càn cán jiān jiàn jiǎn jián qiān qiàn qiǎn qián sā sà sǎ sá sān sàn sǎn sán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴ sa⁵⁵ sa⁵¹ sa²¹ sa²⁴ sã⁵⁵ sã⁵¹ sã²¹ sã²⁴	蔪
+canr canx canv canf nianx nianv nianr nianf yanr yanx yanv yanf	cǎn cān càn cán niān niàn niǎn nián yǎn yān yàn yán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ ȵiã²⁴ iã²¹ iã⁵⁵ iã⁵¹ iã²⁴	鋋
+canr canx canv canf qianx qianv qianr qianf	cǎn cān càn cán qiān qiàn qiǎn qián	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	戋戔
+canr canx canv canf sanf sanx sanv sanr	cǎn cān càn cán sán sān sàn sǎn	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ sã²⁴ sã⁵⁵ sã⁵¹ sã²¹	禅禪
+canr canx canv canf sanr sanx sanv sanf	cǎn cān càn cán sǎn sān sàn sán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ sã²¹ sã⁵⁵ sã⁵¹ sã²⁴	鱨鲿
+canr canx canv canf sanv sanx sanr sanf	cǎn cān càn cán sàn sān sǎn sán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ sã⁵¹ sã⁵⁵ sã²¹ sã²⁴	嘗尝
+canr canx canv canf zanf zanx zanv zanr	cǎn cān càn cán zán zān zàn zǎn	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹	儳虥
+canr canx canv canf zanv zanx zanr zanf	cǎn cān càn cán zàn zān zǎn zán	tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴ tsã⁵¹ tsã⁵⁵ tsã²¹ tsã²⁴	長长
+canv canx canr canf	càn cān cǎn cán	tsʰã⁵¹ tsʰã⁵⁵ tsʰã²¹ tsʰã²⁴	㦧㹌㿊丳产刬剗剷厂嵼廠惨慘憯敞朁浐滻產産簅鏟铲黪黲𡶴
+canv canx canr canf cur cux cuv cuf xiur xiux xiuv xiuf	càn cān cǎn cán cǔ cū cù cú xiǔ xiū xiù xiú	tsʰã⁵¹ tsʰã⁵⁵ tsʰã²¹ tsʰã²⁴ tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ ɕiu²¹ ɕiu⁵⁵ ɕiu⁵¹ ɕiu²⁴	歜
+canv canx canr canf tanv tanx tanr tanf	càn cān cǎn cán tàn tān tǎn tán	tsʰã⁵¹ tsʰã⁵⁵ tsʰã²¹ tsʰã²⁴ tʰã⁵¹ tʰã⁵⁵ tʰã²¹ tʰã²⁴	僘惝氅鋹𢠵𬬮
+canx canv canr canf	cān càn cǎn cán	tsʰã⁵⁵ tsʰã⁵¹ tsʰã²¹ tsʰã²⁴	仓倉娼怆愴搀攙昌沧湌滄猖苍菖蒼閶阊餐鶬鸧
+canx canv canr canf tanf tanx tanv tanr	cān càn cǎn cán tán tān tàn tǎn	tsʰã⁵⁵ tsʰã⁵¹ tsʰã²¹ tsʰã²⁴ tʰã²⁴ tʰã⁵⁵ tʰã⁵¹ tʰã²¹	伥倀
+caof caox caov caor	cáo cāo cào cǎo	tsʰau²⁴ tsʰau⁵⁵ tsʰau⁵¹ tsʰau²¹	喿噪慥燥瘙糙譟躁造
+caof caox caov caor saov saox saor saof	cáo cāo cào cǎo sào sāo sǎo sáo	tsʰau²⁴ tsʰau⁵⁵ tsʰau⁵¹ tsʰau²¹ sau⁵¹ sau⁵⁵ sau²¹ sau²⁴	埽
+caof caox caov caor zaof zaox zaov zaor	cáo cāo cào cǎo záo zāo zào zǎo	tsʰau²⁴ tsʰau⁵⁵ tsʰau⁵¹ tsʰau²¹ tsau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹	皁皂趮
+caor caox caov caof	cǎo cāo cào cáo	tsʰau²¹ tsʰau⁵⁵ tsʰau⁵¹ tsʰau²⁴	嘈嶆巢晁曹槽漅漕潮艚螬鼂鼌
+caor caox caov caof zaox zaov zaor zaof	cǎo cāo cào cáo zāo zào zǎo záo	tsʰau²¹ tsʰau⁵⁵ tsʰau⁵¹ tsʰau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹ tsau²⁴	朝
+caov caof caox caor zaof zaox zaov zaor	cào cáo cāo cǎo záo zāo zào zǎo	tsʰau⁵¹ tsʰau²⁴ tsʰau⁵⁵ tsʰau²¹ tsau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹	懆
+caov caox caor caof	cào cāo cǎo cáo	tsʰau⁵¹ tsʰau⁵⁵ tsʰau²¹ tsʰau²⁴	吵屮慅炒煼草謅诌逪
+caov caox caor caof cor cox cov cof	cào cāo cǎo cáo cǒ cō cò có	tsʰau⁵¹ tsʰau⁵⁵ tsʰau²¹ tsʰau²⁴ tsʰɔ²¹ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²⁴	㮶
+caox caov caor caof	cāo cào cǎo cáo	tsʰau⁵⁵ tsʰau⁵¹ tsʰau²¹ tsʰau²⁴	䜈弨怊抄操超鈔钞
+caox caov caor caof jiaov jiaox jiaor jiaof	cāo cào cǎo cáo jiào jiāo jiǎo jiáo	tsʰau⁵⁵ tsʰau⁵¹ tsʰau²¹ tsʰau²⁴ tɕiau⁵¹ tɕiau⁵⁵ tɕiau²¹ tɕiau²⁴	勦
+car caf cax cav	cǎ cá cā cà	tsʰa²¹ tsʰa²⁴ tsʰa⁵⁵ tsʰa⁵¹	插
+car cax cav caf	cǎ cā cà cá	tsʰa²¹ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²⁴	察搽擦查槎苴茬茶𣘻
+car cax cav caf duf dux duv dur	cǎ cā cà cá dú dū dù dǔ	tsʰa²¹ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²⁴ tu²⁴ tu⁵⁵ tu⁵¹ tu²¹	秅
+car cax cav caf sar sax sav saf	cǎ cā cà cá sǎ sā sà sá	tsʰa²¹ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²⁴ sa²¹ sa⁵⁵ sa⁵¹ sa²⁴	䕓詧鍤锸
+car cax cav caf zax zav zar zaf	cǎ cā cà cá zā zà zǎ zá	tsʰa²¹ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²⁴ tsa⁵⁵ tsa⁵¹ tsa²¹ tsa²⁴	査蹅
+cax cav car caf	cā cà cǎ cá	tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹ tsʰa²⁴	叉扠杈艖鎈𫟿
+cax cav car caf caix caiv cair caif	cā cà cǎ cá cāi cài cǎi cái	tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹ tsʰa²⁴ tsʰai⁵⁵ tsʰai⁵¹ tsʰai²¹ tsʰai²⁴	差靫
+ceir ceix ceiv ceif	cěi cēi cèi céi	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴	䇲䜺䞣侧側冊册坼宅彻徹拆掣撤撦泽测測澤策筴賾赜轍辙齚𡍩𤝢𤢟𨅊
+ceir ceix ceiv ceif caf cax cav car	cěi cēi cèi céi cá cā cà cǎ	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ tsʰa²⁴ tsʰa⁵⁵ tsʰa⁵¹ tsʰa²¹	择擇
+ceir ceix ceiv ceif cir cix civ cif	cěi cēi cèi céi cǐ cī cì cí	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ tsʰɿ²¹ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²⁴	䳵恻惻敕斥畟赤飭饬𪀦𪆟𪉅
+ceir ceix ceiv ceif cor cox cov cof zeir zeix zeiv zeif	cěi cēi cèi céi cǒ cō cò có zěi zēi zèi zéi	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ tsʰɔ²¹ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²⁴ tsei²¹ tsei⁵⁵ tsei⁵¹ tsei²⁴	笮筰
+ceir ceix ceiv ceif seir seix seiv seif	cěi cēi cèi céi sěi sēi sèi séi	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ sei²¹ sei⁵⁵ sei⁵¹ sei²⁴	䐑澈𢶅
+ceir ceix ceiv ceif seir seix seiv seif tier tiex tiev tief yir yix yiv yif	cěi cēi cèi céi sěi sēi sèi séi tiě tiē tiè tié yǐ yī yì yí	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ sei²¹ sei⁵⁵ sei⁵¹ sei²⁴ tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴ i²¹ i⁵⁵ i⁵¹ i²⁴	軼轶
+ceir ceix ceiv ceif sir six siv sif	cěi cēi cèi céi sǐ sī sì sí	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴	厕廁
+ceir ceix ceiv ceif zeir zeix zeiv zeif	cěi cēi cèi céi zěi zēi zèi zéi	tsʰei²¹ tsʰei⁵⁵ tsʰei⁵¹ tsʰei²⁴ tsei²¹ tsei⁵⁵ tsei⁵¹ tsei²⁴	㳁仄债債咋唶啧嘖帻幘昃磔稄箦簀舴諎謫謮谪迮𣅦𣅳
+ceiv ceix ceir ceif	cèi cēi cěi céi	tsʰei⁵¹ tsʰei⁵⁵ tsʰei²¹ tsʰei²⁴	扯
+ceix ceiv ceir ceif jix jiv jir jif	cēi cèi cěi céi jī jì jǐ jí	tsʰei⁵⁵ tsʰei⁵¹ tsʰei²¹ tsʰei²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹ tɕi²⁴	車车
+cenf cenx cenv cenr	cén cēn cèn cěn	tsʰɜ̃²⁴ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²¹	䞋儭撚榇櫬涊疢秤藽衬襯覴趁趂跈蹍輾辗遉齔齞龀𠋆𫎪
+cenr cenf cenx cenv	cěn cén cēn cèn	tsʰɜ̃²¹ tsʰɜ̃²⁴ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹	逞
+cenr cenx cenv cenf	cěn cēn cèn cén	tsʰɜ̃²¹ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²⁴	䟫丞乗乘呈城塍塵宬尘层層嶒憕憴成枨棖橙沉渑澂澠珵程筬臣裎誠譝诚郕酲鈂陈陳霃𣎒
+cenr cenx cenv cenf senf senx senv senr	cěn cēn cèn cén sén sēn sèn sěn	tsʰɜ̃²¹ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²⁴ sɜ̃²⁴ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²¹	盛
+cenr cenx cenv cenf senr senx senv senf	cěn cēn cèn cén sěn sēn sèn sén	tsʰɜ̃²¹ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²⁴ sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴	承
+cenr cenx cenv cenf zenf zenx zenv zenr	cěn cēn cèn cén zén zēn zèn zěn	tsʰɜ̃²¹ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²⁴ tsɜ̃²⁴ tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹	澄
+cenr cenx cenv cenf zenx zenv zenr zenf	cěn cēn cèn cén zēn zèn zěn zén	tsʰɜ̃²¹ tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²⁴ tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹ tsɜ̃²⁴	曾
+cenv cenx cenr cenf	cèn cēn cěn cén	tsʰɜ̃⁵¹ tsʰɜ̃⁵⁵ tsʰɜ̃²¹ tsʰɜ̃²⁴	惩懲
+cenx cenf cenv cenr	cēn cén cèn cěn	tsʰɜ̃⁵⁵ tsʰɜ̃²⁴ tsʰɜ̃⁵¹ tsʰɜ̃²¹	撐撑称稱
+cenx cenv cenr cenf	cēn cèn cěn cén	tsʰɜ̃⁵⁵ tsʰɜ̃⁵¹ tsʰɜ̃²¹ tsʰɜ̃²⁴	抻
+cif cix civ cir	cí cī cì cǐ	tsʰɿ²⁴ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²¹	㓨伺佽刺刾剚帙次祑秩紩翐袟袠賜赐
+cif cix civ cir tier tiex tiev tief	cí cī cì cǐ tiě tiē tiè tié	tsʰɿ²⁴ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²¹ tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴	姪柣
+cir cix civ cif	cǐ cī cì cí	tsʰɿ²¹ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²⁴	叱墀尺慈抶持柌池玼瓷磁礠祠竾箎篪糍耛茈茨荠菭薺蚇蚳詞謘謻词貾趍踟辝辞辤辭迟遲邸餈馳驰骴鶿鷘鹚𡎰𩆂𪆵
+cir cix civ cif sir six siv sif	cǐ cī cì cí sǐ sī sì sí	tsʰɿ²¹ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²⁴ sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴	匙
+cir cix civ cif zif zix ziv zir	cǐ cī cì cí zí zī zì zǐ	tsʰɿ²¹ tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²⁴ tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹	泜
+civ cix cir cif	cì cī cǐ cí	tsʰɿ⁵¹ tsʰɿ⁵⁵ tsʰɿ²¹ tsʰɿ²⁴	㢋㶴䚦佌侈勅哆姼恀恥懘拸搋杝此泚祉耻茝褫鶒齒齿𫛶
+cix civ cir cif	cī cì cǐ cí	tsʰɿ⁵⁵ tsʰɿ⁵¹ tsʰɿ²¹ tsʰɿ²⁴	䡨嗤妛媸嵯彨彲摛瓻痴癡眵笞縒胵蚩螭郗雉雌魑鴟鸱黐𥉍𪗪
+cof cor cox cov cuf cux cuv cur	có cǒ cō cò cú cū cù cǔ	tsʰɔ²⁴ tsʰɔ²¹ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰu²⁴ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²¹	酢
+cof cox cov cor	có cō cò cǒ	tsʰuɔ²⁴ tsʰuɔ⁵⁵ tsʰuɔ⁵¹ tsʰuɔ²¹	錯错
+cof cox cov cor	có cō cò cǒ	tsʰɔ²⁴ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²¹	凿措銼鑿锉
+cof cox cov cor cuf cux cuv cur	có cō cò cǒ cú cū cù cǔ	tsʰɔ²⁴ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²¹ tsʰu²⁴ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²¹	厝
+congf congx congv congr	cóng cōng còng cǒng	tsʰɔ̃²⁴ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹	㤝䂌忡珫翀茺蹱𧘂
+congf congx congv congr zanf zanx zanv zanr	cóng cōng còng cǒng zán zān zàn zǎn	tsʰɔ̃²⁴ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹ tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹	䡴憧
+congf congx congv congr zuf zux zuv zur	cóng cōng còng cǒng zú zū zù zǔ	tsʰɔ̃²⁴ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	𨙦
+congr congx congv congf	cǒng cōng còng cóng	tsʰɔ̃²¹ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²⁴	䃣䕺丛从叢崇崈從悰樷毇潀潨燬琮藂虫蟲譭賨𤈦𥵫𦄢
+congr congx congv congf huiv huix huir huif	cǒng cōng còng cóng huì huī huǐ huí	tsʰɔ̃²¹ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²⁴ xuei⁵¹ xuei⁵⁵ xuei²¹ xuei²⁴	卉芔
+congr congx congv congf zongx zongv zongr zongf	cǒng cōng còng cóng zōng zòng zǒng zóng	tsʰɔ̃²¹ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²⁴ tsɔ̃⁵⁵ tsɔ̃⁵¹ tsɔ̃²¹ tsɔ̃²⁴	漴爞蝩
+congv congx congr congf	còng cōng cǒng cóng	tsʰɔ̃⁵¹ tsʰɔ̃⁵⁵ tsʰɔ̃²¹ tsʰɔ̃²⁴	宠寵
+congx congf congv congr	cōng cóng còng cǒng	tsʰɔ̃⁵⁵ tsʰɔ̃²⁴ tsʰɔ̃⁵¹ tsʰɔ̃²¹	冲衝
+congx congv congr congf	cōng còng cǒng cóng	tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹ tsʰɔ̃²⁴	䡯充匆囪囱忩怱悤摏沖璁聦聪聰舂苁葱蓯蔥蹖鏦騘驄骢𢊕𤧚𨍉𩥫𪄻𫓩
+cor cox cov cof	cǒ cō cò có	tsʰɔ²¹ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²⁴	㤰㲋婥婼怍戳撮昨柞簎綽繛绰脞莋趠逴鈼飵𣫞𤟭𫗢
+couf coux couv cour	cóu cōu còu cǒu	tsʰou²⁴ tsʰou⁵⁵ tsʰou⁵¹ tsʰou²¹	凑奏楱殠湊腠臭輳辏
+couf coux couv cour cur cux cuv cuf	cóu cōu còu cǒu cǔ cū cù cú	tsʰou²⁴ tsʰou⁵⁵ tsʰou⁵¹ tsʰou²¹ tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴	蔟
+cour coux couv couf	cǒu cōu còu cóu	tsʰou²¹ tsʰou⁵⁵ tsʰou⁵¹ tsʰou²⁴	䌷䲖仇俦儔售帱幬愁梼檮犨犫畴疇稠筹籌紬綢绸裯詶讎踌躊酬醻雠魗鯈𣀓𣀘𩯦𩾂
+couv coux cour couf	còu cōu cǒu cóu	tsʰou⁵¹ tsʰou⁵⁵ tsʰou²¹ tsʰou²⁴	丑杻杽醜
+coux couv cour couf	cōu còu cǒu cóu	tsʰou⁵⁵ tsʰou⁵¹ tsʰou²¹ tsʰou²⁴	妯惆抽瘳軸轴
+coux couv cour couf cur cux cuv cuf	cōu còu cǒu cóu cǔ cū cù cú	tsʰou⁵⁵ tsʰou⁵¹ tsʰou²¹ tsʰou²⁴ tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴	䠱舳躅𨄃𨅛
+cov cox cor cof	cò cō cǒ có	tsʰɔ⁵¹ tsʰɔ⁵⁵ tsʰɔ²¹ tsʰɔ²⁴	剉夎挫磋莝蹉
+cox cov cor cof	cō cò cǒ có	tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²¹ tsʰɔ²⁴	搓瑳瘥鹺鹾
+cuaiv cuaix cuair cuaif	cuài cuāi cuǎi cuái	tsʰuai⁵¹ tsʰuai⁵⁵ tsʰuai²¹ tsʰuai²⁴	僢喘揣舛荈𧍒
+cuanf cuanx cuanv cuanr	cuán cuān cuàn cuǎn	tsʰuã²⁴ tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²¹	串创刱剏創撺攛爨窜竄篡簒蹿躥釧钏
+cuanf cuanx cuanv cuanr guanf guanx guanv guanr kuanv kuanx kuanr kuanf	cuán cuān cuàn cuǎn guán guān guàn guǎn kuàn kuān kuǎn kuán	tsʰuã²⁴ tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²¹ kuã²⁴ kuã⁵⁵ kuã⁵¹ kuã²¹ kʰuã⁵¹ kʰuã⁵⁵ kʰuã²¹ kʰuã²⁴	丱
+cuanr cuanx cuanv cuanf	cuǎn cuān cuàn cuán	tsʰuã²¹ tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²⁴	床椽漎牀篅舩船遄𠳹
+cuanr cuanx cuanv cuanf congr congx congv congf	cuǎn cuān cuàn cuán cǒng cōng còng cóng	tsʰuã²¹ tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²⁴ tsʰɔ̃²¹ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²⁴	淙
+cuanr cuanx cuanv cuanf zuanf zuanx zuanv zuanr	cuǎn cuān cuàn cuán zuán zuān zuàn zuǎn	tsʰuã²¹ tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²⁴ tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹	传傳
+cuanv cuanx cuanr cuanf	cuàn cuān cuǎn cuán	tsʰuã⁵¹ tsʰuã⁵⁵ tsʰuã²¹ tsʰuã²⁴	讖谶闖闯
+cuanx cuanv cuanr cuanf	cuān cuàn cuǎn cuán	tsʰuã⁵⁵ tsʰuã⁵¹ tsʰuã²¹ tsʰuã²⁴	䆫川摐汆牎牕疮瘡穿窓窗窻𪭢
+cuf cuv cux cur	cú cù cū cǔ	tsʰu²⁴ tsʰu⁵¹ tsʰu⁵⁵ tsʰu²¹	处處
+cuf cux cuv cur	cú cū cù cǔ	tsʰu²⁴ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²¹	醋
+cuif cuix cuiv cuir	cuí cuī cuì cuǐ	tsʰuei²⁴ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²¹	㝮倅啐崪悴毳淬焠瘁睟祟粹繐翠脃脆萃襊誶谇踤邃顇𦄑𰬸
+cuif cuix cuiv cuir suif suix suiv suir	cuí cuī cuì cuǐ suí suī suì suǐ	tsʰuei²⁴ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²¹ suei²⁴ suei⁵⁵ suei⁵¹ suei²¹	帨碎
+cuif cuix cuiv cuir xif xix xiv xir	cuí cuī cuì cuǐ xí xī xì xǐ	tsʰuei²⁴ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²¹ ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹	䍁繸
+cuif cuix cuiv cuir zuif zuix zuiv zuir	cuí cuī cuì cuǐ zuí zuī zuì zuǐ	tsʰuei²⁴ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²¹ tsuei²⁴ tsuei⁵⁵ tsuei⁵¹ tsuei²¹	晬
+cuir cuix cuiv cuif	cuǐ cuī cuì cuí	tsʰuei²¹ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²⁴	垂捶槌箠錘锤
+cuir cuix cuiv cuif suir suix suiv suif	cuǐ cuī cuì cuí suǐ suī suì suí	tsʰuei²¹ tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²⁴ suei²¹ suei⁵⁵ suei⁵¹ suei²⁴	陲
+cuix cuiv cuir cuif	cuī cuì cuǐ cuí	tsʰuei⁵⁵ tsʰuei⁵¹ tsʰuei²¹ tsʰuei²⁴	催吹崔摧椎榱炊縗缞蓷龡𨻵
+cunf cunx cunv cunr	cún cūn cùn cǔn	tsʰuɜ̃²⁴ tsʰuɜ̃⁵⁵ tsʰuɜ̃⁵¹ tsʰuɜ̃²¹	刌寸
+cunr cunx cunv cunf	cǔn cūn cùn cún	tsʰuɜ̃²¹ tsʰuɜ̃⁵⁵ tsʰuɜ̃⁵¹ tsʰuɜ̃²⁴	存踆
+cunv cunx cunr cunf	cùn cūn cǔn cún	tsʰuɜ̃⁵¹ tsʰuɜ̃⁵⁵ tsʰuɜ̃²¹ tsʰuɜ̃²⁴	䐏䮞蠢踳𩨁
+cunx cunv cunr cunf	cūn cùn cǔn cún	tsʰuɜ̃⁵⁵ tsʰuɜ̃⁵¹ tsʰuɜ̃²¹ tsʰuɜ̃²⁴	春村杶椿橁櫄輴鶞
+cunx cunv cunr cunf sunf sunx sunv sunr	cūn cùn cǔn cún sún sūn sùn sǔn	tsʰuɜ̃⁵⁵ tsʰuɜ̃⁵¹ tsʰuɜ̃²¹ tsʰuɜ̃²⁴ suɜ̃²⁴ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²¹	楯
+cur cux cuv cuf	cǔ cū cù cú	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴	㛀䅳䠓促储儲厨媰幮廚徂捽擢族束殂浊浞滁濁濯灂瘯篨籗触觸趎趗蹰躕逐鉏鋜鋤鏃锄镞除雏雛鶵鷟黜齺𫀬𬸦
+cur cux cuv cuf qiv qix qir qif	cǔ cū cù cú qì qī qǐ qí	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ tɕʰi⁵¹ tɕʰi⁵⁵ tɕʰi²¹ tɕʰi²⁴	蹙
+cur cux cuv cuf sur sux suv suf	cǔ cū cù cú sǔ sū sù sú	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ su²¹ su⁵⁵ su⁵¹ su²⁴	倐
+cur cux cuv cuf xiur xiux xiuv xiuf	cǔ cū cù cú xiǔ xiū xiù xiú	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ ɕiu²¹ ɕiu⁵⁵ ɕiu⁵¹ ɕiu²⁴	䙒亍柷滀畜矗稸臅蓫
+cur cux cuv cuf zor zox zov zof	cǔ cū cù cú zǒ zō zò zó	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ tsɔ²¹ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²⁴	汋
+cur cux cuv cuf zuf zux zuv zur	cǔ cū cù cú zú zū zù zǔ	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	耡躇
+cur cux cuv cuf zur zux zuv zuf	cǔ cū cù cú zǔ zū zù zú	tsʰu²¹ tsʰu⁵⁵ tsʰu⁵¹ tsʰu²⁴ tsu²¹ tsu⁵⁵ tsu⁵¹ tsu²⁴	篧
+cuv cux cur cuf	cù cū cǔ cú	tsʰu⁵¹ tsʰu⁵⁵ tsʰu²¹ tsʰu²⁴	䰞憷拄楚濋础礎褚陼麈𪐴𪓐
+cuv cux cur cuf douv doux dour douf	cù cū cǔ cú dòu dōu dǒu dóu	tsʰu⁵¹ tsʰu⁵⁵ tsʰu²¹ tsʰu²⁴ tou⁵¹ tou⁵⁵ tou²¹ tou²⁴	枓
+cuv cux cur cuf zuf zux zuv zur	cù cū cǔ cú zú zū zù zǔ	tsʰu⁵¹ tsʰu⁵⁵ tsʰu²¹ tsʰu²⁴ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	炷紵纻
+cux cur cuv cuf	cū cǔ cù cú	tsʰu⁵⁵ tsʰu²¹ tsʰu⁵¹ tsʰu²⁴	出
+cux cuv cur cuf	cū cù cǔ cú	tsʰu⁵⁵ tsʰu⁵¹ tsʰu²¹ tsʰu²⁴	刍初粗芻
+cux cuv cur cuf xiur xiux xiuv xiuf	cū cù cǔ cú xiǔ xiū xiù xiú	tsʰu⁵⁵ tsʰu⁵¹ tsʰu²¹ tsʰu²⁴ ɕiu²¹ ɕiu⁵⁵ ɕiu⁵¹ ɕiu²⁴	杵
+daf dax dav dar taix taiv tair taif	dá dā dà dǎ tāi tài tǎi tái	ta²⁴ ta⁵⁵ ta⁵¹ ta²¹ tʰai⁵⁵ tʰai⁵¹ tʰai²¹ tʰai²⁴	大
+daif daix daiv dair	dái dāi dài dǎi	tai²⁴ tai⁵⁵ tai⁵¹ tai²¹	㿃䈚代叇埭岱带帶待怠戴曃殆汏瑇箈蔕袋貸贷蹛迨霴靆黛黱𥓏𨽿
+daif daix daiv dair dif dix div dir	dái dāi dài dǎi dí dī dì dǐ	tai²⁴ tai⁵⁵ tai⁵¹ tai²¹ ti²⁴ ti⁵⁵ ti⁵¹ ti²¹	棣軑轪逮釱
+daiv daix dair daif	dài dāi dǎi dái	tai⁵¹ tai⁵⁵ tai²¹ tai²⁴	䚟歹
+daix daiv dair daif kair kaix kaiv kaif	dāi dài dǎi dái kǎi kāi kài kái	tai⁵⁵ tai⁵¹ tai²¹ tai²⁴ kʰai²¹ kʰai⁵⁵ kʰai⁵¹ kʰai²⁴	呆
+danf danx danv danr	dán dān dàn dǎn	tã²⁴ tã⁵⁵ tã⁵¹ tã²¹	但啖宕嵣旦淡簜荡菪蕩蛋誕诞逿𡇈𢘇𦿆
+danf danx danv danr sanx sanv sanr sanf	dán dān dàn dǎn sān sàn sǎn sán	tã²⁴ tã⁵⁵ tã⁵¹ tã²¹ sã⁵⁵ sã⁵¹ sã²¹ sã²⁴	愓
+danv danx danr danf	dàn dān dǎn dán	tã⁵¹ tã⁵⁵ tã²¹ tã²⁴	䃫丼党掸撣紞胆膽黕黨𬘘
+danx danf danv danr	dān dán dàn dǎn	tã⁵⁵ tã²⁴ tã⁵¹ tã²¹	当担擔當
+danx danv danr danf	dān dàn dǎn dán	tã⁵⁵ tã⁵¹ tã²¹ tã²⁴	儋妉珰璫甔眈筜簹耽艡裆襠躭酖鐺铛
+danx danv danr danf lanr lanx lanv lanf	dān dàn dǎn dán lǎn lān làn lán	tã⁵⁵ tã⁵¹ tã²¹ tã²⁴ lã²¹ lã⁵⁵ lã⁵¹ lã²⁴	耼
+danx danv danr danf nianr nianx nianv nianf	dān dàn dǎn dán niǎn niān niàn nián	tã⁵⁵ tã⁵¹ tã²¹ tã²⁴ ȵiã²¹ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²⁴	檐
+danx danv danr danf sanf sanx sanv sanr	dān dàn dǎn dán sán sān sàn sǎn	tã⁵⁵ tã⁵¹ tã²¹ tã²⁴ sã²⁴ sã⁵⁵ sã⁵¹ sã²¹	单單
+daof daov daox daor	dáo dào dāo dǎo	tau²⁴ tau⁵¹ tau⁵⁵ tau²¹	倒
+daof daox daov daor	dáo dāo dào dǎo	tau²⁴ tau⁵⁵ tau⁵¹ tau²¹	䆃到导導悼焘燾盗盜稻蹈道
+daov daox daor daof	dào dāo dǎo dáo	tau⁵¹ tau⁵⁵ tau²¹ tau²⁴	岛島捣搗擣祷禱隝
+daox daov daor daof	dāo dào dǎo dáo	tau⁵⁵ tau⁵¹ tau²¹ tau²⁴	刀叨忉舠魛鱽
+daox daov daor daof taox taov taor taof	dāo dào dǎo dáo tāo tào tǎo táo	tau⁵⁵ tau⁵¹ tau²¹ tau²⁴ tʰau⁵⁵ tʰau⁵¹ tʰau²¹ tʰau²⁴	夲幍弢慆槄絛縚绦謟韜韬饕𦩹
+dar dax dav daf	dǎ dā dà dá	ta²¹ ta⁵⁵ ta⁵¹ ta²⁴	怛搭撘答荅褡达達𢛁𨃚𨅞
+dav dax dar daf	dà dā dǎ dá	ta⁵¹ ta⁵⁵ ta²¹ ta²⁴	打
+denf denx denv denr	dén dēn dèn děn	tɜ̃²⁴ tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹	䮴僜凳定惇矴蹬邓鄧錠锭顁飣饤𣩟
+denf denx denv denr dunx dunv dunr dunf	dén dēn dèn děn dūn dùn dǔn dún	tɜ̃²⁴ tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹ tuɜ̃²⁴	墩
+denf denx denv denr tenf tenx tenv tenr	dén dēn dèn děn tén tēn tèn těn	tɜ̃²⁴ tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tʰɜ̃²⁴ tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²¹	墱嶝隥𧄼𩞬
+denf denx denv denr yinv yinx yinr yinf	dén dēn dèn děn yìn yīn yǐn yín	tɜ̃²⁴ tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ ĩ⁵¹ ĩ⁵⁵ ĩ²¹ ĩ²⁴	蜳
+denv denx denr denf	dèn dēn děn dén	tɜ̃⁵¹ tɜ̃⁵⁵ tɜ̃²¹ tɜ̃²⁴	戥等艼酊頂顶鼎
+denx denf denv denr	dēn dén dèn děn	tɜ̃⁵⁵ tɜ̃²⁴ tɜ̃⁵¹ tɜ̃²¹	訂订
+denx denv denr denf	dēn dèn děn dén	tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tɜ̃²⁴	㲪㽅丁仃灯燈玎登瞪簦豋釘鐙钉镫𤮘
+denx denv denr denf dunx dunv dunr dunf	dēn dèn děn dén dūn dùn dǔn dún	tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tɜ̃²⁴ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹ tuɜ̃²⁴	蹲
+denx denv denr denf senf senx senv senr zenf zenx zenv zenr	dēn dèn děn dén sén sēn sèn sěn zén zēn zèn zěn	tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tɜ̃²⁴ sɜ̃²⁴ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²¹ tsɜ̃²⁴ tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹	媵
+dianf dianx dianv dianr	dián diān diàn diǎn	tiã²⁴ tiã⁵⁵ tiã⁵¹ tiã²¹	㼭佃坫垫塡墊奠娫店扂橝殿涏淀澱玷电甸畋簟鈿钿闐阗阽電靛
+dianv dianx dianr dianf	diàn diān diǎn dián	tiã⁵¹ tiã⁵⁵ tiã²¹ tiã²⁴	典点碘蒧點
+dianx dianv dianr dianf	diān diàn diǎn dián	tiã⁵⁵ tiã⁵¹ tiã²¹ tiã²⁴	㒹傎巅巔滇瘨癫癲蹎顚顛颠𩥄𩨋
+diaof diaox diaov diaor	diáo diāo diào diǎo	tiau²⁴ tiau⁵⁵ tiau⁵¹ tiau²¹	吊掉窎窵釣钓
+diaof diaox diaov diaor niaov niaox niaor niaof	diáo diāo diào diǎo niào niāo niǎo niáo	tiau²⁴ tiau⁵⁵ tiau⁵¹ tiau²¹ ȵiau⁵¹ ȵiau⁵⁵ ȵiau²¹ ȵiau²⁴	茑蔦
+diaox diaov diaor diaof	diāo diào diǎo diáo	tiau⁵⁵ tiau⁵¹ tiau²¹ tiau²⁴	凋刁叼弴彫琱碉貂錭雕鵰𦨣
+diaox diaov diaor diaof tiaox tiaov tiaor tiaof	diāo diào diǎo diáo tiāo tiào tiǎo tiáo	tiau⁵⁵ tiau⁵¹ tiau²¹ tiau²⁴ tʰiau⁵⁵ tʰiau⁵¹ tʰiau²¹ tʰiau²⁴	挑
+dier diex diev dief	diě diē diè dié	tiɛ²¹ tiɛ⁵⁵ tiɛ⁵¹ tiɛ²⁴	碟
+dier diex diev dief dir dix div dif	diě diē diè dié dǐ dī dì dí	tiɛ²¹ tiɛ⁵⁵ tiɛ⁵¹ tiɛ²⁴ ti²¹ ti⁵⁵ ti⁵¹ ti²⁴	得悳惪𢛳
+dif dix div dir	dí dī dì dǐ	ti²⁴ ti⁵⁵ ti⁵¹ ti²¹	䗖嚏地埊墬娣帝弟悌杕柢氐珶睇禘第螮諟递逓遞遰髢鷤𪂿𫛴𬤊
+dif dix div dir tir tix tiv tif	dí dī dì dǐ tǐ tī tì tí	ti²⁴ ti⁵⁵ ti⁵¹ ti²¹ tʰi²¹ tʰi⁵⁵ tʰi⁵¹ tʰi²⁴	締缔踶鶗𫛸
+dir dix div dif	dǐ dī dì dí	ti²¹ ti⁵⁵ ti⁵¹ ti²⁴	㲲䠟凸叠啇喋堞嫡廸弔德惵揲敌敵樀氎涤滌滴牒狄甋疉疊的笛籊籴糴翟艓荻菂蝶褋褺覿觌諜谍跕踧蹀蹢迪迭鍉鏑镝靮頔馰𥴦𥷕𦉹𧨯𫔂𬱖
+dir dix div dif tar tax tav taf	dǐ dī dì dí tǎ tā tà tá	ti²¹ ti⁵⁵ ti⁵¹ ti²⁴ tʰa²¹ tʰa⁵⁵ tʰa⁵¹ tʰa²⁴	鰈鲽
+diux diuv diur diuf	diū diù diǔ diú	tiu⁵⁵ tiu⁵¹ tiu²¹ tiu²⁴	丟丢
+div dix dir dif	dì dī dǐ dí	ti⁵¹ ti⁵⁵ ti²¹ ti²⁴	底弤抵牴軧
+dix div dir dif	dī dì dǐ dí	ti⁵⁵ ti⁵¹ ti²¹ ti²⁴	䃅低爹磾羝詆诋隄
+dof dox dov dor	dó dō dò dǒ	tɔ²⁴ tɔ⁵⁵ tɔ⁵¹ tɔ²¹	刴剁垛惰柁瘅癉舵袉跢𨦃𩯚
+dof dox dov dor tanv tanx tanr tanf	dó dō dò dǒ tàn tān tǎn tán	tɔ²⁴ tɔ⁵⁵ tɔ⁵¹ tɔ²¹ tʰã⁵¹ tʰã⁵⁵ tʰã²¹ tʰã²⁴	惮憚
+dof dox dov dor tax tav tar taf	dó dō dò dǒ tā tà tǎ tá	tɔ²⁴ tɔ⁵⁵ tɔ⁵¹ tɔ²¹ tʰa⁵⁵ tʰa⁵¹ tʰa²¹ tʰa²⁴	拕
+dongf dongx dongv dongr	dóng dōng dòng dǒng	tɔ̃²⁴ tɔ̃⁵⁵ tɔ̃⁵¹ tɔ̃²¹	冻凍动動恸慟栋棟洞涷湩蝀𬟽
+dongv dongx dongr dongf	dòng dōng dǒng dóng	tɔ̃⁵¹ tɔ̃⁵⁵ tɔ̃²¹ tɔ̃²⁴	懂董蕫𢝆𧄓
+dongv dongx dongr dongf tongv tongx tongr tongf	dòng dōng dǒng dóng tòng tōng tǒng tóng	tɔ̃⁵¹ tɔ̃⁵⁵ tɔ̃²¹ tɔ̃²⁴ tʰɔ̃⁵¹ tʰɔ̃⁵⁵ tʰɔ̃²¹ tʰɔ̃²⁴	捅
+dongx dongv dongr dongf	dōng dòng dǒng dóng	tɔ̃⁵⁵ tɔ̃⁵¹ tɔ̃²¹ tɔ̃²⁴	东冬東𩂓
+dor dox dov dof	dǒ dō dò dó	tuɔ²¹ tuɔ⁵⁵ tuɔ⁵¹ tuɔ²⁴	夺奪敓敚
+dor dox dov dof	dǒ dō dò dó	tɔ²¹ tɔ⁵⁵ tɔ⁵¹ tɔ²⁴	凙剫鐸铎𢜬𪞝
+douf douv doux dour	dóu dòu dōu dǒu	tou²⁴ tou⁵¹ tou⁵⁵ tou²¹	斗鬥
+douf doux douv dour	dóu dōu dòu dǒu	tou²⁴ tou⁵⁵ tou⁵¹ tou²¹	梪脰荰荳豆酘鬪鬭𢾅
+douf doux douv dour duf dux duv dur	dóu dōu dòu dǒu dú dū dù dǔ	tou²⁴ tou⁵⁵ tou⁵¹ tou²¹ tu²⁴ tu⁵⁵ tu⁵¹ tu²¹	杜
+douv doux dour douf	dòu dōu dǒu dóu	tou⁵¹ tou⁵⁵ tou²¹ tou²⁴	㪷蚪阧陡
+doux douf douv dour	dōu dóu dòu dǒu	tou⁵⁵ tou²⁴ tou⁵¹ tou²¹	逗
+doux douv dour douf	dōu dòu dǒu dóu	tou⁵⁵ tou⁵¹ tou²¹ tou²⁴	兜兠吺篼
+dov dox dor dof	dò dō dǒ dó	tuɔ⁵¹ tuɔ⁵⁵ tuɔ²¹ tuɔ²⁴	躱
+dov dox dor dof	dò dō dǒ dó	tɔ⁵¹ tɔ⁵⁵ tɔ²¹ tɔ²⁴	埵崜挅朵朶鬌𥠄𥿰𦀉
+dox dov dor dof	dō dò dǒ dó	tuɔ⁵⁵ tuɔ⁵¹ tuɔ²¹ tuɔ²⁴	多
+duanf duanx duanv duanr	duán duān duàn duǎn	tuã²⁴ tuã⁵⁵ tuã⁵¹ tuã²¹	断斷段碫緞缎腶鍛锻
+duanv duanx duanr duanf	duàn duān duǎn duán	tuã⁵¹ tuã⁵⁵ tuã²¹ tuã²⁴	短𣃔
+duanx duanv duanr duanf	duān duàn duǎn duán	tuã⁵⁵ tuã⁵¹ tuã²¹ tuã²⁴	端耑
+duf duv dux dur	dú dù dū dǔ	tu²⁴ tu⁵¹ tu⁵⁵ tu²¹	肚
+duf dux duv dur	dú dū dù dǔ	tu²⁴ tu⁵⁵ tu⁵¹ tu²¹	㓃吒咤奼妒妬姹度渡蠹鍍镀
+duif duix duiv duir	duí duī duì duǐ	tuei²⁴ tuei⁵⁵ tuei⁵¹ tuei²¹	兌兑对對憝祋譈鐓镦队隊𩊭
+duix duiv duir duif	duī duì duǐ duí	tuei⁵⁵ tuei⁵¹ tuei²¹ tuei²⁴	䭔堆搥鎚頧𡺾𡻛𫗰
+duix duiv duir duif zuif zuix zuiv zuir	duī duì duǐ duí zuí zuī zuì zuǐ	tuei⁵⁵ tuei⁵¹ tuei²¹ tuei²⁴ tsuei²⁴ tsuei⁵⁵ tsuei⁵¹ tsuei²¹	磓
+dunf dunx dunv dunr	dún dūn dùn dǔn	tuɜ̃²⁴ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹	庉忳炖燉盾臋芚軘遁鈍钝頓顿𨔵
+dunf dunx dunv dunr tunr tunx tunv tunf	dún dūn dùn dǔn tǔn tūn tùn tún	tuɜ̃²⁴ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹ tʰuɜ̃²¹ tʰuɜ̃⁵⁵ tʰuɜ̃⁵¹ tʰuɜ̃²⁴	㹠遯
+dunf dunx dunv dunr tur tux tuv tuf tunr tunx tunv tunf	dún dūn dùn dǔn tǔ tū tù tú tǔn tūn tùn tún	tuɜ̃²⁴ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹ tʰu²¹ tʰu⁵⁵ tʰu⁵¹ tʰu²⁴ tʰuɜ̃²¹ tʰuɜ̃⁵⁵ tʰuɜ̃⁵¹ tʰuɜ̃²⁴	腯
+dunr dunx dunv dunf	dǔn dūn dùn dún	tuɜ̃²¹ tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²⁴	飩饨
+dunx dunv dunr dunf	dūn dùn dǔn dún	tuɜ̃⁵⁵ tuɜ̃⁵¹ tuɜ̃²¹ tuɜ̃²⁴	敦
+dur dux duv duf	dǔ dū dù dú	tu²¹ tu⁵⁵ tu⁵¹ tu²⁴	㱩匵咄嬻椟櫝殰毒渎瀆牍牘犊犢独獨瓄督窦竇笃篤纛蝳裻讀讟读髑黩黷𪥿𪻨
+dur dux duv duf sur sux suv suf	dǔ dū dù dú sǔ sū sù sú	tu²¹ tu⁵⁵ tu⁵¹ tu²⁴ su²¹ su⁵⁵ su⁵¹ su²⁴	韣
+duv dux dur duf	dù dū dǔ dú	tu⁵¹ tu⁵⁵ tu²¹ tu²⁴	堵暏楮睹覩賭赌
+dux duv dur duf doux douv dour douf	dū dù dǔ dú dōu dòu dǒu dóu	tu⁵⁵ tu⁵¹ tu²¹ tu²⁴ tou⁵⁵ tou⁵¹ tou²¹ tou²⁴	都
+enx env enr enf	ēn èn ěn én	ɜ̃⁵⁵ ɜ̃⁵¹ ɜ̃²¹ ɜ̃²⁴	嗯
+gaf gax gav gar	gá gā gà gǎ	ka²⁴ ka⁵⁵ ka⁵¹ ka²¹	幏斝架枷稼駕驾髂
+gaf gax gav gar jiaf jiax jiav jiar	gá gā gà gǎ jiá jiā jià jiǎ	ka²⁴ ka⁵⁵ ka⁵¹ ka²¹ tɕia²⁴ tɕia⁵⁵ tɕia⁵¹ tɕia²¹	嫁
+gaif gaix gaiv gair	gái gāi gài gǎi	kai²⁴ kai⁵⁵ kai⁵¹ kai²¹	㒠㝏㠹䪥䯰丐价價尬屆届廨恝悈戒朡械瀣犗玠界疥盖繲艐芥蓋薤誡譮诫邂鈣钙魪齘𢗊𬹼
+gaiv gaif gaix gair xief xiex xiev xier jiev jiex jier jief	gài gái gāi gǎi xié xiē xiè xiě jiè jiē jiě jié	kai⁵¹ kai²⁴ kai⁵⁵ kai²¹ ɕiɛ²⁴ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²¹ tɕiɛ⁵¹ tɕiɛ⁵⁵ tɕiɛ²¹ tɕiɛ²⁴	解
+gaiv gaix gair gaif	gài gāi gǎi gái	kai⁵¹ kai⁵⁵ kai²¹ kai²⁴	改胲陔
+gaix gaiv gair gaif	gāi gài gǎi gái	kai⁵⁵ kai⁵¹ kai²¹ kai²⁴	㓤䕸侅偕剀剴喈圿垓堦峐戛扴晐湝畡痎皆祴秸稭荄街該该賅赅阶階鞂頡頦颉颏𩘅
+ganf ganx ganv ganr	gán gān gàn gǎn	kã²⁴ kã⁵⁵ kã⁵¹ kã²¹	杠槓
+ganf ganx ganv ganr jianx jianv jianr jianf	gán gān gàn gǎn jiān jiàn jiǎn jián	kã²⁴ kã⁵⁵ kã⁵¹ kã²¹ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴	监監
+ganv ganx ganr ganf	gàn gān gǎn gán	kã⁵¹ kã⁵⁵ kã²¹ kã²⁴	䃭䵟忓感擀敢杆港澉玕皯秆稈竿笴簳虷赶趕鱤鳡鹻𠿑
+ganv ganx ganr ganf jianv jianx jianr jianf	gàn gān gǎn gán jiàn jiān jiǎn jián	kã⁵¹ kã⁵⁵ kã²¹ kã²⁴ tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴	减減繈耩襁鏹镪𫄶
+ganx ganf ganv ganr jianf jianx jianv jianr	gān gán gàn gǎn jián jiān jiàn jiǎn	kã⁵⁵ kã²⁴ kã⁵¹ kã²¹ tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹	間间
+ganx ganv ganr ganf	gān gàn gǎn gán	kã⁵⁵ kã⁵¹ kã²¹ kã²⁴	㽘亢冈刚剛吭堈堽尴尷岗岡崗幹旰柑榦泔犅瓨甘疳矼綱纲缸缻肛肝苷蚢豇釭鋼钢頏颃
+gaof gaox gaov gaor	gáo gāo gào gǎo	kau²⁴ kau⁵⁵ kau⁵¹ kau²¹	告呌嘂嘄噭挢撟窖誥诰郜
+gaof gaox gaov gaor jiaor jiaox jiaov jiaof	gáo gāo gào gǎo jiǎo jiāo jiào jiáo	kau²⁴ kau⁵⁵ kau⁵¹ kau²¹ tɕiau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²⁴	覺觉
+gaof gaox gaov gaor jiaov jiaox jiaor jiaof	gáo gāo gào gǎo jiào jiāo jiǎo jiáo	kau²⁴ kau⁵⁵ kau⁵¹ kau²¹ tɕiau⁵¹ tɕiau⁵⁵ tɕiau²¹ tɕiau²⁴	挍窌
+gaof gaox gaov gaor jiaov jiaox jiaor jiaof xiaof xiaox xiaov xiaor	gáo gāo gào gǎo jiào jiāo jiǎo jiáo xiáo xiāo xiào xiǎo	kau²⁴ kau⁵⁵ kau⁵¹ kau²¹ tɕiau⁵¹ tɕiau⁵⁵ tɕiau²¹ tɕiau²⁴ ɕiau²⁴ ɕiau⁵⁵ ɕiau⁵¹ ɕiau²¹	珓
+gaof gaox gaov gaor jiaox jiaov jiaor jiaof	gáo gāo gào gǎo jiāo jiào jiǎo jiáo	kau²⁴ kau⁵⁵ kau⁵¹ kau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹ tɕiau²⁴	徼矫矯
+gaov gaox gaor gaof	gào gāo gǎo gáo	kau⁵¹ kau⁵⁵ kau²¹ kau²⁴	搞稿
+gaox gaov gaor gaof	gāo gào gǎo gáo	kau⁵⁵ kau⁵¹ kau²¹ kau²⁴	槔橰櫜皋睾篙糕羔膏茭餻高鼛𣽎
+gaox gaov gaor gaof haor haox haov haof	gāo gào gǎo gáo hǎo hāo hào háo	kau⁵⁵ kau⁵¹ kau²¹ kau²⁴ xau²¹ xau⁵⁵ xau⁵¹ xau²⁴	臯
+gar gax gav gaf	gǎ gā gà gá	ka²¹ ka⁵⁵ ka⁵¹ ka²⁴	旮痂鋏铗
+gar gax gav gaf jiar jiax jiav jiaf	gǎ gā gà gá jiǎ jiā jià jiá	ka²¹ ka⁵⁵ ka⁵¹ ka²⁴ tɕia²¹ tɕia⁵⁵ tɕia⁵¹ tɕia²⁴	夹夾
+gar gax gav gaf jiax jiav jiar jiaf	gǎ gā gà gá jiā jià jiǎ jiá	ka²¹ ka⁵⁵ ka⁵¹ ka²⁴ tɕia⁵⁵ tɕia⁵¹ tɕia²¹ tɕia²⁴	䴥
+gar gax gav gaf qier qiex qiev qief	gǎ gā gà gá qiě qiē qiè qié	ka²¹ ka⁵⁵ ka⁵¹ ka²⁴ tɕʰiɛ²¹ tɕʰiɛ⁵⁵ tɕʰiɛ⁵¹ tɕʰiɛ²⁴	刦刼梜荚莢衱袷頰颊𬂩
+gax gav gar gaf	gā gà gǎ gá	ka⁵⁵ ka⁵¹ ka²¹ ka²⁴	揢蟹
+gax gav gar gaf gaix gaiv gair gaif hair haix haiv haif	gā gà gǎ gá gāi gài gǎi gái hǎi hāi hài hái	ka⁵⁵ ka⁵¹ ka²¹ ka²⁴ kai⁵⁵ kai⁵¹ kai²¹ kai²⁴ xai²¹ xai⁵⁵ xai⁵¹ xai²⁴	絯
+gax gav gar gaf hair haix haiv haif	gā gà gǎ gá hǎi hāi hài hái	ka⁵⁵ ka⁵¹ ka²¹ ka²⁴ xai²¹ xai⁵⁵ xai⁵¹ xai²⁴	嶰澥獬豥駴
+geir geix geiv geif	gěi gēi gèi géi	kei²¹ kei⁵⁵ kei⁵¹ kei²⁴	㦴嗝挌格胳膈茖觡隔革骼𢓜𥴩
+geir geix geiv geif lir lix liv lif	gěi gēi gèi géi lǐ lī lì lí	kei²¹ kei⁵⁵ kei⁵¹ kei²⁴ li²¹ li⁵⁵ li⁵¹ li²⁴	鬲
+geir geix geiv geif xiar xiax xiav xiaf	gěi gēi gèi géi xiǎ xiā xià xiá	kei²¹ kei⁵⁵ kei⁵¹ kei²⁴ ɕia²¹ ɕia⁵⁵ ɕia⁵¹ ɕia²⁴	徦
+geiv geix geir geif jir jix jiv jif	gèi gēi gěi géi jǐ jī jì jí	kei⁵¹ kei⁵⁵ kei²¹ kei²⁴ tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴	給给
+genv genx genr genf	gèn gēn gěn gén	kɜ̃⁵¹ kɜ̃⁵⁵ kɜ̃²¹ kɜ̃²⁴	㮓䋁亘亙哽堩挭梗粳綆绠耿骾鯁鲠
+genv genx genr genf jinx jinv jinr jinf	gèn gēn gěn gén jīn jìn jǐn jín	kɜ̃⁵¹ kɜ̃⁵⁵ kɜ̃²¹ kɜ̃²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕĩ²⁴	恆恒
+genv genx genr genf xianx xianv xianr xianf	gèn gēn gěn gén xiān xiàn xiǎn xián	kɜ̃⁵¹ kɜ̃⁵⁵ kɜ̃²¹ kɜ̃²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹ ɕiã²⁴	朘瑄
+genx genf genv genr	gēn gén gèn gěn	kɜ̃⁵⁵ kɜ̃²⁴ kɜ̃⁵¹ kɜ̃²¹	更
+genx genv genr genf	gēn gèn gěn gén	kɜ̃⁵⁵ kɜ̃⁵¹ kɜ̃²¹ kɜ̃²⁴	庚揯搄根秔稉絚羹耕跟鶊鹒𢫮𩱋
+genx genv genr genf sur sux suv suf	gēn gèn gěn gén sǔ sū sù sú	kɜ̃⁵⁵ kɜ̃⁵¹ kɜ̃²¹ kɜ̃²⁴ su²¹ su⁵⁵ su⁵¹ su²⁴	賡赓
+gof gox gov gor	gó gō gò gǒ	kuɔ²⁴ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²¹	个個过過
+gof gox gov gor	gó gō gò gǒ	kɔ²⁴ kɔ⁵⁵ kɔ⁵¹ kɔ²¹	箇
+gongf gongv gongx gongr	góng gòng gōng gǒng	kɔ̃²⁴ kɔ̃⁵¹ kɔ̃⁵⁵ kɔ̃²¹	拱
+gongf gongx gongv gongr	góng gōng gòng gǒng	kɔ̃²⁴ kɔ̃⁵⁵ kɔ̃⁵¹ kɔ̃²¹	㔶供灨羾貢贑贛贡赣𡎴𣹟𪄌𪅷𫎬
+gongf gongx gongv gongr jiongf jiongx jiongv jiongr	góng gōng gòng gǒng jióng jiōng jiòng jiǒng	kɔ̃²⁴ kɔ̃⁵⁵ kɔ̃⁵¹ kɔ̃²¹ tɕiɔ̃²⁴ tɕiɔ̃⁵⁵ tɕiɔ̃⁵¹ tɕiɔ̃²¹	共
+gongv gongx gongr gongf	gòng gōng gǒng góng	kɔ̃⁵¹ kɔ̃⁵⁵ kɔ̃²¹ kɔ̃²⁴	䂬冏唝嗊囧巩拲栱汞澒珙璟蛬鞏
+gongx gongv gongr gongf	gōng gòng gǒng góng	kɔ̃⁵⁵ kɔ̃⁵¹ kɔ̃²¹ kɔ̃²⁴	㓚公功匑宫宮工恭攻肱蚣觥觵躳龔龚
+gongx gongv gongr gongf jiongx jiongv jiongr jiongf	gōng gòng gǒng góng jiōng jiòng jiǒng jióng	kɔ̃⁵⁵ kɔ̃⁵¹ kɔ̃²¹ kɔ̃²⁴ tɕiɔ̃⁵⁵ tɕiɔ̃⁵¹ tɕiɔ̃²¹ tɕiɔ̃²⁴	弓躬
+gor gox gov gof	gǒ gō gò gó	kuɔ²¹ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²⁴	䔽割匃各哿国國掴摑敋杲椁槨縞缟腘膕葢藳虢蝈蟈袼輵郭馘鴿鸽𢼛
+gor gox gov gof	gǒ gō gò gó	kɔ²¹ kɔ⁵⁵ kɔ⁵¹ kɔ²⁴	葛閣阁
+gor gox gov gof keir keix keiv keif	gǒ gō gò gó kěi kēi kèi kéi	kuɔ²¹ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²⁴ kʰei²¹ kʰei⁵⁵ kʰei⁵¹ kʰei²⁴	㪉閤韐頜颌
+gor gox gov gof kuaif kuaix kuaiv kuair	gǒ gō gò gó kuái kuāi kuài kuǎi	kuɔ²¹ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²⁴ kʰuai²⁴ kʰuai⁵⁵ kʰuai⁵¹ kʰuai²¹	帼幗
+gouf goux gouv gour	góu gōu gòu gǒu	kou²⁴ kou⁵⁵ kou⁵¹ kou²¹	冓够夠姤媾彀搆构構覯觏詬诟購购遘雊𢐙
+gouv goux gour gouf	gòu gōu gǒu góu	kou⁵¹ kou⁵⁵ kou²¹ kou²⁴	㺃垢狗玽笱耇苟茍
+gouv goux gour gouf hor hox hov hof	gòu gōu gǒu góu hǒ hō hò hó	kou⁵¹ kou⁵⁵ kou²¹ kou²⁴ xɔ²¹ xɔ⁵⁵ xɔ⁵¹ xɔ²⁴	荷
+goux gouv gour gouf	gōu gòu gǒu góu	kou⁵⁵ kou⁵¹ kou²¹ kou²⁴	勾沟溝篝緱缑褠軥鈎鉤钩鞲韝𥵡
+goux gouv gour gouf gor gox gov gof	gōu gòu gǒu góu gǒ gō gò gó	kou⁵⁵ kou⁵¹ kou²¹ kou²⁴ kuɔ²¹ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²⁴	㵧匄轕
+goux gouv gour gouf jif jix jiv jir	gōu gòu gǒu góu jí jī jì jǐ	kou⁵⁵ kou⁵¹ kou²¹ kou²⁴ tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹	枸
+gov gox gor gof	gò gō gǒ gó	kuɔ⁵¹ kuɔ⁵⁵ kuɔ²¹ kuɔ²⁴	果菓蜾
+gov gox gor gof	gò gō gǒ gó	kɔ⁵¹ kɔ⁵⁵ kɔ²¹ kɔ²⁴	裹
+gox gov gor gof	gō gò gǒ gó	kuɔ⁵⁵ kuɔ⁵¹ kuɔ²¹ kuɔ²⁴	㢦戨柯歌牁舸謌鴚
+gox gov gor gof	gō gò gǒ gó	kɔ⁵⁵ kɔ⁵¹ kɔ²¹ kɔ²⁴	㳡䯄哥娲媧戈濄緺鍋锅騧𨍋
+gox gov gor gof hor hox hov hof	gō gò gǒ gó hǒ hō hò hó	kuɔ⁵⁵ kuɔ⁵¹ kuɔ²¹ kuɔ²⁴ xuɔ²¹ xuɔ⁵⁵ xuɔ⁵¹ xuɔ²⁴	菏
+guaf guax guav guar	guá guā guà guǎ	kua²⁴ kua⁵⁵ kua⁵¹ kua²¹	卦挂掛絓罣褂詿诖
+guaif guaix guaiv guair	guái guāi guài guǎi	kuai²⁴ kuai⁵⁵ kuai⁵¹ kuai²¹	㹟夬怪恠𥑋
+guaif guaix guaiv guair kuaif kuaix kuaiv kuair	guái guāi guài guǎi kuái kuāi kuài kuǎi	kuai²⁴ kuai⁵⁵ kuai⁵¹ kuai²¹ kʰuai²⁴ kʰuai⁵⁵ kʰuai⁵¹ kʰuai²¹	浍澮狯獪
+guaiv guaix guair guaif	guài guāi guǎi guái	kuai⁵¹ kuai⁵⁵ kuai²¹ kuai²⁴	拐
+guaix guaiv guair guaif	guāi guài guǎi guái	kuai⁵⁵ kuai⁵¹ kuai²¹ kuai²⁴	乖
+guanf guanx guanv guanr	guán guān guàn guǎn	kuã²⁴ kuã⁵⁵ kuã⁵¹ kuã²¹	僙冠垙惯慣灌灮罐貫贯逛𨎩
+guanf guanx guanv guanr huanx huanv huanr huanf	guán guān guàn guǎn huān huàn huǎn huán	kuã²⁴ kuã⁵⁵ kuã⁵¹ kuã²¹ xuã⁵⁵ xuã⁵¹ xuã²¹ xuã²⁴	洸
+guanf guanx guanv guanr kuanv kuanx kuanr kuanf	guán guān guàn guǎn kuàn kuān kuǎn kuán	kuã²⁴ kuã⁵⁵ kuã⁵¹ kuã²¹ kʰuã⁵¹ kʰuã⁵⁵ kʰuã²¹ kʰuã²⁴	卝
+guanv guanx guanr guanf	guàn guān guǎn guán	kuã⁵¹ kuã⁵⁵ kuã²¹ kuã²⁴	俨儼广廣悺斡曮灔灧燄琯琰筦管脘舘輨錧館馆𫐑
+guanv guanx guanr guanf sanv sanx sanr sanf	guàn guān guǎn guán sàn sān sǎn sán	kuã⁵¹ kuã⁵⁵ kuã²¹ kuã²⁴ sã⁵¹ sã⁵⁵ sã²¹ sã²⁴	剡
+guanx guanf guanv guanr	guān guán guàn guǎn	kuã⁵⁵ kuã²⁴ kuã⁵¹ kuã²¹	光觀观
+guanx guanv guanr guanf	guān guàn guǎn guán	kuã⁵⁵ kuã⁵¹ kuã²¹ kuã²⁴	倌关官棺瘝癏胱菅関關鰥鳏𠴨
+guanx guanv guanr guanf huanv huanx huanr huanf	guān guàn guǎn guán huàn huān huǎn huán	kuã⁵⁵ kuã⁵¹ kuã²¹ kuã²⁴ xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴	莞
+guanx guanv guanr guanf lenr lenx lenv lenf lunr lunx lunv lunf	guān guàn guǎn guán lěn lēn lèn lén lǔn lūn lùn lún	kuã⁵⁵ kuã⁵¹ kuã²¹ kuã²⁴ lɜ̃²¹ lɜ̃⁵⁵ lɜ̃⁵¹ lɜ̃²⁴ luɜ̃²¹ luɜ̃⁵⁵ luɜ̃⁵¹ luɜ̃²⁴	綸纶
+guar guax guav guaf	guǎ guā guà guá	kua²¹ kua⁵⁵ kua⁵¹ kua²⁴	刮劀括
+guar guax guav guaf huanv huanx huanr huanf	guǎ guā guà guá huàn huān huǎn huán	kua²¹ kua⁵⁵ kua⁵¹ kua²⁴ xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴	捖
+guav guax guar guaf	guà guā guǎ guá	kua⁵¹ kua⁵⁵ kua²¹ kua²⁴	剐剮呙咼寡
+guax guav guar guaf	guā guà guǎ guá	kua⁵⁵ kua⁵¹ kua²¹ kua²⁴	瓜
+guax guav guar guaf ox ov or of	guā guà guǎ guá ō ò ǒ ó	kua⁵⁵ kua⁵¹ kua²¹ kua²⁴ ɔ⁵⁵ ɔ⁵¹ ɔ²¹ ɔ²⁴	𩢍
+guf gux guv gur	gú gū gù gǔ	ku²⁴ ku⁵⁵ ku⁵¹ ku²¹	僱凅固故痼錮锢雇頋顧顾鯝鲴
+guif guix guiv guir	guí guī guì guǐ	kuei²⁴ kuei⁵⁵ kuei⁵¹ kuei²¹	䝿刿劌匮匱媿嶡庪悸揆撅攰柜桂橛櫃筀篑簣貴贵跪鐀餽饋馈騩鱖鳜𠜾
+guif guix guiv guir jier jiex jiev jief	guí guī guì guǐ jiě jiē jiè jié	kuei²⁴ kuei⁵⁵ kuei⁵¹ kuei²¹ tɕiɛ²¹ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²⁴	䳏劂蹶蹷
+guif guix guiv guir jiv jif jix jir	guí guī guì guǐ jì jí jī jǐ	kuei²⁴ kuei⁵⁵ kuei⁵¹ kuei²¹ tɕi⁵¹ tɕi²⁴ tɕi⁵⁵ tɕi²¹	踽
+guif guix guiv guir jiv jix jir jif	guí guī guì guǐ jì jī jǐ jí	kuei²⁴ kuei⁵⁵ kuei⁵¹ kuei²¹ tɕi⁵¹ tɕi⁵⁵ tɕi²¹ tɕi²⁴	庋弆椇楀榉櫸筥籧莒萭鄅麮
+guif guix guiv guir kuaiv kuaif kuaix kuair	guí guī guì guǐ kuài kuái kuāi kuǎi	kuei²⁴ kuei⁵⁵ kuei⁵¹ kuei²¹ kʰuai⁵¹ kʰuai²⁴ kʰuai⁵⁵ kʰuai²¹	蒉蕢
+guiv guix guir guif	guì guī guǐ guí	kuei⁵¹ kuei⁵⁵ kuei²¹ kuei²⁴	䤥佹匦匭厬垝宄恑晷氿湀癸祪簋詭诡軌轨鬼𣷾
+guix guiv guir guif	guī guì guǐ guí	kuei⁵⁵ kuei⁵¹ kuei²¹ kuei²⁴	圭妫媯嬀归摫歸沩潙珪瞡窐袿規规邽閨闺龜龟𨾚
+guix guiv guir guif jianx jianv jianr jianf	guī guì guǐ guí jiān jiàn jiǎn jián	kuei⁵⁵ kuei⁵¹ kuei²¹ kuei²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴	蠲
+guix guiv guir guif kuaiv kuaix kuair kuaif	guī guì guǐ guí kuài kuāi kuǎi kuái	kuei⁵⁵ kuei⁵¹ kuei²¹ kuei²⁴ kʰuai⁵¹ kʰuai⁵⁵ kʰuai²¹ kʰuai²⁴	㱕瓌
+gunf gunx gunv gunr	gún gūn gùn gǔn	kuɜ̃²⁴ kuɜ̃⁵⁵ kuɜ̃⁵¹ kuɜ̃²¹	棍焜顐
+gunf gunx gunv gunr hunr hunx hunv hunf	gún gūn gùn gǔn hǔn hūn hùn hún	kuɜ̃²⁴ kuɜ̃⁵⁵ kuɜ̃⁵¹ kuɜ̃²¹ xuɜ̃²¹ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²⁴	緷𦈉
+gunv gunx gunr gunf	gùn gūn gǔn gún	kuɜ̃⁵¹ kuɜ̃⁵⁵ kuɜ̃²¹ kuɜ̃²⁴	滚滾
+gur gux guv guf	gǔ gū gù gú	ku²¹ ku⁵⁵ ku⁵¹ ku²⁴	吿愲搰榖毂汩淈牿穀糓谷轂骨
+gur gux guv guf mir mix miv mif	gǔ gū gù gú mǐ mī mì mí	ku²¹ ku⁵⁵ ku⁵¹ ku²⁴ mi²¹ mi⁵⁵ mi⁵¹ mi²⁴	汨
+guv gux gur guf	gù gū gǔ gú	ku⁵¹ ku⁵⁵ ku²¹ ku²⁴	估古沽牯皷盬瞽罟羖股臌蛊蠱詁诂酤鈷钴鼓鼔𡔷𡕔
+guv gux gur guf jiav jiax jiar jiaf	gù gū gǔ gú jià jiā jiǎ jiá	ku⁵¹ ku⁵⁵ ku²¹ ku²⁴ tɕia⁵¹ tɕia⁵⁵ tɕia²¹ tɕia²⁴	賈贾
+gux guv gur guf	gū gù gǔ gú	ku⁵⁵ ku⁵¹ ku²¹ ku²⁴	䉉呱咕夃姑孤柧橭箍箛罛苽菇菰蛄觚軱辜鴣鸪𨬟
+haf hax hav har xiaf xiax xiav xiar	há hā hà hǎ xiá xiā xià xiǎ	xa²⁴ xa⁵⁵ xa⁵¹ xa²¹ ɕia²⁴ ɕia⁵⁵ ɕia⁵¹ ɕia²¹	下
+haif haix haiv hair	hái hāi hài hǎi	xai²⁴ xai⁵⁵ xai⁵¹ xai²¹	亥害
+hair haix haiv haif	hǎi hāi hài hái	xai²¹ xai⁵⁵ xai⁵¹ xai²⁴	孩膎諧谐鞵駭骇骸鮭鲑
+hair haix haiv haif xier xiex xiev xief	hǎi hāi hài hái xiě xiē xiè xié	xai²¹ xai⁵⁵ xai⁵¹ xai²⁴ ɕiɛ²¹ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²⁴	鞋
+haiv haix hair haif	hài hāi hǎi hái	xai⁵¹ xai⁵⁵ xai²¹ xai²⁴	海醢
+hanf hanx hanv hanr	hán hān hàn hǎn	xã²⁴ xã⁵⁵ xã⁵¹ xã²¹	㽉䓿䦘偘僩垾悍憾扞捍撼旱槛檻汉汗滥漢濫瀚焊缿翰臽苋莟莧釬銲錎閈闬限陷馯駻𤿧𦉞𨸄𫘛𫘣
+hanf hanx hanv hanr jianf jianx jianv jianr	hán hān hàn hǎn jián jiān jiàn jiǎn	xã²⁴ xã⁵⁵ xã⁵¹ xã²¹ tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹	菡轞頷颔餡馅𨏊
+hanr hanx hanv hanf	hǎn hān hàn hán	xã²¹ xã⁵⁵ xã⁵¹ xã²⁴	㘅䮧函含咸寒斻杭桁涵犴絎绗航諴豻邯韓韩鹹𫍯
+hanv hanf hanx hanr	hàn hán hān hǎn	xã⁵¹ xã²⁴ xã⁵⁵ xã²¹	暵
+hanv hanf hanx hanr kanx kanv kanr kanf	hàn hán hān hǎn kān kàn kǎn kán	xã⁵¹ xã²⁴ xã⁵⁵ xã²¹ kʰã⁵⁵ kʰã⁵¹ kʰã²¹ kʰã²⁴	闞阚
+hanv hanx hanr hanf	hàn hān hǎn hán	xã⁵¹ xã⁵⁵ xã²¹ xã²⁴	㯺㺌䍐喊夯扛熯罕豃顑
+hanx hanr hanv hanf	hān hǎn hàn hán	xã⁵⁵ xã²¹ xã⁵¹ xã²⁴	㮀䤴唅蚶𦜆𧮳
+hanx hanv hanr hanf	hān hàn hǎn hán	xã⁵⁵ xã⁵¹ xã²¹ xã²⁴	憨酣鼾
+haof haor haox haov	háo hǎo hāo hào	xau²⁴ xau²¹ xau⁵⁵ xau⁵¹	号號
+haof haox haov haor	háo hāo hào hǎo	xau²⁴ xau⁵⁵ xau⁵¹ xau²¹	昊晧暤暭曍浩滈灏灝皓皞皡秏耗薃鎬镐顥颢鰝
+haor haox haov haof	hǎo hāo hào háo	xau²¹ xau⁵⁵ xau⁵¹ xau²⁴	㠙呺嗥嘷噑壕毫滜濠譹豪
+haov haof haox haor	hào háo hāo hǎo	xau⁵¹ xau²⁴ xau⁵⁵ xau²¹	好
+haox haov haor haof	hāo hào hǎo háo	xau⁵⁵ xau⁵¹ xau²¹ xau²⁴	挠撓蒿薅𢫩
+har hax hav haf	hǎ hā hà há	xa²¹ xa⁵⁵ xa⁵¹ xa²⁴	㔠呷瞎
+har hax hav haf huanf huanr huanx huanv ar ax av af	hǎ hā hà há huán huǎn huān huàn ǎ ā à á	xa²¹ xa⁵⁵ xa⁵¹ xa²⁴ xuã²⁴ xuã²¹ xuã⁵⁵ xuã⁵¹ a²¹ a⁵⁵ a⁵¹ a²⁴	还還
+hax hav har haf	hā hà hǎ há	xa⁵⁵ xa⁵¹ xa²¹ xa²⁴	哈
+heir heix heiv heif	hěi hēi hèi héi	xei²¹ xei⁵⁵ xei⁵¹ xei²⁴	吓嚇核爀赫黑𨍇
+henf henx henv henr	hén hēn hèn hěn	xɜ̃²⁴ xɜ̃⁵⁵ xɜ̃⁵¹ xɜ̃²¹	恨
+henr henx henv henf	hěn hēn hèn hén	xɜ̃²¹ xɜ̃⁵⁵ xɜ̃⁵¹ xɜ̃²⁴	痕衡鞎
+henv henx henr henf	hèn hēn hěn hén	xɜ̃⁵¹ xɜ̃⁵⁵ xɜ̃²¹ xɜ̃²⁴	很狠
+henx henv henr henf	hēn hèn hěn hén	xɜ̃⁵⁵ xɜ̃⁵¹ xɜ̃²¹ xɜ̃²⁴	哼
+hof hor hox hov	hó hǒ hō hò	xuɔ²⁴ xuɔ²¹ xuɔ⁵⁵ xuɔ⁵¹	彉彍戄攉癨霍霩靃𧆑
+hof hox hov hor	hó hō hò hǒ	xuɔ²⁴ xuɔ⁵⁵ xuɔ⁵¹ xuɔ²¹	旤祸禍貨货輠髁
+hof hox hov hor	hó hō hò hǒ	xɔ²⁴ xɔ⁵⁵ xɔ⁵¹ xɔ²¹	袔賀贺郝
+hof hox hov hor kof kox kov kor	hó hō hò hǒ kó kō kò kǒ	xɔ²⁴ xɔ⁵⁵ xɔ⁵¹ xɔ²¹ kʰuɔ²⁴ kʰuɔ⁵⁵ kʰuɔ⁵¹ kʰuɔ²¹	𧝂
+hof hox hov hor kov kof kox kor	hó hō hò hǒ kò kó kō kǒ	xɔ²⁴ xɔ⁵⁵ xɔ⁵¹ xɔ²¹ kʰɔ⁵¹ kʰɔ²⁴ kʰɔ⁵⁵ kʰɔ²¹	堁
+hongf hongx hongv hongr	hóng hōng hòng hǒng	xɔ̃²⁴ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²¹	㡝
+hongf hongx hongv hongr huongf huongx huongv huongr	hóng hōng hòng hǒng huóng huōng huòng huǒng	xɔ̃²⁴ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²¹ fɔ̃²⁴ fɔ̃⁵⁵ fɔ̃⁵¹ fɔ̃²¹	凤鳳
+hongf hongx hongv hongr pongr pongx pongv pongf	hóng hōng hòng hǒng pǒng pōng pòng póng	xɔ̃²⁴ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²¹ pʰɔ̃²¹ pʰɔ̃⁵⁵ pʰɔ̃⁵¹ pʰɔ̃²⁴	鵬鹏
+hongr hongx hongv hongf	hǒng hōng hòng hóng	xɔ̃²¹ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²⁴	䃔䜫䡌䡏宏宖嵘嶸弘彋洪渱竑紅紘綋红纮翃苰荭葒訌讧谹谼鈜鉷鍠鐄锽閎闳鞃鴻鸿黉黌𡵓𧮯𨱑𩉦𩘎𫟄𫟹
+hongr hongx hongv hongf ganf ganx ganv ganr	hǒng hōng hòng hóng gán gān gàn gǎn	xɔ̃²¹ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²⁴ kã²⁴ kã⁵⁵ kã⁵¹ kã²¹	虹
+hongr hongx hongv hongf huongr huongf huongx huongv	hǒng hōng hòng hóng huǒng huóng huōng huòng	xɔ̃²¹ xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²⁴ fɔ̃²¹ fɔ̃²⁴ fɔ̃⁵⁵ fɔ̃⁵¹	縫缝
+hongv hongr hongx hongf	hòng hǒng hōng hóng	xɔ̃⁵¹ xɔ̃²¹ xɔ̃⁵⁵ xɔ̃²⁴	洚
+hongv hongx hongr hongf	hòng hōng hǒng hóng	xɔ̃⁵¹ xɔ̃⁵⁵ xɔ̃²¹ xɔ̃²⁴	哄閧鬨
+hongx hongv hongr hongf	hōng hòng hǒng hóng	xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²¹ xɔ̃²⁴	㷭叿夆崶枫桻楓沣灃烘烽犎葑薨蘴蠭諻轟轰酆鍧鏠飌麷𧒒𫜑
+hongx hongv hongr hongf huongx huongv huongr huongf	hōng hòng hǒng hóng huōng huòng huǒng huóng	xɔ̃⁵⁵ xɔ̃⁵¹ xɔ̃²¹ xɔ̃²⁴ fɔ̃⁵⁵ fɔ̃⁵¹ fɔ̃²¹ fɔ̃²⁴	丰封蜂豐風风
+hor hov hox hof	hǒ hò hō hó	xɔ²¹ xɔ⁵¹ xɔ⁵⁵ xɔ²⁴	和
+hor hox hov hof	hǒ hō hò hó	xuɔ²¹ xuɔ⁵⁵ xuɔ⁵¹ xuɔ²⁴	河活皬盒苛貈鑊镬鶴鹤𠗂
+hor hox hov hof	hǒ hō hò hó	xɔ²¹ xɔ⁵⁵ xɔ⁵¹ xɔ²⁴	何合咊嗃壑歊熇禾臛藃藿蠚謞鉌龢𦞦
+hor hox hov hof kor kox kov kof	hǒ hō hò hó kǒ kō kò kó	xuɔ²¹ xuɔ⁵⁵ xuɔ⁵¹ xuɔ²⁴ kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴	䢔曷欱毼盍褐郃闔阖
+hor hox hov hof kur kux kuv kuf	hǒ hō hò hó kǔ kū kù kú	xɔ²¹ xɔ⁵⁵ xɔ⁵¹ xɔ²⁴ kʰu²¹ kʰu⁵⁵ kʰu⁵¹ kʰu²⁴	鄗
+houf houx houv hour	hóu hōu hòu hǒu	xou²⁴ xou⁵⁵ xou⁵¹ xou²¹	候厚后堠後逅郈
+hour houx houv houf	hǒu hōu hòu hóu	xou²¹ xou⁵⁵ xou⁵¹ xou²⁴	侯喉帿猴篌糇翭鍭餱𬭤
+houv houx hour houf	hòu hōu hǒu hóu	xou⁵¹ xou⁵⁵ xou²¹ xou²⁴	吼
+houx houv hour houf	hōu hòu hǒu hóu	xou⁵⁵ xou⁵¹ xou²¹ xou²⁴	齁𪖙
+hov hox hor hof	hò hō hǒ hó	xuɔ⁵¹ xuɔ⁵⁵ xuɔ²¹ xuɔ²⁴	火
+hov hox hor hof	hò hō hǒ hó	xɔ⁵¹ xɔ⁵⁵ xɔ²¹ xɔ²⁴	伙夥
+hov hox hor hof lov lox lor lof	hò hō hǒ hó lò lō lǒ ló	xɔ⁵¹ xɔ⁵⁵ xɔ²¹ xɔ²⁴ lɔ⁵¹ lɔ⁵⁵ lɔ²¹ lɔ²⁴	㦬
+hox hov hor hof	hō hò hǒ hó	xɔ⁵⁵ xɔ⁵¹ xɔ²¹ xɔ²⁴	喝
+huaf huar huax huav	huá huǎ huā huà	xua²⁴ xua²¹ xua⁵⁵ xua⁵¹	崋
+huaf huax huar huav	huá huā huǎ huà	xua²⁴ xua⁵⁵ xua²¹ xua⁵¹	蕐
+huaf huax huar huav par pax pav paf	huá huā huǎ huà pǎ pā pà pá	xua²⁴ xua⁵⁵ xua²¹ xua⁵¹ pʰa²¹ pʰa⁵⁵ pʰa⁵¹ pʰa²⁴	划劃
+huaf huax huav huar	huá huā huà huǎ	xua²⁴ xua⁵⁵ xua⁵¹ xua²¹	㕦化摦擭樗画畫話话鱯鳠
+huaif huaix huaiv huair	huái huāi huài huǎi	xuai²⁴ xuai⁵⁵ xuai⁵¹ xuai²¹	坏壞
+huair huaix huaiv huaif	huǎi huāi huài huái	xuai²¹ xuai⁵⁵ xuai⁵¹ xuai²⁴	㗲劾怀惑懷或掝槐櫰淮瀤獲瑰翮获褢覈𠵾𧞷
+huair huaix huaiv huaif luf lux luv lur	huǎi huāi huài huái lú lū lù lǔ	xuai²¹ xuai⁵⁵ xuai⁵¹ xuai²⁴ lu²⁴ lu⁵⁵ lu⁵¹ lu²¹	輅辂
+huanf huanx huanv huanr	huán huān huàn huǎn	fã²⁴ fã⁵⁵ fã⁵¹ fã²¹	泛畈笵範范販贩軓𧍙𨊠
+huanf huanx huanv huanr	huán huān huàn huǎn	xuã²⁴ xuã⁵⁵ xuã⁵¹ xuã²¹	㹖唤喚圂奂奐宦幻弮患悹懽换換擐放涣涫渙漶烜焕煥爟犯瓘痪痯瘓盥矔祼絭豢轘逭雚飯饭骭鸛鹳
+huanr huanx huanv huanf	huǎn huān huàn huán	fã²¹ fã⁵⁵ fã⁵¹ fã²⁴	䀀䭵凡墦妨帆杋梵氾沨渢烦煩燔矾礬繁肪膰薠蘩蚄蠜袢訉蹯颿
+huanr huanx huanv huanf	huǎn huān huàn huán	xuã²¹ xuã⁵⁵ xuã⁵¹ xuã²⁴	䍿偟凰喤堭媓徨惶房湟潢煌瑝璜磺篁簧艎蝗遑防隍騜𫘩
+huanr huanx huanv huanf panr panx panv panf	huǎn huān huàn huán pǎn pān pàn pán	fã²¹ fã⁵⁵ fã⁵¹ fã²⁴ pʰã²¹ pʰã⁵⁵ pʰã⁵¹ pʰã²⁴	樊蟠
+huanr huanx huanv huanf wanr wanx wanv wanf	huǎn huān huàn huán wǎn wān wàn wán	xuã²¹ xuã⁵⁵ xuã⁵¹ xuã²⁴ uã²¹ uã⁵⁵ uã⁵¹ uã²⁴	环環皇黃黄
+huanv huanx huanr huanf	huàn huān huǎn huán	fã⁵¹ fã⁵⁵ fã²¹ fã²⁴	䡊仿坂舫訪访返阪
+huanv huanx huanr huanf	huàn huān huǎn huán	xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴	倣反彷恍昉晃晥浣澣瓬皝眆睅睆紡緩纺缓謊谎鋎髣鯇鲩
+huanv huanx huanr huanf kuanf kuanx kuanv kuanr	huàn huān huǎn huán kuán kuān kuàn kuǎn	xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴ kʰuã²⁴ kʰuã⁵⁵ kʰuã⁵¹ kʰuã²¹	𭘜
+huanv huanx huanr huanf luanr luanx luanv luanf	huàn huān huǎn huán luǎn luān luàn luán	xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴ luã²¹ luã⁵⁵ luã⁵¹ luã²⁴	䁔
+huanv huanx huanr huanf wanr wanx wanv wanf	huàn huān huǎn huán wǎn wān wàn wán	xuã⁵¹ xuã⁵⁵ xuã²¹ xuã²⁴ uã²¹ uã⁵⁵ uã⁵¹ uã²⁴	輐
+huanx huanr huanv huanf	huān huǎn huàn huán	fã⁵⁵ fã²¹ fã⁵¹ fã²⁴	坊
+huanx huanr huanv huanf	huān huǎn huàn huán	xuã⁵⁵ xuã²¹ xuã⁵¹ xuã²⁴	蕃
+huanx huanv huanr huanf	huān huàn huǎn huán	fã⁵⁵ fã⁵¹ fã²¹ fã²⁴	芳
+huanx huanv huanr huanf	huān huàn huǎn huán	xuã⁵⁵ xuã⁵¹ xuã²¹ xuã²⁴	㡆㬻䭹幌幡慌方旛榥櫎欢歡滉犿獾璠皩繙翻肓荒藩衁貛轓飜驩𣉪𥡃
+huanx huanv huanr huanf luanr luanx luanv luanf	huān huàn huǎn huán luǎn luān luàn luán	xuã⁵⁵ xuã⁵¹ xuã²¹ xuã²⁴ luã²¹ luã⁵⁵ luã⁵¹ luã²⁴	嚾讙
+huanx huanv huanr huanf panx panv panr panf	huān huàn huǎn huán pān pàn pǎn pán	fã⁵⁵ fã⁵¹ fã²¹ fã²⁴ pʰã⁵⁵ pʰã⁵¹ pʰã²¹ pʰã²⁴	番
+huanx huanv huanr huanf wanf wanx wanv wanr	huān huàn huǎn huán wán wān wàn wǎn	xuã⁵⁵ xuã⁵¹ xuã²¹ xuã²⁴ uã²⁴ uã⁵⁵ uã⁵¹ uã²¹	晄爌
+huar huax huav huaf	huǎ huā huà huá	fa²¹ fa⁵⁵ fa⁵¹ fa²⁴	䑔乏伐垡姂栰橃疺瞂筏閥阀髮
+huar huax huav huaf	huǎ huā huà huá	xua²¹ xua⁵⁵ xua⁵¹ xua²⁴	华发哗嬅桦樺法滑灋猾發罚罰華螖譁鏵铧驊骅
+huar huax huav huaf xiar xiax xiav xiaf	huǎ huā huà huá xiǎ xiā xià xiá	xua²¹ xua⁵⁵ xua⁵¹ xua²⁴ ɕia²¹ ɕia⁵⁵ ɕia⁵¹ ɕia²⁴	劼擖磆磍舝鎋鬝黠
+huax huav huar huaf	huā huà huǎ huá	xua⁵⁵ xua⁵¹ xua²¹ xua²⁴	花
+hueif hueix hueiv hueir	huéi huēi huèi huěi	fei²⁴ fei⁵⁵ fei⁵¹ fei²¹	䆏䠊剕吠屝废廢昲杮沸狒疿癈翡萉𢘍𥜿𩰾𪎰
+hueif hueix hueiv hueir huir huix huiv huif	huéi huēi huèi huěi huǐ huī huì huí	fei²⁴ fei⁵⁵ fei⁵¹ fei²¹ xuei²¹ xuei⁵⁵ xuei⁵¹ xuei²⁴	厞痱腓
+hueif hueix hueiv hueir huix huiv huir huif	huéi huēi huèi huěi huī huì huǐ huí	fei²⁴ fei⁵⁵ fei⁵¹ fei²¹ xuei⁵⁵ xuei⁵¹ xuei²¹ xuei²⁴	蜚誹诽
+hueif hueix hueiv hueir hur hux huv huf	huéi huēi huèi huěi hǔ hū hù hú	fei²⁴ fei⁵⁵ fei⁵¹ fei²¹ fu²¹ fu⁵⁵ fu⁵¹ fu²⁴	祓芾髴
+hueiv hueix hueir hueif	huèi huēi huěi huéi	fei⁵¹ fei⁵⁵ fei²¹ fei²⁴	匪悱斐棐榧篚蜰
+hueix hueiv hueir hueif	huēi huèi huěi huéi	fei⁵⁵ fei⁵¹ fei²¹ fei²⁴	妃菲非
+huenf huenx huenv huenr	huén huēn huèn huěn	fɜ̃²⁴ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹	份奋奮忿愤憤
+huenf huenx huenv huenr hunf hunx hunv hunr	huén huēn huèn huěn hún hūn hùn hǔn	fɜ̃²⁴ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹ xuɜ̃²⁴ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹	偾僨瀵𡊄
+huenr huenx huenv huenf	huěn huēn huèn huén	fɜ̃²¹ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²⁴	幩枌棻汾焚獖蕡豮豶黂鼖𪩸
+huenx huenv huenr huenf	huēn huèn huěn huén	fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹ fɜ̃²⁴	吩帉棼氛紛纷翂芬衯雰餴饙鳻鶡鹖𢁥𣬩𦐈
+huf hux huv hur	hú hū hù hǔ	fu²⁴ fu⁵⁵ fu⁵¹ fu²¹	互偩傅冨冱坿嫭嫮戸戽护枑沪涸滬濩瓠祔穫胕萯護負賦賻负赋赙赴阜附韄頀駙驸鮒鲋𦊂𦺉
+huf hux huv hur	hú hū hù hǔ	xu²⁴ xu⁵⁵ xu⁵¹ xu²¹	付副妇婦富岵怙戶户扈昈楛父祜鄠𩿇
+huf hux huv hur bor box bov bof	hú hū hù hǔ bǒ bō bò bó	xu²⁴ xu⁵⁵ xu⁵¹ xu²¹ pɔ²¹ pɔ⁵⁵ pɔ⁵¹ pɔ²⁴	縛缚
+huif huix huiv huir	huí huī huì huǐ	xuei²⁴ xuei⁵⁵ xuei⁵¹ xuei²¹	䔇䜋匯嘒廆恚惠慧憓懀暳汇沬濊烓獩瘣瞆瞶禬秽穗穢繢繪绘缋聩聵荟蕙薈薉譓賄贿迴闠阓靧餧𢕺𢙓𤞃𧶅𨎥𫖃𫗪𬤝
+huif huix huiv huir hueif hueix hueiv hueir	huí huī huì huǐ huéi huēi huèi huěi	xuei²⁴ xuei⁵⁵ xuei⁵¹ xuei²¹ fei²⁴ fei⁵⁵ fei⁵¹ fei²¹	肺費费
+huif huix huiv huir kuaif kuaix kuaiv kuair	huí huī huì huǐ kuái kuāi kuài kuǎi	xuei²⁴ xuei⁵⁵ xuei⁵¹ xuei²¹ kʰuai²⁴ kʰuai⁵⁵ kʰuai⁵¹ kʰuai²¹	会會
+huif huix huiv huir kuif kuix kuiv kuir	huí huī huì huǐ kuí kuī kuì kuǐ	xuei²⁴ xuei⁵⁵ xuei⁵¹ xuei²¹ kʰuei²⁴ kʰuei⁵⁵ kʰuei⁵¹ kʰuei²¹	頮颒
+huif huix huiv huir xif xix xiv xir	huí huī huì huǐ xí xī xì xǐ	xuei²⁴ xuei⁵⁵ xuei⁵¹ xuei²¹ ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹	㸂旞檖澻燧璲穟篲襚鐆鐩𡑞𦂁𬭼
+huir huix huiv huif	huǐ huī huì huí	xuei²¹ xuei⁵⁵ xuei⁵¹ xuei²⁴	徊洄淝茴
+huir huix huiv huif hueir hueix hueiv hueif	huǐ huī huì huí huěi huēi huèi huéi	xuei²¹ xuei⁵⁵ xuei⁵¹ xuei²⁴ fei²¹ fei⁵⁵ fei⁵¹ fei²⁴	肥
+huir huix huiv huif wir wix wiv wif	huǐ huī huì huí wǐ wī wì wí	xuei²¹ xuei⁵⁵ xuei⁵¹ xuei²⁴ uei²¹ uei⁵⁵ uei⁵¹ uei²⁴	回
+huiv huix huir huif	huì huī huǐ huí	xuei⁵¹ xuei⁵⁵ xuei²¹ xuei²⁴	哕噦悔晦毀毁誨諱讳诲顪𠧩𧬨
+huiv huix huir huif kuaiv kuaif kuaix kuair	huì huī huǐ huí kuài kuái kuāi kuǎi	xuei⁵¹ xuei⁵⁵ xuei²¹ xuei²⁴ kʰuai⁵¹ kʰuai²⁴ kʰuai⁵⁵ kʰuai²¹	翙翽
+huiv huix huir huif zouf zoux zouv zour	huì huī huǐ huí zóu zōu zòu zǒu	xuei⁵¹ xuei⁵⁵ xuei²¹ xuei²⁴ tsou²⁴ tsou⁵⁵ tsou⁵¹ tsou²¹	喙
+huix huiv huir huif	huī huì huǐ huí	xuei⁵⁵ xuei⁵¹ xuei²¹ xuei²⁴	㧑䝇倠堕墮幑徽恢扉挥揮撝晖暉楎灰煇睢緋绯翚翬虺袆裶褘豗輝辉隋隳霏餥馡騑騛麾𪸩𬴂
+huix huiv huir huif hueix hueiv hueir hueif	huī huì huǐ huí huēi huèi huěi huéi	xuei⁵⁵ xuei⁵¹ xuei²¹ xuei²⁴ fei⁵⁵ fei⁵¹ fei²¹ fei²⁴	飛飞
+hunf hunx hunv hunr	hún hūn hùn hǔn	xuɜ̃²⁴ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹	混
+hunf hunx hunv hunr huenf huenx huenv huenr	hún hūn hùn hǔn huén huēn huèn huěn	xuɜ̃²⁴ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹ fɜ̃²⁴ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹	粪糞
+hunr hunx hunv hunf	hǔn hūn hùn hún	xuɜ̃²¹ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²⁴	䰟横橫溷緄绲餛馄魂
+hunr hunx hunv hunf huenr huenx huenv huenf	hǔn hūn hùn hún huěn huēn huèn huén	xuɜ̃²¹ xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²⁴ fɜ̃²¹ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²⁴	坟墳
+hunv hunx hunr hunf huenv huenx huenr huenf	hùn hūn hǔn hún huèn huēn huěn huén	xuɜ̃⁵¹ xuɜ̃⁵⁵ xuɜ̃²¹ xuɜ̃²⁴ fɜ̃⁵¹ fɜ̃⁵⁵ fɜ̃²¹ fɜ̃²⁴	粉
+hunx hunr hunv hunf	hūn hǔn hùn hún	xuɜ̃⁵⁵ xuɜ̃²¹ xuɜ̃⁵¹ xuɜ̃²⁴	浑渾
+hunx hunv hunr hunf	hūn hùn hǔn hún	xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹ xuɜ̃²⁴	㖧婚惛昏棔殙痻荤葷閽阍
+hunx hunv hunr hunf huenx huenv huenr huenf	hūn hùn hǔn hún huēn huèn huěn huén	xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹ xuɜ̃²⁴ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹ fɜ̃²⁴	分
+hunx hunv hunr hunf minv minr minx minf	hūn hùn hǔn hún mìn mǐn mīn mín	xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹ xuɜ̃²⁴ mĩ⁵¹ mĩ²¹ mĩ⁵⁵ mĩ²⁴	暋
+hunx hunv hunr hunf minv minx minr minf	hūn hùn hǔn hún mìn mīn mǐn mín	xuɜ̃⁵⁵ xuɜ̃⁵¹ xuɜ̃²¹ xuɜ̃²⁴ mĩ⁵¹ mĩ⁵⁵ mĩ²¹ mĩ²⁴	昬
+huongf huongx huongv huongr	huóng huōng huòng huǒng	fɔ̃²⁴ fɔ̃⁵⁵ fɔ̃⁵¹ fɔ̃²¹	奉
+huongr huongx huongv huongf	huǒng huōng huòng huóng	fɔ̃²¹ fɔ̃⁵⁵ fɔ̃⁵¹ fɔ̃²⁴	冯逢馮
+huongv huongx huongr huongf	huòng huōng huǒng huóng	fɔ̃⁵¹ fɔ̃⁵⁵ fɔ̃²¹ fɔ̃²⁴	俸諷讽賵赗
+huongx huongv huongr huongf	huōng huòng huǒng huóng	fɔ̃⁵⁵ fɔ̃⁵¹ fɔ̃²¹ fɔ̃²⁴	峯峰疯瘋鋒锋
+huouv huoux huour huouf	huòu huōu huǒu huóu	fou⁵¹ fou⁵⁵ fou²¹ fou²⁴	否
+hur hux huv huf	hǔ hū hù hú	fu²¹ fu⁵⁵ fu⁵¹ fu²⁴	䭮乎伏俘冹凫刜咈坲壷复孵岪帗幅弗弧彿復忽怫惚扶拂斛曶柫槲湖狐瑚笏符笰箶紱紼綍绂绋翇胡腹芙葍葫虖蚨蝠蝮袚袱複覆輹輻辐醐鍑韍韨颫餬馥鳧鳬鵠鶘鶻鹄鹕鹘黻𧲲𧿳
+hur hux huv huf	hǔ hū hù hú	xu²¹ xu⁵⁵ xu⁵¹ xu²⁴	佛壶壺服栿棓浮涪烰福箙紑芣茯虙蜉鴀鵩𫛜𫛳
+hur hux huv huf pur pux puv puf	hǔ hū hù hú pǔ pū pù pú	fu²¹ fu⁵⁵ fu⁵¹ fu²⁴ pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴	苻
+hur hux huv huf wuf wux wuv wur	hǔ hū hù hú wú wū wù wǔ	fu²¹ fu⁵⁵ fu⁵¹ fu²⁴ u²⁴ u⁵⁵ u⁵¹ u²¹	糊
+hur hux huv huf wur wux wuv wuf	hǔ hū hù hú wǔ wū wù wú	fu²¹ fu⁵⁵ fu⁵¹ fu²⁴ u²¹ u⁵⁵ u⁵¹ u²⁴	昒芴
+huv hux hur huf	hù hū hǔ hú	fu⁵¹ fu⁵⁵ fu²¹ fu²⁴	㕮䭸俌俛俯弣抚拊捬撫斧滏秿簠腐腑莆輔辅釜頫鬴黼𫖯
+huv hux hur huf	hù hū hǔ hú	xu⁵¹ xu⁵⁵ xu²¹ xu²⁴	府浒滸琥虎
+hux huv hur huf	hū hù hǔ hú	fu⁵⁵ fu⁵¹ fu²¹ fu²⁴	䄮呼嘑夫孚尃幠怤懯敷旉枹柎桴殍泭滹玞痡稃紨罘罦肤膚荂莩趺跗郛鄜鈇麩麸𫓧
+jianf jianx jianv jianr	jián jiān jiàn jiǎn	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹	㪻俴倦健券剑劍劔劵匠建栫洊浆溅漿濺牮犟狷眷睠箭糨絳绛罥羂腃腱臶舰艦荐薦螀螿袸見见諓豏賤贱践踐鄄酱醬鍵键韏餞饯𬣡
+jianf jianx jianv jianr ganf ganx ganv ganr	jián jiān jiàn jiǎn gán gān gàn gǎn	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ kã²⁴ kã⁵⁵ kã⁵¹ kã²¹	諫谏鉴鑑
+jianf jianx jianv jianr luanr luanx luanv luanf	jián jiān jiàn jiǎn luǎn luān luàn luán	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ luã²¹ luã⁵⁵ luã⁵¹ luã²⁴	懁獧
+jianf jianx jianv jianr qianv qianf qianx qianr	jián jiān jiàn jiǎn qiàn qián qiān qiǎn	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕʰiã⁵¹ tɕʰiã²⁴ tɕʰiã⁵⁵ tɕʰiã²¹	綣绻
+jianf jianx jianv jianr qianx qianv qianr qianf	jián jiān jiàn jiǎn qiān qiàn qiǎn qián	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	湔
+jianf jianx jianv jianr zanf zanx zanv zanr	jián jiān jiàn jiǎn zán zān zàn zǎn	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹	渐漸
+jianf jianx jianv jianr zuanf zuanx zuanv zuanr	jián jiān jiàn jiǎn zuán zuān zuàn zuǎn	tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹	䌸縳
+jianr jianf jianx jianv	jiǎn jián jiān jiàn	tɕiã²¹ tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹	件
+jianr jianx jianv jianf qianr qianx qianv qianf	jiǎn jiān jiàn jián qiǎn qiān qiàn qián	tɕiã²¹ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²⁴ tɕʰiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²⁴	揵
+jianv jianf jianx jianr	jiàn jián jiān jiǎn	tɕiã⁵¹ tɕiã²⁴ tɕiã⁵⁵ tɕiã²¹	劒卷戩戬瞯裥襇襉覵覸鐗鐧锏
+jianv jianf jianx jianr qianx qianv qianr qianf	jiàn jián jiān jiǎn qiān qiàn qiǎn qián	tɕiã⁵¹ tɕiã²⁴ tɕiã⁵⁵ tɕiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	鬋
+jianv jianr jianx jianf	jiàn jiǎn jiān jián	tɕiã⁵¹ tɕiã²¹ tɕiã⁵⁵ tɕiã²⁴	楗
+jianv jianx jianr jianf	jiàn jiān jiǎn jián	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴	㢡㯍䮿俭儉剪劗奖奬寋帴拣挸揀揃搴柬桨检槳檢涧滪澗澦獎碱笕筧简簡繭翦芡茧蒋蔣蠒襺謇譾谫趼蹇頸颈鮝鯗鲞鹼𥀹𧮈
+jianv jianx jianr jianf ganv ganx ganr ganf	jiàn jiān jiǎn jián gàn gān gǎn gán	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ kã⁵¹ kã⁵⁵ kã²¹ kã²⁴	講讲
+jianv jianx jianr jianf jinv jinf jinx jinr	jiàn jiān jiǎn jián jìn jín jīn jǐn	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ tɕĩ⁵¹ tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ²¹	刭剄
+jianv jianx jianr jianf jinv jinf jinx jinr qinr qinx qinv qinf	jiàn jiān jiǎn jián jìn jín jīn jǐn qǐn qīn qìn qín	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ tɕĩ⁵¹ tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ²¹ tɕʰĩ²¹ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²⁴	㯳擏
+jianv jianx jianr jianf lianv lianx lianr lianf	jiàn jiān jiǎn jián liàn liān liǎn lián	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ liã⁵¹ liã⁵⁵ liã²¹ liã²⁴	捡撿睑瞼
+jianv jianx jianr jianf ranv ranx ranr ranf	jiàn jiān jiǎn jián ràn rān rǎn rán	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ zã⁵¹ zã⁵⁵ zã²¹ zã²⁴	卬
+jianv jianx jianr jianf xianv xianx xianr xianf	jiàn jiān jiǎn jián xiàn xiān xiǎn xián	tɕiã⁵¹ tɕiã⁵⁵ tɕiã²¹ tɕiã²⁴ ɕiã⁵¹ ɕiã⁵⁵ ɕiã²¹ ɕiã²⁴	想
+jianx jianf jianv jianr	jiān jián jiàn jiǎn	tɕiã⁵⁵ tɕiã²⁴ tɕiã⁵¹ tɕiã²¹	将將
+jianx jianv jianr jianf	jiān jiàn jiǎn jián	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴	䅌䕬䗵䭈傹僵坚堅壃奸姜姦尖彊捐枭梟橿殭江涓煎玒甄畺疆睊礓絹繮绢缰肩薑豜豣鞬韁飦鵑鵳鹃𣘖𧅁𫗞
+jianx jianv jianr jianf ganx ganv ganr ganf	jiān jiàn jiǎn jián gān gàn gǎn gán	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ kã⁵⁵ kã⁵¹ kã²¹ kã²⁴	艰艱
+jianx jianv jianr jianf luanr luanx luanv luanf	jiān jiàn jiǎn jián luǎn luān luàn luán	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ luã²¹ luã⁵⁵ luã⁵¹ luã²⁴	鋗𫓶
+jianx jianv jianr jianf qianx qianv qianr qianf	jiān jiàn jiǎn jián qiān qiàn qiǎn qián	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	瀸熸𦾶
+jianx jianv jianr jianf qianx qianv qianr qianf qinf qinx qinv qinr	jiān jiàn jiǎn jián qiān qiàn qiǎn qián qín qīn qìn qǐn	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴ tɕʰĩ²⁴ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²¹	湛
+jianx jianv jianr jianf yanx yanv yanr yanf	jiān jiàn jiǎn jián yān yàn yǎn yán	tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴ iã⁵⁵ iã⁵¹ iã²¹ iã²⁴	䅧恹懨猒
+jiaof jiaox jiaov jiaor	jiáo jiāo jiào jiǎo	tɕiau²⁴ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹	藠轎轿
+jiaof jiaox jiaov jiaor gaof gaox gaov gaor	jiáo jiāo jiào jiǎo gáo gāo gào gǎo	tɕiau²⁴ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹ kau²⁴ kau⁵⁵ kau⁵¹ kau²¹	叫
+jiaor jiaox jiaov jiaof	jiǎo jiāo jiào jiáo	tɕiau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²⁴	䡈傕屩屫捔斠桷梏榷爵玨瑴脚腳觳蹻龣𪨗𫏋
+jiaor jiaox jiaov jiaof gor gox gov gof	jiǎo jiāo jiào jiáo gǒ gō gò gó	tɕiau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²⁴ kuɔ²¹ kuɔ⁵⁵ kuɔ⁵¹ kuɔ²⁴	角
+jiaor jiaox jiaov jiaof qiaof qiaox qiaov qiaor	jiǎo jiāo jiào jiáo qiáo qiāo qiào qiǎo	tɕiau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²⁴ tɕʰiau²⁴ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²¹	嚼
+jiaor jiaox jiaov jiaof qiaor qiaox qiaov qiaof	jiǎo jiāo jiào jiáo qiǎo qiāo qiào qiáo	tɕiau²¹ tɕiau⁵⁵ tɕiau⁵¹ tɕiau²⁴ tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴	爝
+jiaov jiaox jiaor jiaof	jiào jiāo jiǎo jiáo	tɕiau⁵¹ tɕiau⁵⁵ tɕiau²¹ tɕiau²⁴	佼剿劋姣捁搅攪樔湫狡筊絞繳绞缴較较鉸铰餃饺𠞰
+jiaox jiaof jiaov jiaor	jiāo jiáo jiào jiǎo	tɕiau⁵⁵ tɕiau²⁴ tɕiau⁵¹ tɕiau²¹	教
+jiaox jiaov jiaor jiaof	jiāo jiào jiǎo jiáo	tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹ tɕiau²⁴	䴔交僬嘐噍娇嬌嶕憍憿敎椒浇澆焦穚胶膠膲蕉蛟轇郊鐎驍驕骁骄鮫鲛鵁鷦鷮鹪𠴫𣻏𨱓𪚰𫐖
+jiaox jiaov jiaor jiaof duif duix duiv duir	jiāo jiào jiǎo jiáo duí duī duì duǐ	tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹ tɕiau²⁴ tuei²⁴ tuei⁵⁵ tuei⁵¹ tuei²¹	碓
+jiaox jiaov jiaor jiaof gaof gaox gaov gaor	jiāo jiào jiǎo jiáo gáo gāo gào gǎo	tɕiau⁵⁵ tɕiau⁵¹ tɕiau²¹ tɕiau²⁴ kau²⁴ kau⁵⁵ kau⁵¹ kau²¹	跤
+jiar jiax jiav jiaf	jiǎ jiā jià jiá	tɕia²¹ tɕia⁵⁵ tɕia⁵¹ tɕia²⁴	胛裌郏郟鉀钾
+jiar jiax jiav jiaf gar gax gav gaf	jiǎ jiā jià jiá gǎ gā gà gá	tɕia²¹ tɕia⁵⁵ tɕia⁵¹ tɕia²⁴ ka²¹ ka⁵⁵ ka⁵¹ ka²⁴	甲
+jiav jiax jiar jiaf	jià jiā jiǎ jiá	tɕia⁵¹ tɕia⁵⁵ tɕia²¹ tɕia²⁴	假
+jiax jiav jiar jiaf	jiā jià jiǎ jiá	tɕia⁵⁵ tɕia⁵¹ tɕia²¹ tɕia²⁴	伽佳嘉珈笳耞袈豭跏迦鴐麚𫛤
+jiax jiav jiar jiaf gax gav gar gaf	jiā jià jiǎ jiá gā gà gǎ gá	tɕia⁵⁵ tɕia⁵¹ tɕia²¹ tɕia²⁴ ka⁵⁵ ka⁵¹ ka²¹ ka²⁴	加家
+jiax jiav jiar jiaf xiar xiax xiav xiaf	jiā jià jiǎ jiá xiǎ xiā xià xiá	tɕia⁵⁵ tɕia⁵¹ tɕia²¹ tɕia²⁴ ɕia²¹ ɕia⁵⁵ ɕia⁵¹ ɕia²⁴	葭
+jief jiex jiev jier	jié jiē jiè jiě	tɕiɛ²⁴ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²¹	借
+jief jiex jiev jier gaif gaix gaiv gair	jié jiē jiè jiě gái gāi gài gǎi	tɕiɛ²⁴ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²¹ kai²⁴ kai⁵⁵ kai⁵¹ kai²¹	介
+jier jiex jiev jief	jiě jiē jiè jié	tɕiɛ²¹ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²⁴	偈傑决厥唊堨婕孑岊抉接朅杰桀椄楫楬楶榤檝決洁浃浹潔玦疖瘚癤睫矞碣竭節結絕絜絶结绝羯节菨蕨蚗蟨袺觖觼訐訣譎讦诀谲趹跲鐍駃鴂鴃𢴲𣚃𧤾𨥂𫔎𫘝𫛞
+jier jiex jiev jief suf sux suv sur	jiě jiē jiè jié sú sū sù sǔ	tɕiɛ²¹ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²⁴ su²⁴ su⁵⁵ su⁵¹ su²¹	潏
+jiev jiex jier jief	jiè jiē jiě jié	tɕiɛ⁵¹ tɕiɛ⁵⁵ tɕiɛ²¹ tɕiɛ²⁴	姐抯飷
+jiex jiev jier jief	jiē jiè jiě jié	tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²¹ tɕiɛ²⁴	噘揭
+jiex jiev jier jief qir qix qiv qif	jiē jiè jiě jié qǐ qī qì qí	tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²¹ tɕiɛ²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	倔
+jif jix jiv jir	jí jī jì jǐ	tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹	㡭㪺係俱倨具兾冀凥剧劇勮句垍塈妎妓季寄寠屐屦屨巨己徛忌惎惧懅懻懼技拒据據既旣暨曁椐歫洎漑瀱炬狾猘琚瘈盻祭禊秬穄穊簴紒絇繫繼继罽聚臮芰苣蒟蓟薊蘧虡蚷裾覬觊計記詎諅计记讵跔距跽踞轚遽醵鉅鐻际際霁霽鞻颶飓駏驥骥髻鵋鶋齲龋𠙏𡨢𦇧𧣒𨜒𩜃𩦸𪧘
+jif jix jiv jir aor aox aov aof	jí jī jì jǐ ǎo āo ào áo	tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹ au²¹ au⁵⁵ au⁵¹ au²⁴	痀
+jif jix jiv jir geif geix geiv geir	jí jī jì jǐ géi gēi gèi gěi	tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹ kei²⁴ kei⁵⁵ kei⁵¹ kei²¹	鋸锯
+jif jix jiv jir luiv luif luix luir lour loux louv louf	jí jī jì jǐ luì luí luī luǐ lǒu lōu lòu lóu	tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹ luei⁵¹ luei²⁴ luei⁵⁵ luei²¹ lou²¹ lou⁵⁵ lou⁵¹ lou²⁴	窭窶
+jinf jinx jinv jinr	jín jīn jìn jǐn	tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹	㵾䝼䞍俊俓僒儁儆净劲勁囷境径徑搢敬晉晋晙曔桱檠淨淸獍瑨畯禁穽窘竞竟竣競箘縉繕缙缮荩菌藎蜠誩賮贐赆近进迳逕進郡鏡镜阱靓靖靘靚餕馂𠇹𠲮𣐕𥪰𩓞𩰰𩰹𪷍
+jinf jinx jinv jinr qianr qianx qianv qianf suanx suanv suanr suanf	jín jīn jìn jǐn qiǎn qiān qiàn qián suān suàn suǎn suán	tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕʰiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²⁴ suã⁵⁵ suã⁵¹ suã²¹ suã²⁴	㕙
+jinf jinx jinv jinr qinf qinx qinv qinr	jín jīn jìn jǐn qín qīn qìn qǐn	tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕʰĩ²⁴ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²¹	凊圊
+jinf jinx jinv jinr suanx suanv suanr suanf	jín jīn jìn jǐn suān suàn suǎn suán	tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ suã⁵⁵ suã⁵¹ suã²¹ suã²⁴	狻
+jinf jinx jinv jinr xinr xinx xinv xinf	jín jīn jìn jǐn xǐn xīn xìn xín	tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ ɕĩ²¹ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²⁴	峻駿骏
+jinv jinf jinx jinr	jìn jín jīn jǐn	tɕĩ⁵¹ tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ²¹	尽盡
+jinv jinx jinr jinf	jìn jīn jǐn jín	tɕĩ⁵¹ tɕĩ⁵⁵ tɕĩ²¹ tɕĩ²⁴	井仅僅卺噤堇巹景槿殣瑾紧緊菫襟覲觐謹警谨錦锦饉馑𢬬
+jinx jinv jinr jinf	jīn jìn jǐn jín	tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕĩ²⁴	㽦䪫䴖京兢军君均巾惊斤旌旍晶泾津涇珩琎璡畊皲皸睛矜筋精經经茎荆荊莖菁蘅衿袀軍金釿鈞钧靑頵驚鶄麏麕麖麠𨿬𪂴𫖳𬬱
+jinx jinv jinr jinf qinr qinx qinv qinf	jīn jìn jǐn jín qǐn qīn qìn qín	tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕĩ²⁴ tɕʰĩ²¹ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²⁴	麇
+jinx jinv jinr jinf yinr yinx yinv yinf	jīn jìn jǐn jín yǐn yīn yìn yín	tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕĩ²⁴ ĩ²¹ ĩ⁵⁵ ĩ⁵¹ ĩ²⁴	畇
+jinx jinv jinr jinf zenx zenv zenr zenf	jīn jìn jǐn jín zēn zèn zěn zén	tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹ tɕĩ²⁴ tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹ tsɜ̃²⁴	今
+jiongr jiongx jiongv jiongf	jiǒng jiōng jiòng jióng	tɕiɔ̃²¹ tɕiɔ̃⁵⁵ tɕiɔ̃⁵¹ tɕiɔ̃²⁴	枞樅踪蹤
+jiongr jiongx jiongv jiongf zongf zongx zongv zongr	jiǒng jiōng jiòng jióng zóng zōng zòng zǒng	tɕiɔ̃²¹ tɕiɔ̃⁵⁵ tɕiɔ̃⁵¹ tɕiɔ̃²⁴ tsɔ̃²⁴ tsɔ̃⁵⁵ tsɔ̃⁵¹ tsɔ̃²¹	縱纵
+jir jif jix jiv	jǐ jí jī jì	tɕi²¹ tɕi²⁴ tɕi⁵⁵ tɕi⁵¹	集
+jir jix jiv jif	jǐ jī jì jí	tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴	㗱㘲㥛㦸䘿䴗伋击劬勣匊即卽及吉咠唧圾堲塉墼嫉寂局岌崱急戟挶掬撠擊极梮棘極橘殛汲潗激獝玃璩疾瘠癯碛磧磲积稷稽積笈籍級緝績繘级绩缉耤脊腒臞荝菊萴葺蒺蕖藉蘜衢襋諿跡跼踖踘蹐蹟躆輂輯辑迹鏶鞫鯽鰿鲫鴝鵴鶪鸜鸲𧩦𨸰𩛺𪟝
+jir jix jiv jif qir qix qiv qif	jǐ jī jì jí qǐ qī qì qí	tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	渠鞠
+jir jix jiv jif yif yix yiv yir yur yux yuv yuf	jǐ jī jì jí yí yī yì yǐ yǔ yū yù yú	tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴ i²⁴ i⁵⁵ i⁵¹ i²¹ iu²¹ iu⁵⁵ iu⁵¹ iu²⁴	崛
+jir jix jiv jif zir zix ziv zif	jǐ jī jì jí zǐ zī zì zí	tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	汁
+jiuf jiux jiuv jiur	jiú jiū jiù jiǔ	tɕiu²⁴ tɕiu⁵⁵ tɕiu⁵¹ tɕiu²¹	㠇䛮厩咎就廄廐救旧柩疚臼舅舊鷲鹫麔𧧷
+jiuv jiux jiur jiuf	jiù jiū jiǔ jiú	tɕiu⁵¹ tɕiu⁵⁵ tɕiu²¹ tɕiu²⁴	久九朻灸玖糺赳酒韭𫄙
+jiux jiuv jiur jiuf	jiū jiù jiǔ jiú	tɕiu⁵⁵ tɕiu⁵¹ tɕiu²¹ tɕiu²⁴	樛究糾纠阄鬏鬮鳩鸠
+jiux jiuv jiur jiuf qiur qiux qiuv qiuf	jiū jiù jiǔ jiú qiǔ qiū qiù qiú	tɕiu⁵⁵ tɕiu⁵¹ tɕiu²¹ tɕiu²⁴ tɕʰiu²¹ tɕʰiu⁵⁵ tɕʰiu⁵¹ tɕʰiu²⁴	捄
+jiv jif jix jir	jì jí jī jǐ	tɕi⁵¹ tɕi²⁴ tɕi⁵⁵ tɕi²¹	紀纪
+jiv jix jir jif	jì jī jǐ jí	tɕi⁵¹ tɕi⁵⁵ tɕi²¹ tɕi²⁴	㲹举几幾挤擠矩穖舉虀虮蟣賷跻躋隮麂齏齑𧆌𬯀
+jiv jix jir jif yiv yix yir yif	jì jī jǐ jí yì yī yǐ yí	tɕi⁵¹ tɕi⁵⁵ tɕi²¹ tɕi²⁴ i⁵¹ i⁵⁵ i²¹ i²⁴	已
+jix jir jiv jif	jī jǐ jì jí	tɕi⁵⁵ tɕi²¹ tɕi⁵¹ tɕi²⁴	济濟
+jix jiv jir jif	jī jì jǐ jí	tɕi⁵⁵ tɕi⁵¹ tɕi²¹ tɕi²⁴	䩭乩倚刏剞叽嘰基姬居拘掎敧朞机枅機玑璣畸矶磯祺禨竒笄筓箕羁羇羈耭肌萁觭諆譏讥踑踦錤鐖雞鞿飢饑饥駒驹鷄鸡𢽽𩨒𫓹
+kaif kaix kaiv kair	kái kāi kài kǎi	kʰai²⁴ kʰai⁵⁵ kʰai⁵¹ kʰai²¹	摡概槩溉
+kaiv kaix kair kaif	kài kāi kǎi kái	kʰai⁵¹ kʰai⁵⁵ kʰai²¹ kʰai²⁴	凯凱嘅垲塏恺愷慨楷槪欬礚鎧铠闓闿
+kaiv kaix kair kaif qir qix qiv qif	kài kāi kǎi kái qǐ qī qì qí	kʰai⁵¹ kʰai⁵⁵ kʰai²¹ kʰai²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	忾愾
+kaix kaiv kair kaif	kāi kài kǎi kái	kʰai⁵⁵ kʰai⁵¹ kʰai²¹ kʰai²⁴	开揩開
+kanf kanx kanv kanr	kán kān kàn kǎn	kʰã²⁴ kʰã⁵⁵ kʰã⁵¹ kʰã²¹	伉忼抗沆炕犺看砊閌闶
+kanv kanx kanr kanf	kàn kān kǎn kán	kʰã⁵¹ kʰã⁵⁵ kʰã²¹ kʰã²⁴	侃坎惂戡欿砍轗龕龛𢦟𫐘
+kanx kanv kanr kanf	kān kàn kǎn kán	kʰã⁵⁵ kʰã⁵¹ kʰã²¹ kʰã²⁴	刊勘堪嵁嵌康慷栞瞰磡穅糠𤮊
+kaof kaox kaov kaor	káo kāo kào kǎo	kʰau²⁴ kʰau⁵⁵ kʰau⁵¹ kʰau²¹	銬铐靠
+kaov kaox kaor kaof	kào kāo kǎo káo	kʰau⁵¹ kʰau⁵⁵ kʰau²¹ kʰau²⁴	攷栲槀槁烤燺祰考薧
+kaox kaov kaor kaof qiaox qiaov qiaor qiaof	kāo kào kǎo káo qiāo qiào qiǎo qiáo	kʰau⁵⁵ kʰau⁵¹ kʰau²¹ kʰau²⁴ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²¹ tɕʰiau²⁴	敲
+kar kax kav kaf	kǎ kā kà ká	kʰa²¹ kʰa⁵⁵ kʰa⁵¹ kʰa²⁴	掐
+kav kax kar kaf	kà kā kǎ ká	kʰa⁵¹ kʰa⁵⁵ kʰa²¹ kʰa²⁴	卡
+kax kav kar kaf	kā kà kǎ ká	kʰa⁵⁵ kʰa⁵¹ kʰa²¹ kʰa²⁴	韮
+keir keix keiv keif	kěi kēi kèi kéi	kʰei²¹ kʰei⁵⁵ kʰei⁵¹ kʰei²⁴	刻剋咳喀客磕蛤
+keir keix keiv keif kaiv kaix kair kaif	kěi kēi kèi kéi kài kāi kǎi kái	kʰei²¹ kʰei⁵⁵ kʰei⁵¹ kʰei²⁴ kʰai⁵¹ kʰai⁵⁵ kʰai²¹ kʰai²⁴	克
+kenv kenx kenr kenf	kèn kēn kěn kén	kʰɜ̃⁵¹ kʰɜ̃⁵⁵ kʰɜ̃²¹ kʰɜ̃²⁴	啃垦墾恳懇肎肯肻貇齦龈
+kenx kenv kenr kenf	kēn kèn kěn kén	kʰɜ̃⁵⁵ kʰɜ̃⁵¹ kʰɜ̃²¹ kʰɜ̃²⁴	䃘坑牼硁硜誙鏗铿阬
+kof kox kov kor	kó kō kò kǒ	kʰuɔ²⁴ kʰuɔ⁵⁵ kʰuɔ⁵¹ kʰuɔ²¹	課课
+kongf kongx kongv kongr	kóng kōng kòng kǒng	kʰɔ̃²⁴ kʰɔ̃⁵⁵ kʰɔ̃⁵¹ kʰɔ̃²¹	控鞚
+kongv kongx kongr kongf	kòng kōng kǒng kóng	kʰɔ̃⁵¹ kʰɔ̃⁵⁵ kʰɔ̃²¹ kʰɔ̃²⁴	倥孔恐
+kongx kongf kongv kongr	kōng kóng kòng kǒng	kʰɔ̃⁵⁵ kʰɔ̃²⁴ kʰɔ̃⁵¹ kʰɔ̃²¹	空
+kor kox kov kof	kǒ kō kò kó	kʰuɔ²¹ kʰuɔ⁵⁵ kʰuɔ⁵¹ kʰuɔ²⁴	壳殼渴闊阔
+kor kox kov kof	kǒ kō kò kó	kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴	嗑廓扩搉擴漷珏鞹
+kor kox kov kof hor hox hov hof	kǒ kō kò kó hǒ hō hò hó	kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴ xɔ²¹ xɔ⁵⁵ xɔ⁵¹ xɔ²⁴	豁
+kor kox kov kof qir qix qiv qif	kǒ kō kò kó qǐ qī qì qí	kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	躩
+kor kox kov kof xiaor xiaox xiaov xiaof	kǒ kō kò kó xiǎo xiāo xiào xiáo	kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴ ɕiau²¹ ɕiau⁵⁵ ɕiau⁵¹ ɕiau²⁴	翯
+kouf koux kouv kour	kóu kōu kòu kǒu	kʰou²⁴ kʰou⁵⁵ kʰou⁵¹ kʰou²¹	叩寇扣蔻𡨥
+kouv koux kour kouf	kòu kōu kǒu kóu	kʰou⁵¹ kʰou⁵⁵ kʰou²¹ kʰou²⁴	口釦𧥣
+koux kour kouv kouf	kōu kǒu kòu kóu	kʰou⁵⁵ kʰou²¹ kʰou⁵¹ kʰou²⁴	抠摳
+koux kouv kour kouf	kōu kòu kǒu kóu	kʰou⁵⁵ kʰou⁵¹ kʰou²¹ kʰou²⁴	彄眍瞘𫸩
+kov kor kox kof	kò kǒ kō kó	kʰuɔ⁵¹ kʰuɔ²¹ kʰuɔ⁵⁵ kʰuɔ²⁴	𤸎
+kov kox kor kof	kò kō kǒ kó	kʰuɔ⁵¹ kʰuɔ⁵⁵ kʰuɔ²¹ kʰuɔ²⁴	可坷軻轲
+kov kox kor kof	kò kō kǒ kó	kʰɔ⁵¹ kʰɔ⁵⁵ kʰɔ²¹ kʰɔ²⁴	棵顆颗
+kox kov kor kof	kō kò kǒ kó	kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²¹ kʰɔ²⁴	科窠薖蝌
+kuaif kuaix kuaiv kuair	kuái kuāi kuài kuǎi	kʰuai²⁴ kʰuai⁵⁵ kʰuai⁵¹ kʰuai²¹	㻅䯤侩儈刽劊廥快愦慖憒旝枘汭璯筷脍膾芮蜹襘郐鄶鱠鲙𥢶𩩈𫋻𫞷
+kuaif kuaix kuaiv kuair sir six siv sif wax wav war waf	kuái kuāi kuài kuǎi sǐ sī sì sí wā wà wǎ wá	kʰuai²⁴ kʰuai⁵⁵ kʰuai⁵¹ kʰuai²¹ sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴ ua⁵⁵ ua⁵¹ ua²¹ ua²⁴	桧檜鬠𫘽
+kuaiv kuaif kuaix kuair	kuài kuái kuāi kuǎi	kʰuai⁵¹ kʰuai²⁴ kʰuai⁵⁵ kʰuai²¹	凷哙噲𦳋
+kuaiv kuaix kuair kuaif	kuài kuāi kuǎi kuái	kʰuai⁵¹ kʰuai⁵⁵ kʰuai²¹ kʰuai²⁴	傀喟块塊蒯
+kuanf kuanx kuanv kuanr	kuán kuān kuàn kuǎn	kʰuã²⁴ kʰuã⁵⁵ kʰuã⁵¹ kʰuã²¹	况圹壙懬懭旷曠況犷獷矌矿礦絖纊纩貺贶軦鑛𣍦𪍿
+kuanr kuanx kuanv kuanf	kuǎn kuān kuàn kuán	kʰuã²¹ kʰuã⁵⁵ kʰuã⁵¹ kʰuã²⁴	㤮狂臦誑诳軖𠉫
+kuanr kuanx kuanv kuanf wanf wanx wanv wanr	kuǎn kuān kuàn kuán wán wān wàn wǎn	kʰuã²¹ kʰuã⁵⁵ kʰuã⁵¹ kʰuã²⁴ uã²⁴ uã⁵⁵ uã⁵¹ uã²¹	迋
+kuanv kuanx kuanr kuanf	kuàn kuān kuǎn kuán	kʰuã⁵¹ kʰuã⁵⁵ kʰuã²¹ kʰuã²⁴	掼摜梡欵款皖窾
+kuanx kuanv kuanr kuanf	kuān kuàn kuǎn kuán	kʰuã⁵⁵ kʰuã⁵¹ kʰuã²¹ kʰuã²⁴	劻匡宽寛寬恇框洭眶筐髋髖
+kuav kuax kuar kuaf	kuà kuā kuǎ kuá	kʰua⁵¹ kʰua⁵⁵ kʰua²¹ kʰua²⁴	垮
+kuav kuax kuar kuaf kaf kax kav kar	kuà kuā kuǎ kuá ká kā kà kǎ	kʰua⁵¹ kʰua⁵⁵ kʰua²¹ kʰua²⁴ kʰa²⁴ kʰa⁵⁵ kʰa⁵¹ kʰa²¹	胯
+kuax kuav kuar kuaf	kuā kuà kuǎ kuá	kʰua⁵⁵ kʰua⁵¹ kʰua²¹ kʰua²⁴	夸誇
+kuax kuav kuar kuaf qiaf qiax qiav qiar	kuā kuà kuǎ kuá qiá qiā qià qiǎ	kʰua⁵⁵ kʰua⁵¹ kʰua²¹ kʰua²⁴ tɕʰia²⁴ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²¹	跨
+kuf kux kuv kur	kú kū kù kǔ	kʰu²⁴ kʰu⁵⁵ kʰu⁵¹ kʰu²¹	库庫絝绔袴裤褲
+kuif kuix kuiv kuir	kuí kuī kuì kuǐ	kʰuei²⁴ kʰuei⁵⁵ kʰuei⁵¹ kʰuei²¹	廻愧溃潰
+kuir kuix kuiv kuif	kuǐ kuī kuì kuí	kʰuei²¹ kʰuei⁵⁵ kʰuei⁵¹ kʰuei²⁴	夔奎戣楑犪葵逵鄈頯騤骙
+kuir kuix kuiv kuif qiur qiux qiuv qiuf	kuǐ kuī kuì kuí qiǔ qiū qiù qiú	kʰuei²¹ kʰuei⁵⁵ kʰuei⁵¹ kʰuei²⁴ tɕʰiu²¹ tɕʰiu⁵⁵ tɕʰiu⁵¹ tɕʰiu²⁴	頄馗
+kuix kuir kuiv kuif	kuī kuǐ kuì kuí	kʰuei⁵⁵ kʰuei²¹ kʰuei⁵¹ kʰuei²⁴	𠝥
+kuix kuiv kuir kuif	kuī kuì kuǐ kuí	kʰuei⁵⁵ kʰuei⁵¹ kʰuei²¹ kʰuei²⁴	亏刲岿巋暌盔睽窥窺聧蘬虧詼诙闚魁𦺕𧇾𧢦𩏣
+kunf kunx kunv kunr	kún kūn kùn kǔn	kʰuɜ̃²⁴ kʰuɜ̃⁵⁵ kʰuɜ̃⁵¹ kʰuɜ̃²¹	困睏
+kunv kunf kunx kunr	kùn kún kūn kǔn	kʰuɜ̃⁵¹ kʰuɜ̃²⁴ kʰuɜ̃⁵⁵ kʰuɜ̃²¹	壸壼梱閫阃
+kunv kunx kunr kunf	kùn kūn kǔn kún	kʰuɜ̃⁵¹ kʰuɜ̃⁵⁵ kʰuɜ̃²¹ kʰuɜ̃²⁴	悃捆稇齫
+kunx kunv kunr kunf	kūn kùn kǔn kún	kʰuɜ̃⁵⁵ kʰuɜ̃⁵¹ kʰuɜ̃²¹ kʰuɜ̃²⁴	坤崐崑昆琨裈裩褌錕锟髠髡鯤鲲鵾鹍
+kur kux kuv kuf	kǔ kū kù kú	kʰu²¹ kʰu⁵⁵ kʰu⁵¹ kʰu²⁴	哭喾嚳堀矻窟酷顝𩑔𩨳𫖪
+kuv kux kur kuf	kù kū kǔ kú	kʰu⁵¹ kʰu⁵⁵ kʰu²¹ kʰu²⁴	䇢苦
+kux kuv kur kuf	kū kù kǔ kú	kʰu⁵⁵ kʰu⁵¹ kʰu²¹ kʰu²⁴	刳恗枯
+laf lax lav lar	lá lā là lǎ	la²⁴ la⁵⁵ la⁵¹ la²¹	那
+laif laix laiv lair	lái lāi lài lǎi	lai²⁴ lai⁵⁵ lai⁵¹ lai²¹	䄤俫倈勑奈徕徠柰濑瀨癞癩睐睞籁籟耐莱萊藾襰賚賴赉赖𠡠𧝝
+lair laix laiv laif	lǎi lāi lài lái	lai²¹ lai⁵⁵ lai⁵¹ lai²⁴	來来騋
+laiv laif laix lair	lài lái lāi lǎi	lai⁵¹ lai²⁴ lai⁵⁵ lai²¹	鼐
+laiv laix laif lair	lài lāi lái lǎi	lai⁵¹ lai⁵⁵ lai²⁴ lai²¹	奶
+laiv laix lair laif	lài lāi lǎi lái	lai⁵¹ lai⁵⁵ lai²¹ lai²⁴	㚷乃妳嬭迺𣉘
+lanf lanv lanx lanr	lán làn lān lǎn	lã²⁴ lã⁵¹ lã⁵⁵ lã²¹	浪
+lanf lanx lanv lanr	lán lān làn lǎn	lã²⁴ lã⁵⁵ lã⁵¹ lã²¹	烂爛
+lanr lanf lanx lanv	lǎn lán lān làn	lã²¹ lã²⁴ lã⁵⁵ lã⁵¹	难難
+lanr lanx lanv lanf	lǎn lān làn lán	lã²¹ lã⁵⁵ lã⁵¹ lã²⁴	兰南喃囊婪岚嵐幱廊惏拦攔斓斕枏柟栏桹楠榔欄欗燣燷爁狼琅瑯男硠稂筤篮籃蓈蓝藍蘭螂褴襕襤襴諵躝郎鋃锒閬闌阆阑𢅡𨅬𨷻
+lanv lanr lanx lanf	làn lǎn lān lán	lã⁵¹ lã²¹ lã⁵⁵ lã²⁴	㳕澜瀾灡讕谰
+lanv lanx lanr lanf	làn lān lǎn lán	lã⁵¹ lã⁵⁵ lã²¹ lã²⁴	㨫㩜㰖嚂壈嬾孏懒懢懶揽擥攬朗榄橄欖漤爦纜缆覧覽览𡒄𨎹𨣨
+lanx lanv lanr lanf	lān làn lǎn lán	lã⁵⁵ lã⁵¹ lã²¹ lã²⁴	躴
+laof laox laov laor	láo lāo lào lǎo	lau²⁴ lau⁵⁵ lau⁵¹ lau²¹	淖鐃铙閙闹鬧
+laof laox laov laor lof lox lov lor	láo lāo lào lǎo ló lō lò lǒ	lau²⁴ lau⁵⁵ lau⁵¹ lau²¹ lɔ²⁴ lɔ⁵⁵ lɔ⁵¹ lɔ²¹	掿
+laor laof laox laov	lǎo láo lāo lào	lau²¹ lau²⁴ lau⁵⁵ lau⁵¹	痨癆
+laor laox laov laof	lǎo lāo lào láo	lau²¹ lau⁵⁵ lau⁵¹ lau²⁴	䝁僗劳勞唠嘮嫪捞撈涝澇牢窂簩醪𧰉
+laov laox laor laof	lào lāo lǎo láo	lau⁵¹ lau⁵⁵ lau²¹ lau²⁴	㛴䕩䝤恅恼惱栳橑瑙碯老脑腦𠜶
+lar lax lav laf	lǎ lā là lá	la²¹ la⁵⁵ la⁵¹ la²⁴	㨥䄍乍剌吶呐拹拿捺搚摺焫爇納纳腊臈臘蚋蜡蠟衲軜辢辣鑞镴𦶟𧧻𫐇
+lav lax lar laf	là lā lǎ lá	la⁵¹ la⁵⁵ la²¹ la²⁴	哪喇
+lax lav lar laf	lā là lǎ lá	la⁵⁵ la⁵¹ la²¹ la²⁴	傩儺拉挪捼
+lenf lenr lenx lenv	lén lěn lēn lèn	lɜ̃²⁴ lɜ̃²¹ lɜ̃⁵⁵ lɜ̃⁵¹	燐甐粼轔辚
+lenf lenr lenx lenv lanr lanx lanv lanf	lén lěn lēn lèn lǎn lān làn lán	lɜ̃²⁴ lɜ̃²¹ lɜ̃⁵⁵ lɜ̃⁵¹ lã²¹ lã⁵⁵ lã⁵¹ lã²⁴	潾瞵
+lenf lenx lenv lenr	lén lēn lèn lěn	lɜ̃²⁴ lɜ̃⁵⁵ lɜ̃⁵¹ lɜ̃²¹	䗲令另吝媆悋粦腝蔺藺賃赁蹸躙轥遴閵𢙵𤗷𥳞𫔴
+lenf lenx lenv lenr lunf lunx lunv lunr	lén lēn lèn lěn lún lūn lùn lǔn	lɜ̃²⁴ lɜ̃⁵⁵ lɜ̃⁵¹ lɜ̃²¹ luɜ̃²⁴ luɜ̃⁵⁵ luɜ̃⁵¹ luɜ̃²¹	嫩
+lenr lenf lenx lenv	lěn lén lēn lèn	lɜ̃²¹ lɜ̃²⁴ lɜ̃⁵⁵ lɜ̃⁵¹	凌
+lenr lenx lenv lenf	lěn lēn lèn lén	lɜ̃²¹ lɜ̃⁵⁵ lɜ̃⁵¹ lɜ̃²⁴	㥄䔖临伶囹夌嶙昤朎林棂棽櫺欞泠淋淩澪灵玪玲琳璘瓴疄磷笭箖綝綾绫翎聆能臨苓菱蔆蛉軨輘邻鄰酃醽鈴铃陵隣零霖靈驎鯪鱗鲮鳞鴒鸰麟麢齡龄𣎎𣬹𤫊𥻘𦉢𦫃𧕅𪋓𫐉𬘭𬴊
+lenr lenx lenv lenf lunr lunx lunv lunf	lěn lēn lèn lén lǔn lūn lùn lún	lɜ̃²¹ lɜ̃⁵⁵ lɜ̃⁵¹ lɜ̃²⁴ luɜ̃²¹ luɜ̃⁵⁵ luɜ̃⁵¹ luɜ̃²⁴	蜦輪轮
+lenv lenx lenr lenf	lèn lēn lěn lén	lɜ̃⁵¹ lɜ̃⁵⁵ lɜ̃²¹ lɜ̃²⁴	冷凛凜廩廪懍懔檁檩袊領领
+lenv lenx lenr lenf liongv liongx liongr liongf	lèn lēn lěn lén liòng liōng liǒng lióng	lɜ̃⁵¹ lɜ̃⁵⁵ lɜ̃²¹ lɜ̃²⁴ liɔ̃⁵¹ liɔ̃⁵⁵ liɔ̃²¹ liɔ̃²⁴	岭嶺
+lianf lianx lianv lianr	lián liān liàn liǎn	liã²⁴ liã⁵⁵ liã⁵¹ liã²¹	䀶䁁倞哴娈孌恋悢戀挛掠攣楝湅炼煉緉練练諒谅鍊鏈链𣄵
+lianf lianx lianv lianr nianf nianx nianv nianr	lián liān liàn liǎn nián niān niàn niǎn	liã²⁴ liã⁵⁵ liã⁵¹ liã²¹ ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹	亮
+lianr lianf lianx lianv	liǎn lián liān liàn	liã²¹ liã²⁴ liã⁵⁵ liã⁵¹	量
+lianr lianx lianv lianf	liǎn liān liàn lián	liã²¹ liã⁵⁵ liã⁵¹ liã²⁴	㹁俍凉匳奁奩帘廉怜憐梁椋涟涼漣濂熑猃獫磏簾粮粱糧綡联聮聯臁良蔹蘞蜋踉輬辌鎌鐮镰𥖝𩗬𫟅
+lianr lianx lianv lianf nianr nianx nianv nianf	liǎn liān liàn lián niǎn niān niàn nián	liã²¹ liã⁵⁵ liã⁵¹ liã²⁴ ȵiã²¹ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²⁴	莲蓮连連
+lianv lianx lianr lianf	liàn liān liǎn lián	liã⁵¹ liã⁵⁵ liã²¹ liã²⁴	敛斂歛殓殮潋瀲脸臉輛辆魉魎
+lianv lianx lianr lianf nianv nianx nianr nianf	liàn liān liǎn lián niàn niān niǎn nián	liã⁵¹ liã⁵⁵ liã²¹ liã²⁴ ȵiã⁵¹ ȵiã⁵⁵ ȵiã²¹ ȵiã²⁴	两兩
+liaof liaor liaox liaov	liáo liǎo liāo liào	liau²⁴ liau²¹ liau⁵⁵ liau⁵¹	竂飉
+liaof liaox liaov liaor	liáo liāo liào liǎo	liau²⁴ liau⁵⁵ liau⁵¹ liau²¹	廖撩
+liaof liaox liaov liaor niaof niaox niaov niaor	liáo liāo liào liǎo niáo niāo niào niǎo	liau²⁴ liau⁵⁵ liau⁵¹ liau²¹ ȵiau²⁴ ȵiau⁵⁵ ȵiau⁵¹ ȵiau²¹	料
+liaor liaox liaov liaof	liǎo liāo liào liáo	liau²¹ liau⁵⁵ liau⁵¹ liau²⁴	㗉㙩䂮僚嘹寥寮尞嵺嶛敹潦熮燎獠瑵璙略疗療瞭笊簝繚缭翏聊膋膫豂轑辽遼鐐镣鷯鹩𤊽𤻲𥛰𦌒𧎾𧐑
+liaor liaox liaov liaof qinr qinx qinv qinf	liǎo liāo liào liáo qǐn qīn qìn qín	liau²¹ liau⁵⁵ liau⁵¹ liau²⁴ tɕʰĩ²¹ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²⁴	剠
+liaov liaor liaox liaof	liào liǎo liāo liáo	liau⁵¹ liau²¹ liau⁵⁵ liau²⁴	嫽
+liaov liaox liaor liaof	liào liāo liǎo liáo	liau⁵¹ liau⁵⁵ liau²¹ liau²⁴	了憭爒鄝釕钌
+lif lir lix liv	lí lǐ lī lì	li²⁴ li²¹ li⁵⁵ li⁵¹	丽麗
+lif lix liv lir	lí lī lì lǐ	li²⁴ li⁵⁵ li⁵¹ li²¹	㾐䬅例俐俪儷利励勵厉厲吏唳悷戾攦攭栵欐沴涖濿珕疠痢癘盭砺礪禲粝糲綟茘荔莅莉蒞蛎蠣詈迾隷𢿐𥃏𥣭𩗅𩗭𪲔𪵱𫄫
+lir lix liv lif	lǐ lī lì lí	li²¹ li⁵⁵ li⁵¹ li²⁴	㒿㛤㮚㰚䅘䅻䍠䍥䍦䕻䬆䶘仂儠冽凓剺劣勒厘厯埒嫠孋屴慄扐捩搮擸攡斄枥栗棃櫪歷氂沥泐洌溧漓瀝灕烈牦犂犛狸猎獵玏璃瓅瓈疬癧皪矖砾礫离穲笠篥篱籬粒縭纚缡罹肋艻苙茢蓠蔾藜蘺蛚蜊蠡裂褵貍跞躐躒迣邌郦酈醨釐鋝锊阞離霾颯颲飒驪骊鬣鷅鸝鹂黎黧𣲒𨛫𨿯𩆝𩘟𩭇𫄥𫛽𬍛
+lir lix liv lif nier niex niev nief	lǐ lī lì lí niě niē niè nié	li²¹ li⁵⁵ li⁵¹ li²⁴ ȵiɛ²¹ ȵiɛ⁵⁵ ȵiɛ⁵¹ ȵiɛ²⁴	列
+lir lix liv lif nir nix niv nif	lǐ lī lì lí nǐ nī nì ní	li²¹ li⁵⁵ li⁵¹ li²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴	力梨犁立雳靂
+lir lix liv lif qiaor qiaox qiaov qiaof	lǐ lī lì lí qiǎo qiāo qiào qiáo	li²¹ li⁵⁵ li⁵¹ li²⁴ tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴	㹱碏
+lir lix liv lif qiaor qiaox qiaov qiaof qir qix qiv qif	lǐ lī lì lí qiǎo qiāo qiào qiáo qǐ qī qì qí	li²¹ li⁵⁵ li⁵¹ li²⁴ tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	皵
+liur liux liuv liuf	liǔ liū liù liú	liu²¹ liu⁵⁵ liu⁵¹ liu²⁴	㳅刘劉憀懰旒榴橊浏漻瀏琉瑠瑬璢留畱疁瘤癅硫裗遛鏐鐂镠飀飂飗駵騮驑骝鶹鹠𨖻𪅳
+liur liux liuv liuf niur niux niuv niuf	liǔ liū liù liú niǔ niū niù niú	liu²¹ liu⁵⁵ liu⁵¹ liu²⁴ ȵiu²¹ ȵiu⁵⁵ ȵiu⁵¹ ȵiu²⁴	流
+liuv liux liur liuf	liù liū liǔ liú	liu⁵¹ liu⁵⁵ liu²¹ liu²⁴	柳罶𩖴
+liux liuv liur liuf	liū liù liǔ liú	liu⁵⁵ liu⁵¹ liu²¹ liu²⁴	塯廇溜霤餾馏鷚鹨𥥹
+liux liuv liur liuf lur lux luv luf	liū liù liǔ liú lǔ lū lù lú	liu⁵⁵ liu⁵¹ liu²¹ liu²⁴ lu²¹ lu⁵⁵ lu⁵¹ lu²⁴	鎦镏
+liv lix lir lif	lì lī lǐ lí	li⁵¹ li⁵⁵ li²¹ li²⁴	俚劙娌峛悝梩澧理盠礼禮裏豊逦邐醴里鯉鱧鲤鳢𠃞
+liv lix lir lif niv nix nir nif	lì lī lǐ lí nì nī nǐ ní	li⁵¹ li⁵⁵ li²¹ li²⁴ ȵi⁵¹ ȵi⁵⁵ ȵi²¹ ȵi²⁴	李
+lof lox lov lor	ló lō lò lǒ	lɔ²⁴ lɔ⁵⁵ lɔ⁵¹ lɔ²¹	摞稬糯逻邏
+lof lox lov lor ruanv ruanx ruanr ruanf	ló lō lò lǒ ruàn ruān ruǎn ruán	lɔ²⁴ lɔ⁵⁵ lɔ⁵¹ lɔ²¹ zuã⁵¹ zuã⁵⁵ zuã²¹ zuã²⁴	愞
+longf longr longx longv	lóng lǒng lōng lòng	lɔ̃²⁴ lɔ̃²¹ lɔ̃⁵⁵ lɔ̃⁵¹	砻礱
+longf longx longv longr	lóng lōng lòng lǒng	lɔ̃²⁴ lɔ̃⁵⁵ lɔ̃⁵¹ lɔ̃²¹	哢弄
+longr longx longv longf	lǒng lōng lòng lóng	lɔ̃²¹ lɔ̃⁵⁵ lɔ̃⁵¹ lɔ̃²⁴	㰍䃧䆍侬儂农咙嚨朧栊櫳珑瓏癃秾穠窿笼籠聋聾胧脓膿茏蘢襛襱谾豅農醲隆霳龍龙𩅽𩟭𪔳𪚝𬪩
+longr longx longv longf niongr niongx niongv niongf	lǒng lōng lòng lóng niǒng niōng niòng nióng	lɔ̃²¹ lɔ̃⁵⁵ lɔ̃⁵¹ lɔ̃²⁴ ȵiɔ̃²¹ ȵiɔ̃⁵⁵ ȵiɔ̃⁵¹ ȵiɔ̃²⁴	浓濃
+longv longx longr longf	lòng lōng lǒng lóng	lɔ̃⁵¹ lɔ̃⁵⁵ lɔ̃²¹ lɔ̃²⁴	垄垅壟壠拢攏昽曨篢陇隴鸗𫛟𬕂
+lor lox lov lof	lǒ lō lò ló	luɔ²¹ luɔ⁵⁵ luɔ⁵¹ luɔ²⁴	㑩儸攞椤欏箩籮萝落蘿螺蠃鑼锣饠驘𡏱𤄷𥡜𨰠𪶒𫗩
+lor lox lov lof	lǒ lō lò ló	lɔ²¹ lɔ⁵⁵ lɔ⁵¹ lɔ²⁴	㓢搦栎櫟泺洛濼烙犖珞硌絡络罗羅脶腡荦諾诺轢轹酪雒駱騾骆骡𩂣
+lor lox lov lof yaor yaox yaov yaof	lǒ lō lò ló yǎo yāo yào yáo	lɔ²¹ lɔ⁵⁵ lɔ⁵¹ lɔ²⁴ iau²¹ iau⁵⁵ iau⁵¹ iau²⁴	乐樂
+louf loux louv lour	lóu lōu lòu lǒu	lou²⁴ lou⁵⁵ lou⁵¹ lou²¹	屚漏瘺陋
+lour louv loux louf	lǒu lòu lōu lóu	lou²¹ lou⁵¹ lou⁵⁵ lou²⁴	搂摟
+lour loux louv louf	lǒu lōu lòu lóu	lou²¹ lou⁵⁵ lou⁵¹ lou²⁴	廔楼樓艛蝼螻髅髏
+louv loux lour louf	lòu lōu lǒu lóu	lou⁵¹ lou⁵⁵ lou²¹ lou²⁴	塿篓簍縷缕𪣻
+lov lox lor lof	lò lō lǒ ló	lɔ⁵¹ lɔ⁵⁵ lɔ²¹ lɔ²⁴	瘰砢臝蓏裸躶𤼠
+lov lox lor lof luanv luanx luanr luanf	lò lō lǒ ló luàn luān luǎn luán	lɔ⁵¹ lɔ⁵⁵ lɔ²¹ lɔ²⁴ luã⁵¹ luã⁵⁵ luã²¹ luã²⁴	卵
+lox lor lov lof	lō lǒ lò ló	lɔ⁵⁵ lɔ²¹ lɔ⁵¹ lɔ²⁴	啰囉
+luanf luanx luanv luanr	luán luān luàn luǎn	luã²⁴ luã⁵⁵ luã⁵¹ luã²¹	乱亂
+luanr luanv luanx luanf	luǎn luàn luān luán	luã²¹ luã⁵¹ luã⁵⁵ luã²⁴	暖
+luanr luanx luanv luanf	luǎn luān luàn luán	luã²¹ luã⁵⁵ luã⁵¹ luã²⁴	䴉儇咺圝圞埙塤壎孪孿峦巒暄栾欒滦灤煖煗狟羉翾萱蠉諠諼譞谖銮鑾餪鸞鸾鹮𩙽𪢮𫍽𫗬
+luanr luanx luanv luanf xianf xianx xianv xianr	luǎn luān luàn luán xián xiān xiàn xiǎn	luã²¹ luã⁵⁵ luã⁵¹ luã²⁴ ɕiã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹	駽
+luf lux luv lur	lú lū lù lǔ	lu²⁴ lu⁵⁵ lu⁵¹ lu²¹	怒潞璐簬簵訥讷賂赂路露鷺鹭
+luif luix luiv luir	luí luī luì luǐ	luei²⁴ luei⁵⁵ luei⁵¹ luei²¹	內内慮攂泪淚滤濾禷类纇虑諉诿酹類颣
+luir luix luiv luif	luǐ luī luì luí	luei²¹ luei⁵⁵ luei⁵¹ luei²⁴	擂榈檑櫚欙氀瓃瘘瘻縲纝缧罍羸胪臚藘閭闾雷驢驴
+luir luix luiv luif louf loux louv lour	luǐ luī luì luí lóu lōu lòu lǒu	luei²¹ luei⁵⁵ luei⁵¹ luei²⁴ lou²⁴ lou⁵⁵ lou⁵¹ lou²¹	鏤镂
+luir luix luiv luif lour loux louv louf	luǐ luī luì luí lǒu lōu lòu lóu	luei²¹ luei⁵⁵ luei⁵¹ luei²⁴ lou²¹ lou⁵⁵ lou⁵¹ lou²⁴	㥪慺膢𦝼
+luiv luif luix luir	luì luí luī luǐ	luei⁵¹ luei²⁴ luei⁵⁵ luei²¹	䥨勴爈累鑢𧭜
+luiv luix luir luif	luì luī luǐ luí	luei⁵¹ luei⁵⁵ luei²¹ luei²⁴	䉂侣侶偻僂儡儢吕呂垒壘娄婁屡屢履嵝嶁旅梠樏櫐櫑溇漊磊礧礨祣稆穞穭絫纍耒膂蒌蔂蔞蕾藟虆蜼褛褸誄讄诔𡾊𤢹𥰠
+lunr lunf lunx lunv	lǔn lún lūn lùn	luɜ̃²¹ luɜ̃²⁴ luɜ̃⁵⁵ luɜ̃⁵¹	論论
+lunr lunx lunv lunf	lǔn lūn lùn lún	luɜ̃²¹ luɜ̃⁵⁵ luɜ̃⁵¹ luɜ̃²⁴	䑳仑伦侖倫崘抡掄沦淪
+lur lux luv luf	lǔ lū lù lú	lu²¹ lu⁵⁵ lu⁵¹ lu²⁴	䍡僇六勠卢垆壚奴娽孥帑庐廬录戮摝栌櫨泸淥渌漉瀘炉爐獹玈琭瓐甪盝盧睩矑碌祿禄稑穋笯箓簏簶籙籚綠緑纑绿罏舻艫芦菉蓼蘆轆轤轳辘逯醁錄録鑪陆陸顱颅駑騄騼驽鱸鲈鹿麓黸𤬛𥂖𧌉𪾦𫘧𫠋𬬻
+luv lur lux luf	lù lǔ lū lú	lu⁵¹ lu²¹ lu⁵⁵ lu²⁴	砮
+luv lux lur luf	lù lū lǔ lú	lu⁵¹ lu⁵⁵ lu²¹ lu²⁴	努卤弩橹櫓滷艣虏虜魯鲁鹵𧫓𫇛
+luv lux lur luf nier niex niev nief	lù lū lǔ lú niě niē niè nié	lu⁵¹ lu⁵⁵ lu²¹ lu²⁴ ȵiɛ²¹ ȵiɛ⁵⁵ ȵiɛ⁵¹ ȵiɛ²⁴	嶪嶫邺鄴
+maf max mav mar	má mā mà mǎ	ma²⁴ ma⁵⁵ ma⁵¹ ma²¹	㐷傌祃禡罵駡骂
+maif maix maiv mair	mái māi mài mǎi	mai²⁴ mai⁵⁵ mai⁵¹ mai²¹	佅劢勱卖賣迈邁𠇱
+mair maix maiv maif	mǎi māi mài mái	mai²¹ mai⁵⁵ mai⁵¹ mai²⁴	埋薶
+maiv maix mair maif	mài māi mǎi mái	mai⁵¹ mai⁵⁵ mai²¹ mai²⁴	买買
+manf manr manx manv	mán mǎn mān màn	mã²⁴ mã²¹ mã⁵⁵ mã⁵¹	縵缦
+manf manx manv manr	mán mān màn mǎn	mã²⁴ mã⁵⁵ mã⁵¹ mã²¹	䡬僈嫚幔慢漫瓣
+manr manx manv manf	mǎn mān màn mán	mã²¹ mã⁵⁵ mã⁵¹ mã²⁴	㡛哤墁尨庬忙恾槾樠汒狵盲瞒瞞芒茫蔓蘉蛮蠻蹒蹣邙鄤鋩鏝铓镘鞔饅馒𣗊𩅍𩆓𪈮𪈿𪑪
+manr manx manv manf wanr wanx wanv wanf	mǎn mān màn mán wǎn wān wàn wán	mã²¹ mã⁵⁵ mã⁵¹ mã²⁴ uã²¹ uã⁵⁵ uã⁵¹ uã²⁴	莣
+manr manx manv manf wux wur wuv wuf	mǎn mān màn mán wū wǔ wù wú	mã²¹ mã⁵⁵ mã⁵¹ mã²⁴ u⁵⁵ u²¹ u⁵¹ u²⁴	曼
+manv manr manx manf	màn mǎn mān mán	mã⁵¹ mã²¹ mã⁵⁵ mã²⁴	厖
+manv manx manr manf	màn mān mǎn mán	mã⁵¹ mã⁵⁵ mã²¹ mã²⁴	㟿㬒䥈懑懣满滿漭莽蟒
+maof maox maov maor	máo māo mào mǎo	mau²⁴ mau⁵⁵ mau⁵¹ mau²¹	冒帽眊耄貌𩿂
+maor maox maov maof	mǎo māo mào máo	mau²¹ mau⁵⁵ mau⁵¹ mau²⁴	䭷旄枆毛矛芼茅軞錨锚
+maor maox maov maof mour moux mouv mouf	mǎo māo mào máo mǒu mōu mòu móu	mau²¹ mau⁵⁵ mau⁵¹ mau²⁴ mou²¹ mou⁵⁵ mou⁵¹ mou²⁴	䖥侔恈昴牟眸蛑蟊鍪雺鞪髦髳麰
+maov maox maor maof	mào māo mǎo máo	mau⁵¹ mau⁵⁵ mau²¹ mau²⁴	卯茆
+maox maor maov maof	māo mǎo mào máo	mau⁵⁵ mau²¹ mau⁵¹ mau²⁴	媌罞蝥
+maox maov maor maof	māo mào mǎo máo	mau⁵⁵ mau⁵¹ mau²¹ mau²⁴	猫貓
+mar max mav maf	mǎ mā mà má	ma²¹ ma⁵⁵ ma⁵¹ ma²⁴	嘛犘痲痳蟆麻
+mav max mar maf	mà mā mǎ má	ma⁵¹ ma⁵⁵ ma²¹ ma²⁴	码碼蚂螞馬马
+max mav mar maf	mā mà mǎ má	ma⁵⁵ ma⁵¹ ma²¹ ma²⁴	妈媽
+meif meir meix meiv	méi měi mēi mèi	mei²⁴ mei²¹ mei⁵⁵ mei⁵¹	媢
+meif meix meiv meir	méi mēi mèi měi	mei²⁴ mei⁵⁵ mei⁵¹ mei²¹	妹媚寐昧瑁痗眛篃脄韎鬽魅𩎟
+meif meix meiv meir mif mix miv mir	méi mēi mèi měi mí mī mì mǐ	mei²⁴ mei⁵⁵ mei⁵¹ mei²¹ mi²⁴ mi⁵⁵ mi⁵¹ mi²¹	袂
+meif meix meiv meir miv mif mir mix	méi mēi mèi měi mì mí mǐ mī	mei²⁴ mei⁵⁵ mei⁵¹ mei²¹ mi⁵¹ mi²⁴ mi²¹ mi⁵⁵	靡
+meir meix meiv meif	měi mēi mèi méi	mei²¹ mei⁵⁵ mei⁵¹ mei²⁴	䍙䤂嘿嚜塺墨媒嵋枚梅楣湄煤狢玫眽睂禖纆脈脉脢莓蓦覛貃貉貊貘郿酶醿鋂霡霢驀麥麦默黙𡴋𡴕𥠇𧖴𩢷𫌪𬙊𰾄
+meiv meix meir meif	mèi mēi měi méi	mei⁵¹ mei⁵⁵ mei²¹ mei²⁴	媺每浼美
+meiv meix meir meif miv mix mir mif	mèi mēi měi méi mì mī mǐ mí	mei⁵¹ mei⁵⁵ mei²¹ mei²⁴ mi⁵¹ mi⁵⁵ mi²¹ mi²⁴	眯
+menf menx menv menr	mén mēn mèn měn	mɜ̃²⁴ mɜ̃⁵⁵ mɜ̃⁵¹ mɜ̃²¹	焖燜
+menr menx menv menf	měn mēn mèn mén	mɜ̃²¹ mɜ̃⁵⁵ mɜ̃⁵¹ mɜ̃²⁴	们們扪捫璊穈虋門门𫞩
+menr menx menv menf wiv wix wir wif	měn mēn mèn mén wì wī wǐ wí	mɜ̃²¹ mɜ̃⁵⁵ mɜ̃⁵¹ mɜ̃²⁴ uei⁵¹ uei⁵⁵ uei²¹ uei²⁴	亹
+menx menf menv menr	mēn mén mèn měn	mɜ̃⁵⁵ mɜ̃²⁴ mɜ̃⁵¹ mɜ̃²¹	悶闷
+mianf mianx mianv mianr	mián miān miàn miǎn	miã²⁴ miã⁵⁵ miã⁵¹ miã²¹	偭面麪麫麵𩈹
+mianr mianx mianv mianf	miǎn miān miàn mián	miã²¹ miã⁵⁵ miã⁵¹ miã²⁴	棉櫋眠瞑綿緜绵
+mianr mianx mianv mianf manf manr manx manv	miǎn miān miàn mián mán mǎn mān màn	miã²¹ miã⁵⁵ miã⁵¹ miã²⁴ mã²⁴ mã²¹ mã⁵⁵ mã⁵¹	謾谩
+mianv mianf mianx mianr	miàn mián miān miǎn	miã⁵¹ miã²⁴ miã⁵⁵ miã²¹	眄
+mianv mianx mianr mianf	miàn miān miǎn mián	miã⁵¹ miã⁵⁵ miã²¹ miã²⁴	丏免冕勉勔娩沔湎緬缅莬葂𣧟
+mianv mianx mianr mianf wunf wunx wunv wunr	miàn miān miǎn mián wún wūn wùn wǔn	miã⁵¹ miã⁵⁵ miã²¹ miã²⁴ uɜ̃²⁴ uɜ̃⁵⁵ uɜ̃⁵¹ uɜ̃²¹	㝃絻
+miaof miaox miaov miaor	miáo miāo miào miǎo	miau²⁴ miau⁵⁵ miau⁵¹ miau²¹	妙庙庿廟謬谬
+miaor miaox miaov miaof	miǎo miāo miào miáo	miau²¹ miau⁵⁵ miau⁵¹ miau²⁴	描瞄緢苗
+miaov miaof miaox miaor	miào miáo miāo miǎo	miau⁵¹ miau²⁴ miau⁵⁵ miau²¹	眇篎
+miaov miaox miaor miaof	miào miāo miǎo miáo	miau⁵¹ miau⁵⁵ miau²¹ miau²⁴	彯杪淼渺秒藐
+miaox miaov miaor miaof	miāo miào miǎo miáo	miau⁵⁵ miau⁵¹ miau²¹ miau²⁴	喵
+mier miex miev mief mir mix miv mif	miě miē miè mié mǐ mī mì mí	miɛ²¹ miɛ⁵⁵ miɛ⁵¹ miɛ²⁴ mi²¹ mi⁵⁵ mi⁵¹ mi²⁴	滅灭篾
+mier miex miev mief mix mir miv mif	miě miē miè mié mī mǐ mì mí	miɛ²¹ miɛ⁵⁵ miɛ⁵¹ miɛ²⁴ mi⁵⁵ mi²¹ mi⁵¹ mi²⁴	䁾懱蔑蠛衊𥽘𦸑
+mier miex miev mief mix mir miv mif mor mox mov mof	miě miē miè mié mī mǐ mì mí mǒ mō mò mó	miɛ²¹ miɛ⁵⁵ miɛ⁵¹ miɛ²⁴ mi⁵⁵ mi²¹ mi⁵¹ mi²⁴ mɔ²¹ mɔ⁵⁵ mɔ⁵¹ mɔ²⁴	眜
+mif mix miv mir	mí mī mì mǐ	mi²⁴ mi⁵⁵ mi⁵¹ mi²¹	沕謎谜
+mif mix miv mir meir meix meiv meif	mí mī mì mǐ měi mēi mèi méi	mi²⁴ mi⁵⁵ mi⁵¹ mi²¹ mei²¹ mei⁵⁵ mei⁵¹ mei²⁴	沒没
+minf minr minx minv	mín mǐn mīn mìn	mĩ²⁴ mĩ²¹ mĩ⁵⁵ mĩ⁵¹	暝
+minf minx minv minr	mín mīn mìn mǐn	mĩ²⁴ mĩ⁵⁵ mĩ⁵¹ mĩ²¹	䒌命詺
+minr minx minv minf	mǐn mīn mìn mín	mĩ²¹ mĩ⁵⁵ mĩ⁵¹ mĩ²⁴	䂥䃉䫤䳟名岷忞旻旼明朙民汶洺玟珉盟眀緍罠螟覭鄍銘铭閩闽鳴鳿鸣𤸅𦈏
+minv minf minr minx mir mix miv mif	mìn mín mǐn mīn mǐ mī mì mí	mĩ⁵¹ mĩ²⁴ mĩ²¹ mĩ⁵⁵ mi²¹ mi⁵⁵ mi⁵¹ mi²⁴	冥
+minv minr minx minf	mìn mǐn mīn mín	mĩ⁵¹ mĩ²¹ mĩ⁵⁵ mĩ²⁴	溟緡缗
+minv minx minr minf	mìn mīn mǐn mín	mĩ⁵¹ mĩ⁵⁵ mĩ²¹ mĩ²⁴	䐇僶悯愍慜憫抿敃敏泯湣潣皿簢脗茗酩閔闵黽黾鼆𫂃𫞗
+mir mix miv mif	mǐ mī mì mí	mi²¹ mi⁵⁵ mi⁵¹ mi²⁴	㜷䌤䍘䤉冞冪塓宓密幂幎幦弥彌慏泌瀰眉簚糜縻羃蘪蘼蜜覓觅謐谧迷醾麋麑麛鼏𡝠𢅵𢇲𧜀𪎕𪎭
+mir mix miv mif minr minx minv minf	mǐ mī mì mí mǐn mīn mìn mín	mi²¹ mi⁵⁵ mi⁵¹ mi²⁴ mĩ²¹ mĩ⁵⁵ mĩ⁵¹ mĩ²⁴	蓂
+miv mir mix mif	mì mǐ mī mí	mi⁵¹ mi²¹ mi⁵⁵ mi²⁴	𦗕
+miv mix mir mif	mì mī mǐ mí	mi⁵¹ mi⁵⁵ mi²¹ mi²⁴	䋛侎弭敉洣渳米羋芈芉𦍋
+miv mix mir mif yif yix yiv yir	mì mī mǐ mí yí yī yì yǐ	mi⁵¹ mi⁵⁵ mi²¹ mi²⁴ i²⁴ i⁵⁵ i⁵¹ i²¹	餌饵
+mix miv mir mif	mī mì mǐ mí	mi⁵⁵ mi⁵¹ mi²¹ mi²⁴	搣
+mongf mongr mongx mongv	móng mǒng mōng mòng	mɔ̃²⁴ mɔ̃²¹ mɔ̃⁵⁵ mɔ̃⁵¹	瞢
+mongf mongx mongv mongr	móng mōng mòng mǒng	mɔ̃²⁴ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²¹	䲛募墓夢孟幕慔慕懜暮梦𧀧𨮒
+mongf mongx mongv mongr mor mox mov mof	móng mōng mòng mǒng mǒ mō mò mó	mɔ̃²⁴ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²¹ mɔ²¹ mɔ⁵⁵ mɔ⁵¹ mɔ²⁴	塻漠瘼皃瞙邈鄚鏌镆
+mongr mongx mongv mongf	mǒng mōng mòng móng	mɔ̃²¹ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²⁴	儚冡坶幪朦杗楘檬毣氓沐濛牧甍甿睦矇穆繆缪苜莔萌蒙虻蚞蝱鄳霂鶩鹜𫑡
+mongv mongx mongr mongf	mòng mōng mǒng móng	mɔ̃⁵¹ mɔ̃⁵⁵ mɔ̃²¹ mɔ̃²⁴	懵拇猛艋蜢蠓
+mongv mongx mongr mongf pair paix paiv paif	mòng mōng mǒng móng pǎi pāi pài pái	mɔ̃⁵¹ mɔ̃⁵⁵ mɔ̃²¹ mɔ̃²⁴ pʰai²¹ pʰai⁵⁵ pʰai⁵¹ pʰai²⁴	蠯
+mor mof mox mov	mǒ mó mō mò	mɔ²¹ mɔ²⁴ mɔ⁵⁵ mɔ⁵¹	磨
+mor mox mov mof	mǒ mō mò mó	mɔ²¹ mɔ⁵⁵ mɔ⁵¹ mɔ²⁴	䃺䯢䴲么劘妺寞摩攠昩末模沫秣膜莫魔麼𥂓
+mor mox mov mof mongr mongx mongv mongf	mǒ mō mò mó mǒng mōng mòng móng	mɔ²¹ mɔ⁵⁵ mɔ⁵¹ mɔ²⁴ mɔ̃²¹ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²⁴	歿殁
+mouf moux mouv mour	móu mōu mòu mǒu	mou²⁴ mou⁵⁵ mou⁵¹ mou²¹	茂貿贸
+mouf moux mouv mour wuf wux wuv wur	móu mōu mòu mǒu wú wū wù wǔ	mou²⁴ mou⁵⁵ mou⁵¹ mou²¹ u²⁴ u⁵⁵ u⁵¹ u²¹	姆懋楙袤霿
+mour moux mouv mouf	mǒu mōu mòu móu	mou²¹ mou⁵⁵ mou⁵¹ mou²⁴	謀谋
+mouv moux mour mouf	mòu mōu mǒu móu	mou⁵¹ mou⁵⁵ mou²¹ mou²⁴	亩姥某牡畝畮
+mox mor mov mof	mō mǒ mò mó	mɔ⁵⁵ mɔ²¹ mɔ⁵¹ mɔ²⁴	橅謨谟
+mox mov mor mof	mō mò mǒ mó	mɔ⁵⁵ mɔ⁵¹ mɔ²¹ mɔ²⁴	摸摹
+mox mov mor mof mar max mav maf	mō mò mǒ mó mǎ mā mà má	mɔ⁵⁵ mɔ⁵¹ mɔ²¹ mɔ²⁴ ma²¹ ma⁵⁵ ma⁵¹ ma²⁴	抹
+mur mux muv muf mongr mongx mongv mongf	mǔ mū mù mú mǒng mōng mòng móng	mu²¹ mu⁵⁵ mu⁵¹ mu²⁴ mɔ̃²¹ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²⁴	目
+mur mux muv muf mongr mongx mongv mongf mor mox mov mof	mǔ mū mù mú mǒng mōng mòng móng mǒ mō mò mó	mu²¹ mu⁵⁵ mu⁵¹ mu²⁴ mɔ̃²¹ mɔ̃⁵⁵ mɔ̃⁵¹ mɔ̃²⁴ mɔ²¹ mɔ⁵⁵ mɔ⁵¹ mɔ²⁴	木
+muv mux mur muf mongv mongx mongr mongf	mù mū mǔ mú mòng mōng mǒng móng	mu⁵¹ mu⁵⁵ mu²¹ mu²⁴ mɔ̃⁵¹ mɔ̃⁵⁵ mɔ̃²¹ mɔ̃²⁴	母
+ngaif ngair ngaix ngaiv	ngái ngǎi ngāi ngài	ŋai²⁴ ŋai²¹ ŋai⁵⁵ ŋai⁵¹	䩹
+ngaif ngair ngaix ngaiv yax yav yar yaf	ngái ngǎi ngāi ngài yā yà yǎ yá	ŋai²⁴ ŋai²¹ ŋai⁵⁵ ŋai⁵¹ ia⁵⁵ ia⁵¹ ia²¹ ia²⁴	捱
+ngaif ngaix ngaiv ngair	ngái ngāi ngài ngǎi	ŋai²⁴ ŋai⁵⁵ ŋai⁵¹ ŋai²¹	䨠僾叆呃呝壒愛暧曖爱硋碍礙艾蔼薆藹謁谒閡阂隘靉馤𣋞𫉁
+ngaif ngaix ngaiv ngair sav sax sar saf	ngái ngāi ngài ngǎi sà sā sǎ sá	ŋai²⁴ ŋai⁵⁵ ŋai⁵¹ ŋai²¹ sa⁵¹ sa⁵⁵ sa²¹ sa²⁴	嗄
+ngaif ngaix ngaiv ngair yif yix yiv yir	ngái ngāi ngài ngǎi yí yī yì yǐ	ŋai²⁴ ŋai⁵⁵ ŋai⁵¹ ŋai²¹ i²⁴ i⁵⁵ i⁵¹ i²¹	㣻乂
+ngair ngaix ngaiv ngaif	ngǎi ngāi ngài ngái	ŋai²¹ ŋai⁵⁵ ŋai⁵¹ ŋai²⁴	㧖厄岩峉嵒巖戹扼搤癌碞詻軶阨阸頟額额𩚬
+ngaiv ngaix ngair ngaif	ngài ngāi ngǎi ngái	ŋai⁵¹ ŋai⁵⁵ ŋai²¹ ŋai²⁴	毐矮霭靄
+ngaix ngair ngaiv ngaif	ngāi ngǎi ngài ngái	ŋai⁵⁵ ŋai²¹ ŋai⁵¹ ŋai²⁴	挨
+ngaix ngaiv ngair ngaif	ngāi ngài ngǎi ngái	ŋai⁵⁵ ŋai⁵¹ ŋai²¹ ŋai²⁴	㶼哀唉埃欸軛轭
+nganf nganx nganv nganr	ngán ngān ngàn ngǎn	ŋã²⁴ ŋã⁵⁵ ŋã⁵¹ ŋã²¹	䮗岸按晏暗案琀盎矸菴闇鷃
+nganf nganx nganv nganr nianf nianx nianv nianr	ngán ngān ngàn ngǎn nián niān niàn niǎn	ŋã²⁴ ŋã⁵⁵ ŋã⁵¹ ŋã²¹ ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹	喭
+nganf nganx nganv nganr yanv yanx yanr yanf	ngán ngān ngàn ngǎn yàn yān yǎn yán	ŋã²⁴ ŋã⁵⁵ ŋã⁵¹ ŋã²¹ iã⁵¹ iã⁵⁵ iã²¹ iã²⁴	晻
+nganr nganf nganx nganv	ngǎn ngán ngān ngàn	ŋã²¹ ŋã²⁴ ŋã⁵⁵ ŋã⁵¹	昂
+nganv nganx nganr nganf yanv yanx yanr yanf	ngàn ngān ngǎn ngán yàn yān yǎn yán	ŋã⁵¹ ŋã⁵⁵ ŋã²¹ ŋã²⁴ iã⁵¹ iã⁵⁵ iã²¹ iã²⁴	眼
+nganx nganv nganr nganf	ngān ngàn ngǎn ngán	ŋã⁵⁵ ŋã⁵¹ ŋã²¹ ŋã²⁴	䳺唵啽安庵肮諳谙鞌鞍韽馣骯魧鵪鹌
+nganx nganv nganr nganf yinx yinv yinr yinf	ngān ngàn ngǎn ngán yīn yìn yǐn yín	ŋã⁵⁵ ŋã⁵¹ ŋã²¹ ŋã²⁴ ĩ⁵⁵ ĩ⁵¹ ĩ²¹ ĩ²⁴	喑
+ngaof ngaox ngaov ngaor	ngáo ngāo ngào ngǎo	ŋau²⁴ ŋau⁵⁵ ŋau⁵¹ ŋau²¹	䫜傲坳奡媪媼慠懊敖袄襖謷謸鏊驁骜𫍵
+ngaof ngaox ngaov ngaor aov aox aor aof	ngáo ngāo ngào ngǎo ào āo ǎo áo	ŋau²⁴ ŋau⁵⁵ ŋau⁵¹ ŋau²¹ au⁵¹ au⁵⁵ au²¹ au²⁴	凹拗
+ngaor ngaox ngaov ngaof	ngǎo ngāo ngào ngáo	ŋau²¹ ŋau⁵⁵ ŋau⁵¹ ŋau²⁴	熬鰲鳌
+ngaov ngaox ngaor ngaof	ngào ngāo ngǎo ngáo	ŋau⁵¹ ŋau⁵⁵ ŋau²¹ ŋau²⁴	咬
+ngaox ngaor ngaov ngaof	ngāo ngǎo ngào ngáo	ŋau⁵⁵ ŋau²¹ ŋau⁵¹ ŋau²⁴	滶翱螯𩪋
+ngaox ngaov ngaor ngaof	ngāo ngào ngǎo ngáo	ŋau⁵⁵ ŋau⁵¹ ŋau²¹ ŋau²⁴	嗷嗸嚻嶅廒摮獒璈磝翺聱遨鼇𢧴𨅚𭵶
+ngar ngaf ngax ngav yar yax yav yaf	ngǎ ngá ngā ngà yǎ yā yà yá	ŋa²¹ ŋa²⁴ ŋa⁵⁵ ŋa⁵¹ ia²¹ ia⁵⁵ ia⁵¹ ia²⁴	压壓
+ngar ngax ngav ngaf	ngǎ ngā ngà ngá	ŋa²¹ ŋa⁵⁵ ŋa⁵¹ ŋa²⁴	伢砑衙
+ngar ngax ngav ngaf yar yax yav yaf	ngǎ ngā ngà ngá yǎ yā yà yá	ŋa²¹ ŋa⁵⁵ ŋa⁵¹ ŋa²⁴ ia²¹ ia⁵⁵ ia⁵¹ ia²⁴	牙芽
+ngar ngax ngav ngaf yav yax yar yaf	ngǎ ngā ngà ngá yà yā yǎ yá	ŋa²¹ ŋa⁵⁵ ŋa⁵¹ ŋa²⁴ ia⁵¹ ia⁵⁵ ia²¹ ia²⁴	迓
+ngav ngax ngar ngaf yav yax yar yaf	ngà ngā ngǎ ngá yà yā yǎ yá	ŋa⁵¹ ŋa⁵⁵ ŋa²¹ ŋa²⁴ ia⁵¹ ia⁵⁵ ia²¹ ia²⁴	哑啞
+ngenf ngenx ngenv ngenr	ngén ngēn ngèn ngěn	ŋɜ̃²⁴ ŋɜ̃⁵⁵ ŋɜ̃⁵¹ ŋɜ̃²¹	硬鞕
+ngenx ngenv ngenr ngenf	ngēn ngèn ngěn ngén	ŋɜ̃⁵⁵ ŋɜ̃⁵¹ ŋɜ̃²¹ ŋɜ̃²⁴	恩
+ngof ngor ngox ngov	ngó ngǒ ngō ngò	ŋɔ²⁴ ŋɔ²¹ ŋɔ⁵⁵ ŋɔ⁵¹	垩堊
+ngof ngox ngov ngor	ngó ngō ngò ngǒ	ŋɔ²⁴ ŋɔ⁵⁵ ŋɔ⁵¹ ŋɔ²¹	餓饿
+ngor ngox ngov ngof	ngǒ ngō ngò ngó	ŋɔ²¹ ŋɔ⁵⁵ ŋɔ⁵¹ ŋɔ²⁴	㟧㠋䳘俄偽吪咢噩囮堮娥峨峩崿睋莪萼蕚蛾訛諤譌讹谔鄂鈋鍔锷鰐鱷鳄鵝鵞鶚鹅鹗𨱂
+ngouf ngoux ngouv ngour	ngóu ngōu ngòu ngǒu	ŋou²⁴ ŋou⁵⁵ ŋou⁵¹ ŋou²¹	怄慪沤漚瓯甌謳讴鷗鸥
+ngouv ngoux ngour ngouf	ngòu ngōu ngǒu ngóu	ŋou⁵¹ ŋou⁵⁵ ŋou²¹ ŋou²⁴	偶呕嘔耦蕅藕
+ngoux ngouv ngour ngouf	ngōu ngòu ngǒu ngóu	ŋou⁵⁵ ŋou⁵¹ ŋou²¹ ŋou²⁴	欧歐殴毆
+ngov ngox ngor ngof	ngò ngō ngǒ ngó	ŋɔ⁵¹ ŋɔ⁵⁵ ŋɔ²¹ ŋɔ²⁴	我硪騀
+nianf nianx nianv nianr	nián niān niàn niǎn	ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹	䜩唁噞彥彦念掾砚硏硯艌諺讌谚酽釅驗验𪡋
+nianf nianx nianv nianr sanx sanv sanr sanf yanr yanx yanv yanf	nián niān niàn niǎn sān sàn sǎn sán yǎn yān yàn yán	ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ sã⁵⁵ sã⁵¹ sã²¹ sã²⁴ iã²¹ iã⁵⁵ iã⁵¹ iã²⁴	埏
+nianf nianx nianv nianr yanr yanx yanv yanf	nián niān niàn niǎn yǎn yān yàn yán	ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ iã²¹ iã⁵⁵ iã⁵¹ iã²⁴	甗莚
+nianf nianx nianv nianr yanv yanr yanx yanf	nián niān niàn niǎn yàn yǎn yān yán	ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ iã⁵¹ iã²¹ iã⁵⁵ iã²⁴	綖𫄧
+nianf nianx nianv nianr yanv yanx yanr yanf	nián niān niàn niǎn yàn yān yǎn yán	ȵiã²⁴ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ iã⁵¹ iã⁵⁵ iã²¹ iã²⁴	衍
+nianr nianx nianv nianf	niǎn niān niàn nián	ȵiã²¹ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²⁴	䉷严嚴娘孃年櫩秊簷閻阎鮎鲇
+nianr nianx nianv nianf yanx yanr yanv yanf	niǎn niān niàn nián yān yǎn yàn yán	ȵiã²¹ ȵiã⁵⁵ ȵiã⁵¹ ȵiã²⁴ iã⁵⁵ iã²¹ iã⁵¹ iã²⁴	䀋塩
+nianv nianx nianr nianf	niàn niān niǎn nián	ȵiã⁵¹ ȵiã⁵⁵ ȵiã²¹ ȵiã²⁴	仰捻摙撵攆琏璉碾輦辇
+nianv nianx nianr nianf nir nix niv nif	niàn niān niǎn nián nǐ nī nì ní	ȵiã⁵¹ ȵiã⁵⁵ ȵiã²¹ ȵiã²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴	䯀䯅喦嗫囁埝敜籋苶讘踂蹑躡𣣈𥬞
+nianv nianx nianr nianf nir nix niv nif zir zix ziv zif	niàn niān niǎn nián nǐ nī nì ní zǐ zī zì zí	ȵiã⁵¹ ȵiã⁵⁵ ȵiã²¹ ȵiã²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	慹
+nianx nianr nianv nianf	niān niǎn niàn nián	ȵiã⁵⁵ ȵiã²¹ ȵiã⁵¹ ȵiã²⁴	溓餂
+nianx nianv nianr nianf	niān niàn niǎn nián	ȵiã⁵⁵ ȵiã⁵¹ ȵiã²¹ ȵiã²⁴	拈研
+niaof niaox niaov niaor	niáo niāo niào niǎo	ȵiau²⁴ ȵiau⁵⁵ ȵiau⁵¹ ȵiau²¹	尿
+niaor niaox niaov niaof	niǎo niāo niào niáo	ȵiau²¹ ȵiau⁵⁵ ȵiau⁵¹ ȵiau²⁴	堯尧疟瘧虐
+niaor niaox niaov niaof yaor yaox yaov yaof	niǎo niāo niào niáo yǎo yāo yào yáo	ȵiau²¹ ȵiau⁵⁵ ȵiau⁵¹ ȵiau²⁴ iau²¹ iau⁵⁵ iau⁵¹ iau²⁴	瀹爚礿禴籥鸙龠𤅰
+niaov niaox niaor niaof	niào niāo niǎo niáo	ȵiau⁵¹ ȵiau⁵⁵ ȵiau²¹ ȵiau²⁴	㒟娆嬈嬲杳裊褭鳥鸟
+niaov niaox niaor niaof ror rox rov rof	niào niāo niǎo niáo rǒ rō rò ró	ȵiau⁵¹ ȵiau⁵⁵ ȵiau²¹ ȵiau²⁴ zuɔ²¹ zuɔ⁵⁵ zuɔ⁵¹ zuɔ²⁴	嫋袅
+niaov niaox niaor niaof yaov yaox yaor yaof	niào niāo niǎo niáo yào yāo yǎo yáo	ȵiau⁵¹ ȵiau⁵⁵ ȵiau²¹ ȵiau²⁴ iau⁵¹ iau⁵⁵ iau²¹ iau²⁴	㵿䁘䴠殀溔皛眑穾窅窈窔鷕
+niax niav niar niaf	niā nià niǎ niá	ȵia⁵⁵ ȵia⁵¹ ȵia²¹ ȵia²⁴	黏
+nier niex niev nief	niě niē niè nié	ȵiɛ²¹ ȵiɛ⁵⁵ ȵiɛ⁵¹ ȵiɛ²⁴	㸣业孼晔曄曅業烨燁糱蠥饁馌𢢜𧕏
+nier niex niev nief nir nix niv nif	niě niē niè nié nǐ nī nì ní	ȵiɛ²¹ ȵiɛ⁵⁵ ȵiɛ⁵¹ ȵiɛ²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴	孽
+niex niev nier nief nir nix niv nif	niē niè niě nié nǐ nī nì ní	ȵiɛ⁵⁵ ȵiɛ⁵¹ ȵiɛ²¹ ȵiɛ²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴	捏
+nif nir nix niv	ní nǐ nī nì	ȵi²⁴ ȵi²¹ ȵi⁵⁵ ȵi⁵¹	埿
+nif nix niv nir	ní nī nì nǐ	ȵi²⁴ ȵi⁵⁵ ȵi⁵¹ ȵi²¹	义義腻膩議议迡
+nif nix niv nir tif tix tiv tir	ní nī nì nǐ tí tī tì tǐ	ȵi²⁴ ȵi⁵⁵ ȵi⁵¹ ȵi²¹ tʰi²⁴ tʰi⁵⁵ tʰi⁵¹ tʰi²¹	殢𣨼
+ninf ninx ninv ninr	nín nīn nìn nǐn	ȵĩ²⁴ ȵĩ⁵⁵ ȵĩ⁵¹ ȵĩ²¹	佞寗甯
+ninf ninx ninv ninr zuf zux zuv zur	nín nīn nìn nǐn zú zū zù zǔ	ȵĩ²⁴ ȵĩ⁵⁵ ȵĩ⁵¹ ȵĩ²¹ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	泞濘
+ninr ninf ninx ninv	nǐn nín nīn nìn	ȵĩ²¹ ȵĩ²⁴ ȵĩ⁵⁵ ȵĩ⁵¹	凝
+ninr ninx ninv ninf	nǐn nīn nìn nín	ȵĩ²¹ ȵĩ⁵⁵ ȵĩ⁵¹ ȵĩ²⁴	宁寧
+ninr ninx ninv ninf zuf zux zuv zur	nǐn nīn nìn nín zú zū zù zǔ	ȵĩ²¹ ȵĩ⁵⁵ ȵĩ⁵¹ ȵĩ²⁴ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	竚𥩟
+nir nif nix niv	nǐ ní nī nì	ȵi²¹ ȵi²⁴ ȵi⁵⁵ ȵi⁵¹	艺藝蚁蟻
+nir nix niv nif	nǐ nī nì ní	ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴	㘈㠥㥾䴊仡仪倪儀冝匿历囓宜尼屹嵂怩惄愵抳昵暱曆柅泥涅湼溰溺疑疙篞縌繂聂聶膟臡艗虉誼谊逆鑷镊鶂鶃鷁鷊鹝鹢𣘗𥔄𦆽𫄴𬟁
+nir nix niv nif luir luix luiv luif	nǐ nī nì ní luǐ luī luì luí	ȵi²¹ ȵi⁵⁵ ȵi⁵¹ ȵi²⁴ luei²¹ luei⁵⁵ luei⁵¹ luei²⁴	律
+niur niux niuv niuf	niǔ niū niù niú	ȵiu²¹ ȵiu⁵⁵ ȵiu⁵¹ ȵiu²⁴	牛
+niuv niux niur niuf	niù niū niǔ niú	ȵiu⁵¹ ȵiu⁵⁵ ȵiu²¹ ȵiu²⁴	妞忸扭狃紐纽鈕钮
+niv nix nir nif	nì nī nǐ ní	ȵi⁵¹ ȵi⁵⁵ ȵi²¹ ȵi²⁴	伱你女旎祢禰𦰫
+of ox ov or	ó ō ò ǒ	ɔ²⁴ ɔ⁵⁵ ɔ⁵¹ ɔ²¹	卧臥
+ongf ongx ongv ongr	óng ōng òng ǒng	ɔ̃²⁴ ɔ̃⁵⁵ ɔ̃⁵¹ ɔ̃²¹	瓮甕罋蕹齆𩌋𪖵
+ongx ongv ongr ongf	ōng òng ǒng óng	ɔ̃⁵⁵ ɔ̃⁵¹ ɔ̃²¹ ɔ̃²⁴	䩺廱泓痈癰翁
+or ox ov of	ǒ ō ò ó	uɔ²¹ uɔ⁵⁵ uɔ⁵¹ uɔ²⁴	偓喔幄握渥箹葯蒦
+or ox ov of	ǒ ō ò ó	ɔ²¹ ɔ⁵⁵ ɔ⁵¹ ɔ²⁴	沃
+or ox ov of wuf wux wuv wur ngor ngox ngov ngof	ǒ ō ò ó wú wū wù wǔ ngǒ ngō ngò ngó	uɔ²¹ uɔ⁵⁵ uɔ⁵¹ uɔ²⁴ u²⁴ u⁵⁵ u⁵¹ u²¹ ŋɔ²¹ ŋɔ⁵⁵ ŋɔ⁵¹ ŋɔ²⁴	恶惡
+ov ox or of	ò ō ǒ ó	ɔ⁵¹ ɔ⁵⁵ ɔ²¹ ɔ²⁴	哦
+ox ov or of	ō ò ǒ ó	ɔ⁵⁵ ɔ⁵¹ ɔ²¹ ɔ²⁴	㹻倭屙涡渦窝窩莴萵蜗蝸踒
+paf pax pav par	pá pā pà pǎ	pʰa²⁴ pʰa⁵⁵ pʰa⁵¹ pʰa²¹	帕怕
+paif paix paiv pair	pái pāi pài pǎi	pʰai²⁴ pʰai⁵⁵ pʰai⁵¹ pʰai²¹	派
+pair paix paiv paif	pǎi pāi pài pái	pʰai²¹ pʰai⁵⁵ pʰai⁵¹ pʰai²⁴	俳徘排牌簰𥱼
+paiv paix pair paif	pài pāi pǎi pái	pʰai⁵¹ pʰai⁵⁵ pʰai²¹ pʰai²⁴	捭
+panf panr panx panv	pán pǎn pān pàn	pʰã²⁴ pʰã²¹ pʰã⁵⁵ pʰã⁵¹	䰉
+panf panx panv panr	pán pān pàn pǎn	pʰã²⁴ pʰã⁵⁵ pʰã⁵¹ pʰã²¹	䪻冸判匥叛拚沜泮牉盼絆绊胖襻閞靽頖𫔰
+panr panx panv panf	pǎn pān pàn pán	pʰã²¹ pʰã⁵⁵ pʰã⁵¹ pʰã²⁴	䠙幋庞搫旁柈槃滂瀊瘢盘盤磐磻縏逄鞶龐𨃞
+panr panx panv panf por pox pov pof	pǎn pān pàn pán pǒ pō pò pó	pʰã²¹ pʰã⁵⁵ pʰã⁵¹ pʰã²⁴ pʰɔ²¹ pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²⁴	媻
+panv panx panr panf	pàn pān pǎn pán	pʰã⁵¹ pʰã⁵⁵ pʰã²¹ pʰã²⁴	耪
+panv panx panr panf banf banx banv banr	pàn pān pǎn pán bán bān bàn bǎn	pʰã⁵¹ pʰã⁵⁵ pʰã²¹ pʰã²⁴ pã²⁴ pã⁵⁵ pã⁵¹ pã²¹	拌
+panx panr panv panf	pān pǎn pàn pán	pʰã⁵⁵ pʰã²¹ pʰã⁵¹ pʰã²⁴	䨦鎊镑雱霶
+panx panv panr panf	pān pàn pǎn pán	pʰã⁵⁵ pʰã⁵¹ pʰã²¹ pʰã²⁴	乓攀潘眅胮
+paof paox paov paor	páo pāo pào pǎo	pʰau²⁴ pʰau⁵⁵ pʰau⁵¹ pʰau²¹	炮砲脟雹
+paof paox paov paor peir peix peiv peif	páo pāo pào pǎo pěi pēi pèi péi	pʰau²⁴ pʰau⁵⁵ pʰau⁵¹ pʰau²¹ pʰei²¹ pʰei⁵⁵ pʰei⁵¹ pʰei²⁴	亳懪犦瓝瓟箔骲𢷏𤜌
+paof paox paov paor peir peix peiv peif zor zox zov zof	páo pāo pào pǎo pěi pēi pèi péi zǒ zō zò zó	pʰau²⁴ pʰau⁵⁵ pʰau⁵¹ pʰau²¹ pʰei²¹ pʰei⁵⁵ pʰei⁵¹ pʰei²⁴ tsɔ²¹ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²⁴	彴
+paor paox paov paof	pǎo pāo pào páo	pʰau²¹ pʰau⁵⁵ pʰau⁵¹ pʰau²⁴	袍
+paov paof paor paox	pào páo pǎo pāo	pʰau⁵¹ pʰau²⁴ pʰau²¹ pʰau⁵⁵	匏咆庖炰謈
+paov paox paor paof	pào pāo pǎo páo	pʰau⁵¹ pʰau⁵⁵ pʰau²¹ pʰau²⁴	跑
+paox paof paov paor	pāo páo pào pǎo	pʰau⁵⁵ pʰau²⁴ pʰau⁵¹ pʰau²¹	泡
+paox paov paor paof	pāo pào pǎo páo	pʰau⁵⁵ pʰau⁵¹ pʰau²¹ pʰau²⁴	抛拋
+par pax pav paf	pǎ pā pà pá	pʰa²¹ pʰa⁵⁵ pʰa⁵¹ pʰa²⁴	拔杷爬琶耙跋
+pav pax par paf	pà pā pǎ pá	pʰa⁵¹ pʰa⁵⁵ pʰa²¹ pʰa²⁴	趴
+peif peix peiv peir	péi pēi pèi pěi	pʰei²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹	伂佩朏沛配霈
+peir peix peiv peif	pěi pēi pèi péi	pʰei²¹ pʰei⁵⁵ pʰei⁵¹ pʰei²⁴	培拍泊珀裴賠赔迫陪魄
+peir peix peiv peif pair paix paiv paif	pěi pēi pèi péi pǎi pāi pài pái	pʰei²¹ pʰei⁵⁵ pʰei⁵¹ pʰei²⁴ pʰai²¹ pʰai⁵⁵ pʰai⁵¹ pʰai²⁴	裵阫
+peiv peix peir peif	pèi pēi pěi péi	pʰei⁵¹ pʰei⁵⁵ pʰei²¹ pʰei²⁴	呸
+peix peiv peir peif	pēi pèi pěi péi	pʰei⁵⁵ pʰei⁵¹ pʰei²¹ pʰei²⁴	㔻䋔丕坯怌批披狉磇肧胚衃豾醅鈹鉟銔铍駓𠜱𧧺𫄞𬳵
+penf penx penv penr huenf huenx huenv huenr	pén pēn pèn pěn huén huēn huèn huěn	pʰɜ̃²⁴ pʰɜ̃⁵⁵ pʰɜ̃⁵¹ pʰɜ̃²¹ fɜ̃²⁴ fɜ̃⁵⁵ fɜ̃⁵¹ fɜ̃²¹	喷噴
+penr penx penv penf	pěn pēn pèn pén	pʰɜ̃²¹ pʰɜ̃⁵⁵ pʰɜ̃⁵¹ pʰɜ̃²⁴	湓盆
+penx penv penr penf	pēn pèn pěn pén	pʰɜ̃⁵⁵ pʰɜ̃⁵¹ pʰɜ̃²¹ pʰɜ̃²⁴	烹
+penx penv penr penf sanv sanx sanr sanf	pēn pèn pěn pén sàn sān sǎn sán	pʰɜ̃⁵⁵ pʰɜ̃⁵¹ pʰɜ̃²¹ pʰɜ̃²⁴ sã⁵¹ sã⁵⁵ sã²¹ sã²⁴	亨
+pianf pianv pianx pianr	pián piàn piān piǎn	pʰiã²⁴ pʰiã⁵¹ pʰiã⁵⁵ pʰiã²¹	片
+pianf pianx pianv pianr	pián piān piàn piǎn	pʰiã²⁴ pʰiã⁵⁵ pʰiã⁵¹ pʰiã²¹	遍騙骗
+pianr pianx pianv pianf	piǎn piān piàn pián	pʰiã²¹ pʰiã⁵⁵ pʰiã⁵¹ pʰiã²⁴	楩胼軿駢骈𫐌
+pianv pianx pianr pianf	piàn piān piǎn pián	pʰiã⁵¹ pʰiã⁵⁵ pʰiã²¹ pʰiã²⁴	㸤騗
+pianx pianv pianr pianf	piān piàn piǎn pián	pʰiã⁵⁵ pʰiã⁵¹ pʰiã²¹ pʰiã²⁴	偏猵篇翩艑蹁
+piaof piaox piaov piaor	piáo piāo piào piǎo	pʰiau²⁴ pʰiau⁵⁵ pʰiau⁵¹ pʰiau²¹	票
+piaor piaox piaov piaof	piǎo piāo piào piáo	pʰiau²¹ pʰiau⁵⁵ pʰiau⁵¹ pʰiau²⁴	嫖瓢薸驃骠
+piaov piaox piaor piaof	piào piāo piǎo piáo	pʰiau⁵¹ pʰiau⁵⁵ pʰiau²¹ pʰiau²⁴	瞟
+piaox piaov piaof piaor	piāo piào piáo piǎo	pʰiau⁵⁵ pʰiau⁵¹ pʰiau²⁴ pʰiau²¹	漂
+piaox piaov piaor piaof	piāo piào piǎo piáo	pʰiau⁵⁵ pʰiau⁵¹ pʰiau²¹ pʰiau²⁴	僄翲飄飘
+pier piex piev pief	piě piē piè pié	pʰiɛ²¹ pʰiɛ⁵⁵ pʰiɛ⁵¹ pʰiɛ²⁴	撇
+pier piex piev pief pir pix piv pif	piě piē piè pié pǐ pī pì pí	pʰiɛ²¹ pʰiɛ⁵⁵ pʰiɛ⁵¹ pʰiɛ²⁴ pʰi²¹ pʰi⁵⁵ pʰi⁵¹ pʰi²⁴	䤨劈澼癖釽
+pif pix piv pir	pí pī pì pǐ	pʰi²⁴ pʰi⁵⁵ pʰi⁵¹ pʰi²¹	屁
+pinf pinx pinv pinr	pín pīn pìn pǐn	pʰĩ²⁴ pʰĩ⁵⁵ pʰĩ⁵¹ pʰĩ²¹	聘
+pinr pinx pinv pinf	pǐn pīn pìn pín	pʰĩ²¹ pʰĩ⁵⁵ pʰĩ⁵¹ pʰĩ²⁴	凭嚬坪嫔嬪屏平憑枰洴淜玭瓶矉缾苹萍蓱薲蘋蠙評评貧贫輧郱頻顰频颦騈𠗦𡣕𤳫𦿜𧏖𧓍𪾸
+pinv pinx pinr pinf	pìn pīn pǐn pín	pʰĩ⁵¹ pʰĩ⁵⁵ pʰĩ²¹ pʰĩ²⁴	品牝
+pinx pinv pinr pinf	pīn pìn pǐn pín	pʰĩ⁵⁵ pʰĩ⁵¹ pʰĩ²¹ pʰĩ²⁴	乒姘拼
+pir pix piv pif	pǐ pī pì pí	pʰi²¹ pʰi⁵⁵ pʰi⁵¹ pʰi²⁴	㮰㯅伾佊佖僻匹啤埤媲嬖岯崥帔庇撆擗枇柲椑樬毖毗渒潎琵畀疲痹皮睤箄箅紕纰肶脾膍芘苾藣蚍裨詖譬诐貔跛轡辔辟避邲邳郫鄪鈚閟闢陂陴霹鞞飶駜魮鷩鼙𦳈𨈚𪌈𫗣𫜁
+pir pix piv pif sux suv sur suf yav yax yar yaf	pǐ pī pì pí sū sù sǔ sú yà yā yǎ yá	pʰi²¹ pʰi⁵⁵ pʰi⁵¹ pʰi²⁴ su⁵⁵ su⁵¹ su²¹ su²⁴ ia⁵¹ ia⁵⁵ ia²¹ ia²⁴	疋
+piv pix pir pif	pì pī pǐ pí	pʰi⁵¹ pʰi⁵⁵ pʰi²¹ pʰi²⁴	仳噽嚭圮庀痞諀鄙𤿎
+piv pix pir pif peix peiv peir peif	pì pī pǐ pí pēi pèi pěi péi	pʰi⁵¹ pʰi⁵⁵ pʰi²¹ pʰi²⁴ pʰei⁵⁵ pʰei⁵¹ pʰei²¹ pʰei²⁴	秠
+pof pox pov por	pó pō pò pǒ	pʰɔ²⁴ pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²¹	破
+pongf pongx pongv pongr	póng pōng pòng pǒng	pʰɔ̃²⁴ pʰɔ̃⁵⁵ pʰɔ̃⁵¹ pʰɔ̃²¹	碰
+pongr pongx pongv pongf	pǒng pōng pòng póng	pʰɔ̃²¹ pʰɔ̃⁵⁵ pʰɔ̃⁵¹ pʰɔ̃²⁴	堋彭朋棚篣篷膨趽輣騯
+pongv pongx pongr pongf	pòng pōng pǒng póng	pʰɔ̃⁵¹ pʰɔ̃⁵⁵ pʰɔ̃²¹ pʰɔ̃²⁴	䋽唪捧覂
+pongx pongr pongv pongf	pōng pǒng pòng póng	pʰɔ̃⁵⁵ pʰɔ̃²¹ pʰɔ̃⁵¹ pʰɔ̃²⁴	塳芃菶韸髼
+por pox pov pof	pǒ pō pò pó	pʰɔ²¹ pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²⁴	䥽叵墣婆昢泼潑璞皤粕鄱醭鏷鏺镤鞄颮飑𦢸𩕏
+por pox pov pof pur pux puv puf	pǒ pō pò pó pǔ pū pù pú	pʰɔ²¹ pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²⁴ pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴	朴樸
+pov pox por pof	pò pō pǒ pó	pʰɔ⁵¹ pʰɔ⁵⁵ pʰɔ²¹ pʰɔ²⁴	頗颇
+pox pov por pof	pō pò pǒ pó	pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²¹ pʰɔ²⁴	坡
+pur pux puv puf	pǔ pū pù pú	pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴	㒒㪍㶿䒀仆僕勃匍幞悖曝桲浡渤潽濮瀑瓿纀脖脯艴茡菩蒱蒲襆訃讣轐馞𡋯𫐗
+pur pux puv puf bur bux buv buf	pǔ pū pù pú bǔ bū bù bú	pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴ pu²¹ pu⁵⁵ pu⁵¹ pu²⁴	卜
+pur pux puv puf por pox pov pof	pǔ pū pù pú pǒ pō pò pó	pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴ pʰɔ²¹ pʰɔ⁵⁵ pʰɔ⁵¹ pʰɔ²⁴	扑撲
+pur pux puv puf sav sax sar saf	pǔ pū pù pú sà sā sǎ sá	pʰu²¹ pʰu⁵⁵ pʰu⁵¹ pʰu²⁴ sa⁵¹ sa⁵⁵ sa²¹ sa²⁴	萨薩
+puv pux pur puf	pù pū pǔ pú	pʰu⁵¹ pʰu⁵⁵ pʰu²¹ pʰu²⁴	捕普浦甫誧譜谱
+pux puf puv pur	pū pú pù pǔ	pʰu⁵⁵ pʰu²⁴ pʰu⁵¹ pʰu²¹	鋪铺
+qiaf qiax qiav qiar	qiá qiā qià qiǎ	tɕʰia²⁴ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²¹	拃
+qianf qianx qianv qianr	qián qiān qiàn qiǎn	tɕʰiã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹	傔劝勸呛嗆欠欦歉
+qianf qianx qianv qianr xianf xianx xianv xianr	qián qiān qiàn qiǎn xián xiān xiàn xiǎn	tɕʰiã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ ɕiã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹	像嶑橡潒蟓襐
+qianr qianv qianx qianf jianf jianx jianv jianr	qiǎn qiàn qiān qián jián jiān jiàn jiǎn	tɕʰiã²¹ tɕʰiã⁵¹ tɕʰiã⁵⁵ tɕʰiã²⁴ tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹	強强
+qianr qianx qianv qianf	qiǎn qiān qiàn qián	tɕʰiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²⁴	乾全前墙墻婘嫱嬙庠廧惓戕拑拳捲权樯檣權泉潛潜牆牷犍痊祥箝翔蔷薔蘠虔蜷詳详鈐鉆鉗錢钤钱钳顴颧騝鬈黔𩨃𪪞
+qianr qianx qianv qianf ganx ganv ganr ganf	qiǎn qiān qiàn qián gān gàn gǎn gán	tɕʰiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²⁴ kã⁵⁵ kã⁵¹ kã²¹ kã²⁴	干
+qianr qianx qianv qianf suanx suanv suanr suanf	qiǎn qiān qiàn qián suān suàn suǎn suán	tɕʰiã²¹ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²⁴ suã⁵⁵ suã⁵¹ suã²¹ suã²⁴	佺悛筌絟縓荃詮譔诠輇辁銓铨駩𩧴
+qianv qianx qianr qianf	qiàn qiān qiǎn qián	tɕʰiã⁵¹ tɕʰiã⁵⁵ tɕʰiã²¹ tɕʰiã²⁴	抢搶浅淺犬虇遣鯫鲰
+qianx qianf qianv qianr	qiān qián qiàn qiǎn	tɕʰiã⁵⁵ tɕʰiã²⁴ tɕʰiã⁵¹ tɕʰiã²¹	纖纤
+qianx qianv qianr qianf	qiān qiàn qiǎn qián	tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	㡨仟佥僉千圈岍悾枪椌椠槍槧歼殲汧牋牵牽笺签箋篯簽籛籤羌腔芊蜣謙谦谸蹡迁遷鏘锵阡鞯韆韉𠨧𣘷𣚙𣝕
+qiaof qiaox qiaov qiaor	qiáo qiāo qiào qiǎo	tɕʰiau²⁴ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²¹	俏峭窍竅誚诮跷蹺陗鞘𢶡
+qiaor qiaof qiaox qiaov	qiǎo qiáo qiāo qiào	tɕʰiau²¹ tɕʰiau²⁴ tɕʰiau⁵⁵ tɕʰiau⁵¹	翘翹
+qiaor qiaox qiaov qiaof	qiǎo qiāo qiào qiáo	tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴	㕁㱿㲉乔侨僑却卻喬埆嫶峤嶠悫愨慤憔桥樵橋殻毃燋癄瞧硞礐荍荞蕎蟜譙谯趞雀顦鵲鷇鹊𪃟𫊸𬒈
+qiaor qiaox qiaov qiaof kor kox kov kof	qiǎo qiāo qiào qiáo kǒ kō kò kó	tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴ kʰɔ²¹ kʰɔ⁵⁵ kʰɔ⁵¹ kʰɔ²⁴	确確
+qiaor qiaox qiaov qiaof saof saox saov saor	qiǎo qiāo qiào qiáo sáo sāo sào sǎo	tɕʰiau²¹ tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²⁴ sau²⁴ sau⁵⁵ sau⁵¹ sau²¹	劭
+qiaov qiaox qiaor qiaof	qiào qiāo qiǎo qiáo	tɕʰiau⁵¹ tɕʰiau⁵⁵ tɕʰiau²¹ tɕʰiau²⁴	巧
+qiaox qiaov qiaor qiaof	qiāo qiào qiǎo qiáo	tɕʰiau⁵⁵ tɕʰiau⁵¹ tɕʰiau²¹ tɕʰiau²⁴	墝悄愀硗磽繰缲鍫鍬锹
+qiar qiax qiav qiaf	qiǎ qiā qià qiá	tɕʰia²¹ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²⁴	㡊帢恰𥴭
+qiar qiax qiav qiaf xix xiv xir xif	qiǎ qiā qià qiá xī xì xǐ xí	tɕʰia²¹ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹ ɕi²⁴	胠
+qier qiex qiev qief	qiě qiē qiè qié	tɕʰiɛ²¹ tɕʰiɛ⁵⁵ tɕʰiɛ⁵¹ tɕʰiɛ²⁴	㥦䕙倢切劫唼妾巀怯悏惬愜捷沏窃竊箧篋緁缺誱闋闕阕阙𡙇𢧵𦁐𪙌
+qier qiex qiev qief jiax jiav jiar jiaf	qiě qiē qiè qié jiā jià jiǎ jiá	tɕʰiɛ²¹ tɕʰiɛ⁵⁵ tɕʰiɛ⁵¹ tɕʰiɛ²⁴ tɕia⁵⁵ tɕia⁵¹ tɕia²¹ tɕia²⁴	茄
+qier qiex qiev qief jier jiex jiev jief	qiě qiē qiè qié jiě jiē jiè jié	tɕʰiɛ²¹ tɕʰiɛ⁵⁵ tɕʰiɛ⁵¹ tɕʰiɛ²⁴ tɕiɛ²¹ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²⁴	截
+qier qiex qiev qief xianr xianx xianv xianf	qiě qiē qiè qié xiǎn xiān xiàn xián	tɕʰiɛ²¹ tɕʰiɛ⁵⁵ tɕʰiɛ⁵¹ tɕʰiɛ²⁴ ɕiã²¹ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²⁴	慊
+qiev qiex qier qief	qiè qiē qiě qié	tɕʰiɛ⁵¹ tɕʰiɛ⁵⁵ tɕʰiɛ²¹ tɕʰiɛ²⁴	且
+qif qir qix qiv	qí qǐ qī qì	tɕʰi²⁴ tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹	墄蚑
+qif qix qiv qir	qí qī qì qǐ	tɕʰi²⁴ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹	㓶亟企器契娸弃愒憩挈栔棄气氣汽甈砌趣鍥锲𥉻𦧰
+qif qix qiv qir keif keix keiv keir	qí qī qì qǐ kéi kēi kèi kěi	tɕʰi²⁴ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ kʰei²⁴ kʰei⁵⁵ kʰei⁵¹ kʰei²¹	去
+qinf qinx qinv qinr	qín qīn qìn qǐn	tɕʰĩ²⁴ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²¹	侵寑寖寝寢庆慶殸浸磬祲綅罄謦鋟鑋锓駸骎𡩻𡫏𥥻𥧲𨆪𪊑𫏕
+qinf qinx qinv qinr jinf jinx jinv jinr	qín qīn qìn qǐn jín jīn jìn jǐn	tɕʰĩ²⁴ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²¹ tɕĩ²⁴ tɕĩ⁵⁵ tɕĩ⁵¹ tɕĩ²¹	静靜
+qinr qinx qinv qinf	qǐn qīn qìn qín	tɕʰĩ²¹ tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²⁴	㢙䲔勍勤噙墐宭帬廑情惸慬懃擎擒晴檎煢琴琼璚瓊瓗瘽睘禽秦竲紟繒缯羣群肣芩芹茕藑螓裙裠鄫騬鯨鲸黥𡞦𥎊𥱧𫄛
+qinv qinx qinr qinf	qìn qīn qǐn qín	tɕʰĩ⁵¹ tɕʰĩ⁵⁵ tɕʰĩ²¹ tɕʰĩ²⁴	請请
+qinx qinf qinv qinr	qīn qín qìn qǐn	tɕʰĩ⁵⁵ tɕʰĩ²⁴ tɕʰĩ⁵¹ tɕʰĩ²¹	亲親
+qinx qinv qinr qinf	qīn qìn qǐn qín	tɕʰĩ⁵⁵ tɕʰĩ⁵¹ tɕʰĩ²¹ tɕʰĩ²⁴	倾傾卿嵚嶔檾欽清蜻衾輕轻钦青頃顉顷𨻺
+qiongr qiongx qiongv qiongf	qiǒng qiōng qiòng qióng	tɕʰiɔ̃²¹ tɕʰiɔ̃⁵⁵ tɕʰiɔ̃⁵¹ tɕʰiɔ̃²⁴	䓖卭笻筇藭蛩邛𥞱𥨪𦨰𦭭
+qiongr qiongx qiongv qiongf jiongr jiongx jiongv jiongf	qiǒng qiōng qiòng qióng jiǒng jiōng jiòng jióng	tɕʰiɔ̃²¹ tɕʰiɔ̃⁵⁵ tɕʰiɔ̃⁵¹ tɕʰiɔ̃²⁴ tɕiɔ̃²¹ tɕiɔ̃⁵⁵ tɕiɔ̃⁵¹ tɕiɔ̃²⁴	穷窮
+qir qix qiv qif	qǐ qī qì qí	tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴	㙨㤜㯃䎉䒼七乞佶其吃喫圻埼奇姞屈岐崎忔忯惙愭慼慽戚拙拮捇掘旂旗曲期桼棊棋歧毄汔淇漆琦琪璂畿疧疷瞲瞿碁碕祁祈綌綦绤肵肸肹脐臍芪蕲蘄蛴蜝蠐訖詘詰讫诎诘趌軗軝輟辍迄郄郤釳錡鏚锜隑隙頎颀騎騏骐骑鬐鰭鳍鶀麒麯麴鼜齊齐𤪌𨐅𨙸𨰿𬨂𬭭𬮿
+qir qix qiv qif xif xix xiv xir	qǐ qī qì qí xí xī xì xǐ	tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴ ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹	虩衋赩𥈜
+qir qix qiv qif xir xix xiv xif	qǐ qī qì qí xǐ xī xì xí	tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴ ɕi²¹ ɕi⁵⁵ ɕi⁵¹ ɕi²⁴	湆
+qir qix qiv qif zif zix ziv zir	qǐ qī qì qí zí zī zì zǐ	tɕʰi²¹ tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²⁴ tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹	伎
+qiuf qiux qiuv qiur jiuv jiux jiur jiuf	qiú qiū qiù qiǔ jiù jiū jiǔ jiú	tɕʰiu²⁴ tɕʰiu⁵⁵ tɕʰiu⁵¹ tɕʰiu²¹ tɕiu⁵¹ tɕiu⁵⁵ tɕiu²¹ tɕiu²⁴	揪
+qiur qiux qiuv qiuf	qiǔ qiū qiù qiú	tɕʰiu²¹ tɕʰiu⁵⁵ tɕʰiu⁵¹ tɕʰiu²⁴	䊵俅厹叴囚慒毬求泅球璆絿艽虬虯蟉裘觓觩賕赇逎逑遒酋銶鼽𨱇
+qiux qiuv qiur qiuf	qiū qiù qiǔ qiú	tɕʰiu⁵⁵ tɕʰiu⁵¹ tɕʰiu²¹ tɕʰiu²⁴	䲡丘坵楸秋篍緧萩邱鞦鞧鰌鰍鳅鶖鹙𦃈
+qiv qif qix qir	qì qí qī qǐ	tɕʰi⁵¹ tɕʰi²⁴ tɕʰi⁵⁵ tɕʰi²¹	覷觑
+qiv qix qir qif	qì qī qǐ qí	tɕʰi⁵¹ tɕʰi⁵⁵ tɕʰi²¹ tɕʰi²⁴	䄫取启啓啟娶婍屺岂杞棨狙玘綮綺绮芑覰豈起𡷞𥡞𦄊
+qix qir qiv qif	qī qǐ qì qí	tɕʰi⁵⁵ tɕʰi²¹ tɕʰi⁵¹ tɕʰi²⁴	蛐
+qix qiv qir qif	qī qì qǐ qí	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴	㶉䗁䝙倛僛奚妻娵嵠栖棲欺沮溪疽砠磎菹萋蛆諏诹谿貙趄趋趨雎驅驱魌鸂黢𢼨
+qix qiv qir qif ngoux ngouv ngour ngouf	qī qì qǐ qí ngōu ngòu ngǒu ngóu	tɕʰɿ⁵⁵ tɕʰɿ⁵¹ tɕʰɿ²¹ tɕʰɿ²⁴ ŋou⁵⁵ ŋou⁵¹ ŋou²¹ ŋou²⁴	区區
+qix qiv qir qif six siv sir sif xix xiv xir xif	qī qì qǐ qí sī sì sǐ sí xī xì xǐ xí	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴ sɿ⁵⁵ sɿ⁵¹ sɿ²¹ sɿ²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹ ɕi²⁴	屖捿遟
+qix qiv qir qif xix xiv xir xif	qī qì qǐ qí xī xì xǐ xí	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹ ɕi²⁴	凄嵇悽豯
+qix qiv qir qif zouv zoux zour zouf zuv zux zur zuf	qī qì qǐ qí zòu zōu zǒu zóu zù zū zǔ zú	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴ tsou⁵¹ tsou⁵⁵ tsou²¹ tsou²⁴ tsu⁵¹ tsu⁵⁵ tsu²¹ tsu²⁴	掫
+qix qiv qir qif zuv zux zur zuf	qī qì qǐ qí zù zū zǔ zú	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴ tsu⁵¹ tsu⁵⁵ tsu²¹ tsu²⁴	岨
+qix qiv qir qif zux zuv zur zuf	qī qì qǐ qí zū zù zǔ zú	tɕʰi⁵⁵ tɕʰi⁵¹ tɕʰi²¹ tɕʰi²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹ tsu²⁴	蒩
+ranf ranx ranv ranr	rán rān ràn rǎn	zã²⁴ zã⁵⁵ zã⁵¹ zã²¹	懹欀讓让
+ranr ranx ranv ranf	rǎn rān ràn rán	zã²¹ zã⁵⁵ zã⁵¹ zã²⁴	勷瀼然燃瓤禳𣀮𥀶𨟚
+ranv ranr ranx ranf	ràn rǎn rān rán	zã⁵¹ zã²¹ zã⁵⁵ zã²⁴	穰
+ranv ranx ranr ranf	ràn rān rǎn rán	zã⁵¹ zã⁵⁵ zã²¹ zã²⁴	䑋䖆冉嚷壤攘染苒酿釀𥽬𨋕
+raor raox raov raof	rǎo rāo rào ráo	zau²¹ zau⁵⁵ zau⁵¹ zau²⁴	桡橈荛蕘襓饒饶𫋹
+raov raof raox raor	rào ráo rāo rǎo	zau⁵¹ zau²⁴ zau⁵⁵ zau²¹	繞绕
+reir reix reiv reif	rěi rēi rèi réi	zei²¹ zei⁵⁵ zei⁵¹ zei²⁴	热熱
+reiv reix reir reif	rèi rēi rěi réi	zei⁵¹ zei⁵⁵ zei²¹ zei²⁴	喏惹
+renf renx renv renr	rén rēn rèn rěn	zɜ̃²⁴ zɜ̃⁵⁵ zɜ̃⁵¹ zɜ̃²¹	䋕仍任壬妊姙紝絍纴艿認认陾鵀𫟃
+renr renx renv renf	rěn rēn rèn rén	zɜ̃²¹ zɜ̃⁵⁵ zɜ̃⁵¹ zɜ̃²⁴	人仁
+renv renf renx renr	rèn rén rēn rěn	zɜ̃⁵¹ zɜ̃²⁴ zɜ̃⁵⁵ zɜ̃²¹	芿
+renv renx renr renf	rèn rēn rěn rén	zɜ̃⁵¹ zɜ̃⁵⁵ zɜ̃²¹ zɜ̃²⁴	㭁仞刃忍扔牣紉纫訒讱軔轫韌韧
+rir rix riv rif	rǐ rī rì rí	zɿ²¹ zɿ⁵⁵ zɿ⁵¹ zɿ²⁴	日衵馹驲
+rongr rongx rongv rongf	rǒng rōng ròng róng	zɔ̃²¹ zɔ̃⁵⁵ zɔ̃⁵¹ zɔ̃²⁴	戎絨绒茸
+rongv rongx rongr rongf	ròng rōng rǒng róng	zɔ̃⁵¹ zɔ̃⁵⁵ zɔ̃²¹ zɔ̃²⁴	冗氄
+rongx rongr rongv rongf	rōng rǒng ròng róng	zɔ̃⁵⁵ zɔ̃²¹ zɔ̃⁵¹ zɔ̃²⁴	㲨慵狨茙駥鱅鳙𢫨𥎂𥧱
+ror rox rov rof	rǒ rō rò ró	zuɔ²¹ zuɔ⁵⁵ zuɔ⁵¹ zuɔ²⁴	弱箬蒻鄀
+ror rox rov rof	rǒ rō rò ró	zɔ²¹ zɔ⁵⁵ zɔ⁵¹ zɔ²⁴	若
+roux rouv rour rouf	rōu ròu rǒu róu	zou⁵⁵ zou⁵¹ zou²¹ zou²⁴	㽥柔瑈腬蹂鍒鞣𫔄
+roux rouv rour rouf ruar ruax ruav ruaf	rōu ròu rǒu róu ruǎ ruā ruà ruá	zou⁵⁵ zou⁵¹ zou²¹ zou²⁴ zua²¹ zua⁵⁵ zua⁵¹ zua²⁴	揉
+ruanv ruanx ruanr ruanf	ruàn ruān ruǎn ruán	zuã⁵¹ zuã⁵⁵ zuã²¹ zuã²⁴	蝡軟輭软阮
+ruif ruix ruiv ruir	ruí ruī ruì ruǐ	zuei²⁴ zuei⁵⁵ zuei⁵¹ zuei²¹	橤甤繠菙蕊蘂銳鋭锐
+runf runx runv runr	rún rūn rùn rǔn	zuɜ̃²⁴ zuɜ̃⁵⁵ zuɜ̃⁵¹ zuɜ̃²¹	孕润潤閏閠闰
+rur rux ruv ruf	rǔ rū rù rú	zu²¹ zu⁵⁵ zu⁵¹ zu²⁴	儒入嚅如孺廿懦溽濡縟缛肉蓐薷褥襦辱鄏鴽𫛪
+ruv rux rur ruf	rù rū rǔ rú	zu⁵¹ zu⁵⁵ zu²¹ zu²⁴	乳汝
+ruv rux rur ruf suf sux suv sur	rù rū rǔ rú sú sū sù sǔ	zu⁵¹ zu⁵⁵ zu²¹ zu²⁴ su²⁴ su⁵⁵ su⁵¹ su²¹	籹茹醹
+saif saix saiv sair	sái sāi sài sǎi	sai²⁴ sai⁵⁵ sai⁵¹ sai²¹	晒曬簺賽赛閷
+saif saix saiv sair seif seix seiv seir	sái sāi sài sǎi séi sēi sèi sěi	sai²⁴ sai⁵⁵ sai⁵¹ sai²¹ sei²⁴ sei⁵⁵ sei⁵¹ sei²¹	鎩铩
+saix saiv sair saif	sāi sài sǎi sái	sai⁵⁵ sai⁵¹ sai²¹ sai²⁴	筛篩腮顋鰓鳃
+sanf sanv sanx sanr	sán sàn sān sǎn	sã²⁴ sã⁵¹ sã⁵⁵ sã²¹	散
+sanf sanx sanv sanr	sán sān sàn sǎn	sã²⁴ sã⁵⁵ sã⁵¹ sã²¹	䄠上善墠嬗尚扇擅椫樿膳譱鄯饍鱔鳝𫮃
+sanf sanx sanv sanr tanv tanx tanr tanf	sán sān sàn sǎn tàn tān tǎn tán	sã²⁴ sã⁵⁵ sã⁵¹ sã²¹ tʰã⁵¹ tʰã⁵⁵ tʰã²¹ tʰã²⁴	儃
+sanr sanx sanv sanf	sǎn sān sàn sán	sã²¹ sã⁵⁵ sã⁵¹ sã²⁴	裳閃闪
+sanv sanx sanr sanf	sàn sān sǎn sán	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴	㴸伞偿傘償嗓晌睒磉繖覢賞赏陕陝顙颡𤸯
+sanv sanx sanr sanf congf congx congv congr	sàn sān sǎn sán cóng cōng còng cǒng	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴ tsʰɔ̃²⁴ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹	搡
+sanv sanx sanr sanf senv senx senr senf	sàn sān sǎn sán sèn sēn sěn sén	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴ sɜ̃⁵¹ sɜ̃⁵⁵ sɜ̃²¹ sɜ̃²⁴	淰
+sanv sanx sanr sanf xianf xianx xianv xianr	sàn sān sǎn sán xián xiān xiàn xiǎn	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴ ɕiã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹	嚮曏蚃蠁
+sanv sanx sanr sanf xianv xianx xianr xianf	sàn sān sǎn sán xiàn xiān xiǎn xián	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴ ɕiã⁵¹ ɕiã⁵⁵ ɕiã²¹ ɕiã²⁴	傋
+sanv sanx sanr sanf xianx xianv xianr xianf	sàn sān sǎn sán xiān xiàn xiǎn xián	sã⁵¹ sã⁵⁵ sã²¹ sã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹ ɕiã²⁴	飨饗
+sanx sanv sanr sanf	sān sàn sǎn sán	sã⁵⁵ sã⁵¹ sã²¹ sã²⁴	三丧伤傷商喪山挻桑桒殇殤汕潸煽珊畼疝羶膻舢衫觞觴訕謪讪跚饟鬺𤳈𧶜𨢩𪽈𫗵
+sanx sanv sanr sanf xianx xianv xianr xianf	sān sàn sǎn sán xiān xiàn xiǎn xián	sã⁵⁵ sã⁵¹ sã²¹ sã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹ ɕiã²⁴	姍姗
+saof saox saov saor	sáo sāo sào sǎo	sau²⁴ sau⁵⁵ sau⁵¹ sau²¹	㲈佋潲紹绍遶邵韶
+saof saox saov saor zaof zaox zaov zaor	sáo sāo sào sǎo záo zāo zào zǎo	sau²⁴ sau⁵⁵ sau⁵¹ sau²¹ tsau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹	詔诏
+saor saox saov saof	sǎo sāo sào sáo	sau²¹ sau⁵⁵ sau⁵¹ sau²⁴	苕
+saov saof saox saor	sào sáo sāo sǎo	sau⁵¹ sau²⁴ sau⁵⁵ sau²¹	少扫掃
+saov saox saor saof	sào sāo sǎo sáo	sau⁵¹ sau⁵⁵ sau²¹ sau²⁴	㛮䌇嫂𢱢
+saox saof saov saor	sāo sáo sào sǎo	sau⁵⁵ sau²⁴ sau⁵¹ sau²¹	臊
+saox saov saor saof	sāo sào sǎo sáo	sau⁵⁵ sau⁵¹ sau²¹ sau²⁴	弰捎搔旓梢烧燒稍筲颵颾騷骚髾𩙫
+sar sax sav saf	sǎ sā sà sá	sa²¹ sa⁵⁵ sa⁵¹ sa²⁴	刹剎杀殺煞翣
+sav sax sar saf	sà sā sǎ sá	sa⁵¹ sa⁵⁵ sa²¹ sa²⁴	傻摋撒攃暇洒灑罅芐葰躠靸𢫬𥻦𫂿
+sax sav sar saf	sā sà sǎ sá	sa⁵⁵ sa⁵¹ sa²¹ sa²⁴	㲚杉沙畬砂紗纱裟魦鯊鲨𫚌
+sax sav sar saf sanx sanv sanr sanf	sā sà sǎ sá sān sàn sǎn sán	sa⁵⁵ sa⁵¹ sa²¹ sa²⁴ sã⁵⁵ sã⁵¹ sã²¹ sã²⁴	㺑彡掺摻攕芟襳𩁺
+seif seir seix seiv	séi sěi sēi sèi	sei²⁴ sei²¹ sei⁵⁵ sei⁵¹	捨滠灄設设
+seif seix seiv seir	séi sēi sèi sěi	sei²⁴ sei⁵⁵ sei⁵¹ sei²¹	厍厙射弽社蜇赦麝
+seir seix seiv seif	sěi sēi sèi séi	sei²¹ sei⁵⁵ sei⁵¹ sei²⁴	㰱佘啬嗇塞摄摵攝栜歃涉涩澀澁瑟璱穑穡箑舌色萐虱蛇蝨鉈铊闍阇霎韘飋𣽤𫗋
+seir seix seiv seif xif xix xiv xir	sěi sēi sèi séi xí xī xì xǐ	sei²¹ sei⁵⁵ sei⁵¹ sei²⁴ ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹	歙
+seiv seix seir seif	sèi sēi sěi séi	sei⁵¹ sei⁵⁵ sei²¹ sei²⁴	舍
+seix seiv seir seif	sēi sèi sěi séi	sei⁵⁵ sei⁵¹ sei²¹ sei²⁴	奢賒賖赊
+senf senx senv senr	sén sēn sèn sěn	sɜ̃²⁴ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²¹	剩勝圣嵊愼慎昚晟椉榺甚祳聖肾胜脤腎蜃蜄貹賸鱦𣞵𧒏
+senr senx senv senf	sěn sēn sèn sén	sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴	䢅娠宸晨神辰鷐麎𫜀
+senr senx senv senf sunr sunx sunv sunf	sěn sēn sèn sén sǔn sūn sùn sún	sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴ suɜ̃²¹ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²⁴	唇漘犉瞤脣莼蒓蓴錞𥆧𬭚
+senr senx senv senf sunr sunx sunv sunf tenx tenv tenr tenf	sěn sēn sèn sén sǔn sūn sùn sún tēn tèn těn tén	sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴ suɜ̃²¹ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²⁴ tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²¹ tʰɜ̃²⁴	焞
+senr senx senv senf sunr sunx sunv sunf tuanr tuanx tuanv tuanf	sěn sēn sèn sén sǔn sūn sùn sún tuǎn tuān tuàn tuán	sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴ suɜ̃²¹ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²⁴ tʰuã²¹ tʰuã⁵⁵ tʰuã⁵¹ tʰuã²⁴	鶉鹑
+senr senx senv senf sunr sunx sunv sunf zunv zunx zunr zunf	sěn sēn sèn sén sǔn sūn sùn sún zùn zūn zǔn zún	sɜ̃²¹ sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²⁴ suɜ̃²¹ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²⁴ tsuɜ̃⁵¹ tsuɜ̃⁵⁵ tsuɜ̃²¹ tsuɜ̃²⁴	淳
+senv senx senr senf	sèn sēn sěn sén	sɜ̃⁵¹ sɜ̃⁵⁵ sɜ̃²¹ sɜ̃²⁴	婶嬸审審椮槮沈省瞫諗谂𤘣
+senx senv senr senf	sēn sèn sěn sén	sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²¹ sɜ̃²⁴	伸僧升呻声昇柛森深渗滲牲狌猩生甥申笙紳绅罧聲葠蔘襂身鉎陞鬙鼪𦸂
+senx senv senr senf canx canv canr canf	sēn sèn sěn sén cān càn cǎn cán	sɜ̃⁵⁵ sɜ̃⁵¹ sɜ̃²¹ sɜ̃²⁴ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²¹ tsʰã²⁴	参參
+sif six siv sir	sí sī sì sǐ	sɿ²⁴ sɿ⁵⁵ sɿ⁵¹ sɿ²¹	䦙世事仕似侍俟僿势勢啻嗜嗣噬四埶士市式弑弒忕恃戺是柶柿氏泗澨瀃眂眎眡示祀禩笥筮耆肆莳蒔視视試誓諡謚试谥貰贳逝遾飤飼饲𢟯𢨪𢻃𣐈𣽷𦿇𧨦𨢍𩢲
+sif six siv sir xir xix xiv xif	sí sī sì sǐ xǐ xī xì xí	sɿ²⁴ sɿ⁵⁵ sɿ⁵¹ sɿ²¹ ɕi²¹ ɕi⁵⁵ ɕi⁵¹ ɕi²⁴	駟驷
+sif six siv sir zif zix ziv zir	sí sī sì sǐ zí zī zì zǐ	sɿ²⁴ sɿ⁵⁵ sɿ⁵¹ sɿ²¹ tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹	兕姒汜涘竢耜騃𫘤
+sir six siv sif	sǐ sī sì sí	sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴	十埘埴塒失奭实室寔實拭拾时旹時晹湜湿溼漦濕睗矢石硕碩祏蚀蝕螫襫識识軾轼适適释釋鉐食飾饰鰣鲥鼫𡣪𥼶𦑡𩋡
+sir six siv sif senv senx senr senf	sǐ sī sì sí sèn sēn sěn sén	sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴ sɜ̃⁵¹ sɜ̃⁵⁵ sɜ̃²¹ sɜ̃²⁴	什
+sir six siv sif wax wav war waf	sǐ sī sì sí wā wà wǎ wá	sɿ²¹ sɿ⁵⁵ sɿ⁵¹ sɿ²⁴ ua⁵⁵ ua⁵¹ ua²¹ ua²⁴	佸栝筈聒葀
+siv six sir sif	sì sī sǐ sí	sɿ⁵¹ sɿ⁵⁵ sɿ²¹ sɿ²⁴	使史始屎屣弛死豉豕駛驶𦳊
+siv six sir sif xiv xir xix xif	sì sī sǐ sí xì xǐ xī xí	sɿ⁵¹ sɿ⁵⁵ sɿ²¹ sɿ²⁴ ɕi⁵¹ ɕi²¹ ɕi⁵⁵ ɕi²⁴	壐
+siv six sir sif zif zix ziv zir	sì sī sǐ sí zí zī zì zǐ	sɿ⁵¹ sɿ⁵⁵ sɿ²¹ sɿ²⁴ tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹	阤
+six siv sir sif	sī sì sǐ sí	sɿ⁵⁵ sɿ⁵¹ sɿ²¹ sɿ²⁴	㕧䌳䙾䰄丝偲凘厮司嘶尸屍师師廝思斯施澌狮獅禠私簁籭絁絲緦缌罳葹蒒蓍蓰虒蛳螄襹覗詩诗邿酾釃鉇鍦颸飔鳲鷥鸤鸶𩆵𪆁𫄟
+six siv sir sif rix riv rir rif	sī sì sǐ sí rī rì rǐ rí	sɿ⁵⁵ sɿ⁵¹ sɿ²¹ sɿ²⁴ zɿ⁵⁵ zɿ⁵¹ zɿ²¹ zɿ²⁴	撕
+songf songx songv songr	sóng sōng sòng sǒng	sɔ̃²⁴ sɔ̃⁵⁵ sɔ̃⁵¹ sɔ̃²¹	宋訟誦讼诵送頌颂鬆
+songv songr songx songf congf congx congv congr	sòng sǒng sōng sóng cóng cōng còng cǒng	sɔ̃⁵¹ sɔ̃²¹ sɔ̃⁵⁵ sɔ̃²⁴ tsʰɔ̃²⁴ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²¹	怂慫
+songx songv songr songf	sōng sòng sǒng sóng	sɔ̃⁵⁵ sɔ̃⁵¹ sɔ̃²¹ sɔ̃²⁴	凇垶娀崧嵩松淞菘騂骍𢤄𪀚
+sor sox sov sof	sǒ sō sò só	suɔ²¹ suɔ⁵⁵ suɔ⁵¹ suɔ²⁴	勺
+sor sox sov sof	sǒ sō sò só	sɔ²¹ sɔ⁵⁵ sɔ⁵¹ sɔ²⁴	塑朔槊矟芍萷蟀
+sor sox sov sof luir luix luiv luif suaif suaix suaiv suair	sǒ sō sò só luǐ luī luì luí suái suāi suài suǎi	sɔ²¹ sɔ⁵⁵ sɔ⁵¹ sɔ²⁴ luei²¹ luei⁵⁵ luei⁵¹ luei²⁴ suai²⁴ suai⁵⁵ suai⁵¹ suai²¹	率
+sor sox sov sof suir suix suiv suif	sǒ sō sò só suǐ suī suì suí	sɔ²¹ sɔ⁵⁵ sɔ⁵¹ sɔ²⁴ suei²¹ suei⁵⁵ suei⁵¹ suei²⁴	説说
+souf soux souv sour	sóu sōu sòu sǒu	sou²⁴ sou⁵⁵ sou⁵¹ sou²¹	兽受嗽壽寿授獸瘦綬绶𤸃
+souv souf soux sour	sòu sóu sōu sǒu	sou⁵¹ sou²⁴ sou⁵⁵ sou²¹	狩
+souv soux sour souf	sòu sōu sǒu sóu	sou⁵¹ sou⁵⁵ sou²¹ sou²⁴	守手獀醙首
+souv soux sour souf xiaov xiaox xiaor xiaof	sòu sōu sǒu sóu xiào xiāo xiǎo xiáo	sou⁵¹ sou⁵⁵ sou²¹ sou²⁴ ɕiau⁵¹ ɕiau⁵⁵ ɕiau²¹ ɕiau²⁴	溲
+soux souv sour souf	sōu sòu sǒu sóu	sou⁵⁵ sou⁵¹ sou²¹ sou²⁴	䐹䤇䤹䬒䮟叟廀廋搜摉收蒐颼飕騪𢯱𦢩𨡻𩨄
+sov sox sor sof	sò sō sǒ só	suɔ⁵¹ suɔ⁵⁵ suɔ²¹ suɔ²⁴	䉤䝪䵀所璅籔糈薮藪鎖锁𠩄
+sov sox sor sof	sò sō sǒ só	sɔ⁵¹ sɔ⁵⁵ sɔ²¹ sɔ²⁴	琐瑣
+sox sov sor sof	sō sò sǒ só	sɔ⁵⁵ sɔ⁵¹ sɔ²¹ sɔ²⁴	傞唆娑挱挲梭睃簑莎莏蓑髿𣯌
+suaif suaix suaiv suair	suái suāi suài suǎi	suai²⁴ suai⁵⁵ suai⁵¹ suai²¹	帅帥
+suaiv suaix suair suaif	suài suāi suǎi suái	suai⁵¹ suai⁵⁵ suai²¹ suai²⁴	摔甩
+suaix suaiv suair suaif	suāi suài suǎi suái	suai⁵⁵ suai⁵¹ suai²¹ suai²⁴	衰
+suanf suanx suanv suanr	suán suān suàn suǎn	suã²⁴ suã⁵⁵ suã⁵¹ suã²¹	笇筭算篹蒜
+suanv suanx suanr suanf	suàn suān suǎn suán	suã⁵¹ suã⁵⁵ suã²¹ suã²⁴	塽漺爽
+suanx suanv suanr suanf	suān suàn suǎn suán	suã⁵⁵ suã⁵¹ suã²¹ suã²⁴	删刪双孀拴栓泷瀧艭酸閂闩雙霜驦骦鷞鸘鹴𢥠𣟴𣠯𩆑
+suar suax suav suaf	suǎ suā suà suá	sua²¹ sua⁵⁵ sua⁵¹ sua²⁴	刷
+suav suax suar suaf	suà suā suǎ suá	sua⁵¹ sua⁵⁵ sua²¹ sua²⁴	耍
+suf sux suv sur	sú sū sù sǔ	su²⁴ su⁵⁵ su⁵¹ su²¹	㴑傃嗉塐墅庶恕愫愬戍曙术树樹欶沭泝溯漱瘶秫竖竪素署術裋訴诉豎述遡
+suf sux suv sur zuf zux zuv zur	sú sū sù sǔ zú zū zù zǔ	su²⁴ su⁵⁵ su⁵¹ su²¹ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	澍
+suif suix suiv suir	suí suī suì suǐ	suei²⁴ suei⁵⁵ suei⁵¹ suei²¹	倕岁歲瑞睡稅税
+suir suix suiv suif	suǐ suī suì suí	suei²¹ suei⁵⁵ suei⁵¹ suei²⁴	脽誰谁随隨
+suiv suix suir suif	suì suī suǐ suí	suei⁵¹ suei⁵⁵ suei²¹ suei²⁴	水
+suix suiv suir suif	suī suì suǐ suí	suei⁵⁵ suei⁵¹ suei²¹ suei²⁴	䪎挼毸浽濉荽虽雖𦸏
+sunf sunx sunv sunr	sún sūn sùn sǔn	suɜ̃²⁴ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²¹	䀢眴瞚瞬舜蕣順顺鬊
+sunf sunx sunv sunr xinr xinx xinv xinf	sún sūn sùn sǔn xǐn xīn xìn xín	suɜ̃²⁴ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²¹ ɕĩ²¹ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²⁴	揗
+sunr sunx sunv sunf	sǔn sūn sùn sún	suɜ̃²¹ suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²⁴	純繩纯绳醇
+sunv sunx sunr sunf	sùn sūn sǔn sún	suɜ̃⁵¹ suɜ̃⁵⁵ suɜ̃²¹ suɜ̃²⁴	损損榫笋筍簨隼
+sunx sunv sunr sunf	sūn sùn sǔn sún	suɜ̃⁵⁵ suɜ̃⁵¹ suɜ̃²¹ suɜ̃²⁴	孙孫搎狲猻荪蓀飧
+sur sux suv suf	sǔ sū sù sú	su²¹ su⁵⁵ su⁵¹ su²⁴	㔄㻿䎘俗俶倏儵叔塾夙婌孰宿尗属屬樕涑淑熟琡璹窣粟縮續续缩肃肅莤菽蓿蔌藗藚蜀蠋襡觫謏謖谡賉贖赎蹜速遬餗鱐鸀𫍲𫗧
+sur sux suv suf sor sox sov sof	sǔ sū sù sú sǒ sō sò só	su²¹ su⁵⁵ su⁵¹ su²⁴ sɔ²¹ sɔ⁵⁵ sɔ⁵¹ sɔ²⁴	索
+suv suf sux sur	sù sú sū sǔ	su⁵¹ su²⁴ su⁵⁵ su²¹	数數
+suv sux sur suf	sù sū sǔ sú	su⁵¹ su⁵⁵ su²¹ su²⁴	抒暑癙黍鼠
+sux suv sur suf	sū sù sǔ sú	su⁵⁵ su⁵¹ su²¹ su²⁴	㡏㢝㼡䋡䟽书書杸梳殊殳毹毺洙瑹甦疎疏稣穌紓綀纾舒苏茱蔬蘇踈輸输鄃酥銖鎪铢锼餿馊𢋈𦈌𩜯𪅰
+sux suv sur suf jiuf jiux jiuv jiur	sū sù sǔ sú jiú jiū jiù jiǔ	su⁵⁵ su⁵¹ su²¹ su²⁴ tɕiu²⁴ tɕiu⁵⁵ tɕiu⁵¹ tɕiu²¹	枢樞
+taif taix taiv tair	tái tāi tài tǎi	tʰai²⁴ tʰai⁵⁵ tʰai⁵¹ tʰai²¹	太态態汰泰紿绐
+tair taix taiv taif	tǎi tāi tài tái	tʰai²¹ tʰai⁵⁵ tʰai⁵¹ tʰai²⁴	儓台抬擡炱籉臺苔薹跆鮐鲐
+taix tair taiv taif	tāi tǎi tài tái	tʰai⁵⁵ tʰai²¹ tʰai⁵¹ tʰai²⁴	咍駘骀
+taix taiv tair taif	tāi tài tǎi tái	tʰai⁵⁵ tʰai⁵¹ tʰai²¹ tʰai²⁴	胎邰
+tanf tanx tanv tanr	tán tān tàn tǎn	tʰã²⁴ tʰã⁵⁵ tʰã⁵¹ tʰã²¹	㡧叹嘆探歎炭烫燙牚諍诤趟𩏠𫖖
+tanr tanf tanx tanv	tǎn tán tān tàn	tʰã²¹ tʰã²⁴ tʰã⁵⁵ tʰã⁵¹	搪
+tanr tanx tanv tanf	tǎn tān tàn tán	tʰã²¹ tʰã⁵⁵ tʰã⁵¹ tʰã²⁴	倓唐坛堂塘壇惔昙曇棠榶檀溏潭澹煻燂瑭痰盪砀碭糖聅膛藫螗螳蟫覃談譚谈谭踼郯醰錟鐔锬镡餤餳餹饧驔
+tanr tanx tanv tanf danf danx danv danr	tǎn tān tàn tán dán dān dàn dǎn	tʰã²¹ tʰã⁵⁵ tʰã⁵¹ tʰã²⁴ tã²⁴ tã⁵⁵ tã⁵¹ tã²¹	弹彈
+tanr tanx tanv tanf tor tox tov tof	tǎn tān tàn tán tǒ tō tò tó	tʰã²¹ tʰã⁵⁵ tʰã⁵¹ tʰã²⁴ tʰɔ²¹ tʰɔ⁵⁵ tʰɔ⁵¹ tʰɔ²⁴	驒
+tanr tanx tanv tanf zanx zanv zanr zanf	tǎn tān tàn tán zān zàn zǎn zán	tʰã²¹ tʰã⁵⁵ tʰã⁵¹ tʰã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹ tsã²⁴	驙𫘰
+tanv tanx tanr tanf	tàn tān tǎn tán	tʰã⁵¹ tʰã⁵⁵ tʰã²¹ tʰã²⁴	倘儅嗿坦挡擋档檔毯瓽禫窞緂菼萏譡讜谠躺醓闣𦃖𧖺
+tanv tanx tanr tanf xinf xinx xinv xinr	tàn tān tǎn tán xín xīn xìn xǐn	tʰã⁵¹ tʰã⁵⁵ tʰã²¹ tʰã²⁴ ɕĩ²⁴ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²¹	襑
+tanx tanv tanr tanf	tān tàn tǎn tán	tʰã⁵⁵ tʰã⁵¹ tʰã²¹ tʰã²⁴	啴嘽坍摊攤汤湯滩灘瘫癱聃貪贪𨈭
+tanx tanv tanr tanf yinr yinx yinv yinf	tān tàn tǎn tán yǐn yīn yìn yín	tʰã⁵⁵ tʰã⁵¹ tʰã²¹ tʰã²⁴ ĩ²¹ ĩ⁵⁵ ĩ⁵¹ ĩ²⁴	撢
+taof taox taov taor	táo tāo tào tǎo	tʰau²⁴ tʰau⁵⁵ tʰau⁵¹ tʰau²¹	套
+taor taox taov taof	tǎo tāo tào táo	tʰau²¹ tʰau⁵⁵ tʰau⁵¹ tʰau²⁴	䬞匋咷啕掏桃涛淘濤綯绹翢翿萄蜪裪逃醄陶鞀鞉騊鼗𦇨𩋃𩙧𫘦
+taov taox taor taof	tào tāo tǎo táo	tʰau⁵¹ tʰau⁵⁵ tʰau²¹ tʰau²⁴	䵚討讨
+taox taov taor taof	tāo tào tǎo táo	tʰau⁵⁵ tʰau⁵¹ tʰau²¹ tʰau²⁴	滔
+tar tax tav taf	tǎ tā tà tá	tʰa²¹ tʰa⁵⁵ tʰa⁵¹ tʰa²⁴	㯓䈳䌈䑽䳴嗒嚃塌塔挞撻榻沓涾漯濌獭獺羍荙薘誻踏蹋蹹遝遢錔闒闥闼阘鞈鞳𦈖𦑲𦪙𨶀𨸉𩣯
+tax tav tar taf	tā tà tǎ tá	tʰa⁵⁵ tʰa⁵¹ tʰa²¹ tʰa²⁴	他它
+tenf tenx tenv tenr	tén tēn tèn těn	tʰɜ̃²⁴ tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²¹	磴
+tenr tenx tenv tenf	těn tēn tèn tén	tʰɜ̃²¹ tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²⁴	㹶亭停娗婷幐庭廷棱楞渟滕疼稜筳縢腾莛藤蜓螣誊謄霆騰鼮𤻴𩦶
+tenv tenx tenr tenf	tèn tēn těn tén	tʰɜ̃⁵¹ tʰɜ̃⁵⁵ tʰɜ̃²¹ tʰɜ̃²⁴	侹圢奵挺梃珽町脡艇誔鋌铤頲颋
+tenx tenv tenr tenf	tēn tèn těn tén	tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²¹ tʰɜ̃²⁴	䋼䩠厅听呑啍廳暾朾汀綎聽靪鞓𢆊𦀚𪏆𫄮𬘩
+tenx tenv tenr tenf tunx tunv tunr tunf	tēn tèn těn tén tūn tùn tǔn tún	tʰɜ̃⁵⁵ tʰɜ̃⁵¹ tʰɜ̃²¹ tʰɜ̃²⁴ tʰuɜ̃⁵⁵ tʰuɜ̃⁵¹ tʰuɜ̃²¹ tʰuɜ̃²⁴	吞
+tianr tianx tianv tianf	tiǎn tiān tiàn tián	tʰiã²¹ tʰiã⁵⁵ tʰiã⁵¹ tʰiã²⁴	填恬甜田
+tianv tianx tianr tianf	tiàn tiān tiǎn tián	tʰiã⁵¹ tʰiã⁵⁵ tʰiã²¹ tʰiã²⁴	忝舔
+tianx tianv tianr tianf	tiān tiàn tiǎn tián	tʰiã⁵⁵ tʰiã⁵¹ tʰiã²¹ tʰiã²⁴	天添酟
+tiaof tiaox tiaov tiaor	tiáo tiāo tiào tiǎo	tʰiau²⁴ tʰiau⁵⁵ tʰiau⁵¹ tʰiau²¹	跳
+tiaor tiaox tiaov tiaof	tiǎo tiāo tiào tiáo	tʰiau²¹ tʰiau⁵⁵ tʰiau⁵¹ tʰiau²⁴	䩦条條蜩迢髫鰷鲦齠龆
+tiaor tiaox tiaov tiaof diaof diaox diaov diaor	tiǎo tiāo tiào tiáo diáo diāo diào diǎo	tʰiau²¹ tʰiau⁵⁵ tʰiau⁵¹ tʰiau²⁴ tiau²⁴ tiau⁵⁵ tiau⁵¹ tiau²¹	調调
+tiaov tiaox tiaor tiaof	tiào tiāo tiǎo tiáo	tʰiau⁵¹ tʰiau⁵⁵ tʰiau²¹ tʰiau²⁴	斢
+tier tiex tiev tief	tiě tiē tiè tié	tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴	䩞咥垤昳瓞眣絰绖耊耋臷蟘銕餮驖𧎢𫋌
+tier tiex tiev tief dir dix div dif	tiě tiē tiè tié dǐ dī dì dí	tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴ ti²¹ ti⁵⁵ ti⁵¹ ti²⁴	跌
+tier tiex tiev tief tir tix tiv tif	tiě tiē tiè tié tǐ tī tì tí	tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴ tʰi²¹ tʰi⁵⁵ tʰi⁵¹ tʰi²⁴	䵿呫怗特貼贴鐵铁
+tier tiex tiev tief zir zix ziv zif	tiě tiē tiè tié zǐ zī zì zí	tʰiɛ²¹ tʰiɛ⁵⁵ tʰiɛ⁵¹ tʰiɛ²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	犆
+tif tix tiv tir	tí tī tì tǐ	tʰi²⁴ tʰi⁵⁵ tʰi⁵¹ tʰi²¹	剃屉屜替楴涕隶隸鬀鬄𡲕𧝐
+tir tix tiv tif	tǐ tī tì tí	tʰi²¹ tʰi⁵⁵ tʰi⁵¹ tʰi²⁴	㡗䨑䬾倜偍啼嗁堤媞帖悐惕瑅睼硩稊綈緹绨缇罤苐褆諦謕谛趯踢蹄蹏逖逷遆銻锑鞮題题騠鮧鴺鵜鹈𧋘𫘨
+tir tix tiv tif dianx dianv dianr dianf	tǐ tī tì tí diān diàn diǎn dián	tʰi²¹ tʰi⁵⁵ tʰi⁵¹ tʰi²⁴ tiã⁵⁵ tiã⁵¹ tiã²¹ tiã²⁴	提
+tir tix tiv tif zir zix ziv zif	tǐ tī tì tí zǐ zī zì zí	tʰi²¹ tʰi⁵⁵ tʰi⁵¹ tʰi²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	擿
+tiv tix tir tif	tì tī tǐ tí	tʰi⁵¹ tʰi⁵⁵ tʰi²¹ tʰi²⁴	体躰軆醍體
+tix tif tiv tir	tī tí tì tǐ	tʰi⁵⁵ tʰi²⁴ tʰi⁵¹ tʰi²¹	剔
+tix tiv tir tif	tī tì tǐ tí	tʰi⁵⁵ tʰi⁵¹ tʰi²¹ tʰi²⁴	梯
+tongf tongx tongv tongr	tóng tōng tòng tǒng	tʰɔ̃²⁴ tʰɔ̃⁵⁵ tʰɔ̃⁵¹ tʰɔ̃²¹	痛筒
+tongr tongx tongv tongf	tǒng tōng tòng tóng	tʰɔ̃²¹ tʰɔ̃⁵⁵ tʰɔ̃⁵¹ tʰɔ̃²⁴	㢥㤏仝佟侗僮同峒彤戙挏曈朣橦氃浵潼犝瞳穜童絧罿艟衕詷酮銅铜鮦鲖鼕𢥞𦏆𦨴𫄡𫍣
+tongr tongx tongv tongf yongv yongx yongr yongf	tǒng tōng tòng tóng yòng yōng yǒng yóng	tʰɔ̃²¹ tʰɔ̃⁵⁵ tʰɔ̃⁵¹ tʰɔ̃²⁴ iɔ̃⁵¹ iɔ̃⁵⁵ iɔ̃²¹ iɔ̃²⁴	筩
+tongv tongx tongr tongf	tòng tōng tǒng tóng	tʰɔ̃⁵¹ tʰɔ̃⁵⁵ tʰɔ̃²¹ tʰɔ̃²⁴	桶統统
+tongx tongv tongr tongf	tōng tòng tǒng tóng	tʰɔ̃⁵⁵ tʰɔ̃⁵¹ tʰɔ̃²¹ tʰɔ̃²⁴	恫蓪通
+tor tox tov tof	tǒ tō tò tó	tʰuɔ²¹ tʰuɔ⁵⁵ tʰuɔ⁵¹ tʰuɔ²⁴	侂托柝橐箨籜脫脱萚蘀袥託飥饦𣔳𣝔𣟄
+tor tox tov tof	tǒ tō tò tó	tʰɔ²¹ tʰɔ⁵⁵ tʰɔ⁵¹ tʰɔ²⁴	䭾坨沱沲紽跎迱酡陀陁馱駝駞驮驼鮀鱓鼉鼍𧣖𧿶𫘞𬶍
+tor tox tov tof tuif tuix tuiv tuir	tǒ tō tò tó tuí tuī tuì tuǐ	tʰɔ²¹ tʰɔ⁵⁵ tʰɔ⁵¹ tʰɔ²⁴ tʰuei²⁴ tʰuei⁵⁵ tʰuei⁵¹ tʰuei²¹	蛻蜕
+tor tox tov tof zir zix ziv zif	tǒ tō tò tó zǐ zī zì zí	tʰuɔ²¹ tʰuɔ⁵⁵ tʰuɔ⁵¹ tʰuɔ²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	拓
+touf toux touv tour	tóu tōu tòu tǒu	tʰou²⁴ tʰou⁵⁵ tʰou⁵¹ tʰou²¹	透𧺢
+tour toux touv touf	tǒu tōu tòu tóu	tʰou²¹ tʰou⁵⁵ tʰou⁵¹ tʰou²⁴	头投頭骰
+touv toux tour touf	tòu tōu tǒu tóu	tʰou⁵¹ tʰou⁵⁵ tʰou²¹ tʰou²⁴	㪗抖
+toux touv tour touf	tōu tòu tǒu tóu	tʰou⁵⁵ tʰou⁵¹ tʰou²¹ tʰou²⁴	偷鍮𨱎
+tov tox tor tof	tò tō tǒ tó	tʰɔ⁵¹ tʰɔ⁵⁵ tʰɔ²¹ tʰɔ²⁴	䲊垜墯妥媠嶞憜撱椭橢
+tox tov tor tof	tō tò tǒ tó	tʰuɔ⁵⁵ tʰuɔ⁵¹ tʰuɔ²¹ tʰuɔ²⁴	拖
+tuanr tuanx tuanv tuanf	tuǎn tuān tuàn tuán	tʰuã²¹ tʰuã⁵⁵ tʰuã⁵¹ tʰuã²⁴	剸团團慱漙篿鷒𪆃
+tuanr tuanx tuanv tuanf zuanf zuanx zuanv zuanr	tuǎn tuān tuàn tuán zuán zuān zuàn zuǎn	tʰuã²¹ tʰuã⁵⁵ tʰuã⁵¹ tʰuã²⁴ tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹	抟摶
+tuanx tuanv tuanr tuanf	tuān tuàn tuǎn tuán	tʰuã⁵⁵ tʰuã⁵¹ tʰuã²¹ tʰuã²⁴	湍煓貒
+tuf tux tuv tur	tú tū tù tǔ	tʰu²⁴ tʰu⁵⁵ tʰu⁵¹ tʰu²¹	兔鵵
+tuif tuix tuiv tuir	tuí tuī tuì tuǐ	tʰuei²⁴ tʰuei⁵⁵ tʰuei⁵¹ tʰuei²¹	娧褪退駾
+tuiv tuix tuir tuif	tuì tuī tuǐ tuí	tʰuei⁵¹ tʰuei⁵⁵ tʰuei²¹ tʰuei²⁴	腿
+tuix tuiv tuir tuif	tuī tuì tuǐ tuí	tʰuei⁵⁵ tʰuei⁵¹ tʰuei²¹ tʰuei²⁴	推
+tunr tunx tunv tunf	tǔn tūn tùn tún	tʰuɜ̃²¹ tʰuɜ̃⁵⁵ tʰuɜ̃⁵¹ tʰuɜ̃²⁴	囤屯沌臀豚𨔡
+tur tux tuv tuf	tǔ tū tù tú	tʰu²¹ tʰu⁵⁵ tʰu⁵¹ tʰu²⁴	䅷䛢图圖堗塗屠峹徒怢捈揬檡涂瘏禿秃稌突荼菟途酴鈯駼鵚𤺈𨱄𪉍𬳿
+tuv tux tur tuf	tù tū tǔ tú	tʰu⁵¹ tʰu⁵⁵ tʰu²¹ tʰu²⁴	吐土
+waif waix waiv wair	wái wāi wài wǎi	uai²⁴ uai⁵⁵ uai⁵¹ uai²¹	外
+waix waiv wair waif	wāi wài wǎi wái	uai⁵⁵ uai⁵¹ uai²¹ uai²⁴	歪
+wanf wanx wanv wanr	wán wān wàn wǎn	uã²⁴ uã⁵⁵ uã⁵¹ uã²¹	万妄忘旺望朢熿萬
+wanr wanx wanv wanf	wǎn wān wàn wán	uã²¹ uã⁵⁵ uã⁵¹ uã²⁴	亡妧完峘桓汍王玩瓛紈絙綄纨翫芄荁萑蟥豲貆頑顽魭𤩽𫄠𬘫
+wanr wanx wanv wanf yanr yanx yanv yanf	wǎn wān wàn wán yǎn yān yàn yán	uã²¹ uã⁵⁵ uã⁵¹ uã²⁴ iã²¹ iã⁵⁵ iã⁵¹ iã²⁴	忨抏
+wanv wanf wanx wanr	wàn wán wān wǎn	uã⁵¹ uã²⁴ uã⁵⁵ uã²¹	暀
+wanv wanx wanr wanf	wàn wān wǎn wán	uã⁵¹ uã⁵⁵ uã²¹ uã²⁴	婉宛往徃惋惘挽捥掔晚琬畹碗綰網绾网罔腕苑誷贗赝輓輞辋魍鴈𢫪𫍬
+wanv wanx wanr wanf yinf yinx yinv yinr	wàn wān wǎn wán yín yīn yìn yǐn	uã⁵¹ uã⁵⁵ uã²¹ uã²⁴ ĩ²⁴ ĩ⁵⁵ ĩ⁵¹ ĩ²¹	菀
+wanx wanv wanr wanf	wān wàn wǎn wán	uã⁵⁵ uã⁵¹ uã²¹ uã²⁴	㑌㼜剜坱尩尪岟弯彎枉汪涴湾灣豌醠
+war wax wav waf	wǎ wā wà wá	ua²¹ ua⁵⁵ ua⁵¹ ua²⁴	娃袜襪韈韤
+wav wax war waf	wà wā wǎ wá	ua⁵¹ ua⁵⁵ ua²¹ ua²⁴	瓦
+wax wav war waf	wā wà wǎ wá	ua⁵⁵ ua⁵¹ ua²¹ ua²⁴	䵷哇唲挖汙洼窊窪蛙鴰鸹鼃
+wif wir wix wiv	wí wǐ wī wì	uei²⁴ uei²¹ uei⁵⁵ uei⁵¹	为爲
+wif wix wiv wir	wí wī wì wǐ	uei²⁴ uei⁵⁵ uei⁵¹ uei²¹	㥜䜭伪位僞卫叡味喂壝尉彗彙彚未梲棁槥渭為煟猬璏畏睿硙磑緭緯纬罻胃蔚蝟衛謂谓軎轊霨飫饫魏𤑒𩤸𩨅𫐕
+wif wix wiv wir yif yix yiv yir	wí wī wì wǐ yí yī yì yǐ	uei²⁴ uei⁵⁵ uei⁵¹ uei²¹ i²⁴ i⁵⁵ i⁵¹ i²¹	慰
+wir wix wiv wif	wǐ wī wì wí	uei²¹ uei⁵⁵ uei⁵¹ uei²⁴	㵟唯围圍峞帏帷幃微惟桅湋溦潍濰維维苇葦薇违違韋韦𣲗
+wiv wir wix wif	wì wǐ wī wí	uei⁵¹ uei²¹ uei⁵⁵ uei²⁴	䓕媁玮瑋硊薳頠𬱟
+wiv wix wir wif	wì wī wǐ wí	uei⁵¹ uei⁵⁵ uei²¹ uei²⁴	䔺䦱伟偉委尾嵔愇斖暐椳洧炜煒猥痏磈芛萎蒍蔿蘤踓陫韙韡韪颹骩骫鮪鲔𧤖𫇭𬀩
+wix wir wiv wif	wī wǐ wì wí	uei⁵⁵ uei²¹ uei⁵¹ uei²⁴	危峗嵬巍犩隗
+wix wiv wir wif	wī wì wǐ wí	uei⁵⁵ uei⁵¹ uei²¹ uei²⁴	䋿䴧偎威揋煨痿葳蜲蝛逶隈𦈓
+wuf wur wux wuv	wú wǔ wū wù	u²⁴ u²¹ u⁵⁵ u⁵¹	捂
+wuf wux wuv wur	wú wū wù wǔ	u²⁴ u⁵⁵ u⁵¹ u²¹	䎸俉务務啎婺寤忤悞悟悮愕戊晤瞀蘁誤误逜遻雾霧騖骛𨕣
+wunf wunx wunv wunr	wún wūn wùn wǔn	uɜ̃²⁴ uɜ̃⁵⁵ uɜ̃⁵¹ uɜ̃²¹	問璺紊问
+wunr wunx wunv wunf	wǔn wūn wùn wún	uɜ̃²¹ uɜ̃⁵⁵ uɜ̃⁵¹ uɜ̃²⁴	文紋纹聞蚉蚊蟁闻雯
+wunv wunf wunx wunr	wùn wún wūn wǔn	uɜ̃⁵¹ uɜ̃²⁴ uɜ̃⁵⁵ uɜ̃²¹	抆
+wunv wunx wunr wunf	wùn wūn wǔn wún	uɜ̃⁵¹ uɜ̃⁵⁵ uɜ̃²¹ uɜ̃²⁴	刎吻稳穩
+wunx wunv wunr wunf	wūn wùn wǔn wún	uɜ̃⁵⁵ uɜ̃⁵¹ uɜ̃²¹ uɜ̃²⁴	温溫瘟
+wur wux wuv wuf	wǔ wū wù wú	u²¹ u⁵⁵ u⁵¹ u²⁴	㻍勿吳吴吾屋岉无梧浯無物牾珸蜈郚鋘鋙铻鼯
+wur wux wuv wuf or ox ov of	wǔ wū wù wú ǒ ō ò ó	u²¹ u⁵⁵ u⁵¹ u²⁴ uɔ²¹ uɔ⁵⁵ uɔ⁵¹ uɔ²⁴	剭
+wur wux wuv wuf or ox ov of	wǔ wū wù wú ǒ ō ò ó	u²¹ u⁵⁵ u⁵¹ u²⁴ ɔ²¹ ɔ⁵⁵ ɔ⁵¹ ɔ²⁴	鋈
+wur wux wuv wuf tongr tongx tongv tongf	wǔ wū wù wú tǒng tōng tòng tóng	u²¹ u⁵⁵ u⁵¹ u²⁴ tʰɔ̃²¹ tʰɔ̃⁵⁵ tʰɔ̃⁵¹ tʰɔ̃²⁴	桐
+wuv wuf wux wur	wù wú wū wǔ	u⁵¹ u²⁴ u⁵⁵ u²¹	迕
+wuv wux wur wuf	wù wū wǔ wú	u⁵¹ u⁵⁵ u²¹ u²⁴	㑄䳇五仵伍儛兀午坞塢妩嫵庑廡怃憮旿橆武珷甒碔膴舞邬鄔鵡鹉
+wux wur wuv wuf	wū wǔ wù wú	u⁵⁵ u²¹ u⁵¹ u²⁴	䍢毋芜蕪
+wux wuv wur wuf	wū wù wǔ wú	u⁵⁵ u⁵¹ u²¹ u²⁴	乌侮呜嗚圬巫杇汚污洿烏誣诬
+xiaf xiax xiav xiar	xiá xiā xià xiǎ	ɕia²⁴ ɕia⁵⁵ ɕia⁵¹ ɕia²¹	夏
+xianf xianx xianv xianr	xián xiān xiàn xiǎn	ɕiã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹	䦳䨘县向夐宪寰憲敻旋晛楦献獻现珦現相絢綫線縣线绚羡羨萫象鄕霰騸骟𧬰𨷿𬀪
+xianf xianx xianv xianr hanf hanx hanv hanr	xián xiān xiàn xiǎn hán hān hàn hǎn	ɕiã²⁴ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹ xã²⁴ xã⁵⁵ xã⁵¹ xã²¹	巷項项
+xianr xianx xianv xianf	xiǎn xiān xiàn xián	ɕiã²¹ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²⁴	㳄䝮嫌弦悬懸泫涎玄眩絃舷蚿誸賢贤閒闲𩋢
+xianr xianx xianv xianf hanr hanx hanv hanf	xiǎn xiān xiàn xián hǎn hān hàn hán	ɕiã²¹ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²⁴ xã²¹ xã⁵⁵ xã⁵¹ xã²⁴	衔銜
+xianr xianx xianv xianf jianf jianx jianv jianr	xiǎn xiān xiàn xián jián jiān jiàn jiǎn	ɕiã²¹ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²⁴ tɕiã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹	降
+xianv xianx xianr xianf	xiàn xiān xiǎn xián	ɕiã⁵¹ ɕiã⁵⁵ ɕiã²¹ ɕiã²⁴	䉳享尟崄嶮幰廯显毨燹狝獮玁癣癬筅藓蘚譣跣选選銑铣险險顯餉饷鮮鱻鲜𤞤
+xianv xianx xianr xianf sanv sanx sanr sanf	xiàn xiān xiǎn xián sàn sān sǎn sán	ɕiã⁵¹ ɕiã⁵⁵ ɕiã²¹ ɕiã²⁴ sã⁵¹ sã⁵⁵ sã²¹ sã²⁴	响響
+xianx xianv xianr xianf	xiān xiàn xiǎn xián	ɕiã⁵⁵ ɕiã⁵¹ ɕiã²¹ ɕiã²⁴	乡仙仚僊先厢喧嘕宣廂掀揎湘瓖祆箱緗纕缃脧膷舡芗薌褼襄跹蹮躚軒轩鄉鑲镶靬香驤骧鶱𠑗𥑻𨇤𫏨𬙋𬸣
+xiaof xiaox xiaov xiaor	xiáo xiāo xiào xiǎo	ɕiau²⁴ ɕiau⁵⁵ ɕiau⁵¹ ɕiau²¹	㤊俲傚効咲啸嘯孝恔效敩斅斆校歗殽爻笑酵韒𢽾
+xiaor xiaox xiaov xiaof	xiǎo xiāo xiào xiáo	ɕiau²¹ ɕiau⁵⁵ ɕiau⁵¹ ɕiau²⁴	削学學
+xiaov xiaox xiaor xiaof	xiào xiāo xiǎo xiáo	ɕiau⁵¹ ɕiau⁵⁵ ɕiau²¹ ɕiau²⁴	小晓曉筿篠
+xiaox xiaov xiaor xiaof	xiāo xiào xiǎo xiáo	ɕiau⁵⁵ ɕiau⁵¹ ɕiau²¹ ɕiau²⁴	哨嚣囂宵彇揱枵消潇瀟痟硝箫箾簫綃縿绡翛肖艘萧蕭蛸蟰逍銷销霄魈鴞鸮𢑁𩙚
+xiaox xiaov xiaor xiaof yur yux yuv yuf	xiāo xiào xiǎo xiáo yǔ yū yù yú	ɕiau⁵⁵ ɕiau⁵¹ ɕiau²¹ ɕiau²⁴ iu²¹ iu⁵⁵ iu⁵¹ iu²⁴	脩
+xiar xiax xiav xiaf	xiǎ xiā xià xiá	ɕia²¹ ɕia⁵⁵ ɕia⁵¹ ɕia²⁴	匣峡峽柙洽炠狎狭狹瑕硖硤碬祫蕸赮轄辖遐鍜陜陿霅霞騢𠗉𢘉
+xiav xiax xiar xiaf sav sax sar saf	xià xiā xiǎ xiá sà sā sǎ sá	ɕia⁵¹ ɕia⁵⁵ ɕia²¹ ɕia²⁴ sa⁵¹ sa⁵⁵ sa²¹ sa²⁴	厦廈
+xiax xiav xiar xiaf hax hav har haf	xiā xià xiǎ xiá hā hà hǎ há	ɕia⁵⁵ ɕia⁵¹ ɕia²¹ ɕia²⁴ xa⁵⁵ xa⁵¹ xa²¹ xa²⁴	虾蝦
+xief xiex xiev xier	xié xiē xiè xiě	ɕiɛ²⁴ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²¹	㴬卸榭泄泻瀉謝谢
+xief xiex xiev xier haif haix haiv hair	xié xiē xiè xiě hái hāi hài hǎi	ɕiɛ²⁴ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²¹ xai²⁴ xai⁵⁵ xai⁵¹ xai²¹	懈
+xier xiex xiev xief	xiě xiē xiè xié	ɕiɛ²¹ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²⁴	㞕亵偰僁协協吷媟屑屧岤揳暬枻楔歇泬洩渫燮猲疶禼穴紲絏緤绁薛蝎蠍血褻躞邪雪𡟬𣧡𦐋𦵮𨇨𫄬
+xier xiex xiev xief qiar qiax qiav qiaf	xiě xiē xiè xié qiǎ qiā qià qiá	ɕiɛ²¹ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²⁴ tɕʰia²¹ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²⁴	斜
+xier xiex xiev xief yer yex yev yef	xiě xiē xiè xié yě yē yè yé	ɕiɛ²¹ ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²⁴ iɛ²¹ iɛ⁵⁵ iɛ⁵¹ iɛ²⁴	侠俠勰嗋奊恊愶挟挾撷擷綊纈缬胁脅脇
+xiev xiex xier xief	xiè xiē xiě xié	ɕiɛ⁵¹ ɕiɛ⁵⁵ ɕiɛ²¹ ɕiɛ²⁴	写寫𣞐
+xiex xiev xier xief	xiē xiè xiě xié	ɕiɛ⁵⁵ ɕiɛ⁵¹ ɕiɛ²¹ ɕiɛ²⁴	些靴鞾𫖇
+xif xir xix xiv	xí xǐ xī xì	ɕi²⁴ ɕi²¹ ɕi⁵⁵ ɕi⁵¹	壻
+xif xix xiv xir	xí xī xì xǐ	ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹	叙噏屿嶼序戏戲扱敍敘杼溆漵潝細絮緒细绪翕芧遂闟隧鱮𨣦𫚈
+xif xix xiv xir jif jix jiv jir	xí xī xì xǐ jí jī jì jǐ	ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹ tɕi²⁴ tɕi⁵⁵ tɕi⁵¹ tɕi²¹	系
+xif xix xiv xir jir jix jiv jif	xí xī xì xǐ jǐ jī jì jí	ɕi²⁴ ɕi⁵⁵ ɕi⁵¹ ɕi²¹ tɕi²¹ tɕi⁵⁵ tɕi⁵¹ tɕi²⁴	吸
+xinf xinr xinx xinv	xín xǐn xīn xìn	ɕĩ²⁴ ɕĩ²¹ ɕĩ⁵⁵ ɕĩ⁵¹	寻尋
+xinf xinx xinv xinr	xín xīn xìn xǐn	ɕĩ²⁴ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²¹	㓑信倖噀姓婞巽幸性悻愻杏汛浔涬潠潯烬焮燖燼爋睲胫脛舋荇莕衅訊訓訙训讯踁迅逊遜鄩釁阠鬵鱏鱘鲟𠹀𢒫𢙏𦉝𩱕𬊈𬩽
+xinf xinx xinv xinr zanx zanv zanr zanf	xín xīn xìn xǐn zān zàn zǎn zán	ɕĩ²⁴ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²¹ tsã⁵⁵ tsã⁵¹ tsã²¹ tsã²⁴	灊
+xinr xinx xinv xinf	xǐn xīn xìn xín	ɕĩ²¹ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²⁴	㜲侀侚刑型埈娙嬴峋巡廵形徇循恂攍旬楹殉洵浚濬瀛珣硎籯紃荀詢询迿逡邢郇郉鉶銒铏陉陘馴驯鵔鵕𡷨𫰛𬘓
+xinr xinx xinv xinf henr henx henv henf hanr hanx hanv hanf	xǐn xīn xìn xín hěn hēn hèn hén hǎn hān hàn hán	ɕĩ²¹ ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²⁴ xɜ̃²¹ xɜ̃⁵⁵ xɜ̃⁵¹ xɜ̃²⁴ xã²¹ xã⁵⁵ xã⁵¹ xã²⁴	行
+xinv xinx xinr xinf	xìn xīn xǐn xín	ɕĩ⁵¹ ɕĩ⁵⁵ ɕĩ²¹ ɕĩ²⁴	擤醒
+xinx xinf xinv xinr	xīn xín xìn xǐn	ɕĩ⁵⁵ ɕĩ²⁴ ɕĩ⁵¹ ɕĩ²¹	兴興
+xinx xinv xinr xinf	xīn xìn xǐn xín	ɕĩ⁵⁵ ɕĩ⁵¹ ɕĩ²¹ ɕĩ²⁴	勋勛勳心忻惺新昕星曛杺欣炘焄熏燻獯纁脝腥臐薪薰辛醺馨鯹𫄸
+xiongf xiongx xiongv xiongr	xióng xiōng xiòng xiǒng	ɕiɔ̃²⁴ ɕiɔ̃⁵⁵ ɕiɔ̃⁵¹ ɕiɔ̃²¹	嗅齅
+xiongr xiongv xiongx xiongf	xiǒng xiòng xiōng xióng	ɕiɔ̃²¹ ɕiɔ̃⁵¹ ɕiɔ̃⁵⁵ ɕiɔ̃²⁴	熊
+xiongr xiongx xiongv xiongf	xiǒng xiōng xiòng xióng	ɕiɔ̃²¹ ɕiɔ̃⁵⁵ ɕiɔ̃⁵¹ ɕiɔ̃²⁴	雄
+xiongx xiongv xiongr xiongf	xiōng xiòng xiǒng xióng	ɕiɔ̃⁵⁵ ɕiɔ̃⁵¹ ɕiɔ̃²¹ ɕiɔ̃²⁴	兄兇凶匈哅恟汹洶胷胸訩詾讻跫
+xir xix xiv xif	xǐ xī xì xí	ɕi²¹ ɕi⁵⁵ ɕi⁵¹ ɕi²⁴	䣛习卹厀夕婿媳席徐徙怵恤息悉惜戌携攜昔晳析汐泣淅湇潟熄珬皙磶穸綏緆绥習膝舄蓆蜥蟋袭裼襲訹錫锡隰霫飁黊𧀬
+xiuf xiux xiuv xiur	xiú xiū xiù xiǔ	ɕiu²⁴ ɕiu⁵⁵ ɕiu⁵¹ ɕiu²¹	僦岫秀綉繡绣袖鏽锈
+xiur xiux xiuv xiuf	xiǔ xiū xiù xiú	ɕiu²¹ ɕiu⁵⁵ ɕiu⁵¹ ɕiu²⁴	䬍勗慉旭欻蓄頊顼
+xiuv xiux xiur xiuf	xiù xiū xiǔ xiú	ɕiu⁵¹ ɕiu⁵⁵ ɕiu²¹ ɕiu²⁴	朽
+xiux xiuv xiur xiuf	xiū xiù xiǔ xiú	ɕiu⁵⁵ ɕiu⁵¹ ɕiu²¹ ɕiu²⁴	㹯休修咻庥烋羞貅饈馐髹
+xiv xif xix xir	xì xí xī xǐ	ɕi⁵¹ ɕi²⁴ ɕi⁵⁵ ɕi²¹	檄覡觋
+xiv xir xix xif	xì xǐ xī xí	ɕi⁵¹ ɕi²¹ ɕi⁵⁵ ɕi²⁴	枲漇禗縰葸諰蹝躧𩌦𩎉𫄳𫍰
+xiv xix xir xif	xì xī xǐ xí	ɕi⁵¹ ɕi⁵⁵ ɕi²¹ ɕi²⁴	冔喜嬉憙栩洗煦玺珝璽蟢許詡许诩霼𠳲𪵣
+xix xir xiv xif	xī xǐ xì xí	ɕi⁵⁵ ɕi²¹ ɕi⁵¹ ɕi²⁴	㜎傒嵆巂徯畦眭謑豀貕蹊酅騱鼷𫘬
+xix xir xiv xif zuix zuiv zuir zuif	xī xǐ xì xí zuī zuì zuǐ zuí	ɕi⁵⁵ ɕi²¹ ɕi⁵¹ ɕi²⁴ tsuei⁵⁵ tsuei⁵¹ tsuei²¹ tsuei²⁴	蠵觿鑴𫔔
+xix xiv xir xif	xī xì xǐ xí	ɕi⁵⁵ ɕi⁵¹ ɕi²¹ ɕi²⁴	㠊䤈佉俙僖兮呿唏嘘嘻噓墟娭媭嬃岖嶇巇希敺晞曦欨欷歔熙熹牺犀犧睎祛禧稀繻羲胥虚虛袪西訏譆豨躯軀醑醯阹需須须鬚𢄼𢿛𣟵𦈡𫍻𬣙
+yaf yax yav yar	yá yā yà yǎ	ia²⁴ ia⁵⁵ ia⁵¹ ia²¹	䢝亚亞娅婭
+yanf yanx yanv yanr	yán yān yàn yǎn	iã²⁴ iã⁵⁵ iã⁵¹ iã²¹	㨾㬫䬬偃匽厌厭嚥堰嬿宴怏怨恙愿掞曣样樣滟漾灩炫焰焱燕爓玹瑗羕艳艶艷衒袨豔郾醼院願餍饜鷰鼴鼹𥯃
+yanf yanx yanv yanr nganf nganx nganv nganr	yán yān yàn yǎn ngán ngān ngàn ngǎn	iã²⁴ iã⁵⁵ iã⁵¹ iã²¹ ŋã²⁴ ŋã⁵⁵ ŋã⁵¹ ŋã²¹	雁
+yanr yanx yanv yanf	yǎn yān yàn yán	iã²¹ iã⁵⁵ iã⁵¹ iã²⁴	㳂䀽䇾䳒丸佯元刓原员員园圆園圓圜垣妍姸媛嫄岏延徉扬揚援敭旸昜暘杨楊楥沅沿洋洹湲源漹炀煬爰猨猿玚瑒疡瘍盐禓筵緣缘羊羱芫蚖蝝蝯袁言謜轅辕邍邧郔鈆鍚钖阳陽霷颺飏騵鳶鴹鸢鹽黿鼋𧔞𧚶𨙅𪀝𫓪𫘪
+yanr yanx yanv yanf nganr nganx nganv nganf	yǎn yān yàn yán ngǎn ngān ngàn ngán	iã²¹ iã⁵⁵ iã⁵¹ iã²⁴ ŋã²¹ ŋã⁵⁵ ŋã⁵¹ ŋã²⁴	顔颜
+yanr yanx yanv yanf qianx qianv qianr qianf	yǎn yān yàn yán qiān qiàn qiǎn qián	iã²¹ iã⁵⁵ iã⁵¹ iã²⁴ tɕʰiã⁵⁵ tɕʰiã⁵¹ tɕʰiã²¹ tɕʰiã²⁴	鉛铅
+yanv yanf yanx yanr	yàn yán yān yǎn	iã⁵¹ iã²⁴ iã⁵⁵ iã²¹	瀁
+yanv yanr yanx yanf	yàn yǎn yān yán	iã⁵¹ iã²¹ iã⁵⁵ iã²⁴	蜒
+yanv yanx yanr yanf	yàn yān yǎn yán	iã⁵¹ iã⁵⁵ iã²¹ iã²⁴	䣍兖兗养埯奄崦弇懩掩揜檿沇渰渷演痒癢罨远遠靥靨鞅養魇魘黡黶
+yanx yanv yanr yanf	yān yàn yǎn yán	iã⁵⁵ iã⁵¹ iã²¹ iã²⁴	㠾㾓䄃䡝冤咽央娟嫣嬛嬽寃悁殃泱淵淹渊炎烟焉煙眢秧胭菸蔫蜎蜿鄢鉠鴛鴦鵷鸯鸳鹓鼘𠕤𡣬𡨚𢏮𫓭
+yanx yanv yanr yanf jianx jianv jianr jianf	yān yàn yǎn yán jiān jiàn jiǎn jián	iã⁵⁵ iã⁵¹ iã²¹ iã²⁴ tɕiã⁵⁵ tɕiã⁵¹ tɕiã²¹ tɕiã²⁴	閹阉
+yanx yanv yanr yanf nganf nganx nganv nganr	yān yàn yǎn yán ngán ngān ngàn ngǎn	iã⁵⁵ iã⁵¹ iã²¹ iã²⁴ ŋã²⁴ ŋã⁵⁵ ŋã⁵¹ ŋã²¹	腌醃
+yaof yaor yaox yaov	yáo yǎo yāo yào	iau²⁴ iau²¹ iau⁵⁵ iau⁵¹	跃躍
+yaof yaox yaov yaor	yáo yāo yào yǎo	iau²⁴ iau⁵⁵ iau⁵¹ iau²¹	曜燿耀要鷂鹞𤾫
+yaor yaox yaov yaof	yǎo yāo yào yáo	iau²¹ iau⁵⁵ iau⁵¹ iau²⁴	㑾䍃佻侥傜僥嗂垚壵姚岳峣嶢嶤嶽愮搖摇洮珧瑤瑶窑窕窯窰籆約约药藥謠謡谣軺轺遙遥銚鑰钥铫颻飖鰩鳐鸑𧄎𨖈𬸚
+yaov yaox yaor yaof	yào yāo yǎo yáo	iau⁵¹ iau⁵⁵ iau²¹ iau²⁴	舀
+yaox yaov yaor yaof	yāo yào yǎo yáo	iau⁵⁵ iau⁵¹ iau²¹ iau²⁴	䄏䙅喓夭妖宎幺枖祅腰葽訞邀𡝩𢆷𦝫𫍚
+yaox yaov yaor yaof yux yuv yur yuf	yāo yào yǎo yáo yū yù yǔ yú	iau⁵⁵ iau⁵¹ iau²¹ iau²⁴ iu⁵⁵ iu⁵¹ iu²¹ iu²⁴	怮
+yar yax yav yaf	yǎ yā yà yá	ia²¹ ia⁵⁵ ia⁵¹ ia²⁴	㝞厓呀圠押揠擪枒谺軋轧鰕鴨鸭齖𫚥
+yav yax yar yaf	yà yā yǎ yá	ia⁵¹ ia⁵⁵ ia²¹ ia²⁴	庌痖瘂訝讶雅
+yax yav yar yaf	yā yà yǎ yá	ia⁵⁵ ia⁵¹ ia²¹ ia²⁴	丫崖涯鴉鵶鸦
+yax yav yar yaf ngax ngav ngar ngaf	yā yà yǎ yá ngā ngà ngǎ ngá	ia⁵⁵ ia⁵¹ ia²¹ ia²⁴ ŋa⁵⁵ ŋa⁵¹ ŋa²¹ ŋa²⁴	桠椏
+yef yer yex yev zuaif zuaix zuaiv zuair	yé yě yē yè zuái zuāi zuài zuǎi	iɛ²⁴ iɛ²¹ iɛ⁵⁵ iɛ⁵¹ tsuai²⁴ tsuai⁵⁵ tsuai⁵¹ tsuai²¹	噎
+yef yex yev yer	yé yē yè yě	iɛ²⁴ iɛ⁵⁵ iɛ⁵¹ iɛ²¹	夜
+yer yex yev yef	yě yē yè yé	iɛ²¹ iɛ⁵⁵ iɛ⁵¹ iɛ²⁴	㜸䋐䘽䡾䬂刖叶啮嵲嶭悅悦戉掜摰曰月槸樾櫱烕熭狘粤粵糵臬臲葉蘖蚎蚏蛪蜺衞說讞谳越軏鉞钀钺閱閲闑阅陧隉霓頁页齧𡺼𧑅𧒣𪌊𫐄𫔶
+yer yex yev yef yar yax yav yaf	yě yē yè yé yǎ yā yà yá	iɛ²¹ iɛ⁵⁵ iɛ⁵¹ iɛ²⁴ ia²¹ ia⁵⁵ ia⁵¹ ia²⁴	爷爺
+yev yex yer yef	yè yē yě yé	iɛ⁵¹ iɛ⁵⁵ iɛ²¹ iɛ²⁴	也冶埜壄野
+yex yer yev yef	yē yě yè yé	iɛ⁵⁵ iɛ²¹ iɛ⁵¹ iɛ²⁴	琊
+yex yev yer yef	yē yè yě yé	iɛ⁵⁵ iɛ⁵¹ iɛ²¹ iɛ²⁴	䥺椰瑘耶釾鎁
+yif yir yix yiv	yí yǐ yī yì	i²⁴ i²¹ i⁵⁵ i⁵¹	䘸嗌熠繶臆襗醷齸𢀩𩍖𫄷𫋷
+yif yix yiv yir	yí yī yì yǐ	i²⁴ i⁵⁵ i⁵¹ i²¹	㑥㙪㚤㴒㵝㵩䛖䢃䭇二亿億刈刵劓勚勩呓呭咡喻囈圉圛域埸堄堉墿奕嫕寱峄峪嶧帟帠廙异弈弋役御忆怿悆愈意憶懌抴掖撎敡斁曀曳杙栧栺棫榆樲欲殪毅毦液淢玉珥異疫瘗瘞瘱睨睪瞖礜禦穥緎縊繹绎缢罭羿翊翌翳翼聏聿肄腋芋芌蓣蓺蕷薏藇藙蘙蜮蜴衈袘袣裔裕褹襼詍詣誉諭譽诣谕豫貳贰跇輗輢遇遹醳釴鉺铒閾阈預预餲饐馭驛驭驿鴪鷸鹬黓𢉉𢳊𣙤𣚘𥜃𥸤𦐧𧌒𧙟𧷗𪽷𫐎𫐐𬬩
+yif yix yiv yir yuf yux yuv yur	yí yī yì yǐ yú yū yù yǔ	i²⁴ i⁵⁵ i⁵¹ i²¹ iu²⁴ iu⁵⁵ iu⁵¹ iu²¹	儥慾昱毓浴煜郁鋊鬱鬻鵒鹆𧶠
+yif yix yiv yir yur yux yuv yuf	yí yī yì yǐ yǔ yū yù yú	i²⁴ i⁵⁵ i⁵¹ i²¹ iu²¹ iu⁵⁵ iu⁵¹ iu²⁴	䫻䬑𫗇
+yinf yinx yinv yinr	yín yīn yìn yǐn	ĩ²⁴ ĩ⁵⁵ ĩ⁵¹ ĩ²¹	㒚䙬䩵䫟印墺嫈应彧恽惲愠慍應映暎檼欝澳瀴熨爩稶蕰蕴薀薁藴蘊运運郓鄆酝醖醞陨隕隩韗韵韻餫𪏚𫖲𫗥
+yinr yinx yinv yinf	yǐn yīn yìn yín	ĩ²¹ ĩ⁵⁵ ĩ⁵¹ ĩ²⁴	䁝䜣云勻匀吟嚚垠塋妘婬寅崟嵤榮沄淫滎澐濙熉熒營狺珢瑩盈礥禜筠籝紜縈縜纭耘芸茔荣荥荧荺莹萤营萦蒏蕓蝾螢蠑訚訢誾謍贏赢迎郧鄖鄞醟雲霪顒颙齗龂𤈶𤬐𦟘𦾵𪛊
+yinr yinx yinv yinf ninr ninx ninv ninf	yǐn yīn yìn yín nǐn nīn nìn nín	ĩ²¹ ĩ⁵⁵ ĩ⁵¹ ĩ²⁴ ȵĩ²¹ ȵĩ⁵⁵ ȵĩ⁵¹ ȵĩ²⁴	銀银
+yinv yinx yinr yinf	yìn yīn yǐn yín	ĩ⁵¹ ĩ⁵⁵ ĩ²¹ ĩ²⁴	允咏尹廮引影愪戭抎梬殒殞永泳潁濥狁瘾瘿癭癮磒穎縯蚓螾詠郢鈏鈗隐隱霣靷颍颖飲饮𫕥𫟵𬙂
+yinx yinv yinr yinf	yīn yìn yǐn yín	ĩ⁵⁵ ĩ⁵¹ ĩ²¹ ĩ²⁴	㥯㶏䓨嘤噟嚶因垔堙姻婣婴嬰廕愔慇撄攖晕暈柍樱櫻歅殷氤湮溵濦瑛璎瓔甖瘖磤禋絪纓缨罂罃罌膺英茵荫莺蒑蔭蝇蠅諲譍闉阴陰陻霙鞇音韺飮駰骃鶯鷹鸎鸚鹦鹰𧕄𩃬𬘡𬤇𬮱
+yir yif yix yiv	yǐ yí yī yì	i²¹ i²⁴ i⁵⁵ i⁵¹	易
+yir yix yiv yif	yǐ yī yì yí	i²¹ i⁵⁵ i⁵¹ i²⁴	㕒㥚䁩䐳䔟䛕䧅䭂䱷䲣一乙予于亦伃佗余佚佾侇俞儗儿兒兪凒匜吁喁喩圯堣壹夤夷妤姨娛娱婾媮宧寓峓嵎嶷彝彞怡恞悒愉愚懿扅抑挹揄揖於旟暆杅栘桋椸楰檥欤歈歟沂泆洟浥渔渝溢漁澞牏猊玗玙瑜璵瓵痍瘉盂益眙禺移窬竽箷簃籲羭胰腴膉舁舆荑萸虞蜍蝓袲褕覦觎觺訑詑詒諛譯译诒谀貤貽贻跠踰輿轙轝迤逸逾遗遺邑邘酏釪鉹鎰镒隃隅雓雩頤颐飴餘饴髃魚鯢鱼鲵鳦鸃鸆鸒麌齬齯齵龉𠗺𡰥𡰱𢋅𢓡𤫌𦩞𨏮𨜶𨵦𩁹𩥭𪇬𫍙𫍡𫠜𮖜
+yiv yif yix yir	yì yí yī yǐ	i⁵¹ i²⁴ i⁵⁵ i²¹	衪
+yiv yix yir yif	yì yī yǐ yí	i⁵¹ i⁵⁵ i²¹ i²⁴	㝢㠯䨞与以俁俣偊偯圄宇崺庾扆拟擬敔斔斞椅瑀瘐矣礒禹窳籞羽與舣艤苡苢薿螘語语貐迆雨顗齮𥐟𧩹𧾚𫖮𬺈
+yix yiv yir yif	yī yì yǐ yí	i⁵⁵ i⁵¹ i²¹ i²⁴	㙠䃜伊依医咿噫旖欹毉洢淤漪猗瑿盓祎禕紆繄纡衣譩迂醫陓鷖鹥黟黳
+yongf yongx yongv yongr	yóng yōng yòng yǒng	iɔ̃²⁴ iɔ̃⁵⁵ iɔ̃⁵¹ iɔ̃²¹	用
+yongr yongx yongv yongf	yǒng yōng yòng yóng	iɔ̃²¹ iɔ̃⁵⁵ iɔ̃⁵¹ iɔ̃²⁴	䡥佣傭墉容庸溶瀜烿熔瑢肜蓉融鄘鎔鏞镕镛𢧳
+yongv yongx yongr yongf	yòng yōng yǒng yóng	iɔ̃⁵¹ iɔ̃⁵⁵ iɔ̃²¹ iɔ̃²⁴	俑勇埇壅悀慂拥擁涌湧甬蛹踊踴雝
+yongv yongx yongr yongf yir yix yiv yif	yòng yōng yǒng yóng yǐ yī yì yí	iɔ̃⁵¹ iɔ̃⁵⁵ iɔ̃²¹ iɔ̃²⁴ i²¹ i⁵⁵ i⁵¹ i²⁴	臾
+yongx yongv yongr yongf	yōng yòng yǒng yóng	iɔ̃⁵⁵ iɔ̃⁵¹ iɔ̃²¹ iɔ̃²⁴	嗈邕雍
+yuf yux yuv yur	yú yū yù yǔ	iu²⁴ iu⁵⁵ iu⁵¹ iu²¹	佑侑又右囿宥幼柚梄櫾狖祐莠褎褏誘诱貁酭釉鼬𪕏
+yuf yux yuv yur yif yix yiv yir	yú yū yù yǔ yí yī yì yǐ	iu²⁴ iu⁵⁵ iu⁵¹ iu²¹ i²⁴ i⁵⁵ i⁵¹ i²¹	育
+yur yux yuv yuf	yǔ yū yù yú	iu²¹ iu⁵⁵ iu⁵¹ iu²⁴	㼶㽕䌛䱔冘卣尤庮抌斿楡楢槱油游犹狱猶猷獄由疣繇肬莸蕕蘨蚰蝣蝤訧輶逌遊邮郵𦅹𬨎
+yuv yuf yux yur	yù yú yū yǔ	iu⁵¹ iu²⁴ iu⁵⁵ iu²¹	丣牖琇羑
+yuv yux yur yuf	yù yū yǔ yú	iu⁵¹ iu⁵⁵ iu²¹ iu²⁴	友有酉黝
+yux yuv yur yuf	yū yù yǔ yú	iu⁵⁵ iu⁵¹ iu²¹ iu²⁴	㗀优優呦嚘幽忧悠憂攸滺瀀耰麀𥣯
+zaf zar zax zav	zá zǎ zā zà	tsa²⁴ tsa²¹ tsa⁵⁵ tsa⁵¹	炸
+zaf zax zav zar	zá zā zà zǎ	tsa²⁴ tsa⁵⁵ tsa⁵¹ tsa²¹	䏑䗪柘柵栅榨樜蔗詐诈鷓鹧
+zaif zaix zaiv zair	zái zāi zài zǎi	tsai²⁴ tsai⁵⁵ tsai⁵¹ tsai²¹	再在寨瘵眥眦虿蠆載载酨
+zaiv zaif zaix zair	zài zái zāi zǎi	tsai⁵¹ tsai²⁴ tsai⁵⁵ tsai²¹	縡
+zaiv zaix zair zaif	zài zāi zǎi zái	tsai⁵¹ tsai⁵⁵ tsai²¹ tsai²⁴	䏁仔宰
+zaix zaiv zair zaif	zāi zài zǎi zái	tsai⁵⁵ tsai⁵¹ tsai²¹ tsai²⁴	哉斋栽災灾烖葘齋𨚵
+zanf zanx zanv zanr	zán zān zàn zǎn	tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹	䋎䘺丈仗佔占囋墇嶂帐帳幢幨惉憃戅戆戇战戰揝暂暫杖栈棧灒瓒瓚痮瘴站綻绽胀脏脹葬衻袒裧襌襜襢覘觇讃讚賛贊赞蹔輚轏鄣闈闱障顫颤髒𤎥𧝑𩥇𩨍𪷽𪽪𫏐
+zanf zanx zanv zanr canr canx canv canf	zán zān zàn zǎn cǎn cān càn cán	tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹ tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴	藏
+zanr zanx zanv zanf	zǎn zān zàn zán	tsã²¹ tsã⁵⁵ tsã⁵¹ tsã²⁴	㕓婵嬋廛澶瀍緾纒蟺躔鄽
+zanr zanx zanv zanf canr canx canv canf	zǎn zān zàn zán cǎn cān càn cán	tsã²¹ tsã⁵⁵ tsã⁵¹ tsã²⁴ tsʰã²¹ tsʰã⁵⁵ tsʰã⁵¹ tsʰã²⁴	纏缠
+zanv zanx zanr zanf	zàn zān zǎn zán	tsã⁵¹ tsã⁵⁵ tsã²¹ tsã²⁴	䎒仉展掌攅攒攢斩斬涨漲琖盏盞穳醆
+zanx zanv zanr zanf	zān zàn zǎn zán	tsã⁵⁵ tsã⁵¹ tsã²¹ tsã²⁴	亶噡嫜张張彰旃旜栴樟毡氈沾漳濳獐璋痁瞻章簪粘粻苫蘸詹贍赡邅霑餰饘鱣鳣鸇鹯麞𧾍𩛻𩱩𫗴
+zaof zaox zaov zaor	záo zāo zào zǎo	tsau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹	㨄䍜兆垗旐棹灶照竈絩罩肇肈赵趙駣
+zaof zaox zaov zaor zor zox zov zof	záo zāo zào zǎo zǒ zō zò zó	tsau²⁴ tsau⁵⁵ tsau⁵¹ tsau²¹ tsɔ²¹ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²⁴	炤
+zaov zaox zaor zaof	zào zāo zǎo záo	tsau⁵¹ tsau⁵⁵ tsau²¹ tsau²⁴	找早枣棗澡璪糳繅缫薻藻蚤𧎮
+zaov zaox zaor zaof yav yax yar yaf zuav zuax zuar zuaf	zào zāo zǎo záo yà yā yǎ yá zuà zuā zuǎ zuá	tsau⁵¹ tsau⁵⁵ tsau²¹ tsau²⁴ ia⁵¹ ia⁵⁵ ia²¹ ia²⁴ tsua⁵¹ tsua⁵⁵ tsua²¹ tsua²⁴	爪
+zaox zaov zaor zaof	zāo zào zǎo záo	tsau⁵⁵ tsau⁵¹ tsau²¹ tsau²⁴	召招昭沼糟遭醩釗鉊钊𬬿
+zar zaf zax zav	zǎ zá zā zà	tsa²¹ tsa²⁴ tsa⁵⁵ tsa⁵¹	閘闸
+zar zax zav zaf	zǎ zā zà zá	tsa²¹ tsa⁵⁵ tsa⁵¹ tsa²⁴	劄咱哳扎札杂眨紮茁蚻鍘铡雜
+zav zax zar zaf	zà zā zǎ zá	tsa⁵¹ tsa⁵⁵ tsa²¹ tsa²⁴	鮓鲊
+zax zav zar zaf	zā zà zǎ zá	tsa⁵⁵ tsa⁵¹ tsa²¹ tsa²⁴	楂渣
+zeir zeix zeiv zeif	zěi zēi zèi zéi	tsei²¹ tsei⁵⁵ tsei⁵¹ tsei²⁴	则則哲喆悊慑慴懾折摘浙窄蠈褶詟讁讋責賊责贼輒辄
+zeiv zeix zeir zeif	zèi zēi zěi zéi	tsei⁵¹ tsei⁵⁵ tsei²¹ tsei²⁴	者赭
+zeix zeiv zeir zeif	zēi zèi zěi zéi	tsei⁵⁵ tsei⁵¹ tsei²¹ tsei²⁴	遮
+zenf zenx zenv zenr	zén zēn zèn zěn	tsɜ̃²⁴ tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹	政正甑症証證证贈赠郑鄭鎮镇阵陣𣒅
+zenv zenf zenx zenr	zèn zén zēn zěn	tsɜ̃⁵¹ tsɜ̃²⁴ tsɜ̃⁵⁵ tsɜ̃²¹	賑赈
+zenv zenx zenr zenf	zèn zēn zěn zén	tsɜ̃⁵¹ tsɜ̃⁵⁵ tsɜ̃²¹ tsɜ̃²⁴	抍拯振撜整枕氶疹眕稹紾袗裖診诊軫轸震鬒𢮋𢿄𨋬
+zenx zenv zenr zenf	zēn zèn zěn zén	tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹ tsɜ̃²⁴	䋊䎖䒱䟴争侦侲偵增帪征徴徵憎斟桢桭椹楨榛橧溱烝爭珍瑊瑱畛癥眞真睁睜矰砧碪磌祯禎箴籈罾脀臻葴蒸蓁貞贞針鉦鍼鎭针钲鯖鱵鲭鴊𢎒𢨉𦙫𦚦𦞪𨟃
+zenx zenv zenr zenf denx denv denr denf	zēn zèn zěn zén dēn dèn děn dén	tsɜ̃⁵⁵ tsɜ̃⁵¹ tsɜ̃²¹ tsɜ̃²⁴ tɜ̃⁵⁵ tɜ̃⁵¹ tɜ̃²¹ tɜ̃²⁴	筝箏
+zif zir zix ziv	zí zǐ zī zì	tsɿ²⁴ tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹	彘滞滯稺
+zif zix ziv zir	zí zī zì zǐ	tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹	㣥㫼䱥値偫制劕厔厠字寘寺峙巳帜幟庢庤廌志忮恣懥懫挃挚摯晢晣智柠桎檸櫍歭淛渍滍漬炙炽熾牸疐痔痣礩秷稚窒緻翅胔自至致舐舓薙蛭製誌豸贄贽跱輊轾这這郅銍鑕铚锧陊騭騺骘鷙鸷𣉻𦧇𨆫𪁊𬃊
+zif zix ziv zir qiar qiax qiav qiaf	zí zī zì zǐ qiǎ qiā qià qiá	tsɿ²⁴ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹ tɕʰia²¹ tɕʰia⁵⁵ tɕʰia⁵¹ tɕʰia²⁴	治
+zir zix ziv zif	zǐ zī zì zí	tsɿ²¹ tsɿ⁵⁵ tsɿ⁵¹ tsɿ²⁴	侄值執墌戢执掷摭擲晊植樴殖濈瓡直稙絷縶織织置职職膱蛰蜘蟄質质跖踯蹠躑陟隻馽𧤏𨂂
+ziv zif zix zir	zì zí zī zǐ	tsɿ⁵¹ tsɿ²⁴ tsɿ⁵⁵ tsɿ²¹	笫
+ziv zir zix zif	zì zǐ zī zí	tsɿ⁵¹ tsɿ²¹ tsɿ⁵⁵ tsɿ²⁴	指
+ziv zix zir zif	zì zī zǐ zí	tsɿ⁵¹ tsɿ⁵⁵ tsɿ²¹ tsɿ²⁴	㧗只呰咫啙址坻姊子帋扺旨杍枳梓止沚洔滓畤疵疻秄秭紙紫絺纸耔胏脂芓芷訾訿趾跐軹轵阯鵗黹𫄨
+zix ziv zir zif	zī zì zǐ zí	tsɿ⁵⁵ tsɿ⁵¹ tsɿ²¹ tsɿ²⁴	䆅䝷之兹剂劑卮厎咨姕姿孜孳嵫巵搘支枝栀梔椔榰淄湽滋澬甾知砥祇祗禔秖秪粢緇缁肢胑胝芝茲菑衹袛觜觝觯觶諮貲資赀资赍趑跂踬躓輜輺辎鄑錙鎡锱镃頿髭鳷鶅鼒齍齎𪗋𫛛𫞚
+zof zox zov zor	zó zō zò zǒ	tsuɔ²⁴ tsuɔ⁵⁵ tsuɔ⁵¹ tsuɔ²¹	坐
+zof zox zov zor	zó zō zò zǒ	tsɔ²⁴ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²¹	座
+zongf zongv zongx zongr	zóng zòng zōng zǒng	tsɔ̃²⁴ tsɔ̃⁵¹ tsɔ̃⁵⁵ tsɔ̃²¹	种種
+zongf zongx zongv zongr	zóng zōng zòng zǒng	tsɔ̃²⁴ tsɔ̃⁵⁵ tsɔ̃⁵¹ tsɔ̃²¹	㚇䝋仲众偬傯摠眾粽糉綜緵综翪衆
+zongf zongx zongv zongr congr congx congv congf	zóng zōng zòng zǒng cǒng cōng còng cóng	tsɔ̃²⁴ tsɔ̃⁵⁵ tsɔ̃⁵¹ tsɔ̃²¹ tsʰɔ̃²¹ tsʰɔ̃⁵⁵ tsʰɔ̃⁵¹ tsʰɔ̃²⁴	重
+zongv zongx zongr zongf	zòng zōng zǒng zóng	tsɔ̃⁵¹ tsɔ̃⁵⁵ tsɔ̃²¹ tsɔ̃²⁴	㹅冢塚尰总惣愡捴揔瘇緫總肿腫踵
+zongx zongf zongv zongr	zōng zóng zòng zǒng	tsɔ̃⁵⁵ tsɔ̃²⁴ tsɔ̃⁵¹ tsɔ̃²¹	中
+zongx zongv zongr zongf	zōng zòng zǒng zóng	tsɔ̃⁵⁵ tsɔ̃⁵¹ tsɔ̃²¹ tsɔ̃²⁴	宗嵏嵕嵸彸忠忪棕椶猣盅稯終终葼螽衷豵鍾鐘钟騣鬃鬉鬷𨍈𩅧𩮀𫎆
+zor zox zov zof	zǒ zō zò zó	tsuɔ²¹ tsuɔ⁵⁵ tsuɔ⁵¹ tsuɔ²⁴	作桌
+zor zox zov zof	zǒ zō zò zó	tsɔ²¹ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²⁴	㧻䦃倬卓妁捉斫斮斲斵斸椓涿灼焯琢瘃禚穛穱諑诼踔酌鐯𣃁𦅾
+zor zox zov zof cof cox cov cor	zǒ zō zò zó có cō cò cǒ	tsɔ²¹ tsɔ⁵⁵ tsɔ⁵¹ tsɔ²⁴ tsʰɔ²⁴ tsʰɔ⁵⁵ tsʰɔ⁵¹ tsʰɔ²¹	着
+zor zox zov zof zuf zux zuv zur	zǒ zō zò zó zú zū zù zǔ	tsuɔ²¹ tsuɔ⁵⁵ tsuɔ⁵¹ tsuɔ²⁴ tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	著
+zor zox zov zof zur zux zuv zuf	zǒ zō zò zó zǔ zū zù zú	tsuɔ²¹ tsuɔ⁵⁵ tsuɔ⁵¹ tsuɔ²⁴ tsu²¹ tsu⁵⁵ tsu⁵¹ tsu²⁴	鐲镯
+zouf zoux zouv zour	zóu zōu zòu zǒu	tsou²⁴ tsou⁵⁵ tsou⁵¹ tsou²¹	做僽呪咒噣昼晝甃皱皺祚縐绉胙騶驟驺骤
+zouv zouf zoux zour	zòu zóu zōu zǒu	tsou⁵¹ tsou²⁴ tsou⁵⁵ tsou²¹	宙籀胄
+zouv zoux zour zouf	zòu zōu zǒu zóu	tsou⁵¹ tsou⁵⁵ tsou²¹ tsou²⁴	紂纣肘走酎
+zouv zoux zour zouf zuv zux zur zuf	zòu zōu zǒu zóu zù zū zǔ zú	tsou⁵¹ tsou⁵⁵ tsou²¹ tsou²⁴ tsu⁵¹ tsu⁵⁵ tsu²¹ tsu²⁴	箒
+zoux zouv zour zouf	zōu zòu zǒu zóu	tsou⁵⁵ tsou⁵¹ tsou²¹ tsou²⁴	侜周啁州棸洲緅舟菆譸诪賙赒輈輖辀週邹郰鄒鄹陬鵃鸼𫐏
+zoux zouv zour zouf zur zux zuv zuf	zōu zòu zǒu zóu zǔ zū zù zú	tsou⁵⁵ tsou⁵¹ tsou²¹ tsou²⁴ tsu²¹ tsu⁵⁵ tsu⁵¹ tsu²⁴	粥
+zov zox zor zof	zò zō zǒ zó	tsuɔ⁵¹ tsuɔ⁵⁵ tsuɔ²¹ tsuɔ²⁴	左
+zov zox zor zof	zò zō zǒ zó	tsɔ⁵¹ tsɔ⁵⁵ tsɔ²¹ tsɔ²⁴	佐
+zuaif zuaix zuaiv zuair	zuái zuāi zuài zuǎi	tsuai²⁴ tsuai⁵⁵ tsuai⁵¹ tsuai²¹	拽
+zuanf zuanx zuanv zuanr	zuán zuān zuàn zuǎn	tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹	䂎䪌儧儹啭囀壮壯撰欑状狀瑑篆纂纉纘缵腞賺赚鐏饌馔𥎝𨱔𪴙
+zuanf zuanx zuanv zuanr cuanv cuanx cuanr cuanf	zuán zuān zuàn zuǎn cuàn cuān cuǎn cuán	tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹ tsʰuã⁵¹ tsʰuã⁵⁵ tsʰuã²¹ tsʰuã²⁴	撞
+zuanf zuanx zuanv zuanr zanf zanx zanv zanr	zuán zuān zuàn zuǎn zán zān zàn zǎn	tsuã²⁴ tsuã⁵⁵ tsuã⁵¹ tsuã²¹ tsã²⁴ tsã⁵⁵ tsã⁵¹ tsã²¹	鄼酂酇
+zuanv zuanf zuanx zuanr xianr xianx xianv xianf	zuàn zuán zuān zuǎn xiǎn xiān xiàn xián	tsuã⁵¹ tsuã²⁴ tsuã⁵⁵ tsuã²¹ ɕiã²¹ ɕiã⁵⁵ ɕiã⁵¹ ɕiã²⁴	轉转
+zuanx zuanf zuanv zuanr	zuān zuán zuàn zuǎn	tsuã⁵⁵ tsuã²⁴ tsuã⁵¹ tsuã²¹	鑽钻
+zuanx zuanv zuanr zuanf	zuān zuàn zuǎn zuán	tsuã⁵⁵ tsuã⁵¹ tsuã²¹ tsuã²⁴	专妆妝專庄桩樁甎砖磚粧莊装裝顓颛𧚌
+zuar zuax zuav zuaf	zuǎ zuā zuà zuá	tsua²¹ tsua⁵⁵ tsua⁵¹ tsua²⁴	啄
+zuax zuav zuar zuaf yav yax yar yaf	zuā zuà zuǎ zuá yà yā yǎ yá	tsua⁵⁵ tsua⁵¹ tsua²¹ tsua²⁴ ia⁵¹ ia⁵⁵ ia²¹ ia²⁴	抓
+zuf zux zuv zur	zú zū zù zǔ	tsu²⁴ tsu⁵⁵ tsu⁵¹ tsu²¹	䪒伫佇住助坾柱注眝筯箸紸羜翥苎苧薴註貯贮軴鉒鑄铸霔馵駐驻𪾣
+zuif zuix zuiv zuir	zuí zuī zuì zuǐ	tsuei²⁴ tsuei⁵⁵ tsuei⁵¹ tsuei²¹	㠑坠墜怼惴懟最棷甀畷硾礈祽稡綷縋缒罪腄膇諈譵贅赘辠醉醊錣餟𨽎
+zuif zuix zuiv zuir zeir zeix zeiv zeif	zuí zuī zuì zuǐ zěi zēi zèi zéi	tsuei²⁴ tsuei⁵⁵ tsuei⁵¹ tsuei²¹ tsei²¹ tsei⁵⁵ tsei⁵¹ tsei²⁴	蕝蕞𫈵
+zuir zuix zuiv zuif jier jiex jiev jief	zuǐ zuī zuì zuí jiě jiē jiè jié	tsuei²¹ tsuei⁵⁵ tsuei⁵¹ tsuei²⁴ tɕiɛ²¹ tɕiɛ⁵⁵ tɕiɛ⁵¹ tɕiɛ²⁴	綴缀
+zuiv zuix zuir zuif	zuì zuī zuǐ zuí	tsuei⁵¹ tsuei⁵⁵ tsuei²¹ tsuei²⁴	嘴
+zuix zuiv zuir zuif	zuī zuì zuǐ zuí	tsuei⁵⁵ tsuei⁵¹ tsuei²¹ tsuei²⁴	䨨䳡追錐锥隹雈騅骓鵻
+zunv zunx zunr zunf	zùn zūn zǔn zún	tsuɜ̃⁵¹ tsuɜ̃⁵⁵ tsuɜ̃²¹ tsuɜ̃²⁴	准埻準
+zunx zunv zunr zunf	zūn zùn zǔn zún	tsuɜ̃⁵⁵ tsuɜ̃⁵¹ tsuɜ̃²¹ tsuɜ̃²⁴	僎尊樽跧遵鷷𫜄
+zur zux zuv zuf	zǔ zū zù zú	tsu²¹ tsu⁵⁵ tsu⁵¹ tsu²⁴	㤕卒咀嘱囑曯欘烛燭爥瞩矚祝窋竹竺筑築絀绌茿足钃𣚚𪹳
+zuv zux zur zuf	zù zū zǔ zú	tsu⁵¹ tsu⁵⁵ tsu²¹ tsu²⁴	主俎帚煮珇祖組组詛诅阻駔驵齟龃
+zux zuv zur zuf	zū zù zǔ zú	tsu⁵⁵ tsu⁵¹ tsu²¹ tsu²⁴	䃴侏咮姝朱株橥櫫渚潴瀦猪珠祩禂租絑蛛蠩袾誅諸诛诸豬跦邾

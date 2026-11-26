@@ -44,27 +44,31 @@ public final class IpaKeyboardTest {
         check("²¹".equals(IpaKeyboard.candidatePrefix("²¹", "")), "standalone tone can appear as original input");
         String longInput = new String(new char[65]).replace('\0', 'a');
         check(longInput.equals(IpaKeyboard.candidatePrefix(longInput, "")), "long original IPA stays visible");
-        check(IpaKeyboard.withVerbatim(longInput, keyboard, both).size() == 1, "long original bypasses lookup");
+        check(IpaKeyboard.withVerbatim(longInput, keyboard, both).isEmpty(), "long original bypasses lookup");
         List<IpaKeyboard.Entry> literal = IpaKeyboard.withVerbatim("ma", keyboard, north);
-        check(literal.get(0).ipa.equals("ma") && literal.get(0).gloss.isEmpty(), "unmatched IPA goes first without a gloss");
-        contains(literal.subList(1, literal.size()), "mã²¹", "奶");
+        check(!literal.get(0).ipa.equals("ma") && literal.stream().filter(e -> e.ipa.equals("ma")).count() == 1, "unmatched IPA follows suggestions and is offered once");
+        contains(literal, "mã²¹", "奶");
+        contains(literal, "mã²¹pu³⁵li⁵⁵", "乳头");
+        List<IpaKeyboard.Entry> compact = IpaKeyboard.withVerbatim("mã²¹pu³⁵li⁵⁵", keyboard, north);
+        check(compact.get(0).gloss.equals("乳头") && compact.stream().filter(e -> e.ipa.equals("mã²¹pu³⁵li⁵⁵")).count() == 1,
+                "a joined IPA entry stays an exact, unique dictionary match");
         List<IpaKeyboard.Entry> word = IpaKeyboard.withVerbatim("mã²¹", keyboard, north);
         check(word.get(0).ipa.equals("mã²¹") && word.get(0).gloss.equals("奶")
                 && word.stream().filter(entry -> entry.ipa.equals("mã²¹")).count() == 1, "exact original IPA has one card and the dictionary gloss");
-        check(IpaKeyboard.withVerbatim("ma\u0303²¹", keyboard, north).get(0).gloss.isEmpty(), "normalized matches cannot label verbatim input");
-        check(IpaKeyboard.withVerbatim("ma", keyboard, 0).size() == 1
-                && IpaKeyboard.withVerbatim("ma", null, north).size() == 1, "original survives a disabled or loading dictionary");
+        check(IpaKeyboard.withVerbatim("ma\u0303²¹", keyboard, north).get(0).gloss.equals("奶"), "canonically equivalent IPA has the same dictionary meaning");
+        check(IpaKeyboard.withVerbatim("ma", keyboard, 0).isEmpty()
+                && IpaKeyboard.withVerbatim("ma", null, north).isEmpty(), "a disabled or loading dictionary does not echo the editor");
         check(keyboard.complete("ma", 0).isEmpty(), "disabled dictionary suggested a completion");
         check(keyboard.complete("qqqqqq", both).isEmpty(), "an unknown prefix generated a completion");
         contains(keyboard.complete("ma", north), "mã²¹", "奶");
         contains(keyboard.complete("ma\u0303²", north), "mã²¹", "奶");
         check(keyboard.complete("ma", south).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
                 "a Northern completion leaked into Southern suggestions");
-        contains(keyboard.complete("ʔa²¹le", south), "ʔa²¹ le⁵⁵", "蛋");
+        contains(keyboard.complete("ʔa²¹le", south), "ʔa²¹le⁵⁵", "蛋");
         contains(keyboard.complete("ba³³n", south), "ba³³nõ²¹", "乌鸦");
         check(keyboard.complete("ba³³n", north).stream().noneMatch(entry -> entry.ipa.equals("ba³³nõ²¹")),
                 "a Southern completion leaked into Northern suggestions");
-        check(keyboard.complete("ʔa¹³le", both).stream().noneMatch(entry -> entry.ipa.equals("ʔa²¹ le⁵⁵")),
+        check(keyboard.complete("ʔa¹³le", both).stream().noneMatch(entry -> entry.ipa.equals("ʔa²¹le⁵⁵")),
                 "a supplied tone was ignored");
         check(keyboard.complete("mã²¹", both).stream().noneMatch(entry -> entry.ipa.equals("mã²¹")),
                 "an already complete spelling was suggested again");
