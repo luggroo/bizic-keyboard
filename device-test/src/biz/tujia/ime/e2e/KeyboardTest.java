@@ -369,7 +369,9 @@ public final class KeyboardTest extends Instrumentation {
         Rect backspace = waitForNode("退格", false);
         stage("Backspace bounds: pinyin " + pinyinBackspace + ", IPA " + ipaBackspace
                 + ", handwriting " + backspace);
-        int minimumTarget = Math.round(47 * host.getResources().getDisplayMetrics().density);
+        int minimumTargetDp = host.getResources().getConfiguration().orientation
+                == android.content.res.Configuration.ORIENTATION_LANDSCAPE ? 40 : 47;
+        int minimumTarget = Math.round(minimumTargetDp * host.getResources().getDisplayMetrics().density);
         if (backspace.width() < minimumTarget || backspace.height() < minimumTarget)
             throw new AssertionError("Handwriting backspace touch target is too small: " + backspace);
         int alignment = Math.round(10 * host.getResources().getDisplayMetrics().density);

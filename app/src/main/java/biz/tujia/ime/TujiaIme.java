@@ -405,7 +405,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         // Android 14+ scales different SP sizes nonlinearly, so size each line separately.
         int choicesHeight = Math.max(dp(compact ? 40 : 48),
                 textHeight(GLOSS_SP) + textHeight(formSp()) + dp(12));
-        int targetRow = Math.max(dp(compact ? 50 : 54), textHeight(letterSp()) + dp(6));
+        int targetRow = Math.max(dp(compact ? 44 : 54), textHeight(letterSp()) + dp(6));
         int maximum = dp(Math.max(120, screen - (portrait ? 140 : 80)));
         int availableBody = Math.max(dp(64), maximum - toolbarHeight - choicesHeight);
         handEditRowHeight = Math.min(dp(HAND_EDIT_ROW_DP), Math.min(targetRow, availableBody / 4));
