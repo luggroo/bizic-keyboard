@@ -87,8 +87,12 @@ public final class SetupActivity extends Activity {
         ScrollView scroll = new ScrollView(this);
         scroll.setBackgroundColor(surface);
         getWindow().setStatusBarColor(surface);
-        getWindow().getDecorView().setSystemUiVisibility(dark ? 0 : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        if (Build.VERSION.SDK_INT >= 26) getWindow().setNavigationBarColor(surface);
+        int systemBars = dark ? 0 : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        if (Build.VERSION.SDK_INT >= 26) {
+            getWindow().setNavigationBarColor(surface);
+            if (!dark) systemBars |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        }
+        getWindow().getDecorView().setSystemUiVisibility(systemBars);
         scroll.setFillViewport(true);
         if (Build.VERSION.SDK_INT >= 35) {
             getWindow().setDecorFitsSystemWindows(false);
