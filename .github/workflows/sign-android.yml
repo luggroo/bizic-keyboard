@@ -197,7 +197,6 @@ jobs:
           target="$GITHUB_SHA"
           if [[ "$REUSE_042" == true ]]; then
             VERSION=0.4.2
-            target="$VERIFIED_SHA"
             test "$(sha256sum signed/SHA256SUMS | cut -d ' ' -f 1)" = "82fd2cf1c2036d20caaa3cc1a34bb81b038bdf7f0e4fba57036df4844fb29c22"
           fi
           (cd signed && sha256sum -c SHA256SUMS)
