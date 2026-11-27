@@ -1,5 +1,7 @@
 package biz.tujia.ime;
 
+import android.net.Uri;
+
 import java.util.regex.Pattern;
 
 /** The exported reader uses ASCII asset names and a single, HTTPS-only origin. */
@@ -12,8 +14,16 @@ final class LearningOrigin {
     static final String STATUS_PATH = "/_app/ime-status.json";
     static final String PRIVACY_PATH = "/_app/privacy";
     private static final Pattern ASSET = Pattern.compile("(?:[A-Za-z0-9_][A-Za-z0-9_.-]*/)*[A-Za-z0-9_][A-Za-z0-9_.-]*");
+    private static final Pattern DICTIONARY_ENTRY = Pattern.compile("[A-Za-z0-9_-]{1,160}");
 
     private LearningOrigin() {}
+
+    /** Accept a stable entry ID, never a caller-supplied address or composition text. */
+    static String dictionaryEntryUrl(String id) {
+        if (id == null || !DICTIONARY_ENTRY.matcher(id).matches()) return START_URL;
+        return Uri.parse(START_URL).buildUpon().appendQueryParameter("id", id)
+                .fragment("words").build().toString();
+    }
 
     static boolean isLocal(String scheme, String encodedAuthority) {
         return "https".equals(scheme) && HOST.equals(encodedAuthority);

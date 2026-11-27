@@ -35,6 +35,7 @@ import java.util.function.BiConsumer;
 public final class LearningActivity extends Activity {
     static final String EXTRA_READER_EN = "biz.tujia.ime.READER_EN";
     static final String EXTRA_READER_DARK = "biz.tujia.ime.READER_DARK";
+    static final String EXTRA_DICTIONARY_ENTRY_ID = "biz.tujia.ime.DICTIONARY_ENTRY_ID";
     private static final int FIRST_DISCLOSURE = 1;
     private static final String DISCLOSURE_OPEN = "learning.disclosure.open";
     private static final String HISTORY = "learning.web.history";
@@ -138,7 +139,10 @@ public final class LearningActivity extends Activity {
         browser.setBackgroundColor(getColor(R.color.reader_surface));
         browser.setWebViewClient(new LearningWebClient(this));
         frame.addView(browser);
-        if (history == null || browser.restoreState(history) == null) browser.loadUrl(LearningOrigin.START_URL);
+        if (history == null || browser.restoreState(history) == null) {
+            String entryId = getIntent() == null ? null : getIntent().getStringExtra(EXTRA_DICTIONARY_ENTRY_ID);
+            browser.loadUrl(LearningOrigin.dictionaryEntryUrl(entryId));
+        }
     }
 
     private void withReaderAppearance(BiConsumer<Boolean, Boolean> action) {
