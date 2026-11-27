@@ -105,6 +105,14 @@ public final class LearningActivity extends Activity {
         if (browser == null) showReader(null);
     }
 
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (browser != null && intent != null && intent.hasExtra(EXTRA_DICTIONARY_ENTRY_ID)) {
+            browser.loadUrl(LearningOrigin.dictionaryEntryUrl(intent.getStringExtra(EXTRA_DICTIONARY_ENTRY_ID)));
+        }
+    }
+
     @SuppressWarnings("deprecation")
     private void showReader(Bundle history) {
         frame.removeAllViews();
