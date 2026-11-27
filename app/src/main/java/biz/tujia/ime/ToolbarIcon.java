@@ -57,7 +57,7 @@ final class ToolbarIcon extends Drawable {
                 break;
             case MIC:
                 canvas.drawRoundRect(9, 1, 15, 11, 3, 3, paint);
-                path.reset(); path.moveTo(6.5f, 8); path.quadTo(6.5f, 14, 12, 14); path.quadTo(17.5f, 14, 17.5f, 8); canvas.drawPath(path);
+                path.reset(); path.moveTo(6.5f, 8); path.quadTo(6.5f, 14, 12, 14); path.quadTo(17.5f, 14, 17.5f, 8); canvas.drawPath(path, paint);
                 canvas.drawLine(12, 14, 12, 17, paint);
                 break;
             case SETTINGS:
