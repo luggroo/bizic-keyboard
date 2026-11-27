@@ -275,6 +275,18 @@ public final class LearningActivity extends Activity {
             finish();
             return;
         }
+        // A keyboard entry opens in its own task. On the initial word, Back
+        // returns directly to the editor; deeper reader navigation retains its
+        // ordinary history until the user reaches that word again.
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_DICTIONARY_ENTRY_ID)) {
+            String id = intent.getStringExtra(EXTRA_DICTIONARY_ENTRY_ID);
+            String address = current.getUrl();
+            if (address == null || (id != null && LearningOrigin.dictionaryEntryUrl(id).equals(address))) {
+                finish();
+                return;
+            }
+        }
         if (backPending) return;
         backPending = true;
         current.evaluateJavascript("typeof window.bizicReaderBack === 'function' && window.bizicReaderBack() === true",
