@@ -364,14 +364,26 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         press("设置");
         press("更多设置");
-        String setting = launcherControl("音标补全 · ", true, false);
+        boolean english = "en".equals(getTargetContext().getResources().getConfiguration().locale.getLanguage());
+        String prefix = english ? "IPA completion · " : "音标补全 · ";
+        String setting = launcherControl(prefix, true, false);
         launcherControl(setting, false, true);
-        for (String label : toggles) launcherControl(label, false, true);
-        launcherControl("确定", false, true);
-        launcherControl("音标补全 · " + expected, false, false);
+        for (String label : toggles) launcherControl(english ? englishIpaChoice(label) : label, false, true);
+        launcherControl(english ? "OK" : "确定", false, true);
+        launcherControl(prefix + (english ? englishIpaChoice(expected) : expected), false, false);
         returnFromKeyboardSettings();
         tapField(host.second);
         waitSelectedControl("拼音");
+    }
+
+    private static String englishIpaChoice(String value) {
+        switch (value) {
+            case "北部": return "Northern";
+            case "南部": return "Southern";
+            case "北部、南部": return "Northern and Southern";
+            case "关闭": return "Off";
+            default: throw new IllegalArgumentException("Unexpected IPA choice: " + value);
+        }
     }
 
     void assertBackspaceAlignment(boolean capture) {
