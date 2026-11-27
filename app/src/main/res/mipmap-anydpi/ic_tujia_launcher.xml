@@ -1,4 +1,4 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_tujia_launcher_background"/>
-    <item android:drawable="@drawable/ic_tujia_launcher_foreground"/>
+    <!-- Pre-Android 8 fallback; drawable-night handles the palette. -->
+    <item android:drawable="@drawable/ic_tujia_learning_legacy"/>
 </layer-list>
