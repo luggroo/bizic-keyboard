@@ -364,7 +364,7 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         press("设置");
         press("更多设置");
-        boolean english = "en".equals(getTargetContext().getResources().getConfiguration().locale.getLanguage());
+        boolean english = englishSettings();
         String prefix = english ? "IPA completion · " : "音标补全 · ";
         String setting = launcherControl(prefix, true, false);
         launcherControl(setting, false, true);
@@ -384,6 +384,10 @@ public final class KeyboardTest extends Instrumentation {
             case "关闭": return "Off";
             default: throw new IllegalArgumentException("Unexpected IPA choice: " + value);
         }
+    }
+
+    private boolean englishSettings() {
+        return "en".equals(getTargetContext().getResources().getConfiguration().locale.getLanguage());
     }
 
     void assertBackspaceAlignment(boolean capture) {
@@ -1189,11 +1193,11 @@ public final class KeyboardTest extends Instrumentation {
     private void testCrashRecordingDefault() {
         stage("Local diagnostic operation recording starts enabled and a saved opt-out persists");
         openKeyboardSettings();
-        String caption = "记录键盘操作";
+        String caption = englishSettings() ? "Record keyboard actions" : "记录键盘操作";
         assertSettingChecked(caption, true);
         launcherControl(caption, false, true);
         assertSettingChecked(caption, false);
-        launcherControl("不会记录密码框、数字输入框", true, false);
+        launcherControl(englishSettings() ? "Password, number, email and URL fields" : "不会记录密码框、数字输入框", true, false);
         returnFromKeyboardSettings();
         openKeyboardSettings();
         assertSettingChecked(caption, false);
