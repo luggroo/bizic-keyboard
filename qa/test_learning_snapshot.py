@@ -9,7 +9,7 @@ from pathlib import Path
 from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from prepare_learning_assets import MANIFEST, prepare, read_snapshot, sha256
+from prepare_learning_assets import CATALOGUE, MANIFEST, prepare, read_android_snapshot, read_snapshot, sha256
 
 
 class LearningSnapshotTest(unittest.TestCase):
@@ -20,7 +20,8 @@ class LearningSnapshotTest(unittest.TestCase):
         self.archive = self.root / "learning.zip"
         self.pin = self.root / "learning.sha256"
         self.output = self.root / "generated"
-        self.files = {"index.html": b"home", "app.js": b"", "prepared/word-search.json.gz": b"index"}
+        self.files = {"index.html": b"home", "app.js": b"", "prepared/word-search.json.gz": b"index",
+                      CATALOGUE: gzip.compress(b'{"sources":[],"sourceVariants":[]}')}
         self.records = [{"path": k, "sha256": sha256(v), "size": len(v), "category": "frontend"}
                         for k, v in self.files.items()]
         self.manifest = {"schemaVersion": 1, "contentVersion": "one", "sourceRevision": "a" * 40,
@@ -78,6 +79,28 @@ class LearningSnapshotTest(unittest.TestCase):
         self.write_archive()
         with self.assertRaisesRegex(ValueError, "inventory"):
             read_snapshot(self.archive, self.pin)
+
+    def test_android_excludes_publication_text_but_keeps_citations_and_corpus(self):
+        shard = "prepared/source-1.json.gz"
+        corpus = "prepared/corpus.json.gz"
+        citation = {"id": "book", "url": "https://example.org/book.pdf", "text": ""}
+        catalogue = {"sources": [{**citation, "_textChunk": "source-1", "textNotice": "OCR"}]}
+        changed = {CATALOGUE: gzip.compress(json.dumps(catalogue).encode()),
+                   shard: gzip.compress(b'{"id":"book","text":"publication full text"}'),
+                   corpus: gzip.compress(b'{"corpus":[{"text":"curated example"}]}')}
+        self.files.update(changed)
+        self.records[:] = [r for r in self.records if r["path"] not in changed]
+        self.records.extend({"path": k, "sha256": sha256(v), "size": len(v), "category": "bibliography"}
+                            for k, v in changed.items())
+        self.write_archive()
+        self.assertIn(shard, read_snapshot(self.archive, self.pin))
+        files = read_android_snapshot(self.archive, self.pin)
+        self.assertNotIn(shard, files)
+        self.assertEqual(files[corpus], self.files[corpus])
+        self.assertEqual(json.loads(gzip.decompress(files[CATALOGUE]))["sources"], [citation])
+        inventory = {r["path"]: r for r in json.loads(files[MANIFEST])["files"]}
+        self.assertNotIn(shard, inventory)
+        self.assertEqual(inventory[CATALOGUE]["sha256"], sha256(files[CATALOGUE]))
 
 
 if __name__ == "__main__":

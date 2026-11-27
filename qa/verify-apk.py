@@ -11,7 +11,7 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
-from prepare_learning_assets import read_snapshot
+from prepare_learning_assets import PUBLICATION_TEXT, read_android_snapshot
 from ime_dictionary_index import index_assets
 
 
@@ -74,7 +74,7 @@ def verify(apk, typing_only, keyboard_only=False):
                     and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
     learning = {}
     if not keyboard_only:
-        snapshot = read_snapshot()
+        snapshot = read_android_snapshot()
         learning = {"learning/" + name: data for name, data in snapshot.items()}
         learning.update(index_assets(snapshot, assets / "words.tsv", assets / "northern-words.tsv"))
     libraries = ["libtujia_core.so"]
@@ -86,6 +86,8 @@ def verify(apk, typing_only, keyboard_only=False):
         if len(names) != len(set(names)):
             raise ValueError("Duplicate archive member")
         found = {name.removeprefix("assets/") for name in names if name.startswith("assets/") and not name.endswith("/")}
+        if any(PUBLICATION_TEXT.fullmatch(name.removeprefix("learning/")) for name in found):
+            raise ValueError("Document full-text shards must not ship in Android APKs")
         required = set(expected) | set(learning)
         if found != required:
             raise ValueError(f"Unexpected asset inventory: {sorted(found ^ required)}")

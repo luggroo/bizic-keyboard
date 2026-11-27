@@ -16,6 +16,8 @@ CONTENT = Path(__file__).resolve().parents[1] / "learning-content"
 ARCHIVE = CONTENT / "learning.zip"
 PIN = CONTENT / "learning.sha256"
 MANIFEST = "offline-manifest.json"
+CATALOGUE = "prepared/catalogue.json.gz"
+PUBLICATION_TEXT = re.compile(r"prepared/source-[0-9]+\.json\.gz")
 CATEGORIES = {"frontend", "dictionary", "grammar", "corpus", "bibliography",
               "notation", "localization", "fonts", "other"}
 MAX_BYTES = 128 * 1024 * 1024
@@ -79,8 +81,48 @@ def read_snapshot(archive=ARCHIVE, pin=PIN):
     return data
 
 
-def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None):
+def read_android_snapshot(archive=ARCHIVE, pin=PIN):
     files = read_snapshot(archive, pin)
+    catalogue = json.loads(gzip.decompress(files[CATALOGUE]))
+    for section in ("sources", "sourceVariants"):
+        for record in catalogue.get(section, []):
+            chunk = record.pop("_textChunk", None)
+            if chunk or record.get("text"):
+                record["text"] = ""
+                record.pop("textNotice", None)
+    files[CATALOGUE] = gzip.compress(
+        json.dumps(catalogue, ensure_ascii=False, separators=(",", ":")).encode(), mtime=0
+    )
+    # The shared frontend also runs on the website, where publication search is available.
+    for name in ("app.js", "ui-core-translations.js", "ui-translations.js"):
+        if name not in files:
+            continue
+        text = files[name].decode().replace(
+            '<div class="detail-actions"><button data-recognition-batch="true">扫描文献全文</button></div>', ""
+        ).replace(
+            "搜索题名、原目录与已提取正文…", "搜索题名与原目录…"
+        ).replace(
+            "Search titles, original folders or extracted text…", "Search titles and original folders…"
+        ).replace(
+            "词形、释义、文献正文与语料…", "词形、释义、书目与语料…"
+        ).replace(
+            "Word forms, meanings, source documents or texts…", "Word forms, meanings, bibliography or corpus…"
+        )
+        files[name] = text.encode()
+    for name in list(files):
+        if PUBLICATION_TEXT.fullmatch(name):
+            del files[name]
+    manifest = json.loads(files[MANIFEST])
+    manifest["files"] = [
+        {**record, "size": len(files[record["path"]]), "sha256": sha256(files[record["path"]])}
+        for record in manifest["files"] if record["path"] in files
+    ]
+    files[MANIFEST] = json.dumps(manifest, separators=(",", ":")).encode()
+    return files
+
+
+def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None):
+    files = read_android_snapshot(archive, pin)
     output.mkdir(parents=True, exist_ok=True)
     # Gradle owns this output. Fully verify and stage the new tree before replacing it.
     with tempfile.TemporaryDirectory(dir=output) as temp:
