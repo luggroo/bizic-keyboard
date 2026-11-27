@@ -5,13 +5,14 @@ import csv
 import gzip
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
-from shutil import copyfile
+from shutil import copyfile, which
 from han_orthography import DATA, TONES, Orthography, PLAIN_HAN_LOANS
 from keyboard_gloss import update_row
 
@@ -20,6 +21,35 @@ sys.path.insert(0, str(ROOT/"tools/story-demo"))
 from longshan_spelling import reviewed_glosses
 FIELDS = "id word key meaning recommended aliases variants frequency kind shortGloss plain diacritic hanUnits romanAliases presentation".split()
 DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+DICTIONARY_INPUTS = (
+    "annotated-books.json", "longshan-texts.json", "data.json.gz", "dictionary.json.gz",
+    "ipa-normalize.js", "notation-profiles.js", "notation-ui.js", "southern-notation.js",
+    "yubao.js", "grammar-notation.js", "lexical-reviews.js", "spelling-boundaries.js", "longshan-texts.js",
+)
+
+
+def dictionary_provenance(site, repository=None, ref=None):
+    """Identify the bytes used for conversion, including an unversioned local export."""
+    env = {**os.environ, "GIT_NO_LAZY_FETCH": "1", "GIT_ALLOW_PROTOCOL": ""}
+    site = site.resolve()
+    checksums = {name: hashlib.sha256((site / name).read_bytes()).hexdigest() for name in DICTIONARY_INPUTS}
+    if repository is None and which("git"):
+        root = subprocess.run(["git", "-C", str(site), "rev-parse", "--show-toplevel"],
+                              capture_output=True, text=True, env=env)
+        if root.returncode == 0 and (Path(root.stdout.strip()) / "site").resolve() == site:
+            repository = Path(root.stdout.strip())
+    commit = None
+    if repository is not None:
+        git = ["git", "-C", str(repository)]
+        commit = subprocess.check_output([*git, "rev-parse", "--verify", "--end-of-options",
+                                          (ref or "HEAD") + "^{commit}"], env=env, text=True).strip()
+        for name, checksum in checksums.items():
+            blob = subprocess.check_output([*git, "cat-file", "blob", f"{commit}:site/{name}"], env=env)
+            if hashlib.sha256(blob).hexdigest() != checksum:
+                raise ValueError(f"{site / name} differs from Git commit {commit}")
+    elif ref is not None:
+        raise ValueError("--dictionary-revision requires a local Git checkout or --dictionary-git")
+    return {"source": "bizic-dictionary/site", "sourceRevision": commit, "sourcesSHA256": checksums}
 # Use the concise reading that helps tell homophones apart; keep the original meaning intact.
 SHORT = {
     "w684": "吃", "w687": "干", "w1827": "次", "w611": "慢", "w510": "穿衣",
@@ -200,6 +230,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("demo", type=Path, help="Demo dist directory containing words.js")
     parser.add_argument("--dictionary-site", type=Path, required=True, help="luggroo/bizic-dictionary/site")
+    parser.add_argument("--dictionary-git", type=Path, help="Local source repository for an exported site directory")
+    parser.add_argument("--dictionary-revision", help="Check the dictionary inputs against this Git revision (default HEAD in a checkout)")
     parser.add_argument("--out", type=Path, default=ROOT/"shared/bundle/Assets")
     parser.add_argument("--story", type=Path, default=ROOT/"tools/data/story-words.tsv")
     parser.add_argument("--mandarin", type=Path, default=ROOT/"tools/data/mandarin.tsv")
@@ -209,6 +241,7 @@ def main():
     parser.add_argument("--web", type=Path, help="Generate the browser's ranking.js")
     args = parser.parse_args()
     site = args.dictionary_site
+    source = dictionary_provenance(site, args.dictionary_git, args.dictionary_revision)
     rows = demo_rows(args.demo)
     if args.story.exists():
         with args.story.open(encoding="utf-8", newline="") as stream:
@@ -308,12 +341,10 @@ def main():
         refs = [[r["id"], r["word"], r["plain"], r["diacritic"], r["recommended"], r["shortGloss"], r["meaning"], r["hanUnits"]] for r in reference]
         args.web.write_text("window.tujiaRanking="+json.dumps({"words":meta,"mandarin":mandarin,"reference":refs,"plainHanLoans":{r["id"]:r["recommended"] for r in rows if r.get("presentation")=="plainHanLoan"}},
             ensure_ascii=False,separators=(",",":"))+";\n",encoding="utf-8")
-    files = ["annotated-books.json", "longshan-texts.json", "data.json.gz", "dictionary.json.gz",
-             "longshan-texts.js", "notation-ui.js", "notation-profiles.js", "lexical-reviews.js", "spelling-boundaries.js"]
     provenance = {
-        "source":"https://github.com/luggroo/bizic-dictionary/tree/b882110a9e86b52536f7b8b4bf8179ae5f70f2f0/site",
+        **source,
+        "wordsSHA256": hashlib.sha256((args.out / "words.tsv").read_bytes()).hexdigest(),
         "method":"Count northern aligned word or word-group annotations with matching tone-marked spelling and Chinese sense; omit unresolved homophones. In the geographically identified northern Brassett transcripts, count exact numeric-tone word spans only when there is one dictionary ID for the spelling. Undetermined sense and unresolved token boundaries are omitted. Counts estimate collection usage; zero means no qualifying observation.",
-        "sourcesSHA256":{f:hashlib.sha256((site/f).read_bytes()).hexdigest() for f in files},
         "inputSHA256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest()
                        for p in (args.demo/"words.js", args.story, context_source, DATA/"story-spelling-aliases.tsv",
                                  DATA/"plain-han-loans.tsv", args.mandarin, args.mandarin_readings) if p.exists()},
