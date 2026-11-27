@@ -151,42 +151,18 @@ jobs:
           script: bash qa/verify-release-upgrade.sh
 
   publish:
-    if: >-
-      !cancelled() && github.ref == 'refs/heads/main' &&
-      ((github.event_name == 'workflow_dispatch' && inputs.publish &&
-        needs.build.result == 'success' && needs.sign.result == 'success' && needs.upgrade.result == 'success') ||
-       (github.event_name == 'push' && github.event.head_commit.message == 'Publish verified Android 0.4.2 [publish verified v0.4.2]'))
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.publish
     needs: [build, sign, upgrade]
     runs-on: ubuntu-24.04
     permissions:
-      actions: read
       contents: write
-    env:
-      REUSE_042: ${{ github.event_name == 'push' }}
-      VERIFIED_RUN: '45955719943'
-      VERIFIED_SHA: 4ea823924f2c863d53b885246218d0d03d530bfd
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Confirm the approved run and source
-        if: env.REUSE_042 == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          test "$(gh run view "$VERIFIED_RUN" --json conclusion,headSha --jq '.conclusion + " " + .headSha')" = "success $VERIFIED_SHA"
       - uses: actions/download-artifact@v4
-        if: env.REUSE_042 != 'true'
         with:
           name: bizic-cipu-v${{ needs.build.outputs.version }}
-          path: signed
-      - uses: actions/download-artifact@v4
-        if: env.REUSE_042 == 'true'
-        with:
-          github-token: ${{ github.token }}
-          run-id: ${{ env.VERIFIED_RUN }}
-          name: bizic-cipu-v0.4.2
           path: signed
       - name: Publish verified release
         env:
@@ -194,22 +170,13 @@ jobs:
           VERSION: ${{ needs.build.outputs.version }}
         run: |
           set -euo pipefail
-          target="$GITHUB_SHA"
-          if [[ "$REUSE_042" == true ]]; then
-            VERSION=0.4.2
-            test "$(sha256sum signed/SHA256SUMS | cut -d ' ' -f 1)" = "82fd2cf1c2036d20caaa3cc1a34bb81b038bdf7f0e4fba57036df4844fb29c22"
-          fi
           (cd signed && sha256sum -c SHA256SUMS)
           tag="v$VERSION"
-          notes="docs/release-$VERSION.md"
-          if [[ "$VERSION" == 0.4.2 ]]; then
-            notes=docs/public-release-0.4.2.md
-          fi
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" --draft --target "$target" \
-              --title "毕兹辞谱 $VERSION" --notes-file "$notes"
+            gh release create "$tag" --draft --target "$GITHUB_SHA" \
+              --title "毕兹辞谱 $VERSION" --notes-file "docs/release-$VERSION.md"
           fi
           test "$(gh release view "$tag" --json isDraft --jq .isDraft)" = true
-          test "$(gh release view "$tag" --json targetCommitish --jq .targetCommitish)" = "$target"
+          test "$(gh release view "$tag" --json targetCommitish --jq .targetCommitish)" = "$GITHUB_SHA"
           gh release upload "$tag" signed/*.apk signed/SHA256SUMS --clobber
           gh release edit "$tag" --draft=false
