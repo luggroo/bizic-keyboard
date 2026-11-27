@@ -43,11 +43,11 @@ def verify_offline_manifest(apk, aapt):
     return tree
 
 
-def verify_component_icons(apk, aapt, manifest):
+def verify_component_icons(apk, aapt, manifest, keyboard_only=False):
     resources = subprocess.run([str(aapt), "dump", "resources", str(apk)],
                                check=True, capture_output=True, text=True).stdout
     resource_names = dict(re.findall(r"spec resource (0x[0-9a-f]+) biz\.tujia\.ime:([^:]+):", resources))
-    expected = {"application": "mipmap/ic_tujia_launcher", "service": "drawable/ic_tujia"}
+    expected = {"application": "drawable/ic_tujia" if keyboard_only else "mipmap/ic_tujia_launcher", "service": "drawable/ic_tujia"}
     seen = set()
     blocks = re.finditer(r"(?m)^\s*E: (application|service) [^\n]*\n((?:[ \t]+A: [^\n]*\n)+)", manifest)
     for match in blocks:
@@ -63,7 +63,7 @@ def verify_component_icons(apk, aapt, manifest):
     print(f"{apk.name}: launcher and IME use their individual artwork")
 
 
-def verify(apk, typing_only):
+def verify(apk, typing_only, keyboard_only=False):
     assets = ROOT / "shared/bundle/Assets"
     expected = {path.relative_to(assets).as_posix(): path for path in assets.rglob("*") if path.is_file()}
     android_assets = ROOT / "app/src/main/assets"
@@ -72,9 +72,11 @@ def verify(apk, typing_only):
         expected = {name: path for name, path in expected.items()
                     if not name.startswith(("handwriting/", "ismantic/"))
                     and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
-    snapshot = read_snapshot()
-    learning = {"learning/" + name: data for name, data in snapshot.items()}
-    learning.update(index_assets(snapshot, assets / "words.tsv", assets / "northern-words.tsv"))
+    learning = {}
+    if not keyboard_only:
+        snapshot = read_snapshot()
+        learning = {"learning/" + name: data for name, data in snapshot.items()}
+        learning.update(index_assets(snapshot, assets / "words.tsv", assets / "northern-words.tsv"))
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])
@@ -107,9 +109,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("apk", type=Path)
     parser.add_argument("--typing-only", action="store_true")
+    parser.add_argument("--keyboard-only", action="store_true")
     parser.add_argument("--aapt", type=Path, help="Verify the offline manifest with Android Build Tools aapt")
     args = parser.parse_args()
     if args.aapt:
         manifest = verify_offline_manifest(args.apk, args.aapt)
-        verify_component_icons(args.apk, args.aapt, manifest)
-    verify(args.apk, args.typing_only)
+        verify_component_icons(args.apk, args.aapt, manifest, args.keyboard_only)
+        if args.keyboard_only and 'biz.tujia.ime.LearningActivity' in manifest:
+            raise ValueError("Standalone keyboard unexpectedly registers the learning activity")
+    verify(args.apk, args.typing_only, args.keyboard_only)

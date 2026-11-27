@@ -29,8 +29,10 @@ sign() {
     return 1
   fi
 }
-sign unsigned/handwriting.apk 有手写
-sign unsigned/typing-only.apk 无手写
+sign unsigned/academy-handwriting.apk 学堂_有手写
+sign unsigned/academy-typing-only.apk 学堂_无手写
+sign unsigned/keyboard-handwriting.apk 纯输入法_有手写
+sign unsigned/keyboard-typing-only.apk 纯输入法_无手写
 (cd "$work/output" && sha256sum -- *.apk > SHA256SUMS)
 mkdir signed
 cp "$work/output/"* signed/

@@ -2,6 +2,11 @@ name: Sign Android release APKs
 
 on:
   workflow_dispatch:
+    inputs:
+      review_sha:
+        description: 'Exact commit for an explicitly approved review-branch signing run; leave empty on main'
+        required: false
+        type: string
   push:
     tags: ['v[0-9]*']
 
@@ -10,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/codex/bizic-academy-offline')
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.metadata.outputs.version }}
@@ -20,7 +25,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Check source
-        run: git merge-base --is-ancestor HEAD origin/main
+        env:
+          REVIEW_SHA: ${{ inputs.review_sha }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" == refs/heads/codex/bizic-academy-offline ]]; then
+            [[ "$REVIEW_SHA" =~ ^[0-9a-f]{40}$ && "$REVIEW_SHA" == "$GITHUB_SHA" ]]
+            git merge-base --is-ancestor origin/main HEAD
+          else
+            git merge-base --is-ancestor HEAD origin/main
+          fi
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -29,26 +43,33 @@ jobs:
         run: >-
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35'
           'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
-      - name: Build both release editions
-        run: ./gradlew --no-daemon :app:packageHandwritingRelease :app:packageTypingOnlyRelease
-      - name: Verify both unsigned APKs
+      - name: Build the academy and standalone keyboard editions
+        run: |
+          set -euo pipefail
+          mkdir unsigned
+          ./gradlew --no-daemon clean :app:assembleHandwritingRelease :app:assembleTypingOnlyRelease
+          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/academy-handwriting.apk
+          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/academy-typing-only.apk
+          ./gradlew --no-daemon clean :app:assembleHandwritingRelease :app:assembleTypingOnlyRelease -PkeyboardOnly=true
+          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/keyboard-handwriting.apk
+          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/keyboard-typing-only.apk
+      - name: Verify all four unsigned APKs
         id: metadata
         shell: bash
         run: |
           set -euo pipefail
-          mkdir unsigned
-          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/handwriting.apk
-          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/typing-only.apk
-          python3 qa/verify-apk.py unsigned/handwriting.apk
-          python3 qa/verify-apk.py --typing-only unsigned/typing-only.apk
           aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
+          python3 qa/verify-apk.py --aapt "$aapt" unsigned/academy-handwriting.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --typing-only unsigned/academy-typing-only.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --keyboard-only unsigned/keyboard-handwriting.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --keyboard-only --typing-only unsigned/keyboard-typing-only.apk
           for apk in unsigned/*.apk; do
             "$aapt" dump badging "$apk" > "$apk.manifest"
             grep -q "^package: name='biz.tujia.ime' " "$apk.manifest"
             if grep -q '^application-debuggable' "$apk.manifest"; then exit 1; fi
           done
-          diff <(head -1 unsigned/handwriting.apk.manifest) <(head -1 unsigned/typing-only.apk.manifest)
-          version=$(sed -n "1s/.* versionName='\([^']*\)'.*/\1/p" unsigned/handwriting.apk.manifest)
+          for apk in unsigned/*.apk; do diff <(head -1 unsigned/academy-handwriting.apk.manifest) <(head -1 "$apk.manifest"); done
+          version=$(sed -n "1s/.* versionName='\([^']*\)'.*/\1/p" unsigned/academy-handwriting.apk.manifest)
           [[ "$version" =~ ^[0-9]+(\.[0-9]+)+$ ]]
           if [[ "$GITHUB_REF_TYPE" == tag ]]; then [[ "$GITHUB_REF_NAME" == "v$version" ]]; fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
@@ -72,7 +93,7 @@ jobs:
           path: unsigned
       - name: Install signing tools
         run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "build-tools;35.0.0"'
-      - name: Sign and verify both editions
+      - name: Sign and verify all four editions
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
