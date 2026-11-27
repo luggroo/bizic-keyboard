@@ -30,6 +30,6 @@ for old_apk in old/*.apk; do
       exit 1
     fi
     package_info=$(adb shell dumpsys package "$pkg")
-    grep -q 'versionCode=17 ' <<< "$package_info"
+    grep -q 'versionCode=18 ' <<< "$package_info"
   done
 done

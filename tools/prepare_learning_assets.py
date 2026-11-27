@@ -26,6 +26,14 @@ CATEGORIES = {"frontend", "dictionary", "grammar", "corpus", "bibliography",
 MAX_BYTES = 128 * 1024 * 1024
 MAX_FILES = 4096
 
+ANDROID_TITLES = {
+    "keyboard": ("cixcix har-nierxix", "cīcī hǎ-niěxī"),
+    "knowledge": ("sar afhxix-mor-hxex", "sǎ áhxī-mǒ-hxē"),
+    "settings": ("sifsif", "sísí"),
+    "searchDictionary": ("cixcix niv", "cīcī nì"),
+    "searchAll": ("jierxif niv", "jiěxí nì"),
+}
+
 
 def safe_name(name):
     # Match the asset names served by LearningOrigin. /_app/ is native navigation.
@@ -84,6 +92,95 @@ def read_snapshot(archive=ARCHIVE, pin=PIN):
     return data
 
 
+def add_android_titles(files):
+    """Add Android navigation titles to the reader's existing spelling selector."""
+    if "academy.js" not in files:
+        return
+
+    def title(key, secondary):
+        return (f'<span class="academy-title-stack"><span class="tujia-ui" '
+                f'data-ui-tujia="{key}" lang="tji"></span>{secondary}</span>')
+
+    def label(zh, en, value):
+        return f'<span data-ui-source="{zh}" data-ui-english="{en}">{value}</span>'
+
+    def replace_once(text, marker, replacement):
+        if text.count(marker) != 1:
+            raise ValueError(f"Expected one Android reader title marker: {marker}")
+        return text.replace(marker, replacement, 1)
+
+    # The drawer, home tiles, and knowledge directory share localized caption markup.
+    for name in ("index.html", "en/index.html"):
+        text = files[name].decode()
+        sections = (
+            (r'<aside id="academy-drawer"[^>]*>.*?</aside>', {
+                "首页": "home", "词典查询": "words", "例句语料": "corpus",
+                "语言知识": "knowledge", "土家语输入法": "keyboard", "设置": "settings",
+            }),
+            (r'<div class="academy-destinations">.*?</div>', {
+                "词典查询": "words", "例句语料": "corpus", "语言知识": "knowledge",
+            }),
+            (r'<template id="academy-knowledge-template">.*?</template>', {
+                "语法": "grammar", "记音": "notation", "历史比较": "history",
+            }),
+            (r'<fieldset class="academy-search-scope">.*?</fieldset>', {
+                "搜词典": "searchDictionary", "搜全站": "searchAll",
+            }),
+        )
+        for pattern, keys in sections:
+            section = re.search(pattern, text, re.S)
+            if section is None:
+                raise ValueError(f"Missing Android reader navigation in {name}: {pattern}")
+            markup = section[0]
+            for zh, key in keys.items():
+                def stacked(match):
+                    en, current = match.groups()
+                    renamed = {"搜词典": "逻词典", "搜全站": "逻全站"}.get(zh, zh)
+                    return title(key, label(renamed, en, renamed if current == zh else current))
+
+                markup, count = re.subn(
+                    rf'<span data-ui-source="{zh}" data-ui-english="([^"]+)">([^<]*)</span>',
+                    stacked, markup,
+                )
+                if count != 1:
+                    raise ValueError(f"Expected one Android reader caption for {zh} in {name}")
+            text = text[:section.start()] + markup + text[section.end():]
+        text = replace_once(text, '<span id="academy-title"></span>',
+                            '<span id="academy-title">' + title("home", "<span></span>") + "</span>")
+        files[name] = text.encode()
+
+    language = files["ui-language.js"].decode()
+    language = replace_once(language, "const labels=Object.freeze({", "const labels=Object.freeze({"
+                            + "".join(f"{key}:'{ye}'," for key, (ye, _) in ANDROID_TITLES.items()))
+    language = replace_once(language, "const homeAccents={", "const homeAccents={"
+                            + "".join(f'"{key}":"{accent}",' for key, (_, accent) in ANDROID_TITLES.items()))
+    files["ui-language.js"] = language.encode()
+
+    academy = files["academy.js"].decode()
+    academy = replace_once(
+        academy,
+        "caption(title,home?'':label[0],home?'':label[1]);",
+        "const spelling=title.querySelector('[data-ui-tujia]');"
+        "const key=titles[view]?view:'home';"
+        "if(spelling.dataset.uiTujia!==key){"
+        "spelling.dataset.uiTujia=key;spelling.textContent=window.TujiaUI.spelling(key);}"
+        "caption(spelling.nextElementSibling,label[0],label[1]);",
+    )
+    files["academy.js"] = academy.encode()
+    files["academy.css"] += b"""
+.academy-title-stack { display:flex; flex-direction:column; align-items:inherit; gap:2px; }
+.academy-title-stack > .tujia-ui { margin:0; line-height:1.4; }
+html[data-edition] #academy-drawer > nav > * { font-family:inherit; font-weight:600; }
+html[data-edition] #academy-drawer > nav > * > span { min-width:0; overflow-wrap:break-word; }
+html[data-edition] #academy-drawer > nav .academy-title-stack { align-items:flex-start; }
+html[data-edition] #academy-drawer > nav .academy-title-stack > [data-ui-source] { font-size:15px; }
+.academy-search-scope label > span { justify-content:center; padding-block:4px; }
+.academy-search-scope .academy-title-stack > .tujia-ui { color:inherit; }
+.academy-knowledge-list strong .tujia-ui { font-size:14px; }
+#academy-title .academy-title-stack { align-items:center; }
+"""
+
+
 def read_android_snapshot(archive=ARCHIVE, pin=PIN, branding=None):
     files = read_snapshot(archive, pin)
     catalogue = json.loads(gzip.decompress(files[CATALOGUE]))
@@ -130,6 +227,7 @@ def read_android_snapshot(archive=ARCHIVE, pin=PIN, branding=None):
     for name in list(files):
         if PUBLICATION_TEXT.fullmatch(name):
             del files[name]
+    add_android_titles(files)
     # App branding follows the launcher, independent of the pinned dictionary content.
     # Only the two known, inventoried SVGs may be overridden, after snapshot verification.
     if branding is not None:

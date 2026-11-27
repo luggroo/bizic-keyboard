@@ -114,7 +114,7 @@ if [[ "$selected" != "$ime_component" && "$selected" != "$ime_pkg/$ime_pkg.Tujia
     exit 1
 fi
 suite="${TUJIA_E2E_SUITE:-all}"
-case "$suite" in all|core|host|trial|window|web|system|sounds|compact|long-word|typography|han-senses|regional|hand-layout|hand-landscape|hand-words|hand-ux|candidate-layout|typing-only|learning-ime|dictionary-detail|dictionary-large|dictionary-hand|dictionary-open|dictionary-witness|dictionary-fallback|private-history|ipa|ipa-detail|ipa-150|ui-layout|outputs|tone|joined|apical) ;; *) echo "Unknown TUJIA_E2E_SUITE: $suite" >&2; exit 2 ;; esac
+case "$suite" in all|core|host|trial|window|web|system|sounds|compact|long-word|typography|han-senses|han-live|regional|hand-layout|hand-landscape|hand-words|hand-ux|candidate-layout|typing-only|learning-ime|dictionary-detail|dictionary-large|dictionary-hand|dictionary-open|dictionary-witness|dictionary-fallback|private-history|ipa|ipa-detail|ipa-150|ui-layout|outputs|tone|joined|apical) ;; *) echo "Unknown TUJIA_E2E_SUITE: $suite" >&2; exit 2 ;; esac
 if [[ "$suite" == typography ]]; then
     previous_density=$("$adb_bin" shell wm density | tr -d '\r' | sed -n 's/^Override density: //p')
     previous_font=$("$adb_bin" shell settings get system font_scale | tr -d '\r')

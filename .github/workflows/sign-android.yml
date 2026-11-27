@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[android candidate v0.4.2]')) || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[android candidate v0.4.3]')) || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.metadata.outputs.version }}
@@ -126,7 +126,7 @@ jobs:
         with:
           name: bizic-cipu-v${{ needs.build.outputs.version }}
           path: signed
-      - name: Download and verify the public 0.3.6 APKs
+      - name: Download and verify the public upgrade baselines
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -134,13 +134,25 @@ jobs:
           gh release download v0.3.6 --repo "$GITHUB_REPOSITORY" --pattern 'tujia-keyboard-0.3.6*.apk' --dir old
           echo 'fcfa57add4fb90964d98d529001d9cb01b56421b01dcc73e55e9e41a21726964  old/tujia-keyboard-0.3.6.apk' | sha256sum -c
           echo 'a637bfc0f10154bf639e06e0188acb1f896c1d92b37fd935c3fe69c369f0fdce  old/tujia-keyboard-0.3.6-no-handwriting.apk' | sha256sum -c
+          gh release download v0.4.2 --repo "$GITHUB_REPOSITORY" --pattern 'bizic-cipu-0.4.2-keyboard-typing.apk' --dir old
+          echo '0736eac6e59b9e869f1ca27103b5caba0a511640a27b86e0cdb14da40d269dcb  old/bizic-cipu-0.4.2-keyboard-typing.apk' | sha256sum -c
           (cd signed && sha256sum -c SHA256SUMS)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build the device test fixture
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
+          tools/build-apk.sh --device-test fixture.apk
       - name: Enable hardware acceleration
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Verify upgrades from both 0.3.6 editions
+      - name: Verify signed upgrades and visible Han-mode drafts
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
@@ -148,7 +160,7 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: bash qa/verify-release-upgrade.sh
+          script: bash qa/verify-release-upgrade.sh && TUJIA_E2E_SUITE=han-live device-test/run.sh "signed/bizic-cipu-$VERSION-keyboard-typing.apk" fixture.apk
 
   publish:
     if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.publish

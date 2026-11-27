@@ -97,6 +97,10 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("candidate-layout") || suite.equals("typing-only")) testCandidateLayout();
+            if (suite.equals("han-live")) {
+                testFirstInput();
+                testHanLiveDraft();
+            }
             if (suite.equals("learning-ime")) {
                 testFirstInput();
                 testSpellingOnSpace();
@@ -612,12 +616,12 @@ public final class KeyboardTest extends Instrumentation {
         boolean loadingAtFirstKey = findNode("正在加载词库，可先输入拼写", false) != null;
         type("ga");
         boolean buffered = findNode("正在加载词库，可先输入拼写", false) != null;
-        expectText(host.first, "");
+        expectText(host.first, "ga");
         // No more keyboard events: the model must fill this exact live draft on its own.
         Rect match = pollNode("吃、咬，架", false, 90000);
         if (match == null) throw new AssertionError("First draft never received candidates");
         waitForNode("待选拼写 ga", false);
-        expectText(host.first, "");
+        expectText(host.first, "ga");
         awaitKeyboardAtRest();
         match = waitForNode("吃、咬，架", false);
         tap(match.centerX(), match.centerY());
@@ -635,12 +639,13 @@ public final class KeyboardTest extends Instrumentation {
 
         // Three-syllable word plus one more word. Selecting the prefix must leave hxif.
         type("marmardiexhxif");
-        stage("Longest prefix and uncommitted suffix");
+        expectText(host.first, "marmardiexhxif");
+        stage("Visible draft and partial candidate replacement");
         Card prefix = pageCards("，").get(0);
         if (!prefix.name.startsWith("女人") || !outputLine(prefix).equals("麻麻爹"))
             throw new AssertionError("Expected the longest Tujia prefix first: " + prefix.name);
         tap(prefix.bounds.centerX(), prefix.bounds.centerY());
-        expectText(host.first, "麻麻爹");
+        expectText(host.first, "麻麻爹hxif");
         waitForNode("待选拼写 hxif", false);
         pressCandidate(WALK_HAN, false);
         expectText(host.first, "麻麻爹诶");
@@ -650,7 +655,7 @@ public final class KeyboardTest extends Instrumentation {
         pressCandidate("脚，及", false);
         expectText(host.first, "麻麻爹诶及");
 
-        // A new editor is a new composing session.
+        // A new editor clears candidates and preserves the old field's visible text.
         type("jir");
         tapField(host.second);
         waitAbsent("待选拼写 jir");
@@ -661,7 +666,7 @@ public final class KeyboardTest extends Instrumentation {
         expectOriginalAfterMatches("ngafyergaf");
         pressCandidate("，ngaf yer gaf", true);
         expectText(host.second, "ngaf yer gaf");
-        expectText(host.first, "麻麻爹诶及");
+        expectText(host.first, "麻麻爹诶及jir");
 
         press("退格");
         expectText(host.second, "ngaf yer ga");
@@ -709,7 +714,7 @@ public final class KeyboardTest extends Instrumentation {
         type("ga");
         List<Card> mixed = fourCards();
         assertMixedPage(mixed);
-        expectText(host.second, "ngaf yer ga诶sangx");
+        expectText(host.second, "ngaf yer ga诶sangxga");
         // Completions can shift the Mandarin list onto a later page. Verify the
         // leading Mandarin characters and first Tujia result irrespective of the page break.
         List<String> mandarin = new ArrayList<>();
@@ -734,7 +739,7 @@ public final class KeyboardTest extends Instrumentation {
         if (!china.lines.equals(Collections.singletonList("中国")))
             throw new AssertionError("Unexpected Chinese candidate labels: " + china.lines);
         pressCandidate("汉语，中", false);
-        expectText(host.second, "ngaf yer ga诶sangx中");
+        expectText(host.second, "ngaf yer ga诶sangx中guo");
         waitForNode("待选拼写 guo", false);
         pressCandidate("汉语，国", false);
         expectText(host.second, "ngaf yer ga诶sangx中国");
@@ -748,13 +753,30 @@ public final class KeyboardTest extends Instrumentation {
         openReader(eating);
         if (!visibleControls().contains("吃、咬"))
             throw new AssertionError("Full sense missing from reader");
-        expectText(host.second, "ngaf yer ga诶sangx中国");
+        expectText(host.second, "ngaf yer ga诶sangx中国gafhxif");
         assertEditorAboveKeyboard(host.second, "返回候选");
         press("返回候选");
         waitForNode("待选拼写 gafhxif", false);
         pressCandidate("吃、咬，架", false);
-        expectText(host.second, "ngaf yer ga诶sangx中国架");
+        expectText(host.second, "ngaf yer ga诶sangx中国架hxif");
         waitForNode("待选拼写 hxif", false);
+        press("退格");
+        expectText(host.second, "ngaf yer ga诶sangx中国架hxi");
+        runOnMainSync(() -> host.first.setText("麻麻爹诶及"));
+    }
+
+    private void testHanLiveDraft() {
+        stage("Han output replaces a visible spelling between existing characters");
+        runOnMainSync(() -> { host.second.setText("前后"); host.second.setSelection(1); });
+        type("zhongguo");
+        expectText(host.second, "前zhongguo后");
+        pressCandidate("汉语，中", false);
+        expectText(host.second, "前中guo后");
+        press("退格");
+        expectText(host.second, "前中gu后");
+        type("o");
+        pressCandidate("汉语，国", false);
+        expectText(host.second, "前中国后");
     }
 
     private void testVerbatimSpelling() {
@@ -1005,7 +1027,7 @@ public final class KeyboardTest extends Instrumentation {
             }
             press("ā");
             waitForNode("待选拼写 ā", false);
-            expectText(host.first, output.equals("调号拼音") ? "ā" : "");
+            expectText(host.first, "ā");
         }
         stage("Tone can be selected by holding and sliding without lifting");
         newPredictionEditor();
@@ -1700,7 +1722,7 @@ public final class KeyboardTest extends Instrumentation {
         String detail = visibleControls();
         if (!detail.contains("汉义") || !detail.contains("讨") || !detail.contains("过错") || !detail.contains("待输入"))
             throw new AssertionError("Both meanings must remain available in the reader: " + detail);
-        expectText(host.first, "");
+        expectText(host.first, "go");
         press("返回候选");
         int goPages = verifyUniqueFormsAcrossPages("过");
         stage("Across all " + goPages + " go pages, one 过 card shows 讨, with the loan 过错 kept in the reader");
@@ -1817,7 +1839,7 @@ public final class KeyboardTest extends Instrumentation {
         type("ga");
         openReader(visibleForm("架"));
         waitForNode("查看学堂词条", false);
-        expectText(host.first, "");
+        expectText(host.first, "ga");
         if (!visibleControls().contains("吃、咬"))
             throw new AssertionError("Pending candidate meaning disappeared");
         press("查看学堂词条");
@@ -1831,14 +1853,14 @@ public final class KeyboardTest extends Instrumentation {
         press("查看出处");
         captureDictionaryFrame("dictionary-sources.png", "查看候选全文");
         requireArticleText("出处与原记音", "土家语汉语词表", "ga2");
-        expectText(host.first, "");
+        expectText(host.first, "ga");
         if (large) {
             press("查看候选全文");
             requireArticleText("吃、咬");
             press("返回候选");
             openReader(visibleForm("架"));
             press("查看学堂词条");
-            expectText(host.first, "");
+            expectText(host.first, "ga");
         }
         press("输入这个候选");
         expectText(host.first, "架");
@@ -1856,7 +1878,7 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("输入这个候选");
         if (pollNode("查看学堂词条", false, 800) != null)
             throw new AssertionError("Previous editor's article remained after a field change");
-        expectText(host.first, "架架");
+        expectText(host.first, "架架ga");
         expectText(host.second, "");
         tapField(host.first);
         runOnMainSync(() -> host.first.setSelection(1));
@@ -1866,7 +1888,7 @@ public final class KeyboardTest extends Instrumentation {
         waitAbsent("输入这个候选");
         if (pollNode("查看学堂词条", false, 800) != null)
             throw new AssertionError("Article remained after moving the cursor");
-        expectText(host.first, "架架");
+        expectText(host.first, "架ga架ga");
         stage("Offline definition, readings, attested sources, input, Mandarin fallback, field and caret changes");
         testDictionaryChoice();
     }
@@ -1889,7 +1911,7 @@ public final class KeyboardTest extends Instrumentation {
         press("返回词条上一级");
         pressDictionaryChoice("上面");
         requireArticleText("上面", "ga3");
-        expectText(host.first, "");
+        expectText(host.first, "ga");
         press("输入这个候选");
         expectText(host.first, "夹");
         stage("Distinct native readings of the same 夹 card open the dry and above articles independently");
@@ -1938,7 +1960,7 @@ public final class KeyboardTest extends Instrumentation {
         press("查看读音");
         press("查看出处");
         requireArticleText("词条 802", "STEDT rn 427219");
-        expectText(host.first, "");
+        expectText(host.first, "go");
         press("输入这个候选");
         expectText(host.first, "过");
 
@@ -2053,7 +2075,7 @@ public final class KeyboardTest extends Instrumentation {
             if (!returned.get()) SystemClock.sleep(100);
         } while (!returned.get() && SystemClock.uptimeMillis() < returnDeadline);
         if (!returned.get()) throw new AssertionError("One system Back did not restore the external editor");
-        expectText(host.first, "保留正文");
+        expectText(host.first, "保留正文ga");
         stage("Trusted article opens the offline learning reader and one system Back returns to untouched external text");
     }
 
@@ -2271,7 +2293,7 @@ public final class KeyboardTest extends Instrumentation {
         waitForNode("叶氏拼音", false);
         waitForNode("返回拼音", false);
         waitForNode("确定拼写", false);
-        expectText(host.first, "正文");
+        expectText(host.first, "正文ga");
         captureFrame("compact-more.png");
         tapControl("设置");
         waitAbsent("确定拼写");
@@ -2287,7 +2309,7 @@ public final class KeyboardTest extends Instrumentation {
         type("rif");
         openReader(visibleForm("日"));
         press("保留 f");
-        expectText(host.first, "正文架日日");
+        expectText(host.first, "正文架日日f");
         waitForNode("待选拼写 f", false);
         press("退格");
         waitForNode("待选拼写 ", false);

@@ -352,7 +352,7 @@ final class SystemTypography {
         test.waitForNode("待选拼写 marmardi", false);
         setConfiguration(1.6f, narrow);
         test.waitForNode("待选拼写 marmardi", false);
-        test.expectText(host.first, "正文");
+        test.expectText(host.first, "正文marmardi");
         test.assertEditorAboveKeyboard(host.first, "拼音");
         test.captureFrame("typography-draft.png");
         test.pressCandidate("补全 女人，麻麻爹", false);

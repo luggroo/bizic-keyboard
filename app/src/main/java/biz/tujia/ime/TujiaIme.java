@@ -728,10 +728,6 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
                 recentWords = words;
                 previousSyllable = syllable;
             }
-            if (next == SPELL && !draft.isEmpty() && !draftInEditor) {
-                if (!commit(draft, false)) return;
-                draftInEditor = true;
-            }
             mode = next;
             if (mode <= HAN) {
                 typingMode = mode;
@@ -2177,10 +2173,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void appendDraft(String text) {
-        if (mode == SPELL || draftInEditor) {
-            if (!commitTypedText(text)) return;
-            draftInEditor = true;
-        }
+        if (!commitTypedText(text)) return;
+        draftInEditor = true;
         draft += text;
         updateCandidates();
     }
@@ -3011,7 +3005,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private boolean commitTypedText(String text) {
         InputConnection editor = getCurrentInputConnection();
         if (editor == null) return false;
-        if ((mode == SPELL && draft.isEmpty()) || pendingWordSeparator) {
+        if ((mode <= HAN && draft.isEmpty()) || pendingWordSeparator) {
             long actual = extractedCursor(editor);
             if (actual != -1 && ((int) (actual >>> 32) != selStart || (int) actual != selEnd)) {
                 selStart = (int) (actual >>> 32);

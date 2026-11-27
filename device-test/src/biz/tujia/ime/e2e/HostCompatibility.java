@@ -151,6 +151,7 @@ final class HostCompatibility {
         commitEating();
         expectDom("word", "架");
         keys.type("ga");
+        expectDom("word", "架ga");
         tapDom("note");
         keys.waitAbsent("待选拼写 ga");
         keys.press("谐音字");
@@ -161,7 +162,7 @@ final class HostCompatibility {
         keys.type("hxif");
         keys.pressCandidate(KeyboardTest.WALK_HAN, false);
         expectDom("note", "半日猜\n诶");
-        expectDom("word", "架");
+        expectDom("word", "架ga");
         keys.press("隐藏键盘");
         keys.waitAbsent("隐藏键盘");
         tapDom("secret");
