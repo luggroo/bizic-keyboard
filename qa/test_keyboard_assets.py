@@ -20,6 +20,13 @@ class KeyboardAssetsTest(unittest.TestCase):
         self.assertIn("w684\tgaf".encode(), typing["words.tsv"])
         self.assertIn("土家族".encode(), typing["northern-words.tsv"])
         self.assertIn("苗族".encode(), typing["northern-words.tsv"])
+        for word in ("杀", "神", "土司", "打死", "枪"):
+            self.assertIn(f"zh-{word}\t".encode(), typing["words.tsv"])
+        for word in ("杀人", "拜神", "手枪"):
+            self.assertNotIn(f"zh-{word}\t".encode(), typing["words.tsv"])
+        self.assertIn("w2039\tsenr\t\t挨\t神".encode(), typing["northern-words.tsv"])
+        self.assertIn("pʰu²¹sa²¹\t神".encode(), typing["ipa-completions.tsv"])
+        self.assertIn("biif\t杀".encode(), typing["syllable_senses.tsv"])
         self.assertTrue(any(row[2] == "保留梯玛" for row in audit))
         for name in ("onnxruntime-LICENSE.txt", "onnxruntime-ThirdPartyNotices.txt"):
             path = f"licenses/{name}"

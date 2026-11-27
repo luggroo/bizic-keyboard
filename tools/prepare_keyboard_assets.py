@@ -14,19 +14,19 @@ WORD_FILES = ("words.tsv", "northern-words.tsv")
 TERMS = {
     "政治": "中国共产党 共产党 共產黨 国民党 國民黨 解放军 人民解放军 红军 紅軍 工农红军 中央军委 政府 乡政府 人民政府 政治 政权 政黨 政党 党中央 黨中央 党员 黨員 党支部 总书记 總書記 人民代表 全國人大 全国人大 毛泽东 毛澤東 习近平 習近平 蒋介石 天安门 天安門 六四事件 大跃进 大躍進 文革 文化大革命 法轮功 法輪功 台独 臺獨 藏独 疆独 分裂国家 反革命",
     "民族": "民族歧视 民族歧視 土蛮子 土蠻子 蛮家 蠻家 蛮夷 蠻夷 夷人",
-    "历史": "土司 改土归流 改土歸流 起义 起義 革命 北伐 抗日 抗战 抗戰 解放战争 八路军 八路軍 新四军 新四軍 长征 長征 封建 地主 奴隶 奴隸 殖民 皇帝 皇朝 王朝 清朝 明朝 元朝 宋朝 唐朝 汉朝 漢朝",
+    "历史": "改土归流 改土歸流 起义 起義 革命 北伐 抗日 抗战 抗戰 解放战争 八路军 八路軍 新四军 新四軍 长征 長征 封建 地主 奴隶 奴隸 殖民 皇帝 皇朝 王朝 清朝 明朝 元朝 宋朝 唐朝 汉朝 漢朝",
     "宗教": "宗教 佛教 佛寺 佛经 佛經 佛学 佛學 佛祖 菩萨 菩薩 拜佛 基督教 天主教 伊斯兰 伊斯蘭 穆斯林 上帝 耶稣 耶穌 道教 道士 儒教 寺庙 寺廟 庙宇 廟宇 和尚 尼姑 教堂 传教 傳教 信教 礼拜 禮拜 祭祀 祭祖 拜神 神灵 神靈 巫师 巫師 男巫 女巫 巫术 巫術 迷信 祈祷 祈禱 念经 念經",
     "性": "性交 性行为 性行為 性生活 性器官 生殖器 阴茎 陰莖 阴道 陰道 睾丸 睪丸 精液 外阴 外陰 乳房 裸体 裸體 裸露 性欲 性慾 遗精 遺精 同性恋 同性戀 手淫 自慰 肛交 强奸 強姦 强姦 强暴 強暴 性侵 性骚扰 性騷擾 卖淫 賣淫 嫖娼 妓女 淫秽 淫穢 色情 色情片 淫荡 淫蕩",
-    "暴力": "杀人 殺人 杀害 殺害 杀死 殺死 杀戮 殺戮 谋杀 謀殺 屠杀 屠殺 枪杀 槍殺 枪毙 槍斃 砍头 砍頭 斩首 斬首 打死 砍死 虐待 自杀 自殺 恐怖袭击 恐怖襲擊 战争 戰爭 武器 枪械 槍械 步枪 步槍 手枪 手槍 炸弹 炸彈 手榴弹 手榴彈 催泪弹 催淚彈 爆炸 殴打 毆打 枪击 槍擊 毒药 毒藥 行凶 行兇 血腥",
+    "暴力": "杀人 殺人 杀害 殺害 杀死 殺死 杀戮 殺戮 谋杀 謀殺 屠杀 屠殺 枪杀 槍殺 枪毙 槍斃 砍头 砍頭 斩首 斬首 砍死 虐待 自杀 自殺 恐怖袭击 恐怖襲擊 战争 戰爭 武器 枪械 槍械 步枪 步槍 手枪 手槍 炸弹 炸彈 手榴弹 手榴彈 催泪弹 催淚彈 爆炸 殴打 毆打 枪击 槍擊 毒药 毒藥 行凶 行兇 血腥",
 }
-EXACT = {"宗教": {"佛", "拜", "神", "鬼"}, "性": {"淫", "妓"}, "暴力": {"杀", "殺", "枪", "槍"}}
+EXACT = {"宗教": {"佛", "拜", "鬼"}, "性": {"淫", "妓"}}
 ENGLISH = {
     "政治": r"communist party|kuomintang|cultural revolution|government|political party",
     "民族": r"racial slur|ethnic slur",
     "历史": r"colonialism|slavery|emperor|civil war|revolution",
     "宗教": r"religion|buddhism|christianity|islam|muslim|shaman|missionary|worship",
     "性": r"sexual intercourse|sexual assault|homosexual(?:ity)?|rape|raped|prostitute|pornography|penis|vagina|semen|genital(?:s|ia)?|testicles?|nude|naked",
-    "暴力": r"kill(?:ed|ing)?|murder|suicide|massacre|behead(?:ed|ing)?|bomb|firearm|gun|poison",
+    "暴力": r"murder|suicide|massacre|behead(?:ed|ing)?|bomb|firearm|poison",
 }
 PATTERNS = {
     group: re.compile("|".join(re.escape(term) for term in sorted(terms.split(), key=lambda s: (-len(s), s)))
