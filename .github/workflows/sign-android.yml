@@ -1,0 +1,87 @@
+name: Sign Android release APKs
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v[0-9]*']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check source
+        run: git merge-base --is-ancestor HEAD origin/main
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install build tools
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35'
+          'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
+      - name: Build both release editions
+        run: ./gradlew --no-daemon :app:packageHandwritingRelease :app:packageTypingOnlyRelease
+      - name: Verify both unsigned APKs
+        id: metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir unsigned
+          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/handwriting.apk
+          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/typing-only.apk
+          python3 qa/verify-apk.py unsigned/handwriting.apk
+          python3 qa/verify-apk.py --typing-only unsigned/typing-only.apk
+          aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
+          for apk in unsigned/*.apk; do
+            "$aapt" dump badging "$apk" > "$apk.manifest"
+            grep -q "^package: name='biz.tujia.ime' " "$apk.manifest"
+            if grep -q '^application-debuggable' "$apk.manifest"; then exit 1; fi
+          done
+          diff <(head -1 unsigned/handwriting.apk.manifest) <(head -1 unsigned/typing-only.apk.manifest)
+          version=$(sed -n "1s/.* versionName='\([^']*\)'.*/\1/p" unsigned/handwriting.apk.manifest)
+          [[ "$version" =~ ^[0-9]+(\.[0-9]+)+$ ]]
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then [[ "$GITHUB_REF_NAME" == "v$version" ]]; fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-release
+          path: unsigned/*.apk
+          if-no-files-found: error
+          retention-days: 1
+
+  sign:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: unsigned-release
+          path: unsigned
+      - name: Install signing tools
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "build-tools;35.0.0"'
+      - name: Sign and verify both editions
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: bash tools/sign-android-release.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          path: signed/
+          if-no-files-found: error
