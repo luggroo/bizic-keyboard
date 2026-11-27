@@ -2230,7 +2230,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             else if (engine == null) text = lexiconFailed ? "词库未载入，点此重试" : "正在加载词库，可先输入拼写";
             else if (mode == HAND && handAsHan()) text = matchedAt == null || matchedAt.before.isEmpty() ? "" : "暂无候选";
             else if (draft.isEmpty() || mode == HAND) text = "";
-            else text = "未找到词，可在设置里输入原拼写";
+            else text = "未找到词，已显示原拼写";
             TextView status = label(text, compact ? 15 : 18, MUTED);
             if (!direct && lexiconFailed) {
                 KeyboardTap.bind(status, () -> {
@@ -3015,7 +3015,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             }
         }
         int first = text.codePointAt(0);
-        if (pendingWordSeparator && selStart >= 0 && selStart == selEnd
+        if (mode != HAN && pendingWordSeparator && selStart >= 0 && selStart == selEnd
                 && Character.isLetter(first) && Character.getType(first) != Character.MODIFIER_LETTER) {
             CharSequence before = editor.getTextBeforeCursor(2, 0);
             if (before != null && before.length() > 0) {
