@@ -98,6 +98,9 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("candidate-layout") || suite.equals("typing-only")) testCandidateLayout();
             if (suite.equals("han-live")) {
+                tapField(host.first);
+                runOnMainSync(() -> host.getSystemService(android.view.inputmethod.InputMethodManager.class)
+                        .showSoftInput(host.first, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT));
                 testFirstInput();
                 testHanLiveDraft();
             }
@@ -774,7 +777,8 @@ public final class KeyboardTest extends Instrumentation {
         expectText(host.second, "前中guo后");
         press("退格");
         expectText(host.second, "前中gu后");
-        type("o");
+        press("o");
+        expectText(host.second, "前中guo后");
         pressCandidate("汉语，国", false);
         expectText(host.second, "前中国后");
     }

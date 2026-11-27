@@ -160,7 +160,11 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: bash qa/verify-release-upgrade.sh && TUJIA_E2E_SUITE=han-live device-test/run.sh "signed/bizic-cipu-$VERSION-keyboard-typing.apk" fixture.apk
+          script: >-
+            bash qa/verify-release-upgrade.sh &&
+            adb uninstall biz.tujia.ime &&
+            (TUJIA_E2E_SUITE=han-live device-test/run.sh "signed/bizic-cipu-$VERSION-keyboard-typing.apk" fixture.apk ||
+            { adb logcat -d -b crash; exit 1; })
 
   publish:
     if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.publish
