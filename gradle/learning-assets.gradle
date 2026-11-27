@@ -14,6 +14,9 @@ abstract class PrepareLearningAssets extends DefaultTask {
     @InputFile @PathSensitive(PathSensitivity.RELATIVE)
     abstract RegularFileProperty getIndexer()
 
+    @InputDirectory @PathSensitive(PathSensitivity.RELATIVE)
+    abstract DirectoryProperty getBranding()
+
     @InputFile @PathSensitive(PathSensitivity.NONE)
     abstract RegularFileProperty getWords()
 
@@ -31,7 +34,8 @@ abstract class PrepareLearningAssets extends DefaultTask {
         execOperations.exec {
             commandLine 'python3', preparer.get().asFile, outputDirectory.get().asFile,
                     '--snapshot', snapshot.get().asFile, '--pin', pin.get().asFile,
-                    '--words', words.get().asFile, '--northern', northern.get().asFile
+                    '--words', words.get().asFile, '--northern', northern.get().asFile,
+                    '--branding', branding.get().asFile
         }
     }
 }
@@ -42,6 +46,7 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
         pin.set(rootProject.layout.projectDirectory.file('learning-content/learning.sha256'))
         preparer.set(rootProject.layout.projectDirectory.file('tools/prepare_learning_assets.py'))
         indexer.set(rootProject.layout.projectDirectory.file('tools/ime_dictionary_index.py'))
+        branding.set(rootProject.layout.projectDirectory.dir('artwork/learning-brand'))
         words.set(rootProject.layout.projectDirectory.file('shared/bundle/Assets/words.tsv'))
         northern.set(rootProject.layout.projectDirectory.file('shared/bundle/Assets/northern-words.tsv'))
     }

@@ -15,6 +15,8 @@ from ime_dictionary_index import index_assets
 CONTENT = Path(__file__).resolve().parents[1] / "learning-content"
 ARCHIVE = CONTENT / "learning.zip"
 PIN = CONTENT / "learning.sha256"
+BRANDING = CONTENT.parent / "artwork" / "learning-brand"
+BRAND_ASSETS = ("yangque-logo.svg", "icon.svg")
 MANIFEST = "offline-manifest.json"
 CATALOGUE = "prepared/catalogue.json.gz"
 PUBLICATION_TEXT = re.compile(r"prepared/source-[0-9]+\.json\.gz")
@@ -81,7 +83,7 @@ def read_snapshot(archive=ARCHIVE, pin=PIN):
     return data
 
 
-def read_android_snapshot(archive=ARCHIVE, pin=PIN):
+def read_android_snapshot(archive=ARCHIVE, pin=PIN, branding=None):
     files = read_snapshot(archive, pin)
     catalogue = json.loads(gzip.decompress(files[CATALOGUE]))
     for section in ("sources", "sourceVariants"):
@@ -112,6 +114,16 @@ def read_android_snapshot(archive=ARCHIVE, pin=PIN):
     for name in list(files):
         if PUBLICATION_TEXT.fullmatch(name):
             del files[name]
+    # App branding follows the launcher, independent of the pinned dictionary content.
+    # Only the two known, inventoried SVGs may be overridden, after snapshot verification.
+    if branding is not None:
+        for name in BRAND_ASSETS:
+            if name not in files:
+                raise ValueError(f"Missing learning branding asset: {name}")
+            files[name] = (branding / name).read_bytes()
+        for name in files:
+            if name.endswith((".html", ".webmanifest")):
+                files[name] = files[name].replace(b"?v=yangque1", b"?v=yangque-k01")
     manifest = json.loads(files[MANIFEST])
     manifest["files"] = [
         {**record, "size": len(files[record["path"]]), "sha256": sha256(files[record["path"]])}
@@ -121,8 +133,8 @@ def read_android_snapshot(archive=ARCHIVE, pin=PIN):
     return files
 
 
-def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None):
-    files = read_android_snapshot(archive, pin)
+def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None, branding=None):
+    files = read_android_snapshot(archive, pin, branding)
     output.mkdir(parents=True, exist_ok=True)
     # Gradle owns this output. Fully verify and stage the new tree before replacing it.
     with tempfile.TemporaryDirectory(dir=output) as temp:
@@ -153,8 +165,9 @@ if __name__ == "__main__":
     parser.add_argument("output", type=Path, help="Generated Android asset root")
     parser.add_argument("--snapshot", type=Path, default=ARCHIVE)
     parser.add_argument("--pin", type=Path, default=PIN)
+    parser.add_argument("--branding", type=Path, default=BRANDING)
     assets = CONTENT.parent / "shared/bundle/Assets"
     parser.add_argument("--words", type=Path, default=assets / "words.tsv")
     parser.add_argument("--northern", type=Path, default=assets / "northern-words.tsv")
     args = parser.parse_args()
-    prepare(args.output, args.snapshot, args.pin, (args.words, args.northern))
+    prepare(args.output, args.snapshot, args.pin, (args.words, args.northern), args.branding)

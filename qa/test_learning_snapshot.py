@@ -74,6 +74,33 @@ class LearningSnapshotTest(unittest.TestCase):
                 del self.files[path]
         self.assertFalse(self.output.exists())
 
+    def test_branding_override_preserves_verified_archive_and_inventory(self):
+        branding = self.root / "branding"
+        branding.mkdir()
+        for name in ("yangque-logo.svg", "icon.svg"):
+            self.files[name] = b"<svg/>"
+            self.records.append({"path": name, "sha256": sha256(self.files[name]),
+                                 "size": len(self.files[name]), "category": "frontend"})
+            (branding / name).write_bytes(b'<svg xmlns="http://www.w3.org/2000/svg"/>')
+        self.files["index.html"] = b'<img src="yangque-logo.svg?v=yangque1">'
+        self.records[:] = [r for r in self.records if r["path"] != "index.html"]
+        self.records.append({"path": "index.html", "sha256": sha256(self.files["index.html"]),
+                             "size": len(self.files["index.html"]), "category": "frontend"})
+        self.write_archive()
+        original = self.archive.read_bytes()
+        prepare(self.output, self.archive, self.pin, branding=branding)
+        self.assertEqual(self.archive.read_bytes(), original)
+        self.assertEqual(read_snapshot(self.archive, self.pin)["icon.svg"], b"<svg/>")
+        root = self.output / "learning"
+        for name in ("yangque-logo.svg", "icon.svg"):
+            self.assertEqual((root / name).read_bytes(), (branding / name).read_bytes())
+        self.assertIn(b"?v=yangque-k01", (root / "index.html").read_bytes())
+        inventory = {r["path"]: r for r in json.loads((root / MANIFEST).read_bytes())["files"]}
+        for name in ("yangque-logo.svg", "icon.svg", "index.html"):
+            data = (root / name).read_bytes()
+            self.assertEqual(inventory[name]["sha256"], sha256(data))
+            self.assertEqual(inventory[name]["size"], len(data))
+
     def test_extra_member(self):
         self.files["unlisted.json"] = b"unused"
         self.write_archive()
