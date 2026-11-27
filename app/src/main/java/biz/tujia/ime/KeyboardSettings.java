@@ -20,6 +20,16 @@ final class KeyboardSettings {
                 .putBoolean(CRASH_RECORDING, enabled).apply();
     }
 
+    static boolean personalLearning(Context context) {
+        return context.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+                .getBoolean("personal_learning", true);
+    }
+
+    static void setPersonalLearning(Context context, boolean enabled) {
+        context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
+                .putBoolean("personal_learning", enabled).apply();
+    }
+
     private KeyboardSettings() { }
 
     static CandidateEngine.Orthography spelling(Context context) {

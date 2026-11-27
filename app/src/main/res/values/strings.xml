@@ -1,11 +1,24 @@
 <resources>
-    <string name="app_name">土家语输入法</string>
-    <string name="subtype_name">北部土家语</string>
+    <string name="app_name" translatable="false">毕兹学堂</string>
+    <string name="ime_name" translatable="false">土家语输入法-毕兹学堂</string>
+    <string name="reader_unavailable">@string/zh_reader_unavailable</string>
+    <string name="retry_reader">@string/zh_retry_reader</string>
+    <string name="keyboard_settings">@string/zh_keyboard_settings</string>
+    <string name="no_link_handler">@string/zh_no_link_handler</string>
+    <string name="reader_privacy">@string/zh_reader_privacy</string>
+    <string name="app_version">@string/zh_app_version</string>
+    <string name="content_version">@string/zh_content_version</string>
+    <color name="reader_surface">@color/academy_light_canvas</color>
+    <style name="LearningTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/reader_surface</item>
+        <item name="android:colorAccent">@color/academy_red</item>
+    </style>
+    <string name="subtype_name">@string/zh_subtype_name</string>
     <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="android:colorAccent">#A23B25</item>
+        <item name="android:colorAccent">@color/academy_red</item>
         <item name="android:statusBarColor">#792C1E</item>
         <item name="android:navigationBarColor">#29221F</item>
-        <item name="android:windowBackground">#FFF9F3</item>
+        <item name="android:windowBackground">#FFFAF5</item>
     </style>
 </resources>

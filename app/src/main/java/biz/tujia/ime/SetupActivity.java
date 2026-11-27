@@ -9,7 +9,9 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.text.InputType;
+import android.util.JsonReader;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -39,26 +42,66 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 public final class SetupActivity extends Activity {
-    private static final int INK = 0xff382b26;
-    private static final int MUTED = 0xff755b50;
-    private static final int RED = 0xffa43827;
-    private static final String BUG_EMAIL = "ikuroucju+keyboardbug@gmail.com";
+    private int INK;
+    private int MUTED;
+    private int RED;
+    private int surface;
+    private int cardSurface;
+    private int fieldSurface;
+    private int fieldBorder;
+    private boolean dark;
+    private static final String BUG_EMAIL = "yulouzhou+bizic@qq.com";
     private InputMethodManager keyboard;
+    private Context strings;
     private TextView status;
     private Button enable;
     private Button select;
     private Button spelling;
     private Button ipaCompletion;
+    private static final int FIRST_DISCLOSURE = 1;
+    private boolean waitingForDisclosure;
 
     @Override public void onCreate(Bundle state) {
+        boolean systemDark = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES;
+        dark = getIntent().getBooleanExtra("biz.tujia.ime.READER_DARK", systemDark);
+        if (dark) setTheme(R.style.DarkSetupTheme);
         super.onCreate(state);
+        if (BuildConfig.KEYBOARD_ONLY && !getSharedPreferences("reader_disclosure", MODE_PRIVATE)
+                .getBoolean("acknowledged_2026_11_26", false)) {
+            waitingForDisclosure = true;
+            if (state == null) startActivityForResult(new Intent(this, PrivacyActivity.class)
+                    .putExtra(PrivacyActivity.FIRST_LAUNCH, true), FIRST_DISCLOSURE);
+            return;
+        }
+        strings = this;
+        if (getIntent().hasExtra("biz.tujia.ime.READER_EN")) {
+            Configuration language = new Configuration(getResources().getConfiguration());
+            language.setLocale(getIntent().getBooleanExtra("biz.tujia.ime.READER_EN", false)
+                    ? Locale.ENGLISH : Locale.SIMPLIFIED_CHINESE);
+            strings = createConfigurationContext(language);
+        }
         keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        INK = dark ? 0xfff8eeeb : 0xff392b27;
+        MUTED = dark ? 0xffd8c3bf : 0xff745950;
+        RED = dark ? 0xffffafa0 : 0xffab3929;
+        surface = dark ? 0xff211d1d : 0xfffffaf5;
+        cardSurface = dark ? 0xff3b2725 : 0xfffae9df;
+        fieldSurface = dark ? 0xff302a29 : 0xfffff1e8;
+        fieldBorder = dark ? 0xff806661 : 0xffddc5b7;
         ScrollView scroll = new ScrollView(this);
-        scroll.setBackgroundColor(0xfffffaf5);
-        getWindow().setStatusBarColor(0xfffffaf5);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        scroll.setBackgroundColor(surface);
+        getWindow().setStatusBarColor(surface);
+        int systemBars = dark ? 0 : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        if (Build.VERSION.SDK_INT >= 26) {
+            getWindow().setNavigationBarColor(surface);
+            if (!dark) systemBars |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        }
+        getWindow().getDecorView().setSystemUiVisibility(systemBars);
         scroll.setFillViewport(true);
         if (Build.VERSION.SDK_INT >= 35) {
             getWindow().setDecorFitsSystemWindows(false);
@@ -83,41 +126,44 @@ public final class SetupActivity extends Activity {
         scroll.addView(body);
         setContentView(scroll);
 
-        TextView title = label("土家语输入法", 26, INK, true);
+        Button back = action(strings.getString(R.string.setup_back_button), false, v -> finish());
+        back.setContentDescription(strings.getString(R.string.setup_back));
+        body.addView(back);
+        TextView title = label(strings.getString(R.string.setup_keyboard_title), 26, INK, true);
         body.addView(title);
-        addSpaced(body, label("北部土家语  ·  安卓键盘", 14, MUTED, false), 5);
+        addSpaced(body, label(strings.getString(R.string.setup_keyboard_subtitle), 14, MUTED, false), 5);
         LinearLayout card = section(body, 24);
-        card.setBackground(shape(0xfff8e5d8, Color.TRANSPARENT, 16));
+        card.setBackground(shape(cardSurface, Color.TRANSPARENT, 16));
         card.setPadding(dp(16), dp(18), dp(16), dp(12));
         status = label("", 16, INK, true);
         status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
         card.addView(status);
-        enable = action("在系统设置中启用", true, v -> {
+        enable = action(strings.getString(R.string.setup_enable_system), true, v -> {
             try {
                 startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
             } catch (ActivityNotFoundException e) {
-                status.setText("请打开系统设置，在键盘管理中启用土家语输入法。");
+                status.setText(strings.getString(R.string.setup_enable_hint));
             }
         });
         addSpaced(card, enable, 12);
-        select = action("选择土家语键盘", false, v -> keyboard.showInputMethodPicker());
+        select = action(strings.getString(R.string.setup_select_keyboard), false, v -> keyboard.showInputMethodPicker());
         addSpaced(card, select, 8);
 
         LinearLayout editor = section(body, 24);
-        editor.addView(label("试打", 18, INK, true));
-        addSpaced(editor, label("点键盘上的「设置」，选「谐音字」。输入 bizika，点“土家族”下面的「秘兹佧」。", 14, MUTED, false), 6);
+        editor.addView(label(strings.getString(R.string.setup_trial_title), 18, INK, true));
+        addSpaced(editor, label(strings.getString(R.string.setup_trial_instructions), 14, MUTED, false), 6);
         EditText trial = new EditText(this);
         trial.setId(R.id.trial_editor);
         trial.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        trial.setTextColor(0xff223541);
-        trial.setHintTextColor(0xff536671);
-        trial.setHint("点这里，打开键盘");
+        trial.setTextColor(INK);
+        trial.setHintTextColor(MUTED);
+        trial.setHint(strings.getString(R.string.setup_trial_hint));
         trial.setMinLines(2);
         trial.setMaxLines(5);
         trial.setGravity(Gravity.TOP | Gravity.START);
         trial.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         trial.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        trial.setBackground(shape(0xfff3f6f7, 0xff8c9ea7, 10));
+        trial.setBackground(shape(fieldSurface, fieldBorder, 10));
         trial.setPadding(dp(12), dp(10), dp(12), dp(10));
         addSpaced(editor, trial, 12);
         spelling = action("", false, v -> chooseSpelling());
@@ -125,10 +171,36 @@ public final class SetupActivity extends Activity {
         ipaCompletion = action("", false, v -> chooseIpaCompletion());
         addSpaced(body, ipaCompletion, 8);
 
+        LinearLayout personal = section(body, 24);
+        personal.addView(label(strings.getString(R.string.setup_personal_title), 18, INK, true));
+        CheckBox learn = new CheckBox(this);
+        learn.setText(strings.getString(R.string.setup_personal_switch));
+        learn.setTextColor(INK);
+        learn.setMinHeight(dp(48));
+        learn.setChecked(KeyboardSettings.personalLearning(this));
+        learn.setOnCheckedChangeListener((button, checked) ->
+                KeyboardSettings.setPersonalLearning(this, checked));
+        addSpaced(personal, learn, 8);
+        addSpaced(personal, label(strings.getString(R.string.setup_personal_hint), 14, MUTED, false), 4);
+        addSpaced(personal, action(strings.getString(R.string.setup_personal_clear), false, v ->
+                new AlertDialog.Builder(this).setTitle(strings.getString(R.string.setup_personal_confirm))
+                        .setMessage(strings.getString(R.string.setup_personal_warning))
+                        .setNegativeButton(strings.getString(R.string.setup_cancel), null)
+                        .setPositiveButton(strings.getString(R.string.setup_clear), (dialog, which) -> {
+                            android.content.SharedPreferences words = getSharedPreferences("user_dictionary", MODE_PRIVATE);
+                            android.content.SharedPreferences.Editor wordEditor = words.edit();
+                            for (String key : words.getAll().keySet()) wordEditor.remove(key);
+                            wordEditor.apply();
+                            Toast.makeText(this, strings.getString(R.string.setup_personal_cleared), Toast.LENGTH_SHORT).show();
+                        }).show()), 4);
+
         LinearLayout diagnostics = section(body, 24);
-        diagnostics.addView(label("崩溃排查", 18, INK, true));
+        diagnostics.addView(label(strings.getString(R.string.setup_diagnostics_title), 18, INK, true));
+        addSpaced(diagnostics, label(strings.getString(R.string.reader_privacy), 14, MUTED, false), 6);
         CheckBox record = new CheckBox(this);
-        record.setText("记录键盘操作");
+        record.setText(strings.getString(R.string.setup_record_actions));
+        record.setTextColor(INK);
+        record.setMinHeight(dp(48));
         record.setSaveEnabled(false);
         record.setChecked(KeyboardSettings.crashRecording(this));
         record.setOnCheckedChangeListener((button, checked) -> {
@@ -136,37 +208,38 @@ public final class SetupActivity extends Activity {
             CrashReports.setRecording(checked);
         });
         addSpaced(diagnostics, record, 8);
-        addSpaced(diagnostics, label("不会记录密码框、数字输入框、邮箱地址栏、网址栏和应用标记为私密的输入框里的内容。",
+        addSpaced(diagnostics, label(strings.getString(R.string.setup_sensitive_fields),
                 14, INK, true), 4);
-        addSpaced(diagnostics, label("勾选后，键盘在普通输入框里只保留最近 " + CrashReports.EVENT_LIMIT
-                + " 次操作，包括按键和选词。崩溃日志保存在本机，你可以先预览，再决定是否发送。"
-                + "你可以随时取消勾选。", 14, MUTED, false), 6);
-        addSpaced(diagnostics, action("查看上次崩溃日志", false, v -> showCrash()), 8);
+        addSpaced(diagnostics, label(strings.getString(R.string.setup_diagnostics_detail, CrashReports.EVENT_LIMIT), 14, MUTED, false), 6);
+        addSpaced(diagnostics, action(strings.getString(R.string.setup_view_crash), false, v -> showCrash()), 8);
+        if (BuildConfig.KEYBOARD_ONLY) addSpaced(diagnostics,
+                action(strings.getString(R.string.privacy_title), false,
+                        v -> startActivity(new Intent(this, PrivacyActivity.class))), 8);
         TextView contact = label(BUG_EMAIL, 14, MUTED, false);
         contact.setTextIsSelectable(true);
         addSpaced(diagnostics, contact, 4);
-        Button info = action(Handwriting.ENABLED ? "关于词库与手写字形" : "关于词库", false, v -> showSources());
+        Button info = action(Handwriting.ENABLED ? strings.getString(R.string.setup_version_sources_hand) : strings.getString(R.string.setup_version_sources), false, v -> showSources());
         addSpaced(body, info, 20);
         if (state == null) body.requestFocus();
     }
 
     private void showCrash() {
         String report = CrashReports.read(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("上次崩溃日志");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(strings.getString(R.string.setup_crash_title));
         if (report.isEmpty()) {
-            builder.setMessage("暂无崩溃日志。").setPositiveButton("关闭", null).show();
+            builder.setMessage(strings.getString(R.string.setup_no_crash)).setPositiveButton(strings.getString(R.string.setup_close), null).show();
             return;
         }
         AlertDialog dialog = builder.setMessage(report)
-                .setNeutralButton("删除", (d, w) -> CrashReports.clear(this))
-                .setNegativeButton("发邮件", null)
-                .setPositiveButton("复制日志", null).show();
+                .setNeutralButton(strings.getString(R.string.setup_delete), (d, w) -> CrashReports.clear(this))
+                .setNegativeButton(strings.getString(R.string.setup_email), null)
+                .setPositiveButton(strings.getString(R.string.setup_copy), null).show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> copyCrash(report));
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> emailCrash(report));
     }
 
     private void copyCrash(String report) {
-        ClipData clip = ClipData.newPlainText("土家语输入法崩溃日志", report);
+        ClipData clip = ClipData.newPlainText(strings.getString(R.string.setup_crash_label), report);
         if (Build.VERSION.SDK_INT >= 33) {
             PersistableBundle extras = new PersistableBundle();
             extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
@@ -174,18 +247,18 @@ public final class SetupActivity extends Activity {
         }
         getSystemService(ClipboardManager.class).setPrimaryClip(clip);
         if (Build.VERSION.SDK_INT < 33) {
-            Toast.makeText(this, "已复制崩溃日志", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, strings.getString(R.string.setup_crash_copied), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void emailCrash(String report) {
         Uri mail = Uri.parse("mailto:" + BUG_EMAIL
-                + "?subject=" + Uri.encode("土家语输入法崩溃日志")
+                + "?subject=" + Uri.encode(strings.getString(R.string.setup_crash_label))
                 + "&body=" + Uri.encode(report.replace("\n", "\r\n")));
         try {
             startActivity(new Intent(Intent.ACTION_SENDTO, mail));
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "没有可用的邮件应用，请复制日志后发送。", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, strings.getString(R.string.setup_email_unavailable), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -201,16 +274,22 @@ public final class SetupActivity extends Activity {
         String setting = Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
         ComponentName current = setting == null ? null : ComponentName.unflattenFromString(setting);
         boolean selected = current != null && getPackageName().equals(current.getPackageName());
-        status.setText(selected ? "正在使用土家语键盘" : enabled ? "已启用，请选择土家语键盘" : "先在系统设置中启用键盘");
+        status.setText(selected ? strings.getString(R.string.setup_status_selected) : enabled ? strings.getString(R.string.setup_status_enabled) : strings.getString(R.string.setup_status_disabled));
         enable.setVisibility(enabled ? View.GONE : View.VISIBLE);
         select.setEnabled(enabled);
         select.setAlpha(enabled ? 1f : .55f);
-        select.setText(selected ? "切换系统键盘" : "选择土家语键盘");
-        spelling.setText("拼音输出 · " + KeyboardSettings.typingOutput(this).name);
+        select.setText(selected ? strings.getString(R.string.setup_switch_keyboard) : strings.getString(R.string.setup_select_keyboard));
+        spelling.setText(strings.getString(R.string.setup_spelling) + " · " + outputName(KeyboardSettings.typingOutput(this)));
         int dialects = KeyboardSettings.ipaDialects(this);
-        String ipaSummary = dialects == IpaKeyboard.ALL_DIALECTS ? "北部、南部"
-                : dialects == IpaKeyboard.NORTH ? "北部" : dialects == IpaKeyboard.SOUTH ? "南部" : "关闭";
-        ipaCompletion.setText("音标补全 · " + ipaSummary);
+        String ipaSummary = dialects == IpaKeyboard.ALL_DIALECTS ? strings.getString(R.string.setup_north_south)
+                : dialects == IpaKeyboard.NORTH ? strings.getString(R.string.setup_north) : dialects == IpaKeyboard.SOUTH ? strings.getString(R.string.setup_south) : strings.getString(R.string.setup_disabled);
+        ipaCompletion.setText(strings.getString(R.string.setup_ipa_completion) + " · " + ipaSummary);
+    }
+
+    private String outputName(OutputForm form) {
+        if (form == OutputForm.YE) return strings.getString(R.string.setup_ye);
+        if (form == OutputForm.MARKED) return strings.getString(R.string.setup_marked);
+        return strings.getString(R.string.setup_han);
     }
 
     private void chooseSpelling() {
@@ -219,8 +298,8 @@ public final class SetupActivity extends Activity {
         int textHeight = (int)Math.ceil(android.util.TypedValue.applyDimension(
                 android.util.TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics()) * 2.8f);
         row.setMinimumHeight(Math.max(dp(72), textHeight + dp(14)));
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("拼音输出").setView(row)
-                .setNegativeButton("取消", null).create();
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(strings.getString(R.string.setup_spelling)).setView(row)
+                .setNegativeButton(strings.getString(R.string.setup_cancel), null).create();
         OutputForm selected = KeyboardSettings.typingOutput(this);
         for (OutputForm form : OutputForm.values()) {
             form.addButton(row, form == selected, false, () -> {
@@ -228,6 +307,12 @@ public final class SetupActivity extends Activity {
                 refresh();
                 dialog.dismiss();
             });
+            if (dark || strings.getResources().getConfiguration().locale.getLanguage().equals("en")) {
+                Button option = (Button) row.getChildAt(row.getChildCount() - 1);
+                option.setText(form.example + "\n" + outputName(form));
+                option.setContentDescription(outputName(form) + ", " + form.example);
+                if (dark) option.setTextColor(form == selected ? 0xffffafa0 : 0xfff8eeeb);
+            }
         }
         dialog.show();
     }
@@ -237,12 +322,12 @@ public final class SetupActivity extends Activity {
         LinearLayout options = new LinearLayout(this);
         options.setOrientation(LinearLayout.VERTICAL);
         options.setPadding(dp(24), dp(8), dp(24), 0);
-        CheckBox north = ipaDialectOption(options, "北部", (dialects & IpaKeyboard.NORTH) != 0);
-        CheckBox south = ipaDialectOption(options, "南部", (dialects & IpaKeyboard.SOUTH) != 0);
-        new AlertDialog.Builder(this).setTitle("音标补全词库")
+        CheckBox north = ipaDialectOption(options, strings.getString(R.string.setup_north), (dialects & IpaKeyboard.NORTH) != 0);
+        CheckBox south = ipaDialectOption(options, strings.getString(R.string.setup_south), (dialects & IpaKeyboard.SOUTH) != 0);
+        new AlertDialog.Builder(this).setTitle(strings.getString(R.string.setup_ipa_dictionary))
                 .setView(options)
-                .setNegativeButton("取消", null)
-                .setPositiveButton("确定", (dialog, choice) -> {
+                .setNegativeButton(strings.getString(R.string.setup_cancel), null)
+                .setPositiveButton(strings.getString(R.string.setup_confirm), (dialog, choice) -> {
                     int selected = (north.isChecked() ? IpaKeyboard.NORTH : 0) | (south.isChecked() ? IpaKeyboard.SOUTH : 0);
                     KeyboardSettings.setIpaDialects(this, selected);
                     refresh();
@@ -258,25 +343,50 @@ public final class SetupActivity extends Activity {
         return option;
     }
 
-    @Override protected void onResume() { super.onResume(); refresh(); }
+    @Override protected void onActivityResult(int request, int result, Intent data) {
+        super.onActivityResult(request, result, data);
+        if (request != FIRST_DISCLOSURE || !waitingForDisclosure) return;
+        if (result != RESULT_OK) { finish(); return; }
+        getSharedPreferences("reader_disclosure", MODE_PRIVATE).edit()
+                .putBoolean("acknowledged_2026_11_26", true).apply();
+        recreate();
+    }
+
+    @Override protected void onResume() { super.onResume(); if (!waitingForDisclosure) refresh(); }
     @Override public void onWindowFocusChanged(boolean focus) {
         super.onWindowFocusChanged(focus);
-        if (focus) refresh();
+        if (focus && !waitingForDisclosure) refresh();
     }
 
     private void showSources() {
-        String source = "北部土家语词条来自 tujia.biz 北部词典及补充语料。";
+        StringBuilder versions = new StringBuilder();
+        try {
+            String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versions.append(strings.getString(R.string.app_version, version)).append('\n');
+        } catch (PackageManager.NameNotFoundException ignored) {}
+        try (JsonReader reader = new JsonReader(new InputStreamReader(
+                getAssets().open("learning/offline-manifest.json"), StandardCharsets.UTF_8))) {
+            reader.beginObject();
+            while (reader.hasNext()) {
+                if (reader.nextName().equals("contentVersion")) {
+                    versions.append(strings.getString(R.string.content_version, reader.nextString())).append('\n');
+                    break;
+                }
+                reader.skipValue();
+            }
+        } catch (IOException ignored) {}
+        String source = versions + "\n" + strings.getString(R.string.setup_lexicon_source);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         if (Handwriting.ENABLED) {
-            dialog.setTitle("词库与手写字形");
-            source += "\n\n手写字形采用 Hanzi Writer Data 笔画资料，识别在设备上运行。";
-            dialog.setNeutralButton("字形授权", (p,b) -> showAsset("手写字形授权", "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"));
+            dialog.setTitle(strings.getString(R.string.setup_lexicon_hand_title));
+            source += "\n\n" + strings.getString(R.string.setup_handwriting_source);
+            dialog.setNeutralButton(strings.getString(R.string.setup_handwriting_license), (p,b) -> showAsset(strings.getString(R.string.setup_handwriting_license_title), "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"));
         } else {
-            dialog.setTitle("词库");
+            dialog.setTitle(strings.getString(R.string.setup_lexicon_title));
         }
         dialog.setMessage(source)
-                .setNegativeButton("方言字音授权", (p,b) -> showAsset("方言字音授权", "dialect-data-LICENSE.txt"))
-                .setPositiveButton("关闭", null).show();
+                .setNegativeButton(strings.getString(R.string.setup_dialect_license), (p,b) -> showAsset(strings.getString(R.string.setup_dialect_license), "dialect-data-LICENSE.txt"))
+                .setPositiveButton(strings.getString(R.string.setup_close), null).show();
     }
 
     private void showAsset(String title, String... paths) {
@@ -290,9 +400,9 @@ public final class SetupActivity extends Activity {
                 text.append('\n');
             }
         } catch (IOException e) {
-            text.append("无法读取授权文件。");
+            text.append(strings.getString(R.string.setup_license_error));
         }
-        new AlertDialog.Builder(this).setTitle(title).setMessage(text).setPositiveButton("关闭", null).show();
+        new AlertDialog.Builder(this).setTitle(title).setMessage(text).setPositiveButton(strings.getString(R.string.setup_close), null).show();
     }
 
     private LinearLayout section(LinearLayout parent, int top) {
@@ -315,7 +425,7 @@ public final class SetupActivity extends Activity {
         b.setSingleLine(false);
         b.setAllCaps(false);
         b.setMinHeight(dp(48));
-        b.setTextColor(primary ? Color.WHITE : RED);
+        b.setTextColor(primary ? (dark ? 0xff3a1712 : Color.WHITE) : RED);
         b.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         b.setGravity(primary ? Gravity.CENTER : Gravity.START | Gravity.CENTER_VERTICAL);
         b.setPadding(primary ? dp(16) : 0, dp(4), dp(12), dp(4));

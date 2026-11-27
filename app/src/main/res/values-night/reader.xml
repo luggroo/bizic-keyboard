@@ -1,0 +1,7 @@
+<resources>
+    <color name="reader_surface">@color/academy_dark_canvas</color>
+    <style name="LearningTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/reader_surface</item>
+        <item name="android:colorAccent">@color/academy_dark_accent</item>
+    </style>
+</resources>

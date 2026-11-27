@@ -22,6 +22,12 @@ jobs:
       - name: Install Android toolchain
         run: >-
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
+      - name: Test offline reader origin and assets
+        run: |
+          android_jar="$ANDROID_HOME/platforms/android-35/android.jar"
+          javac -cp "$android_jar" -d "$RUNNER_TEMP" app/src/main/java/biz/tujia/ime/LearningOrigin.java tests/LearningOriginTest.java
+          java -cp "$RUNNER_TEMP:$android_jar" biz.tujia.ime.LearningOriginTest
+          python3 qa/test_learning_snapshot.py
       - name: Test shared input engine
         run: ./tools/test-core.sh
       - name: Test offline handwriting model
@@ -44,14 +50,14 @@ jobs:
         run: |
           apk=app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$apk"
-          python3 qa/verify-apk.py --typing-only "$apk"
+          python3 qa/verify-apk.py --aapt "$ANDROID_HOME/build-tools/35.0.0/aapt" --typing-only "$apk"
       - uses: actions/upload-artifact@v4
         with:
           name: bizic-keyboard-typing-only-debug
           path: app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
           if-no-files-found: error
       - name: Verify bundled dictionaries and native libraries
-        run: python3 qa/verify-apk.py app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
+        run: python3 qa/verify-apk.py --aapt "$ANDROID_HOME/build-tools/35.0.0/aapt" app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
       - uses: actions/upload-artifact@v4
         with:
           name: bizic-keyboard-debug

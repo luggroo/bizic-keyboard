@@ -1,0 +1,6 @@
+<lint>
+    <!-- The default strings in this file are Chinese; an English translation is supplied. -->
+    <issue id="MissingTranslation">
+        <ignore path="src/main/res/values/keyboard_privacy.xml" />
+    </issue>
+</lint>

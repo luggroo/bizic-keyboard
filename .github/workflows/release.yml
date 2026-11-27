@@ -54,18 +54,20 @@ jobs:
             shift
             grep -Fxq -- "$(sha256sum "$file")" SHA256SUMS
             "$signer" verify --verbose "$file"
-            python3 ../qa/verify-apk.py "$@" "$file"
+            python3 ../qa/verify-apk.py --aapt "$aapt" "$@" "$file"
             local package_info
             package_info=$("$aapt" dump badging "$file")
             [[ "$package_info" == "package: name='biz.tujia.ime'"*"versionName='${VERSION#v}'"* ]]
           }
           verify_apk "$apk"
+          cert() { "$signer" verify --print-certs "$1" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p'; }
+          full_cert=$(cert "$apk")
+          # Certificate SHA-256 of both published v0.3.6 APKs. Android upgrades require it.
+          [[ "$full_cert" == 76a10e80a87bd4a6e5eab23767a303e5c8f7652eaaaa741df10f4c905f20773b ]]
           lite="${apk%.apk}-no-handwriting.apk"
           if [[ "$VERSION" == v0.3.6 || -f "$lite" ]]; then
             verify_apk "$lite" --typing-only
-            cert() { "$signer" verify --print-certs "$1" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p'; }
-            full_cert=$(cert "$apk")
-            [[ -n "$full_cert" && "$full_cert" == "$(cert "$lite")" ]]
+            [[ "$full_cert" == "$(cert "$lite")" ]]
           fi
       - name: Publish release attachments
         shell: bash

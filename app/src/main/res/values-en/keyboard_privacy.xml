@@ -1,0 +1,6 @@
+<resources>
+    <string name="keyboard_privacy_intro"><b>This app never connects to the internet.</b> Typing stays on this device. Keyboard diagnostics are on by default and may record keystrokes and selections in ordinary text fields. You can turn them off at any time.</string>
+    <string name="keyboard_privacy_local">The keyboard processes keystrokes, candidates and predictions on this device. Personal dictionary learning is on by default. You can turn it off or clear your dictionary in Keyboard settings.</string>
+    <string name="keyboard_privacy_diagnostic">After a keyboard crash, the app keeps one report on this device with the time, app and Android versions, thread name, error type and stack trace. Detailed recording is on by default for a new installation. You can clear the checkbox before entering or turn it off later in Keyboard settings. When enabled, a report can include the last %1$d keystrokes and selections in ordinary text fields. The keyboard skips password, number, phone, email and URL fields, and fields marked private. You can review or delete the report in Keyboard settings.</string>
+    <string name="keyboard_privacy_external">The app has no internet permission and does not upload input, dictionaries or reports. You can choose to copy a report or share feedback through your email app.</string>
+</resources>

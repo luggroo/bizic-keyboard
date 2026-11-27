@@ -97,7 +97,23 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("all") || suite.equals("ipa")) testIpaInput();
             if (suite.equals("candidate-layout") || suite.equals("typing-only")) testCandidateLayout();
+            if (suite.equals("learning-ime")) {
+                testFirstInput();
+                testSpellingOnSpace();
+                testPrivateKeyboard();
+                if (freshInstall) testCrashRecordingDefault();
+                testUserDictionary();
+                testLearningPredictions();
+                testPrivateFieldHistory();
+                testPersonalLearningControls();
+            }
+            if (suite.equals("private-history")) testPrivateFieldHistory();
             if (suite.equals("ipa-detail")) testIpaDetail();
+            if (suite.equals("dictionary-detail") || suite.equals("dictionary-large")) testDictionaryDetail();
+            if (suite.equals("dictionary-hand")) testHandDictionaryDetail();
+            if (suite.equals("dictionary-open")) testOpenDictionary();
+            if (suite.equals("dictionary-witness")) testDictionaryWitness();
+            if (suite.equals("dictionary-fallback")) testMissingDictionaryDetail();
             if (suite.equals("ipa")) {
                 testIpaSettings();
                 testHandwritingSidebar();
@@ -348,14 +364,30 @@ public final class KeyboardTest extends Instrumentation {
         awaitKeyboardAtRest();
         press("设置");
         press("更多设置");
-        String setting = launcherControl("音标补全 · ", true, false);
+        boolean english = englishSettings();
+        String prefix = english ? "IPA completion · " : "音标补全 · ";
+        String setting = launcherControl(prefix, true, false);
         launcherControl(setting, false, true);
-        for (String label : toggles) launcherControl(label, false, true);
-        launcherControl("确定", false, true);
-        launcherControl("音标补全 · " + expected, false, false);
+        for (String label : toggles) launcherControl(english ? englishIpaChoice(label) : label, false, true);
+        launcherControl(english ? "OK" : "确定", false, true);
+        launcherControl(prefix + (english ? englishIpaChoice(expected) : expected), false, false);
         returnFromKeyboardSettings();
         tapField(host.second);
         waitSelectedControl("拼音");
+    }
+
+    private static String englishIpaChoice(String value) {
+        switch (value) {
+            case "北部": return "Northern";
+            case "南部": return "Southern";
+            case "北部、南部": return "Northern and Southern";
+            case "关闭": return "Off";
+            default: throw new IllegalArgumentException("Unexpected IPA choice: " + value);
+        }
+    }
+
+    private boolean englishSettings() {
+        return "en".equals(getTargetContext().getResources().getConfiguration().locale.getLanguage());
     }
 
     void assertBackspaceAlignment(boolean capture) {
@@ -804,15 +836,32 @@ public final class KeyboardTest extends Instrumentation {
             expectOriginalAfterMatches(word);
             press("空格");
             for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+            expectText(host.first, word + " " + word + " " + prefix);
+            waitForNode(completion, false);
             expectFirst(completion);
             pressCandidate(completion, false);
             expectText(host.first, word + " " + word + " " + word);
+            if ("音标".equals(form)) {
+                int end = 3 * word.length() + 2;
+                runOnMainSync(() -> host.first.setSelection(end - 1));
+                waitForNode("输入音标查看候选", false);
+                runOnMainSync(() -> host.first.setSelection(end));
+                waitForNode("无匹配候选", false);
+            }
         }
         runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT,
                 EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
         tapField(host.first);
         press("叶氏拼音");
         type(prefix);
+        waitAbsent(completion);
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT,
+                EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
+        tapField(host.first);
+        press("音标");
+        for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+        expectText(host.first, prefix);
+        waitForNode("无匹配候选", false);
         waitAbsent(completion);
     }
 
@@ -831,6 +880,83 @@ public final class KeyboardTest extends Instrumentation {
         type("bizika");
         press("空格");
         expectText(host.first, "ngaf yer pifpav bízīkǎ ");
+    }
+
+    private void checkPersonalIpa(String prefix, String word, boolean available) {
+        newPredictionEditor();
+        press("音标");
+        for (char letter : prefix.toCharArray()) press(String.valueOf(letter));
+        expectText(host.first, prefix);
+        String learned = "用户词，" + word;
+        if (available) {
+            waitForNode(learned, false);
+        } else {
+            waitForNode("无匹配候选", false);
+            waitAbsent(learned);
+        }
+    }
+
+    private void testPersonalLearningControls() {
+        stage("Disabling personal words preserves them, re-enabling restores them, clearing removes them");
+        checkPersonalIpa("qvq", "qvqvqv", true);
+        openKeyboardSettings();
+        launcherControl("学习并使用个人词语", false, true);
+        returnFromKeyboardSettings();
+        checkPersonalIpa("qvq", "qvqvqv", false);
+        newPredictionEditor();
+        press("音标");
+        for (int use = 0; use < 2; use++) {
+            for (char letter : "qzxqzx".toCharArray()) press(String.valueOf(letter));
+            press("空格");
+        }
+        expectText(host.first, "qzxqzx qzxqzx ");
+        openKeyboardSettings();
+        launcherControl("学习并使用个人词语", false, true);
+        returnFromKeyboardSettings();
+        checkPersonalIpa("qzx", "qzxqzx", false);
+        checkPersonalIpa("qvq", "qvqvqv", true);
+        openKeyboardSettings();
+        launcherControl("清除个人词库", false, true);
+        launcherControl("取消", false, true);
+        launcherControl("清除个人词库", false, false);
+        returnFromKeyboardSettings();
+        checkPersonalIpa("qvq", "qvqvqv", true);
+        openKeyboardSettings();
+        launcherControl("清除个人词库", false, true);
+        launcherControl("清除", false, true);
+        launcherControl("清除个人词库", false, false);
+        returnFromKeyboardSettings();
+        checkPersonalIpa("qvq", "qvqvqv", false);
+    }
+
+    private void testLearningPredictions() {
+        stage("Regional fuzzy spelling and fixed next words commit to a separate editor");
+        newPredictionEditor();
+        press("调号拼音");
+        type("fa");
+        pressCandidate("，huā", true);
+        expectText(host.first, "huā");
+        newPredictionEditor();
+        press("谐音字");
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
+        expectFirst("联想 吃、咬，架");
+        pressCandidate("联想 吃、咬，架", false);
+        expectText(host.first, "早来架");
+    }
+
+    private void testPrivateKeyboard() {
+        stage("Password editors use direct input and hide learned and official candidates");
+        runOnMainSync(() -> host.nativeScenario(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                EditorInfo.IME_ACTION_DONE, false));
+        tapField(host.first);
+        waitForNode("英文直输", false);
+        awaitKeyboardAtRest();
+        press("a");
+        expectText(host.first, "a");
+        waitAbsent("音标");
+        if (!pageCards("用户词，").isEmpty() || !pageCards("联想 ").isEmpty())
+            throw new AssertionError("Password editor displayed candidates");
     }
 
     private void testSeparatorAfterChoice() {
@@ -1065,22 +1191,32 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testCrashRecordingDefault() {
-        stage("Crash operation recording is checked on a fresh install and explains sensitive fields");
+        stage("Local diagnostic operation recording starts enabled and a saved opt-out persists");
         openKeyboardSettings();
-        String caption = "记录键盘操作";
+        String caption = englishSettings() ? "Record keyboard actions" : "记录键盘操作";
+        assertSettingChecked(caption, true);
+        launcherControl(caption, false, true);
+        assertSettingChecked(caption, false);
+        launcherControl(englishSettings() ? "Password, number, email and URL fields" : "不会记录密码框、数字输入框", true, false);
+        returnFromKeyboardSettings();
+        openKeyboardSettings();
+        assertSettingChecked(caption, false);
+        returnFromKeyboardSettings();
+    }
+
+    private void assertSettingChecked(String caption, boolean expected) {
         launcherControl(caption, false, false);
         AccessibilityNodeInfo root = ui.getRootInActiveWindow();
-        boolean checked = false;
+        Boolean checked = null;
         try {
             for (AccessibilityNodeInfo node : root.findAccessibilityNodeInfosByText(caption)) {
                 try {
-                    if (node.isCheckable() && node.isChecked()) checked = true;
+                    if (node.isCheckable()) checked = node.isChecked();
                 } finally { node.recycle(); }
             }
         } finally { root.recycle(); }
-        launcherControl("不会记录密码框、数字输入框", true, false);
-        returnFromKeyboardSettings();
-        if (!checked) throw new AssertionError("Crash operation recording should be checked by default");
+        if (!Boolean.valueOf(expected).equals(checked))
+            throw new AssertionError(caption + " should have checked=" + expected + "; saw " + checked);
     }
 
     private String setStyleFromLauncher(String requested) {
@@ -1671,6 +1807,268 @@ public final class KeyboardTest extends Instrumentation {
         }
     }
 
+    private void testDictionaryDetail() {
+        newPredictionEditor();
+        boolean large = suite.equals("dictionary-large");
+        if (large && host.getResources().getConfiguration().fontScale < 1.99f)
+            throw new AssertionError("Run dictionary-large with the system font scale set to 2");
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        waitForNode("查看学堂词条", false);
+        expectText(host.first, "");
+        if (!visibleControls().contains("吃、咬"))
+            throw new AssertionError("Pending candidate meaning disappeared");
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-entry.png", "查看读音");
+        String definition = requireArticleText("原记音　ga2", "to eat, bite");
+        if (definition.contains("w684")) throw new AssertionError("Internal dictionary ID visible");
+        press("查看读音");
+        captureDictionaryFrame("dictionary-readings.png", "查看出处");
+        String readings = requireArticleText("叶氏拼音", "gaf");
+        if (readings.contains("brassett-to-ye")) throw new AssertionError("Internal conversion ID visible");
+        press("查看出处");
+        captureDictionaryFrame("dictionary-sources.png", "查看候选全文");
+        requireArticleText("出处与原记音", "土家语汉语词表", "ga2");
+        expectText(host.first, "");
+        if (large) {
+            press("查看候选全文");
+            requireArticleText("吃、咬");
+            press("返回候选");
+            openReader(visibleForm("架"));
+            press("查看学堂词条");
+            expectText(host.first, "");
+        }
+        press("输入这个候选");
+        expectText(host.first, "架");
+
+        type("jia");
+        openReader(findPlainHan("架"));
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("A plain Mandarin character acquired a Tujia article");
+        press("输入这个候选");
+        expectText(host.first, "架架");
+
+        type("ga");
+        openReader(visibleForm("架"));
+        tapField(host.second);
+        waitAbsent("输入这个候选");
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("Previous editor's article remained after a field change");
+        expectText(host.first, "架架");
+        expectText(host.second, "");
+        tapField(host.first);
+        runOnMainSync(() -> host.first.setSelection(1));
+        type("ga");
+        openReader(visibleForm("架"));
+        runOnMainSync(() -> host.first.setSelection(0));
+        waitAbsent("输入这个候选");
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("Article remained after moving the cursor");
+        expectText(host.first, "架架");
+        stage("Offline definition, readings, attested sources, input, Mandarin fallback, field and caret changes");
+        testDictionaryChoice();
+    }
+
+    private void testDictionaryChoice() {
+        newPredictionEditor();
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("夹"));
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-choices.png", "仅显示可确认的词条");
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("乌鸦")) {
+            try {
+                if (node.isVisibleToUser() && node.isClickable())
+                    throw new AssertionError("A merged crow reading claimed an individual source on the 夹 card");
+            } finally { node.recycle(); }
+        }
+        pressDictionaryChoice("干、渴");
+        requireArticleText("所选文献见证", "ga3", "dry");
+        press("返回词条上一级");
+        pressDictionaryChoice("上面");
+        requireArticleText("上面", "ga3");
+        expectText(host.first, "");
+        press("输入这个候选");
+        expectText(host.first, "夹");
+        stage("Distinct native readings of the same 夹 card open the dry and above articles independently");
+    }
+
+    private void captureDictionaryFrame(String name, String visibleLabel) {
+        waitForNode(visibleLabel, false);
+        if (!captureFailure) return;
+        // The IME tree changes before SurfaceFlinger presents the new panel, especially on Android 7.
+        try { ui.waitForIdle(450, 4000); }
+        catch (java.util.concurrent.TimeoutException busyEditor) { SystemClock.sleep(450); }
+        captureFrame(name);
+    }
+
+    private void pressDictionaryChoice(String gloss) { pressDictionaryChoice(gloss, false); }
+
+    private void pressDictionaryChoice(String gloss, boolean wholeEntry) {
+        waitForNode("选择学堂词条", false);
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(gloss)) {
+            try {
+                if (!node.isClickable() || node.getContentDescription() == null) continue;
+                String label = node.getContentDescription().toString();
+                if (wholeEntry ? !label.equals(gloss) : !label.startsWith(gloss + "，")) continue;
+                node.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_ON_SCREEN.getId());
+                SystemClock.sleep(250);
+                if (node.refresh() && node.isVisibleToUser() && node.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+                    waitForNode("在词典中打开", false);
+                    return;
+                }
+            } finally { node.recycle(); }
+        }
+        throw new AssertionError("Missing dictionary option " + gloss + ": " + visibleControls());
+    }
+
+    private void testDictionaryWitness() throws Exception {
+        newPredictionEditor();
+        press("谐音字");
+        type("go");
+        openReader(visibleForm("过"));
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-witness-choice.png", "仅显示可确认的词条");
+        pressDictionaryChoice("讨", true);
+        String entry = requireArticleText("原记音　guo2", "to beg");
+        if (entry.contains("所选文献见证")) throw new AssertionError("A merged reading claimed a particular source: " + entry);
+        captureDictionaryFrame("dictionary-witness-entry.png", "查看读音");
+        press("查看读音");
+        press("查看出处");
+        requireArticleText("词条 802", "STEDT rn 427219");
+        expectText(host.first, "");
+        press("输入这个候选");
+        expectText(host.first, "过");
+
+        // Supply the two independently visible IDs to the same installed lookup to check the other branch.
+        android.content.Context app = getTargetContext().createPackageContext(IME_PACKAGE,
+                android.content.Context.CONTEXT_INCLUDE_CODE | android.content.Context.CONTEXT_IGNORE_SECURITY);
+        Class<?> type = app.getClassLoader().loadClass("biz.tujia.ime.ImeDictionary");
+        java.lang.reflect.Constructor<?> constructor = type.getDeclaredConstructor(android.content.res.AssetManager.class);
+        constructor.setAccessible(true);
+        Object dictionary = constructor.newInstance(app.getAssets());
+        java.lang.reflect.Method lookup = type.getDeclaredMethod("links", java.util.Map.class);
+        lookup.setAccessible(true);
+        java.util.Map<String, String> ids = new java.util.LinkedHashMap<>();
+        ids.put("w802", "讨");
+        ids.put("xu213-4-5", "过错");
+        if (!wordWitnesses((List<?>)lookup.invoke(dictionary, ids)).equals(java.util.Collections.singletonMap(0, "")))
+            throw new AssertionError("Unrelated word unlocked the withheld witness");
+        ids.put("stedt-rn-427219", "讨");
+        java.util.Map<Integer, String> actual = wordWitnesses((List<?>)lookup.invoke(dictionary, ids));
+        if (actual.size() != 2 || !actual.getOrDefault(1, "").contains("词条 802")
+                || !actual.getOrDefault(6, "").contains("STEDT rn 427219"))
+            throw new AssertionError("Explicit witnesses did not retain both independent sources: " + actual);
+        stage("go / 过 / 讨 opens the full article, hides unproven source identity, and retains both original witnesses in Sources; with both explicit IDs, the installed lookup exposes witness 1 and 6");
+    }
+
+    private java.util.Map<Integer, String> wordWitnesses(List<?> links) throws Exception {
+        java.util.Map<Integer, String> result = new java.util.LinkedHashMap<>();
+        for (Object link : links) {
+            Class<?> type = link.getClass();
+            java.lang.reflect.Field entry = type.getDeclaredField("canonicalId"),
+                    witness = type.getDeclaredField("witness"), reference = type.getDeclaredField("reference");
+            entry.setAccessible(true);
+            witness.setAccessible(true);
+            reference.setAccessible(true);
+            if ("w802".equals(entry.get(link))) result.put(witness.getInt(link), (String)reference.get(link));
+        }
+        return result;
+    }
+
+    private String requireArticleText(String... terms) {
+        StringBuilder shown = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            shown.append(visibleControls());
+            boolean complete = true;
+            for (String term : terms) complete &= shown.indexOf(term) >= 0;
+            if (complete) return shown.toString();
+            if (i < 4) press("下一页释义");
+        }
+        throw new AssertionError("Missing dictionary text " + Arrays.toString(terms) + " in " + shown);
+    }
+
+    private void testHandDictionaryDetail() {
+        newPredictionEditor();
+        press("手写");
+        setHandwritingOutput(true);
+        String original = "前树稀步李以后";
+        runOnMainSync(() -> { host.first.setText(original); host.first.setSelection(5); });
+        longPressHandForm("树希布里");
+        press("查看学堂词条");
+        requireArticleText("板栗", "chestnut");
+        expectText(host.first, original);
+        captureDictionaryFrame("dictionary-hand.png", "查看读音");
+        press("查看读音");
+        requireArticleText("sufxixbuflix");
+        press("查看出处");
+        requireArticleText("出处与原记音", "su2xi1bu2li1");
+        captureDictionaryFrame("dictionary-hand-sources.png", "查看候选全文");
+        press("返回词条上一级");
+        press("用推荐字");
+        expectText(host.first, "前树希布里以后");
+        stage("Handwriting opens the exact dictionary article and preserves the original until explicit replacement");
+    }
+
+    private void testOpenDictionary() {
+        newPredictionEditor();
+        runOnMainSync(() -> { host.first.setText("保留正文"); host.first.setSelection(4); });
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        press("查看学堂词条");
+        press("在词典中打开");
+        long end = SystemClock.uptimeMillis() + 150000;
+        boolean accepted = false, found = false;
+        String lastWindow = "";
+        do {
+            AccessibilityNodeInfo root = ui.getRootInActiveWindow();
+            if (root != null) try {
+                if (IME_PACKAGE.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
+                    if (!accepted) for (AccessibilityNodeInfo button : root.findAccessibilityNodeInfosByViewId(
+                            IME_PACKAGE + ":id/privacy_accept")) {
+                        try { accepted |= button.performAction(AccessibilityNodeInfo.ACTION_CLICK); }
+                        finally { button.recycle(); }
+                    }
+                    // Stock WebView on Android 7 exposes web nodes as descendants but does not
+                    // implement IME-side findAccessibilityNodeInfosByText for their content.
+                    StringBuilder content = new StringBuilder();
+                    collectLabels(root, content);
+                    lastWindow = content.toString();
+                    found = lastWindow.contains("to eat, bite");
+                }
+            } finally { root.recycle(); }
+            if (!found) SystemClock.sleep(300);
+        } while (!found && SystemClock.uptimeMillis() < end);
+        if (!found) throw new AssertionError("Learning window did not display eat/bite: "
+                + lastWindow.substring(0, Math.min(lastWindow.length(), 1500)));
+        captureFrame("dictionary-full.png");
+        if (!ui.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)) throw new AssertionError("System Back failed");
+        AtomicReference<Boolean> returned = new AtomicReference<>(false);
+        long returnDeadline = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            runOnMainSync(() -> returned.set(host.hasWindowFocus()));
+            if (!returned.get()) SystemClock.sleep(100);
+        } while (!returned.get() && SystemClock.uptimeMillis() < returnDeadline);
+        if (!returned.get()) throw new AssertionError("One system Back did not restore the external editor");
+        expectText(host.first, "保留正文");
+        stage("Trusted article opens the offline learning reader and one system Back returns to untouched external text");
+    }
+
+    // Run on a disposable fixture APK with the dictionary index for w684 removed.
+    private void testMissingDictionaryDetail() {
+        newPredictionEditor();
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        if (pollNode("查看学堂词条", false, 1500) != null || !visibleControls().contains("吃、咬"))
+            throw new AssertionError("Missing dictionary resources did not fall back to the native definition");
+        press("输入这个候选");
+        expectText(host.first, "架");
+        stage("Unreadable dictionary data preserves the candidate meaning and commit");
+    }
+
     private void testModernRegisterCharacters() {
         newPredictionEditor();
         press("谐音字");
@@ -2076,24 +2474,27 @@ public final class KeyboardTest extends Instrumentation {
             throw new AssertionError("Word associations leaked into a new editor");
         expectText(host.second, "早来");
 
-        if (android.os.Build.VERSION.SDK_INT >= 26) {
-            stage("An editor disabling personalized learning keeps fixed dictionary predictions");
-            runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
-                    android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-                            | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
-            tapField(host.first);
-            type("zaolai");
-            pressCandidate("早饭，早来", false);
-            type("bangricai");
-            pressCandidate("中午，半日猜", false);
-            press("句号");
-            type("zaolai");
-            pressCandidate("早饭，早来", false);
-            waitForNode("联想 吃、咬，架", false);
-            if (!pageCards("联想 中午，半日猜").isEmpty())
-                throw new AssertionError("Private editor personalized a repeated continuation");
-            expectText(host.first, "早来半日猜。早来");
-        }
+        testPrivateFieldHistory();
+    }
+
+    private void testPrivateFieldHistory() {
+        stage("An editor disabling personalized learning keeps fixed dictionary predictions");
+        runOnMainSync(() -> host.nativeScenario(android.text.InputType.TYPE_CLASS_TEXT,
+                android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+                        | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING, false));
+        tapField(host.first);
+        press("谐音字");
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
+        type("bangricai");
+        pressCandidate("中午，半日猜", false);
+        press("句号");
+        type("zaolai");
+        pressCandidate("早饭，早来", false);
+        waitForNode("联想 吃、咬，架", false);
+        if (!pageCards("联想 中午，半日猜").isEmpty())
+            throw new AssertionError("Private editor personalized a repeated continuation");
+        expectText(host.first, "早来半日猜。早来");
     }
 
     private void testDelayedSelection() {

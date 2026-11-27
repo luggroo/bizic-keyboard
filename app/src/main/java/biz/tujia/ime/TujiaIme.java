@@ -57,6 +57,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 
 /** Offline Tujia keyboard. Preedit belongs to the keyboard, committed text to the host. */
 public final class TujiaIme extends InputMethodService implements LexiconStore.Listener {
@@ -107,6 +113,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private List<String> glyphs = Collections.emptyList();
     // Some editors merge selection notifications from successive commitText calls.
     private final ArrayDeque<Integer> expectedSelections = new ArrayDeque<>();
+    private int selectionRevision;
     private LinearLayout surface, toolbar, choices, candidateStrip, body, glyphRow, morePanel;
     private final ArrayList<Integer> previousCandidatePages = new ArrayList<>();
     private final int[] candidateWidths = new int[COLUMNS];
@@ -118,6 +125,14 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private LinearLayout readingPanel;
     private ReadingPage readingPage;
     private Runnable inspectedAction;
+    private LinearLayout dictionaryPanel;
+    private View dictionaryOwner;
+    private ReadingPage dictionaryPage;
+    private Runnable dictionaryBack, dictionaryApply;
+    private ImeDictionary dictionary;
+    private ThreadPoolExecutor dictionaryWorker;
+    private Future<?> pendingDictionary;
+    private int dictionaryRequest;
     private TextView moreButton, prevChoices, nextChoices;
     private boolean selectingTone;
     private IpaKeyboard ipaLexicon;
@@ -180,6 +195,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         destroyed = true;
         inputViewActive = false;
         closeKeyAlternatives();
+        cancelDictionary();
+        if (dictionaryWorker != null) dictionaryWorker.shutdownNow();
         LexiconStore.detach(this);
         engine = null;
         super.onDestroy();
@@ -269,8 +286,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             selEnd = editor.initialSelEnd;
         }
         // Two tokens supply a fixed trigram context. Longer histories enable local adaptation.
-        historyLimit = android.os.Build.VERSION.SDK_INT >= 26 &&
-                (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) != 0 ? 2 : HISTORY_LIMIT;
+        historyLimit = (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) != 0
+                ? 2 : HISTORY_LIMIT;
         int type = editor.inputType & InputType.TYPE_MASK_CLASS;
         int variation = editor.inputType & InputType.TYPE_MASK_VARIATION;
         numeric = type == InputType.TYPE_CLASS_NUMBER || type == InputType.TYPE_CLASS_PHONE
@@ -320,6 +337,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void resetDraft() {
+        selectionRevision++;
         closeKeyAlternatives();
         shownIpaPrefix = null;
         ipaEdited = false;
@@ -348,30 +366,51 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     @Override public void onUpdateSelection(int oldStart, int oldEnd, int newStart, int newEnd,
                                              int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldStart, oldEnd, newStart, newEnd, candidatesStart, candidatesEnd);
+        int revision = ++selectionRevision;
         if (newStart == newEnd && expectedSelections.contains(newEnd)) {
             while (!expectedSelections.isEmpty() && expectedSelections.removeFirst() != newEnd) { }
             if (!expectedSelections.isEmpty()) return;
+            // Own IPA edits already refreshed candidates at this cursor. Android 7 editors can
+            // time out on surrounding-text requests made inside the selection acknowledgement.
+            if (inIpaMode() && newEnd == selEnd && shownIpaPrefix != null
+                    && !" ".equals(shownIpaPrefix)) return;
         } else if (newStart != selStart || newEnd != selEnd) {
-            // A composing-range notification may repeat an earlier caret (old == new).
-            // Check the live draft before letting that callback replace our editing position.
-            if ((draftInEditor || pendingWordSeparator) && editorKeptSelection()) return;
-            resetDraft();
-            selStart = newStart;
-            selEnd = newEnd;
-            readSentenceBoundary();
-            updateCandidates();
+            if ((draftInEditor || pendingWordSeparator) && surface != null && inputViewActive) {
+                // Some editors report an older caret while replying to a selection callback.
+                // Read the cursor once the callback has returned and the host can answer.
+                surface.post(() -> {
+                    if (selectionRevision == revision && inputViewActive) {
+                        verifyEditorSelection(newStart, newEnd);
+                    }
+                });
+            } else {
+                acceptEditorSelection(newStart, newEnd);
+            }
+            return;
         }
         selStart = newStart;
         selEnd = newEnd;
         if (inIpaMode() && inputViewActive) showIpaCandidates();
     }
 
-    private boolean editorKeptSelection() {
+    private void acceptEditorSelection(int start, int end) {
+        resetDraft();
+        selStart = start;
+        selEnd = end;
+        readSentenceBoundary();
+        updateCandidates();
+    }
+
+    private void verifyEditorSelection(int start, int end) {
         InputConnection editor = getCurrentInputConnection();
-        if (editor == null) return false;
-        long actual = extractedCursor(editor);
-        return actual != -1 && (int) (actual >>> 32) == selStart && (int) actual == selEnd
-                && (draft.isEmpty() || TextUtils.equals(draft, editor.getTextBeforeCursor(draft.length(), 0)));
+        long actual = editor == null ? -1 : extractedCursor(editor);
+        if (actual != -1) {
+            start = (int) (actual >>> 32);
+            end = (int) actual;
+            if (start == selStart && end == selEnd && (draft.isEmpty()
+                    || TextUtils.equals(draft, editor.getTextBeforeCursor(draft.length(), 0)))) return;
+        }
+        acceptEditorSelection(start, end);
     }
 
     private void layoutKeyboard() {
@@ -1420,6 +1459,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void closeHandDetail() {
         if (handDetail == null) return;
+        closeDictionary();
         keyboardFrame.removeView(handDetail);
         handDetail = null;
         if (surface.getParent() == null)
@@ -1493,7 +1533,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         TextView actionCaption = label("选择写法", compact ? 12 : 13, MUTED);
         actionCaption.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         actionCaption.setPadding(dp(8), 0, 0, 0);
-        handDetail.addView(actionCaption, lineWithMinimum(24, compact ? 12 : 13));
+        LinearLayout handActions = row();
+        handActions.addView(actionCaption, weighted(1));
+        handDetail.addView(handActions, lineWithMinimum(32, compact ? 13 : 15));
         LinearLayout actions = row();
         handDetail.addView(actions, lineWithMinimum(50, compact ? 14 : 16));
         String hanLabel = sameHandForm(raw, c) ? "保留原写法" : "用推荐字";
@@ -1503,6 +1545,10 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         if (roman != null) key(actions, "调号", "用调号拼音", 1, true, () -> applyHandWord(anchor, c, roman, raw));
         keyboardFrame.removeView(surface);
         keyboardFrame.addView(handDetail, new FrameLayout.LayoutParams(-1, panelHeight));
+        Map<String, String> articles = new LinkedHashMap<>();
+        for (CandidateEngine.Candidate sense : senses) addDictionaryWord(articles, sense);
+        attachDictionary(handDetail, handActions, articles, null);
+
     }
 
     private Map<String, CandidateEngine.Candidate> handSpellings(HandAnchor anchor, CandidateEngine.Orthography style) {
@@ -2468,7 +2514,9 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         readingPanel.setBackgroundColor(PAPER);
         readingPanel.setPadding(dp(4), dp(2), dp(4), dp(2));
         TextView heading = label("候选全文", compact ? 15 : 17, RED);
-        readingPanel.addView(heading, lineWithMinimum(compact ? 29 : 34, compact ? 15 : 17));
+        LinearLayout titleBar = row();
+        titleBar.addView(heading, weighted(2));
+        readingPanel.addView(titleBar, lineWithMinimum(compact ? 29 : 34, compact ? 15 : 17));
         int controlsHeight = Math.max(dp(compact ? 34 : 42), textHeight(compact ? 14 : 15) + dp(6));
         HanChoice group = hanChoices.get(candidate);
         List<HanChoice.Action> alternatives = new ArrayList<>();
@@ -2476,7 +2524,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             if (action != group.primary) alternatives.add(action);
         }
         int contentHeight = panelHeight - readingPanel.getPaddingTop() - readingPanel.getPaddingBottom()
-                - heading.getLayoutParams().height - controlsHeight * (alternatives.isEmpty() ? 1 : 2);
+                - titleBar.getLayoutParams().height - controlsHeight * (alternatives.isEmpty() ? 1 : 2);
         int contentWidth = keyboardFrame.getWidth() - readingPanel.getPaddingLeft() - readingPanel.getPaddingRight();
         String header;
         boolean soundHint = syllableHints.contains(candidate);
@@ -2538,10 +2586,209 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         reading.turn(0);
         keyboardFrame.removeView(surface);
         keyboardFrame.addView(readingPanel, new FrameLayout.LayoutParams(-1, panelHeight));
+        Map<String, String> articles = new LinkedHashMap<>();
+        if (group == null) addDictionaryWord(articles, candidate);
+        else for (HanChoice.Action action : group.actions) action.articles(articles);
+        attachDictionary(readingPanel, titleBar, articles, () -> choose(candidate));
+
+    }
+
+    private void cancelDictionary() {
+        dictionaryRequest++;
+        if (pendingDictionary != null) {
+            pendingDictionary.cancel(true);
+            pendingDictionary = null;
+            dictionaryWorker.purge();
+        }
+    }
+
+    private static void addDictionaryWord(Map<String, String> words, CandidateEngine.Candidate candidate) {
+        if (candidate.kind == CandidateEngine.Kind.TUJIA && !candidate.lexemeIds.isEmpty()
+                && candidate.lexemeIds.indexOf(' ') < 0) words.putIfAbsent(candidate.lexemeIds, candidate.meaning);
+    }
+
+    private void attachDictionary(View owner, LinearLayout bar, Map<String, String> words, Runnable apply) {
+        if (BuildConfig.KEYBOARD_ONLY) return;
+        if (words.isEmpty()) return;
+        readDictionary(owner, store -> store.links(words), links -> {
+            if (links == null || links.isEmpty()) return;
+            if (links.size() == 1 && words.size() == 1) {
+                ImeDictionary.Link link = links.get(0);
+                readDictionary(owner, store -> store.read(link), article -> {
+                    if (article != null) key(bar, "查看学堂词条", "查看学堂词条", 1, KeyLook.PLAIN, false,
+                            () -> openDictionaryArticle(owner, link, article, false, apply, this::closeDictionary));
+                });
+            } else {
+                key(bar, "查看学堂词条", "查看学堂词条", 1, KeyLook.PLAIN, false,
+                        () -> chooseDictionaryArticle(owner, links, apply));
+            }
+        });
+    }
+
+    private interface DictionaryRead<T> {
+        T run(ImeDictionary store) throws java.io.IOException, org.json.JSONException;
+    }
+
+    private <T> void readDictionary(View panel, DictionaryRead<T> load, Consumer<T> show) {
+        if (direct || !inputViewActive) return;
+        InputConnection editor = getCurrentInputConnection();
+        if (editor == null) return;
+        if (dictionaryWorker == null) {
+            dictionary = new ImeDictionary(getAssets());
+            dictionaryWorker = new ThreadPoolExecutor(0, 1, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<>(),
+                    job -> new Thread(() -> {
+                        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+                        job.run();
+                    }, "Tujia-entry"));
+        }
+        cancelDictionary();
+        int request = dictionaryRequest, revision = selectionRevision, start = selStart, end = selEnd;
+        Handler main = new Handler(Looper.getMainLooper());
+        pendingDictionary = dictionaryWorker.submit(() -> {
+            T result;
+            try {
+                result = load.run(dictionary);
+            } catch (java.io.IOException | org.json.JSONException | IllegalArgumentException unavailable) {
+                // The original candidate and its input action remain available without the reader data.
+                result = null;
+            }
+            if (Thread.currentThread().isInterrupted()) return;
+            T completed = result;
+            main.post(() -> {
+                if (request == dictionaryRequest && !destroyed && inputViewActive && !direct
+                        && (panel == readingPanel || panel == handDetail) && editor == getCurrentInputConnection()
+                        && revision == selectionRevision && start == selStart && end == selEnd) show.accept(completed);
+            });
+        });
+    }
+
+    private void closeDictionary() {
+        cancelDictionary();
+        if (dictionaryPanel != null) {
+            keyboardFrame.removeView(dictionaryPanel);
+            dictionaryOwner.setVisibility(View.VISIBLE);
+        }
+        dictionaryPanel = null;
+        dictionaryOwner = null;
+        dictionaryPage = null;
+        dictionaryBack = dictionaryApply = null;
+    }
+
+    private LinearLayout dictionaryPanel(View owner, Runnable back) {
+        closeDictionary();
+        dictionaryOwner = owner;
+        dictionaryBack = back;
+        owner.setVisibility(View.INVISIBLE);
+        dictionaryPanel = column();
+        dictionaryPanel.setPadding(dp(4), dp(2), dp(4), dp(2));
+        dictionaryPanel.setBackgroundColor(PAPER);
+        keyboardFrame.addView(dictionaryPanel, new FrameLayout.LayoutParams(-1, panelHeight));
+        return dictionaryPanel;
+    }
+
+    private void chooseDictionaryArticle(View owner, List<ImeDictionary.Link> links, Runnable apply) {
+        LinearLayout panel = dictionaryPanel(owner, this::closeDictionary);
+        panel.addView(label("选择学堂词条", compact ? 15 : 17, RED), lineWithMinimum(34, 16));
+        panel.addView(label("仅显示可确认的词条", 13, INK), lineWithMinimum(24, 13));
+        ScrollView scroll = new ScrollView(this);
+        LinearLayout choices = column();
+        scroll.addView(choices);
+        panel.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
+        for (ImeDictionary.Link link : links) {
+            LinearLayout option = column();
+            option.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            option.setPadding(dp(12), dp(5), dp(12), dp(5));
+            option.setMinimumHeight(dp(48));
+            option.setBackground(pressable(shape(0xfff6ece4, 6), 6));
+            option.setFocusable(true);
+            String meaning = link.meaning.isEmpty() ? "查看词条" : link.meaning;
+            TextView gloss = label(meaning, compact ? 16 : 18, INK);
+            gloss.setSingleLine(false);
+            gloss.setEllipsize(null);
+            gloss.setGravity(Gravity.START);
+            gloss.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            option.addView(gloss, new LinearLayout.LayoutParams(-1, -2));
+            if (!link.reference.isEmpty()) {
+                TextView source = label(link.reference, compact ? 12 : 13, ImeDictionary.SOURCE_GRAY);
+                source.setGravity(Gravity.START);
+                source.setSingleLine(true);
+                source.setEllipsize(TextUtils.TruncateAt.END);
+                source.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                option.addView(source, new LinearLayout.LayoutParams(-1, -2));
+            }
+            option.setContentDescription(link.reference.isEmpty() ? meaning : meaning + "，" + link.reference);
+            option.setOnClickListener(v -> readDictionary(owner, store -> store.read(link), article -> {
+                if (article == null) closeDictionary();
+                else openDictionaryArticle(owner, link, article, true, apply, () -> chooseDictionaryArticle(owner, links, apply));
+            }));
+            choices.addView(option, new LinearLayout.LayoutParams(-1, -2));
+        }
+        LinearLayout controls = row();
+        key(controls, "返回", "返回候选全文", 1, false, this::closeDictionary);
+        panel.addView(controls, lineWithMinimum(40, 15));
+    }
+
+    private void openDictionaryArticle(View owner, ImeDictionary.Link link, ImeDictionary.Article article,
+                                       boolean selected, Runnable apply, Runnable back) {
+        LinearLayout panel = dictionaryPanel(owner, back);
+        dictionaryApply = apply;
+        LinearLayout header = row(), controls = row(), navigation = row();
+        TextView heading = label("学堂词条", compact ? 15 : 17, RED);
+        header.addView(heading, weighted(1));
+        int headerHeight = lineWithMinimum(32, 16).height;
+        int barHeight = lineWithMinimum(38, 15).height;
+        panel.addView(header, new LinearLayout.LayoutParams(-1, headerHeight));
+        int height = panelHeight - panel.getPaddingTop() - panel.getPaddingBottom() - headerHeight - 2 * barHeight;
+        int width = keyboardFrame.getWidth() - panel.getPaddingLeft() - panel.getPaddingRight();
+        SpannableStringBuilder definition = new SpannableStringBuilder(article.definition);
+        if (selected && !article.selectedWitness.isEmpty())
+            definition.insert(article.definition.indexOf('\n') + 1, ImeDictionary.sourceNote(article.selectedWitness + "\n"));
+        ReadingPage page = new ReadingPage(definition, width, height);
+        dictionaryPage = page;
+        int readings = article.readings.length() == 0 ? -1 : page.pages.size();
+        if (readings >= 0) page.addPages(article.readings, width, height);
+        int sources = article.sources.isEmpty() ? -1 : page.pages.size();
+        if (sources >= 0) page.addPages(article.sources, width, height);
+        panel.addView(page, new LinearLayout.LayoutParams(-1, height));
+        IntSupplier next = () -> page.index < readings ? readings : page.index < sources ? sources : -1;
+        TextView jump = key(navigation, "读音", "查看读音", 1, KeyLook.PLAIN, false, () -> {
+            int target = next.getAsInt();
+            if (target < 0) closeDictionary();
+            else page.turn(target - page.index);
+        });
+        key(navigation, "在词典中打开", "在词典中打开", 1.8f, KeyLook.PLAIN, false, () -> {
+            if (!inputViewActive || direct || dictionaryPanel != panel) return;
+            try {
+                startActivity(new Intent(this, LearningActivity.class)
+                        .putExtra(LearningActivity.EXTRA_DICTIONARY_ENTRY_ID, link.canonicalId)
+                        // A short-lived task returns to the same external or in-app editor without clearing its stack.
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS));
+            } catch (android.content.ActivityNotFoundException | SecurityException unavailable) {
+                android.widget.Toast.makeText(this, "无法打开词典", android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+        panel.addView(navigation, new LinearLayout.LayoutParams(-1, barHeight));
+        key(controls, "返回", "返回词条上一级", 1, false, back);
+        TextView previous = key(controls, "上一页", "上一页释义", 1, false, () -> page.turn(-1));
+        TextView following = key(controls, "下一页", "下一页释义", 1, false, () -> page.turn(1));
+        if (apply != null) key(controls, "输入", "输入这个候选", 1, true, apply);
+        panel.addView(controls, new LinearLayout.LayoutParams(-1, barHeight));
+        page.updateControls = () -> {
+            heading.setText("学堂词条　" + (page.index + 1) + " / " + page.pages.size());
+            int target = next.getAsInt();
+            String label = target < 0 ? "候选全文" : target == readings ? "读音" : "出处";
+            jump.setText(label);
+            jump.setContentDescription("查看" + label);
+            previous.setEnabled(page.index > 0);
+            following.setEnabled(page.index + 1 < page.pages.size());
+        };
+        page.turn(0);
     }
 
     private void closeReading() {
         if (readingPanel == null) return;
+        closeDictionary();
         keyboardFrame.removeView(readingPanel);
         readingPanel = null;
         readingPage = null;
@@ -2563,11 +2810,16 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             setTextColor(INK);
             setBreakStrategy(android.graphics.text.LineBreaker.BREAK_STRATEGY_SIMPLE);
             setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
-            int usableWidth = Math.max(1, width - getPaddingLeft() - getPaddingRight());
             int usableHeight = Math.max(1, height - getPaddingTop() - getPaddingBottom());
             float preferredSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                     compact ? 17 : 19, getResources().getDisplayMetrics());
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Math.min(preferredSize, usableHeight * .75f));
+            addPages(words, width, height);
+        }
+
+        void addPages(CharSequence words, int width, int height) {
+            int usableWidth = Math.max(1, width - getPaddingLeft() - getPaddingRight());
+            int usableHeight = Math.max(1, height - getPaddingTop() - getPaddingBottom());
             StaticLayout.Builder builder = StaticLayout.Builder.obtain(words, 0, words.length(), getPaint(), usableWidth)
                     .setAlignment(Layout.Alignment.ALIGN_NORMAL)
                     .setIncludePad(false)
@@ -2675,7 +2927,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private boolean canLearnWords() {
         EditorInfo editor = getCurrentInputEditorInfo();
-        return !direct && editor != null
+        return KeyboardSettings.personalLearning(this) && !direct && editor != null
                 && (editor.inputType & InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_TEXT
                 && (editor.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) == 0;
     }
@@ -2813,6 +3065,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void expect(int pos) {
+        selectionRevision++;
         selStart = selEnd = pos;
         expectedSelections.add(pos);
         if (expectedSelections.size() > 32) expectedSelections.removeFirst();
@@ -2877,6 +3130,18 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     @Override public boolean onKeyDown(int code, KeyEvent ev) {
+        if (dictionaryPanel != null) {
+            if (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE) { dictionaryBack.run(); return true; }
+            if (dictionaryPage != null) {
+                if (code == KeyEvent.KEYCODE_PAGE_UP || code == KeyEvent.KEYCODE_DPAD_LEFT) { dictionaryPage.turn(-1); return true; }
+                if (code == KeyEvent.KEYCODE_PAGE_DOWN || code == KeyEvent.KEYCODE_DPAD_RIGHT || code == KeyEvent.KEYCODE_SPACE) {
+                    dictionaryPage.turn(1); return true;
+                }
+                if (code == KeyEvent.KEYCODE_ENTER && dictionaryApply != null) { dictionaryApply.run(); return true; }
+            }
+            if (code == KeyEvent.KEYCODE_ENTER || code == KeyEvent.KEYCODE_DEL || ev.getUnicodeChar() > 0) return true;
+            return super.onKeyDown(code, ev);
+        }
         if (keyAlternatives != null && (code == KeyEvent.KEYCODE_BACK || code == KeyEvent.KEYCODE_ESCAPE)) {
             closeKeyAlternatives();
             return true;

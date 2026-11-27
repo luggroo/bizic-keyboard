@@ -1,0 +1,28 @@
+<resources>
+    <!-- The explicit locale keeps Chinese first when English is a secondary system language. -->
+    <string name="privacy_title">@string/zh_privacy_title</string>
+    <string name="privacy_intro">@string/zh_privacy_intro</string>
+    <string name="privacy_local_title">@string/zh_privacy_local_title</string>
+    <string name="privacy_local">@string/zh_privacy_local</string>
+    <string name="privacy_diagnostic_title">@string/zh_privacy_diagnostic_title</string>
+    <string name="privacy_diagnostic">@string/zh_privacy_diagnostic</string>
+    <string name="privacy_record">@string/zh_privacy_record</string>
+    <string name="privacy_external_title">@string/zh_privacy_external_title</string>
+    <string name="privacy_external">@string/zh_privacy_external</string>
+    <string name="privacy_operator">@string/zh_privacy_operator</string>
+    <string name="privacy_continue">@string/zh_privacy_continue</string>
+    <string name="privacy_leave">@string/zh_privacy_leave</string>
+    <string name="privacy_save">@string/zh_privacy_save</string>
+    <string name="external_link_title">@string/zh_external_link_title</string>
+    <string name="external_link_message">@string/zh_external_link_message</string>
+    <string name="external_link_open">@string/zh_external_link_open</string>
+    <string name="ime_settings_unavailable">@string/zh_ime_settings_unavailable</string>
+    <string name="reader_unavailable">@string/zh_reader_unavailable</string>
+    <string name="retry_reader">@string/zh_retry_reader</string>
+    <string name="keyboard_settings">@string/zh_keyboard_settings</string>
+    <string name="no_link_handler">@string/zh_no_link_handler</string>
+    <string name="reader_privacy">@string/zh_reader_privacy</string>
+    <string name="app_version">@string/zh_app_version</string>
+    <string name="content_version">@string/zh_content_version</string>
+    <string name="subtype_name">@string/zh_subtype_name</string>
+</resources>

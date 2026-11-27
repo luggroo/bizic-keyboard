@@ -1,8 +1,22 @@
-# 北部土家语输入法 · 安卓键盘与 iOS 共用核心
+# 毕兹学堂 · 安卓离线学习与土家语输入法
 
-这是一个可在其他安卓应用里使用的系统键盘。键盘收录 526 个北部土家语词和词组，另有 35,925 项普通汉语候选。查词、分词、手写识别和后续词推荐均在本机运行。
+打开「毕兹学堂」即可查土家语词形、汉语或英语，也可以切换到「搜全站」查例句和文献。首页提供词典、语法、语料、记音、历史比较和翻译六个入口。词条、南北部参考语法、语料和文献元数据都随安装包提供，首次安装后在飞行模式下也能使用。
 
-## 下载与试打
+想在其他安卓应用里打土家语，可从首页的「土家语输入法」卡片查看启用和选用状态，打开键盘管理或试打。系统键盘列表中的名称是「土家语输入法-毕兹学堂」。即使系统当前使用其他键盘，也可以在学堂里查词和阅读。键盘基础词表有 526 个北部土家语词和词组、35,925 项普通汉语候选，另附 14,640 条北部补充词形和记音记录。分词、候选排序、手写识别和后续词推荐都在本机运行。
+
+<img src="qa/results/offline-redesign/home.png" width="320" alt="毕兹学堂中文首页，上方是鸟形标志和搜索框，中间是六个学习入口，下方是显示未启用的土家语输入法卡片。">
+
+截图来自开启飞行模式的 Android 11 模拟器。系统仍使用其他键盘时，可以直接查词，也可以点底部的「启用输入法」开始设置。
+
+## 离线使用与隐私
+
+两个安卓安装包都未申请联网权限 `android.permission.INTERNET`。学习页面从本机加载。点按文献等外部网址时，应用会显示完整地址，确认后交由浏览器打开。首次打开会出现隐私说明。此后可从「设置」再次查看，也可以在这里选择界面语言、外观和拼写。
+
+「学习并使用个人词语」默认开启。键盘在本机保存符合条件的词形及其使用次数。可在输入法设置里关闭学习，或单独清除个人词库。是否学习或记录操作取决于宿主应用通过 Android 声明的输入框类型和私密标记。密码、号码、邮箱、网址等受保护的输入框会跳过相应记录。
+
+键盘进程发生崩溃时，本机会保存最近一次的时间、Android 和应用版本、线程、错误类型和调用栈。「记录键盘操作」首次安装默认开启。首次打开时可以在隐私说明中关闭，之后也可以在设置中调整。开启时，崩溃报告可以附上普通文本框最近最多 64 次按键或选词。升级会保留已明确选择的记录设置。你可以查看、删除或复制报告，再自行决定是否通过邮件应用发送。反馈请联系开发者周煜楼。[yulouzhou+bizic@qq.com](mailto:yulouzhou+bizic@qq.com)
+
+## 公开版下载与试打（0.3.6）
 
 0.3.6 提供两个安卓安装包，均支持 64 位 ARM、32 位 ARM 和 x86_64，最低系统要求是 Android 7.0。
 
@@ -123,7 +137,7 @@ final class KeyboardController: UIInputViewController {
 
 ## 构建安卓安装包
 
-使用 Android Studio 打开本目录，或在装有 JDK 17、Android SDK Platform 35、Build Tools 35.0.0、NDK 28.2.13676358 和 CMake 3.22.1 的环境中运行。Gradle Wrapper 和预生成的离线词表已随工程附带。
+使用 Android Studio 打开本目录，或在装有 JDK 17、Android SDK Platform 35、Build Tools 35.0.0、NDK 28.2.13676358 和 CMake 3.22.1 的环境中运行。离线资源校验使用 Python 3.9 或更新版本。工程附带 Gradle Wrapper、输入法词表和学习资源包。
 
 ```sh
 ./gradlew :app:assembleHandwritingDebug :app:assembleTypingOnlyDebug
@@ -137,7 +151,21 @@ final class KeyboardController: UIInputViewController {
 
 提交到 main 或打开拉取请求后，GitHub Actions 会运行核心测试、构建 APK 并校验签名。手写版下载 `bizic-keyboard-debug`，仅使用拼音和音标可下载 `bizic-keyboard-typing-only-debug`。手机上连续升级试用版，请使用 Releases 中由同一证书签名的 APK。[构建记录](https://github.com/luggroo/bizic-keyboard/actions/workflows/android.yml)
 
-本地构建脚本使用 Gradle 的 Android 调试签名。
+本地开发构建版本为 `0.4.0-dev.2`（`versionCode 14`）。用同一开发证书签名，可以覆盖安装版本号 13 的统一应用并保留数据。要覆盖安装 0.3.6 公开版，需要该公开版的原签名证书。
+
+共享页面、字体、词典、语法和语料固定在 `learning-content/learning.zip`。它由 `bizic-dictionary` 导出。包内 `offline-manifest.json` 的 `sourceRevision` 记录词典仓库提交，`contentVersion` 标识语言数据版本。构建时先核对 `learning.sha256` 和每个文件的摘要，再将内容打入 APK 的 `assets/learning/`。用户通过安装新版应用更新这些资料。
+
+更新快照时，在词典仓库按 `docs/offline-reader.md` 运行 `scripts/export-offline.py`。核对清单中的来源提交后，将生成的 ZIP 和它的 SHA-256 摘要一起提交到本仓库。固定的快照可供两个安卓变体独立构建。
+
+本地开发分支 `prototype/online-reader` 保留了早期在线资料原型（`338883ca`），供将来的版本参考。本离线版从 `phase1-offline-review` 构建。
+
+```sh
+python3 qa/test_learning_snapshot.py
+aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
+python3 qa/verify-apk.py --aapt "$aapt" --typing-only app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+python3 qa/verify-apk.py --aapt "$aapt" app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
+python3 qa/apk_size.py app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+```
 
 ### 自动签名
 

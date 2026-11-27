@@ -21,6 +21,10 @@ public final class HanChoiceTest {
     }
 
     public static void main(String[] args) throws Exception {
+        java.util.Set<String> members = new java.util.HashSet<>(java.util.Arrays.asList("w1", "w9"));
+        if (HanChoice.identitiesPresent("w1 w2", members)) throw new AssertionError("Unrelated word completed a hidden group");
+        members.add("w2");
+        if (!HanChoice.identitiesPresent("w1 w2", members)) throw new AssertionError("Complete group was dropped");
         File assets = new File(args[0]).getParentFile();
         try (CandidateEngine engine = new CandidateEngine(new FileInputStream(args[0]),
                 new FileInputStream(new File(assets, "ngrams.tsv")),
@@ -87,6 +91,28 @@ public final class HanChoiceTest {
             String gaGloss = HanChoice.gloss(fullGa.primary.shortMeanings, false);
             if (!gaGloss.startsWith("¹上²干") || fullGa.primary.shortMeanings.size() < 3)
                 throw new AssertionError("Northern 夹 senses missing or reordered: " + gaGloss);
+            java.util.Map<String, String> ids = new java.util.LinkedHashMap<>();
+            fullGa.primary.articles(ids);
+            expect("干、渴", ids.get("w687"));
+            expect("上面", ids.get("w686"));
+            expect("乌鸦", ids.get("w688"));
+            if (HanChoice.identitiesPresent("w688 yubao-60823-v-0229", ids.keySet()))
+                throw new AssertionError("夹 retained only the representative for the crow group");
+            ids.clear();
+            group(full.lookup("go", CandidateEngine.Mode.HAN), "过").primary.articles(ids);
+            expect("讨", ids.get("w802"));
+            if (HanChoice.identitiesPresent("stedt-rn-427219 w802", ids.keySet()))
+                throw new AssertionError("The separate STEDT witness was not retained for 讨");
+            ids.put("stedt-rn-427219", "讨");
+            if (!HanChoice.identitiesPresent("stedt-rn-427219 w802", ids.keySet()))
+                throw new AssertionError("Explicitly retained witnesses should remain selectable");
+            CandidateEngine.Candidate meal = full.lookup("ngafyergaf", CandidateEngine.Mode.PINYIN).get(0);
+            expect("w1585 w2548 w684", meal.lexemeIds);
+            HanChoice.Action sentence = new HanChoice.Action(meal.consumed, meal);
+            sentence.add(meal, false);
+            ids.clear();
+            sentence.articles(ids);
+            if (!ids.isEmpty()) throw new AssertionError("Sentence words appeared as competing dictionary articles");
             HanChoice nga = group(full.lookup("nga", CandidateEngine.Mode.HAN), "牙");
             expect("¹我²压", HanChoice.gloss(nga.primary.shortMeanings, false));
         }

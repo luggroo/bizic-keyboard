@@ -1,0 +1,6 @@
+<resources>
+    <string name="keyboard_privacy_intro"><b>本应用不联网。</b>键盘输入均在本机处理。键盘操作诊断默认开启，可能记录普通输入框的按键和选词，可随时关闭。</string>
+    <string name="keyboard_privacy_local">键盘在本机处理按键、候选和联想。个人词库学习默认开启，可在输入法设置中关闭学习或清空个人词库。</string>
+    <string name="keyboard_privacy_diagnostic">键盘崩溃时，本机会保留最近一次的崩溃时间、应用版本、Android 版本、线程名、错误类型和调用栈。首次安装默认附上键盘操作。你可以在进入前取消勾选，也可稍后在输入法设置中关闭。开启后，崩溃报告可包含普通文本框最近 %1$d 次按键和选词。密码、数字、电话、邮箱、网址以及标记为私密的输入框会被略过。你可以在输入法设置中查看或删除报告。</string>
+    <string name="keyboard_privacy_external">应用不申请联网权限，不会上传输入、词库或诊断记录。只有你主动复制报告或通过邮件应用发送反馈，内容才会交给其他应用。</string>
+</resources>

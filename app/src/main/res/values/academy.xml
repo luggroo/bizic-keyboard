@@ -1,0 +1,69 @@
+<resources>
+    <color name="academy_red">#AB3929</color>
+    <color name="academy_dark_accent">#FFAFA0</color>
+    <color name="academy_ink">#392B27</color>
+    <color name="academy_light_canvas">#FFFAF5</color>
+    <color name="academy_dark_canvas">#211D1D</color>
+    <style name="DisclosureLight" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/academy_light_canvas</item>
+        <item name="android:colorBackground">@color/academy_light_canvas</item>
+        <item name="android:textColorPrimary">@color/academy_ink</item>
+        <item name="android:textColorSecondary">#6D5146</item>
+        <item name="android:colorAccent">@color/academy_red</item>
+        <item name="android:statusBarColor">@color/academy_light_canvas</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <style name="DisclosureDark" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/academy_dark_canvas</item>
+        <item name="android:colorBackground">@color/academy_dark_canvas</item>
+        <item name="android:textColorPrimary">#F8EEEB</item>
+        <item name="android:textColorSecondary">#D5C4C0</item>
+        <item name="android:colorAccent">@color/academy_dark_accent</item>
+        <item name="android:statusBarColor">@color/academy_dark_canvas</item>
+    </style>
+    <style name="DisclosureTheme" parent="DisclosureLight" />
+    <style name="AcademyDialogLight" parent="android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/academy_red</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:textColorPrimary">@color/academy_ink</item>
+    </style>
+    <style name="AcademyDialogDark" parent="android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/academy_dark_accent</item>
+        <item name="android:colorBackground">#302A29</item>
+        <item name="android:textColorPrimary">#F8EEEB</item>
+    </style>
+    <style name="DisclosureSection">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">18dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="DisclosureBody">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <string name="privacy_title">@string/zh_privacy_title</string>
+    <string name="privacy_intro">@string/zh_privacy_intro</string>
+    <string name="privacy_local_title">@string/zh_privacy_local_title</string>
+    <string name="privacy_local">@string/zh_privacy_local</string>
+    <string name="privacy_diagnostic_title">@string/zh_privacy_diagnostic_title</string>
+    <string name="privacy_diagnostic">@string/zh_privacy_diagnostic</string>
+    <string name="privacy_record">@string/zh_privacy_record</string>
+    <string name="privacy_external_title">@string/zh_privacy_external_title</string>
+    <string name="privacy_external">@string/zh_privacy_external</string>
+    <string name="privacy_operator">@string/zh_privacy_operator</string>
+    <string name="privacy_continue">@string/zh_privacy_continue</string>
+    <string name="privacy_leave">@string/zh_privacy_leave</string>
+    <string name="privacy_save">@string/zh_privacy_save</string>
+    <string name="external_link_title">@string/zh_external_link_title</string>
+    <string name="external_link_message">@string/zh_external_link_message</string>
+    <string name="external_link_open">@string/zh_external_link_open</string>
+    <string name="ime_settings_unavailable">@string/zh_ime_settings_unavailable</string>
+</resources>

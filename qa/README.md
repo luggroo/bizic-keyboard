@@ -30,3 +30,66 @@ python3 qa/verify-apk.py tujia-keyboard-0.3.3.apk
 ```
 
 第二条命令需要已解锁的 Android 测试设备、JDK 和 Android SDK。也可以在 GitHub 运行 Android 15 设备工作流并下载测试证据。[构建与签名检查](../.github/workflows/android.yml) · [Android 15 设备测试](../.github/workflows/device-qa.yml)
+
+## 毕资学堂离线版复验
+
+在键盘仓库根目录运行下列命令。准备 JDK 17、Android SDK 35、NDK `28.2.13676358`、CMake `3.22.1`、Node 22 及一台已解锁的空白 AVD。用 `adb devices` 查出模拟器序列号，替换示例中的 `emulator-5554`。飞机模式和升级测试分别检查首次安装前的状态，并在结束时卸载自己的测试包。旧版系统切换飞行模式需要 AOSP 的 userdebug 镜像。
+
+```sh
+export ANDROID_SERIAL=emulator-5554
+./gradlew :app:assembleTypingOnlyDebug :app:assembleHandwritingDebug
+typing=app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
+hand=app/build/outputs/apk/handwriting/debug/app-handwriting-debug.apk
+npm install --prefix build/qa-node --no-save --package-lock=false playwright@1.62.1
+NODE_PATH="$PWD/build/qa-node/node_modules" node qa/learning-device.cjs "$ANDROID_SERIAL" "$typing" \
+    ../bizic-dictionary/scripts/test-offline-mobile.cjs build/qa-reader
+```
+
+`bizic-dictionary` 路径应指向与内容快照对应的词典代码。测试在关闭网络、输入法尚未启用时安装 APK，核对首次隐私说明首屏的离线声明和默认勾选的操作记录开关，退出后重新启动，再取消勾选并同意进入。接受后，测试在系统 WebView 中使用抽屉、设置与词典，重新打开隐私说明核对已保存的选择，并保存整屏截图。冷启动还会复验同意状态。Android 7 的原厂 WebView 按系统镜像可能为 Chromium 51 或 52，测试使用其支持的 DevTools 命令。设备指纹、浏览器版本、联网状态和逐项结果见 `build/qa-reader/results.json`。
+
+跨应用输入测试由独立编辑器接收按键。`learning-ime` 涵盖冷启动候选、分词、两种拼写、模糊音、下词联想、个人词和敏感输入框。`typing-only` 检查候选布局并实测 IPA 补全。
+
+```sh
+./tools/test-core.sh
+./tools/build-apk.sh --device-test build/qa-editor.apk
+TUJIA_E2E_SUITE=learning-ime TUJIA_E2E_EVIDENCE=build/qa-ime \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=typing-only TUJIA_E2E_EVIDENCE=build/qa-ime \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=trial ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=hand-layout ./device-test/run.sh "$hand" build/qa-editor.apk
+TUJIA_E2E_SUITE=hand-landscape ./device-test/run.sh "$hand" build/qa-editor.apk
+```
+
+长按候选可以在键盘内读词条，也可以打开学堂词典。`dictionary-detail` 检查“架”的释义、读音和出处，以及“夹”的多个可确认词条。`dictionary-hand` 从实际手写回查打开“板栗”，然后返回核对原编辑内容。`dictionary-open` 从另一个应用打开完整学堂词条，再按系统返回键回到原编辑框。要检查 200% 字号下的读音和出处跳转，在测试设备上将系统字号调至 200%，以 `dictionary-large` 运行同一命令。
+
+```sh
+TUJIA_E2E_SUITE=dictionary-detail TUJIA_E2E_EVIDENCE=build/qa-entries \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=dictionary-hand ./device-test/run.sh "$hand" build/qa-editor.apk
+TUJIA_E2E_SUITE=dictionary-open ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=dictionary-witness ./device-test/run.sh "$typing" build/qa-editor.apk
+```
+
+`dictionary-witness` 检查输入 `go` 时“过”的“讨”义。两份文献都记录了这个词义。测试核对合组候选可以打开完整词条，出处页列有两份原文，并核对词典读取器能够分别标识明确给出的两个文献见证。
+
+私有存储测试确认新装时默认开启操作记录，以合成输入核对密码、邮箱、网址、数字、电话以及禁止个性化的输入框均不会写入操作轨迹。它还检查关闭记录会清空轨迹，并验证三类个人词都可以跨实例重新读取。
+
+```sh
+adb install "$typing"
+adb install build/qa-editor.apk
+adb shell am instrument -w -r biz.tujia.ime.e2e/.PrivateStorageTest
+adb uninstall biz.tujia.ime.e2e
+adb uninstall biz.tujia.ime
+```
+
+升级复验用同一开发签名构建 `v0.3.6` 和当前版本，检查两条旧版升级路径以及新版两个变体间的双向替换。脚本写入测试词条、偏好和一份模拟崩溃记录，用 `adb install -r` 替换程序后逐项核对，并读取系统当前选中的输入法。它还分别复验新旧诊断偏好名中明确保存的开关值。可用 `--previous-typing` 加入上一个统一版 APK 并检查未保存诊断偏好时默认开启。发布前还需用生产签名的候选 APK 验证 Releases 安装包的原位升级。
+
+```sh
+git fetch origin tag v0.3.6
+git worktree add --detach build/qa-baseline v0.3.6
+(cd build/qa-baseline && ./gradlew :app:assembleTypingOnlyDebug :app:assembleHandwritingDebug)
+python3 qa/learning-upgrades.py --serial "$ANDROID_SERIAL" \
+    --old-typing "build/qa-baseline/$typing" --old-handwriting "build/qa-baseline/$hand" \
+    --typing "$typing" --handwriting "$hand" --fixture build/qa-editor.apk
+```

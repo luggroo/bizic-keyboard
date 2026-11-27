@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:name=".CrashReports"
+        android:allowBackup="false"
+        android:usesCleartextTraffic="false"
+        android:icon="@drawable/ic_tujia"
+        android:label="@string/ime_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SetupActivity"
+            android:label="@string/ime_name"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PrivacyActivity"
+            android:exported="false"
+            android:theme="@style/DisclosureTheme" />
+        <service
+            android:name=".TujiaIme"
+            android:icon="@drawable/ic_tujia"
+            android:label="@string/ime_name"
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data android:name="android.view.im" android:resource="@xml/input_method" />
+        </service>
+    </application>
+</manifest>

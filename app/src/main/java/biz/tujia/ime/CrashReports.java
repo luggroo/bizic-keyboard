@@ -1,6 +1,7 @@
 package biz.tujia.ime;
 
 import android.app.Application;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 import android.text.InputType;
@@ -67,6 +68,8 @@ public final class CrashReports extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
+        // Only the original keyboard/settings process has diagnostic events to save.
+        if (!isKeyboardProcess()) return;
         setRecording(KeyboardSettings.crashRecording(this));
         Thread.UncaughtExceptionHandler previous = Thread.getDefaultUncaughtExceptionHandler();
         if (previous == null) return;
@@ -77,6 +80,18 @@ public final class CrashReports extends Application {
                 previous.uncaughtException(thread, error);
             }
         });
+    }
+
+    private boolean isKeyboardProcess() {
+        if (Build.VERSION.SDK_INT >= 28) return getPackageName().equals(Application.getProcessName());
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        java.util.List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
+        if (processes != null) {
+            for (ActivityManager.RunningAppProcessInfo process : processes) {
+                if (process.pid == android.os.Process.myPid()) return getPackageName().equals(process.processName);
+            }
+        }
+        return false;
     }
 
     private static synchronized void save(Context context, Thread thread, Throwable error) {

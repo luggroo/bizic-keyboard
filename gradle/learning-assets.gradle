@@ -1,0 +1,49 @@
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
+
+abstract class PrepareLearningAssets extends DefaultTask {
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getSnapshot()
+
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getPin()
+
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE)
+    abstract RegularFileProperty getPreparer()
+
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE)
+    abstract RegularFileProperty getIndexer()
+
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getWords()
+
+    @InputFile @PathSensitive(PathSensitivity.NONE)
+    abstract RegularFileProperty getNorthern()
+
+    @OutputDirectory
+    abstract DirectoryProperty getOutputDirectory()
+
+    @Inject
+    abstract ExecOperations getExecOperations()
+
+    @TaskAction
+    void prepare() {
+        execOperations.exec {
+            commandLine 'python3', preparer.get().asFile, outputDirectory.get().asFile,
+                    '--snapshot', snapshot.get().asFile, '--pin', pin.get().asFile,
+                    '--words', words.get().asFile, '--northern', northern.get().asFile
+        }
+    }
+}
+
+androidComponents.onVariants(androidComponents.selector().all()) { variant ->
+    def task = tasks.register("prepare${variant.name.capitalize()}LearningAssets", PrepareLearningAssets) {
+        snapshot.set(rootProject.layout.projectDirectory.file('learning-content/learning.zip'))
+        pin.set(rootProject.layout.projectDirectory.file('learning-content/learning.sha256'))
+        preparer.set(rootProject.layout.projectDirectory.file('tools/prepare_learning_assets.py'))
+        indexer.set(rootProject.layout.projectDirectory.file('tools/ime_dictionary_index.py'))
+        words.set(rootProject.layout.projectDirectory.file('shared/bundle/Assets/words.tsv'))
+        northern.set(rootProject.layout.projectDirectory.file('shared/bundle/Assets/northern-words.tsv'))
+    }
+    variant.sources.assets.addGeneratedSourceDirectory(task, { it.outputDirectory })
+}
