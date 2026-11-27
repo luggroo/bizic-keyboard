@@ -1,0 +1,38 @@
+name: Northern corpus voice check
+on:
+  pull_request:
+    paths: ['.github/workflows/corpus-voice-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recognize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Recognize a corpus recording
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, json, subprocess, urllib.request
+          ua = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/126.0 Mobile Safari/537.36'
+          headers = {'User-Agent': ua}
+          audio_url = 'https://zonghao.me/wav/wav63/t633-01.mp3'
+          req = urllib.request.Request(audio_url, headers=headers)
+          audio = urllib.request.urlopen(req, timeout=60).read()
+          open('/tmp/corpus.mp3','wb').write(audio)
+          subprocess.run(['ffmpeg','-v','error','-y','-i','/tmp/corpus.mp3','-ar','16000','-ac','1','-c:a','aac','-b:a','32k','/tmp/corpus.m4a'],check=True)
+          audio = open('/tmp/corpus.m4a','rb').read()
+          body = json.dumps({'data':['data:audio/mp4;base64,' + base64.b64encode(audio).decode(),0.0,True,30]}).encode()
+          base = 'https://tujianlp-tujia-asr-demo.ms.show/gradio_api/call/transcribe'
+          headers['Content-Type'] = 'application/json'
+          req = urllib.request.Request(base,data=body,headers=headers)
+          event = json.load(urllib.request.urlopen(req, timeout=60))['event_id']
+          headers['Accept'] = 'text/event-stream'
+          req = urllib.request.Request(base+'/'+event,headers=headers)
+          stream = urllib.request.urlopen(req,timeout=180).read().decode()
+          print('SOURCE: https://zonghao.me/carch/ctxt63.html#633; 6.3.3-01')
+          print('REFERENCE: ka3 wu2 me3 tong1-duo3, luo4 ri1 me3 zi2-duo3')
+          print('RESULT:',stream)
+          if 'event: complete' not in stream: raise RuntimeError('No completion event')
+          PY
