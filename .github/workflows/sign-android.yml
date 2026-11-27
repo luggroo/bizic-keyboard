@@ -3,10 +3,6 @@ name: Sign Android release APKs
 on:
   workflow_dispatch:
     inputs:
-      review_sha:
-        description: 'Exact commit for an explicitly approved review-branch signing run; leave empty on main'
-        required: false
-        type: string
       publish:
         description: 'Publish the signed release after all upgrade checks pass (main only)'
         required: false
@@ -20,7 +16,7 @@ permissions:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/codex/bizic-academy-offline')
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.metadata.outputs.version }}
@@ -30,16 +26,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Check source
-        env:
-          REVIEW_SHA: ${{ inputs.review_sha }}
         run: |
           set -euo pipefail
-          if [[ "$GITHUB_REF" == refs/heads/codex/bizic-academy-offline ]]; then
-            [[ "$REVIEW_SHA" =~ ^[0-9a-f]{40}$ && "$REVIEW_SHA" == "$GITHUB_SHA" ]]
-            git merge-base --is-ancestor origin/main HEAD
-          else
-            git merge-base --is-ancestor HEAD origin/main
-          fi
+          git merge-base --is-ancestor HEAD origin/main
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
