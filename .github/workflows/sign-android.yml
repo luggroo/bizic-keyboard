@@ -4,6 +4,153 @@ on:
   workflow_dispatch:
     inputs:
       publish:
+        description: 'Publish the signed release after all upgrade checks pass (main only)'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches: [main]
+    tags: ['v[0-9]*']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[android candidate v0.4.2]')) || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check source
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor HEAD origin/main
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install build tools
+        run: >-
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35'
+          'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
+      - name: Build the academy and standalone keyboard editions
+        run: |
+          set -euo pipefail
+          mkdir unsigned
+          ./gradlew --no-daemon clean :app:assembleHandwritingRelease :app:assembleTypingOnlyRelease
+          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/academy-handwriting.apk
+          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/academy-typing-only.apk
+          ./gradlew --no-daemon clean :app:assembleHandwritingRelease :app:assembleTypingOnlyRelease -PkeyboardOnly=true
+          cp app/build/outputs/apk/handwriting/release/*-unsigned.apk unsigned/keyboard-handwriting.apk
+          cp app/build/outputs/apk/typingOnly/release/*-unsigned.apk unsigned/keyboard-typing-only.apk
+      - name: Verify all four unsigned APKs
+        id: metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
+          python3 qa/verify-apk.py --aapt "$aapt" unsigned/academy-handwriting.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --typing-only unsigned/academy-typing-only.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --keyboard-only unsigned/keyboard-handwriting.apk
+          python3 qa/verify-apk.py --aapt "$aapt" --keyboard-only --typing-only unsigned/keyboard-typing-only.apk
+          for apk in unsigned/*.apk; do
+            "$aapt" dump badging "$apk" > "$apk.manifest"
+            grep -q "^package: name='biz.tujia.ime' " "$apk.manifest"
+            if grep -q '^application-debuggable' "$apk.manifest"; then exit 1; fi
+          done
+          for apk in unsigned/*.apk; do diff <(head -1 unsigned/academy-handwriting.apk.manifest) <(head -1 "$apk.manifest"); done
+          version=$(sed -n "1s/.* versionName='\([^']*\)'.*/\1/p" unsigned/academy-handwriting.apk.manifest)
+          [[ "$version" =~ ^[0-9]+(\.[0-9]+)+$ ]]
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then [[ "$GITHUB_REF_NAME" == "v$version" ]]; fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-release
+          path: unsigned/*.apk
+          if-no-files-found: error
+          retention-days: 1
+
+  sign:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: unsigned-release
+          path: unsigned
+      - name: Install signing tools
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "build-tools;35.0.0"'
+      - name: Sign and verify all four editions
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: bash tools/sign-android-release.sh
+      - name: Verify packaged assets in the signed APKs
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          set -euo pipefail
+          python3 qa/verify-apk.py "signed/bizic-cipu-$VERSION-academy-handwriting.apk"
+          python3 qa/verify-apk.py --typing-only "signed/bizic-cipu-$VERSION-academy-typing.apk"
+          python3 qa/verify-apk.py --keyboard-only "signed/bizic-cipu-$VERSION-keyboard-handwriting.apk"
+          python3 qa/verify-apk.py --keyboard-only --typing-only "signed/bizic-cipu-$VERSION-keyboard-typing.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bizic-cipu-v${{ needs.build.outputs.version }}
+          path: signed/
+          if-no-files-found: error
+
+  upgrade:
+    needs: [build, sign]
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [28, 35]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: bizic-cipu-v${{ needs.build.outputs.version }}
+          path: signed
+      - name: Download and verify the public 0.3.6 APKs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir old
+          gh release download v0.3.6 --repo "$GITHUB_REPOSITORY" --pattern 'tujia-keyboard-0.3.6*.apk' --dir old
+          echo 'fcfa57add4fb90964d98d529001d9cb01b56421b01dcc73e55e9e41a21726964  old/tujia-keyboard-0.3.6.apk' | sha256sum -c
+          echo 'a637bfc0f10154bf639e06e0188acb1f896c1d92b37fd935c3fe69c369f0fdce  old/tujia-keyboard-0.3.6-no-handwriting.apk' | sha256sum -c
+          (cd signed && sha256sum -c SHA256SUMS)
+      - name: Enable hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Verify upgrades from both 0.3.6 editions
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: bash qa/verify-release-upgrade.sh
+
+  publish:
     if: >-
       !cancelled() && github.ref == 'refs/heads/main' &&
       ((github.event_name == 'workflow_dispatch' && inputs.publish &&
