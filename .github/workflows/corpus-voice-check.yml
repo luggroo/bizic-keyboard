@@ -10,31 +10,63 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
       - name: Install audio converter
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-      - name: Recognize a corpus recording
+      - name: Recognize corpus recordings
         shell: bash
         run: |
           python3 - <<'PY'
           import base64, json, subprocess, urllib.request
           ua = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/126.0 Mobile Safari/537.36'
-          headers = {'User-Agent': ua}
-          audio_url = 'https://zonghao.me/wav/wav63/t633-01.mp3'
-          req = urllib.request.Request(audio_url, headers=headers)
-          audio = urllib.request.urlopen(req, timeout=60).read()
-          open('/tmp/corpus.mp3','wb').write(audio)
-          subprocess.run(['ffmpeg','-v','error','-y','-i','/tmp/corpus.mp3','-ar','16000','-ac','1','-c:a','aac','-b:a','32k','/tmp/corpus.m4a'],check=True)
-          audio = open('/tmp/corpus.m4a','rb').read()
-          body = json.dumps({'data':['data:audio/mp4;base64,' + base64.b64encode(audio).decode(),0.0,True,30]}).encode()
-          base = 'https://tujianlp-tujia-asr-demo.ms.show/gradio_api/call/transcribe'
-          headers['Content-Type'] = 'application/json'
-          req = urllib.request.Request(base,data=body,headers=headers)
-          event = json.load(urllib.request.urlopen(req, timeout=60))['event_id']
-          headers['Accept'] = 'text/event-stream'
-          req = urllib.request.Request(base+'/'+event,headers=headers)
-          stream = urllib.request.urlopen(req,timeout=180).read().decode()
-          print('SOURCE: https://zonghao.me/carch/ctxt63.html#633; 6.3.3-01')
-          print('REFERENCE: ka3 wu2 me3 tong1-duo3, luo4 ri1 me3 zi2-duo3')
-          print('RESULT:',stream)
-          if 'event: complete' not in stream: raise RuntimeError('No completion event')
+          samples = [
+              ('proverb', 't633-01.mp3', None, 'ka3 wu2 me3 tong1-duo3, luo4 ri1 me3 zi2-duo3'),
+              ('short-opening', 't633-01.mp3', '1.2', 'ka3 wu2 (first two syllables)'),
+              ('saying', 't635-02.mp3', None, 'ra3lie3 huo3lie3 a3ba3 ha3'),
+          ]
+          for name,filename,limit,ref in samples:
+              headers = {'User-Agent': ua}
+              req = urllib.request.Request('https://zonghao.me/wav/wav63/'+filename,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as f: audio=f.read()
+              open('/tmp/corpus.mp3','wb').write(audio)
+              args=['ffmpeg','-v','error','-y','-i','/tmp/corpus.mp3']
+              if limit: args += ['-t',limit]
+              args += ['-ar','16000','-ac','1','-c:a','aac','-b:a','32k','/tmp/corpus.m4a']
+              subprocess.run(args,check=True)
+              audio=open('/tmp/corpus.m4a','rb').read()
+              body=json.dumps({'data':['data:audio/mp4;base64,'+base64.b64encode(audio).decode(),0.0,True,30]}).encode()
+              base='https://tujianlp-tujia-asr-demo.ms.show/gradio_api/call/transcribe'
+              headers['Content-Type']='application/json'
+              req=urllib.request.Request(base,data=body,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as f: event=json.load(f)['event_id']
+              headers['Accept']='text/event-stream'
+              with urllib.request.urlopen(urllib.request.Request(base+'/'+event,headers=headers),timeout=180) as f: stream=f.read().decode()
+              lines=stream.splitlines()
+              result=None
+              for idx,line in enumerate(lines):
+                  if line == 'event: complete':
+                      result=json.loads(json.loads(lines[idx+1].removeprefix('data: ').strip())[0])
+              if result is None or not result.get('ok'): raise RuntimeError('Recognition failed: '+stream[:1000])
+              print('SAMPLE:',name,'REFERENCE:',ref,'RECOGNIZED:',result['text_sup'],flush=True)
+              if name == 'short-opening': open('/tmp/voice-short.txt','w').write(result['text_sup'])
           PY
+      - name: Inspect local northern dictionary suggestions
+        shell: bash
+        run: |
+          cat > /tmp/CorpusVoiceCheck.java <<'JAVA'
+          package biz.tujia.ime;
+          import java.io.FileInputStream;
+          import java.nio.file.Files;
+          import java.nio.file.Paths;
+          public class CorpusVoiceCheck {
+              public static void main(String[] args) throws Exception {
+                  IpaKeyboard words = new IpaKeyboard(new FileInputStream("app/src/main/assets/ipa-completions.tsv"));
+                  String heard = Files.readString(Paths.get("/tmp/voice-short.txt"));
+                  System.out.println("RAW: " + heard);
+                  for (IpaKeyboard.Entry e : words.voiceSuggestions(heard)) System.out.println("CANDIDATE: " + e.ipa + " / " + e.gloss);
+              }
+          }
+          JAVA
+          mkdir -p /tmp/voice-classes
+          javac -encoding UTF-8 -d /tmp/voice-classes app/src/main/java/biz/tujia/ime/{NativeCore,CandidateEngine,IpaKeyboard,VoiceMatcher}.java /tmp/CorpusVoiceCheck.java
+          java -cp /tmp/voice-classes biz.tujia.ime.CorpusVoiceCheck
