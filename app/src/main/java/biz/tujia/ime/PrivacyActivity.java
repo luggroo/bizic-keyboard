@@ -30,7 +30,8 @@ public final class PrivacyActivity extends Activity {
         Context strings = ReaderLanguage.localized(this, english);
         Context ui = new ContextThemeWrapper(strings, theme);
         setTitle(strings.getText(R.string.privacy_title));
-        setContentView(LayoutInflater.from(ui).inflate(R.layout.academy_privacy, null));
+        setContentView(LayoutInflater.from(ui).inflate(BuildConfig.KEYBOARD_ONLY
+                ? R.layout.keyboard_privacy : R.layout.academy_privacy, null));
         if (strings.getResources().getConfiguration().fontScale >= 1.5f) {
             // Preserve reading space for the offline disclosure above the fixed consent controls.
             findViewById(R.id.privacy_brand).setVisibility(View.GONE);
@@ -55,7 +56,8 @@ public final class PrivacyActivity extends Activity {
             root.requestApplyInsets();
         }
         TextView detail = findViewById(R.id.privacy_diagnostic_detail);
-        detail.setText(strings.getString(R.string.privacy_diagnostic, CrashReports.EVENT_LIMIT));
+        detail.setText(strings.getString(BuildConfig.KEYBOARD_ONLY ? R.string.keyboard_privacy_diagnostic
+                : R.string.privacy_diagnostic, CrashReports.EVENT_LIMIT));
         CheckBox record = findViewById(R.id.privacy_diagnostics);
         // The Android view hierarchy restores unsaved edits after a configuration change.
         record.setChecked(KeyboardSettings.crashRecording(this));

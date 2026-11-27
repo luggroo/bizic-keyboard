@@ -24,8 +24,9 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Test offline reader origin and assets
         run: |
-          javac -d "$RUNNER_TEMP" app/src/main/java/biz/tujia/ime/LearningOrigin.java tests/LearningOriginTest.java
-          java -cp "$RUNNER_TEMP" biz.tujia.ime.LearningOriginTest
+          android_jar="$ANDROID_HOME/platforms/android-35/android.jar"
+          javac -cp "$android_jar" -d "$RUNNER_TEMP" app/src/main/java/biz/tujia/ime/LearningOrigin.java tests/LearningOriginTest.java
+          java -cp "$RUNNER_TEMP:$android_jar" biz.tujia.ime.LearningOriginTest
           python3 qa/test_learning_snapshot.py
       - name: Test shared input engine
         run: ./tools/test-core.sh

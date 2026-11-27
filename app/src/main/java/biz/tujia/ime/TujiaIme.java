@@ -2608,6 +2608,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private void attachDictionary(View owner, LinearLayout bar, Map<String, String> words, Runnable apply) {
+        if (BuildConfig.KEYBOARD_ONLY) return;
         if (words.isEmpty()) return;
         readDictionary(owner, store -> store.links(words), links -> {
             if (links == null || links.isEmpty()) return;

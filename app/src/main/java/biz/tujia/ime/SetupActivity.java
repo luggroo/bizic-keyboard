@@ -62,6 +62,8 @@ public final class SetupActivity extends Activity {
     private Button select;
     private Button spelling;
     private Button ipaCompletion;
+    private static final int FIRST_DISCLOSURE = 1;
+    private boolean waitingForDisclosure;
 
     @Override public void onCreate(Bundle state) {
         boolean systemDark = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
@@ -69,6 +71,13 @@ public final class SetupActivity extends Activity {
         dark = getIntent().getBooleanExtra("biz.tujia.ime.READER_DARK", systemDark);
         if (dark) setTheme(R.style.DarkSetupTheme);
         super.onCreate(state);
+        if (BuildConfig.KEYBOARD_ONLY && !getSharedPreferences("reader_disclosure", MODE_PRIVATE)
+                .getBoolean("acknowledged_2026_11_26", false)) {
+            waitingForDisclosure = true;
+            if (state == null) startActivityForResult(new Intent(this, PrivacyActivity.class)
+                    .putExtra(PrivacyActivity.FIRST_LAUNCH, true), FIRST_DISCLOSURE);
+            return;
+        }
         strings = this;
         if (getIntent().hasExtra("biz.tujia.ime.READER_EN")) {
             Configuration language = new Configuration(getResources().getConfiguration());
@@ -203,6 +212,9 @@ public final class SetupActivity extends Activity {
                 14, INK, true), 4);
         addSpaced(diagnostics, label(strings.getString(R.string.setup_diagnostics_detail, CrashReports.EVENT_LIMIT), 14, MUTED, false), 6);
         addSpaced(diagnostics, action(strings.getString(R.string.setup_view_crash), false, v -> showCrash()), 8);
+        if (BuildConfig.KEYBOARD_ONLY) addSpaced(diagnostics,
+                action(strings.getString(R.string.privacy_title), false,
+                        v -> startActivity(new Intent(this, PrivacyActivity.class))), 8);
         TextView contact = label(BUG_EMAIL, 14, MUTED, false);
         contact.setTextIsSelectable(true);
         addSpaced(diagnostics, contact, 4);
@@ -331,10 +343,19 @@ public final class SetupActivity extends Activity {
         return option;
     }
 
-    @Override protected void onResume() { super.onResume(); refresh(); }
+    @Override protected void onActivityResult(int request, int result, Intent data) {
+        super.onActivityResult(request, result, data);
+        if (request != FIRST_DISCLOSURE || !waitingForDisclosure) return;
+        if (result != RESULT_OK) { finish(); return; }
+        getSharedPreferences("reader_disclosure", MODE_PRIVATE).edit()
+                .putBoolean("acknowledged_2026_11_26", true).apply();
+        recreate();
+    }
+
+    @Override protected void onResume() { super.onResume(); if (!waitingForDisclosure) refresh(); }
     @Override public void onWindowFocusChanged(boolean focus) {
         super.onWindowFocusChanged(focus);
-        if (focus) refresh();
+        if (focus && !waitingForDisclosure) refresh();
     }
 
     private void showSources() {

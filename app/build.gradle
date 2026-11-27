@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+def keyboardOnly = providers.gradleProperty('keyboardOnly').map { it.toBoolean() }.getOrElse(false)
+
 android {
     namespace 'biz.tujia.ime'
     compileSdk 35
@@ -11,8 +13,9 @@ android {
         applicationId 'biz.tujia.ime'
         minSdk 24
         targetSdk 35
+        buildConfigField 'boolean', 'KEYBOARD_ONLY', keyboardOnly.toString()
         versionCode 15
-        versionName '0.4.0-dev.3'
+        versionName '0.4.0'
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
         }
@@ -22,6 +25,7 @@ android {
             }
         }
     }
+    buildFeatures { buildConfig true }
     externalNativeBuild {
         cmake {
             path file('../shared/CMakeLists.txt')
@@ -35,6 +39,7 @@ android {
     }
     sourceSets {
         main.assets.srcDirs = ['../shared/bundle/Assets', 'src/main/assets']
+        if (keyboardOnly) main.manifest.srcFile 'src/keyboardOnly/AndroidManifest.xml'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,4 +57,4 @@ dependencies {
     handwritingImplementation 'com.microsoft.onnxruntime:onnxruntime-android:1.20.0'
 }
 
-apply from: rootProject.file('gradle/learning-assets.gradle')
+if (!keyboardOnly) apply from: rootProject.file('gradle/learning-assets.gradle')
