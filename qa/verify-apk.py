@@ -12,6 +12,7 @@ from zipfile import ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from prepare_learning_assets import read_snapshot
+from ime_dictionary_index import index_assets
 
 
 NETWORK_PERMISSIONS = {
@@ -71,7 +72,9 @@ def verify(apk, typing_only):
         expected = {name: path for name, path in expected.items()
                     if not name.startswith(("handwriting/", "ismantic/"))
                     and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
-    learning = {"learning/" + name: data for name, data in read_snapshot().items()}
+    snapshot = read_snapshot()
+    learning = {"learning/" + name: data for name, data in snapshot.items()}
+    learning.update(index_assets(snapshot, assets / "words.tsv", assets / "northern-words.tsv"))
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])
@@ -89,7 +92,7 @@ def verify(apk, typing_only):
                 raise ValueError(f"Packaged asset differs from source: {name}")
         for name, data in learning.items():
             if archive.read("assets/" + name) != data:
-                raise ValueError(f"Packaged asset differs from pinned learning snapshot: {name}")
+                raise ValueError(f"Packaged dictionary asset differs from verified build inputs: {name}")
         native = {name for name in names if name.startswith("lib/") and name.endswith(".so")}
         if native != {f"lib/{abi}/{name}" for abi in packages for name in libraries}:
             raise ValueError(f"Unexpected set of native libraries: {sorted(native)}")

@@ -109,6 +109,10 @@ public final class KeyboardTest extends Instrumentation {
             }
             if (suite.equals("private-history")) testPrivateFieldHistory();
             if (suite.equals("ipa-detail")) testIpaDetail();
+            if (suite.equals("dictionary-detail") || suite.equals("dictionary-large")) testDictionaryDetail();
+            if (suite.equals("dictionary-hand")) testHandDictionaryDetail();
+            if (suite.equals("dictionary-open")) testOpenDictionary();
+            if (suite.equals("dictionary-fallback")) testMissingDictionaryDetail();
             if (suite.equals("ipa")) {
                 testIpaSettings();
                 testHandwritingSidebar();
@@ -1784,6 +1788,211 @@ public final class KeyboardTest extends Instrumentation {
             waitForNode("待选拼写 ", false);
             stage("Regional Chinese input " + example[0] + " committed plain " + example[1]);
         }
+    }
+
+    private void testDictionaryDetail() {
+        newPredictionEditor();
+        boolean large = suite.equals("dictionary-large");
+        if (large && host.getResources().getConfiguration().fontScale < 1.99f)
+            throw new AssertionError("Run dictionary-large with the system font scale set to 2");
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        waitForNode("查看学堂词条", false);
+        expectText(host.first, "");
+        if (!visibleControls().contains("吃、咬"))
+            throw new AssertionError("Pending candidate meaning disappeared");
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-entry.png", "查看读音");
+        String definition = requireArticleText("原记音　ga2", "to eat, bite");
+        if (definition.contains("w684")) throw new AssertionError("Internal dictionary ID visible");
+        press("查看读音");
+        captureDictionaryFrame("dictionary-readings.png", "查看出处");
+        String readings = requireArticleText("叶氏拼音", "gaf");
+        if (readings.contains("brassett-to-ye")) throw new AssertionError("Internal conversion ID visible");
+        press("查看出处");
+        captureDictionaryFrame("dictionary-sources.png", "查看候选全文");
+        requireArticleText("出处与原记音", "土家语汉语词表", "ga2");
+        expectText(host.first, "");
+        if (large) {
+            press("查看候选全文");
+            requireArticleText("吃、咬");
+            press("返回候选");
+            openReader(visibleForm("架"));
+            press("查看学堂词条");
+            expectText(host.first, "");
+        }
+        press("输入这个候选");
+        expectText(host.first, "架");
+
+        type("jia");
+        openReader(findPlainHan("架"));
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("A plain Mandarin character acquired a Tujia article");
+        press("输入这个候选");
+        expectText(host.first, "架架");
+
+        type("ga");
+        openReader(visibleForm("架"));
+        tapField(host.second);
+        waitAbsent("输入这个候选");
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("Previous editor's article remained after a field change");
+        expectText(host.first, "架架");
+        expectText(host.second, "");
+        tapField(host.first);
+        runOnMainSync(() -> host.first.setSelection(1));
+        type("ga");
+        openReader(visibleForm("架"));
+        runOnMainSync(() -> host.first.setSelection(0));
+        waitAbsent("输入这个候选");
+        if (pollNode("查看学堂词条", false, 800) != null)
+            throw new AssertionError("Article remained after moving the cursor");
+        expectText(host.first, "架架");
+        stage("Offline definition, readings, attested sources, input, Mandarin fallback, field and caret changes");
+        testDictionaryChoice();
+    }
+
+    private void testDictionaryChoice() {
+        newPredictionEditor();
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("夹"));
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-choices.png", "仅显示可确认的词条");
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText("乌鸦")) {
+            try {
+                if (node.isVisibleToUser() && node.isClickable())
+                    throw new AssertionError("A merged crow reading claimed an individual source on the 夹 card");
+            } finally { node.recycle(); }
+        }
+        pressDictionaryChoice("干、渴");
+        requireArticleText("所选文献见证", "ga3", "dry");
+        press("返回词条上一级");
+        pressDictionaryChoice("上面");
+        requireArticleText("上面", "ga3");
+        expectText(host.first, "");
+        press("输入这个候选");
+        expectText(host.first, "夹");
+        stage("Distinct native readings of the same 夹 card open the dry and above articles independently");
+    }
+
+    private void captureDictionaryFrame(String name, String visibleLabel) {
+        waitForNode(visibleLabel, false);
+        if (!captureFailure) return;
+        // The IME tree changes before SurfaceFlinger presents the new panel, especially on Android 7.
+        try { ui.waitForIdle(450, 4000); }
+        catch (java.util.concurrent.TimeoutException busyEditor) { SystemClock.sleep(450); }
+        captureFrame(name);
+    }
+
+    private void pressDictionaryChoice(String gloss) {
+        waitForNode("选择学堂词条", false);
+        for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(gloss)) {
+            try {
+                if (!node.isClickable() || node.getContentDescription() == null
+                        || !node.getContentDescription().toString().startsWith(gloss + "，")) continue;
+                node.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_ON_SCREEN.getId());
+                SystemClock.sleep(250);
+                if (node.refresh() && node.isVisibleToUser() && node.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+                    waitForNode("在词典中打开", false);
+                    return;
+                }
+            } finally { node.recycle(); }
+        }
+        throw new AssertionError("Missing dictionary option " + gloss + ": " + visibleControls());
+    }
+
+    private String requireArticleText(String... terms) {
+        StringBuilder shown = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            shown.append(visibleControls());
+            boolean complete = true;
+            for (String term : terms) complete &= shown.indexOf(term) >= 0;
+            if (complete) return shown.toString();
+            if (i < 4) press("下一页释义");
+        }
+        throw new AssertionError("Missing dictionary text " + Arrays.toString(terms) + " in " + shown);
+    }
+
+    private void testHandDictionaryDetail() {
+        newPredictionEditor();
+        press("手写");
+        setHandwritingOutput(true);
+        String original = "前树稀步李以后";
+        runOnMainSync(() -> { host.first.setText(original); host.first.setSelection(5); });
+        longPressHandForm("树希布里");
+        press("查看学堂词条");
+        requireArticleText("板栗", "chestnut");
+        expectText(host.first, original);
+        captureDictionaryFrame("dictionary-hand.png", "查看读音");
+        press("查看读音");
+        requireArticleText("sufxixbuflix");
+        press("查看出处");
+        requireArticleText("出处与原记音", "su2xi1bu2li1");
+        captureDictionaryFrame("dictionary-hand-sources.png", "查看候选全文");
+        press("返回词条上一级");
+        press("用推荐字");
+        expectText(host.first, "前树希布里以后");
+        stage("Handwriting opens the exact dictionary article and preserves the original until explicit replacement");
+    }
+
+    private void testOpenDictionary() {
+        newPredictionEditor();
+        runOnMainSync(() -> { host.first.setText("保留正文"); host.first.setSelection(4); });
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        press("查看学堂词条");
+        press("在词典中打开");
+        long end = SystemClock.uptimeMillis() + 150000;
+        boolean accepted = false, found = false;
+        String lastWindow = "";
+        do {
+            AccessibilityNodeInfo root = ui.getRootInActiveWindow();
+            if (root != null) try {
+                if (IME_PACKAGE.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
+                    if (!accepted) for (AccessibilityNodeInfo button : root.findAccessibilityNodeInfosByViewId(
+                            IME_PACKAGE + ":id/privacy_accept")) {
+                        try { accepted |= button.performAction(AccessibilityNodeInfo.ACTION_CLICK); }
+                        finally { button.recycle(); }
+                    }
+                    // Stock WebView on Android 7 exposes web nodes as descendants but does not
+                    // implement IME-side findAccessibilityNodeInfosByText for their content.
+                    StringBuilder content = new StringBuilder();
+                    collectLabels(root, content);
+                    lastWindow = content.toString();
+                    found = lastWindow.contains("to eat, bite");
+                }
+            } finally { root.recycle(); }
+            if (!found) SystemClock.sleep(300);
+        } while (!found && SystemClock.uptimeMillis() < end);
+        if (!found) throw new AssertionError("Learning window did not display eat/bite: "
+                + lastWindow.substring(0, Math.min(lastWindow.length(), 1500)));
+        captureFrame("dictionary-full.png");
+        if (!ui.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)) throw new AssertionError("System Back failed");
+        AtomicReference<Boolean> returned = new AtomicReference<>(false);
+        long returnDeadline = SystemClock.uptimeMillis() + WAIT_MS;
+        do {
+            runOnMainSync(() -> returned.set(host.hasWindowFocus()));
+            if (!returned.get()) SystemClock.sleep(100);
+        } while (!returned.get() && SystemClock.uptimeMillis() < returnDeadline);
+        if (!returned.get()) throw new AssertionError("One system Back did not restore the external editor");
+        expectText(host.first, "保留正文");
+        stage("Trusted article opens the offline learning reader and one system Back returns to untouched external text");
+    }
+
+    // Run on a disposable fixture APK with the dictionary index for w684 removed.
+    private void testMissingDictionaryDetail() {
+        newPredictionEditor();
+        press("谐音字");
+        type("ga");
+        openReader(visibleForm("架"));
+        if (pollNode("查看学堂词条", false, 1500) != null || !visibleControls().contains("吃、咬"))
+            throw new AssertionError("Missing dictionary resources did not fall back to the native definition");
+        press("输入这个候选");
+        expectText(host.first, "架");
+        stage("Unreadable dictionary data preserves the candidate meaning and commit");
     }
 
     private void testModernRegisterCharacters() {

@@ -10,6 +10,7 @@ import stat
 import tempfile
 from pathlib import Path
 from zipfile import ZipFile
+from ime_dictionary_index import index_assets
 
 CONTENT = Path(__file__).resolve().parents[1] / "learning-content"
 ARCHIVE = CONTENT / "learning.zip"
@@ -78,12 +79,17 @@ def read_snapshot(archive=ARCHIVE, pin=PIN):
     return data
 
 
-def prepare(output, archive=ARCHIVE, pin=PIN):
+def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None):
     files = read_snapshot(archive, pin)
     output.mkdir(parents=True, exist_ok=True)
     # Gradle owns this output. Fully verify and stage the new tree before replacing it.
     with tempfile.TemporaryDirectory(dir=output) as temp:
         staged = Path(temp) / "learning"
+        if vocabulary:
+            for path, data in index_assets(files, *vocabulary).items():
+                target = Path(temp) / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
         for name, data in files.items():
             # AGP's asset merger inflates one .gz layer and strips the suffix.
             # A temporary store-only wrapper preserves the website's path and bytes in the APK.
@@ -93,10 +99,11 @@ def prepare(output, archive=ARCHIVE, pin=PIN):
             target = staged / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-        dest = output / "learning"
-        if dest.exists():
-            shutil.rmtree(dest)
-        staged.rename(dest)
+        for directory in Path(temp).iterdir():
+            dest = output / directory.name
+            if dest.exists():
+                shutil.rmtree(dest)
+            directory.rename(dest)
 
 
 if __name__ == "__main__":
@@ -104,5 +111,8 @@ if __name__ == "__main__":
     parser.add_argument("output", type=Path, help="Generated Android asset root")
     parser.add_argument("--snapshot", type=Path, default=ARCHIVE)
     parser.add_argument("--pin", type=Path, default=PIN)
+    assets = CONTENT.parent / "shared/bundle/Assets"
+    parser.add_argument("--words", type=Path, default=assets / "words.tsv")
+    parser.add_argument("--northern", type=Path, default=assets / "northern-words.tsv")
     args = parser.parse_args()
-    prepare(args.output, args.snapshot, args.pin)
+    prepare(args.output, args.snapshot, args.pin, (args.words, args.northern))

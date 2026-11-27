@@ -61,6 +61,15 @@ TUJIA_E2E_SUITE=hand-layout ./device-test/run.sh "$hand" build/qa-editor.apk
 TUJIA_E2E_SUITE=hand-landscape ./device-test/run.sh "$hand" build/qa-editor.apk
 ```
 
+长按候选可以在键盘内读词条，也可以打开学堂词典。`dictionary-detail` 检查“架”的释义、读音和出处，以及“夹”的多个可确认词条。`dictionary-hand` 从实际手写回查打开“板栗”，然后返回核对原编辑内容。`dictionary-open` 从另一个应用打开完整学堂词条，再按系统返回键回到原编辑框。要检查 200% 字号下的读音和出处跳转，在测试设备上将系统字号调至 200%，以 `dictionary-large` 运行同一命令。
+
+```sh
+TUJIA_E2E_SUITE=dictionary-detail TUJIA_E2E_EVIDENCE=build/qa-entries \
+    ./device-test/run.sh "$typing" build/qa-editor.apk
+TUJIA_E2E_SUITE=dictionary-hand ./device-test/run.sh "$hand" build/qa-editor.apk
+TUJIA_E2E_SUITE=dictionary-open ./device-test/run.sh "$typing" build/qa-editor.apk
+```
+
 私有存储测试确认新装时默认开启操作记录，以合成输入核对密码、邮箱、网址、数字、电话以及禁止个性化的输入框均不会写入操作轨迹。它还检查关闭记录会清空轨迹，并验证三类个人词都可以跨实例重新读取。
 
 ```sh

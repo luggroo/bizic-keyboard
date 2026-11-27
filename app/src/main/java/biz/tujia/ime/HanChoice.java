@@ -3,6 +3,7 @@ package biz.tujia.ime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** A typed Han form occupies one slot. Different consumed prefixes remain selectable. */
@@ -14,6 +15,8 @@ final class HanChoice {
         final Set<String> meanings = new LinkedHashSet<>();
         final Set<String> loanMeanings = new LinkedHashSet<>();
         private String agreedIds, agreedSyllable;
+        private CandidateEngine.Candidate firstArticle;
+        private List<CandidateEngine.Candidate> otherArticles;
 
         Action(int consumed, CandidateEngine.Candidate candidate) {
             this.consumed = consumed;
@@ -31,11 +34,25 @@ final class HanChoice {
                 loanMeanings.add(c.meaning);
             }
             // A plain syllable supplies a pronunciation, but does not claim a word sense.
-            if (!c.syllableOnly || hasMeaning) agreedIds = common(agreedIds, c.lexemeIds);
+            if (!c.syllableOnly || hasMeaning) {
+                agreedIds = common(agreedIds, c.lexemeIds);
+                if (!c.lexemeIds.isEmpty() && c.lexemeIds.indexOf(' ') < 0) {
+                    if (firstArticle == null) firstArticle = c;
+                    else if (!firstArticle.lexemeIds.equals(c.lexemeIds)) {
+                        if (otherArticles == null) otherArticles = new ArrayList<>();
+                        otherArticles.add(c);
+                    }
+                }
+            }
             agreedSyllable = common(agreedSyllable, c.lastSyllable);
         }
 
         String ids() { return agreedIds == null ? "" : agreedIds; }
+        void articles(Map<String, String> result) {
+            if (firstArticle != null) result.putIfAbsent(firstArticle.lexemeIds, firstArticle.meaning);
+            if (otherArticles != null) for (CandidateEngine.Candidate c : otherArticles)
+                result.putIfAbsent(c.lexemeIds, c.meaning);
+        }
         String lastSyllable() { return agreedSyllable == null ? "" : agreedSyllable; }
 
         String fullMeanings() {
@@ -63,6 +80,12 @@ final class HanChoice {
         action.add(c, hasMeaning);
         actions.add(action);
         if (primary == null || consumed > primary.consumed) primary = action;
+    }
+
+    static boolean identitiesPresent(String required, Set<String> present) {
+        if (required.isEmpty()) return true;
+        for (String id : required.split(" ")) if (!present.contains(id)) return false;
+        return true;
     }
 
     private static String common(String previous, String next) {
