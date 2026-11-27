@@ -167,6 +167,19 @@ python3 qa/verify-apk.py --aapt "$aapt" app/build/outputs/apk/handwriting/debug/
 python3 qa/apk_size.py app/build/outputs/apk/typingOnly/debug/app-typingOnly-debug.apk
 ```
 
+### 自动签名
+
+推送与 APK 版本一致的标签（例如版本 `0.3.7` 对应 `v0.3.7`）会触发签名。也可以在主分支手动运行 [Sign Android release APKs](https://github.com/luggroo/bizic-keyboard/actions/workflows/sign-android.yml)。成功后，从运行页面底部下载包含两个中文名 APK 和 `SHA256SUMS` 的签名产物。发布到 Releases 仍由发布流程处理。
+
+仓库管理员在 **Settings → Secrets and variables → Actions → Repository secrets** 中配置以下项目。密钥库使用已发布的 0.3.6 签名私钥。工作流会逐包比对证书指纹。
+
+| Secret | 内容 |
+| --- | --- |
+| `ANDROID_KEYSTORE_BASE64` | 原始 JKS 或 PKCS12 密钥库文件的 Base64 编码 |
+| `ANDROID_STORE_PASSWORD` | 密钥库密码 |
+| `ANDROID_KEY_ALIAS` | 签名私钥的别名 |
+| `ANDROID_KEY_PASSWORD` | 私钥密码，与密钥库密码相同时可省略 |
+
 ## 测试
 
 设备实测、兼容性矩阵、词库命中率和输入延迟的口径见[安卓输入法 QA 报告](qa/README.md)。
