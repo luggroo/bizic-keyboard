@@ -7,6 +7,11 @@ on:
         description: 'Exact commit for an explicitly approved review-branch signing run; leave empty on main'
         required: false
         type: string
+      publish:
+        description: 'Publish the signed release after all upgrade checks pass (main only)'
+        required: false
+        default: false
+        type: boolean
   push:
     tags: ['v[0-9]*']
 
@@ -106,3 +111,67 @@ jobs:
           name: 土家语输入法_v${{ needs.build.outputs.version }}
           path: signed/
           if-no-files-found: error
+
+  upgrade:
+    needs: [build, sign]
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [28, 35]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          path: signed
+      - name: Download and verify the public 0.3.6 APKs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir old
+          gh release download v0.3.6 --repo "$GITHUB_REPOSITORY" --pattern 'tujia-keyboard-0.3.6*.apk' --dir old
+          echo 'fcfa57add4fb90964d98d529001d9cb01b56421b01dcc73e55e9e41a21726964  old/tujia-keyboard-0.3.6.apk' | sha256sum -c
+          echo 'a637bfc0f10154bf639e06e0188acb1f896c1d92b37fd935c3fe69c369f0fdce  old/tujia-keyboard-0.3.6-no-handwriting.apk' | sha256sum -c
+          (cd signed && sha256sum -c SHA256SUMS)
+      - name: Enable hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Verify upgrades from both 0.3.6 editions
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: bash qa/verify-release-upgrade.sh
+
+  publish:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.publish
+    needs: [build, sign, upgrade]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          path: signed
+      - name: Publish verified release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          set -euo pipefail
+          (cd signed && sha256sum -c SHA256SUMS)
+          gh release create "v$VERSION" signed/*.apk signed/SHA256SUMS \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "毕兹学堂与土家语输入法 $VERSION" --notes-file docs/release-0.4.0.md
