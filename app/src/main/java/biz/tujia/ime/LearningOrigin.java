@@ -14,7 +14,7 @@ final class LearningOrigin {
     static final String STATUS_PATH = "/_app/ime-status.json";
     static final String PRIVACY_PATH = "/_app/privacy";
     private static final Pattern ASSET = Pattern.compile("(?:[A-Za-z0-9_][A-Za-z0-9_.-]*/)*[A-Za-z0-9_][A-Za-z0-9_.-]*");
-    private static final Pattern DICTIONARY_ENTRY = Pattern.compile("[A-Za-z0-9_-]{1,160}");
+    private static final Pattern DICTIONARY_ENTRY = Pattern.compile("[^\\s\\x00-\\x1f\\x7f]{1,160}");
 
     private LearningOrigin() {}
 
