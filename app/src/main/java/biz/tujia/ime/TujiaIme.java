@@ -141,6 +141,12 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     private String shownIpaPrefix;
     private int shownIpaDialects;
     private List<IpaKeyboard.Entry> ipaMatches = Collections.emptyList();
+    private VoiceInput voice;
+    private InputConnection voiceEditor;
+    private long voiceCursor;
+    private List<IpaKeyboard.Entry> voiceChoices;
+    private boolean voiceWorking;
+    private final Handler voiceTimer = new Handler(Looper.getMainLooper());
     private UserDictionary userDictionary;
     private FrameLayout keyAlternatives;
     private TextView[] toneFlickKeys;
@@ -170,6 +176,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     @Override public void onCreate() {
         super.onCreate();
         userDictionary = new UserDictionary(this);
+        if (BuildConfig.VOICE_ENABLED) voice = new VoiceInput(this);
         displayConfiguration = new Configuration(getResources().getConfiguration());
         LexiconStore.load(this, this);
         SharedPreferences settings = getSharedPreferences("keyboard", MODE_PRIVATE);
@@ -192,6 +199,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     @Override public boolean onEvaluateFullscreenMode() { return false; }
 
     @Override public void onDestroy() {
+        cancelVoice();
         destroyed = true;
         inputViewActive = false;
         closeKeyAlternatives();
@@ -317,6 +325,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     @Override public void onFinishInputView(boolean finishingInput) {
+        cancelVoice();
         inputViewActive = false;
         if (!sameReflowEditor(getCurrentInputEditorInfo())) resetDraft();
         super.onFinishInputView(finishingInput);
@@ -338,6 +347,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void resetDraft() {
         selectionRevision++;
+        cancelVoice();
         closeKeyAlternatives();
         shownIpaPrefix = null;
         ipaEdited = false;
@@ -481,7 +491,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             strip.post(() -> {
                 if (strip == candidateStrip && strip.getWidth() != plannedStripWidth) {
                     resetCandidatePage();
-                    if (inIpaMode()) renderIpaPage(); else showCandidates();
+                    if (inIpaMode()) { if (voiceChoices != null) renderVoiceChoices(); else renderIpaPage(); } else showCandidates();
                 }
             });
         });
@@ -531,6 +541,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             stripIconKey("拼音", "拼音", ToolbarIcon.Mark.TYPE, mode == SPELL || mode == HAN, () -> switchMode(typingMode));
             if (Handwriting.ENABLED) stripIconKey("手写", "手写", ToolbarIcon.Mark.WRITE, mode == HAND, () -> switchMode(HAND));
             stripIconKey("音标", "音标", ToolbarIcon.Mark.IPA, mode == IPA, () -> switchMode(IPA));
+            if (BuildConfig.VOICE_ENABLED && mode == IPA && voiceAllowed())
+                stripIconKey("", "北部语音输入，联网", ToolbarIcon.Mark.MIC, voice != null && voice.recording(), this::toggleVoice);
         }
         toolbar.addView(new View(this), new LinearLayout.LayoutParams(0, -1, 1));
         prevChoices = nextChoices = null;
@@ -753,7 +765,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             } else if (!previousCandidatePages.isEmpty()) {
                 pageStart = previousCandidatePages.remove(previousCandidatePages.size() - 1);
             }
-            if (inIpaMode()) renderIpaPage();
+            if (inIpaMode()) { if (voiceChoices != null) renderVoiceChoices(); else renderIpaPage(); }
             else showCandidates();
         });
         v.setFocusable(true);
@@ -1862,6 +1874,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
     }
 
     private boolean typeIpa(String text) {
+        cancelVoice();
         recordAction("输入音标", text);
         closeKeyAlternatives();
         boolean continues = IpaKeyboard.continuesWord(text);
@@ -1877,6 +1890,89 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
             buildIpaKeys();
         }
         return committed;
+    }
+
+    private boolean voiceAllowed() {
+        EditorInfo info = getCurrentInputEditorInfo();
+        return !direct && info != null && (info.imeOptions & EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING) == 0;
+    }
+
+    private void cancelVoice() {
+        voiceTimer.removeCallbacksAndMessages(null);
+        if (voice != null) voice.cancel();
+        voiceWorking = false;
+        voiceChoices = null;
+        voiceEditor = null;
+    }
+
+    private void voiceMessage(String message) {
+        if (choices == null) return;
+        choices.removeAllViews();
+        choices.addView(label(message, compact ? 13 : 14, MUTED), weighted(1));
+    }
+
+    private void toggleVoice() {
+        if (voice == null || !inputViewActive || !inIpaMode() || !voiceAllowed()) return;
+        if (voice.recording()) { finishVoice(); return; }
+        if (voiceWorking) { cancelVoice(); shownIpaPrefix = null; showIpaCandidates(); return; }
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            Intent permission = new Intent(this, VoicePermissionActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(permission);
+            return;
+        }
+        InputConnection editor = getCurrentInputConnection();
+        if (editor == null || selStart != selEnd) { voiceMessage("请先将光标放在输入位置"); return; }
+        cancelVoice();
+        voiceEditor = editor;
+        voiceCursor = cursorAt(editor);
+        if ((int)(voiceCursor >>> 32) != (int)voiceCursor) { voiceEditor = null; return; }
+        try {
+            if (ipaLexicon == null && !ipaLoading && !ipaLoadFailed) loadIpaLexicon();
+            voice.start();
+            voiceWorking = true;
+            voiceMessage("北部语音：录音中，再按麦克风结束并上传（最长30秒）");
+            voiceTimer.postDelayed(this::finishVoice, 30000);
+        } catch (java.io.IOException | RuntimeException e) {
+            cancelVoice(); voiceMessage("无法录音，请检查麦克风权限");
+        }
+    }
+
+    private void finishVoice() {
+        if (voice == null || !voice.recording()) return;
+        voiceTimer.removeCallbacksAndMessages(null);
+        voiceMessage("正在联网识别北部土家语…");
+        voice.stop((text, error) -> {
+            voiceWorking = false;
+            if (!inputViewActive || !inIpaMode() || voiceEditor != getCurrentInputConnection()
+                    || voiceEditor == null || cursorAt(voiceEditor) != voiceCursor || !voiceAllowed()) { cancelVoice(); return; }
+            if (error != null || text == null || text.isEmpty()) { cancelVoice(); voiceMessage(error == null ? "没有识别到语音" : error); return; }
+            voiceChoices = new ArrayList<>();
+            voiceChoices.add(new IpaKeyboard.Entry(0, text, "原始识别"));
+            if (ipaLexicon != null) voiceChoices.addAll(ipaLexicon.voiceSuggestions(text));
+            resetCandidatePage();
+            renderVoiceChoices();
+        });
+    }
+
+    private void renderVoiceChoices() {
+        if (choices == null || voiceChoices == null) return;
+        choices.removeAllViews();
+        prepareCandidatePage(voiceChoices.size());
+        for (int i = pageStart; i < pageEnd; i++) {
+            IpaKeyboard.Entry entry = voiceChoices.get(i);
+            TextView gloss = candidateGloss(i == 0 ? "原始识别" : entry.gloss);
+            TextView form = candidateForm(entry.ipa, i == 0 ? RED : INK, null);
+            addCandidateCard(gloss, form, (i == 0 ? "原始识别 " : "北部词库 ") + entry.ipa, () -> {
+                InputConnection editor = voiceEditor;
+                if (!inputViewActive || !inIpaMode() || editor == null || editor != getCurrentInputConnection()
+                        || cursorAt(editor) != voiceCursor || !voiceAllowed()) { cancelVoice(); return; }
+                String selected = entry.ipa;
+                cancelVoice();
+                if (commitTypedText(selected)) pendingWordSeparator = true;
+                shownIpaPrefix = null;
+                showIpaCandidates();
+            });
+        }
     }
 
     private void loadIpaLexicon() {
@@ -1913,6 +2009,8 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
 
     private void showIpaCandidates() {
         if (choices == null) return;
+        if (voiceChoices != null) { renderVoiceChoices(); return; }
+        if (voiceWorking) return;
         int dialects = KeyboardSettings.ipaDialects(this);
         if (dialects != 0 && ipaLexicon == null && !ipaLoading && !ipaLoadFailed) loadIpaLexicon();
         InputConnection editor = getCurrentInputConnection();

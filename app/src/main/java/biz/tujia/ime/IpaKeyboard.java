@@ -74,6 +74,8 @@ final class IpaKeyboard {
         }
     }
 
+    List<Entry> voiceSuggestions(String raw) { return VoiceMatcher.match(raw, entries); }
+
     static String prefix(CharSequence before, CharSequence after) {
         String prefix = completionPrefix(before, after);
         return prefix == null ? "" : prefix;

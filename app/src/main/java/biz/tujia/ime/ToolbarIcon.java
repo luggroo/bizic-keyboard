@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 final class ToolbarIcon extends Drawable {
-    enum Mark { TYPE, WRITE, IPA, SETTINGS, HIDE, GLOBE, ERASER, BACKSPACE, NEXT, COMMA, CIRCLE_STOP, DOT, MORE }
+    enum Mark { TYPE, WRITE, IPA, SETTINGS, HIDE, GLOBE, MIC, ERASER, BACKSPACE, NEXT, COMMA, CIRCLE_STOP, DOT, MORE }
 
     private final Mark mark;
     private final TextView button;
@@ -54,6 +54,11 @@ final class ToolbarIcon extends Drawable {
                 path.close();
                 canvas.drawPath(path, paint);
                 canvas.drawLine(13.1f, 4.3f, 16.4f, 7.6f, paint);
+                break;
+            case MIC:
+                canvas.drawRoundRect(9, 1, 15, 11, 3, 3, paint);
+                path.reset(); path.moveTo(6.5f, 8); path.quadTo(6.5f, 14, 12, 14); path.quadTo(17.5f, 14, 17.5f, 8); canvas.drawPath(path);
+                canvas.drawLine(12, 14, 12, 17, paint);
                 break;
             case SETTINGS:
                 canvas.drawCircle(12, 9, 5.2f, paint);
