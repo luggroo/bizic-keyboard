@@ -1,0 +1,6 @@
+<resources>
+    <string name="keyboard_privacy_intro">Typing is processed on this device. Northern Tujia voice input sends recordings to an online third-party recognition service. Attaching keyboard actions is off by default.</string>
+    <string name="keyboard_privacy_external">Only when you use Northern voice input, your recording is sent to tujianlp-tujia-asr-demo.ms.show for recognition. Dictionary matching happens on this device. You may also copy or email a report yourself.</string>
+    <string name="privacy_intro">Typing is processed on this device. Northern Tujia voice input sends recordings to an online third-party recognition service. Attaching keyboard actions is off by default.</string>
+    <string name="privacy_external">Only when you use Northern voice input, your recording is sent to tujianlp-tujia-asr-demo.ms.show for recognition. Dictionary matching happens on this device. The app asks before opening links, and you can choose to share a report yourself.</string>
+</resources>

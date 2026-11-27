@@ -1,0 +1,6 @@
+<resources>
+    <string name="keyboard_privacy_intro">打字在本机处理。北部语音识别需要联网，会将录音发送至第三方识别服务。附带键盘操作默认关闭。</string>
+    <string name="keyboard_privacy_external">只有主动使用北部语音输入时才发送录音到 tujianlp-tujia-asr-demo.ms.show 识别。词库匹配在本机进行。你也可以主动复制报告或通过邮件应用发送反馈。</string>
+    <string name="privacy_intro">打字在本机处理。北部语音识别需要联网，会将录音发送至第三方识别服务。附带键盘操作默认关闭。</string>
+    <string name="privacy_external">只有主动使用北部语音输入时才发送录音到 tujianlp-tujia-asr-demo.ms.show 识别。词库匹配在本机进行。应用在浏览器打开外部链接前会征求同意，也可由你主动分享诊断报告。</string>
+</resources>

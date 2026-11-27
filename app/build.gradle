@@ -5,6 +5,7 @@ plugins {
     id 'com.android.application'
 }
 
+def voiceEnabled = providers.gradleProperty('voiceEnabled').map { it.toBoolean() }.getOrElse(false)
 def keyboardOnly = providers.gradleProperty('keyboardOnly').map { it.toBoolean() }.getOrElse(false)
 
 android {
@@ -17,6 +18,7 @@ android {
         minSdk 24
         targetSdk 35
         buildConfigField 'boolean', 'KEYBOARD_ONLY', keyboardOnly.toString()
+        buildConfigField 'boolean', 'VOICE_ENABLED', voiceEnabled.toString()
         versionCode 18
         versionName '0.4.3'
         ndk {
@@ -43,6 +45,12 @@ android {
     sourceSets {
         main.assets.srcDirs = []
         handwriting.assets.srcDirs = []
+        if (voiceEnabled) {
+            handwriting.manifest.srcFile 'src/voice/AndroidManifest.xml'
+            typingOnly.manifest.srcFile 'src/voice/AndroidManifest.xml'
+            handwriting.res.srcDir 'src/voice/res'
+            typingOnly.res.srcDir 'src/voice/res'
+        }
         if (keyboardOnly) main.manifest.srcFile 'src/keyboardOnly/AndroidManifest.xml'
     }
     compileOptions {
