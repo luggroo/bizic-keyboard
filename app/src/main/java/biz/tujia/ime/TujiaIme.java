@@ -2484,7 +2484,7 @@ public final class TujiaIme extends InputMethodService implements LexiconStore.L
         for (int i = 0; i < limit; i++) {
             int index = pageStart + i;
             CharSequence value;
-            if (inIpaMode()) value = ipaMatches.get(index).ipa;
+            if (inIpaMode()) value = (voiceChoices == null ? ipaMatches : voiceChoices).get(index).ipa;
             else {
                 CandidateEngine.Candidate c = candidates.get(index);
                 value = HanUnitStyle.forKeyboard(c.text, c.joinedHanRanges);
