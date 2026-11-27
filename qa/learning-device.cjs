@@ -82,36 +82,26 @@ async function acknowledgePrivacy(info) {
   const summary = await privacyButton('privacy_summary');
   const initial = await privacyButton('privacy_diagnostics');
   const screen = await capture('first-launch-privacy');
-  const english = summary.text.startsWith('This app never connects to the internet.');
-  if (english) {
-    assert.match(summary.text, /on by default/i);
-    assert.match(summary.text, /may record keystrokes and selections in ordinary text fields/i);
-    assert.match(summary.text, /turn (?:them|it) off|turned off|disable/i);
-  } else {
-    assert.match(summary.text, /^本应用不联网。/);
-    assert.match(summary.text, /可能记录普通输入框的按键和选词/);
-    assert.match(summary.text, /默认开启.*关闭/);
-  }
+  const english = summary.text.startsWith('This app does not connect to the internet.');
+  assert.match(summary.text, english ? /off by default/i : /默认关闭/);
   assert(summary.top < screen.height / 2, 'The offline statement should appear near the top');
   for (const element of [summary, initial]) {
     assert(element.left >= 0 && element.right <= screen.width && element.right > element.left);
     assert(element.top >= 0 && element.bottom <= screen.height && element.bottom > element.top);
   }
-  assert(initial.enabled && initial.checked);
+  assert(initial.enabled && !initial.checked);
   info.firstLaunch = {language: english ? 'en' : 'zh', summary, diagnostics: initial, screen};
   await shell('input', 'keyevent', 'KEYCODE_BACK');
   await shell('am', 'force-stop', pkg);
   await shell('am', 'start', '-W', '-n', pkg + '/.LearningActivity');
   await waitFor(() => activeActivity('PrivacyActivity'), 'disclosure again after leaving before acceptance');
   const optional = await privacyButton('privacy_diagnostics');
-  assert(optional.enabled && optional.checked, 'Diagnostic recording must be on by default on a fresh install');
-  await shell('input', 'tap', String(optional.x), String(optional.y));
-  await waitFor(async () => !(await privacyButton('privacy_diagnostics')).checked, 'turn diagnostics off before entry');
+  assert(optional.enabled && !optional.checked, 'Diagnostic recording must be off on a fresh install');
   const button = await privacyButton('privacy_accept');
   info.launchStartedAt = Date.now();
   await shell('input', 'tap', String(button.x), String(button.y));
   await waitFor(() => activeActivity('LearningActivity'), 'first acknowledged learning launch');
-  info.checks.push('The initial viewport states the offline policy and shows the enabled diagnostic switch; exit leaves the disclosure pending and diagnostics can be turned off before entry');
+  info.checks.push('The initial viewport states the offline policy and shows the default-off diagnostics checkbox; exit leaves the disclosure pending');
 }
 
 async function returnFromPrivacy(info, language) {

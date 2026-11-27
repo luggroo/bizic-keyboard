@@ -1191,16 +1191,17 @@ public final class KeyboardTest extends Instrumentation {
     }
 
     private void testCrashRecordingDefault() {
-        stage("Local diagnostic operation recording starts enabled and a saved opt-out persists");
+        stage("Local diagnostic operation recording starts disabled and a saved opt-in persists");
         openKeyboardSettings();
-        String caption = englishSettings() ? "Record keyboard actions" : "记录键盘操作";
-        assertSettingChecked(caption, true);
-        launcherControl(caption, false, true);
+        String caption = englishSettings() ? "Attach keyboard actions" : "附带键盘操作";
         assertSettingChecked(caption, false);
-        launcherControl(englishSettings() ? "Password, number, email and URL fields" : "不会记录密码框、数字输入框", true, false);
+        launcherControl(caption, false, true);
+        assertSettingChecked(caption, true);
+        launcherControl(englishSettings() ? "Android field flags" : "输入框的系统标记", true, false);
         returnFromKeyboardSettings();
         openKeyboardSettings();
-        assertSettingChecked(caption, false);
+        assertSettingChecked(caption, true);
+        launcherControl(caption, false, true);
         returnFromKeyboardSettings();
     }
 

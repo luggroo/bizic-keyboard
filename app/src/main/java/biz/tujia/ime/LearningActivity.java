@@ -40,7 +40,7 @@ public final class LearningActivity extends Activity {
     private static final String DISCLOSURE_OPEN = "learning.disclosure.open";
     private static final String HISTORY = "learning.web.history";
     private static final String READER_PREFERENCES = "reader_disclosure";
-    private static final String ACKNOWLEDGED = "acknowledged_2026_11_26";
+    private static final String ACKNOWLEDGED = "acknowledged_diagnostics_opt_in";
     private AlertDialog externalDialog;
     private FrameLayout frame;
     private WebView browser;

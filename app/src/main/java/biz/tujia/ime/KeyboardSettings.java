@@ -8,11 +8,11 @@ final class KeyboardSettings {
     private static final String TONE_MARKS = "spelling_tone_marks";
     private static final String IPA_DIALECTS = "ipa_completion_dialects";
 
-    private static final String CRASH_RECORDING = "crash_recording";
+    private static final String CRASH_RECORDING = "attach_keyboard_actions";
 
     static boolean crashRecording(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
-        return prefs.getBoolean(CRASH_RECORDING, prefs.getBoolean("trial_recording", true));
+        return prefs.getBoolean(CRASH_RECORDING, false);
     }
 
     static void setCrashRecording(Context context, boolean enabled) {

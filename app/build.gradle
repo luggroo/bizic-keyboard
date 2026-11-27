@@ -1,3 +1,6 @@
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
+
 plugins {
     id 'com.android.application'
 }
@@ -14,8 +17,8 @@ android {
         minSdk 24
         targetSdk 35
         buildConfigField 'boolean', 'KEYBOARD_ONLY', keyboardOnly.toString()
-        versionCode 16
-        versionName '0.4.1'
+        versionCode 17
+        versionName '0.4.2'
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
         }
@@ -38,7 +41,8 @@ android {
         typingOnly { dimension 'input' }
     }
     sourceSets {
-        main.assets.srcDirs = ['../shared/bundle/Assets', 'src/main/assets']
+        main.assets.srcDirs = []
+        handwriting.assets.srcDirs = []
         if (keyboardOnly) main.manifest.srcFile 'src/keyboardOnly/AndroidManifest.xml'
     }
     compileOptions {
@@ -48,8 +52,14 @@ android {
 }
 
 androidComponents {
-    onVariants(selector().withFlavor(new kotlin.Pair('input', 'typingOnly'))) { variant ->
-        variant.androidResources.ignoreAssetsPatterns.addAll('ismantic', 'handwriting', 'handwriting-readings.tsv', 'handwriting-tones.tsv')
+    onVariants(selector().all()) { variant ->
+        def typingOnly = variant.productFlavors.any { it.second == 'typingOnly' }
+        def task = tasks.register("prepare${variant.name.capitalize()}KeyboardAssets", PrepareKeyboardAssets) {
+            script.set(rootProject.layout.projectDirectory.file('tools/prepare_keyboard_assets.py'))
+            sourceFiles.from(rootProject.file('shared/bundle/Assets'), file('src/main/assets'), file('src/handwriting/assets'))
+            typing.set(typingOnly)
+        }
+        variant.sources.assets.addGeneratedSourceDirectory(task, { it.outputDirectory })
     }
 }
 
@@ -58,3 +68,28 @@ dependencies {
 }
 
 if (!keyboardOnly) apply from: rootProject.file('gradle/learning-assets.gradle')
+
+
+abstract class PrepareKeyboardAssets extends DefaultTask {
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE)
+    abstract RegularFileProperty getScript()
+
+    @InputFiles @PathSensitive(PathSensitivity.RELATIVE)
+    abstract ConfigurableFileCollection getSourceFiles()
+
+    @Input
+    abstract Property<Boolean> getTyping()
+
+    @OutputDirectory
+    abstract DirectoryProperty getOutputDirectory()
+
+    @Inject
+    abstract ExecOperations getExecOperations()
+
+    @TaskAction
+    void prepare() {
+        def args = ['python3', script.get().asFile, outputDirectory.get().asFile]
+        if (typing.get()) args.add('--typing-only')
+        execOperations.exec { commandLine args }
+    }
+}

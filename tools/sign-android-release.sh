@@ -18,7 +18,7 @@ mkdir "$work/output"
 
 sign() {
   local source="$1" name="$2" output actual
-  output="$work/output/土家语输入法_${name}_v${VERSION}.apk"
+  output="$work/output/bizic-cipu-${VERSION}-${name}.apk"
   "$tools/zipalign" -c -P 16 4 "$source"
   "$tools/apksigner" sign --ks "$work/store" --ks-key-alias "$ANDROID_KEY_ALIAS" \
     --ks-pass env:ANDROID_STORE_PASSWORD --key-pass env:ANDROID_KEY_PASSWORD \
@@ -29,10 +29,10 @@ sign() {
     return 1
   fi
 }
-sign unsigned/academy-handwriting.apk 学堂_有手写
-sign unsigned/academy-typing-only.apk 学堂_无手写
-sign unsigned/keyboard-handwriting.apk 纯输入法_有手写
-sign unsigned/keyboard-typing-only.apk 纯输入法_无手写
+sign unsigned/academy-handwriting.apk academy-handwriting
+sign unsigned/academy-typing-only.apk academy-typing
+sign unsigned/keyboard-handwriting.apk keyboard-handwriting
+sign unsigned/keyboard-typing-only.apk keyboard-typing
 (cd "$work/output" && sha256sum -- *.apk > SHA256SUMS)
 mkdir signed
 cp "$work/output/"* signed/

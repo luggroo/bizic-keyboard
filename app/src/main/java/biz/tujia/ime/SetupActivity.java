@@ -72,7 +72,7 @@ public final class SetupActivity extends Activity {
         if (dark) setTheme(R.style.DarkSetupTheme);
         super.onCreate(state);
         if (BuildConfig.KEYBOARD_ONLY && !getSharedPreferences("reader_disclosure", MODE_PRIVATE)
-                .getBoolean("acknowledged_2026_11_26", false)) {
+                .getBoolean("acknowledged_diagnostics_opt_in", false)) {
             waitingForDisclosure = true;
             if (state == null) startActivityForResult(new Intent(this, PrivacyActivity.class)
                     .putExtra(PrivacyActivity.FIRST_LAUNCH, true), FIRST_DISCLOSURE);
@@ -348,7 +348,7 @@ public final class SetupActivity extends Activity {
         if (request != FIRST_DISCLOSURE || !waitingForDisclosure) return;
         if (result != RESULT_OK) { finish(); return; }
         getSharedPreferences("reader_disclosure", MODE_PRIVATE).edit()
-                .putBoolean("acknowledged_2026_11_26", true).apply();
+                .putBoolean("acknowledged_diagnostics_opt_in", true).apply();
         recreate();
     }
 
@@ -380,7 +380,9 @@ public final class SetupActivity extends Activity {
         if (Handwriting.ENABLED) {
             dialog.setTitle(strings.getString(R.string.setup_lexicon_hand_title));
             source += "\n\n" + strings.getString(R.string.setup_handwriting_source);
-            dialog.setNeutralButton(strings.getString(R.string.setup_handwriting_license), (p,b) -> showAsset(strings.getString(R.string.setup_handwriting_license_title), "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT"));
+            dialog.setNeutralButton(strings.getString(R.string.setup_handwriting_license), (p,b) -> showAsset(strings.getString(R.string.setup_handwriting_license_title), "handwriting/NOTICE.txt", "handwriting/ARPHICPL.TXT",
+                    "ismantic/NOTICE.txt", "ismantic/LICENSE.txt", "licenses/onnxruntime-LICENSE.txt",
+                    "licenses/onnxruntime-ThirdPartyNotices.txt"));
         } else {
             dialog.setTitle(strings.getString(R.string.setup_lexicon_title));
         }

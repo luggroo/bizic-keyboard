@@ -19,9 +19,9 @@
   <string name="setup_clear">清除</string>
   <string name="setup_personal_cleared">已清除个人词库</string>
   <string name="setup_diagnostics_title">隐私与崩溃排查</string>
-  <string name="setup_record_actions">记录键盘操作</string>
-  <string name="setup_sensitive_fields">不会记录密码框、数字输入框、邮箱地址栏、网址栏和应用标记为私密的输入框里的内容。</string>
-  <string name="setup_diagnostics_detail">勾选后，键盘在普通输入框里只保留最近 %1$d 次操作，包括按键和选词。崩溃日志保存在本机，你可以先预览，再决定是否发送。你可以随时取消勾选。</string>
+  <string name="setup_record_actions">附带键盘操作</string>
+  <string name="setup_sensitive_fields">键盘按输入框的系统标记跳过密码、数字、电话、邮箱、网址及私密字段。普通文本框里的同类内容仍可能被记录。</string>
+  <string name="setup_diagnostics_detail">基础崩溃日志保存在本机。主动开启后，日志可能附上普通文本框最近 %1$d 次键盘操作。可查看、删除、复制日志，或选择通过邮件应用分享。</string>
   <string name="setup_view_crash">查看上次崩溃日志</string>
   <string name="setup_version_sources_hand">版本、词库与手写字形</string>
   <string name="setup_version_sources">版本与词库来源</string>
@@ -49,8 +49,8 @@
   <string name="setup_lexicon_source">北部土家语词条来自 tujia.biz 北部词典及补充语料。</string>
   <string name="setup_lexicon_hand_title">词库与手写字形</string>
   <string name="setup_handwriting_source">手写字形采用 Hanzi Writer Data 笔画资料，识别在设备上运行。</string>
-  <string name="setup_handwriting_license">字形授权</string>
-  <string name="setup_handwriting_license_title">手写字形授权</string>
+  <string name="setup_handwriting_license">手写与开源许可</string>
+  <string name="setup_handwriting_license_title">手写与开源许可</string>
   <string name="setup_lexicon_title">词库</string>
   <string name="setup_dialect_license">方言字音授权</string>
   <string name="setup_license_error">无法读取授权文件。</string>

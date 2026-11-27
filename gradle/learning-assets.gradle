@@ -23,6 +23,9 @@ abstract class PrepareLearningAssets extends DefaultTask {
     @InputFile @PathSensitive(PathSensitivity.NONE)
     abstract RegularFileProperty getNorthern()
 
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE)
+    abstract RegularFileProperty getKeyboardPreparer()
+
     @OutputDirectory
     abstract DirectoryProperty getOutputDirectory()
 
@@ -45,6 +48,7 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
         snapshot.set(rootProject.layout.projectDirectory.file('learning-content/learning.zip'))
         pin.set(rootProject.layout.projectDirectory.file('learning-content/learning.sha256'))
         preparer.set(rootProject.layout.projectDirectory.file('tools/prepare_learning_assets.py'))
+        keyboardPreparer.set(rootProject.layout.projectDirectory.file('tools/prepare_keyboard_assets.py'))
         indexer.set(rootProject.layout.projectDirectory.file('tools/ime_dictionary_index.py'))
         branding.set(rootProject.layout.projectDirectory.dir('artwork/learning-brand'))
         words.set(rootProject.layout.projectDirectory.file('shared/bundle/Assets/words.tsv'))

@@ -17,9 +17,19 @@ for old_apk in old/*.apk; do
     adb shell ime enable "$ime"
     adb shell ime set "$ime"
     adb install -r "$new_apk"
-    current=$(adb shell settings get secure default_input_method | tr -d '\r')
-    [[ "$current" == "$ime" || "$current" == "$pkg/$pkg.TujiaIme" ]]
-    adb shell dumpsys package "$pkg" | grep -q 'versionCode=16 '
-    adb shell ime list -s | tr -d '\r' | grep -Fq "$pkg/"
+    for ((i=0; i<30; i++)); do
+      current=$(adb shell settings get secure default_input_method | tr -d '\r')
+      enabled=$(adb shell ime list -s | tr -d '\r')
+      if [[ ( "$current" == "$ime" || "$current" == "$pkg/$pkg.TujiaIme" ) && "$enabled" == *"$pkg/"* ]]; then
+        break
+      fi
+      sleep 1
+    done
+    if (( i == 30 )); then
+      echo "IME after upgrade: selected=$current enabled=$enabled" >&2
+      exit 1
+    fi
+    package_info=$(adb shell dumpsys package "$pkg")
+    grep -q 'versionCode=17 ' <<< "$package_info"
   done
 done

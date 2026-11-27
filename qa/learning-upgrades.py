@@ -126,7 +126,7 @@ def main():
                     check_state(expected)
                     if args.fixture:
                         runtime = shell('am', 'instrument', '-w', '-r', '-e', 'expectedRecording',
-                                        str(recording).lower(), fixture_package + '/.PrivateStorageTest')
+                                        "false", fixture_package + '/.PrivateStorageTest')
                         if 'INSTRUMENTATION_RESULT: outcome=PASS' not in runtime.splitlines():
                             raise AssertionError(runtime)
                     print(f'PASS {old.name} → {new.name}  •  {key or "unset"}='

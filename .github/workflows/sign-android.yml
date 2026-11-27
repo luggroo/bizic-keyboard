@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[release v0.4.1]')) || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[android candidate v0.4.2]')) || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.metadata.outputs.version }}
@@ -101,13 +101,13 @@ jobs:
           VERSION: ${{ needs.build.outputs.version }}
         run: |
           set -euo pipefail
-          python3 qa/verify-apk.py "signed/土家语输入法_学堂_有手写_v$VERSION.apk"
-          python3 qa/verify-apk.py --typing-only "signed/土家语输入法_学堂_无手写_v$VERSION.apk"
-          python3 qa/verify-apk.py --keyboard-only "signed/土家语输入法_纯输入法_有手写_v$VERSION.apk"
-          python3 qa/verify-apk.py --keyboard-only --typing-only "signed/土家语输入法_纯输入法_无手写_v$VERSION.apk"
+          python3 qa/verify-apk.py "signed/bizic-cipu-$VERSION-academy-handwriting.apk"
+          python3 qa/verify-apk.py --typing-only "signed/bizic-cipu-$VERSION-academy-typing.apk"
+          python3 qa/verify-apk.py --keyboard-only "signed/bizic-cipu-$VERSION-keyboard-handwriting.apk"
+          python3 qa/verify-apk.py --keyboard-only --typing-only "signed/bizic-cipu-$VERSION-keyboard-typing.apk"
       - uses: actions/upload-artifact@v4
         with:
-          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          name: bizic-cipu-v${{ needs.build.outputs.version }}
           path: signed/
           if-no-files-found: error
 
@@ -124,7 +124,7 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
-          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          name: bizic-cipu-v${{ needs.build.outputs.version }}
           path: signed
       - name: Download and verify the public 0.3.6 APKs
         env:
@@ -151,7 +151,7 @@ jobs:
           script: bash qa/verify-release-upgrade.sh
 
   publish:
-    if: github.ref == 'refs/heads/main' && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[release v0.4.1]') && needs.build.outputs.version == '0.4.1'))
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.publish
     needs: [build, sign, upgrade]
     runs-on: ubuntu-24.04
     permissions:
@@ -162,7 +162,7 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
-          name: 土家语输入法_v${{ needs.build.outputs.version }}
+          name: bizic-cipu-v${{ needs.build.outputs.version }}
           path: signed
       - name: Publish verified release
         env:
@@ -171,18 +171,12 @@ jobs:
         run: |
           set -euo pipefail
           (cd signed && sha256sum -c SHA256SUMS)
-          mkdir release
-          cp "signed/土家语输入法_学堂_有手写_v$VERSION.apk" "release/bizic-academy-$VERSION.apk"
-          cp "signed/土家语输入法_学堂_无手写_v$VERSION.apk" "release/bizic-academy-$VERSION-no-handwriting.apk"
-          cp "signed/土家语输入法_纯输入法_有手写_v$VERSION.apk" "release/tujia-keyboard-$VERSION.apk"
-          cp "signed/土家语输入法_纯输入法_无手写_v$VERSION.apk" "release/tujia-keyboard-$VERSION-no-handwriting.apk"
-          (cd release && sha256sum -- *.apk > SHA256SUMS)
           tag="v$VERSION"
           if ! gh release view "$tag" >/dev/null 2>&1; then
             gh release create "$tag" --draft --target "$GITHUB_SHA" \
-              --title "毕兹学堂与土家语输入法 $VERSION" --notes-file "docs/release-$VERSION.md"
+              --title "毕兹辞谱 $VERSION" --notes-file "docs/release-$VERSION.md"
           fi
           test "$(gh release view "$tag" --json isDraft --jq .isDraft)" = true
           test "$(gh release view "$tag" --json targetCommitish --jq .targetCommitish)" = "$GITHUB_SHA"
-          gh release upload "$tag" release/*.apk release/SHA256SUMS --clobber
+          gh release upload "$tag" signed/*.apk signed/SHA256SUMS --clobber
           gh release edit "$tag" --draft=false

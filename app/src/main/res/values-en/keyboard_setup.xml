@@ -19,9 +19,9 @@
   <string name="setup_clear">Clear</string>
   <string name="setup_personal_cleared">Personal dictionary cleared</string>
   <string name="setup_diagnostics_title">Privacy and crash reports</string>
-  <string name="setup_record_actions">Record keyboard actions</string>
-  <string name="setup_sensitive_fields">Password, number, email and URL fields, and fields marked private, are excluded.</string>
-  <string name="setup_diagnostics_detail">When enabled, the keyboard keeps the last %1$d actions in ordinary text fields, including keystrokes and candidate choices. Crash reports stay on this device. You can review them before sharing and turn recording off at any time.</string>
+  <string name="setup_record_actions">Attach keyboard actions</string>
+  <string name="setup_sensitive_fields">The keyboard skips sensitive fields based on Android field flags. Similar content in ordinary fields may still be recorded.</string>
+  <string name="setup_diagnostics_detail">Basic crash reports stay on this device. If enabled, a report may include the last %1$d keyboard actions in ordinary fields. You can review, delete, copy or share a report via your email app.</string>
   <string name="setup_view_crash">View last crash report</string>
   <string name="setup_version_sources_hand">Version, lexicon and handwriting</string>
   <string name="setup_version_sources">Version and lexicon sources</string>
@@ -49,8 +49,8 @@
   <string name="setup_lexicon_source">Northern Tujia entries come from the tujia.biz dictionary and supplementary corpus.</string>
   <string name="setup_lexicon_hand_title">Lexicon and handwriting data</string>
   <string name="setup_handwriting_source">Handwriting uses Hanzi Writer Data strokes. Recognition runs on this device.</string>
-  <string name="setup_handwriting_license">Character data licence</string>
-  <string name="setup_handwriting_license_title">Handwriting data licence</string>
+  <string name="setup_handwriting_license">Handwriting licences</string>
+  <string name="setup_handwriting_license_title">Handwriting and open-source licences</string>
   <string name="setup_lexicon_title">Lexicon</string>
   <string name="setup_dialect_license">Dialect reading licence</string>
   <string name="setup_license_error">The licence file could not be opened.</string>

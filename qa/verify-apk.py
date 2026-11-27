@@ -11,8 +11,8 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
-from prepare_learning_assets import PUBLICATION_TEXT, read_android_snapshot
-from ime_dictionary_index import index_assets
+from prepare_learning_assets import BRANDING, PUBLICATION_TEXT, android_ime_index, read_android_snapshot
+from prepare_keyboard_assets import asset_files
 
 
 NETWORK_PERMISSIONS = {
@@ -64,19 +64,12 @@ def verify_component_icons(apk, aapt, manifest, keyboard_only=False):
 
 
 def verify(apk, typing_only, keyboard_only=False):
-    assets = ROOT / "shared/bundle/Assets"
-    expected = {path.relative_to(assets).as_posix(): path for path in assets.rglob("*") if path.is_file()}
-    android_assets = ROOT / "app/src/main/assets"
-    expected.update({p.relative_to(android_assets).as_posix(): p for p in android_assets.rglob("*") if p.is_file()})
-    if typing_only:
-        expected = {name: path for name, path in expected.items()
-                    if not name.startswith(("handwriting/", "ismantic/"))
-                    and name not in ("handwriting-readings.tsv", "handwriting-tones.tsv")}
+    expected, _ = asset_files(typing_only)
     learning = {}
     if not keyboard_only:
-        snapshot = read_android_snapshot()
+        snapshot = read_android_snapshot(branding=BRANDING)
         learning = {"learning/" + name: data for name, data in snapshot.items()}
-        learning.update(index_assets(snapshot, assets / "words.tsv", assets / "northern-words.tsv"))
+        learning.update(android_ime_index(snapshot, expected))
     libraries = ["libtujia_core.so"]
     if not typing_only:
         libraries.extend(["libonnxruntime.so", "libonnxruntime4j_jni.so"])
@@ -91,8 +84,8 @@ def verify(apk, typing_only, keyboard_only=False):
         required = set(expected) | set(learning)
         if found != required:
             raise ValueError(f"Unexpected asset inventory: {sorted(found ^ required)}")
-        for name, source in expected.items():
-            if archive.read("assets/" + name) != source.read_bytes():
+        for name, data in expected.items():
+            if archive.read("assets/" + name) != data:
                 raise ValueError(f"Packaged asset differs from source: {name}")
         for name, data in learning.items():
             if archive.read("assets/" + name) != data:

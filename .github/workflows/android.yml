@@ -28,6 +28,7 @@ jobs:
           javac -cp "$android_jar" -d "$RUNNER_TEMP" app/src/main/java/biz/tujia/ime/LearningOrigin.java tests/LearningOriginTest.java
           java -cp "$RUNNER_TEMP:$android_jar" biz.tujia.ime.LearningOriginTest
           python3 qa/test_learning_snapshot.py
+          python3 qa/test_keyboard_assets.py
       - name: Test shared input engine
         run: ./tools/test-core.sh
       - name: Test offline handwriting model

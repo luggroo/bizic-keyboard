@@ -11,6 +11,7 @@ import tempfile
 from pathlib import Path
 from zipfile import ZipFile
 from ime_dictionary_index import index_assets
+from prepare_keyboard_assets import WORD_FILES, project
 
 CONTENT = Path(__file__).resolve().parents[1] / "learning-content"
 ARCHIVE = CONTENT / "learning.zip"
@@ -95,6 +96,21 @@ def read_android_snapshot(archive=ARCHIVE, pin=PIN, branding=None):
     files[CATALOGUE] = gzip.compress(
         json.dumps(catalogue, ensure_ascii=False, separators=(",", ":")).encode(), mtime=0
     )
+    for name in list(files):
+        if re.fullmatch(r"translation(?:-en)?\.html|translation-(?:guide|gloss)\.(?:js|css)", name):
+            del files[name]
+        elif name.endswith((".html", ".js", ".css")):
+            text = files[name].decode().replace("毕兹学堂", "毕兹辞谱").replace("Bizic Academy", "Bizic Cipu")
+            if name.endswith(".html"):
+                text = re.sub(r'<a\b[^>]*data-academy-translation[^>]*>.*?</a>', "", text, flags=re.S)
+            if name == "app.js":
+                text = re.sub(r'<section class="translation-callout"[^>]*>.*?</section>', "", text, flags=re.S)
+            if name == "academy.js":
+                text = re.sub(r"const guide=english\(\)\?'/translation-en\.html'.*?;\}\);", "", text)
+            files[name] = text.encode()
+    if any(re.search(rb"href=[\"'](?:/)?translation(?:-en)?\.html|(?:https?://)(?:www\.)?(?:doubao\.com|kimi\.com|claude\.ai|chatgpt\.com|dola\.com)",
+                     data, re.IGNORECASE) for name, data in files.items() if name.endswith((".html", ".js"))):
+        raise ValueError("External AI guide or link in Android reading assets")
     # The shared frontend also runs on the website, where publication search is available.
     for name in ("app.js", "ui-core-translations.js", "ui-translations.js"):
         if name not in files:
@@ -133,6 +149,14 @@ def read_android_snapshot(archive=ARCHIVE, pin=PIN, branding=None):
     return files
 
 
+def android_ime_index(files, vocabulary):
+    with tempfile.TemporaryDirectory() as temp:
+        paths = [Path(temp) / name for name in WORD_FILES]
+        for path in paths:
+            path.write_bytes(vocabulary[path.name])
+        return index_assets(files, *paths)
+
+
 def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None, branding=None):
     files = read_android_snapshot(archive, pin, branding)
     output.mkdir(parents=True, exist_ok=True)
@@ -140,7 +164,8 @@ def prepare(output, archive=ARCHIVE, pin=PIN, vocabulary=None, branding=None):
     with tempfile.TemporaryDirectory(dir=output) as temp:
         staged = Path(temp) / "learning"
         if vocabulary:
-            for path, data in index_assets(files, *vocabulary).items():
+            filtered, _, _ = project({name: path.read_text() for name, path in zip(WORD_FILES, vocabulary)})
+            for path, data in android_ime_index(files, filtered).items():
                 target = Path(temp) / path
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(data)

@@ -1,12 +1,12 @@
 <resources>
     <!-- Shared by the default and explicit zh resource configurations. -->
     <string name="zh_privacy_title" translatable="false">隐私说明</string>
-    <string name="zh_privacy_intro" translatable="false"><b>本应用不联网。</b>查词和键盘输入均在本机处理。键盘操作诊断默认开启，可能记录普通输入框的按键和选词，可随时关闭。打开外部链接会跳转浏览器，浏览器可能联网。</string>
+    <string name="zh_privacy_intro" translatable="false"><b>本应用不联网。</b>输入和诊断在本机处理。附带键盘操作默认关闭。</string>
     <string name="zh_privacy_local_title" translatable="false">输入和个人词库</string>
     <string name="zh_privacy_local" translatable="false">键盘在本机处理按键、候选和联想。个人词库学习默认开启，可在输入法设置中关闭学习或清空个人词库。学习页面无法读取其他应用中的键盘输入或你的个人词库。</string>
     <string name="zh_privacy_diagnostic_title" translatable="false">本机崩溃诊断</string>
-    <string name="zh_privacy_diagnostic" translatable="false">键盘崩溃时，本机会保留最近一次的崩溃时间、应用版本、Android 版本、线程名、错误类型和调用栈。首次安装默认附上键盘操作。你可以在进入学堂前取消勾选，也可稍后在输入法设置中关闭。开启后，崩溃报告可包含普通文本框最近 %1$d 次按键和选词。密码、数字、电话、邮箱、网址以及标记为私密的输入框会被略过。你可以在输入法设置中查看或删除报告。</string>
-    <string name="zh_privacy_record" translatable="false">在崩溃报告中附上最近的键盘操作</string>
+    <string name="zh_privacy_diagnostic" translatable="false">键盘崩溃时，本机会保留一份基础日志，包括时间、应用和 Android 版本、线程名、错误类型及调用栈。只有你主动开启附带键盘操作，日志才可能包含普通文本框最近 %1$d 次按键和选词。应用按输入框的系统标记跳过密码、数字、电话、邮箱、网址和标记为私密的字段。普通文本框中的同类内容仍可能被记录。可在设置中查看或删除日志。</string>
+    <string name="zh_privacy_record" translatable="false">附带键盘操作</string>
     <string name="zh_privacy_external_title" translatable="false">外部链接和反馈</string>
     <string name="zh_privacy_external" translatable="false">应用不申请联网权限，不会上传输入、词库或诊断记录。点按外部链接后，你先确认网址，再由浏览器打开。只有你主动复制报告或通过邮件应用发送反馈，内容才会交给其他应用。</string>
     <string name="zh_privacy_operator" translatable="false">开发者　周煜楼\n联系邮箱　yulouzhou+bizic@qq.com\n更新日期　2026年11月26日</string>
@@ -14,7 +14,7 @@
     <string name="zh_privacy_leave" translatable="false">退出</string>
     <string name="zh_privacy_save" translatable="false">保存并返回</string>
     <string name="zh_external_link_title" translatable="false">在浏览器中打开？</string>
-    <string name="zh_external_link_message" translatable="false">将离开毕兹学堂，由浏览器访问以下网址。\n\n%1$s</string>
+    <string name="zh_external_link_message" translatable="false">将离开毕兹辞谱，由浏览器访问以下网址。\n\n%1$s</string>
     <string name="zh_external_link_open" translatable="false">打开浏览器</string>
     <string name="zh_ime_settings_unavailable" translatable="false">请打开 Android 系统设置，在键盘管理中启用土家语输入法。</string>
     <string name="zh_reader_unavailable" translatable="false">无法打开本机资料。请重试，或检查系统的 Android WebView 是否可用。</string>
