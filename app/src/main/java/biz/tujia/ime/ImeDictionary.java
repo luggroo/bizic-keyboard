@@ -53,11 +53,11 @@ final class ImeDictionary {
     }
 
     static final class Link {
-        final String keyboardId, canonicalId, meaning, reference, requiredIds;
+        final String keyboardId, canonicalId, meaning, reference, requiredIds, witnessIds;
         final int batch, offset, size, witness;
 
         Link(String keyboardId, String canonicalId, String meaning, String reference,
-             int batch, int offset, int size, int witness, String requiredIds) {
+             int batch, int offset, int size, int witness, String requiredIds, String witnessIds) {
             this.keyboardId = keyboardId;
             this.canonicalId = canonicalId;
             this.meaning = meaning;
@@ -67,6 +67,11 @@ final class ImeDictionary {
             this.size = size;
             this.witness = witness;
             this.requiredIds = requiredIds;
+            this.witnessIds = witnessIds;
+        }
+
+        Link wholeEntry() {
+            return new Link(keyboardId, canonicalId, meaning, "", batch, offset, size, 0, "", "");
         }
     }
 
@@ -80,13 +85,14 @@ final class ImeDictionary {
             Link link = find(key, item.getValue());
             if (link != null) {
                 explicit.add(link);
-                present.add(link.canonicalId);
+                present.add(link.keyboardId);
             }
         }
         Map<String, Link> links = new LinkedHashMap<>();
         for (Link link : explicit) {
-            if (HanChoice.identitiesPresent(link.requiredIds, present))
-                links.putIfAbsent(link.canonicalId + "\t" + link.witness, link);
+            if (!HanChoice.identitiesPresent(link.requiredIds, present)) continue;
+            Link known = HanChoice.identitiesPresent(link.witnessIds, present) ? link : link.wholeEntry();
+            links.putIfAbsent(known.canonicalId + "\t" + known.witness, known);
         }
         return new ArrayList<>(links.values());
     }
@@ -100,12 +106,12 @@ final class ImeDictionary {
             for (String line; (line = input.readLine()) != null;) {
                 if (!line.startsWith(prefix)) continue;
                 String[] row = line.split("\t", -1);
-                if (row.length != 9) return null;
+                if (row.length != 10) return null;
                 int batch = Integer.parseInt(row[2]), offset = Integer.parseInt(row[3]), size = Integer.parseInt(row[4]);
-                if (batch < 0 || offset < 0 || size < 1 || size > MAX_ENTRY) return null;
-                String source = titles().getJSONObject("sources").optString(row[6]);
-                return new Link(key, row[1], meaning, joined(" · ", source, row[7]),
-                        batch, offset, size, Integer.parseInt(row[5]), row[8]);
+                int witness = Integer.parseInt(row[5]);
+                if (batch < 0 || offset < 0 || size < 1 || size > MAX_ENTRY || witness < 0) return null;
+                String reference = witness == 0 ? "" : joined(" · ", titles().getJSONObject("sources").optString(row[6]), row[7]);
+                return new Link(key, row[1], meaning, reference, batch, offset, size, witness, row[8], row[9]);
             }
         }
         return null;

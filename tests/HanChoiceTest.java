@@ -98,6 +98,14 @@ public final class HanChoiceTest {
             expect("乌鸦", ids.get("w688"));
             if (HanChoice.identitiesPresent("w688 yubao-60823-v-0229", ids.keySet()))
                 throw new AssertionError("夹 retained only the representative for the crow group");
+            ids.clear();
+            group(full.lookup("go", CandidateEngine.Mode.HAN), "过").primary.articles(ids);
+            expect("讨", ids.get("w802"));
+            if (HanChoice.identitiesPresent("stedt-rn-427219 w802", ids.keySet()))
+                throw new AssertionError("The separate STEDT witness was not retained for 讨");
+            ids.put("stedt-rn-427219", "讨");
+            if (!HanChoice.identitiesPresent("stedt-rn-427219 w802", ids.keySet()))
+                throw new AssertionError("Explicitly retained witnesses should remain selectable");
             CandidateEngine.Candidate meal = full.lookup("ngafyergaf", CandidateEngine.Mode.PINYIN).get(0);
             expect("w1585 w2548 w684", meal.lexemeIds);
             HanChoice.Action sentence = new HanChoice.Action(meal.consumed, meal);

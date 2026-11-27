@@ -150,8 +150,22 @@ def index_assets(files, words, northern):
         locator = " ".join(locator.split())
         # A representative can only appear if the other identities in this
         # exact group, not merely an unrelated candidate, survived selection.
-        required = " ".join(sorted(groups[group])) if len(groups[group]) > 1 else ""
-        buckets[bucket].append(f"{key}\t{canonical_id}\t{batch}\t{offset}\t{length}\t{number}\t{source}\t{locator}\t{required}\n")
+        members = group_members[group]
+        native_ids = " ".join(sorted(members))
+        required = native_ids if len(groups[group]) > 1 else ""
+        # Even a single article can contain distinct documentary witnesses to the
+        # same form and gloss. Only the raw IDs from this group can distinguish them.
+        witness_required = ""
+        if number and len(members) > 1:
+            same_article = {member for member in members if targets.get(member) == canonical_id}
+            if len(same_article) > 1:
+                if all(witnesses.get((canonical_id, member)) for member in same_article):
+                    witness_required = " ".join(sorted(same_article))
+                else:
+                    # A keyboard form alias may identify the parent without identifying a witness.
+                    # Even its presence cannot certify the documentary basis of the merged reading.
+                    number, source, locator = 0, "", ""
+        buckets[bucket].append(f"{key}\t{canonical_id}\t{batch}\t{offset}\t{length}\t{number}\t{source}\t{locator}\t{required}\t{witness_required}\n")
 
     assets = {f"ime-dictionary/ids-{number}.tsv": "".join(lines).encode("utf-8")
               for number, lines in enumerate(buckets)}

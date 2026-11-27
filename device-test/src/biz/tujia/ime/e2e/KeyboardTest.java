@@ -112,6 +112,7 @@ public final class KeyboardTest extends Instrumentation {
             if (suite.equals("dictionary-detail") || suite.equals("dictionary-large")) testDictionaryDetail();
             if (suite.equals("dictionary-hand")) testHandDictionaryDetail();
             if (suite.equals("dictionary-open")) testOpenDictionary();
+            if (suite.equals("dictionary-witness")) testDictionaryWitness();
             if (suite.equals("dictionary-fallback")) testMissingDictionaryDetail();
             if (suite.equals("ipa")) {
                 testIpaSettings();
@@ -1886,12 +1887,15 @@ public final class KeyboardTest extends Instrumentation {
         captureFrame(name);
     }
 
-    private void pressDictionaryChoice(String gloss) {
+    private void pressDictionaryChoice(String gloss) { pressDictionaryChoice(gloss, false); }
+
+    private void pressDictionaryChoice(String gloss, boolean wholeEntry) {
         waitForNode("选择学堂词条", false);
         for (AccessibilityNodeInfo node : imeRoot.findAccessibilityNodeInfosByText(gloss)) {
             try {
-                if (!node.isClickable() || node.getContentDescription() == null
-                        || !node.getContentDescription().toString().startsWith(gloss + "，")) continue;
+                if (!node.isClickable() || node.getContentDescription() == null) continue;
+                String label = node.getContentDescription().toString();
+                if (wholeEntry ? !label.equals(gloss) : !label.startsWith(gloss + "，")) continue;
                 node.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_ON_SCREEN.getId());
                 SystemClock.sleep(250);
                 if (node.refresh() && node.isVisibleToUser() && node.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
@@ -1901,6 +1905,60 @@ public final class KeyboardTest extends Instrumentation {
             } finally { node.recycle(); }
         }
         throw new AssertionError("Missing dictionary option " + gloss + ": " + visibleControls());
+    }
+
+    private void testDictionaryWitness() throws Exception {
+        newPredictionEditor();
+        press("谐音字");
+        type("go");
+        openReader(visibleForm("过"));
+        press("查看学堂词条");
+        captureDictionaryFrame("dictionary-witness-choice.png", "仅显示可确认的词条");
+        pressDictionaryChoice("讨", true);
+        String entry = requireArticleText("原记音　guo2", "to beg");
+        if (entry.contains("所选文献见证")) throw new AssertionError("A merged reading claimed a particular source: " + entry);
+        captureDictionaryFrame("dictionary-witness-entry.png", "查看读音");
+        press("查看读音");
+        press("查看出处");
+        requireArticleText("词条 802", "STEDT rn 427219");
+        expectText(host.first, "");
+        press("输入这个候选");
+        expectText(host.first, "过");
+
+        // Supply the two independently visible IDs to the same installed lookup to check the other branch.
+        android.content.Context app = getTargetContext().createPackageContext(IME_PACKAGE,
+                android.content.Context.CONTEXT_INCLUDE_CODE | android.content.Context.CONTEXT_IGNORE_SECURITY);
+        Class<?> type = app.getClassLoader().loadClass("biz.tujia.ime.ImeDictionary");
+        java.lang.reflect.Constructor<?> constructor = type.getDeclaredConstructor(android.content.res.AssetManager.class);
+        constructor.setAccessible(true);
+        Object dictionary = constructor.newInstance(app.getAssets());
+        java.lang.reflect.Method lookup = type.getDeclaredMethod("links", java.util.Map.class);
+        lookup.setAccessible(true);
+        java.util.Map<String, String> ids = new java.util.LinkedHashMap<>();
+        ids.put("w802", "讨");
+        ids.put("xu213-4-5", "过错");
+        if (!wordWitnesses((List<?>)lookup.invoke(dictionary, ids)).equals(java.util.Collections.singletonMap(0, "")))
+            throw new AssertionError("Unrelated word unlocked the withheld witness");
+        ids.put("stedt-rn-427219", "讨");
+        java.util.Map<Integer, String> actual = wordWitnesses((List<?>)lookup.invoke(dictionary, ids));
+        if (actual.size() != 2 || !actual.getOrDefault(1, "").contains("词条 802")
+                || !actual.getOrDefault(6, "").contains("STEDT rn 427219"))
+            throw new AssertionError("Explicit witnesses did not retain both independent sources: " + actual);
+        stage("go / 过 / 讨 opens the full article, hides unproven source identity, and retains both original witnesses in Sources; with both explicit IDs, the installed lookup exposes witness 1 and 6");
+    }
+
+    private java.util.Map<Integer, String> wordWitnesses(List<?> links) throws Exception {
+        java.util.Map<Integer, String> result = new java.util.LinkedHashMap<>();
+        for (Object link : links) {
+            Class<?> type = link.getClass();
+            java.lang.reflect.Field entry = type.getDeclaredField("canonicalId"),
+                    witness = type.getDeclaredField("witness"), reference = type.getDeclaredField("reference");
+            entry.setAccessible(true);
+            witness.setAccessible(true);
+            reference.setAccessible(true);
+            if ("w802".equals(entry.get(link))) result.put(witness.getInt(link), (String)reference.get(link));
+        }
+        return result;
     }
 
     private String requireArticleText(String... terms) {

@@ -11,9 +11,23 @@ from zlib import crc32
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from ime_dictionary_index import index_assets
+from prepare_learning_assets import ARCHIVE, CONTENT, PIN, read_snapshot
 
 
 class ImeDictionaryIndexTest(unittest.TestCase):
+    def test_same_article_different_original_witness(self):
+        words = CONTENT.parent / "shared/bundle/Assets"
+        index = index_assets(read_snapshot(ARCHIVE, PIN), words / "words.tsv", words / "northern-words.tsv")
+        def record(key):
+            bucket = index[f"ime-dictionary/ids-{crc32(key.encode()) % 64}.tsv"].decode()
+            return next(line.split("\t") for line in bucket.splitlines() if line.startswith(key + "\t"))
+        for key, number in [("w802", "1"), ("stedt-rn-427219", "6")]:
+            row = record(key)
+            self.assertEqual((row[1], row[5], row[8]), ("w802", number, ""))
+            self.assertEqual(set(row[9].split()), {"w802", "stedt-rn-427219"})
+        self.assertEqual(set(record("w688")[8].split()), {"w688", "yubao-60757-v-0229", "yubao-60823-v-0229"})
+        self.assertEqual(record("w684")[8:], ["", ""])
+
     def test_reading_identity_and_multibyte_coordinates(self):
         words = [{"id":"w1", "term":"土家话 } ]", "attestations":[{"id":"old-A","source":"book","locator":"词条 3"},
                  {"id":"old-C","source":"book","locator":"1"}, {"id":"old-C","source":"book","locator":"2"}]},
@@ -45,12 +59,13 @@ class ImeDictionaryIndexTest(unittest.TestCase):
                 if not name.endswith(".tsv"):
                     continue
                 for line in content.decode().splitlines():
-                    local, canon, shard, start, length, witness, source, locator, representative = line.split("\t")
+                    local, canon, shard, start, length, witness, source, locator, representative, witness_ids = line.split("\t")
                     self.assertEqual(name, f"ime-dictionary/ids-{crc32(local.encode()) % 64}.tsv")
                     self.assertEqual(shard, "12")
                     self.assertEqual(json.loads(batch[int(start):int(start)+int(length)])["id"], canon)
-                    self.assertEqual((witness, source, locator), ("1","book","词条 3") if local == "old-A" else ("0","",""))
-                    self.assertEqual(representative, "w2 w9" if local in {"old-B","w9"} else "")
+                    self.assertEqual((witness, source, locator), ("0", "", ""))
+                    self.assertEqual(representative, "old-B w9" if local in {"old-B","w9"} else "")
+                    self.assertEqual(witness_ids, "")
                     parsed[local] = canon
             self.assertEqual(parsed, {"w1":"w1","old-A":"w1","old-A@2":"w1","old-B":"w2","old-C":"w1","w9":"w9"})
             catalogue = json.loads(result["ime-dictionary/sources.json"])
