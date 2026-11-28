@@ -1,4 +1,4 @@
-# 毕兹学堂 · 安卓离线学习与土家语输入法
+# 毕兹辞谱 · 安卓离线词典与土家语输入法
 
 打开「毕兹学堂」即可查土家语词形、汉语或英语，也可以切换到「搜全站」查例句和书目。首页提供词典、语法、语料、记音、历史比较和翻译六个入口。词条、南北部参考语法、语料和书目可离线使用。文献原件可通过书目中的外部链接打开。
 
@@ -14,16 +14,20 @@
 
 「学习并使用个人词语」默认开启。键盘在本机保存符合条件的词形及其使用次数。可在输入法设置里关闭学习，或单独清除个人词库。是否学习或记录操作取决于宿主应用通过 Android 声明的输入框类型和私密标记。密码、号码、邮箱、网址等受保护的输入框会跳过相应记录。
 
-键盘进程发生崩溃时，本机会保存最近一次的时间、Android 和应用版本、线程、错误类型和调用栈。「记录键盘操作」首次安装默认开启。首次打开时可以在隐私说明中关闭，之后也可以在设置中调整。开启时，崩溃报告可以附上普通文本框最近最多 64 次按键或选词。升级会保留已明确选择的记录设置。你可以查看、删除或复制报告，再自行决定是否通过邮件应用发送。反馈请联系开发者周煜楼。[yulouzhou+bizic@qq.com](mailto:yulouzhou+bizic@qq.com)
+键盘进程发生崩溃时，本机会保存最近一次的时间、Android 和应用版本、线程、错误类型和调用栈。「记录键盘操作」首次安装默认关闭，可在设置中调整。开启时，崩溃报告可以附上普通文本框最近最多 64 次按键或选词。升级会保留已明确选择的记录设置。你可以查看、删除或复制报告，再自行决定是否通过邮件应用发送。反馈请联系开发者周煜楼。[yulouzhou+bizic@qq.com](mailto:yulouzhou+bizic@qq.com)
 
-## 公开版下载与试打（0.3.6）
+## 公开版下载与试打（0.4.2）
 
-0.3.6 提供两个安卓安装包，均支持 64 位 ARM、32 位 ARM 和 x86_64，最低系统要求是 Android 7.0。
+毕兹辞谱 0.4.2 提供四个安卓安装包，选择一个即可：
 
-- [土家语输入法_有手写_v0.3.6.apk](https://raw.githubusercontent.com/luggroo/bizic-keyboard/37fa27046d1c27ce3c74eb8819518fe68d8663f0/downloads/土家语输入法_有手写_v0.3.6.apk)
-- [土家语输入法_无手写_v0.3.6.apk](https://raw.githubusercontent.com/luggroo/bizic-keyboard/37fa27046d1c27ce3c74eb8819518fe68d8663f0/downloads/土家语输入法_无手写_v0.3.6.apk)
+| 版本 | 不含手写 | 含手写 |
+| --- | --- | --- |
+| 土家语输入法 | [下载 APK](https://github.com/luggroo/bizic-keyboard/releases/download/v0.4.2/bizic-cipu-0.4.2-keyboard-typing.apk) | [下载 APK](https://github.com/luggroo/bizic-keyboard/releases/download/v0.4.2/bizic-cipu-0.4.2-keyboard-handwriting.apk) |
+| 毕兹辞谱（词典与输入法） | [下载 APK](https://github.com/luggroo/bizic-keyboard/releases/download/v0.4.2/bizic-cipu-0.4.2-academy-typing.apk) | [下载 APK](https://github.com/luggroo/bizic-keyboard/releases/download/v0.4.2/bizic-cipu-0.4.2-academy-handwriting.apk) |
 
-两个版本可以互相覆盖安装。0.3.5 公开版的签名与 0.3.6 不同，Android 无法直接覆盖升级。卸载旧版会清除它的设置和个人词库。
+四个版本使用相同的包名和正式签名，已安装同签名旧版的用户可以直接覆盖安装。[发布说明与校验文件](https://github.com/luggroo/bizic-keyboard/releases/tag/v0.4.2)
+
+0.4.3 正在测试，尚未作为正式版发布。
 
 1. 在手机上安装 APK，打开「土家语输入法」。
 2. 点「在系统设置中启用」，开启土家语输入法。回到应用，点「选择土家语键盘」。
@@ -151,7 +155,7 @@ final class KeyboardController: UIInputViewController {
 
 提交到 main 或打开拉取请求后，GitHub Actions 会运行核心测试、构建 APK 并校验签名。手写版下载 `bizic-keyboard-debug`，仅使用拼音和音标可下载 `bizic-keyboard-typing-only-debug`。手机上连续升级试用版，请使用 Releases 中由同一证书签名的 APK。[构建记录](https://github.com/luggroo/bizic-keyboard/actions/workflows/android.yml)
 
-本地开发构建版本为 `0.4.0-dev.2`（`versionCode 14`）。用同一开发证书签名，可以覆盖安装版本号 13 的统一应用并保留数据。要覆盖安装 0.3.6 公开版，需要该公开版的原签名证书。
+开发构建的版本和签名以当前构建配置为准。覆盖安装已发布版本需要使用相同的签名证书，且 versionCode 不低于已安装版本。
 
 共享页面、字体、词典、语法和语料固定在 `learning-content/learning.zip`。它由 `bizic-dictionary` 导出。包内 `offline-manifest.json` 的 `sourceRevision` 记录词典仓库提交，`contentVersion` 标识语言数据版本。构建时先核对 `learning.sha256` 和每个文件的摘要，再将内容打入 APK 的 `assets/learning/`。用户通过安装新版应用更新这些资料。
 
@@ -171,7 +175,7 @@ python3 qa/apk_size.py app/build/outputs/apk/typingOnly/debug/app-typingOnly-deb
 
 推送与 APK 版本一致的标签（例如版本 `0.3.7` 对应 `v0.3.7`）会触发签名。也可以在主分支手动运行 [Sign Android release APKs](https://github.com/luggroo/bizic-keyboard/actions/workflows/sign-android.yml)。成功后，从运行页面底部下载包含两个中文名 APK 和 `SHA256SUMS` 的签名产物。发布到 Releases 仍由发布流程处理。
 
-仓库管理员在 **Settings → Secrets and variables → Actions → Repository secrets** 中配置以下项目。密钥库使用已发布的 0.3.6 签名私钥。工作流会逐包比对证书指纹。
+仓库管理员在 **Settings → Secrets and variables → Actions → Repository secrets** 中配置以下项目。密钥库使用正式版签名私钥。工作流会逐包比对证书指纹。
 
 | Secret | 内容 |
 | --- | --- |
